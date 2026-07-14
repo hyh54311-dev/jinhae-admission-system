@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>방학 계획서 제출<\/title>
+    <style>
+      body { font-family: "Malgun Gothic", sans-serif; background-color: #f4f6f9; color: #333; margin: 0; padding: 20px; display: flex; justify-content: center; }
+      .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 900px; }
+      h2 { color: #1a73e8; text-align: center; margin-top: 0; }
+      .info-box { background: #e8f0fe; padding: 12px; border-radius: 6px; font-size: 13px; line-height: 1.6; margin-bottom: 20px; color: #1e3a8a; }
+      .row-inline { display: flex; gap: 15px; margin-bottom: 15px; }
+      .form-group { flex: 1; }
+      label { display: block; margin-bottom: 6px; font-weight: bold; font-size: 14px; }
+      input[type="text"], input[type="password"], input[type="date"] { width: 100%; padding: 10px; border: 1px solid #dadce0; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
+      .date-container { display: flex; align-items: center; gap: 5px; }
+      .date-container span { font-size: 12px; color: #777; }
+      .section-title { font-size: 16px; color: #1a73e8; font-weight: bold; margin-top: 25px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+      table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+      th, td { border: 1px solid #dadce0; padding: 8px; text-align: center; vertical-align: middle; }
+      th { background-color: #f8f9fa; font-size: 13px; color: #5f6368; }
+      td input[type="text"] { width: 100%; border: none; padding: 6px; box-sizing: border-box; font-size: 13px; background: transparent; }
+      td input[type="text"]:focus { outline: 1px solid #1a73e8; background: #fff; }
+      .btn { width: 100%; padding: 12px; border: none; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+      .btn-primary { background-color: #1a73e8; color: white; }
+      .btn-primary:hover { background-color: #1557b0; }
+      .btn-primary:disabled { background-color: #a8c7fa; cursor: not-allowed; }
+      .btn-secondary { background-color: #5f6368; color: white; width: auto; padding: 8px 15px; font-size: 13px; border-radius: 4px; }
+      .btn-secondary:disabled { background-color: #c2c3c5; cursor: not-allowed; }
+      .btn-add { background-color: #34a853; color: white; padding: 4px 10px; font-size: 12px; border: none; border-radius: 4px; cursor: pointer; }
+      .btn-del { background-color: #ea4335; color: white; padding: 2px 6px; font-size: 11px; border: none; border-radius: 4px; cursor: pointer; }
+      #result { margin-top: 15px; padding: 12px; border-radius: 6px; text-align: center; font-weight: bold; display: none; }
+      .success { background-color: #e6f4ea; color: #137333; }
+      .error { background-color: #fce8e6; color: #c5221f; }
+      .loading { background-color: #fef7e0; color: #b06000; }
+    <\/style>
+  <\/head>
+  <body>
+    <div class="container">
+      <h2>방학 계획서 입력 시스템<\/h2>
+      <div class="info-box">
+        <b>[안내 및 주의사항]<\/b><br>
+        • <b>처음 작성:<\/b> 성명과 <b>본인만의 비밀번호(숫자 4자리)<\/b>를 입력한 후 기간(달력 선택)과 내용을 작성해 주세요.<br>
+        • <b>수정하기:<\/b> 성명과 이전에 설정했던 숫자 4자리를 입력한 후 <b>[내 기존 계획 불러오기]<\/b>를 누르면 작성했던 표가 그대로 복원됩니다.<br>
+        • <b>당일(하루) 일정 입력 팁:<\/b> 일정이 하루인 경우, <b>시작일 달력만 선택하고 종료일은 비워두시면<\/b> 시트에 깔끔하게 하루 날짜만 저장됩니다.
+      <\/div>
+      
+      <div class="row-inline">
+        <div class="form-group">
+          <label>성명<\/label>
+          <input type="text" id="name" placeholder="홍길동">
+        <\/div>
+        <div class="form-group">
+          <label>수정용 비밀번호 (숫자 4자리)<\/label>
+          <input type="password" id="password" maxlength="4" placeholder="숫자 4자리 설정">
+        <\/div>
+      <\/div>
+      
+      <div style="text-align: right; margin-bottom: 10px;">
+        <button id="load-btn" class="btn btn-secondary" onclick="loadData()">내 기존 계획 불러오기 (수정용)<\/button>
+      <\/div>
+      <hr style="border: 0; height: 1px; background: #dadce0; margin: 15px 0;">
+      
+      <div class="section-title">
+        <span>1. 출장 및 연수 계획<\/span>
+        <button class="btn-add" onclick="addRow('training-table')">+ 행 추가<\/button>
+      <\/div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 40%;">기간 (시작일 ~ 종료일)<\/th>
+            <th style="width: 20%;">장소<\/th>
+            <th style="width: 32%;">내용<\/th>
+            <th style="width: 8%;">삭제<\/th>
+          <\/tr>
+        <\/thead>
+        <tbody id="training-table">
+          <tr>
+            <td>
+              <div class="date-container">
+                <input type="date" class="t-start"> <span>~<\/span> <input type="date" class="t-end">
+              <\/div>
+            <\/td>
+            <td><input type="text" class="t-location" placeholder="원격연수원"><\/td>
+            <td><input type="text" class="t-title" placeholder="미래교육 역량강화 연수"><\/td>
+            <td><button class="btn-del" onclick="deleteRow(this)">삭제<\/button><\/td>
+          <\/tr>
+        <\/tbody>
+      <\/table>
+      
+      <div class="section-title">
+        <span>2. 공무외 국외여행 계획<\/span>
+        <button class="btn-add" onclick="addRow('travel-table')">+ 행 추가<\/button>
+      <\/div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 40%;">기간 (시작일 ~ 종료일)<\/th>
+            <th style="width: 20%;">장소<\/th>
+            <th style="width: 32%;">내용<\/th>
+            <th style="width: 8%;">삭제<\/th>
+          <\/tr>
+        <\/thead>
+        <tbody id="travel-table">
+          <tr>
+            <td>
+              <div class="date-container">
+                <input type="date" class="v-start"> <span>~<\/span> <input type="date" class="v-end">
+              <\/div>
+            <\/td>
+            <td><input type="text" class="v-location" placeholder="일본 도쿄"><\/td>
+            <td><input type="text" class="v-title" placeholder="견문 넓히기 및 휴가"><\/td>
+            <td><button class="btn-del" onclick="deleteRow(this)">삭제<\/button><\/td>
+          <\/tr>
+        <\/tbody>
+      <\/table>
+      
+      <button id="submit-btn" class="btn btn-primary" onclick="submitData()">계획서 제출 / 수정완료<\/button>
+      <div id="result"><\/div>
+    <\/div>
+    
+    <script>
+      function checkPassword(pwd) {
+        return /^[0-9]{4}$/.test(pwd);
+      }
+      function convertToShortDate(dateVal) {
+        if(!dateVal) return "";
+        var parts = dateVal.split("-");
+        var month = parseInt(parts[1], 10);
+        var day = parseInt(parts[2], 10);
+        return month + "/" + day;
+      }
+      function parseShortDateToYYYYMMDD(dateStr) {
+        if(!dateStr) return {start: "", end: ""};
+        var currentYear = new Date().getFullYear();
+        
+        function toFull(p) {
+          var md = p.trim().split("/");
+          if(md.length !== 2) return "";
+          var m = md[0].padStart(2, "0");
+          var d = md[1].padStart(2, "0");
+          return currentYear + "-" + m + "-" + d;
+        }
+
+        if(dateStr.includes("~")) {
+          var parts = dateStr.split("~");
+          return { start: toFull(parts[0]), end: toFull(parts[1]) };
+        } else {
+          var singleDate = toFull(dateStr);
+          return { start: singleDate, end: singleDate };
+        }
+      }
+      function addRow(tableId) {
+        var tbody = document.getElementById(tableId);
+        var prefix = (tableId === "training-table") ? "t" : "v";
+        var tr = document.createElement("tr");
+        tr.innerHTML = "<td><div class='date-container'><input type='date' class='" + prefix + "-start'> <span>~<\/span> <input type='date' class='" + prefix + "-end'><\/div><\/td>" +
+                       "<td><input type='text' class='" + prefix + "-location'><\/td>" +
+                       "<td><input type='text' class='" + prefix + "-title'><\/td>" +
+                       "<td><button class='btn-del' onclick='deleteRow(this)'>삭제<\/button><\/td>";
+        tbody.appendChild(tr);
+      }
+      function deleteRow(btn) {
+        var tr = btn.parentElement.parentElement;
+        var tbody = tr.parentElement;
+        if(tbody.rows.length > 1) { tbody.removeChild(tr); }
+        else { var inputs = tr.getElementsByTagName("input"); for(var i=0; i<inputs.length; i++) inputs[i].value = ""; }
+      }
+      
+      
+      function showMessage(text, status) {
+        var resDiv = document.getElementById("result");
+        resDiv.innerText = text; 
+        resDiv.style.display = "block";
+        resDiv.className = status; 
+      }
+
+      function toggleButtons(disabled) {
+        document.getElementById("submit-btn").disabled = disabled;
+        document.getElementById("load-btn").disabled = disabled;
+      }
+
+      function loadData() {
+        var name = document.getElementById("name").value.trim();
+        var password = document.getElementById("password").value.trim();
+        if(!name || !password) { alert("성명과 비밀번호를 입력해야 기존 내용을 불러올 수 있습니다."); return; }
+        if(!checkPassword(password)) { alert("비밀번호는 반드시 숫자 4자리로 입력해 주세요."); return; }
+        
+        
+        showMessage("구글 시트에서 기존 데이터를 조회하고 있습니다...", "loading");
+        toggleButtons(true);
+
+        google.script.run.withSuccessHandler(function(response) {
+          toggleButtons(false);
+          if (response.success) {
+            var tBody = document.getElementById("training-table"); tBody.innerHTML = "";
+            if(response.training.length === 0) addRow("training-table");
+            response.training.forEach(function(item) {
+              var dates = parseShortDateToYYYYMMDD(item.dateStr);
+              var tr = document.createElement("tr");
+              tr.innerHTML = "<td><div class='date-container'><input type='date' class='t-start' value='" + dates.start + "'> <span>~<\/span> <input type='date' class='t-end' value='" + dates.end + "'><\/div><\/td><td><input type='text' class='t-location' value='" + (item.location || "") + "'><\/td><td><input type='text' class='t-title' value='" + (item.title || "") + "'><\/td><td><button class='btn-del' onclick='deleteRow(this)'>삭제<\/button><\/td>";
+              tBody.appendChild(tr);
+            });
+            var vBody = document.getElementById("travel-table"); vBody.innerHTML = "";
+            if(response.travel.length === 0) addRow("travel-table");
+            response.travel.forEach(function(item) {
+              var dates = parseShortDateToYYYYMMDD(item.dateStr);
+              var tr = document.createElement("tr");
+              tr.innerHTML = "<td><div class='date-container'><input type='date' class='v-start' value='" + dates.start + "'> <span>~<\/span> <input type='date' class='v-end' value='" + dates.end + "'><\/div><\/td><td><input type='text' class='v-location' value='" + (item.location || "") + "'><\/td><td><input type='text' class='v-title' value='" + (item.title || "") + "'><\/td><td><button class='btn-del' onclick='deleteRow(this)'>삭제<\/button><\/td>";
+              vBody.appendChild(tr);
+            });
+            showMessage("기존 계획을 표에 불러왔습니다. 수정 후 다시 제출하세요.", "success");
+          } else { showMessage(response.message, "error"); }
+        }).loadExistingContent(name, password);
+      }
+
+      function submitData() {
+        var name = document.getElementById("name").value.trim();
+        var password = document.getElementById("password").value.trim();
+        if(!name || !password) { alert("성명과 비밀번호는 필수 입력 항목입니다."); return; }
+        if(!checkPassword(password)) { alert("비밀번호는 반드시 숫자 4자리로 입력해 주세요."); return; }
+        
+        var trainingData = [];
+        var tRows = document.getElementById("training-table").rows;
+        for(var i=0; i<tRows.length; i++) {
+          var start = tRows[i].querySelector(".t-start").value;
+          var end = tRows[i].querySelector(".t-end").value;
+          var location = tRows[i].querySelector(".t-location").value.trim();
+          var title = tRows[i].querySelector(".t-title").value.trim();
+          
+          if(start) {
+            var dateStr = "";
+            if(!end || start === end) {
+              dateStr = convertToShortDate(start);
+            } else {
+              dateStr = convertToShortDate(start) + " ~ " + convertToShortDate(end);
+            }
+            trainingData.push({dateStr: dateStr, location: location, title: title});
+          } else if(location || title) {
+            alert("연수 계획의 시작 날짜를 선택해 주세요."); return;
+          }
+        }
+        
+        var travelData = [];
+        var vRows = document.getElementById("travel-table").rows;
+        for(var i=0; i<vRows.length; i++) {
+          var start = vRows[i].querySelector(".v-start").value;
+          var end = vRows[i].querySelector(".v-end").value;
+          var location = vRows[i].querySelector(".v-location").value.trim();
+          var title = vRows[i].querySelector(".v-title").value.trim();
+          
+          if(start) {
+            var dateStr = "";
+            if(!end || start === end) {
+              dateStr = convertToShortDate(start);
+            } else {
+              dateStr = convertToShortDate(start) + " ~ " + convertToShortDate(end);
+            }
+            travelData.push({dateStr: dateStr, location: location, title: title});
+          } else if(location || title) {
+            alert("국외여행 계획의 시작 날짜를 선택해 주세요."); return;
+          }
+        }
+        
+        
+        showMessage("구글 시트에 계획서를 안전하게 저장하고 있습니다. 잠시만 기다려 주세요...", "loading");
+        toggleButtons(true);
+
+        var formData = { name: name, password: password, training: trainingData, travel: travelData };
+        google.script.run.withSuccessHandler(function(result) {
+          toggleButtons(false);
+          if(result.includes("성공적으로")) { 
+            
+            showMessage(result, "success"); 
+          } else { 
+            showMessage(result, "error"); 
+          }
+        }).processForm(formData);
+      }
+    <\/script>
+  <\/body>
+  <\/html>

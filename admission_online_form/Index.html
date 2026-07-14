@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>2027학년도 진해고등학교 입학등록확인서 제출</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #2E74B5;
+      --primary-hover: #225788;
+      --bg: #F4F7FA;
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --text: #2C3E50;
+      --text-light: #7F8C8D;
+      --border: #E2E8F0;
+      --error: #E53E3E;
+      --success: #38A169;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Noto Sans KR', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: var(--bg);
+      background-image: linear-gradient(135deg, #EBF3FA 0%, #F4F7FA 100%);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 520px;
+      background: var(--card-bg);
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(46, 116, 181, 0.08), 0 5px 15px rgba(0, 0, 0, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      padding: 35px 30px;
+      transition: all 0.3s ease;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo-text {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: #1A202C;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      margin-top: 8px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: #4A5568;
+    }
+
+    .required::after {
+      content: " *";
+      color: var(--error);
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.95rem;
+      color: var(--text);
+      background: #FFFFFF;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(46, 116, 181, 0.15);
+    }
+
+    .row {
+      display: flex;
+      gap: 15px;
+    }
+
+    .row .form-group {
+      flex: 1;
+    }
+
+    /* Signature Canvas Styling */
+    .signature-area {
+      background: #FFFFFF;
+      border: 1.5px dashed var(--border);
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+      margin-top: 5px;
+      touch-action: none; /* Prevents screen scrolling while signing */
+    }
+
+    canvas {
+      width: 100%;
+      height: 160px;
+      display: block;
+      cursor: crosshair;
+    }
+
+    .signature-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 8px;
+    }
+
+    .btn-clear {
+      background: none;
+      border: none;
+      color: var(--text-light);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 5px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-clear:hover {
+      color: var(--error);
+      background: rgba(229, 62, 98, 0.05);
+    }
+
+    /* Buttons */
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background: var(--primary);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-top: 25px;
+      box-shadow: 0 4px 12px rgba(46, 116, 181, 0.2);
+    }
+
+    .btn-submit:hover {
+      background: var(--primary-hover);
+      box-shadow: 0 6px 16px rgba(46, 116, 181, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:active {
+      transform: translateY(1px);
+    }
+
+    /* Loading Overlay */
+    .overlay {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 100;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(46, 116, 181, 0.1);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 15px;
+    }
+
+    .loading-text {
+      font-weight: 500;
+      color: var(--primary);
+      font-size: 0.95rem;
+    }
+
+    /* Success / Error Messages */
+    .result-screen {
+      display: none;
+      text-align: center;
+      padding: 20px 10px;
+    }
+
+    .result-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+    }
+
+    .result-icon.success {
+      color: var(--success);
+    }
+
+    .result-icon.error {
+      color: var(--error);
+    }
+
+    .result-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #1A202C;
+    }
+
+    .result-desc {
+      font-size: 0.95rem;
+      color: var(--text-light);
+      line-height: 1.5;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+      .container {
+        padding: 25px 20px;
+      }
+      h1 {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" style="position: relative;">
+    <!-- Loading Overlay -->
+    <div id="loader" class="overlay">
+      <div class="spinner"></div>
+      <div class="loading-text">확인서를 제출하는 중입니다...</div>
+    </div>
+
+    <!-- Form Screen -->
+    <div id="form-screen">
+      <header>
+        <div class="logo-text">Jinhae High School</div>
+        <h1>2027학년도 입학등록확인서</h1>
+        <div class="subtitle">모바일/PC 전자서명 간편 제출 시스템</div>
+      </header>
+
+      <form id="submission-form" onsubmit="handleFormSubmit(event)">
+        <!-- 학생 정보 -->
+        <div class="row">
+          <div class="form-group">
+            <label for="studentName" class="required">학생 성명</label>
+            <input type="text" id="studentName" placeholder="홍길동" required autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label for="studentBirth" class="required">생년월일</label>
+            <input type="text" id="studentBirth" placeholder="081015" pattern="\d{6}" title="생년월일 6자리를 입력해주세요. (예: 081015)" required autocomplete="off">
+          </div>
+        </div>
+
+        <!-- 학부모 정보 -->
+        <div class="row">
+          <div class="form-group">
+            <label for="parentName" class="required">학부모 성명</label>
+            <input type="text" id="parentName" placeholder="홍판서" required autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label for="parentRelation" class="required">학생과의 관계</label>
+            <select id="parentRelation" required>
+              <option value="" disabled selected>선택</option>
+              <option value="부">부 (아버지)</option>
+              <option value="모">모 (어머니)</option>
+              <option value="조부">조부 (할아버지)</option>
+              <option value="조모">조모 (할머니)</option>
+              <option value="기타">기타 보호자</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="parentPhone" class="required">보호자 연락처</label>
+          <input type="tel" id="parentPhone" placeholder="010-1234-5678" pattern="010-\d{3,4}-\d{4}" title="010-0000-0000 형식으로 입력해주세요." required autocomplete="off">
+        </div>
+
+        <!-- 전자 서명 -->
+        <div class="form-group">
+          <label class="required">학부모 전자서명</label>
+          <div class="signature-area">
+            <canvas id="signature-pad"></canvas>
+          </div>
+          <div class="signature-actions">
+            <button type="button" class="btn-clear" onclick="clearSignature()">다시 쓰기</button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit">입학등록확인서 제출하기</button>
+      </form>
+    </div>
+
+    <!-- Success Screen -->
+    <div id="success-screen" class="result-screen">
+      <div class="result-icon success">✓</div>
+      <div class="result-title">제출이 완료되었습니다</div>
+      <div class="result-desc">
+        2027학년도 진해고등학교 신입생 입학등록확인서가 정상적으로 접수되었습니다.<br>
+        감사합니다.
+      </div>
+    </div>
+
+    <!-- Error Screen -->
+    <div id="error-screen" class="result-screen">
+      <div class="result-icon error">✗</div>
+      <div class="result-title">오류가 발생했습니다</div>
+      <div id="error-message" class="result-desc">
+        네트워크 연결 상태를 확인하고 다시 시도해 주시기 바랍니다.
+      </div>
+      <button class="btn-submit" onclick="showFormScreen()">다시 시도</button>
+    </div>
+  </div>
+
+  <script>
+    // Signature Pad logic
+    var canvas = document.getElementById('signature-pad');
+    var ctx = canvas.getContext('2d');
+    var isDrawing = false;
+    var hasSigned = false;
+
+    // Set canvas resolution based on display size
+    function resizeCanvas() {
+      var ratio = Math.max(window.devicePixelRatio || 1, 1);
+      canvas.width = canvas.offsetWidth * ratio;
+      canvas.height = canvas.offsetHeight * ratio;
+      ctx.scale(ratio, ratio);
+      ctx.lineWidth = 2.5;
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = '#2C3E50';
+      clearSignature(); // clears and resets hasSigned
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    // Initial resize after page loads
+    window.onload = function() {
+      resizeCanvas();
+      
+      // Auto-hyphen for phone number
+      var phoneInput = document.getElementById('parentPhone');
+      phoneInput.addEventListener('input', function(e) {
+        var x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,4})(\d{0,4})/);
+        e.target.value = !x[2] ? x[1] : x[1] + '-' + x[2] + (x[3] ? '-' + x[3] : '');
+      });
+    };
+
+    // Drawing coordinates helper
+    function getCoordinates(e) {
+      var rect = canvas.getBoundingClientRect();
+      var clientX = e.clientX || (e.touches && e.touches[0].clientX);
+      var clientY = e.clientY || (e.touches && e.touches[0].clientY);
+      return {
+        x: clientX - rect.left,
+        y: clientY - rect.top
+      };
+    }
+
+    // Touch and Mouse Event Listeners
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mousemove', draw);
+    window.addEventListener('mouseup', stopDrawing);
+
+    canvas.addEventListener('touchstart', function(e) {
+      e.preventDefault(); // Prevents gesture scroll
+      startDrawing(e);
+    });
+    canvas.addEventListener('touchmove', function(e) {
+      e.preventDefault();
+      draw(e);
+    });
+    window.addEventListener('touchend', stopDrawing);
+
+    function startDrawing(e) {
+      isDrawing = true;
+      var pos = getCoordinates(e);
+      ctx.beginPath();
+      ctx.moveTo(pos.x, pos.y);
+    }
+
+    function draw(e) {
+      if (!isDrawing) return;
+      var pos = getCoordinates(e);
+      ctx.lineTo(pos.x, pos.y);
+      ctx.stroke();
+      hasSigned = true;
+    }
+
+    function stopDrawing() {
+      isDrawing = false;
+    }
+
+    function clearSignature() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      hasSigned = false;
+    }
+
+    // Submit handler
+    function handleFormSubmit(event) {
+      event.preventDefault();
+
+      if (!hasSigned) {
+        alert("학부모 전자서명을 완료해 주세요.");
+        return;
+      }
+
+      // Show loader
+      document.getElementById('loader').style.display = 'flex';
+
+      // Capture Canvas Image
+      var signatureDataUrl = canvas.toDataURL('image/png');
+
+      var formData = {
+        studentName: document.getElementById('studentName').value.trim(),
+        studentBirth: document.getElementById('studentBirth').value.trim(),
+        parentName: document.getElementById('parentName').value.trim(),
+        parentRelation: document.getElementById('parentRelation').value,
+        parentPhone: document.getElementById('parentPhone').value.trim(),
+        signature: signatureDataUrl
+      };
+
+      // Call Google Apps Script backend
+      google.script.run
+        .withSuccessHandler(function(response) {
+          document.getElementById('loader').style.display = 'none';
+          if (response.success) {
+            document.getElementById('form-screen').style.display = 'none';
+            document.getElementById('success-screen').style.display = 'block';
+          } else {
+            showErrorScreen(response.message);
+          }
+        })
+        .withFailureHandler(function(error) {
+          document.getElementById('loader').style.display = 'none';
+          showErrorScreen(error.message || error);
+        })
+        .submitForm(formData);
+    }
+
+    function showErrorScreen(msg) {
+      document.getElementById('form-screen').style.display = 'none';
+      document.getElementById('error-screen').style.display = 'block';
+      document.getElementById('error-message').textContent = msg;
+    }
+
+    function showFormScreen() {
+      document.getElementById('error-screen').style.display = 'none';
+      document.getElementById('form-screen').style.display = 'block';
+      resizeCanvas();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>진해고등학교 수행평가 미응시 및 학생 세특 관리 시스템</title>
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css">
+  
+  <link rel="stylesheet" href="style.css">
+  
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  
+  <div class="background-circles" aria-hidden="true">
+    <div class="circle circle-1"></div>
+    <div class="circle circle-2"></div>
+    <div class="circle circle-3"></div>
+  </div>
+
+  <div id="app">
+    
+    <div id="loginScreen" class="screen active">
+      <div class="glass-card login-card">
+        <div class="card-header">
+          <img src="../school_logo.png" alt="진해고 로고" class="school-logo-login" onerror="this.style.display='none'">
+          <h2>진해고등학교</h2>
+          <p>수행평가 미응시 & 세특 통합 관리 시스템</p>
+        </div>
+        <form id="loginForm">
+          <div class="input-group">
+            <label for="loginEmail">교사 이메일</label>
+            <input type="email" id="loginEmail" placeholder="email@jinhae.hs.kr" required autocomplete="username">
+          </div>
+          <div class="input-group">
+            <label for="loginPassword">비밀번호</label>
+            <input type="password" id="loginPassword" placeholder="비밀번호 입력" required autocomplete="current-password">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">로그인</button>
+        </form>
+        <div class="login-footer">
+          <p>임시 비밀번호 로그인 후 즉시 비밀번호 변경이 필요합니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="workspaceScreen" class="screen">
+      <aside class="sidebar">
+        <div class="sidebar-brand">
+          <img src="../school_logo.png" alt="진해고 로고" class="school-logo-side" onerror="this.style.display='none'">
+          <div class="brand-text">
+            <h3>진해고등학교</h3>
+            <span>통합 백엔드 포털</span>
+          </div>
+        </div>
+        
+        <nav class="sidebar-menu">
+          <a href="#" class="menu-item active" data-target="panelDashboard">
+            <span class="icon" aria-hidden="true">📊</span> 대시보드
+          </a>
+          <a href="#" class="menu-item" data-target="panelAssessment">
+            <span class="icon" aria-hidden="true">📝</span> 수행평가 관리
+          </a>
+          <a href="#" class="menu-item" data-target="panelSeTeuk">
+            <span class="icon" aria-hidden="true">✨</span> 세특 초안 생성
+          </a>
+          <a href="#" class="menu-item admin-only" data-target="panelAdmin">
+            <span class="icon" aria-hidden="true">⚙️</span> 관리자 메뉴
+          </a>
+          <a href="#" class="menu-item" data-target="panelMyPage">
+            <span class="icon" aria-hidden="true">👤</span> 마이페이지
+          </a>
+        </nav>
+
+        <div class="sidebar-user">
+          <div class="user-info">
+            <strong id="userDisplayName">홍길동 선생님</strong>
+            <span id="userDisplayRole" class="badge">교사</span>
+          </div>
+          <button id="btnLogout" type="button" class="btn btn-icon" title="로그아웃">🚪</button>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="content-header">
+          <h2 id="currentPanelTitle">대시보드</h2>
+          <div class="header-actions">
+            <div class="subject-selector-wrapper">
+              <label for="globalSubjectSelect">과목 선택:</label>
+              <select id="globalSubjectSelect" class="form-control">
+                <option value="">-- 과목을 선택하세요 --</option>
+              </select>
+            </div>
+            <span id="serverTime" class="time-badge">2026-07-06 00:00:00</span>
+          </div>
+        </header>
+
+        <div class="panel-container">
+          
+          <div id="panelDashboard" class="panel active">
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-icon" aria-hidden="true">👥</div>
+                <div class="stat-data">
+                  <span class="stat-value" id="statTotalStudents">0명</span>
+                  <span class="stat-label">등록된 전체 학생</span>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon" aria-hidden="true">📋</div>
+                <div class="stat-data">
+                  <span class="stat-value" id="statTotalAssessments">0개</span>
+                  <span class="stat-label">진행 중인 수행평가</span>
+                </div>
+              </div>
+              <div class="stat-card alert-card">
+                <div class="stat-icon" aria-hidden="true">⚠️</div>
+                <div class="stat-data">
+                  <span class="stat-value" id="statTotalNontakers" style="color: var(--error-color);">0명</span>
+                  <span class="stat-label">미응시/예외 처리 대상</span>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon" aria-hidden="true">💎</div>
+                <div class="stat-data">
+                  <span class="stat-value" id="statCompletedSeTeuk">0건</span>
+                  <span class="stat-label">세특 초안 생성 완료</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="dashboard-body">
+              <div class="glass-card flex-2">
+                <h3>🚨 수행평가 미응시/예외 학생 모니터링 현황</h3>
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>학번</th>
+                        <th>이름</th>
+                        <th>과목</th>
+                        <th>평가 항목</th>
+                        <th>상태</th>
+                        <th>비고 (수기기록)</th>
+                      </tr>
+                    </thead>
+                    <tbody id="dashboardAlertsList">
+                      <tr>
+                        <td colspan="6" class="text-center text-muted">선택한 과목의 미응시 학생 내역이 여기에 표시됩니다.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="panelAssessment" class="panel">
+            <div class="panel-actions glass-card">
+              <div class="form-row">
+                <div class="form-group flex-2">
+                  <label for="assessmentSelect">수행평가 항목 선택</label>
+                  <select id="assessmentSelect" class="form-control">
+                    <option value="">-- 수행평가를 선택하세요 --</option>
+                  </select>
+                </div>
+                <div class="form-group align-end">
+                  <button id="btnCreateAssessmentModal" type="button" class="btn btn-secondary">+ 신규 수행평가 추가</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="glass-card" style="margin-top: 20px;">
+              <div class="card-header-actions">
+                <h3>📋 학생 응시 상태 및 점수 기록</h3>
+                <span class="badge" id="assessmentRosterCount">학생 0명</span>
+              </div>
+              <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                <table class="table table-sticky">
+                  <thead>
+                    <tr>
+                      <th>학번</th>
+                      <th>반/번호</th>
+                      <th>이름</th>
+                      <th>응시 상태</th>
+                      <th>점수</th>
+                      <th>제출 답안/원본</th>
+                      <th>비고 및 예외사유</th>
+                      <th>저장</th>
+                    </tr>
+                  </thead>
+                  <tbody id="assessmentRosterList">
+                    <tr>
+                      <td colspan="8" class="text-center text-muted">과목 및 수행평가 항목을 선택하면 명단이 활성화됩니다.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div id="panelSeTeuk" class="panel">
+            <div class="seteuk-layout">
+              <div class="glass-card seteuk-sidebar">
+                <div class="sidebar-header-actions">
+                  <h4>학생 명단</h4>
+                  <button id="btnBulkSeTeukModal" type="button" class="btn btn-sm btn-primary">⚡ 일괄 배치 생성</button>
+                </div>
+                <div class="input-group search-box">
+                  <input type="text" id="searchSeTeukStudent" placeholder="이름 또는 학번 검색">
+                </div>
+                <ul class="student-list-group" id="seteukStudentList">
+                  <li class="empty-list">과목을 선택하면 명단이 노출됩니다.</li>
+                </ul>
+              </div>
+
+              <div class="glass-card seteuk-main">
+                <div id="seteukEmptyState" class="empty-state-view">
+                  <span class="icon" style="font-size: 64px;" aria-hidden="true">✨</span>
+                  <h3>학생을 선택하여 세특 관리 및 초안 생성을 시작하세요.</h3>
+                  <p>학생들의 설문 응답 및 수행평가 이력을 기반으로 Gemini API가 최적의 문장 구조를 추천합니다.</p>
+                </div>
+                
+                <div id="seteukEditorView" class="editor-view" style="display: none;">
+                  <div class="student-profile-header">
+                    <div>
+                      <h3 id="editStudentHeaderName">홍길동 (30101)</h3>
+                      <p>상태: <span id="editStudentSubmissionsBadge" class="badge">수행평가 3/3 응시완료</span></p>
+                    </div>
+                    <button id="btnGenerateSingleSeTeuk" type="button" class="btn btn-primary">✨ 제미나이 초안 생성 (단건)</button>
+                  </div>
+
+                  <div class="gemini-assistant-area">
+                    <div class="gemini-summary-box">
+                      <strong>💡 타 교사 연동용 진로 중심 요약 (보안 뷰 제공용)</strong>
+                      <p id="geminiSummaryText" class="text-muted">아직 생성된 요약이 없습니다.</p>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group flex-1">
+                      <label for="studentRawContent">학생 제출자료 / 탐구 활동 응답</label>
+                      <textarea id="studentRawContent" rows="6" class="form-control" placeholder="학생이 수행한 활동 내역, 또는 설문 답변 등을 입력합니다."></textarea>
+                    </div>
+                    
+                    <div class="form-group flex-1">
+                      <label>Gemini 생성 초안 (복사용)</label>
+                      <div class="gemini-draft-box-content">
+                        <p id="geminiDraftText">제미나이 생성 버튼을 누르면 추천 문안이 여기에 노출됩니다.</p>
+                        <button id="btnCopyDraft" type="button" class="btn btn-sm btn-secondary btn-copy" style="display:none;">복사하기 📋</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group" style="margin-top: 15px;">
+                    <div class="editor-label-row">
+                      <label for="seteukFinalContent"><strong>최종 생활기록부 기입란 (최종 편집본)</strong></label>
+                      <span id="byteCounter" class="byte-counter">0자 / 0바이트 (나이스 제한: 1,500바이트)</span>
+                    </div>
+                    <div class="progress-track byte-progress-track">
+                      <div id="byteProgressFill" class="progress-fill" style="width: 0%;"></div>
+                    </div>
+                    <textarea id="seteukFinalContent" rows="8" class="form-control" placeholder="실제 생활기록부(나이스)에 입력할 최종 완성 문장을 편집합니다." autocomplete="off"></textarea>
+                  </div>
+
+                  <div class="form-row" style="margin-top: 20px;">
+                    <button id="btnSaveSeTeuk" type="button" class="btn btn-success flex-1">💾 최종 편집본 저장하기</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="panelAdmin" class="panel">
+            <div class="stats-grid admin-control-grid">
+              <div class="glass-card">
+                <h3>👥 교사 일괄 가입 및 관리</h3>
+                <p class="text-muted">엑셀(CSV) 파일을 업로드하여 교사 계정을 일괄 발급하고 임시 비밀번호를 할당합니다.</p>
+                <div class="upload-area" id="dropzoneTeachers">
+                  <span class="icon" aria-hidden="true">📁</span>
+                  <p>CSV 파일을 여기에 드래그하거나 선택하세요.</p>
+                  <input type="file" id="fileUploadTeachers" accept=".csv" style="display: none;">
+                  <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('fileUploadTeachers').click()">파일 선택</button>
+                </div>
+                <div class="admin-form-box" style="margin-top: 15px;">
+                  <h4>개별 교사 추가</h4>
+                  <form id="formAddTeacherSingle">
+                    <div class="form-row-three">
+                      <input type="text" id="addTeacherName" class="form-control" placeholder="이름" required>
+                      <input type="email" id="addTeacherEmail" class="form-control" placeholder="이메일" required autocomplete="username">
+                      <input type="password" id="addTeacherTempPassword" class="form-control" placeholder="임시 비밀번호" required autocomplete="new-password">
+                    </div>
+                    <div class="form-row" style="margin-top: 10px;">
+                      <select id="addTeacherRole" class="form-control flex-1">
+                        <option value="teacher">일반 교사</option>
+                        <option value="admin">관리자 교사</option>
+                      </select>
+                      <button type="submit" class="btn btn-primary">추가</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <div class="glass-card">
+                <h3>🎓 학생 명렬표 일괄 등록</h3>
+                <p class="text-muted">새 학년도 학생 명렬표(학번, 이름, 반, 번호) CSV를 일괄 업로드합니다.</p>
+                <div class="upload-area" id="dropzoneStudents">
+                  <span class="icon" aria-hidden="true">📁</span>
+                  <p>CSV 파일을 여기에 드래그하거나 선택하세요.</p>
+                  <input type="file" id="fileUploadStudents" accept=".csv" style="display: none;">
+                  <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('fileUploadStudents').click()">파일 선택</button>
+                </div>
+                <div class="info-alert" style="margin-top: 15px;">
+                  <strong>💡 CSV 파일 서식 구성:</strong><br>
+                  첫 행은 헤더(학번, 성명, 학년, 반, 번호)이며, 값은 콤마(,)로 구분되어야 합니다.
+                </div>
+              </div>
+            </div>
+
+            <div class="glass-card" style="margin-top: 20px;">
+              <h3>🔑 교사 비밀번호 강제 초기화</h3>
+              <p class="text-muted">비밀번호를 분실한 교사의 비밀번호를 초기 임시 비밀번호로 재설정합니다.</p>
+              <form id="formAdminResetPassword" style="margin-top: 15px;">
+                <div class="form-row">
+                  <div class="form-group flex-2">
+                    <label for="adminResetTeacherSelect">대상 교사 선택</label>
+                    <select id="adminResetTeacherSelect" class="form-control">
+                      <option value="">-- 대상 교사를 선택하세요 --</option>
+                    </select>
+                  </div>
+                  <div class="form-group flex-1">
+                    <label for="adminResetNewPassword">새 임시 비밀번호</label>
+                    <input type="password" id="adminResetNewPassword" class="form-control" placeholder="새 비밀번호 입력" required autocomplete="new-password">
+                  </div>
+                  <div class="form-group align-end">
+                    <button type="submit" class="btn btn-danger">🔒 비밀번호 재설정 실행</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div id="panelMyPage" class="panel">
+            <div class="glass-card" style="max-width: 500px; margin: 0 auto;">
+              <h3>👤 개인 비밀번호 관리</h3>
+              <p class="text-muted">보안 유지를 위해 주기적인 비밀번호 변경을 권장합니다.</p>
+              <form id="formChangePassword" style="margin-top: 20px;">
+                <div class="form-group">
+                  <label for="myCurrentPassword">현재 비밀번호</label>
+                  <input type="password" id="myCurrentPassword" class="form-control" placeholder="현재 비밀번호 입력" required autocomplete="current-password">
+                </div>
+                <div class="form-group" style="margin-top: 15px;">
+                  <label for="myNewPassword">새 비밀번호</label>
+                  <input type="password" id="myNewPassword" class="form-control" placeholder="새 비밀번호 입력" required autocomplete="new-password">
+                </div>
+                <div class="form-group" style="margin-top: 15px;">
+                  <label for="myNewPasswordConfirm">새 비밀번호 확인</label>
+                  <input type="password" id="myNewPasswordConfirm" class="form-control" placeholder="새 비밀번호 확인 재입력" required autocomplete="new-password">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" style="margin-top: 20px;">🔑 비밀번호 변경 적용</button>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </main>
+    </div>
+
+  </div>
+
+  <div id="modalCreateAssessment" class="modal-overlay">
+    <div class="glass-card modal-card">
+      <div class="modal-header">
+        <h3>➕ 신규 수행평가 항목 생성</h3>
+        <button type="button" class="btn-close-modal" onclick="document.getElementById('modalCreateAssessment').classList.remove('active')">&times;</button>
+      </div>
+      <form id="formCreateAssessment">
+        <div class="form-group">
+          <label for="newAssessmentName">평가 명칭</label>
+          <input type="text" id="newAssessmentName" class="form-control" placeholder="예: 2차 시조 감상 논술 평가" required>
+        </div>
+        <div class="form-row" style="margin-top: 15px;">
+          <div class="form-group flex-1">
+            <label for="newAssessmentMaxScore">만점 (배점)</label>
+            <input type="number" id="newAssessmentMaxScore" class="form-control" value="100" min="1" required>
+          </div>
+          <div class="form-group flex-1">
+            <label for="newAssessmentDueDate">마감일</label>
+            <input type="date" id="newAssessmentDueDate" class="form-control">
+          </div>
+        </div>
+        <div class="modal-footer" style="margin-top: 20px;">
+          <button type="button" class="btn btn-secondary" onclick="document.getElementById('modalCreateAssessment').classList.remove('active')">취소</button>
+          <button type="submit" class="btn btn-primary">생성하기</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="modalBulkProgress" class="modal-overlay">
+    <div class="glass-card modal-card">
+      <div class="modal-header">
+        <h3>⚡ 제미나이 세특 일괄 생성 진행</h3>
+      </div>
+      <div class="modal-body">
+        <div class="batch-status-panel">
+          <div class="progress-track" style="height: 10px;">
+            <div id="batchProgressFill" class="progress-fill" style="width: 0%;"></div>
+          </div>
+          <div class="progress-text" style="margin-top: 8px;">
+            <span id="batchProgressLabel">대기 중...</span>
+            <span id="batchProgressRatio">0 / 0 명</span>
+          </div>
+        </div>
+        <div class="batch-timer-box" id="batchTimerBox" style="display: none;">
+          <div class="timer-spinner" aria-hidden="true">⌛</div>
+          <div class="timer-desc">
+            <strong>제미나이 API 속도 제한 준수 중...</strong>
+            <p>5명 생성 완료 후 30초 대기 중입니다. (<span id="batchCountdown">30</span>초 남음)</p>
+          </div>
+        </div>
+        <div class="batch-log-list" id="batchLogList">
+          </div>
+      </div>
+      <div class="modal-footer" style="margin-top: 20px;">
+        <button id="btnCancelBatch" type="button" class="btn btn-danger">생성 중단 (Stop)</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="config.js?v=3"></script>
+  <script src="modules/utils.js?v=3"></script>
+  <script src="modules/auth.js?v=3"></script>
+  <script src="modules/admin.js?v=3"></script>
+  <script src="modules/assessment.js?v=3"></script>
+  <script src="modules/seteuk.js?v=3"></script>
+  <script src="app.js?v=3"></script>
+</body>
+</html>

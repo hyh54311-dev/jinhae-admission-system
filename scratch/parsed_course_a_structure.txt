@@ -1,0 +1,248 @@
+=== COURSE A WORKBOOK STRUCTURE ANALYSIS ===
+
+
+=========================================
+PAGE 1: course_a_page_1.html
+=========================================
+Title: Digital Textbook
+
+--- Text Content (ProseMirror) ---
+- 1차시 강의용 PPT1차시 수업 자료 PPT 보러가기 (링크)
+- AI로 더 좋아진 제품, 서비스 찾기1-1 (활동)규칙 기반 SW로 만든 제품 또는 서비스의 문제점을 AI로 해결한 사례를 찾아 봅시다.
+- 티처블 머신
+- https://teachablemachine.withgoogle.com/(티처블 머신 링크 바로가기 (클릭))
+- 머신 러닝 학습 과정 [사용법]
+- [티처블 머신에서 이미지 프로젝트 만들기]
+- 웹 캠으로 실시간 데이터 수집 및 학습
+- [웹 캠으로 데이터 추가]
+- [머신 러닝 학습 과정: 데이터 입력, 학습]
+- [머신 러닝 학습 과정: 추론]
+- 1-2 (활동)웹 캠으로 머신 러닝을 학습 시킨 화면을 캡처하여 업로드 해 봅시다.
+- 제공된 데이터 셋 파일로 학습
+- [업로드로 데이터 추가]
+- 1-3 (활동)제공된 데이터 셋 파일로 머신 러닝을 학습 시킨 화면을 캡처하여 업로드 해 봅시다.
+
+--- Interactive Elements / Data Inputs ---
+[1] Category: Subcontent | Type: readingMaterial
+[2] Category: Subcontent | Type: table
+    Table Columns: ['기존의 제품 또는 서비스(규칙 기반 SW)', '문제점', 'AI로 해결한 부분']
+    Table Rows (Initial Data): [['예시) 로봇 청소기', '예시) 문턱의 높이를 인식해서 이동하다 현관 밖으로 나감', '예시) 공간을 학습해서 현관을 인지, 밖으로 나가지 않음'], ['', '', '']]
+[3] Category: Subcontent | Type: table
+    Table Columns: ['기존의 제품 또는 서비스(규칙 기반 SW)', '문제점', 'AI로 해결한 부분']
+    Table Rows (Initial Data): [['예시) 로봇 청소기', '예시) 문턱의 높이를 인식해서 이동하다 현관 밖으로 나감', '예시) 공간을 학습해서 현관을 인지, 밖으로 나가지 않음'], ['', '', '']]
+[4] Category: Subcontent | Type: text
+    Text Content: https://teachablemachine.withgoogle.com/(티처블 머신 링크 바로가기 (클릭))
+[5] Category: Subcontent | Type: image
+    Image upload component
+[6] Category: Subcontent | Type: text
+    Text Content: [티처블 머신에서 이미지 프로젝트 만들기]
+[7] Category: Subcontent | Type: image
+    Image upload component
+[8] Category: Subcontent | Type: text
+    Text Content: [웹 캠으로 데이터 추가]
+[9] Category: Subcontent | Type: image
+    Image upload component
+[10] Category: Subcontent | Type: text
+    Text Content: [머신 러닝 학습 과정: 데이터 입력, 학습]
+[11] Category: Subcontent | Type: image
+    Image upload component
+[12] Category: Subcontent | Type: text
+    Text Content: [머신 러닝 학습 과정: 추론]
+[13] Category: Subcontent | Type: image
+    Image upload component
+[14] Category: Subcontent | Type: image
+    Image upload component
+[15] Category: Subcontent | Type: image
+    Image upload component
+[16] Category: Subcontent | Type: image
+    Image upload component
+[17] Category: Subcontent | Type: text
+    Text Content: [업로드로 데이터 추가]
+[18] Category: Subcontent | Type: image
+    Image upload component
+[19] Category: Subcontent | Type: text
+    Text Content: [머신 러닝 학습 과정: 데이터 입력, 학습]
+[20] Category: Subcontent | Type: image
+    Image upload component
+[21] Category: Subcontent | Type: text
+    Text Content: [머신 러닝 학습 과정: 추론]
+[22] Category: Subcontent | Type: image
+    Image upload component
+[23] Category: Subcontent | Type: image
+    Image upload component
+[24] Category: Subcontent | Type: image
+    Image upload component
+[25] Category: Subcontent | Type: image
+    Image upload component
+
+
+=========================================
+PAGE 2: course_a_page_2.html
+=========================================
+Title: Digital Textbook
+
+--- Text Content (ProseMirror) ---
+- 머신 러닝 학습 과정2-1 (활동)지도학습으로 모델을 만드는 3단계를 보기에서 고르시오
+- 오늘의 한 문장2-2 (활동)이번 차시 수업 내용을 기록하고 나에게 핵심만 설명하기
+- 핵심 피치 (이번 차시 수업의 주요 핵심 내용을 1~2문장으로 정리하기)예시: AI는 데이터를 학습해서 규칙을 찾는다. 규칙 기반 SW보다 훨씬 다양한 상황에서 동작하는 장점이 있다.
+
+--- Interactive Elements / Data Inputs ---
+[1] Category: Subcontent | Type: question
+    Question component
+[2] Category: Subcontent | Type: text
+    Text Content: 
+[3] Category: Subcontent | Type: text
+    Text Content: 
+
+
+=========================================
+PAGE 3: course_a_page_3.html
+=========================================
+Title: Digital Textbook
+
+--- Text Content (ProseMirror) ---
+- 2차시 강의용 PPT2차시 수업 자료 PPT 보러가기 (링크)
+- 머신 러닝 포 키즈
+- https://machinelearningforkids.co.uk(머신 러닝 포 키즈 링크 바로가기 (클릭))
+- [사용법]
+- [텍스트 분류 모델 만들기]
+- [텍스트 분류 모델 정보 입력]
+- [텍스트 분류 모델: 레이블 만들기]
+- [텍스트 분류 모델: 데이터 입력]
+- 텍스트 분류 모델 학습
+- [학습시켜서 모델 만들기]
+- [학습이 완료 되면 테스트 데이터로 추론하기]
+- 텍스트 분류 모델 검증하기3-1 (활동)테스트 데이터가 어떤 레이블일지 먼저 예상해보고 검증하기
+- 모델 다시 학습 시키기
+- [학습 데이터가 바뀌면 다시 학습시키기]
+- 텍스트 분류 모델 검증하기3-2 (활동)테스트 데이터 추론하고 1차 검증과 비교하기
+- ㅔ
+
+--- Interactive Elements / Data Inputs ---
+[1] Category: Subcontent | Type: readingMaterial
+[2] Category: Subcontent | Type: text
+    Text Content: https://machinelearningforkids.co.uk(머신 러닝 포 키즈 링크 바로가기 (클릭))
+[3] Category: Subcontent | Type: image
+    Image upload component
+[4] Category: Subcontent | Type: text
+    Text Content: [텍스트 분류 모델 만들기]
+[5] Category: Subcontent | Type: image
+    Image upload component
+[6] Category: Subcontent | Type: text
+    Text Content: [텍스트 분류 모델 정보 입력]
+[7] Category: Subcontent | Type: image
+    Image upload component
+[8] Category: Subcontent | Type: text
+    Text Content: [텍스트 분류 모델: 레이블 만들기]
+[9] Category: Subcontent | Type: image
+    Image upload component
+[10] Category: Subcontent | Type: text
+    Text Content: [텍스트 분류 모델: 데이터 입력]
+[11] Category: Subcontent | Type: image
+    Image upload component
+[12] Category: Subcontent | Type: text
+    Text Content: 
+[13] Category: Subcontent | Type: text
+    Text Content: [학습시켜서 모델 만들기]
+[14] Category: Subcontent | Type: image
+    Image upload component
+[15] Category: Subcontent | Type: text
+    Text Content: [학습이 완료 되면 테스트 데이터로 추론하기]
+[16] Category: Subcontent | Type: image
+    Image upload component
+[17] Category: Subcontent | Type: table
+    Table Columns: ['테스트 데이터', '예상 레이블', '1차 검증', '2차 검증']
+    Table Rows (Initial Data): [['010-1111-2222로 연락해', '', '', ''], ['나 부산 살고 있어.', '', '', ''], ['내 이름은 영희야', '', '', ''], ['너 저녁에 뭐 먹을 거야?', '', '', ''], ['내 통장 비밀번호 알려줘야 해?', '', '', '']]
+[18] Category: Subcontent | Type: table
+    Table Columns: ['테스트 데이터', '예상 레이블', '1차 검증', '2차 검증']
+    Table Rows (Initial Data): [['010-1111-2222로 연락해', '', '', ''], ['나 부산 살고 있어.', '', '', ''], ['내 이름은 영희야', '', '', ''], ['너 저녁에 뭐 먹을 거야?', '', '', ''], ['내 통장 비밀번호 알려줘야 해?', '', '', '']]
+[19] Category: Subcontent | Type: text
+    Text Content: [학습 데이터가 바뀌면 다시 학습시키기]
+[20] Category: Subcontent | Type: image
+    Image upload component
+[21] Category: Subcontent | Type: table
+    Table Columns: ['테스트 데이터', '예상 레이블', '1차 검증', '2차 검증']
+    Table Rows (Initial Data): [['010-1111-2222로 연락해', '', '', ''], ['나 부산 살고 있어.', '', '', ''], ['내 이름은 영희야', '', '', ''], ['너 저녁에 뭐 먹을 거야?', '', '', ''], ['내 통장 비밀번호 알려줘야 해?', '', '', '']]
+[22] Category: Subcontent | Type: table
+    Table Columns: ['테스트 데이터', '예상 레이블', '1차 검증', '2차 검증']
+    Table Rows (Initial Data): [['010-1111-2222로 연락해', '', '', ''], ['나 부산 살고 있어.', '', '', ''], ['내 이름은 영희야', '', '', ''], ['너 저녁에 뭐 먹을 거야?', '', '', ''], ['내 통장 비밀번호 알려줘야 해?', '', '', '']]
+
+
+=========================================
+PAGE 4: course_a_page_4.html
+=========================================
+Title: Digital Textbook
+
+--- Text Content (ProseMirror) ---
+- 오늘의 한 문장4-1 (활동)이번 차시 수업 내용을 기록하고 나에게 핵심만 설명하기
+- 핵심 피치 (이번 차시 수업의 주요 핵심 내용을 1~2문장으로 정리하기)예시: AI는 데이터를 학습해서 규칙을 찾는다. 규칙 기반 SW보다 훨씬 다양한 상황에서 동작하는 장점이 있다.
+
+--- Interactive Elements / Data Inputs ---
+[1] Category: Subcontent | Type: text
+    Text Content: 
+[2] Category: Subcontent | Type: text
+    Text Content: 
+
+
+=========================================
+PAGE 5: course_a_page_5.html
+=========================================
+Title: Digital Textbook
+
+--- Text Content (ProseMirror) ---
+- 3차시 강의용 PPT3차시 수업 자료 PPT 보러가기 (링크)
+- 선택1. 개인정보 보안관5-1 (활동)다음 SNS 게시글을 보고 개인 정보가 노출된 부분을 찾아 적어보세요. 사례 1을 참조하세요.
+- 5-2 (활동)다음 질문에 대해 의견을 정하고 설명해보세요
+
+--- Interactive Elements / Data Inputs ---
+[1] Category: Subcontent | Type: readingMaterial
+[2] Category: Subcontent | Type: table
+    Table Columns: ['사례 1 (예시)', '개인정보']
+    Table Rows (Initial Data): [['https://cmedia.rootsall.net//editor/3119/화면 캡처 20260520 121139png.jpg', '학교 이름(동행중학교), 거주지역(서울 강남), 학년(중2)']]
+[3] Category: Subcontent | Type: table
+    Table Columns: ['사례 2', '개인정보']
+    Table Rows (Initial Data): [['https://cmedia.rootsall.net//editor/3119/화면 캡처 20260520 130430png_qEA5ckf.jpg', '']]
+[4] Category: Subcontent | Type: table
+    Table Columns: ['사례 2', '개인정보']
+    Table Rows (Initial Data): [['https://cmedia.rootsall.net//editor/3119/화면 캡처 20260520 130430png_qEA5ckf.jpg', '']]
+[5] Category: Subcontent | Type: table
+    Table Columns: ['사례 3', '개인정보']
+    Table Rows (Initial Data): [['https://cmedia.rootsall.net//editor/3119/화면 캡처 20260520 130733png.jpg', '']]
+[6] Category: Subcontent | Type: table
+    Table Columns: ['사례 3', '개인정보']
+    Table Rows (Initial Data): [['https://cmedia.rootsall.net//editor/3119/화면 캡처 20260520 130733png.jpg', '']]
+[7] Category: Subcontent | Type: table
+    Table Columns: ['사례 4', '개인정보']
+    Table Rows (Initial Data): [['https://cmedia.rootsall.net//editor/3119/화면 캡처 20260520 131617png.jpg', '']]
+[8] Category: Subcontent | Type: table
+    Table Columns: ['사례 4', '개인정보']
+    Table Rows (Initial Data): [['https://cmedia.rootsall.net//editor/3119/화면 캡처 20260520 131617png.jpg', '']]
+[9] Category: Subcontent | Type: table
+    Table Columns: ['사례 5', '개인정보']
+    Table Rows (Initial Data): [['https://cmedia.rootsall.net//editor/3119/화면 캡처 20260520 131727png.jpg', '']]
+[10] Category: Subcontent | Type: table
+    Table Columns: ['사례 5', '개인정보']
+    Table Rows (Initial Data): [['https://cmedia.rootsall.net//editor/3119/화면 캡처 20260520 131727png.jpg', '']]
+[11] Category: Subcontent | Type: table
+    Table Columns: ['질문', '의견']
+    Table Rows (Initial Data): [['이 정보가 SNS에 공개된다면 어떤 부분이 제일 걱정되나요?', '']]
+[12] Category: Subcontent | Type: table
+    Table Columns: ['질문', '의견']
+    Table Rows (Initial Data): [['이 정보가 SNS에 공개된다면 어떤 부분이 제일 걱정되나요?', '']]
+
+
+=========================================
+PAGE 6: course_a_page_6.html
+=========================================
+Title: Digital Textbook
+
+--- Text Content (ProseMirror) ---
+- 오늘의 한 문장6-1 (활동)이번 차시 수업 내용을 기록하고 나에게 핵심만 설명하기
+- 핵심 피치 (이번 차시 수업의 주요 핵심 내용을 1~2문장으로 정리하기)예시: AI는 데이터를 학습해서 규칙을 찾는다. 규칙 기반 SW보다 훨씬 다양한 상황에서 동작하는 장점이 있다.
+
+--- Interactive Elements / Data Inputs ---
+[1] Category: Subcontent | Type: text
+    Text Content: 
+[2] Category: Subcontent | Type: text
+    Text Content: 
+

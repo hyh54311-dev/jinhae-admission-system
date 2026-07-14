@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart PDF Suite (통합 네비게이션 및 결함 복구 엔진)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .page-card.selected {
+            border-color: #4f46e5;
+            background-color: #f5f3ff;
+        }
+        /* 스크롤바 커스텀 */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        @keyframes target-highlight {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(79, 70, 229, 0.6); }
+            100% { transform: scale(1); }
+        }
+        .jump-target {
+            animation: target-highlight 1.2s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans">
+
+    <div class="sticky top-0 z-30 flex flex-col w-full shadow-md bg-white">
+        <div class="w-full bg-slate-100 h-1.5 overflow-hidden">
+            <div id="scroll-gauge" class="bg-indigo-600 h-full w-0 transition-all duration-75"></div>
+        </div>
+
+        <header class="border-b border-slate-200 px-6 py-3.5 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <button id="btn-home" class="p-2 bg-slate-100 hover:bg-indigo-50 text-slate-600 hover:text-indigo-600 rounded-lg transition" title="초기 화면으로 이동">
+                    <i data-lucide="home" class="w-5 h-5"></i>
+                </button>
+                <div class="bg-indigo-600 text-white p-2 rounded-lg">
+                    <i data-lucide="layers" class="w-5 h-5"></i>
+                </div>
+                <h1 class="text-lg font-bold tracking-tight text-slate-900">Smart <span class="text-indigo-600">PDF</span> Suite</h1>
+            </div>
+            <div id="file-info" class="hidden text-xs text-slate-500 max-w-xs truncate font-medium bg-slate-100 px-3 py-1.5 rounded-full"></div>
+        </header>
+
+        <div id="navigation-bar" class="hidden bg-white border-b border-slate-200 px-6 py-2">
+            <div class="max-w-7xl w-full mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+                <div class="flex items-center space-x-1.5 w-full md:w-auto overflow-x-auto py-1">
+                    <span class="text-xs font-bold text-slate-400 mr-1 flex items-center gap-1 shrink-0"><i data-lucide="bookmark" class="w-3.5 h-3.5"></i> 퀵 점프:</span>
+                    <button class="btn-bookmark shrink-0 text-[11px] font-semibold px-2.5 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 rounded-md transition" data-target="1">처음(1P)</button>
+                    <div id="dynamic-bookmarks" class="flex items-center space-x-1.5"></div>
+                </div>
+                <div class="flex items-center space-x-2 w-full md:w-auto justify-end shrink-0">
+                    <label for="input-page-jump" class="text-xs font-bold text-slate-500 shrink-0">페이지 바로가기</label>
+                    <div class="relative flex items-center">
+                        <input type="number" id="input-page-jump" min="1" placeholder="번호" class="w-20 px-2 py-1 text-xs text-center border border-slate-300 bg-slate-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white font-bold [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
+                        <span id="total-page-badge" class="text-[11px] text-slate-400 font-medium ml-1.5">/ 0 P</span>
+                    </div>
+                    <button id="btn-page-jump" class="text-xs font-semibold px-3 py-1 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-xs transition shrink-0">이동</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="sticky-control-bar" class="hidden bg-slate-50 border-b border-slate-200 p-4 transition-all">
+            <div class="max-w-7xl w-full mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div class="flex items-center space-x-2 w-full sm:w-auto">
+                    <button id="btn-select-all" class="flex-1 sm:flex-none text-xs font-semibold px-3 py-2 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-lg shadow-xs transition">전체 선택</button>
+                    <button id="btn-deselect-all" class="flex-1 sm:flex-none text-xs font-semibold px-3 py-2 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-lg shadow-xs transition">선택 해제</button>
+                </div>
+                <div class="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto">
+                    <span id="selected-count" class="text-sm font-semibold text-slate-600">선택된 페이지: 0 / 0</span>
+                    <button id="btn-open-extract" disabled class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none text-white font-semibold text-sm px-5 py-2.5 rounded-xl shadow-md transition flex items-center justify-center space-x-2">
+                        <span>추출 및 미리보기</span>
+                        <i data-lucide="scissors" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="flex-1 flex flex-col max-w-7xl w-full mx-auto p-4 md:p-6 space-y-6">
+        
+        <div id="view-dashboard" class="flex flex-col items-center justify-center py-12 space-y-8">
+            <div class="text-center space-y-2">
+                <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight sm:text-3xl">수행할 PDF 작업을 선택하세요</h2>
+                <p class="text-sm text-slate-500 max-w-md mx-auto">강력하고 안전한 고정밀 엔진이 브라우저 샌드박스 내부에서 안전하게 실행됩니다.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
+                <div id="card-mode-extract" class="bg-white border border-slate-200 hover:border-indigo-500 rounded-2xl p-6 shadow-sm hover:shadow-xl cursor-pointer transition-all group flex flex-col space-y-4">
+                    <div class="p-3 bg-indigo-50 text-indigo-600 rounded-xl w-fit group-hover:scale-110 transition-transform">
+                        <i data-lucide="scissors" class="w-8 h-8"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition">PDF 페이지 개별 분리 및 추출</h3>
+                        <p class="text-xs text-slate-400 mt-1">대형 문서를 불러와 원하는 페이지들만 시각적으로 선택하고 자유롭게 도큐먼트를 쪼개어 저장합니다.</p>
+                    </div>
+                    <div class="text-xs font-semibold text-indigo-600 flex items-center gap-1 pt-2 mt-auto">
+                        <span>진입하기</span> <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                    </div>
+                </div>
+
+                <div id="card-mode-merge" class="bg-white border border-slate-200 hover:border-emerald-500 rounded-2xl p-6 shadow-sm hover:shadow-xl cursor-pointer transition-all group flex flex-col space-y-4">
+                    <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl w-fit group-hover:scale-110 transition-transform">
+                        <i data-lucide="folder-heart" class="w-8 h-8"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition">학급별 학생 과제물 오름차순 병합</h3>
+                        <p class="text-xs text-slate-400 mt-1">여러 학생의 과제물 파일들을 한 번에 넣어 앞 5자리 학번을 자동 분석하고, 누락자 체크와 동시에 오름차순 정렬 병합합니다.</p>
+                    </div>
+                    <div class="text-xs font-semibold text-emerald-600 flex items-center gap-1 pt-2 mt-auto">
+                        <span>진입하기</span> <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-extract" class="hidden flex-col space-y-4">
+            <div id="dropzone-extract" class="border-2 border-dashed border-slate-300 hover:border-indigo-500 bg-white rounded-2xl p-10 flex flex-col items-center justify-center cursor-pointer transition-all duration-300 group shadow-sm">
+                <input type="file" id="file-input-extract" accept=".pdf" class="hidden">
+                <div class="bg-indigo-50 text-indigo-600 p-4 rounded-full group-hover:scale-110 transition-transform duration-300 mb-4">
+                    <i data-lucide="upload-cloud" class="w-10 h-10"></i>
+                </div>
+                <p class="text-base font-semibold text-slate-700 mb-1">여기에 추출할 PDF 파일을 드래그하여 놓거나 클릭하세요</p>
+                <p class="text-xs text-slate-400">구조 결함 제어 알고리즘이 내장되어 안전하게 전면 추출을 보장합니다.</p>
+            </div>
+
+            <div id="workspace-extract" class="hidden flex-col space-y-4">
+                <div class="text-[11px] text-slate-400 flex flex-col gap-1 px-1">
+                    <div class="flex items-center gap-1"><i data-lucide="help-circle" class="w-3.5 h-3.5 text-indigo-500"></i> <span><b>Shift + 클릭</b> 범위 지정 가능, <b>선택 카드 우클릭</b>으로 추출 컨텍스트를 즉시 호출합니다.</span></div>
+                </div>
+                <div id="pages-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 pt-2"></div>
+            </div>
+        </div>
+
+        <div id="view-merge" class="hidden flex-col space-y-4">
+            <div id="dropzone-merge" class="border-2 border-dashed border-slate-300 hover:border-emerald-500 bg-white rounded-2xl p-10 flex flex-col items-center justify-center cursor-pointer transition-all duration-300 group shadow-sm">
+                <input type="file" id="file-input-merge" multiple accept=".pdf" class="hidden">
+                <div class="bg-emerald-50 text-emerald-600 p-4 rounded-full group-hover:scale-110 transition-transform duration-300 mb-4">
+                    <i data-lucide="folder-open" class="w-10 h-10"></i>
+                </div>
+                <p class="text-base font-semibold text-slate-700 mb-1">여기에 여러 개의 PDF 파일들을 드래그하여 놓거나 클릭하세요</p>
+                <p class="text-xs text-slate-400">파일명 앞자리 5자리 학번(예: 10301) 패턴을 파악하여 지능형 통계를 구축합니다.</p>
+            </div>
+
+            <div id="merge-stats-container" class="hidden flex flex-col space-y-3 bg-white border border-slate-200 rounded-2xl p-5 shadow-sm"></div>
+
+            <div id="merge-file-list-container" class="hidden flex flex-col bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                    <span class="text-sm font-bold text-slate-700 flex items-center gap-1.5">
+                        <i data-lucide="check-square" class="w-4 h-4 text-emerald-500"></i>
+                        정렬 및 병합 대상 파일 리스트 (<span id="merge-file-count" class="text-emerald-600">0</span>개 파일)
+                    </span>
+                    <span id="merge-expected-filename" class="text-xs bg-slate-100 text-slate-600 font-bold px-3 py-1.5 rounded-lg"></span>
+                </div>
+                <div id="merge-file-list" class="max-h-56 overflow-y-auto space-y-1.5 text-xs font-medium text-slate-600 pr-1"></div>
+                
+                <button id="btn-execute-merge" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm py-3.5 rounded-xl shadow-md transition flex items-center justify-center space-x-2">
+                    <i data-lucide="git-merge" class="w-4 h-4"></i>
+                    <span>학급별 오름차순 문서 병합 및 다운로드</span>
+                </button>
+                <div id="merge-status" class="text-center text-xs font-bold mt-2"></div>
+            </div>
+        </div>
+
+        <div id="loading" class="hidden flex-col items-center justify-center py-12">
+            <div class="animate-spin rounded-full h-12 w-12 border-4 border-indigo-600 border-t-transparent mb-3"></div>
+            <p class="text-slate-500 text-xs font-medium">문서 데이터 스트림을 로드 및 연산 중입니다...</p>
+        </div>
+    </main>
+
+    <div id="custom-context-menu" class="hidden fixed bg-white border border-slate-200 rounded-xl shadow-xl py-1.5 w-52 z-50 animate-in fade-in duration-100">
+        <button id="ctx-btn-extract" class="w-full text-left px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-indigo-50 hover:text-indigo-600 flex items-center gap-2 transition">
+            <i data-lucide="scissors" class="w-4 h-4 text-indigo-500"></i>
+            <span>추출 및 미리보기</span>
+        </button>
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white rounded-2xl w-full max-w-3xl max-h-[85vh] flex flex-col shadow-2xl scale-95 transition-transform duration-300" id="modal-content">
+            <div class="p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50 rounded-t-2xl">
+                <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                    <i data-lucide="layers" class="text-indigo-600 w-4 h-4"></i> 추출 대상 세그먼트 스케줄러
+                </h3>
+                <button id="btn-close-modal" class="text-slate-400 hover:text-slate-600 p-1.5 hover:bg-slate-100 rounded-lg transition">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto flex-1 space-y-5">
+                <div class="space-y-1.5">
+                    <label for="output-filename" class="block text-xs font-bold text-slate-600">저장 빌드될 아웃풋 명칭</label>
+                    <div class="relative">
+                        <input type="text" id="output-filename" class="w-full px-4 py-2 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-xs font-semibold text-slate-800 pr-12 transition">
+                        <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">.pdf</span>
+                    </div>
+                </div>
+                <div class="space-y-1.5">
+                    <span class="text-xs font-bold text-slate-600 block">병합 조립 대상 배열 타임라인</span>
+                    <div id="modal-preview-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 bg-slate-50 p-4 rounded-xl border border-slate-200 max-h-56 overflow-y-auto"></div>
+                </div>
+            </div>
+            <div class="p-5 border-t border-slate-200 flex justify-end items-center gap-3 bg-slate-50 rounded-b-2xl">
+                <button id="btn-cancel-modal" class="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl transition">취소</button>
+                <button id="btn-execute-download" class="px-5 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-md transition flex items-center gap-2">
+                    <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                    <span id="txt-submit-btn">PDF 추출 및 파일 컴파일</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        // 글로벌 어플리케이션 상태 컨트롤러
+        const state = {
+            currentMode: 'dashboard', 
+            pdfDoc: null,
+            arrayBuffer: null,
+            filename: '',
+            selectedPages: new Set(),
+            totalPageCount: 0,
+            lastClickedPage: null,
+            detectedPageNumbers: {},
+            
+            mergeFiles: [],
+            mergeFinalOutputName: '병합된_과제물_레포트.pdf'
+        };
+
+        const el = {
+            btnHome: document.getElementById('btn-home'),
+            viewDashboard: document.getElementById('view-dashboard'),
+            viewExtract: document.getElementById('view-extract'),
+            viewMerge: document.getElementById('view-merge'),
+            cardModeExtract: document.getElementById('card-mode-extract'),
+            cardModeMerge: document.getElementById('card-mode-merge'),
+            loading: document.getElementById('loading'),
+            fileInfo: document.getElementById('file-info'),
+            scrollGauge: document.getElementById('scroll-gauge'),
+
+            // 모드 1(추출) 가젯 컴포넌트
+            dropzoneExtract: document.getElementById('dropzone-extract'),
+            fileInputExtract: document.getElementById('file-input-extract'),
+            workspaceExtract: document.getElementById('workspace-extract'),
+            navigationBar: document.getElementById('navigation-bar'),
+            stickyControlBar: document.getElementById('sticky-control-bar'),
+            pagesGrid: document.getElementById('pages-grid'),
+            selectedCount: document.getElementById('selected-count'),
+            btnOpenExtract: document.getElementById('btn-open-extract'),
+            btnSelectAll: document.getElementById('btn-select-all'),
+            btnDeselectAll: document.getElementById('btn-deselect-all'),
+            dynamicBookmarks: document.getElementById('dynamic-bookmarks'),
+            inputPageJump: document.getElementById('input-page-jump'),
+            totalPageBadge: document.getElementById('total-page-badge'),
+            btnPageJump: document.getElementById('btn-page-jump'),
+            modal: document.getElementById('modal'),
+            modalContent: document.getElementById('modal-content'),
+            btnCloseModal: document.getElementById('btn-close-modal'),
+            btnCancelModal: document.getElementById('btn-cancel-modal'),
+            modalPreviewGrid: document.getElementById('modal-preview-grid'),
+            outputFilename: document.getElementById('output-filename'),
+            btnExecuteDownload: document.getElementById('btn-execute-download'),
+            txtSubmitBtn: document.getElementById('txt-submit-btn'),
+            contextMenu: document.getElementById('custom-context-menu'),
+            ctxBtnExtract: document.getElementById('ctx-btn-extract'),
+
+            // 모드 2(병합) 가젯 컴포넌트
+            dropzoneMerge: document.getElementById('dropzone-merge'),
+            fileInputMerge: document.getElementById('file-input-merge'),
+            mergeStatsContainer: document.getElementById('merge-stats-container'),
+            mergeFileListContainer: document.getElementById('merge-file-list-container'),
+            mergeFileCount: document.getElementById('merge-file-count'),
+            mergeExpectedFilename: document.getElementById('merge-expected-filename'),
+            mergeFileList: document.getElementById('merge-file-list'),
+            btnExecuteMerge: document.getElementById('btn-execute-merge'),
+            mergeStatus: document.getElementById('merge-status')
+        };
+
+        // 초기 인스턴스 렌더링
+        lucide.createIcons();
+        window.addEventListener('scroll', updateScrollIndicator);
+
+        // 라우팅 스위치 연동
+        el.btnHome.addEventListener('click', () => switchViewMode('dashboard'));
+        el.cardModeExtract.addEventListener('click', () => switchViewMode('extract'));
+        el.cardModeMerge.addEventListener('click', () => switchViewMode('merge'));
+
+        // 모드 1 이벤트 리스너 바인딩
+        el.dropzoneExtract.addEventListener('click', () => el.fileInputExtract.click());
+        el.fileInputExtract.addEventListener('change', (e) => { if(e.target.files.length > 0) handleExtractFile(e.target.files[0]); });
+        setupDropzoneAnimation(el.dropzoneExtract, 'indigo');
+        el.dropzoneExtract.addEventListener('drop', (e) => {
+            e.preventDefault();
+            el.dropzoneExtract.classList.remove('border-indigo-500', 'bg-indigo-50/50');
+            if (e.dataTransfer.files.length > 0) handleExtractFile(e.dataTransfer.files[0]);
+        });
+        el.btnSelectAll.addEventListener('click', () => toggleAllPages(true));
+        el.btnDeselectAll.addEventListener('click', () => toggleAllPages(false));
+        el.btnOpenExtract.addEventListener('click', openModal);
+        el.btnCloseModal.addEventListener('click', closeModal);
+        el.btnCancelModal.addEventListener('click', closeModal);
+        el.btnExecuteDownload.addEventListener('click', processPdfExtraction);
+        el.pagesGrid.addEventListener('contextmenu', handleRightClick);
+        el.ctxBtnExtract.addEventListener('click', () => { hideContextMenu(); openModal(); });
+        document.addEventListener('click', hideContextMenu);
+        document.addEventListener('scroll', hideContextMenu);
+        el.btnPageJump.addEventListener('click', executePageJump);
+        el.inputPageJump.addEventListener('keydown', (e) => { if (e.key === 'Enter') executePageJump(); });
+
+        // 모드 2 이벤트 리스너 바인딩
+        el.dropzoneMerge.addEventListener('click', () => el.fileInputMerge.click());
+        el.fileInputMerge.addEventListener('change', (e) => { if(e.target.files.length > 0) handleMergeFiles(e.target.files); });
+        setupDropzoneAnimation(el.dropzoneMerge, 'emerald');
+        el.dropzoneMerge.addEventListener('drop', (e) => {
+            e.preventDefault();
+            el.dropzoneMerge.classList.remove('border-emerald-500', 'bg-emerald-50/50');
+            if (e.dataTransfer.files.length > 0) handleMergeFiles(e.dataTransfer.files);
+        });
+        el.btnExecuteMerge.addEventListener('click', processPdfMergeExecute);
+
+        // 공용 스크롤 리스너 게이지 함수
+        function updateScrollIndicator() {
+            const totalScrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            if (totalScrollHeight <= 0) { el.scrollGauge.style.width = '0%'; return; }
+            const currentPercentage = (window.scrollY / totalScrollHeight) * 100;
+            el.scrollGauge.style.width = `${currentPercentage}%`;
+        }
+
+        // 드롭존 테마 피드백 헬퍼 함수
+        function setupDropzoneAnimation(zoneElement, colorTheme) {
+            zoneElement.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                zoneElement.classList.add(`border-${colorTheme}-500`, `bg-${colorTheme}-50/50`);
+            });
+            zoneElement.addEventListener('dragleave', () => {
+                zoneElement.classList.remove(`border-${colorTheme}-500`, `bg-${colorTheme}-50/50`);
+            });
+        }
+
+        // [핵심 버그 수정] 홈 버튼 전용 라우팅 완벽 초기화 제어 로직
+        function switchViewMode(targetMode) {
+            state.currentMode = targetMode;
+            
+            // 1단계: 모든 컨텐츠 레이아웃 레이어 일단 전체 보이지 않도록 격리 조치
+            el.viewDashboard.classList.add('hidden');
+            el.viewExtract.classList.add('hidden');
+            el.viewMerge.classList.add('hidden');
+            el.navigationBar.classList.add('hidden');
+            el.stickyControlBar.classList.add('hidden');
+            el.fileInfo.classList.add('hidden');
+            el.loading.classList.add('hidden');
+            
+            // 2단계: 'dashboard'(초기화면)으로 복귀를 원한 경우, 내부 임시 상태 메모리 완벽 세척
+            if (targetMode === 'dashboard') {
+                // 모드 1 관련 업로드 상태 청소
+                state.pdfDoc = null;
+                state.arrayBuffer = null;
+                state.filename = '';
+                state.selectedPages.clear();
+                state.totalPageCount = 0;
+                state.lastClickedPage = null;
+                state.detectedPageNumbers = {};
+                el.pagesGrid.innerHTML = '';
+                el.fileInputExtract.value = '';
+                el.dropzoneExtract.classList.remove('hidden');
+                el.workspaceExtract.classList.add('hidden');
+
+                // 모드 2 관련 내부 상태 파일 리스트 청소
+                state.mergeFiles = [];
+                el.fileInputMerge.value = '';
+                el.mergeFileList.innerHTML = '';
+                el.mergeStatus.innerText = '';
+                el.dropzoneMerge.classList.remove('hidden');
+                el.mergeStatsContainer.innerHTML = '';
+                el.mergeStatsContainer.classList.add('hidden');
+                el.mergeFileListContainer.classList.add('hidden');
+
+                // 초기 메인 대시보드 오픈
+                el.viewDashboard.classList.remove('hidden');
+            } else if (targetMode === 'extract') {
+                el.viewExtract.classList.remove('hidden');
+            } else if (targetMode === 'merge') {
+                el.viewMerge.classList.remove('hidden');
+            }
+            
+            // 스크롤 상단 회귀 및 게이지 리컴파일
+            window.scrollTo({ top: 0 });
+            setTimeout(updateScrollIndicator, 80);
+            lucide.createIcons();
+        }
+
+        // ==========================================
+        // [비즈니스 로직 - 모드 1: 페이지 분리 추출]
+        // ==========================================
+        async function handleExtractFile(file) {
+            if (file.type !== 'application/pdf') { alert('PDF 형식의 파일만 연동할 수 있습니다.'); return; }
+            state.filename = file.name.replace(/\.[^/.]+$/, "");
+            state.selectedPages.clear();
+            state.lastClickedPage = null;
+            state.detectedPageNumbers = {};
+
+            el.dropzoneExtract.classList.add('hidden');
+            el.loading.classList.remove('hidden');
+
+            try {
+                state.arrayBuffer = await file.arrayBuffer();
+                const loadingTask = pdfjsLib.getDocument({ data: state.arrayBuffer });
+                state.pdfDoc = await loadingTask.promise;
+                state.totalPageCount = state.pdfDoc.numPages;
+
+                el.fileInfo.textContent = `추출: ${file.name}`;
+                el.fileInfo.classList.remove('hidden');
+
+                generateGridContainers();
+                buildDynamicBookmarks();
+                updateUISelectionCount();
+
+                el.inputPageJump.max = state.totalPageCount;
+                el.totalPageBadge.textContent = `/ ${state.totalPageCount} P`;
+
+                el.loading.classList.add('hidden');
+                el.workspaceExtract.classList.remove('hidden');
+                el.stickyControlBar.classList.remove('hidden');
+                el.navigationBar.classList.remove('hidden');
+                lucide.createIcons();
+                updateScrollIndicator();
+            } catch (error) {
+                console.error(error);
+                alert('파일 파싱 중 에러가 유발되었습니다.');
+                switchViewMode('dashboard');
+            }
+        }
+
+        function generateGridContainers() {
+            el.pagesGrid.innerHTML = '';
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const pageNum = parseInt(entry.target.dataset.page, 10);
+                        renderThumbnailAndDetectText(entry.target, pageNum);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { rootMargin: '150px' });
+
+            for (let i = 1; i <= state.totalPageCount; i++) {
+                const card = document.createElement('div');
+                card.className = 'page-card border border-slate-200 bg-white rounded-xl p-3 flex flex-col items-center cursor-pointer select-none transition-all hover:shadow-md relative group';
+                card.dataset.page = i;
+                card.innerHTML = `
+                    <div class="absolute top-2.5 left-2.5 z-10"><input type="checkbox" data-page="${i}" class="w-4 h-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500 cursor-pointer pointer-events-none transition"></div>
+                    <div class="w-full aspect-[3/4] bg-slate-100 rounded-lg flex items-center justify-center overflow-hidden mb-2 relative">
+                        <canvas id="canvas-p-${i}" class="w-full h-full object-contain hidden"></canvas>
+                        <div id="spinner-p-${i}" class="absolute inset-0 flex items-center justify-center bg-slate-50"><div class="w-5 h-5 border-2 border-slate-300 border-t-indigo-600 rounded-full animate-spin"></div></div>
+                    </div>
+                    <div class="page-label-${i} text-xs font-semibold text-slate-500 group-hover:text-indigo-600 transition truncate max-w-full text-center px-1">${i} 페이지</div>
+                `;
+                card.addEventListener('click', (e) => handlePageClick(i, e.shiftKey));
+                el.pagesGrid.appendChild(card);
+                observer.observe(card);
+            }
+        }
+
+        async function renderThumbnailAndDetectText(cardElement, pageNum) {
+            try {
+                if (!state.pdfDoc) return;
+                const page = await state.pdfDoc.getPage(pageNum);
+                const canvas = cardElement.querySelector(`#canvas-p-${pageNum}`);
+                const spinner = cardElement.querySelector(`#spinner-p-${pageNum}`);
+                if (!canvas) return;
+                
+                const context = canvas.getContext('2d');
+                const viewport = page.getViewport({ scale: 0.35 });
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                await page.render({ canvasContext: context, viewport: viewport }).promise;
+                spinner.classList.add('hidden');
+                canvas.classList.remove('hidden');
+
+                const textContent = await page.getTextContent();
+                const items = textContent.items;
+                if (items && items.length > 0) {
+                    const sortedByY = [...items].sort((a, b) => a.transform[5] - b.transform[5]);
+                    const marginItems = [...sortedByY.slice(0, 4), ...sortedByY.slice(-4)];
+                    let matchedItem = marginItems.find(item => item.str.includes(String(pageNum))) || marginItems.find(item => /\d+/.test(item.str));
+                    if (matchedItem) {
+                        let detectedStr = matchedItem.str.trim();
+                        if (/^\d+$/.test(detectedStr)) detectedStr = `${detectedStr}쪽`;
+                        else if (!detectedStr.includes('쪽') && /\d+/.test(detectedStr)) detectedStr = `${detectedStr.match(/\d+/)[0]}쪽`;
+                        if (detectedStr.length > 0 && detectedStr.length < 12) {
+                            state.detectedPageNumbers[pageNum] = detectedStr;
+                            const labelEl = cardElement.querySelector(`.page-label-${pageNum}`);
+                            if (labelEl) labelEl.textContent = `${pageNum} 페이지 (${detectedStr})`;
+                        }
+                    }
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        function buildDynamicBookmarks() {
+            el.dynamicBookmarks.innerHTML = '';
+            let step = state.totalPageCount > 1000 ? 200 : (state.totalPageCount > 400 ? 100 : 50);
+            for (let targetPage = step; targetPage < state.totalPageCount; targetPage += step) {
+                const btn = document.createElement('button');
+                btn.className = 'btn-bookmark shrink-0 text-[11px] font-semibold px-2.5 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 rounded-md transition';
+                btn.textContent = `${targetPage}P`;
+                btn.addEventListener('click', () => scrollTargetIntoView(targetPage));
+                el.dynamicBookmarks.appendChild(btn);
+            }
+            if (state.totalPageCount > 20) {
+                const endBtn = document.createElement('button');
+                endBtn.className = 'btn-bookmark shrink-0 text-[11px] font-semibold px-2.5 py-1 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 rounded-md transition';
+                endBtn.textContent = `끝(${state.totalPageCount}P)`;
+                endBtn.addEventListener('click', () => scrollTargetIntoView(state.totalPageCount));
+                el.dynamicBookmarks.appendChild(endBtn);
+            }
+        }
+
+        function scrollTargetIntoView(targetPageNum) {
+            const card = document.querySelector(`.page-card[data-page="${targetPageNum}"]`);
+            if (!card) return;
+            const headerOffset = el.stickyControlBar.parentElement.getBoundingClientRect().height + 15;
+            const offsetPosition = card.getBoundingClientRect().top + window.scrollY - headerOffset;
+            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+            card.classList.remove('jump-target');
+            void card.offsetWidth;
+            card.classList.add('jump-target');
+        }
+
+        function executePageJump() {
+            const rawVal = el.inputPageJump.value.trim();
+            if (!rawVal) return;
+            const pageNum = parseInt(rawVal, 10);
+            if (isNaN(pageNum) || pageNum < 1 || pageNum > state.totalPageCount) {
+                alert(`1부터 ${state.totalPageCount} 사이의 범주 쪽수를 기입해주세요.`);
+                el.inputPageJump.value = '';
+                return;
+            }
+            scrollTargetIntoView(pageNum);
+            el.inputPageJump.value = '';
+        }
+
+        function handlePageClick(pageNum, isShiftPressed) {
+            if (isShiftPressed && state.lastClickedPage !== null) {
+                const start = Math.min(state.lastClickedPage, pageNum);
+                const end = Math.max(state.lastClickedPage, pageNum);
+                const targetState = !state.selectedPages.has(pageNum);
+                for (let p = start; p <= end; p++) setPageSelection(p, targetState);
+            } else {
+                setPageSelection(pageNum, !state.selectedPages.has(pageNum));
+            }
+            state.lastClickedPage = pageNum;
+            updateUISelectionCount();
+        }
+
+        function setPageSelection(pageNum, shouldSelect) {
+            const card = document.querySelector(`.page-card[data-page="${pageNum}"]`);
+            if (!card) return;
+            const checkbox = card.querySelector('input[type="checkbox"]');
+            if (shouldSelect) {
+                state.selectedPages.add(pageNum);
+                card.classList.add('selected', 'ring-2', 'ring-indigo-500/50');
+                checkbox.checked = true;
+            } else {
+                state.selectedPages.delete(pageNum);
+                card.classList.remove('selected', 'ring-2', 'ring-indigo-500/50');
+                checkbox.checked = false;
+            }
+        }
+
+        function toggleAllPages(selectBoolean) {
+            for (let i = 1; i <= state.totalPageCount; i++) setPageSelection(i, selectBoolean);
+            updateUISelectionCount();
+        }
+
+        function updateUISelectionCount() {
+            const size = state.selectedPages.size;
+            el.selectedCount.textContent = `선택된 페이지: ${size} / ${state.totalPageCount}`;
+            el.btnOpenExtract.disabled = (size === 0);
+        }
+
+        function handleRightClick(e) {
+            const card = e.target.closest('.page-card');
+            if (!card) return;
+            const pageNum = parseInt(card.dataset.page, 10);
+            if (state.selectedPages.has(pageNum)) {
+                e.preventDefault();
+                el.contextMenu.style.left = `${e.clientX}px`;
+                el.contextMenu.style.top = `${e.clientY}px`;
+                el.contextMenu.classList.remove('hidden');
+            }
+        }
+
+        function hideContextMenu() { el.contextMenu.classList.add('hidden'); }
+
+        function openModal() {
+            el.outputFilename.value = `${state.filename}_extracted`;
+            el.modalPreviewGrid.innerHTML = '';
+            const sortedPages = Array.from(state.selectedPages).sort((a, b) => a - b);
+
+            sortedPages.forEach(pageNum => {
+                const sideLabel = state.detectedPageNumbers[pageNum] ? ` (${state.detectedPageNumbers[pageNum]})` : '';
+                const item = document.createElement('div');
+                item.className = 'bg-white border border-slate-200 p-2 rounded-lg flex flex-col items-center justify-center shadow-xs relative';
+                item.innerHTML = `
+                    <div class="w-full aspect-[3/4] overflow-hidden rounded bg-slate-50 flex items-center justify-center"><canvas id="modal-canvas-${pageNum}" class="w-full h-full object-contain"></canvas></div>
+                    <span class="text-[10px] font-bold text-slate-500 mt-1 truncate max-w-full px-0.5">${pageNum}P${sideLabel}</span>
+                `;
+                el.modalPreviewGrid.appendChild(item);
+
+                setTimeout(async () => {
+                    if (!state.pdfDoc) return;
+                    const page = await state.pdfDoc.getPage(pageNum);
+                    const canvas = document.getElementById(`modal-canvas-${pageNum}`);
+                    if (!canvas) return;
+                    const context = canvas.getContext('2d');
+                    const viewport = page.getViewport({ scale: 0.15 });
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+                    await page.render({ canvasContext: context, viewport: viewport }).promise;
+                }, 50);
+            });
+
+            el.modal.classList.remove('pointer-events-none', 'opacity-0');
+            el.modalContent.classList.remove('scale-95');
+            el.modalContent.classList.add('scale-100');
+        }
+
+        function closeModal() {
+            el.modal.classList.add('pointer-events-none', 'opacity-0');
+            el.modalContent.classList.remove('scale-100');
+            el.modalContent.classList.add('scale-95');
+        }
+
+        async function processPdfExtraction() {
+            let name = el.outputFilename.value.trim();
+            if (!name) name = 'extracted_document';
+            const finalFilename = name.endsWith('.pdf') ? name : `${name}.pdf`;
+
+            el.btnExecuteDownload.disabled = true;
+            el.txtSubmitBtn.textContent = "1단계 구조 추출 중...";
+
+            const pageIndices = Array.from(state.selectedPages).sort((a, b) => a - b);
+
+            try {
+                const srcDoc = await PDFLib.PDFDocument.load(state.arrayBuffer, { ignoreEncryption: true });
+                try {
+                    const catalog = srcDoc.catalog;
+                    if (catalog && typeof catalog.remove === 'function') catalog.remove(PDFLib.PDFName.of('StructTreeRoot'));
+                } catch (mErr) {}
+
+                const newDoc = await PDFLib.PDFDocument.create();
+                const copiedPages = await newDoc.copyPages(srcDoc, pageIndices.map(p => p - 1));
+                copiedPages.forEach(page => newDoc.addPage(page));
+
+                const pdfBytes = await newDoc.save();
+                await saveFileAlternative(pdfBytes, finalFilename);
+                closeModal();
+            } catch (error) {
+                console.warn("⚠️ 가상 인쇄 복구 모드로 전격 전환합니다.", error);
+                try {
+                    const recoveryDoc = await PDFLib.PDFDocument.create();
+                    const offscreenCanvas = document.createElement('canvas');
+                    const ctx = offscreenCanvas.getContext('2d');
+
+                    for (let i = 0; i < pageIndices.length; i++) {
+                        const pageNum = pageIndices[i];
+                        const progress = Math.round(((i + 1) / pageIndices.length) * 100);
+                        el.txtSubmitBtn.textContent = `복구 인쇄 중 (${progress}%)`;
+
+                        const page = await state.pdfDoc.getPage(pageNum);
+                        const viewport = page.getViewport({ scale: 2.0 });
+                        offscreenCanvas.width = viewport.width;
+                        offscreenCanvas.height = viewport.height;
+
+                        await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+                        const imgDataUrl = offscreenCanvas.toDataURL('image/jpeg', 0.9);
+                        const imgResponse = await fetch(imgDataUrl);
+                        const imgBytes = await imgResponse.arrayBuffer();
+
+                        const embeddedImg = await recoveryDoc.embedJpg(imgBytes);
+                        const newPage = recoveryDoc.addPage([viewport.width, viewport.height]);
+                        newPage.drawImage(embeddedImg, { x: 0, y: 0, width: viewport.width, height: viewport.height });
+
+                        await new Promise(resolve => setTimeout(resolve, 20));
+                    }
+                    const recoveryBytes = await recoveryDoc.save();
+                    await saveFileAlternative(recoveryBytes, finalFilename);
+                    alert("🎉 복구 완료되었습니다.");
+                    closeModal();
+                } catch (recoveryError) {
+                    console.error(recoveryError);
+                    alert("추출에 실패했습니다.");
+                }
+            } finally {
+                el.btnExecuteDownload.disabled = false;
+                el.txtSubmitBtn.textContent = "PDF 추출 및 파일 컴파일";
+                lucide.createIcons();
+            }
+        }
+
+        // ==========================================
+        // [비즈니스 로직 - 모드 2: 학급별 병합기]
+        // ==========================================
+        function handleMergeFiles(files) {
+            state.mergeFiles = Array.from(files)
+                .filter(file => file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf'))
+                .sort((a, b) => a.name.localeCompare(b.name, undefined, {numeric: true, sensitivity: 'base'}));
+
+            if (state.mergeFiles.length === 0) {
+                alert("유효한 PDF 문서가 식별되지 않았습니다.");
+                el.mergeFileListContainer.classList.add('hidden');
+                el.mergeStatsContainer.classList.add('hidden');
+                return;
+            }
+
+            el.fileInfo.textContent = `병합 대기: ${state.mergeFiles.length}개 파일`;
+            el.fileInfo.classList.remove('hidden');
+
+            el.mergeFileList.innerHTML = '';
+            state.mergeFiles.forEach((file, index) => {
+                const row = document.createElement('div');
+                row.className = 'flex items-center justify-between p-2 bg-slate-50 hover:bg-slate-100 rounded-lg border border-slate-200/60';
+                row.innerHTML = `
+                    <span class="font-semibold truncate max-w-md"><b class="text-slate-400 mr-1">${index + 1}.</b> ${file.name}</span>
+                    <span class="text-[10px] bg-slate-200 text-slate-600 px-2 py-0.5 rounded-md font-mono">${(file.size / 1024).toFixed(1)} KB</span>
+                `;
+                el.mergeFileList.appendChild(row);
+            });
+
+            el.mergeFileCount.textContent = state.mergeFiles.length;
+            el.mergeFileListContainer.classList.remove('hidden');
+            el.mergeStatus.innerText = "";
+
+            analyzeMergeStats(state.mergeFiles.map(f => f.name));
+            state.mergeFinalOutputName = generateSmartFilename(state.mergeFiles.map(f => f.name));
+            el.mergeExpectedFilename.innerHTML = `<i data-lucide="download" class="w-3.5 h-3.5 inline mr-1"></i> 출력 타겟: ${state.mergeFinalOutputName}`;
+            lucide.createIcons();
+        }
+
+        function analyzeMergeStats(filenames) {
+            let classData = {};
+            filenames.forEach(name => {
+                let prefix = name.substring(0, 15);
+                let match = prefix.match(/(?:^|[^0-9])(\d{5})(?:[^0-9]|$)/);
+                if (match) {
+                    let fiveDigits = match[1];
+                    let gradeClass = `${fiveDigits.substring(0, 1)}-${fiveDigits.substring(1, 3)}`;
+                    let num = parseInt(fiveDigits.substring(3, 5), 10);
+
+                    if (!classData[gradeClass]) classData[gradeClass] = [];
+                    if (!classData[gradeClass].includes(num)) classData[gradeClass].push(num);
+                }
+            });
+
+            let statsHtml = '<h4 class="text-sm font-bold text-slate-800 mb-2 flex items-center gap-1.5"><i data-lucide="bar-chart-3" class="w-4 h-4 text-indigo-600"></i> 제출 및 정밀 누락 현황 통계</h4>';
+            
+            if (Object.keys(classData).length === 0) {
+                statsHtml += `
+                    <div class="flex items-center gap-2 p-3 bg-amber-50 border-l-4 border-amber-500 rounded-r-xl text-amber-800 text-xs font-semibold">
+                        <i data-lucide="alert-triangle" class="w-4 h-4 shrink-0"></i>
+                        <span>파일명에서 5자리 학번 패턴을 감지할 수 없어 누락 점검을 생략합니다.</span>
+                    </div>`;
+            } else {
+                statsHtml += '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">';
+                for (let gc in classData) {
+                    let nums = classData[gc].sort((a, b) => a - b);
+                    let maxNum = nums[nums.length - 1];
+                    let missing = [];
+
+                    for (let i = 1; i <= maxNum; i++) {
+                        if (!nums.includes(i)) missing.push(i);
+                    }
+
+                    if (missing.length > 0) {
+                        statsHtml += `
+                            <div class="p-3 bg-rose-50/60 border border-rose-100 rounded-xl flex flex-col space-y-1">
+                                <div class="text-xs font-bold text-slate-800"><span class="bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded text-[10px] mr-1.5">${gc} 학급</span>총 ${nums.length}명 제출</div>
+                                <div class="text-[11px] text-rose-600 font-medium">⚠️ 누락 번호: <b class="text-rose-700 font-extrabold">${missing.join(', ')}번</b></div>
+                            </div>`;
+                    } else {
+                        statsHtml += `
+                            <div class="p-3 bg-emerald-50/60 border border-emerald-100 rounded-xl flex flex-col space-y-1">
+                                <div class="text-xs font-bold text-slate-800"><span class="bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded text-[10px] mr-1.5">${gc} 학급</span>총 ${nums.length}명 제출 완료</div>
+                                <div class="text-[11px] text-emerald-600 font-bold flex items-center gap-0.5">🎉 누락 없음 (1번 ~ ${maxNum}번 완제)</div>
+                            </div>`;
+                    }
+                }
+                statsHtml += '</div>';
+            }
+            el.mergeStatsContainer.innerHTML = statsHtml;
+            el.mergeStatsContainer.classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function generateSmartFilename(filenames) {
+            if (filenames.length === 0) return "병합문서.pdf";
+            if (filenames.length === 1) return filenames[0].replace(/\.pdf$/i, '_병합.pdf');
+
+            let gradeClass = null;
+            for (let name of filenames) {
+                let prefix = name.substring(0, 15);
+                let match = prefix.match(/(?:^|[^0-9])(\d{5})(?:[^0-9]|$)/);
+                if (match) {
+                    let fiveDigits = match[1];
+                    gradeClass = `${fiveDigits.substring(0, 1)}-${fiveDigits.substring(1, 3)}`;
+                    break;
+                }
+            }
+            let common = getCommonSubstring90(filenames);
+            if (gradeClass) {
+                return common ? `${common}_${gradeClass}.pdf` : `${gradeClass}_병합문서.pdf`;
+            } else {
+                return common ? `${common}_병합.pdf` : "병합된_문서.pdf";
+            }
+        }
+
+        function getCommonSubstring90(filenames) {
+            let baseNames = filenames.map(f => f.replace(/\.pdf$/i, '').replace(/\d{5}/g, ''));
+            let threshold = Math.ceil(baseNames.length * 0.9);
+            let reference = baseNames[Math.floor(baseNames.length / 2)] || "";
+            
+            for (let length = reference.length; length > 0; length--) {
+                for (let start = 0; start <= reference.length - length; start++) {
+                    let sub = reference.substring(start, start + length);
+                    let count = 0;
+                    for (let name of baseNames) { if (name.includes(sub)) count++; }
+                    if (count >= threshold) {
+                        let cleaned = sub.replace(/^[-_.\s]+|[-_.\s]+$/g, '');
+                        if (cleaned.length >= 2) return cleaned;
+                    }
+                }
+            }
+            return "";
+        }
+
+        async function processPdfMergeExecute() {
+            el.btnExecuteMerge.disabled = true;
+            el.mergeStatus.style.color = "#4f46e5";
+            el.mergeStatus.innerText = "⏳ 파일을 정렬하여 합치고 있습니다. 잠시만 대기하십시오...";
+
+            try {
+                const { PDFDocument } = PDFLib;
+                const mergedPdf = await PDFDocument.create();
+
+                for (let file of state.mergeFiles) {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const pdf = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
+                    const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+                    copiedPages.forEach((page) => mergedPdf.addPage(page));
+                }
+
+                const mergedPdfBytes = await mergedPdf.save();
+                await saveFileAlternative(mergedPdfBytes, state.mergeFinalOutputName);
+
+                el.mergeStatus.style.color = "#059669";
+                el.mergeStatus.innerText = "✅ 오름차순 조립 정렬 병합 성공! 자동 다운로드가 실행되었습니다.";
+            } catch (error) {
+                console.error(error);
+                el.mergeStatus.style.color = "#dc2626";
+                el.mergeStatus.innerText = "❌ 결함 발생: " + error.message;
+            } finally {
+                el.btnExecuteMerge.disabled = false;
+            }
+        }
+
+        async function saveFileAlternative(bytes, filename) {
+            if ('showSaveFilePicker' in window) {
+                try {
+                    const handle = await window.showSaveFilePicker({
+                        suggestedName: filename,
+                        types: [{ description: 'PDF Documents', accept: { 'application/pdf': ['.pdf'] } }]
+                    });
+                    const writable = await handle.createWritable();
+                    await writable.write(bytes);
+                    await writable.close();
+                    return;
+                } catch (err) {
+                    if (err.name === 'AbortError') return;
+                }
+            }
+            const blob = new Blob([bytes], { type: 'application/pdf' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href);
+        }
+    </script>
+</body>
+</html>

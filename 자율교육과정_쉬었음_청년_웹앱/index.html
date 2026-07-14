@@ -1,0 +1,1767 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>쉬었음 청년 탐구 - AI 협업 귀납적 학습</title>
+  
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Reset & Core Design System */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: radial-gradient(circle at 18% 18%, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+      color: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.08);
+      border-radius: 28px;
+      width: 100%;
+      max-width: 850px;
+      padding: 40px;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    /* Top Navigation Tabs */
+    .mode-selector {
+      display: flex;
+      background: #f1f5f9;
+      padding: 6px;
+      border-radius: 16px;
+      margin-bottom: 24px;
+      gap: 4px;
+    }
+    
+    .mode-tab {
+      flex: 1;
+      text-align: center;
+      padding: 12px 6px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 13.5px;
+      color: #64748b;
+      transition: all 0.2s;
+      user-select: none;
+      white-space: nowrap;
+    }
+    
+    .mode-tab.active {
+      background: #ffffff;
+      color: #1d4ed8;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    /* Progress Stepper */
+    .progress-wrapper {
+      margin-bottom: 30px;
+    }
+    
+    .progress-track {
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: 99px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6 0%, #1d4ed8 100%);
+      width: 0%;
+      transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 700;
+      color: #1e3a8a;
+    }
+    
+    /* Typographies */
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      color: #1e3a8a;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+    
+    .subtitle {
+      font-size: 14px;
+      color: #475569;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    
+    /* Forms & Controls */
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 8px;
+    }
+    
+    .form-select, .form-input, .form-textarea {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 14px;
+      color: #0f172a;
+      background: #ffffff;
+      outline: none;
+      transition: all 0.2s;
+    }
+    
+    .form-select:focus, .form-input:focus, .form-textarea:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+    }
+    
+    .login-row {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr 1.2fr;
+      gap: 16px;
+    }
+    
+    /* Chatbot Interface */
+    .chat-container {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 20px;
+      padding: 16px;
+      margin: 20px 0;
+    }
+    
+    .chat-box {
+      height: 220px;
+      overflow-y: auto;
+      margin-bottom: 12px;
+      padding-right: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .chat-message {
+      max-width: 85%;
+      padding: 10px 14px;
+      border-radius: 16px;
+      font-size: 13.5px;
+      line-height: 1.5;
+    }
+    
+    .chat-message.ai {
+      background: #ffffff;
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .chat-message.user {
+      background: #3b82f6;
+      color: #ffffff;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+    }
+    
+    .chat-input-wrapper {
+      display: flex;
+      gap: 10px;
+    }
+    
+    /* Buttons */
+    .btn-bar {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 28px;
+    }
+    
+    .btn {
+      padding: 12px 24px;
+      font-size: 14.5px;
+      font-weight: 700;
+      border-radius: 12px;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    
+    .btn-sec {
+      background: #e2e8f0;
+      color: #475569;
+    }
+    
+    .btn-pri {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      color: #ffffff;
+    }
+    
+    .btn-success {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+    }
+    
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+    
+    /* Loader & Success Views */
+    .loader-view, .success-view {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 0;
+    }
+    
+    .spinner {
+      width: 44px;
+      height: 44px;
+      border: 4px solid #f1f5f9;
+      border-top: 4px solid #3b82f6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      background: #d1fae5;
+      color: #059669;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+    
+    /* Resource Link Help box */
+    .help-box {
+      background: #f0fdf4;
+      border-left: 4px solid #10b981;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 13.5px;
+      color: #14532d;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .help-box a {
+      color: #059669;
+      text-decoration: underline;
+      font-weight: 700;
+    }
+
+    /* Typology details styling */
+    .typology-info {
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 13px;
+      color: #475569;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+    
+    /* Group Member Setup & Role Selector */
+    .member-config-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 12px;
+      padding: 12px;
+      background: #f8fafc;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .member-report-card {
+      grid-column: 1 / span 2;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 12px;
+      margin-top: 8px;
+      font-size: 13px;
+      color: #334155;
+      display: none; /* Show only when loaded */
+    }
+    
+    .member-report-card h4 {
+      font-weight: 700;
+      color: #1d4ed8;
+      margin-bottom: 6px;
+      font-size: 13.5px;
+    }
+    
+    .member-report-item {
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+    
+    .member-report-item b {
+      color: #475569;
+    }
+
+    .role-badge-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .role-badge {
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 99px;
+      cursor: pointer;
+      border: 1px solid #dbeafe;
+      transition: all 0.2s;
+    }
+
+    .role-badge:hover {
+      background: #1d4ed8;
+      color: #ffffff;
+    }
+
+    /* Premium File Uploader */
+    .uploader-area {
+      border: 2px dashed #cbd5e1;
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 8px;
+    }
+
+    .uploader-area:hover {
+      border-color: #3b82f6;
+      background: #eff6ff;
+    }
+
+    .uploader-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .uploader-text {
+      font-size: 13.5px;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .uploader-progress {
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: 99px;
+      margin-top: 12px;
+      overflow: hidden;
+      display: none;
+    }
+
+    .uploader-progress-bar {
+      height: 100%;
+      background: #10b981;
+      width: 0%;
+      transition: width 0.2s;
+    }
+
+    /* Step visibility */
+    .step {
+      display: none;
+    }
+
+    .step.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Top Navigation Tabs (Three-Tab Layout) -->
+    <div class="mode-selector" id="modeSelector">
+      <div class="mode-tab active" id="tab-individual" onclick="switchMode('individual')">👤 1단계: 개인 탐구보고서 (1~5차시)</div>
+      <div class="mode-tab" id="tab-group" onclick="switchMode('group')">👥 2단계: 모둠 미디어 제작 (6~11차시)</div>
+      <div class="mode-tab" id="tab-reflection" onclick="switchMode('reflection')">📝 3단계: 개인 KWL 성찰 (12차시)</div>
+    </div>
+
+    <!-- RAG 딥리서치 데이터북 공유 링크 고정 제공 -->
+    <div class="help-box" id="globalResourceArea">
+      📂 <b>쉬었음 청년 탐구 공식 데이터북 자료집</b><br>
+      • 실증 데이터: <a href="https://docs.google.com/document/d/1zQNEw9JkZDiEzirjMaVb0xvcqDRb1iLSLCidgU6xOvc/edit?usp=sharing" target="_blank">[공식 구글문서 딥리서치 자료집 열기]</a><br>
+      • EBS 탐구 영상: <a href="https://www.youtube.com/results?search_query=EBS+뉴스+청년+고립+쉬었음" target="_blank">[EBS 청년 고립 뉴스 모음]</a> | 
+      <a href="https://www.youtube.com/results?search_query=지식채널e+쉬고+있습니다" target="_blank">[지식채널e 쉬고 있습니다 감상]</a>
+    </div>
+
+    <!-- Progress Indicator -->
+    <div class="progress-wrapper" id="progressArea">
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-text">
+        <span id="stepLabel">학급 본인 확인</span>
+        <span id="stepRatio">1 / 4</span>
+      </div>
+    </div>
+
+    <!-- Student forms -->
+    <form id="youthForm" onsubmit="event.preventDefault();">
+      
+      <!-- Login Section (Common) -->
+      <div class="form-group login-row" id="loginRow">
+        <div>
+          <label>반 선택</label>
+          <select class="form-select" id="banSelect" onchange="loadRosterList()">
+            <option value="">선택</option>
+            <option value="1">1반</option>
+            <option value="2">2반</option>
+            <option value="3">3반</option>
+            <option value="4">4반</option>
+            <option value="5">5반</option>
+            <option value="6">6반</option>
+            <option value="7">7반</option>
+            <option value="8">8반</option>
+            <option value="9">9반</option>
+            <option value="10">10반</option>
+          </select>
+        </div>
+        <div>
+          <label>번호 및 이름</label>
+          <select class="form-select" id="nameSelect" onchange="checkLoginValid()">
+            <option value="">반을 선택하세요</option>
+          </select>
+        </div>
+        <div id="groupInputWrapper" style="visibility:hidden; height:0; margin:0; padding:0;">
+          <label>모둠 조 번호</label>
+          <input type="number" class="form-input" id="groupNum" placeholder="예: 3" oninput="checkLoginValid()">
+        </div>
+      </div>
+
+      <!-- ================= 1단계: INDIVIDUAL TRACK (1~5차시) ================= -->
+      <div id="individualTrack">
+        
+        <!-- Step 1: 1차시 초기 가설 수립 -->
+        <div class="step active" data-step-name="1차시: 현상 인식 및 최초 가설">
+          <h1>1차시: 쉬었음 청년 현상에 대한 나의 가설</h1>
+          <p class="subtitle">뉴스나 다큐 감상 후, 자신이 가지고 있던 편견과 그들이 구직을 단념한 이유를 100자 내외로 입력하십시오.</p>
+          <div class="form-group">
+            <label>내가 생각하는 근본적 원인 (초기 가설)</label>
+            <textarea class="form-textarea" id="initialHypothesis" rows="3" placeholder="예: 청년층의 구직 의지가 약하거나 대기업 위주의 취업 시장에서 쉽게 포기하기 때문에 쉴 것이다."></textarea>
+          </div>
+          
+          <div class="chat-container">
+            <label>🤖 AI 튜터 Socratic 초기 분석 대화</label>
+            <div class="chat-box" id="chatBox1">
+              <div class="chat-message ai">가설을 작성하신 후 [AI 가설 검증받기]를 누르시면 AI 튜터가 데이터를 기반으로 피드백을 시작합니다.</div>
+            </div>
+            <div class="chat-input-wrapper">
+              <button type="button" class="btn btn-pri" id="btnVerify1" onclick="requestSocraticFeedback('1차시 가설 검증', 'initialHypothesis', 'chatBox1', 'btnVerify1')">AI에게 가설 검증받기</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: 2~3차시 데이터 분석 -->
+        <div class="step" data-step-name="2~3차시: 국가 통계 및 지역 이탈 분석">
+          <h1>2~3차시: 경제지표 및 창원 지역 청년 이탈 실증 분석</h1>
+          <p class="subtitle">공식 데이터북의 5개년 쉬었음 지표와 경상남도 창원시 인구 유출 데이터를 비교하여 정량 분석 내용을 작성하십시오.</p>
+          <div class="form-group">
+            <label>정량적 지표 분석 (대졸 고학력자 비중 46.7%, 연간 국가 손실 9.6조 등 명시)</label>
+            <textarea class="form-textarea" id="statAnalysis" rows="4" placeholder="예: 2026년 상반기 청년 고용률은 43.8%로 최저치인 반면 쉬었음 청년 중 고학력 대졸자가 46.7%(17만 4천 명)에 육박하여 양질의 일자리 미스매치가 심각함. 창원시의 청년 인구가 2015년 대비 22만 명 급감하고 순유출이 5.6배 급증한 사실은 지역 고용 기반의 붕괴를 실증함."></textarea>
+          </div>
+          
+          <div class="chat-container">
+            <label>🤖 AI 튜터 데이터 실증 분석 검토</label>
+            <div class="chat-box" id="chatBox2">
+              <div class="chat-message ai">작성하신 통계 분석 내용이 신뢰도가 있는지 AI 튜터와 점검해 보세요.</div>
+            </div>
+            <div class="chat-input-wrapper">
+              <button type="button" class="btn btn-pri" id="btnVerify2" onclick="requestSocraticFeedback('2~3차시 통계 분석 검토', 'statAnalysis', 'chatBox2', 'btnVerify2')">AI와 통계 교차 피드백</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: 4차시 미시 요인 분석 -->
+        <div class="step" data-step-name="4차시: 정서 소진 및 심리 인과 분석">
+          <h1>4차시: 청년층 번아웃 및 무기력의 원인 분석</h1>
+          <p class="subtitle">쉬었음 청년 87.7%가 가진 과거 영세 일자리 경험과 정서 소진(진로 불안 38.6%, 직무 과중 16.4%) 및 상흔 효과의 관계를 분석하십시오.</p>
+          <div class="form-group">
+            <label>미시적 정서 소진(번아웃) 및 정서 고립 메커니즘 분석</label>
+            <textarea class="form-textarea" id="causeAnalysis" rows="4" placeholder="예: 퇴사자 중 29.5%가 6개월 미만 단기 계약직에 처하는 등 평균 근속 17.8개월에 그침. 이처럼 초기 고용 안착 실패가 자아존중감 하락과 번아웃을 부르고, 결국 학습된 무기력과 고립으로 전이됨."></textarea>
+          </div>
+          
+          <div class="chat-container">
+            <label>🤖 AI 튜터 심리 인과 분석 검토</label>
+            <div class="chat-box" id="chatBox3">
+              <div class="chat-message ai">작성하신 번아웃 및 심리적 인과 분석에 오류가 없는지 AI 튜터와 확인해 보세요.</div>
+            </div>
+            <div class="chat-input-wrapper">
+              <button type="button" class="btn btn-pri" id="btnVerify3" onclick="requestSocraticFeedback('4차시 인과 분석 검토', 'causeAnalysis', 'chatBox3', 'btnVerify3')">AI와 심리 인과 피드백</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: 5차시 대안 설계 및 보고서 완성 -->
+        <div class="step" data-step-name="5차시: 정책 대안 제안 및 보고서 제출">
+          <h1>5차시: 실효적 정책 대안 마련 및 최종 연구보고서</h1>
+          <p class="subtitle">1~4차시를 바탕으로 아래 4가지 목차를 성실하게 채워 체계적인 최종 보고서를 제출하십시오.</p>
+          
+          <div class="form-group">
+            <label>1. 연구 제목 (핵심 주제를 드러내는 소제목)</label>
+            <input type="text" class="form-input" id="policyTitle" placeholder="예: 창원 지역 고학력 '이직-소극형' 쉬었음 청년의 구조-심리 번아웃 분석과 고용·보건 안전망 연계 방안">
+          </div>
+          
+          <div class="form-group">
+            <label>2. 쉬었음 실태 정의 및 분석 요약</label>
+            <textarea class="form-textarea" id="policySummary" rows="3" placeholder="예: 대졸 고학력 비중 46.7%에 이르는 고학력 쉬었음 청년의 급증은 노동시장 일자리 미스매치라는 거시적 요인과 직무 과중(16.4%), 단기 계약(29.5%)에 따른 영세 일자리 번아웃(27.7%)이라는 미시적 심리 고립이 상호작용한 결과임."></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label>3. 타겟 페르소나별 해결 대안 및 창원시 지역사회 연계 방안</label>
+            <textarea class="form-textarea" id="policyPersona" rows="3" placeholder="예: 이직-소극형 청년(직장 트라우마 군)을 주요 타겟으로 지정함. 창원 청년카페 등 지자체 주도 무료 직무 역량 강화 프로그램과의 연계를 제안하며, 심리 장벽 완화를 위한 전문 정서 보건 케어를 결합한 모델이 필요함."></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label>4. 구체적 정부 제도 매핑 및 정책적 기대 효과</label>
+            <textarea class="form-textarea" id="policyEffect" rows="3" placeholder="예: 고용노동부 청년도전지원사업의 수당(최대 350만 원) 소득 보전을 확대 매핑하고, 정부24 AI 혜택알리미를 통하여 구직 정보 격차를 극복함. 이는 청년 고립에 따른 사회적 비용(연간 5조 원 이상)을 상쇄하고 지역 노동 복귀를 촉진할 것임."></textarea>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ================= 2단계: GROUP TRACK (6~11차시) ================= -->
+      <div id="groupTrack" style="display:none;">
+        <div class="step active" data-step-name="모둠 활동: 시나리오 기획 및 미디어">
+          <h1>6~11차시: 모둠 미디어 시나리오 및 스토리보드 기획</h1>
+          <p class="subtitle">청년층 유형별 페르소나 분석(유민상 5분류 모델)을 적용하여 연출 콘티와 시나리오 기획을 완성하십시오.</p>
+          
+          <div class="typology-info">
+            💡 <b>유민상 5분류 모델 페르소나 참고:</b><br>
+            • <b>취준-적극:</b> 일시적 휴식/역량 강화 | • <b>취준-소극:</b> 구직 단념/진로 유예<br>
+            • <b>이직-적극:</b> 새로운 경력 전환 모색 | • <b>이직-소극:</b> 전 직장 번아웃/직장 트라우마 소진<br>
+            • <b>취약형:</b> 정신질환/가족 돌봄 고립
+          </div>
+
+          <!-- 1. 모둠장 및 모둠원 설정 -->
+          <div style="margin-top: 24px; margin-bottom: 24px;">
+            <h3 style="font-size: 15px; font-weight: 700; color: #1e3a8a; margin-bottom: 12px; border-left: 4px solid #3b82f6; padding-left: 8px;">👥 모둠원 구성 및 역할 분담</h3>
+            
+            <div class="form-group" style="background: #eff6ff; padding: 12px; border-radius: 12px; border: 1px solid #bfdbfe; margin-bottom: 16px;">
+              <label style="margin-bottom:0; font-size: 13.5px; color: #1e40af;">👑 <b>현재 모둠장:</b> <span id="groupLeaderLabel">학반 로그인을 진행해 주세요.</span></label>
+            </div>
+
+            <!-- 모둠원 1 (조장 외 첫 번째 조원) -->
+            <div class="member-config-row">
+              <div>
+                <label>모둠원 1 선택</label>
+                <select class="form-select" id="groupMember1" onchange="loadMemberReport(1)">
+                  <option value="">[선택 안 함]</option>
+                </select>
+              </div>
+              <div>
+                <label>모둠원 1 역할</label>
+                <input type="text" class="form-input" id="groupRole1" placeholder="예: 연구 디렉터">
+                <div class="role-badge-container">
+                  <span class="role-badge" onclick="setRole(1, '연구 디렉터')">연구 디렉터</span>
+                  <span class="role-badge" onclick="setRole(1, '메인 작가')">메인 작가</span>
+                  <span class="role-badge" onclick="setRole(1, '비주얼 연출가')">비주얼 연출가</span>
+                </div>
+              </div>
+              <div class="member-report-card" id="memberReportCard1">
+                <h4>📄 개인 보고서 요약</h4>
+                <div id="memberReportContent1">데이터 로딩 중...</div>
+              </div>
+            </div>
+
+            <!-- 모둠원 2 -->
+            <div class="member-config-row">
+              <div>
+                <label>모둠원 2 선택</label>
+                <select class="form-select" id="groupMember2" onchange="loadMemberReport(2)">
+                  <option value="">[선택 안 함]</option>
+                </select>
+              </div>
+              <div>
+                <label>모둠원 2 역할</label>
+                <input type="text" class="form-input" id="groupRole2" placeholder="예: 메인 작가">
+                <div class="role-badge-container">
+                  <span class="role-badge" onclick="setRole(2, '연구 디렉터')">연구 디렉터</span>
+                  <span class="role-badge" onclick="setRole(2, '메인 작가')">메인 작가</span>
+                  <span class="role-badge" onclick="setRole(2, '스토리보드 기획자')">스토리보드 기획자</span>
+                </div>
+              </div>
+              <div class="member-report-card" id="memberReportCard2">
+                <h4>📄 개인 보고서 요약</h4>
+                <div id="memberReportContent2">데이터 로딩 중...</div>
+              </div>
+            </div>
+
+            <!-- 모둠원 3 -->
+            <div class="member-config-row">
+              <div>
+                <label>모둠원 3 선택</label>
+                <select class="form-select" id="groupMember3" onchange="loadMemberReport(3)">
+                  <option value="">[선택 안 함]</option>
+                </select>
+              </div>
+              <div>
+                <label>모둠원 3 역할</label>
+                <input type="text" class="form-input" id="groupRole3" placeholder="예: 비주얼 연출가">
+                <div class="role-badge-container">
+                  <span class="role-badge" onclick="setRole(3, '비주얼 연출가')">비주얼 연출가</span>
+                  <span class="role-badge" onclick="setRole(3, '스토리보드 기획자')">스토리보드 기획자</span>
+                  <span class="role-badge" onclick="setRole(3, '프레젠터/배우')">프레젠터/배우</span>
+                </div>
+              </div>
+              <div class="member-report-card" id="memberReportCard3">
+                <h4>📄 개인 보고서 요약</h4>
+                <div id="memberReportContent3">데이터 로딩 중...</div>
+              </div>
+            </div>
+
+            <!-- 모둠원 4 -->
+            <div class="member-config-row">
+              <div>
+                <label>모둠원 4 선택</label>
+                <select class="form-select" id="groupMember4" onchange="loadMemberReport(4)">
+                  <option value="">[선택 안 함]</option>
+                </select>
+              </div>
+              <div>
+                <label>모둠원 4 역할</label>
+                <input type="text" class="form-input" id="groupRole4" placeholder="예: 스토리보드 기획자">
+                <div class="role-badge-container">
+                  <span class="role-badge" onclick="setRole(4, '스토리보드 기획자')">스토리보드 기획자</span>
+                  <span class="role-badge" onclick="setRole(4, '프레젠터/배우')">프레젠터/배우</span>
+                  <span class="role-badge" onclick="setRole(4, '정책 어드바이저')">정책 어드바이저</span>
+                </div>
+              </div>
+              <div class="member-report-card" id="memberReportCard4">
+                <h4>📄 개인 보고서 요약</h4>
+                <div id="memberReportContent4">데이터 로딩 중...</div>
+              </div>
+            </div>
+
+            <!-- 모둠원 5 (조장을 포함하여 6번째 모둠원) - 필수 아님 -->
+            <div class="member-config-row">
+              <div>
+                <label>모둠원 5 선택 (6인 조일 때만 선택)</label>
+                <select class="form-select" id="groupMember5" onchange="loadMemberReport(5)">
+                  <option value="">[선택 안 함]</option>
+                </select>
+              </div>
+              <div>
+                <label>모둠원 5 역할</label>
+                <input type="text" class="form-input" id="groupRole5" placeholder="예: 정책 어드바이저">
+                <div class="role-badge-container">
+                  <span class="role-badge" onclick="setRole(5, '프레젠터/배우')">프레젠터/배우</span>
+                  <span class="role-badge" onclick="setRole(5, '정책 어드바이저')">정책 어드바이저</span>
+                </div>
+              </div>
+              <div class="member-report-card" id="memberReportCard5">
+                <h4>📄 개인 보고서 요약</h4>
+                <div id="memberReportContent5">데이터 로딩 중...</div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 2. 기획 의도 및 설명 세분화 -->
+          <div style="margin-top: 28px; margin-bottom: 24px;">
+            <h3 style="font-size: 15px; font-weight: 700; color: #1e3a8a; margin-bottom: 12px; border-left: 4px solid #3b82f6; padding-left: 8px;">🎬 미디어 기획 및 메시지 정의</h3>
+            
+            <div class="form-group">
+              <label>미디어 표현 매체</label>
+              <select class="form-select" id="mediaType">
+                <option value="">유형 선택</option>
+                <option value="연극">극장식 연극 (시나리오 대사 중심)</option>
+                <option value="뉴스">심층 보도 뉴스 (인포그래픽 및 앵커 리포팅)</option>
+                <option value="다큐멘터리">다큐멘터리 인터뷰 (유민상 이직-소극형 페르소나 적용)</option>
+                <option value="공익광고">인식 개선 공익광고 (1~2분 비주얼 카피)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>기획 의도</label>
+              <textarea class="form-textarea" id="groupPurpose" rows="3" placeholder="예: 쉬었음 청년의 무기력함을 개인의 나태로 몰아세우는 사회적 시선을 교정하고, 단기 고용 반복이 만드는 심리 번아웃의 실상을 알려 정서적 지원의 공감대를 얻기 위함."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>핵심 메시지 (전달하고자 하는 교훈)</label>
+              <textarea class="form-textarea" id="groupKeyMessage" rows="2" placeholder="예: '쉬고 있는 청년'은 멈춘 것이 아니라, 다음으로 나아가기 위해 번아웃된 마음에 쉼표를 찍고 있는 중입니다."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>선택 페르소나 및 연출 주안점</label>
+              <textarea class="form-textarea" id="groupPersonaFocus" rows="3" placeholder="예: 유민상 5분류 중 '이직-소극형'인 20대 퇴사 청년을 페르소나로 잡음. 연출적으로 청년의 어두운 방(흑백 톤)과 직도지원사업을 만나 점차 야외로 나오는 과정(컬러 톤)의 대비를 강조할 예정."></textarea>
+            </div>
+            
+            <div class="chat-container">
+              <label>🤖 AI 튜터 미디어 기획 컨설팅</label>
+              <div class="chat-box" id="chatBoxGroupMedia">
+                <div class="chat-message ai">미디어 매체와 기획 의도, 연출 주안점을 작성하신 후 [AI 기획 컨설팅 받기]를 누르시면, 선택한 페르소나를 어떻게 연출 속에 녹여낼지 AI 튜터가 자문을 시작합니다.</div>
+              </div>
+              <div class="chat-input-wrapper">
+                <button type="button" class="btn btn-pri" id="btnVerifyGroupMedia" onclick="requestGroupMediaFeedback()">AI 기획 컨설팅 받기</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. 시나리오 콘티 단계 세분화 (4단계) -->
+          <div style="margin-top: 28px; margin-bottom: 24px;">
+            <h3 style="font-size: 15px; font-weight: 700; color: #1e3a8a; margin-bottom: 12px; border-left: 4px solid #3b82f6; padding-left: 8px;">🎭 시나리오 콘티 상세 구성 (4단계)</h3>
+            
+            <div class="form-group">
+              <label>1단계: 도입 (Intro - 현상 고발 및 편견의 벽)</label>
+              <textarea class="form-textarea" id="scenarioIntro" rows="3" placeholder="예: [씬1] 부모님의 걱정 섞인 잔소리, 방문을 걸어잠근 청년의 클로즈업 샷.&#10;[대사] 부모: '남들은 취직 잘만 하는데 넌 왜 하루 종일 집에서 쉬기만 하니?'"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>2단계: 전개 (Development - 원인 해부 및 데이터 연결)</label>
+              <textarea class="form-textarea" id="scenarioDev" rows="3" placeholder="예: [씬2] 과거 편의점 단기 계약직 근무 및 직장 상사로부터의 폭언 회상 씬.&#10;[대사] 청년: '평균 17.8개월의 근속기간... 내 번아웃은 누구의 잘못이었을까.'"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>3단계: 절정 (Climax - 각성과 비판적 통찰)</label>
+              <textarea class="form-textarea" id="scenarioClimax" rows="3" placeholder="예: [씬3] 방 밖으로 나온 청년이 AI 소크라테스 튜터와 마주하여 대화하며 문제의 본질(지역 일자리 불균형, 고학력 미스매치 46.7%)을 깨닫는 대사."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>4단계: 결말 (Resolution - 대안 제시 및 치유)</label>
+              <textarea class="form-textarea" id="scenarioRes" rows="3" placeholder="예: [씬4] 창원 청년카페에 첫발을 디디며 소통을 다시 시작하는 모습.&#10;[자막 및 오디오] '청년도전지원사업의 350만 원 수당과 따뜻한 심리 케어가 청년을 구합니다.'"></textarea>
+            </div>
+            
+            <div class="chat-container">
+              <label>🤖 AI 튜터 시나리오 대본 보완 피드백</label>
+              <div class="chat-box" id="chatBoxGroupScenario">
+                <div class="chat-message ai">작성하신 4단계(도입-전개-절정-결말) 시나리오 대본 전체를 AI 튜터와 점검해 보세요. 극적 연출과 팩트 데이터(상흔 효과, 통계 비중 등)가 유기적으로 녹아들어 있는지 상세히 교정해 드립니다.</div>
+              </div>
+              <div class="chat-input-wrapper">
+                <button type="button" class="btn btn-pri" id="btnVerifyGroupScenario" onclick="requestGroupScenarioFeedback()">AI 시나리오 상세 교정 받기</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. 영상 및 보고서 저장 (Google Drive 연동 포함) -->
+          <div style="margin-top: 28px; margin-bottom: 24px;">
+            <h3 style="font-size: 15px; font-weight: 700; color: #1e3a8a; margin-bottom: 12px; border-left: 4px solid #3b82f6; padding-left: 8px;">📂 구글 드라이브 파일 업로드 및 링크 제출</h3>
+            
+            <div class="form-group">
+              <label>영상 촬영 기피에 따른 모둠 산출물 형태</label>
+              <select class="form-select" id="alternativeType" onchange="toggleAlternativeView()">
+                <option value="일반 촬영 영상">일반 영상 촬영 (정상 촬영본)</option>
+                <option value="AI 생성 영상">대안 A: AI 보이스 및 가상 아바타 생성 공익광고 영상</option>
+                <option value="디테일 시나리오 보고서">대안 B: 감독용 연출 세부 묘사 시나리오 및 스토리보드 보고서 (글 위주)</option>
+              </select>
+            </div>
+
+            <!-- Premium Drag and Drop file uploader -->
+            <div class="form-group">
+              <label>구글 드라이브 업로더 (학생들이 촬영한 영상물, 이미지 혹은 PDF 대본 파일 등 직접 업로드)</label>
+              <div class="uploader-area" onclick="triggerFileInput()">
+                <span class="uploader-icon">📤</span>
+                <span class="uploader-text" id="uploaderText">여기를 클릭하여 드라이브에 올릴 파일 선택하기</span>
+                <div class="uploader-progress" id="uploaderProgress">
+                  <div class="uploader-progress-bar" id="uploaderProgressBar"></div>
+                </div>
+              </div>
+              <input type="file" id="driveFileInput" style="display:none;" onchange="handleFileSelection(event)">
+            </div>
+
+            <div class="form-group" id="mediaLinkGroup">
+              <label id="mediaLinkLabel">최종 미디어 결과물/보고서 공유 링크 (업로드 완료 시 자동 기입)</label>
+              <input type="text" class="form-input" id="mediaLink" placeholder="https://drive.google.com/...">
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ================= 3단계: REFLECTION TRACK (12차시 성찰 일지) ================= -->
+      <div id="reflectionTrack" style="display:none;">
+        <div class="step active" data-step-name="3단계: 최종 개인 KWL 성찰록">
+          <h1>12차시: 탐구 프로젝트 최종 성찰록</h1>
+          <p class="subtitle">개인 분석과 모둠 미디어 제작을 마친 후, 본인의 생각 변화와 가치관 성장을 KWL 형식에 맞추어 서술하십시오.</p>
+          
+          <div class="form-group">
+            <label><b>K (What I Knew):</b> 프로젝트 수행 전 내가 가졌던 고착된 편견이나 원인에 대한 주관적 시선</label>
+            <textarea class="form-textarea" id="reflectionK" rows="4" placeholder="예: 평소 취업하지 못하고 그냥 쉬는 청년들은 노력을 게을리하거나 지나치게 눈높이만 높은 청년들로 생각하며 이들을 개인의 나태함으로 치부했음."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label><b>W (What I Wanted to learn):</b> 데이터를 해독하고 AI 튜터와 대화하며 알고자 했던 질문</label>
+            <textarea class="form-textarea" id="reflectionW" rows="4" placeholder="예: 46.7%에 달하는 대졸 고학력 청년들이 구직을 단념하게 만든 일자리 미스매치의 통계적 증거와 창원 같은 지역 제조업 침체가 청년 부채와 이탈에 어떤 영향을 미치는지 밝히고자 함."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label><b>L (What I Learned & how my view changed):</b> 탐구를 마치며 나에게 찾아온 비판적 가치관 변화와 향후 진로 계획</label>
+            <textarea class="form-textarea" id="reflectionL" rows="5" placeholder="예: 영세 직장 퇴사와 번아웃(27.7%)이 누적된 실패의 상흔 효과로 이어지는 심리 경로를 인지함. 이를 통해 청년 문제는 단순 의지 탓이 아니며, 청년도전지원과 참여수당 350만 원 확보 등 보건·고용 안전망 보완의 중요성에 깊이 공감하고, 행정 및 고용 정책 전문가의 사회적 책임에 관심을 갖게 됨."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Navigation Buttons -->
+      <div class="btn-bar" id="btnBar">
+        <button type="button" class="btn btn-sec" id="btnPrev" onclick="navigateStep(-1)" disabled>이전</button>
+        <button type="button" class="btn btn-pri" id="btnNext" onclick="navigateStep(1)" disabled>다음 단계 →</button>
+      </div>
+
+    </form>
+
+    <!-- Submitting/Loader View -->
+    <div class="loader-view" id="loaderView">
+      <div class="spinner"></div>
+      <h3 style="font-family:'Outfit', sans-serif; font-weight:700; color:#1e3a8a;">데이터 처리 중</h3>
+      <p style="font-size:13.5px; color:#475569; margin-top:8px;">학생들의 활동 정보가 스프레드시트 DB에 저장되고 있습니다.<br>잠시만 기다려 주세요...</p>
+    </div>
+
+    <!-- Success View -->
+    <div class="success-view" id="successView">
+      <div class="success-icon">✓</div>
+      <h2 style="font-family:'Outfit', sans-serif; font-weight:800; color:#1e3a8a;">제출이 완료되었습니다</h2>
+      <p style="font-size:14px; color:#475569; margin-top:10px;">
+        성실하게 탐구에 응답해 주셔서 감사합니다.<br>
+        여러분이 고민하여 작성한 성장 궤적과 성찰록은<br>
+        <b>학생활동기록부(세특) 기재 초안 생성</b>에 완벽하게 연동됩니다.
+      </p>
+      <button type="button" class="btn btn-sec" style="margin-top:20px;" onclick="window.location.reload()">새로 제출하기</button>
+    </div>
+
+  </div>
+
+  <script>
+    // 과정별 질문 횟수 제한 카운터 (최대 15회)
+    var chatLimits = {
+      '1차시 가설 검증': 0,
+      '2~3차시 통계 분석 검토': 0,
+      '4차시 인과 분석 검토': 0
+    };
+
+    var currentMode = 'individual'; // 'individual', 'group', or 'reflection'
+    var currentStep = 0;
+    var totalSteps = 4; // Step sizes for individual track (0, 1, 2, 3)
+    
+    var roster = {};
+    var accumulatedChatHistory = [];
+
+    // google.script.run 모킹 코드 (로컬 브라우저 구동 지원)
+    if (typeof google === 'undefined' || !google.script || !google.script.run) {
+      var localDatabase = {
+        roster: {
+          "1": [
+            { "num": 4, "name": "김은호", "team": "B반" },
+            { "num": 12, "name": "윤준호", "team": "B반" },
+            { "num": 14, "name": "이동준", "team": "A반" },
+            { "num": 22, "name": "정희태", "team": "A반" }
+          ],
+          "2": [
+            { "num": 1, "name": "김동욱", "team": "A반" },
+            { "num": 4, "name": "김우진", "team": "B반" },
+            { "num": 13, "name": "박건", "team": "A반" },
+            { "num": 16, "name": "백승엽", "team": "B반" },
+            { "num": 19, "name": "오은성", "team": "A반" },
+            { "num": 20, "name": "옥은성", "team": "A반" },
+            { "num": 21, "name": "윤현진", "team": "B반" },
+            { "num": 27, "name": "조건우", "team": "A반" },
+            { "num": 29, "name": "하정목", "team": "B반" },
+            { "num": 30, "name": "홍나견", "team": "B반" }
+          ],
+          "3": [
+            { "num": 2, "name": "권표", "team": "B반" },
+            { "num": 6, "name": "김성호", "team": "A반" },
+            { "num": 14, "name": "류무성", "team": "A반" },
+            { "num": 16, "name": "문상현", "team": "B반" },
+            { "num": 17, "name": "박태흠", "team": "A반" },
+            { "num": 21, "name": "유예찬", "team": "A반" },
+            { "num": 24, "name": "이찬우", "team": "B반" },
+            { "num": 26, "name": "장재혁", "team": "B반" }
+          ],
+          "4": [
+            { "num": 15, "name": "서장효", "team": "B반" },
+            { "num": 17, "name": "윤유노", "team": "A반" },
+            { "num": 20, "name": "이승우", "team": "A반" },
+            { "num": 28, "name": "조은성", "team": "B반" }
+          ],
+          "5": [
+            { "num": 2, "name": "김도윤", "team": "B반" },
+            { "num": 6, "name": "김정민", "team": "B반" },
+            { "num": 11, "name": "박종현", "team": "A반" },
+            { "num": 14, "name": "안민혁", "team": "B반" },
+            { "num": 22, "name": "정가람", "team": "A반" },
+            { "num": 24, "name": "조영민", "team": "A반" },
+            { "num": 27, "name": "조재빈", "team": "B반" }
+          ],
+          "6": [
+            { "num": 2, "name": "강희우", "team": "A반" },
+            { "num": 4, "name": "김도영", "team": "A반" },
+            { "num": 5, "name": "김요원", "team": "A반" },
+            { "num": 7, "name": "김한결", "team": "B반" },
+            { "num": 10, "name": "박서빈", "team": "A반" },
+            { "num": 11, "name": "박지성", "team": "B반" },
+            { "num": 17, "name": "유진호", "team": "B반" },
+            { "num": 21, "name": "이선우", "team": "A반" },
+            { "num": 26, "name": "조준성", "team": "B반" }
+          ],
+          "7": [
+            { "num": 8, "name": "남병준", "team": "A반" },
+            { "num": 14, "name": "서준수", "team": "A반" },
+            { "num": 28, "name": "팽정욱", "team": "B반" }
+          ],
+          "8": [
+            { "num": 10, "name": "김현수", "team": "B반" },
+            { "num": 11, "name": "김형석", "team": "A반" },
+            { "num": 19, "name": "안승찬", "team": "B반" },
+            { "num": 22, "name": "이석현", "team": "B반" },
+            { "num": 26, "name": "정승민", "team": "A반" }
+          ],
+          "9": [
+            { "num": 4, "name": "김도윤", "team": "B반" },
+            { "num": 8, "name": "김재형", "team": "B반" },
+            { "num": 9, "name": "김찬우", "team": "A반" },
+            { "num": 14, "name": "박규성", "team": "B반" },
+            { "num": 28, "name": "조윤호", "team": "A반" }
+          ],
+          "10": [
+            { "num": 5, "name": "김명준", "team": "B반" },
+            { "num": 17, "name": "유형우", "team": "A반" },
+            { "num": 18, "name": "이성환", "team": "A반" },
+            { "num": 19, "name": "이승주", "team": "A반" },
+            { "num": 24, "name": "정태규", "team": "B반" }
+          ]
+        },
+        individualResponses: [],
+        groupResponses: [],
+        reflections: []
+      };
+
+      window.google = {
+        script: {
+          run: {
+            withSuccessHandler: function(successCallback) {
+              this.successHandler = successCallback;
+              return this;
+            },
+            withFailureHandler: function(failureCallback) {
+              this.failureHandler = failureCallback;
+              return this;
+            },
+            submitIndividualReport: function(payload) {
+              var handler = this.successHandler;
+              localDatabase.individualResponses.push(payload);
+              localStorage.setItem('local_individual_responses', JSON.stringify(localDatabase.individualResponses));
+              console.log("Local Database (Individual Submitted):", payload);
+              setTimeout(function() {
+                handler({ success: true });
+              }, 1000);
+            },
+            submitGroupScenario: function(payload) {
+              var handler = this.successHandler;
+              localDatabase.groupResponses.push(payload);
+              localStorage.setItem('local_group_responses', JSON.stringify(localDatabase.groupResponses));
+              console.log("Local Database (Group Scenario Submitted):", payload);
+              setTimeout(function() {
+                handler({ success: true });
+              }, 1000);
+            },
+            submitReflectionOnly: function(ban, name, kwlData) {
+              var handler = this.successHandler;
+              localDatabase.reflections.push({ ban: ban, name: name, kwlData: kwlData });
+              localStorage.setItem('local_reflections', JSON.stringify(localDatabase.reflections));
+              console.log("Local Database (KWL Reflection Submitted):", { ban: ban, name: name, kwlData: kwlData });
+              setTimeout(function() {
+                handler({ success: true });
+              }, 1000);
+            },
+            getIndividualReportByStudent: function(ban, name) {
+              var handler = this.successHandler;
+              setTimeout(function() {
+                var reports = JSON.parse(localStorage.getItem('local_individual_responses') || '[]');
+                var matched = null;
+                for (var i = reports.length - 1; i >= 0; i--) {
+                  if (parseInt(reports[i].ban) === parseInt(ban) && reports[i].name.trim() === name.trim()) {
+                    matched = reports[i];
+                    break;
+                  }
+                }
+                
+                if (matched) {
+                  handler({
+                    success: true,
+                    report: matched
+                  });
+                } else {
+                  handler({
+                    success: true,
+                    report: {
+                      initialHypothesis: "청년 구직자가 대기업만 바라고 눈높이가 높아서 쉴 것이다.",
+                      statAnalysis: "대졸 고학력 청년 비중이 46.7%에 달해 일자리 불일치(미스매치)가 매우 심각하고 창원 지역 유출이 5.6배 급증했음을 실증적으로 분석함.",
+                      causeAnalysis: "쉬었음 청년의 87.7%가 유경험자이나 평균 17.8개월 근속에 그쳐 단기 근속 번아웃(27.7%)과 고립 상흔 효과가 발견됨.",
+                      policyTitle: "창원시 청년 고립 해결을 위한 지역 일자리 안전망 구축방안",
+                      policySummary: "단기 일자리 소진과 지자체 매칭 미스매치를 해결하기 위해 지역 거점 카페와 정부 직접 수당의 결합이 필요함.",
+                      policyPersona: "이직-소극형 번아웃 청년을 타겟으로 창원 청년카페 기반 심리치료 제공.",
+                      policyEffect: "청년도전지원사업의 350만 원 수당 매핑으로 심리 회복 및 고립 비용 연간 5조 원 상쇄 기대."
+                    }
+                  });
+                }
+              }, 450);
+            },
+            uploadFileToDrive: function(fileName, base64Data, contentType) {
+              var handler = this.successHandler;
+              setTimeout(function() {
+                var simulatedUrl = "https://drive.google.com/file/d/simulated_drive_file_id/view?usp=drivesdk";
+                handler({
+                  success: true,
+                  fileUrl: simulatedUrl
+                });
+              }, 1200);
+            },
+            getSocraticFeedback: function(stageTitle, contentText, chatHistory) {
+              var handler = this.successHandler;
+              setTimeout(function() {
+                var feedback = "[로컬 모드 AI 응답] '" + stageTitle + "'에 대한 분석입니다.\n\n";
+                feedback += "작성하신 내용을 검토한 결과, 다음 사항을 보완하시면 더욱 깊이 있는 탐구가 될 것입니다:\n";
+                feedback += "1. 구체적 수치(통계 데이터)를 인용하여 주장의 근거를 강화하세요.\n";
+                feedback += "2. 원인과 결과의 논리적 흐름이 자연스러운지 재점검해 보세요.\n";
+                feedback += "3. 쉬었음 청년의 개인적 요인과 구조적 요인을 균형 있게 분석했는지 확인하세요.";
+                handler({
+                  success: true,
+                  feedback: feedback
+                });
+              }, 800);
+            },
+            getRoster: function() {
+              var handler = this.successHandler;
+              setTimeout(function() {
+                handler({
+                  success: true,
+                  roster: localDatabase.roster
+                });
+              }, 100);
+            }
+          }
+        }
+      };
+    }
+
+    // Load roster data from GAS (or local mock)
+    window.onload = function() {
+      if (typeof localDatabase !== 'undefined' && localDatabase.roster) {
+        // 로컬 모드: mock roster를 직접 할당
+        roster = localDatabase.roster;
+      } else {
+        google.script.run
+          .withSuccessHandler(function(response) {
+            if (response && response.success) {
+              roster = response.roster;
+            }
+          })
+          .getRoster();
+      }
+    };
+
+    function loadRosterList() {
+      var ban = document.getElementById('banSelect').value;
+      var nameSelect = document.getElementById('nameSelect');
+      nameSelect.innerHTML = '<option value="">선택</option>';
+      
+      if (ban && roster[ban]) {
+        roster[ban].forEach(function(student) {
+          var opt = document.createElement('option');
+          opt.value = student.num + '|' + student.name; 
+          opt.text = student.num + '번 ' + student.name;
+          nameSelect.appendChild(opt);
+        });
+      }
+      checkLoginValid();
+    }
+
+    function checkLoginValid() {
+      var ban = document.getElementById('banSelect').value;
+      var nameValue = document.getElementById('nameSelect').value;
+      var nextBtn = document.getElementById('btnNext');
+      
+      var leaderTeam = "";
+      var leaderName = "";
+      var leaderNum = "";
+      
+      if (ban && nameValue) {
+        var parts = nameValue.split('|');
+        leaderNum = parts[0];
+        leaderName = parts[1];
+        
+        if (roster[ban]) {
+          for (var i = 0; i < roster[ban].length; i++) {
+            if (roster[ban][i].name === leaderName && parseInt(roster[ban][i].num) === parseInt(leaderNum)) {
+              leaderTeam = roster[ban][i].team;
+              break;
+            }
+          }
+        }
+        
+        var leaderLabel = document.getElementById('groupLeaderLabel');
+        if (leaderLabel) {
+          leaderLabel.innerHTML = ban + "반 " + leaderNum + "번 <b>" + leaderName + "</b> 학생 (현재 로그인 조장 / 소속: " + (leaderTeam || "미정") + ")";
+        }
+      } else {
+        var leaderLabel = document.getElementById('groupLeaderLabel');
+        if (leaderLabel) {
+          leaderLabel.innerText = "로그인을 진행해 주세요.";
+        }
+      }
+      
+      // 조원 드롭다운들 재생성 (조장의 소속팀 학생들로 채움)
+      for (var i = 1; i <= 5; i++) {
+        var mSelect = document.getElementById('groupMember' + i);
+        if (mSelect) {
+          var currentVal = mSelect.value;
+          mSelect.innerHTML = '<option value="">[선택 안 함]</option>';
+          
+          if (leaderTeam) {
+            var teamMembers = [];
+            for (var b = 1; b <= 10; b++) {
+              if (roster[b]) {
+                roster[b].forEach(function(student) {
+                  // 자기 자신(조장)은 조원 목록에서 제외
+                  if (student.team === leaderTeam && !(parseInt(b) === parseInt(ban) && student.name === leaderName && parseInt(student.num) === parseInt(leaderNum))) {
+                    teamMembers.push({
+                      ban: b,
+                      num: student.num,
+                      name: student.name,
+                      val: b + "_" + student.num + "|" + student.name,
+                      text: b + "반 " + student.num + "번 " + student.name
+                    });
+                  }
+                });
+              }
+            }
+            
+            teamMembers.sort(function(x, y) {
+              if (x.ban !== y.ban) return x.ban - y.ban;
+              return x.num - y.num;
+            });
+            
+            teamMembers.forEach(function(m) {
+              var opt = document.createElement('option');
+              opt.value = m.val;
+              opt.text = m.text;
+              mSelect.appendChild(opt);
+            });
+            
+            mSelect.value = currentVal;
+          }
+        }
+      }
+      
+      if (currentMode === 'group') {
+        var groupNum = document.getElementById('groupNum').value;
+        nextBtn.disabled = (!ban || !nameValue || !groupNum);
+      } else {
+        nextBtn.disabled = (!ban || !nameValue);
+      }
+    }
+
+    function setRole(idx, role) {
+      document.getElementById('groupRole' + idx).value = role;
+    }
+
+    function loadMemberReport(idx) {
+      var memberVal = document.getElementById('groupMember' + idx).value;
+      var card = document.getElementById('memberReportCard' + idx);
+      var content = document.getElementById('memberReportContent' + idx);
+      
+      if (!memberVal) {
+        card.style.display = 'none';
+        return;
+      }
+      
+      card.style.display = 'block';
+      content.innerHTML = '<div style="color: #64748b;">개인 보고서 조회 중...</div>';
+      
+      var parts = memberVal.split('|');
+      var name = parts[1];
+      var subParts = parts[0].split('_');
+      var ban = subParts[0];
+      
+      google.script.run
+        .withSuccessHandler(function(response) {
+          if (response && response.success) {
+            var rep = response.report;
+            var html = '';
+            html += '<div class="member-report-item"><b>1차시 초기 가설:</b> ' + (rep.initialHypothesis || '미제출') + '</div>';
+            html += '<div class="member-report-item"><b>2~3차시 통계 분석:</b> ' + (rep.statAnalysis || '미제출') + '</div>';
+            html += '<div class="member-report-item"><b>4차시 심리 인과:</b> ' + (rep.causeAnalysis || '미제출') + '</div>';
+            if (rep.policyTitle) {
+              html += '<div class="member-report-item" style="border-top: 1px dashed #cbd5e1; padding-top: 6px; margin-top: 6px;"><b>5차시 연구 보고서 제목:</b> ' + rep.policyTitle + '</div>';
+              html += '<div class="member-report-item"><b>└ 실태 요약:</b> ' + (rep.policySummary || '-') + '</div>';
+              html += '<div class="member-report-item"><b>└ 페르소나 대안:</b> ' + (rep.policyPersona || '-') + '</div>';
+              html += '<div class="member-report-item"><b>└ 기대 효과:</b> ' + (rep.policyEffect || '-') + '</div>';
+            } else {
+              html += '<div class="member-report-item"><b>5차시 최종 대안:</b> 미제출</div>';
+            }
+            content.innerHTML = html;
+          } else {
+            content.innerHTML = '<div style="color: #ef4444;">조회 실패: ' + response.error + '</div>';
+          }
+        })
+        .withFailureHandler(function(err) {
+          content.innerHTML = '<div style="color: #ef4444;">오류 발생: ' + err.toString() + '</div>';
+        })
+        .getIndividualReportByStudent(ban, name);
+    }
+
+    function triggerFileInput() {
+      document.getElementById('driveFileInput').click();
+    }
+
+    function handleFileSelection(event) {
+      var file = event.target.files[0];
+      if (!file) return;
+      
+      var uploaderText = document.getElementById('uploaderText');
+      var progress = document.getElementById('uploaderProgress');
+      var progressBar = document.getElementById('uploaderProgressBar');
+      
+      uploaderText.innerText = "드라이브에 업로드 중: " + file.name + "...";
+      progress.style.display = 'block';
+      progressBar.style.width = '20%';
+      
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var base64Data = e.target.result.split(',')[1];
+        var contentType = file.type;
+        
+        progressBar.style.width = '50%';
+        
+        var ban = document.getElementById('banSelect').value;
+        var nameValue = document.getElementById('nameSelect').value;
+        var studentName = "무명";
+        if (nameValue) studentName = nameValue.split('|')[1];
+        
+        var uploadName = ban + "반_" + studentName + "_모둠제출_" + file.name;
+        
+        google.script.run
+          .withSuccessHandler(function(response) {
+            progressBar.style.width = '100%';
+            if (response && response.success) {
+              uploaderText.innerText = "업로드 완료: " + file.name;
+              document.getElementById('mediaLink').value = response.fileUrl;
+              alert("구글 드라이브에 파일이 정상적으로 업로드 및 공유되었습니다!");
+              setTimeout(function() {
+                progress.style.display = 'none';
+              }, 1000);
+            } else {
+              uploaderText.innerText = "업로드 실패. 다시 시도해 주세요.";
+              alert("드라이브 업로드 중 오류 발생: " + response.error);
+            }
+          })
+          .withFailureHandler(function(err) {
+            uploaderText.innerText = "업로드 실패 (네트워크 에러)";
+            alert("통신 에러가 발생했습니다: " + err.toString());
+          })
+          .uploadFileToDrive(uploadName, base64Data, contentType);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    var groupChatLimits = {
+      '모둠 미디어 기획 검토': 0,
+      '모둠 시나리오 콘티 검토': 0
+    };
+    var accumulatedGroupChatHistory = [];
+    
+    function requestGroupMediaFeedback() {
+      var mediaType = document.getElementById('mediaType').value;
+      var purpose = document.getElementById('groupPurpose').value;
+      var keyMsg = document.getElementById('groupKeyMessage').value;
+      var focus = document.getElementById('groupPersonaFocus').value;
+      
+      if (!mediaType || purpose.trim().length < 5) {
+        alert("표현 매체를 선택하고 기획 의도를 최소 5자 이상 작성해 주세요.");
+        return;
+      }
+      
+      var content = "미디어 매체: " + mediaType + "\n기획 의도: " + purpose + "\n핵심 메시지: " + keyMsg + "\n연출 주안점: " + focus;
+      requestGroupSocraticFeedback('모둠 미디어 기획 검토', content, 'chatBoxGroupMedia', 'btnVerifyGroupMedia');
+    }
+
+    function requestGroupScenarioFeedback() {
+      var intro = document.getElementById('scenarioIntro').value;
+      var dev = document.getElementById('scenarioDev').value;
+      var climax = document.getElementById('scenarioClimax').value;
+      var res = document.getElementById('scenarioRes').value;
+      
+      if (intro.trim().length < 5 || dev.trim().length < 5) {
+        alert("도입부와 전개부 시나리오 대본을 최소 5자 이상 구체적으로 작성해 주세요.");
+        return;
+      }
+      
+      var content = "1단계 도입: " + intro + "\n2단계 전개: " + dev + "\n3단계 절정: " + climax + "\n4단계 결말: " + res;
+      requestGroupSocraticFeedback('모둠 시나리오 콘티 검토', content, 'chatBoxGroupScenario', 'btnVerifyGroupScenario');
+    }
+
+    function requestGroupSocraticFeedback(stageTitle, contentText, chatBoxId, btnId) {
+      if (groupChatLimits[stageTitle] >= 15) {
+        alert("이 단계에서 질문할 수 있는 최대 횟수(15회)를 초과하였습니다.");
+        return;
+      }
+      
+      var btn = document.getElementById(btnId);
+      btn.disabled = true;
+      btn.innerText = "AI 분석 대화 중...";
+      
+      var chatBox = document.getElementById(chatBoxId);
+      
+      var userMsgDiv = document.createElement('div');
+      userMsgDiv.className = 'chat-message user';
+      userMsgDiv.innerText = contentText;
+      chatBox.appendChild(userMsgDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+      
+      google.script.run
+        .withSuccessHandler(function(response) {
+          btn.disabled = false;
+          
+          if (response && response.success) {
+            groupChatLimits[stageTitle]++;
+            var remaining = 15 - groupChatLimits[stageTitle];
+            btn.innerText = "AI와 추가 대화 피드백 (남은 질문: " + remaining + "회)";
+            if (remaining <= 0) {
+              btn.disabled = true;
+              btn.innerText = "질문 횟수 초과 (최대 15회)";
+            }
+            
+            var aiMsgDiv = document.createElement('div');
+            aiMsgDiv.className = 'chat-message ai';
+            aiMsgDiv.innerText = response.feedback;
+            chatBox.appendChild(aiMsgDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            
+            accumulatedGroupChatHistory.push("모둠: " + contentText);
+            accumulatedGroupChatHistory.push("AI튜터: " + response.feedback);
+          } else {
+            btn.innerText = "AI와 추가 대화 피드백 (남은 질문: " + (15 - groupChatLimits[stageTitle]) + "회)";
+            alert("피드백 오류: " + response.error);
+          }
+        })
+        .withFailureHandler(function(err) {
+          btn.disabled = false;
+          btn.innerText = "AI 검증 재요청 (남은 질문: " + (15 - groupChatLimits[stageTitle]) + "회)";
+          alert("네트워크 오류: " + err.toString());
+        })
+        .getSocraticFeedback(stageTitle, contentText, accumulatedGroupChatHistory);
+    }
+
+    function switchMode(mode) {
+      currentMode = mode;
+      
+      var tabInd = document.getElementById('tab-individual');
+      var tabGrp = document.getElementById('tab-group');
+      var tabRef = document.getElementById('tab-reflection');
+      
+      tabInd.classList.remove('active');
+      tabGrp.classList.remove('active');
+      tabRef.classList.remove('active');
+      
+      var indTrack = document.getElementById('individualTrack');
+      var grpTrack = document.getElementById('groupTrack');
+      var refTrack = document.getElementById('reflectionTrack');
+      var groupWrapper = document.getElementById('groupInputWrapper');
+      
+      currentStep = 0;
+      
+      if (mode === 'individual') {
+        tabInd.classList.add('active');
+        indTrack.style.display = 'block';
+        grpTrack.style.display = 'none';
+        refTrack.style.display = 'none';
+        groupWrapper.style.visibility = 'hidden';
+        groupWrapper.style.height = '0';
+        totalSteps = 4;
+      } else if (mode === 'group') {
+        tabGrp.classList.add('active');
+        indTrack.style.display = 'none';
+        grpTrack.style.display = 'block';
+        refTrack.style.display = 'none';
+        groupWrapper.style.visibility = 'visible';
+        groupWrapper.style.height = 'auto';
+        totalSteps = 1;
+      } else {
+        tabRef.classList.add('active');
+        indTrack.style.display = 'none';
+        grpTrack.style.display = 'none';
+        refTrack.style.display = 'block';
+        groupWrapper.style.visibility = 'hidden';
+        groupWrapper.style.height = '0';
+        totalSteps = 1;
+      }
+      
+      resetStepViews();
+      updateProgressBar();
+      checkLoginValid();
+    }
+
+    function resetStepViews() {
+      var steps = document.querySelectorAll('.step');
+      steps.forEach(s => s.classList.remove('active'));
+      
+      if (currentMode === 'individual') {
+        document.querySelectorAll('#individualTrack .step')[0].classList.add('active');
+      } else if (currentMode === 'group') {
+        document.querySelectorAll('#groupTrack .step')[0].classList.add('active');
+      } else {
+        document.querySelectorAll('#reflectionTrack .step')[0].classList.add('active');
+      }
+      
+      var prevBtn = document.getElementById('btnPrev');
+      var nextBtn = document.getElementById('btnNext');
+      prevBtn.disabled = true;
+      
+      if (currentMode === 'individual') {
+        nextBtn.innerHTML = '다음 단계 →';
+        nextBtn.className = 'btn btn-pri';
+        nextBtn.onclick = function() { navigateStep(1); };
+      } else if (currentMode === 'group') {
+        nextBtn.innerHTML = '모둠 기획안 제출';
+        nextBtn.className = 'btn btn-success';
+        nextBtn.onclick = function() { submitGroup(); };
+      } else {
+        nextBtn.innerHTML = '최종 성찰 일지 제출';
+        nextBtn.className = 'btn btn-success';
+        nextBtn.onclick = function() { submitReflection(); };
+      }
+    }
+
+    function navigateStep(direction) {
+      if (currentMode === 'individual') {
+        var indSteps = document.querySelectorAll('#individualTrack .step');
+        indSteps[currentStep].classList.remove('active');
+        currentStep += direction;
+        indSteps[currentStep].classList.add('active');
+        
+        var prevBtn = document.getElementById('btnPrev');
+        var nextBtn = document.getElementById('btnNext');
+        
+        prevBtn.disabled = (currentStep === 0);
+        
+        if (currentStep === totalSteps - 1) {
+          nextBtn.innerHTML = '개인 보고서 최종 제출';
+          nextBtn.className = 'btn btn-success';
+          nextBtn.onclick = function() { submitIndividual(); };
+        } else {
+          nextBtn.innerHTML = '다음 단계 →';
+          nextBtn.className = 'btn btn-pri';
+          nextBtn.onclick = function() { navigateStep(1); };
+        }
+      }
+      updateProgressBar();
+    }
+
+    function updateProgressBar() {
+      var fill = document.getElementById('progressFill');
+      var label = document.getElementById('stepLabel');
+      var ratio = document.getElementById('stepRatio');
+      
+      var steps = document.querySelectorAll('.step');
+      var pct = (currentStep / (totalSteps - 1)) * 100;
+      if (totalSteps === 1) pct = 100;
+      
+      fill.style.width = pct + '%';
+      
+      if (currentMode === 'individual') {
+        var indSteps = document.querySelectorAll('#individualTrack .step');
+        label.innerHTML = indSteps[currentStep].getAttribute('data-step-name');
+        ratio.innerHTML = (currentStep + 1) + ' / ' + totalSteps;
+      } else if (currentMode === 'group') {
+        label.innerHTML = "모둠 기획 및 대본 제출";
+        ratio.innerHTML = "1 / 1";
+      } else {
+        label.innerHTML = "12차시 최종 성찰 일지 작성";
+        ratio.innerHTML = "1 / 1";
+      }
+    }
+
+    function toggleAlternativeView() {
+      var altVal = document.getElementById('alternativeType').value;
+      var label = document.getElementById('mediaLinkLabel');
+      var input = document.getElementById('mediaLink');
+      
+      if (altVal === '일반 촬영 영상') {
+        label.innerHTML = '최종 촬영 영상 공유 링크 (Google Drive 등)';
+        input.placeholder = 'https://drive.google.com/...';
+      } else if (altVal === 'AI 생성 영상') {
+        label.innerHTML = '생성 완료된 AI 아바타 영상 링크';
+        input.placeholder = 'https://...';
+      } else {
+        label.innerHTML = '대안 보고서 첨부 링크 (상세 장면/연출 묘사 텍스트 링크)';
+        input.placeholder = 'https://docs.google.com/...';
+      }
+    }
+
+    // AI Socratic feedback calling API
+    function requestSocraticFeedback(stageTitle, textareaId, chatBoxId, btnId) {
+      if (chatLimits[stageTitle] >= 15) {
+        alert("이 탐구 단계에서 질문할 수 있는 최대 횟수(15회)를 초과하였습니다.");
+        return;
+      }
+      
+      var contentText = document.getElementById(textareaId).value;
+      if (!contentText || contentText.trim().length < 5) {
+        alert("분석 내용을 최소 5자 이상 적어주셔야 AI 튜터와 대화가 가능합니다.");
+        return;
+      }
+      
+      var btn = document.getElementById(btnId);
+      btn.disabled = true;
+      btn.innerText = "AI 분석 대화 중...";
+      
+      var chatBox = document.getElementById(chatBoxId);
+      
+      var userMsgDiv = document.createElement('div');
+      userMsgDiv.className = 'chat-message user';
+      userMsgDiv.innerText = contentText;
+      chatBox.appendChild(userMsgDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+      
+      google.script.run
+        .withSuccessHandler(function(response) {
+          btn.disabled = false;
+          
+          if (response && response.success) {
+            chatLimits[stageTitle]++;
+            var remaining = 15 - chatLimits[stageTitle];
+            btn.innerText = "AI와 추가 대화 피드백 (남은 질문: " + remaining + "회)";
+            if (remaining <= 0) {
+              btn.disabled = true;
+              btn.innerText = "질문 횟수 초과 (최대 15회)";
+            }
+            
+            var aiMsgDiv = document.createElement('div');
+            aiMsgDiv.className = 'chat-message ai';
+            aiMsgDiv.innerText = response.feedback;
+            chatBox.appendChild(aiMsgDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            
+            accumulatedChatHistory.push("학생: " + contentText);
+            accumulatedChatHistory.push("AI튜터: " + response.feedback);
+          } else {
+            btn.innerText = "AI와 추가 대화 피드백 (남은 질문: " + (15 - chatLimits[stageTitle]) + "회)";
+            alert("피드백 오류: " + response.error);
+          }
+        })
+        .withFailureHandler(function(err) {
+          btn.disabled = false;
+          btn.innerText = "AI 검증 재요청 (남은 질문: " + (15 - chatLimits[stageTitle]) + "회)";
+          alert("네트워크 오류: " + err.toString());
+        })
+        .getSocraticFeedback(stageTitle, contentText, accumulatedChatHistory);
+    }
+
+    // Submit Individual Report Form (Steps 1~5)
+    function submitIndividual() {
+      var ban = document.getElementById('banSelect').value;
+      var nameValue = document.getElementById('nameSelect').value;
+      if (!nameValue) return;
+      var parts = nameValue.split('|');
+      var num = parts[0];
+      var name = parts[1];
+      
+      hideFormForSubmit();
+      
+      var payload = {
+        ban: ban,
+        num: num,
+        name: name,
+        initialHypothesis: document.getElementById('initialHypothesis').value,
+        statAnalysis: document.getElementById('statAnalysis').value,
+        causeAnalysis: document.getElementById('causeAnalysis').value,
+        policyTitle: document.getElementById('policyTitle').value,
+        policySummary: document.getElementById('policySummary').value,
+        policyPersona: document.getElementById('policyPersona').value,
+        policyEffect: document.getElementById('policyEffect').value,
+        aiHistory: accumulatedChatHistory.join("\n\n"),
+        reflection: "" // KWL 성찰은 3단계 탭에서 따로 제출
+      };
+      
+      google.script.run
+        .withSuccessHandler(function(response) {
+          document.getElementById('loaderView').style.display = 'none';
+          if (response && response.success) {
+            document.getElementById('successView').style.display = 'flex';
+          } else {
+            alert("제출 실패: " + response.error);
+            restoreFormView();
+          }
+        })
+        .withFailureHandler(function(err) {
+          document.getElementById('loaderView').style.display = 'none';
+          alert("통신 오류: " + err.toString());
+          restoreFormView();
+        })
+        .submitIndividualReport(payload);
+    }
+
+    // Submit Group Report Form (Steps 6~11)
+    function submitGroup() {
+      var ban = document.getElementById('banSelect').value;
+      var groupNum = document.getElementById('groupNum').value;
+      
+      // 모둠장 정보 추출
+      var nameValue = document.getElementById('nameSelect').value;
+      var leader = "";
+      if (nameValue) {
+        var leaderParts = nameValue.split('|');
+        leader = leaderParts[0] + "번 " + leaderParts[1];
+      }
+      
+      // 모둠원 및 역할 수집
+      var membersArr = [];
+      for (var i = 1; i <= 5; i++) {
+        var mVal = document.getElementById('groupMember' + i).value;
+        var mRole = document.getElementById('groupRole' + i).value;
+        if (mVal) {
+          var mParts = mVal.split('|');
+          var mName = mParts[0] + "번 " + mParts[1];
+          membersArr.push(mName + "(" + (mRole || "역할미정") + ")");
+        }
+      }
+      var membersAndRoles = membersArr.join(", ");
+      
+      hideFormForSubmit();
+      
+      var payload = {
+        ban: ban,
+        groupNum: groupNum,
+        leader: leader,
+        membersAndRoles: membersAndRoles,
+        mediaType: document.getElementById('mediaType').value,
+        alternativeType: document.getElementById('alternativeType').value,
+        purpose: document.getElementById('groupPurpose').value,
+        keyMessage: document.getElementById('groupKeyMessage').value,
+        personaFocus: document.getElementById('groupPersonaFocus').value,
+        scenarioIntro: document.getElementById('scenarioIntro').value,
+        scenarioDev: document.getElementById('scenarioDev').value,
+        scenarioClimax: document.getElementById('scenarioClimax').value,
+        scenarioRes: document.getElementById('scenarioRes').value,
+        mediaLink: document.getElementById('mediaLink').value
+      };
+      
+      google.script.run
+        .withSuccessHandler(function(response) {
+          document.getElementById('loaderView').style.display = 'none';
+          if (response && response.success) {
+            document.getElementById('successView').style.display = 'flex';
+          } else {
+            alert("제출 실패: " + response.error);
+            restoreFormView();
+          }
+        })
+        .withFailureHandler(function(err) {
+          document.getElementById('loaderView').style.display = 'none';
+          alert("통신 오류: " + err.toString());
+          restoreFormView();
+        })
+        .submitGroupScenario(payload);
+    }
+
+    // Submit 12th-period KWL Reflection (Updates the spreadsheet record)
+    function submitReflection() {
+      var ban = document.getElementById('banSelect').value;
+      var nameValue = document.getElementById('nameSelect').value;
+      if (!nameValue) return;
+      var parts = nameValue.split('|');
+      var name = parts[1];
+      
+      hideFormForSubmit();
+      
+      // KWL 통합 문자열 빌드
+      var kwlData = "K(기존 생각): " + document.getElementById('reflectionK').value + 
+                    "\n\nW(탐구 질문): " + document.getElementById('reflectionW').value + 
+                    "\n\nL(인식 변화): " + document.getElementById('reflectionL').value;
+                    
+      google.script.run
+        .withSuccessHandler(function(response) {
+          document.getElementById('loaderView').style.display = 'none';
+          if (response && response.success) {
+            document.getElementById('successView').style.display = 'flex';
+          } else {
+            alert("제출 실패: " + response.error);
+            restoreFormView();
+          }
+        })
+        .withFailureHandler(function(err) {
+          document.getElementById('loaderView').style.display = 'none';
+          alert("통신 오류: " + err.toString());
+          restoreFormView();
+        })
+        .submitReflectionOnly(ban, name, kwlData);
+    }
+
+    function hideFormForSubmit() {
+      document.getElementById('youthForm').style.display = 'none';
+      document.getElementById('progressArea').style.display = 'none';
+      document.getElementById('modeSelector').style.display = 'none';
+      document.getElementById('globalResourceArea').style.display = 'none';
+      document.getElementById('loaderView').style.display = 'flex';
+    }
+
+    function restoreFormView() {
+      document.getElementById('youthForm').style.display = 'block';
+      document.getElementById('progressArea').style.display = 'block';
+      document.getElementById('modeSelector').style.display = 'block';
+      document.getElementById('globalResourceArea').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

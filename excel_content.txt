@@ -1,0 +1,28 @@
+     0        1    2      3     4
+0  NaN      NaN  NaN    NaN   NaN
+1  NaN      서울대  1.0    경북대  12.0
+2  NaN  부산대 의예과  1.0    부산대  17.0
+3  NaN  원광대 의예과  1.0    부경대  18.0
+4  NaN  인제대 의예과  1.0    경상대  28.0
+5  NaN  경상대 약학과  1.0    창원대  11.0
+6  NaN      연세대  2.0  한국해양대   2.0
+7  NaN      고려대  2.0    충북대   1.0
+8  NaN     성균관대  4.0    충남대   2.0
+9  NaN      한양대  4.0    전남대   1.0
+10 NaN      서강대  3.0  한국교통대   1.0
+11 NaN     디지스트  1.0   부산교대   1.0
+12 NaN     유니스트  1.0    NaN   NaN
+13 NaN      중앙대  1.0    NaN   NaN
+14 NaN      경희대  3.0    NaN   NaN
+15 NaN    서울시립대  1.0    NaN   NaN
+16 NaN      건국대  1.0    NaN   NaN
+17 NaN    서울과기대  4.0    NaN   NaN
+18 NaN      국민대  1.0    NaN   NaN
+19 NaN      세종대  1.0    NaN   NaN
+20 NaN     가톨릭대  1.0    NaN   NaN
+21 NaN      인하대  2.0    NaN   NaN
+22 NaN    한국교원대  2.0    NaN   NaN
+23 NaN   육군사관학교  1.0    NaN   NaN
+24 NaN   해군사관학교  6.0    NaN   NaN
+25 NaN      용인대  2.0    NaN   NaN
+26 NaN      명지대  2.0    NaN   NaN

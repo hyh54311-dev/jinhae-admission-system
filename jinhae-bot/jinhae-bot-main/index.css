@@ -1,0 +1,341 @@
+:root {
+    --primary-color: #003366;
+    --primary-light: #004080;
+    --accent-color: #e6b800;
+    --bg-color: #f0f2f5;
+    --chat-bg: #ffffff;
+    --bot-msg-bg: #f1f3f4;
+    --user-msg-bg: #003366;
+    --text-color: #333333;
+    --header-height: 120px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#app-container {
+    width: 100%;
+    max-width: 500px;
+    height: 90vh;
+    background: var(--chat-bg);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Header */
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 20px;
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-wrapper {
+    width: 60px;
+    height: 60px;
+    background: white;
+    border-radius: 50%;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#school-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.title-wrapper h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.slogan {
+    font-size: 0.85rem;
+    color: var(--accent-color);
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+.subtitle {
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+/* Chat History */
+#chat-history {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: var(--chat-bg);
+    position: relative; /* For watermark positioning */
+}
+
+/* Watermark Background */
+#chat-history::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px; /* Adjust size as needed */
+    height: 250px;
+    background-image: url('school_logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.5; /* 50% opacity as requested */
+    pointer-events: none; /* Don't block clicks */
+    z-index: 0;
+}
+
+/* Ensure messages stay above watermark */
+.message {
+    z-index: 1;
+}
+
+.message {
+    max-width: 85%;
+    padding: 12px 16px;
+    border-radius: 15px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    position: relative;
+}
+
+.bot-message {
+    align-self: flex-start;
+    background-color: var(--bot-msg-bg);
+    color: var(--text-color);
+    border-bottom-left-radius: 2px;
+}
+
+.user-message {
+    align-self: flex-end;
+    background-color: var(--user-msg-bg);
+    color: white;
+    border-bottom-right-radius: 2px;
+}
+
+/* Quick Actions */
+.quick-actions-container {
+    padding: 10px 15px;
+    background: white;
+    border-top: 1px solid #eee;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.quick-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.quick-btn {
+    background: white;
+    border: 1.5px solid #ddd;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.quick-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background: #f0f7ff;
+}
+
+/* Input Area */
+.input-container {
+    padding: 15px;
+    background: white;
+    border-top: 1px solid #eee;
+}
+
+#chat-form {
+    display: flex;
+    background: #f5f5f5;
+    border-radius: 30px;
+    padding: 5px 15px;
+    align-items: center;
+}
+
+#user-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 10px;
+    font-size: 0.95rem;
+    outline: none;
+}
+
+#send-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#send-btn:hover {
+    transform: scale(1.1);
+}
+
+#send-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Animations */
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Scrollbar */
+#chat-history::-webkit-scrollbar {
+    width: 6px;
+}
+#chat-history::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+/* Loading Dot */
+.loading-indicator {
+    display: flex;
+    gap: 4px;
+}
+.typing-dot {
+    width: 6px;
+    height: 6px;
+    background: #888;
+    border-radius: 50%;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+.typing-dot:nth-child(1) { animation-delay: -0.32s; }
+.typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes bounce {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1.0); }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+    :root {
+        --header-height: 110px;
+    }
+
+    body {
+        padding: 0;
+        height: 100vh;
+        height: 100dvh;
+    }
+
+    #app-container {
+        max-width: 100%;
+        height: 100vh;
+        height: 100dvh;
+        border-radius: 0;
+    }
+
+    header {
+        padding-top: calc(20px + env(safe-area-inset-top));
+        padding-bottom: 10px;
+        height: auto;
+        min-height: var(--header-height);
+    }
+
+    .logo-wrapper {
+        width: 45px;
+        height: 45px;
+    }
+
+    .title-wrapper h1 {
+        font-size: 1.1rem;
+    }
+
+    .slogan {
+        font-size: 0.75rem;
+    }
+
+    .subtitle {
+        font-size: 0.65rem;
+    }
+
+    #chat-history {
+        padding: 15px;
+        gap: 12px;
+    }
+
+    .message {
+        font-size: 0.9rem;
+        padding: 10px 14px;
+        max-width: 90%;
+    }
+
+    .quick-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+
+    #user-input {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+
+    #chat-history::before {
+        width: 180px;
+        height: 180px;
+        opacity: 0.3; /* 모바일에서는 워터마크를 조금 더 흐리게 조절 */
+    }
+}

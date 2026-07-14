@@ -1,0 +1,1820 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026 진해고등학교 교육과정박람회 - 2학년 선택과목 가이드</title>
+  
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons for Modern UI Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Design Tokens & Theme Variables */
+    :root {
+      /* Jinhae High School Navy & Slate theme */
+      --primary-navy: #0B2545;
+      --secondary-blue: #134074;
+      --accent-sky: #00B4D8;
+      --accent-coral: #EE6C4D;
+      --bg-dark: #080F1A;
+      --bg-glass: rgba(255, 255, 255, 0.85);
+      --bg-glass-dark: rgba(13, 27, 42, 0.85);
+      --border-glass: rgba(255, 255, 255, 0.4);
+      --border-glass-dark: rgba(255, 255, 255, 0.08);
+      --text-main: #1E293B;
+      --text-muted: #64748B;
+      --card-bg: #FFFFFF;
+      --card-shadow: 0 20px 40px -15px rgba(11, 37, 69, 0.07);
+      --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    [data-theme="dark"] {
+      --text-main: #F1F5F9;
+      --text-muted: #94A3B8;
+      --card-bg: #0D1B2A;
+      --card-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+      --bg-glass: var(--bg-glass-dark);
+      --border-glass: var(--border-glass-dark);
+    }
+
+    /* Reset Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Noto Sans KR', 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.6;
+      transition: background-color 0.5s ease, color 0.3s ease;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(0, 180, 216, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(238, 108, 77, 0.05) 0%, transparent 45%),
+        linear-gradient(135deg, #080F1A 0%, #030712 100%);
+    }
+
+    body[data-theme="light"] {
+      background: #E0F2FE;
+      background-image: 
+        radial-gradient(circle at 20% 20%, #E0F2FE 0%, #BAE6FD 50%, #7DD3FC 100%);
+    }
+
+    /* Container */
+    .app-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    /* Header & Navbar */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-glass);
+      backdrop-filter: blur(10px);
+    }
+
+    .school-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .school-logo {
+      height: 48px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
+    }
+
+    .logo-fallback {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent-sky), var(--secondary-blue));
+      color: #FFF;
+      font-weight: 800;
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+    }
+
+    .school-title {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .school-title h1 {
+      font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
+
+    .school-title span {
+      font-size: 12px;
+      color: var(--accent-sky);
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Theme Toggle */
+    .theme-toggle-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border-glass);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-main);
+      box-shadow: var(--card-shadow);
+      transition: var(--transition-smooth);
+    }
+
+    .theme-toggle-btn:hover {
+      transform: scale(1.08) rotate(15deg);
+      border-color: var(--accent-sky);
+    }
+
+    /* Hero Section */
+    .hero-banner {
+      background: linear-gradient(135deg, rgba(11, 37, 69, 0.8) 0%, rgba(19, 64, 116, 0.8) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 30px;
+      padding: 60px 40px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 50px;
+      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-banner::after {
+      content: "";
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, var(--accent-sky) 0%, transparent 70%);
+      top: -100px;
+      right: -50px;
+      opacity: 0.3;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 750px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 180, 216, 0.15);
+      border: 1px solid rgba(0, 180, 216, 0.3);
+      color: var(--accent-sky);
+      padding: 6px 16px;
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-banner h2 {
+      font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+      font-size: 38px;
+      font-weight: 900;
+      color: #FFF;
+      line-height: 1.3;
+      margin-bottom: 15px;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-banner p {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 16px;
+      line-height: 1.7;
+      margin-bottom: 30px;
+      font-weight: 400;
+    }
+
+    /* Core Philosophy Grid (Input vs Output) */
+    .philosophy-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 50px;
+    }
+
+    @media (max-width: 768px) {
+      .philosophy-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero-banner {
+        padding: 40px 20px;
+      }
+      .hero-banner h2 {
+        font-size: 28px;
+      }
+    }
+
+    .philosophy-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-glass);
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: var(--card-shadow);
+      transition: var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .philosophy-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 25px 50px -12px rgba(0, 180, 216, 0.15);
+      border-color: rgba(0, 180, 216, 0.4);
+    }
+
+    .ph-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: var(--accent-sky);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      display: inline-block;
+    }
+
+    .ph-title {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ph-desc {
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* Section Navigation Tabs */
+    .section-title {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+    }
+
+    .tabs-wrapper {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 35px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      max-width: 300px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-glass);
+      padding: 16px 24px;
+      border-radius: 18px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-muted);
+      transition: var(--transition-smooth);
+      box-shadow: var(--card-shadow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .tab-btn:hover {
+      border-color: var(--accent-sky);
+      color: var(--text-main);
+      transform: translateY(-2px);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--primary-navy), var(--secondary-blue));
+      color: #FFF;
+      border-color: transparent;
+      box-shadow: 0 15px 30px -10px rgba(19, 64, 116, 0.4);
+    }
+
+    /* Tab Content CSS */
+    .tab-pane {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Detailed Course Info Cards */
+    .course-details-layout {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 25px;
+      margin-bottom: 50px;
+    }
+
+    @media (max-width: 992px) {
+      .course-details-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .main-detail-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-glass);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .sidebar-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-glass);
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      height: fit-content;
+    }
+
+    .detail-section-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--secondary-blue);
+      border-bottom: 2px solid var(--border-glass);
+      padding-bottom: 10px;
+    }
+    
+    [data-theme="dark"] .detail-section-title {
+      color: var(--accent-sky);
+    }
+
+    /* Timeline / 3-Step Process */
+    .process-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 35px;
+    }
+
+    .process-step {
+      display: flex;
+      gap: 20px;
+      background: rgba(0, 180, 216, 0.03);
+      border: 1px solid var(--border-glass);
+      padding: 20px;
+      border-radius: 16px;
+      transition: var(--transition-smooth);
+    }
+
+    .process-step:hover {
+      background: rgba(0, 180, 216, 0.06);
+      transform: translateX(5px);
+    }
+
+    .step-number {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--accent-sky), var(--secondary-blue));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFF;
+      font-weight: 800;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .step-info h4 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .step-info ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    .step-info li {
+      font-size: 13px;
+      color: var(--text-muted);
+      position: relative;
+      padding-left: 14px;
+      margin-bottom: 4px;
+    }
+
+    .step-info li::before {
+      content: "•";
+      color: var(--accent-sky);
+      position: absolute;
+      left: 0;
+      font-weight: bold;
+    }
+
+    /* Evaluation Chart UI */
+    .evaluation-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .eval-row {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .eval-label {
+      width: 110px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .eval-progress-container {
+      flex: 1;
+      height: 12px;
+      background: rgba(148, 163, 184, 0.15);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .eval-progress {
+      height: 100%;
+      border-radius: 99px;
+      transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .eval-val {
+      font-size: 13px;
+      font-weight: 800;
+      width: 35px;
+      text-align: right;
+      color: var(--accent-sky);
+    }
+
+    /* Key Benefits list */
+    .benefit-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .benefit-icon {
+      background: rgba(238, 108, 77, 0.12);
+      color: var(--accent-coral);
+      padding: 6px;
+      border-radius: 8px;
+    }
+
+    .benefit-text h5 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .benefit-text p {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Interactive Career Matcher */
+    .career-matcher-section {
+      background: var(--card-bg);
+      border: 1px solid var(--border-glass);
+      border-radius: 30px;
+      padding: 40px;
+      margin-bottom: 50px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .career-filters {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    @media (max-width: 992px) {
+      .career-filters {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    @media (max-width: 576px) {
+      .career-filters {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .career-btn {
+      background: rgba(148, 163, 184, 0.08);
+      border: 1px solid var(--border-glass);
+      padding: 14px 10px;
+      border-radius: 16px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      transition: var(--transition-smooth);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .career-btn:hover {
+      border-color: var(--accent-sky);
+      color: var(--text-main);
+      transform: translateY(-3px);
+      background: rgba(0, 180, 216, 0.05);
+    }
+
+    .career-btn.active {
+      background: rgba(0, 180, 216, 0.12);
+      border-color: var(--accent-sky);
+      color: var(--accent-sky);
+      box-shadow: 0 10px 20px -10px rgba(0, 180, 216, 0.2);
+    }
+
+    .career-match-result {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-glass);
+      border-radius: 20px;
+      padding: 30px;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .career-match-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 25px;
+      border-bottom: 1px solid var(--border-glass);
+      padding-bottom: 15px;
+    }
+
+    .career-match-title h3 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .career-match-title p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 5px;
+    }
+
+    .career-recommendation-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .career-recommendation-cards {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .rec-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-glass);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .rec-subject-badge {
+      align-self: flex-start;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 6px;
+      text-transform: uppercase;
+    }
+
+    .badge-reading {
+      background: rgba(0, 180, 216, 0.1);
+      color: var(--accent-sky);
+      border: 1px solid rgba(0, 180, 216, 0.2);
+    }
+
+    .badge-media {
+      background: rgba(238, 108, 77, 0.1);
+      color: var(--accent-coral);
+      border: 1px solid rgba(238, 108, 77, 0.2);
+    }
+
+    .rec-reason {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      padding-bottom: 12px;
+      border-bottom: 1px dashed var(--border-glass);
+    }
+
+    .rec-activity h5 {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .rec-activity p {
+      font-size: 13px;
+      color: var(--text-main);
+      line-height: 1.6;
+      background: rgba(148, 163, 184, 0.05);
+      padding: 12px;
+      border-radius: 10px;
+      border-left: 3px solid var(--accent-sky);
+    }
+
+    .rec-activity-media p {
+      border-left-color: var(--accent-coral);
+    }
+
+    /* Live Student Record (세특) Generator / Sandbox */
+    .seteuk-builder {
+      background: linear-gradient(135deg, rgba(13, 27, 42, 0.9) 0%, rgba(27, 38, 59, 0.9) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 30px;
+      padding: 40px;
+      color: #FFF;
+      margin-bottom: 50px;
+      box-shadow: 0 30px 50px rgba(0,0,0,0.3);
+    }
+
+    .builder-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    @media (max-width: 768px) {
+      .builder-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .builder-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .builder-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .builder-input-group label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent-sky);
+    }
+
+    .builder-input-group input, .builder-input-group select {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 12px;
+      color: #FFF;
+      font-size: 14px;
+      transition: var(--transition-smooth);
+    }
+
+    .builder-input-group input:focus, .builder-input-group select:focus {
+      outline: none;
+      border-color: var(--accent-sky);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .builder-preview {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--accent-sky);
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .preview-content {
+      font-size: 13px;
+      line-height: 1.7;
+      color: #E2E8F0;
+      min-height: 120px;
+      margin-bottom: 20px;
+    }
+
+    .preview-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-action {
+      flex: 1;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: var(--transition-smooth);
+    }
+
+    .btn-copy {
+      background: var(--accent-sky);
+      color: #FFF;
+    }
+
+    .btn-copy:hover {
+      background: #0096B4;
+    }
+
+    .btn-reset {
+      background: rgba(255,255,255,0.1);
+      color: #FFF;
+    }
+
+    .btn-reset:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    /* FAQ Accordion */
+    .faq-section {
+      margin-bottom: 50px;
+    }
+
+    .faq-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .faq-item {
+      background: var(--card-bg);
+      border: 1px solid var(--border-glass);
+      border-radius: 18px;
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+      transition: var(--transition-smooth);
+    }
+
+    .faq-trigger {
+      width: 100%;
+      padding: 20px 25px;
+      background: transparent;
+      border: none;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .faq-trigger span {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .faq-trigger svg {
+      transition: transform 0.3s ease;
+      color: var(--accent-sky);
+    }
+
+    .faq-item.active .faq-trigger svg {
+      transform: rotate(180deg);
+    }
+
+    .faq-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease;
+    }
+
+    .faq-content-inner {
+      padding: 0 25px 20px 25px;
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* Footer styling */
+    .footer {
+      text-align: center;
+      padding-top: 40px;
+      border-top: 1px solid var(--border-glass);
+      color: var(--text-muted);
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* Utility Notification Bubble */
+    .toast {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: var(--primary-navy);
+      color: #FFF;
+      padding: 12px 24px;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      font-size: 13px;
+      font-weight: 700;
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+      pointer-events: none;
+      border: 1px solid var(--accent-sky);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ==========================================
+       Enhanced Auto-scaling & Responsive Layout 
+       ========================================== */
+    @media (max-width: 992px) {
+      .course-details-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 12px;
+      }
+      .app-container {
+        padding: 15px;
+        border-radius: 20px;
+      }
+      .hero-banner {
+        padding: 35px 20px;
+        margin-bottom: 30px;
+      }
+      .hero-banner h2 {
+        font-size: 24px;
+        line-height: 1.4;
+      }
+      .hero-banner p {
+        font-size: 13px;
+      }
+      .philosophy-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        margin-bottom: 35px;
+      }
+      .philosophy-card {
+        padding: 20px;
+      }
+      .tabs-wrapper {
+        flex-direction: column;
+        gap: 8px;
+        padding: 6px;
+      }
+      .tab-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 12px;
+        font-size: 14px;
+      }
+      .course-details-layout {
+        grid-template-columns: 1fr !important;
+        gap: 20px;
+      }
+      .main-detail-card {
+        padding: 25px 20px;
+      }
+      .sidebar-card {
+        padding: 20px;
+      }
+      .builder-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .builder-preview {
+        padding: 20px;
+      }
+      .career-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .career-btn {
+        flex: 1 1 calc(50% - 8px); /* 2 columns on mobile */
+        justify-content: center;
+        font-size: 13px;
+        padding: 10px;
+      }
+      .admissions-pitch-section {
+        padding: 25px 20px;
+      }
+      /* Watermark size optimization for tablet/mobile */
+      div[style*="width: 70vw;"] {
+        width: 90vw !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .career-btn {
+        flex: 1 1 100%; /* 1 column on extremely small screens */
+      }
+      .header h1 {
+        font-size: 20px;
+      }
+      .school-logo {
+        width: 32px;
+        height: 32px;
+      }
+      .school-title span {
+        font-size: 10px;
+      }
+      .benefit-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body data-theme="light">
+
+  <!-- School Emblem Background Watermark (10% Opacity) -->
+  <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.1; z-index: -1; pointer-events: none; width: 70vw; max-width: 600px;">
+    <img src="https://drive.google.com/uc?export=view&id=1imSprZpn7XRxqsqPrCWN5lspwCNwPAp1" alt="진해고등학교 교표 워터마크" style="width: 100%; height: auto;" onerror="this.style.display='none'">
+  </div>
+
+  <div class="app-container">
+    
+    <!-- Navbar / Header -->
+    <header class="header">
+      <div class="school-info">
+        <!-- School logo integration -->
+        <img class="school-logo" src="https://drive.google.com/uc?export=view&id=1imSprZpn7XRxqsqPrCWN5lspwCNwPAp1" alt="진해고등학교 로고" onerror="this.style.display='none'; document.getElementById('logo-fallback-id').style.display='flex'">
+        <div class="logo-fallback" id="logo-fallback-id" style="display: none;">JH</div>
+        <div class="school-title">
+          <h1>진해고등학교 2학년</h1>
+          <span>Curriculum choice Compass</span>
+        </div>
+      </div>
+      <button class="theme-toggle-btn" id="theme-toggle" aria-label="테마 변경">
+        <i data-lucide="moon" id="theme-icon"></i>
+      </button>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+      <div class="hero-content">
+        <div class="badge">
+          <i data-lucide="compass" style="width: 14px; height: 14px;"></i>
+          2026 교육과정박람회 2학년 선택과목 가이드
+        </div>
+        <h2>내 진로의 깊이를 더하다,<br>독서 토론과 글쓰기 & 매체 의사소통</h2>
+        <p>
+          고등학교 2학년 시기는 대학 입시와 직결된 '진로 선택'의 핵심적인 골든타임입니다. 
+          나의 관심사를 어떻게 주도적인 탐구 활동으로 연결하여 생활기록부를 차별화할 수 있을까요? 
+          비판적 성찰(Input)과 표현 및 소통(Output)을 다루는 두 명품 국어 선택과목을 탐구해 보십시오.
+        </p>
+      </div>
+    </section>
+
+    <!-- Philosophy Comparison (Input vs Output) -->
+    <section class="philosophy-grid">
+      <div class="philosophy-card">
+        <span class="ph-label">비판적 사고 &amp; 생각 정립 (INPUT)</span>
+        <h3 class="ph-title" style="color: var(--accent-sky);">
+          <i data-lucide="book-open"></i>
+          독서 토론과 글쓰기
+        </h3>
+        <p class="ph-desc">
+          단순한 활자 읽기에서 벗어나 저자의 시선에 질문을 던지는 과목입니다. 
+          다양한 학술 텍스트를 깊이 읽고, 찬반 토론을 통해 내 지식의 오류를 교정하며, 논설문과 에세이로 논리를 축조하는 법을 훈련합니다.
+        </p>
+      </div>
+      
+      <div class="philosophy-card">
+        <span class="ph-label">현대 미디어 제작 &amp; 표현 (OUTPUT)</span>
+        <h3 class="ph-title" style="color: var(--accent-coral);">
+          <i data-lucide="video"></i>
+          매체 의사소통
+        </h3>
+        <p class="ph-desc">
+          유튜브, 팟캐스트, 블로그, 카드뉴스 등 디지털 복합 매체의 소통 메커니즘을 분석합니다. 
+          정보 수용을 넘어 직접 영상 및 카드뉴스를 기획하고, 디지털 윤리를 고려하며 메시지를 창작하는 생산자의 리터러시를 다릅니다.
+        </p>
+      </div>
+    </section>
+
+    <!-- 3rd Grade Semester 1 Policy Warning Banner -->
+    <div style="background: linear-gradient(135deg, rgba(238, 108, 77, 0.09) 0%, rgba(238, 108, 77, 0.03) 100%); border: 1.5px solid rgba(238, 108, 77, 0.3); border-radius: 16px; padding: 20px; margin-bottom: 35px; display: flex; align-items: flex-start; gap: 15px; box-shadow: var(--card-shadow);">
+      <div style="background: rgba(238, 108, 77, 0.15); color: var(--accent-coral); padding: 10px; border-radius: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+        <i data-lucide="alert-triangle" style="width: 22px; height: 22px;"></i>
+      </div>
+      <div>
+        <strong style="display: block; font-size: 15px; color: var(--text-main); margin-bottom: 6px; font-weight: 800;">⚠️ 3학년 1학기 선택 과목 학사 편제 주의사항</strong>
+        <p style="font-size: 12.5px; color: var(--text-muted); line-height: 1.6; margin: 0;">
+          본 과목들은 모두 <strong>3학년 1학기 선택 과목</strong>으로 개설됩니다. 이에 따라 중간고사와 기말고사 등 <strong>총 2회의 지필평가</strong>를 고정적으로 치르게 되며, <strong>수행평가는 학기 중 단 1회(비중 40%)만 실시</strong>합니다. 단 한 번의 수행평가 결과물이 대입 세특 기록에 직접 연계되므로 철저한 저격형 주제 기획이 요구됩니다.
+        </p>
+      </div>
+    </div>
+
+    <!-- Course Navigation Hub -->
+    <h3 class="section-title">
+      <i data-lucide="layers"></i>
+      과목별 핵심 가이드라인
+    </h3>
+    
+    <div class="tabs-wrapper">
+      <button class="tab-btn active" onclick="switchTab('reading-tab', this)">
+        <i data-lucide="book-open"></i>독서 토론과 글쓰기
+      </button>
+      <button class="tab-btn" onclick="switchTab('media-tab', this)">
+        <i data-lucide="tv"></i>매체 의사소통
+      </button>
+    </div>
+
+    <!-- TAB 1: 독서 토론과 글쓰기 -->
+    <div class="tab-pane active" id="reading-tab">
+      <div class="course-details-layout">
+        <div class="main-detail-card">
+          <h4 class="detail-section-title"><i data-lucide="compass"></i>과목 목표 &amp; 3단계 교육과정</h4>
+          
+          <div class="process-timeline">
+            <div class="process-step">
+              <div class="step-number">01</div>
+              <div class="step-info">
+                <h4>독서 (Reading) - 텍스트 분석 및 발제</h4>
+                <ul>
+                  <li>문학, 철학, 과학, 사회 등 융합 영역 텍스트 선정 및 심층 독해</li>
+                  <li>스스로 질문을 구성하여 문제 제기를 이끌어내는 발제문 작성</li>
+                  <li>저자의 숨겨진 의도와 시대·사회적 맥락 비판적 요약</li>
+                </ul>
+              </div>
+            </div>
+            <div class="process-step">
+              <div class="step-number">02</div>
+              <div class="step-info">
+                <h4>토론 (Debating) - 논리 검증 및 상호 작용</h4>
+                <ul>
+                  <li>디베이트(찬반 대립 토론) 및 세미나(자유 질의) 방식 수행</li>
+                  <li>주장에 대한 신뢰할 수 있는 학술적 근거 수집 및 제시</li>
+                  <li>상대방 주장 속 논리적 오류를 식별하고 정교한 반론 제기</li>
+                </ul>
+              </div>
+            </div>
+            <div class="process-step">
+              <div class="step-number">03</div>
+              <div class="step-info">
+                <h4>글쓰기 (Writing) - 완성도 높은 텍스트 생산</h4>
+                <ul>
+                  <li>토론과 질의를 통해 완성한 아이디어를 서평, 보고서로 기획</li>
+                  <li>사회적 이슈나 철학적 쟁점을 비판하는 고난도 비평문 집필</li>
+                  <li>동료 피드백(Peer Review)을 거쳐 문장과 구조를 수정하는 퇴고</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <h4 class="detail-section-title"><i data-lucide="award"></i>진로 연계 기대 효과</h4>
+          <p style="font-size: 14px; margin-bottom: 20px; color: var(--text-muted);">
+            이 과목은 대학 학업 및 실무 역량의 근간인 <strong>'생각하는 뼈대'</strong>를 세워줍니다.
+          </p>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div style="background: rgba(148, 163, 184, 0.05); padding: 15px; border-radius: 12px;">
+              <strong style="display: block; font-size: 14px; margin-bottom: 5px; color: var(--accent-sky);">학업 역량 증명</strong>
+              <p style="font-size: 12px; color: var(--text-muted);">학종에서 자기주도적 질문 설계 및 지적 탐구 깊이를 보여주기에 가장 알맞은 과목입니다.</p>
+            </div>
+            <div style="background: rgba(148, 163, 184, 0.05); padding: 15px; border-radius: 12px;">
+              <strong style="display: block; font-size: 14px; margin-bottom: 5px; color: var(--accent-sky);">대학 리포트 대비</strong>
+              <p style="font-size: 12px; color: var(--text-muted);">대학에서 직면할 수많은 연구 보고서, 논술형 시험의 구조 설계와 서술 능력을 미리 다집니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-card">
+          <!-- 수강 신청 현황 카드 -->
+          <div style="background: rgba(0, 180, 216, 0.08); border: 1px solid rgba(0, 180, 216, 0.2); padding: 15px; border-radius: 12px; display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <i data-lucide="users" style="color: var(--accent-sky); width: 20px; height: 20px;"></i>
+            <div>
+              <strong style="display: block; font-size: 13px; color: var(--text-main);">현재 신청 인원: 28명</strong>
+              <span style="font-size: 11px; color: var(--text-muted);">총 1개 반 개설 예정</span>
+            </div>
+          </div>
+          <div>
+            <h4 class="detail-section-title"><i data-lucide="bar-chart-2"></i>평가 방식 (과정 중심)</h4>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 15px;">
+              이 과목은 정형화된 지필평가보다 과정 및 수행 평가 비중이 절대적으로 높습니다.
+            </p>
+            <div class="evaluation-bar">
+              <div class="eval-row">
+                <span class="eval-label">독서 포트폴리오</span>
+                <div class="eval-progress-container">
+                  <div class="eval-progress" style="width: 40%; background: var(--accent-sky);"></div>
+                </div>
+                <span class="eval-val">40%</span>
+              </div>
+              <div class="eval-row">
+                <span class="eval-label">토론 태도 &amp; 논리</span>
+                <div class="eval-progress-container">
+                  <div class="eval-progress" style="width: 30%; background: var(--accent-sky);"></div>
+                </div>
+                <span class="eval-val">30%</span>
+              </div>
+              <div class="eval-row">
+                <span class="eval-label">최종 에세이/서평</span>
+                <div class="eval-progress-container">
+                  <div class="eval-progress" style="width: 30%; background: var(--accent-sky);"></div>
+                </div>
+                <span class="eval-val">30%</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 15px; border-top: 1px dashed var(--border-glass); padding-top: 20px;">
+            <h4 class="detail-section-title"><i data-lucide="check-circle2"></i>과목 핵심 강점</h4>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+              <div class="benefit-item">
+                <div class="benefit-icon"><i data-lucide="message-square" style="width: 16px; height: 16px;"></i></div>
+                <div class="benefit-text">
+                  <h5>구술 면접 마스터</h5>
+                  <p>상대 질문의 의도를 신속하게 포착하고 논리적 근거로 차분하게 대답하는 구조를 구축합니다.</p>
+                </div>
+              </div>
+              <div class="benefit-item">
+                <div class="benefit-icon"><i data-lucide="edit" style="width: 16px; height: 16px;"></i></div>
+                <div class="benefit-text">
+                  <h5>비판적 논증력</h5>
+                  <p>모호하고 주관적인 생각을 타당한 근거와 명확한 어조의 서평 및 논설문으로 구체화합니다.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: 매체 의사소통 -->
+    <div class="tab-pane" id="media-tab">
+      <div class="course-details-layout">
+        <div class="main-detail-card">
+          <h4 class="detail-section-title"><i data-lucide="compass"></i>과목 목표 &amp; 학습 영역</h4>
+          
+          <div class="process-timeline">
+            <div class="process-step">
+              <div class="step-number">01</div>
+              <div class="step-info">
+                <h4>매체 특성 &amp; 비판적 수용</h4>
+                <ul>
+                  <li>유튜브, SNS, 언론 보도 매체별 작동 특성과 프레임(Frame) 분석</li>
+                  <li>가짜뉴스 및 왜곡된 팩트 체크, 알고리즘 필터버블의 메커니즘 해석</li>
+                  <li>문자·음성·이미지가 복합 결합된 '복합 양식성(Multimodality)' 분석</li>
+                </ul>
+              </div>
+            </div>
+            <div class="process-step">
+              <div class="step-number">02</div>
+              <div class="step-info">
+                <h4>디지털 콘텐츠 생산 실습</h4>
+                <ul>
+                  <li>목표 대중을 타겟팅한 숏폼, 카드뉴스, 카드웹진, 팟캐스트 스토리보딩</li>
+                  <li>모바일 도구 및 편집 툴을 활용한 미디어 제작 및 퍼블리싱 실습</li>
+                  <li>댓글, 온라인 상호작용 등 쌍방향 피드백을 반영하는 디지털 의사소통</li>
+                </ul>
+              </div>
+            </div>
+            <div class="process-step">
+              <div class="step-number">03</div>
+              <div class="step-info">
+                <h4>디지털 윤리 &amp; 시민성</h4>
+                <ul>
+                  <li>저작권, 오픈소스 라이선스, 이미지·폰트 라이선스 실무 가이드라인 이해</li>
+                  <li>초상권 침해, 딥페이크 악용, 사이버 공간 속 언어폭력 쟁점 성찰</li>
+                  <li>디지털 공간에서 영향력 있고 정의로운 디지털 시민으로서의 자질 함양</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <h4 class="detail-section-title"><i data-lucide="award"></i>진로 연계 기대 효과</h4>
+          <p style="font-size: 14px; margin-bottom: 20px; color: var(--text-muted);">
+            이 과목은 복잡한 논리를 현대적인 미디어를 통해 세상에 송출하는 <strong>'전달 능력'</strong>을 부여합니다.
+          </p>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div style="background: rgba(148, 163, 184, 0.05); padding: 15px; border-radius: 12px;">
+              <strong style="display: block; font-size: 14px; margin-bottom: 5px; color: var(--accent-coral);">실용적 마케팅 역량</strong>
+              <p style="font-size: 12px; color: var(--text-muted);">공학, 자연과학, 경영 분야의 어려운 아이디어를 시각화·디지털화하여 설득하는 현대적 PR 역량을 쌓습니다.</p>
+            </div>
+            <div style="background: rgba(148, 163, 184, 0.05); padding: 15px; border-radius: 12px;">
+              <strong style="display: block; font-size: 14px; margin-bottom: 5px; color: var(--accent-coral);">융합적 대입 연계</strong>
+              <p style="font-size: 12px; color: var(--text-muted);">자신의 전공 주제를 영상 보고서나 카드뉴스 등의 창작물로 가공하여 적극적인 진로 관심을 생기부에 표출합니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-card">
+          <!-- 수강 신청 현황 카드 -->
+          <div style="background: rgba(238, 108, 77, 0.08); border: 1px solid rgba(238, 108, 77, 0.2); padding: 15px; border-radius: 12px; display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <i data-lucide="users" style="color: var(--accent-coral); width: 20px; height: 20px;"></i>
+            <div>
+              <strong style="display: block; font-size: 13px; color: var(--text-main);">현재 신청 인원: 53명</strong>
+              <span style="font-size: 11px; color: var(--text-muted);">총 2개 반 개설 예정</span>
+            </div>
+          </div>
+          <div>
+            <h4 class="detail-section-title"><i data-lucide="bar-chart-2"></i>평가 방식 (실습 및 리터러시)</h4>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 15px;">
+              학생의 미디어 기획서 작성력 및 콘텐츠 결과물의 유용성, 윤리성 위주로 다면 평가합니다.
+            </p>
+            <div class="evaluation-bar">
+              <div class="eval-row">
+                <span class="eval-label">콘텐츠 기획/스토리</span>
+                <div class="eval-progress-container">
+                  <div class="eval-progress" style="width: 35%; background: var(--accent-coral);"></div>
+                </div>
+                <span class="eval-val">35%</span>
+              </div>
+              <div class="eval-row">
+                <span class="eval-label">디지털 리터러시 평가</span>
+                <div class="eval-progress-container">
+                  <div class="eval-progress" style="width: 35%; background: var(--accent-coral);"></div>
+                </div>
+                <span class="eval-val">35%</span>
+              </div>
+              <div class="eval-row">
+                <span class="eval-label">디지털 시민성/윤리</span>
+                <div class="eval-progress-container">
+                  <div class="eval-progress" style="width: 30%; background: var(--accent-coral);"></div>
+                </div>
+                <span class="eval-val">30%</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 15px; border-top: 1px dashed var(--border-glass); padding-top: 20px;">
+            <h4 class="detail-section-title"><i data-lucide="check-circle2"></i>과목 핵심 강점</h4>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+              <div class="benefit-item">
+                <div class="benefit-icon" style="background: rgba(238, 108, 77, 0.1); color: var(--accent-coral);"><i data-lucide="layout" style="width: 16px; height: 16px;"></i></div>
+                <div class="benefit-text">
+                  <h5>실무 콘텐츠 툴 활용</h5>
+                  <p>스토리보드 설계와 동영상, 인포그래픽 가공력을 체득하여 입시 이후 실무에 직결되는 강점을 기릅니다.</p>
+                </div>
+              </div>
+              <div class="benefit-item">
+                <div class="benefit-icon" style="background: rgba(238, 108, 77, 0.1); color: var(--accent-coral);"><i data-lucide="shield" style="width: 16px; height: 16px;"></i></div>
+                <div class="benefit-text">
+                  <h5>비판적 정보 검증</h5>
+                  <p>알고리즘 추천 필터 뒤의 데이터 흐름을 추론하고 가짜뉴스의 서술 형식을 객관적으로 검증합니다.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Career Matcher and Student Record (세특) Section -->
+    <section class="career-matcher-section">
+      <h3 class="section-title">
+        <i data-lucide="git-branch"></i>
+        나의 진로별 맞춤형 추천 &amp; 세특 연계 탐구
+      </h3>
+      <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 25px;">
+        관심 있는 진로 분야를 클릭해 보십시오. 두 국어 선택과목이 내 전공 진학 시 강력한 무기가 되는 비결과 함께, 생기부 수행평가에서 시도할 수 있는 참신한 융합 주제를 보여줍니다.
+      </p>
+
+      <!-- Grid of Career Filter Buttons -->
+      <div class="career-filters">
+        <button class="career-btn active" onclick="filterCareer('humanities', this)">
+          <i data-lucide="book" style="width: 18px; height: 18px;"></i>
+          인문·사회
+        </button>
+        <button class="career-btn" onclick="filterCareer('media', this)">
+          <i data-lucide="clapperboard" style="width: 18px; height: 18px;"></i>
+          미디어·콘텐츠
+        </button>
+        <button class="career-btn" onclick="filterCareer('law', this)">
+          <i data-lucide="scale" style="width: 18px; height: 18px;"></i>
+          법조·행정·정치
+        </button>
+        <button class="career-btn" onclick="filterCareer('business', this)">
+          <i data-lucide="trending-up" style="width: 18px; height: 18px;"></i>
+          경영·경제
+        </button>
+        <button class="career-btn" onclick="filterCareer('stem', this)">
+          <i data-lucide="dna" style="width: 18px; height: 18px;"></i>
+          이공·의학
+        </button>
+        <button class="career-btn" onclick="filterCareer('edu', this)">
+          <i data-lucide="graduation-cap" style="width: 18px; height: 18px;"></i>
+          교육·연구
+        </button>
+      </div>
+
+      <!-- Career Recommendation Output -->
+      <div class="career-match-result" id="career-result-box">
+        <!-- Rendered dynamically by JavaScript -->
+      </div>
+    </section>
+
+    <!-- College Admissions Strategy Card -->
+    <section class="admissions-pitch-section" style="background: linear-gradient(135deg, rgba(11, 37, 69, 0.03) 0%, rgba(0, 180, 216, 0.05) 100%); border: 1.5px solid rgba(0, 180, 216, 0.2); border-radius: 24px; padding: 35px; margin-bottom: 50px;">
+      <h3 class="section-title" style="color: var(--secondary-blue); border-bottom: 2px solid rgba(0, 180, 216, 0.2); padding-bottom: 12px; margin-bottom: 20px;">
+        <i data-lucide="sparkles" style="color: var(--accent-sky);"></i>
+        🎓 대학 입시(학종) 200% 초고효율 돌파 전략
+      </h3>
+      <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 25px; line-height: 1.7;">
+        이 과목들은 단순한 교양이 아닙니다. 학종 세특 주제 선정에 고민이 많은 진해고 학생들을 위한 <strong>강력한 입시 무기</strong>입니다. 박람회 상담 시 적극 어필하십시오.
+      </p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+        <div style="background: var(--card-bg); border: 1px solid var(--border-glass); padding: 22px; border-radius: 16px; box-shadow: var(--card-shadow);">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+            <div style="background: rgba(0, 180, 216, 0.1); color: var(--accent-sky); padding: 8px; border-radius: 10px;"><i data-lucide="zap" style="width: 20px; height: 20px;"></i></div>
+            <strong style="font-size: 15px; color: var(--text-main);">단 1회 수행평가 몰빵(All-in)</strong>
+          </div>
+          <p style="font-size: 12px; color: var(--text-muted); line-height: 1.6;">
+            학기 중 무수한 수행평가에 지치지 마십시오. 이 과목들은 <strong>단 1회의 수행평가</strong>만 실시하므로, 내 진로 맞춤형 마스터피스(책/매체 기획)에 집중하여 생기부 퀄리티를 극대화할 수 있습니다.
+          </p>
+        </div>
+        <div style="background: var(--card-bg); border: 1px solid var(--border-glass); padding: 22px; border-radius: 16px; box-shadow: var(--card-shadow);">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+            <div style="background: rgba(238, 108, 77, 0.1); color: var(--accent-coral); padding: 8px; border-radius: 10px;"><i data-lucide="dna" style="width: 20px; height: 20px;"></i></div>
+            <strong style="font-size: 15px; color: var(--text-main);">이공·의학: 융합 성찰력 증명</strong>
+          </div>
+          <p style="font-size: 12px; color: var(--text-muted); line-height: 1.6;">
+            실험 수식과 코드로 가득 찬 생기부는 지루합니다. <strong>AI 가치 정렬이나 크리스퍼 생명윤리</strong>에 대한 깊이 있는 성찰 세특 한 줄로 '인문학적 통찰을 갖춘 융합형 기술 리더'임을 각인시킵니다.
+          </p>
+        </div>
+        <div style="background: var(--card-bg); border: 1px solid var(--border-glass); padding: 22px; border-radius: 16px; box-shadow: var(--card-shadow);">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+            <div style="background: rgba(16, 185, 129, 0.1); color: #10B981; padding: 8px; border-radius: 10px;"><i data-lucide="share-2" style="width: 20px; height: 20px;"></i></div>
+            <strong style="font-size: 15px; color: var(--text-main);">인문·경상: 데이터 시각화 &amp; 윤리</strong>
+          </div>
+          <p style="font-size: 12px; color: var(--text-muted); line-height: 1.6;">
+            위장환경주의(그린워싱) 광고 비평이나 여론 분석 등 대중과 소통하는 <strong>SNS 카드뉴스, 인포그래픽 제작</strong>을 통해 디지털 매체 리터러시와 전공 적합성을 직접 표출합니다.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sandbox: Live Student Record Idea Planner -->
+    <section class="seteuk-builder">
+      <h3 class="section-title" style="color: #FFF;">
+        <i data-lucide="terminal"></i>
+        나의 맞춤형 세특(학생부) 탐구 설계기
+      </h3>
+      <p style="font-size: 13px; color: #94A3B8; margin-bottom: 25px;">
+        선택한 과목과 나의 구체적인 탐구 분야(진로/관심 키워드)를 입력하여 나만의 세특 탐구 시나리오 초안을 직접 설계해 보십시오.
+      </p>
+
+      <div class="builder-grid">
+        <div class="builder-inputs">
+          <div class="builder-input-group">
+            <label for="builder-subject">대상 선택과목</label>
+            <select id="builder-subject" onchange="generateSeteuk()">
+              <option value="reading">독서 토론과 글쓰기</option>
+              <option value="media">매체 의사소통</option>
+            </select>
+          </div>
+
+          <div class="builder-input-group">
+            <label for="builder-major">목표 학과 / 진로</label>
+            <input type="text" id="builder-major" value="미디어커뮤니케이션학과" placeholder="예: 컴퓨터공학과, 경영학과, 정치외교학과" oninput="generateSeteuk()">
+          </div>
+
+          <div class="builder-input-group">
+            <label for="builder-keyword">탐구 관심 키워드</label>
+            <input type="text" id="builder-keyword" value="AI 생성형 콘텐츠와 미디어 윤리" placeholder="예: 기후변화 데이터, 자율주행 알고리즘" oninput="generateSeteuk()">
+          </div>
+        </div>
+
+        <div class="builder-preview">
+          <div>
+            <div class="preview-header">
+              <span>수행평가 / 탐구 계획서 초안 Preview</span>
+              <span id="subject-indicator">독서 토론과 글쓰기</span>
+            </div>
+            <div class="preview-content" id="seteuk-preview-text">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+          <div class="preview-actions">
+            <button class="btn-action btn-copy" onclick="copySeteuk()">
+              <i data-lucide="copy" style="width: 14px; height: 14px;"></i>
+              텍스트 복사
+            </button>
+            <button class="btn-action btn-reset" onclick="resetBuilder()">
+              초기화
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Strategy Accordion -->
+    <section class="faq-section">
+      <h3 class="section-title">
+        <i data-lucide="help-circle"></i>
+        자주 묻는 질문 &amp; 수행평가 팁
+      </h3>
+      
+      <div class="faq-container">
+        
+        <div class="faq-item">
+          <button class="faq-trigger" onclick="toggleFaq(this)">
+            <span><i data-lucide="help-circle"></i>3학년 1학기 선택 과목이라 지필 시험을 2회 모두 보나요?</span>
+            <i data-lucide="chevron-down"></i>
+          </button>
+          <div class="faq-content">
+            <div class="faq-content-inner">
+              네, 그렇습니다. 3학년 1학기 편제 선택 과목이므로 <strong>중간고사와 기말고사 등 총 2회의 지필평가(60%)</strong>를 모두 정상적으로 치릅니다. 다만, 수행평가 비중도 40%로 작지 않으며 <strong>학기 중 단 1회의 수행평가</strong>만 실시하므로 이 한 번의 수행평가에서 내 전공 진로에 맞는 주제를 명밀하게 기획하고 결과물을 이끌어내는 것이 세특의 성패를 가릅니다.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-trigger" onclick="toggleFaq(this)">
+            <span><i data-lucide="help-circle"></i>글쓰기나 영상 제작 능력이 부족해도 잘할 수 있을까요?</span>
+            <i data-lucide="chevron-down"></i>
+          </button>
+          <div class="faq-content">
+            <div class="faq-content-inner">
+              네, 충분히 가능합니다! '독서 토론과 글쓰기'는 텍스트를 구조화하는 단계별 논증 프레임워크와 찬반 토론을 통해 표현 능력이 늘도록 설계되어 있습니다. '매체 의사소통' 역시 화려한 영상 기교보다는 기획안(스토리보드)에 담긴 전공 융합 메시지와 저작권/초상권 등을 준수하는 미디어 윤리성이 가장 핵심적인 평가 항목입니다.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-trigger" onclick="toggleFaq(this)">
+            <span><i data-lucide="help-circle"></i>학종 생기부 세특을 작성할 때 가장 핵심적인 꿀팁은 무엇인가요?</span>
+            <i data-lucide="chevron-down"></i>
+          </button>
+          <div class="faq-content">
+            <div class="faq-content-inner">
+              단 1회뿐인 수행평가를 철저하게 <strong>'전공 맞춤형 3단계 설계 [선정 ➔ 탐구 활동 ➔ 세특 자동 연결]'</strong> 흐름으로 관통시키는 것입니다. 단순한 책 줄거리 요약이나 미디어 툴 활용 나열은 대입 경쟁력이 없습니다. 탐구 과정에서 나만의 학술적 질문(호기심)을 던지고, 이를 추가 보고서나 논문 등으로 검증하여 학급 내에 공유하고 동료들의 피드백을 수용하는 '성장 스토리'가 담겨야 좋은 평가를 받습니다.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Footer with standards -->
+    <footer class="footer">
+      <p>© 2026 진해고등학교 교육과정박람회 가이드. All rights reserved.</p>
+      <p>진해고등학교 2학년 학생들의 자기주도적 학업 계획 수립과 빛나는 진로 탐색을 응원합니다.</p>
+    </footer>
+
+  </div>
+
+  <!-- Notification Toast -->
+  <div class="toast" id="toast-msg">복사되었습니다!</div>
+
+  <script>
+    // Career Data Database
+    const careerData = {
+      humanities: {
+        title: "인문·사회 계열",
+        desc: "여론을 읽고, 문화와 사상을 분석하며, 글로써 사회와 교감하는 진로 분야",
+        subtext: "추천 직업군: 기자, PD, 언론인, 작가, 에디터, 카피라이터, 인문학자, 사학가 등",
+        reading: {
+          reason: "인문사회 전공의 근간이 되는 '텍스트 이면의 사회적 가치 충돌'을 추론하고 이를 정밀하게 서술하여 학업적 깊이(기초 문해력)를 증명하는 핵심 필수 과목입니다.",
+          activity: "사회적 갈등이나 철학적 쟁점(예: 존엄사 허용 여부, 기본소득 도입과 복지국가의 방향) 관련 도서들을 다각도로 비교 분석하여, 찬반 토론의 쟁점을 도출하고 자신의 대안을 논설문으로 기술함."
+        },
+        media: {
+          reason: "현대 인문학은 텍스트를 넘어 디지털 여론과 복합 양식(Multimodality)을 다룹니다. 내 생각을 카드뉴스/웹진으로 기획·소통해 대중과 공감하는 자질을 어필합니다.",
+          activity: "특정 전통 미디어와 뉴미디어의 뉴스 프레임 분석을 토대로, 미디어가 특정 세대를 다루는 방식에 대한 비판적 평가 보고서를 카드뉴스 형태로 시각화하여 배포하는 탐구를 진행함."
+        }
+      },
+      media: {
+        title: "미디어·콘텐츠 계열",
+        desc: "스토리를 기획하고 디지털 복합 채널을 활용해 영상/웹툰/게임을 제작 및 유통하는 분야",
+        subtext: "추천 직업군: 영상 제작자, 유튜버, 게임 시나리오 라이터, 웹툰 기획자, 서비스 디자이너 등",
+        reading: {
+          reason: "매력적인 시나리오나 극적 플롯을 구성하기 위해서는 탄탄한 구조적 독서량이 필수이며, 인물 간의 이해관계 갈등을 서사적으로 타당하게 설계하는 뼈대를 기릅니다.",
+          activity: "포스트아포칼립스 장르 문학이나 SF 소설을 읽고 현대 문명과 기술 발전에 대한 심층 비평문을 작성한 후, 이를 바탕으로 시놉시스나 가상의 메인 퀘스트 시나리오 기획안을 도출함."
+        },
+        media: {
+          reason: "스토리보드 설계, 동영상/팟캐스트 제작 실무 전반을 입증하는 핵심 전공 과목입니다. 대중이 직관적으로 이해할 수 있는 콘텐츠 기획력을 생활기록부에 증명합니다.",
+          activity: "청소년의 미디어 과의존 또는 알고리즘 중독 문제를 비판적으로 조명하는 1분 분량의 숏폼(Short-form) 캠페인 영상 스토리보드를 제작하고, 이를 직접 촬영 및 편집하여 학급에 발표함."
+        }
+      },
+      law: {
+        title: "법조·행정·정치 계열",
+        desc: "복잡한 이해관계를 조정하고 국가 정책이나 법률을 조율·분석하는 분야",
+        subtext: "추천 직업군: 변호사, 판검사, 노무사, 변리사, 공무원, 정치인, 외교관 등",
+        reading: {
+          reason: "정교한 판례 분석과 법 조항 해석, 상대방 논리의 모순을 짚어 변론을 펼쳐야 하는 법조인 및 행정가로서의 논리적 분석력과 문서 퇴고 역량을 최고조로 입증합니다.",
+          activity: "헌법상 기본권 침해나 형사재판 제도(예: 국민참여재판의 실효성) 관련 쟁점 도서를 읽고 가상의 모의재판 변론문을 집필하여, 상대 변론에 대한 교차 신문 및 최종 변론 에세이를 도출함."
+        },
+        media: {
+          reason: "공공 소통과 여론 조율 역량을 보여주며, 인공지능 딥페이크 악용, 개인정보 침해, 온라인 저작권법 등 최전선의 현대 매체법 쟁점을 성찰하는 공직자의 자질을 증명합니다.",
+          activity: "딥페이크 악용이나 디지털 저작권 침해 사례와 관련된 현행 법규의 공백을 지적하고, 이를 해결하기 위한 '디지털 권리 장전' 정책 홍보용 카드뉴스 및 공익 광고 기획서를 제작함."
+        }
+      },
+      business: {
+        title: "경영·경제 계열",
+        desc: "글로벌 비즈니스 트렌드를 포착하고 전략을 짜며 이해관계자를 설득하는 분야",
+        subtext: "추천 직업군: 경영컨설턴트, 마케터, 스타트업 창업가, 펀드매니저, 데이터 분석가 등",
+        reading: {
+          reason: "글로벌 경제적 쟁점(독점, 수수료, ESG 규제 등)을 냉철히 판단하고, 비즈니스 파트너와 주주를 설득하는 정교한 리포트(타당성 기획서) 서술 능력을 배양합니다.",
+          activity: "글로벌 플랫폼 기업의 독점 현상(예: 구글, 애플의 수수료 쟁점)을 다룬 경제 서적을 읽고, 독점 규제와 플랫폼 활성화 사이의 상충 관계에 대한 심층적 분석 보고서를 구성함."
+        },
+        media: {
+          reason: "디지털 광고 및 모바일 마케팅, 인플루언서 바이럴 전략, UI/UX 편의성 설계 등 현대 기업 경영 혁신 활동에 필수적인 미디어 마케팅 실무 감각과 융합합니다.",
+          activity: "지역 소상공인이나 학급용 친환경 굿즈 판매 프로젝트를 위해 모바일 플랫폼 맞춤형 브랜드 스토리 웹진 및 인스타그램 프로모션 카드뉴스를 제작하여 성과를 시각적으로 분석함."
+        }
+      },
+      stem: {
+        title: "이공·의학 계열",
+        desc: "자연 과학적 현상을 탐구하며 고도의 기술을 설계하고 생명 윤리를 성찰하는 분야",
+        subtext: "추천 직업군: 소프트웨어 엔지니어, 의사, 약사, 생명과학 연구원, 데이터 사이언티스트 등",
+        reading: {
+          reason: "기술 용어로만 채워지기 쉬운 이공계 세특을 격파합니다. 과학/생명 윤리(유전자, AI 정렬 등)에 대한 깊이 있는 인문학적 성찰을 갖춘 미래 과학자임을 어필하는 무기입니다.",
+          activity: "생명공학 연구윤리(예: 유전자 편집 기술 크리스퍼의 한계) 또는 인공지능 정렬 문제 관련 도서를 읽고 과학 기술의 안전 장치 매뉴얼을 작성하여 찬반 에세이로 피력함."
+        },
+        media: {
+          reason: "아무리 뛰어난 기술도 대중에게 쉽게 설명(Data PR)하지 못하면 사장됩니다. 어려운 과학 기술이나 보건 의료 데이터를 직관적인 인포그래픽으로 정제하는 능력을 증명합니다.",
+          activity: "기후 변화 추이 데이터나 복잡한 물리 법칙(예: 양자 얽힘 현상)을 일반 대중이 직관적으로 파악할 수 있도록 데이터 시각화 기법을 도입한 정보 그래픽 카드뉴스를 창작함."
+        }
+      },
+      edu: {
+        title: "교육·연구 계열",
+        desc: "지식을 깊이 탐구하여 새로운 가치를 발견하고 이를 남에게 올바르게 전달하는 분야",
+        subtext: "추천 직업군: 초·중·고 교사, 대학교수, 학술원 연구원, 교육 행정직 공무원 등",
+        reading: {
+          reason: "스스로 세미나 발제안을 짜고 토론 수업을 직접 이끌며 멘토링하는 교안 설계 과정을 통해, 예비 교육자로서 반드시 지녀야 할 학습 교수법과 리더십을 입증합니다.",
+          activity: "현대 대안학교 모델 또는 교육 격차 해소 대책에 대한 서적들을 분석하고, 자신의 이상적인 학교 모델 기획안을 작성한 후 모의 교육 세미나 토론을 설계하고 운영함."
+        },
+        media: {
+          reason: "원격 스마트 교실, 원격 학습 관리 등 에듀테크(EduTech) 교육 도구 설계와 미래 스마트 교육 환경에 최적화된 정보 소통 역량을 보여주기에 최적인 과목입니다.",
+          activity: "청소년 디지털 권리 및 사이버 폭력 방지(사이버 불링) 예방 교육을 위한 가상 '팟캐스트 오디오 교안'을 기획하고, 모의 라디오 형태로 직접 대본을 작성하고 녹음하여 배포함."
+        }
+      }
+    };
+
+    // UI Interactive Logic
+    document.addEventListener("DOMContentLoaded", () => {
+      // Initialize icons
+      lucide.createIcons();
+      // Initialize with humanities
+      filterCareer('humanities', document.querySelector('.career-btn'));
+      // Initialize Seteuk Builder preview
+      generateSeteuk();
+    });
+
+    // Theme Toggle Functionality
+    const themeBtn = document.getElementById("theme-toggle");
+    const themeIcon = document.getElementById("theme-icon");
+    themeBtn.addEventListener("click", () => {
+      const currentTheme = document.body.getAttribute("data-theme");
+      const newTheme = currentTheme === "dark" ? "light" : "dark";
+      document.body.setAttribute("data-theme", newTheme);
+      
+      // Toggle icon
+      if (newTheme === "light") {
+        themeIcon.setAttribute("data-lucide", "moon");
+      } else {
+        themeIcon.setAttribute("data-lucide", "sun");
+      }
+      lucide.createIcons();
+    });
+
+    // Switch between course tabs
+    function switchTab(tabId, btnElement) {
+      // Hide all tabs
+      document.querySelectorAll('.tab-pane').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      // Deactivate all buttons
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      // Activate target tab and button
+      document.getElementById(tabId).classList.add('active');
+      btnElement.classList.add('active');
+    }
+
+    // Filter Career Recommendations
+    function filterCareer(careerKey, btnElement) {
+      // Deactivate all buttons
+      document.querySelectorAll('.career-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      btnElement.classList.add('active');
+
+      const data = careerData[careerKey];
+      const resultBox = document.getElementById('career-result-box');
+      
+      resultBox.innerHTML = `
+        <div class="career-match-header">
+          <div class="career-match-title">
+            <h3>${data.title} 맞춤 분석</h3>
+            <p>${data.desc}</p>
+          </div>
+          <span style="font-size: 11px; font-weight: 700; background: rgba(0, 180, 216, 0.1); color: var(--accent-sky); padding: 4px 10px; border-radius: 6px;">
+            ${data.subtext.split(':')[0]}
+          </span>
+        </div>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px; font-style: italic;">
+          ${data.subtext}
+        </p>
+        
+        <div class="career-recommendation-cards">
+          <!-- Reading & Writing Card -->
+          <div class="rec-card">
+            <span class="rec-subject-badge badge-reading">독서 토론과 글쓰기</span>
+            <p class="rec-reason">
+              <strong>추천 이유:</strong> ${data.reading.reason}
+            </p>
+            <div class="rec-activity">
+              <h5><i class="lucide-activity" data-lucide="edit-3" style="width: 14px; height: 14px; color: var(--accent-sky);"></i> 수행평가 / 세특 권장 탐구 활동</h5>
+              <p>${data.reading.activity}</p>
+            </div>
+          </div>
+
+          <!-- Media Card -->
+          <div class="rec-card">
+            <span class="rec-subject-badge badge-media">매체 의사소통</span>
+            <p class="rec-reason">
+              <strong>추천 이유:</strong> ${data.media.reason}
+            </p>
+            <div class="rec-activity rec-activity-media">
+              <h5><i class="lucide-activity" data-lucide="video" style="width: 14px; height: 14px; color: var(--accent-coral);"></i> 수행평가 / 세특 권장 탐구 활동</h5>
+              <p>${data.media.activity}</p>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      // re-trigger lucide icons
+      lucide.createIcons();
+    }
+
+    // Live Seteuk Builder Preview Logic
+    function generateSeteuk() {
+      const subject = document.getElementById('builder-subject').value;
+      const major = document.getElementById('builder-major').value || '자유진로';
+      const keyword = document.getElementById('builder-keyword').value || '기본 탐구';
+      const previewText = document.getElementById('seteuk-preview-text');
+      const indicator = document.getElementById('subject-indicator');
+
+      if (subject === 'reading') {
+        indicator.textContent = '독서 토론과 글쓰기';
+        indicator.style.color = 'var(--accent-sky)';
+        previewText.innerHTML = `
+          <strong>[탐구 목적]</strong>: ${major} 전공 학습에 근간이 되는 비판적 문해력 함양을 위해, ${keyword} 관련 전문 서적 및 연구 보고서를 선정하여 심층 독서를 시행함.<br><br>
+          <strong>[토론 및 탐구 내용]</strong>: ${keyword}의 쟁점에 관해 학우들과 모의 교의 세미나를 개설하고 찬성과 반대의 핵심 근거를 일목요연하게 도출함. 특히 상호 반론 과정에서 발생한 데이터의 객관적 한계를 보완하려는 탐구 집념을 보임.<br><br>
+          <strong>[최종 도출문]</strong>: 토론을 거쳐 검증된 논거들을 조합하여 "${major} 관점에서 바라본 ${keyword}의 사회적 과제와 대안"이라는 주제의 서평 에세이를 일목요연하게 구성함.
+        `;
+      } else {
+        indicator.textContent = '매체 의사소통';
+        indicator.style.color = 'var(--accent-coral)';
+        previewText.innerHTML = `
+          <strong>[기획 및 비판 수용]</strong>: ${major} 전공 관심 대중에게 적절한 정보를 환기시키고자, ${keyword}을 주제로 한 디지털 복합콘텐츠의 스토리보드 기획서를 제출함.<br><br>
+          <strong>[제작 및 기술 활용]</strong>: 미디어의 복합 양식성을 극대화하기 위해 인포그래픽 데이터 정제 기법과 모바일 편의성을 결합한 카드웹진 형태의 퍼블리싱을 진행함. 알고리즘 프레임에 갇히지 않도록 데이터의 왜곡을 방지하려는 비판적 태도를 유지함.<br><br>
+          <strong>[콘텐츠 윤리 성찰]</strong>: 프로젝트 진행 시 이용한 소스의 오픈 라이선스 규정을 명확히 점검하고 저작권을 준수함으로써 성숙한 디지털 시민의 자질을 보여줌.
+        `;
+      }
+    }
+
+    // Reset Builder inputs
+    function resetBuilder() {
+      document.getElementById('builder-subject').value = 'reading';
+      document.getElementById('builder-major').value = '미디어커뮤니케이션학과';
+      document.getElementById('builder-keyword').value = 'AI 생성형 콘텐츠와 미디어 윤리';
+      generateSeteuk();
+      showToast("초기화되었습니다.");
+    }
+
+    // Copy Seteuk to clipboard
+    function copySeteuk() {
+      const previewText = document.getElementById('seteuk-preview-text').innerText;
+      navigator.clipboard.writeText(previewText).then(() => {
+        showToast("텍스트가 클립보드에 복사되었습니다!");
+      }).catch(err => {
+        showToast("복사에 실패했습니다. 직접 복사해 주세요.");
+      });
+    }
+
+    // Toast Alert notification
+    function showToast(message) {
+      const toast = document.getElementById('toast-msg');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2000);
+    }
+
+    // Toggle FAQ Accordion Accord
+    function toggleFaq(button) {
+      const item = button.parentElement;
+      const content = item.querySelector('.faq-content');
+      const isActive = item.classList.contains('active');
+
+      // Close all other FAQs
+      document.querySelectorAll('.faq-item').forEach(otherItem => {
+        if (otherItem !== item) {
+          otherItem.classList.remove('active');
+          otherItem.querySelector('.faq-content').style.maxHeight = null;
+        }
+      });
+
+      if (isActive) {
+        item.classList.remove('active');
+        content.style.maxHeight = null;
+      } else {
+        item.classList.add('active');
+        content.style.maxHeight = content.scrollHeight + 'px';
+      }
+    }
+  </script>
+</body>
+</html>

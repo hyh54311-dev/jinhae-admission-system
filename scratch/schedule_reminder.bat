@@ -1,0 +1,1 @@
+schtasks /create /tn "Antigravity_Scholarship_Reminder" /tr "python.exe \"d:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\scratch\notify_scholarship.py\"" /sc once /st 10:30 /sd 2026/05/07 /f

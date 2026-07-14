@@ -1,0 +1,78 @@
+=== MorningCompanyRecommendation Actions ===
+None
+=== MorningCompanyRecommendation Triggers ===
+
+
+Enabled            : True
+EndBoundary        : 
+ExecutionTimeLimit : 
+Id                 : 
+Repetition         : MSFT_TaskRepetitionPattern
+StartBoundary      : 2026-05-13T08:30:00+09:00
+RandomDelay        : 
+PSComputerName     : 
+
+
+
+
+=== FlightAlertCheck Actions ===
+None
+=== FlightAlertCheck Triggers ===
+
+
+Enabled            : True
+EndBoundary        : 
+ExecutionTimeLimit : 
+Id                 : 
+Repetition         : MSFT_TaskRepetitionPattern
+StartBoundary      : 2026-03-26T09:00:00+09:00
+DaysInterval       : 1
+RandomDelay        : 
+PSComputerName     : 
+
+Enabled            : True
+EndBoundary        : 
+ExecutionTimeLimit : 
+Id                 : 
+Repetition         : MSFT_TaskRepetitionPattern
+StartBoundary      : 2026-03-26T15:00:00+09:00
+DaysInterval       : 1
+RandomDelay        : 
+PSComputerName     : 
+
+
+
+
+=== AI_Scholarship_Reminder Actions ===
+None
+=== AI_Scholarship_Reminder Triggers ===
+
+
+Enabled            : True
+EndBoundary        : 
+ExecutionTimeLimit : 
+Id                 : MonthlyFirstMondayTrigger
+Repetition         : MSFT_TaskRepetitionPattern
+StartBoundary      : 2026-06-01T12:30:00
+PSComputerName     : 
+
+
+
+
+=== Antigravity_Scholarship_Reminder Actions ===
+None
+=== Antigravity_Scholarship_Reminder Triggers ===
+
+
+Enabled            : True
+EndBoundary        : 
+ExecutionTimeLimit : 
+Id                 : 
+Repetition         : MSFT_TaskRepetitionPattern
+StartBoundary      : 2026-05-07T09:30:00
+RandomDelay        : 
+PSComputerName     : 
+
+
+
+

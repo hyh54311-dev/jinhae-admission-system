@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제주 3박 4일 가족 여행 일정표</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Hero Section -->
+        <header class="hero">
+            <div class="hero-content">
+                <span class="badge">Family Trip 2026</span>
+                <h1>제주 3박 4일 가족 여행</h1>
+                <p class="date-range">5/2(토) — 5/5(화)</p>
+            </div>
+        </header>
+
+        <!-- Quick Info Grid -->
+        <section class="quick-info">
+            <div class="info-card flight">
+                <div class="card-header">
+                    <i data-lucide="plane"></i>
+                    <h3>항공 (진에어)</h3>
+                </div>
+                <div class="card-body">
+                    <div class="flight-leg">
+                        <span class="leg-label">가는 편</span>
+                        <p>5/2 14:55 부산 → 15:50 제주</p>
+                    </div>
+                    <div class="flight-leg">
+                        <span class="leg-label">오는 편</span>
+                        <p>5/5 16:40 제주 → 17:40 부산</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-card rental-car">
+                <div class="card-header">
+                    <i data-lucide="car"></i>
+                    <h3>렌터카 (제주엔젤카)</h3>
+                </div>
+                <div class="card-body">
+                    <p class="car-model">더 셀토스 (24-25년형)</p>
+                    <div class="car-details">
+                        <span><i data-lucide="clock"></i> 71시간 대여</span>
+                        <span><i data-lucide="baby"></i> 카시트 포함</span>
+                    </div>
+                    <p class="car-time">인수: 5/2 16:00 | 반납: 5/5 15:00</p>
+                    <p class="car-price">총 결제액: 451,100원</p>
+                </div>
+            </div>
+
+            <div class="info-card hotel">
+                <div class="card-header">
+                    <i data-lucide="home"></i>
+                    <h3>숙소</h3>
+                </div>
+                <div class="card-body">
+                    <p><strong>1일차:</strong> 호텔 휘슬락</p>
+                    <p><strong>2~3일차:</strong> 히든 클리프 호텔</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Itinerary Timeline -->
+        <main class="timeline-container">
+            <nav class="day-selector">
+                <button class="day-btn active" data-day="1">Day 1</button>
+                <button class="day-btn" data-day="2">Day 2</button>
+                <button class="day-btn" data-day="3">Day 3</button>
+                <button class="day-btn" data-day="4">Day 4</button>
+            </nav>
+
+            <div class="itinerary">
+                <!-- Day 1 -->
+                <article class="day-section" id="day-1">
+                    <h2 class="day-title">5/2(토) - 푸른 바다와의 첫 만남</h2>
+                    <ul class="events">
+                        <li class="event">
+                            <span class="time">11:00</span>
+                            <div class="event-desc">
+                                <h4>창원 이동</h4>
+                                <p>결혼식 참석 후 부산 이동</p>
+                            </div>
+                        </li>
+                        <li class="event highlight">
+                            <span class="time">15:50</span>
+                            <div class="event-desc">
+                                <h4>제주공항 도착</h4>
+                                <p>렌터카 인수 (제주엔젤카 셔틀 이용)</p>
+                            </div>
+                        </li>
+                        <li class="event baby-friendly">
+                            <span class="time">17:00</span>
+                            <div class="event-desc">
+                                <h4>도두동 무지개 해안도로 <span class="tag">Baby</span></h4>
+                                <p>무지개색 돌 위에서 아기와 사진 촬영 (공항 10분 거리)</p>
+                            </div>
+                        </li>
+                        <li class="event">
+                            <span class="time">18:30</span>
+                            <div class="event-desc">
+                                <h4>동문시장 야시장</h4>
+                                <p>랍스터구이, 전복김밥, 한라봉닭강정 구매</p>
+                            </div>
+                        </li>
+                        <li class="event">
+                            <span class="time">20:00</span>
+                            <div class="event-desc">
+                                <h4>탑동광장 & 호텔</h4>
+                                <p>바닷바람을 맞으며 야시장 음식 즐기기</p>
+                            </div>
+                        </li>
+                    </ul>
+                </article>
+
+                <!-- Day 2 -->
+                <article class="day-section hidden" id="day-2">
+                    <h2 class="day-title">5/3(일) - 마라도와 환상적인 오션뷰</h2>
+                    <ul class="events">
+                        <li class="event">
+                            <span class="time">08:30</span>
+                            <div class="event-desc">
+                                <h4>체크아웃</h4>
+                                <p>호텔 체크아웃 및 서귀포 이동</p>
+                            </div>
+                        </li>
+                        <li class="event food">
+                            <span class="time">10:50</span>
+                            <div class="event-desc">
+                                <h4>마라도 탐방 & 점심</h4>
+                                <p>송악산항 출발. 마라도해녀촌짜장 (톳 짜장면, 전복죽)</p>
+                            </div>
+                        </li>
+                        <li class="event baby-friendly">
+                            <span class="time">13:30</span>
+                            <div class="event-desc">
+                                <h4>송악산 둘레길 <span class="tag">Baby</span></h4>
+                                <p>유모차 가능 코스, 형제섬과 산방산 조망</p>
+                            </div>
+                        </li>
+                        <li class="event baby-friendly">
+                            <span class="time">15:00</span>
+                            <div class="event-desc">
+                                <h4>카페 원앤온리 <span class="tag">Baby</span></h4>
+                                <p>산방산 아래 마당 넓은 카페 (아기 뛰어놀기 좋음)</p>
+                            </div>
+                        </li>
+                        <li class="event">
+                            <span class="time">17:00</span>
+                            <div class="event-desc">
+                                <h4>히든 클리프 체크인</h4>
+                                <p>인피니티 풀 이용 및 휴식</p>
+                            </div>
+                        </li>
+                        <li class="event food baby-friendly">
+                            <span class="time">18:30</span>
+                            <div class="event-desc">
+                                <h4>고집돌우럭 중문점 <span class="tag">Baby</span></h4>
+                                <p>우럭조림 + 아기용 '독게세트' (옥돔구이, 미역국)</p>
+                            </div>
+                        </li>
+                    </ul>
+                </article>
+
+                <!-- Day 3 -->
+                <article class="day-section hidden" id="day-3">
+                    <h2 class="day-title">5/4(월) - 에메랄드빛 해변과 폭포 산책</h2>
+                    <ul class="events">
+                        <li class="event baby-friendly">
+                            <span class="time">11:00</span>
+                            <div class="event-desc">
+                                <h4>가파도 탐방 <span class="tag">Baby</span></h4>
+                                <p>운진항 출발. 평탄한 청보리길 산책. 청보리 소프트 아이스크림</p>
+                            </div>
+                        </li>
+                        <li class="event food baby-friendly">
+                            <span class="time">14:30</span>
+                            <div class="event-desc">
+                                <h4>점심: 협재온다정 <span class="tag">Baby</span></h4>
+                                <p>흑돼지 맑은 곰탕 (아기에게 밥 말아주기 최고)</p>
+                            </div>
+                        </li>
+                        <li class="event baby-friendly">
+                            <span class="time">15:30</span>
+                            <div class="event-desc">
+                                <h4>협재 & 금능 해수욕장 <span class="tag">Baby</span></h4>
+                                <p>수심이 얕아 21개월 아기 모래놀이 최적</p>
+                            </div>
+                        </li>
+                        <li class="event baby-friendly">
+                            <span class="time">18:00</span>
+                            <div class="event-desc">
+                                <h4>천지연 폭포 <span class="tag">Baby</span></h4>
+                                <p>야간 조명이 예쁜 평탄한 산책로 (유모차 필수)</p>
+                            </div>
+                        </li>
+                        <li class="event food baby-friendly">
+                            <span class="time">19:30</span>
+                            <div class="event-desc">
+                                <h4>저녁: 네거리식당 <span class="tag">Baby</span></h4>
+                                <p>갈치구이, 성게미역국 (아기 영양만점)</p>
+                            </div>
+                        </li>
+                    </ul>
+                </article>
+
+                <!-- Day 4 -->
+                <article class="day-section hidden" id="day-4">
+                    <h2 class="day-title">5/5(화) - 어린이날, 숲속 기차 여행</h2>
+                    <ul class="events">
+                        <li class="event highlight baby-friendly">
+                            <span class="time">11:00</span>
+                            <div class="event-desc">
+                                <h4>에코랜드 테마파크 <span class="tag">Baby</span></h4>
+                                <p>곶자왈 숲속 기차 여행 (어린이날 기념 아기 맞춤)</p>
+                            </div>
+                        </li>
+                        <li class="event food baby-friendly">
+                            <span class="time">13:00</span>
+                            <div class="event-desc">
+                                <h4>점심: 담백 함덕점 <span class="tag">Baby</span></h4>
+                                <p>순살 갈치솥밥 (가시가 없어 아기 먹이기 편함)</p>
+                            </div>
+                        </li>
+                        <li class="event">
+                            <span class="time">14:30</span>
+                            <div class="event-desc">
+                                <h4>함덕 해수욕장 & 서우봉</h4>
+                                <p>'제주의 몰디브' 마지막 바다 산책</p>
+                            </div>
+                        </li>
+                        <li class="event warning">
+                            <span class="time">15:30</span>
+                            <div class="event-desc">
+                                <h4>렌터카 반납</h4>
+                                <p>교통 혼잡 고려하여 여유 있게 이동 (공항 이동)</p>
+                            </div>
+                        </li>
+                        <li class="event">
+                            <span class="time">16:40</span>
+                            <div class="event-desc">
+                                <h4>제주공항 출발</h4>
+                                <p>부산행 진에어 탑승</p>
+                            </div>
+                        </li>
+                    </ul>
+                </article>
+            </div>
+        </main>
+
+        <!-- Tips Section -->
+        <footer class="tips">
+            <h3><i data-lucide="lightbulb"></i> 여행 꿀팁</h3>
+            <ul>
+                <li><strong>맛집 대기:</strong> 고집돌우럭, 협재온다정 (캐치테이블/테이블링 원격 줄서기)</li>
+                <li><strong>어린이날:</strong> 함덕/공항 근처 인파 주의, 시간 넉넉히!</li>
+                <li><strong>준비물:</strong> 선글라스, 모자, 휴대용 선풍기 (그늘 부족)</li>
+                <li><strong>서류:</strong> 등본/가족관계증명서 사진 휴대폰 저장</li>
+            </ul>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

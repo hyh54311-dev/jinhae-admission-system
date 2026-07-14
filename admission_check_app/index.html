@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>진해고 입학홍보단 합격자 조회</title>
+    <!-- 구글 폰트 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- 커스텀 스타일 -->
+    <link rel="stylesheet" href="style.css">
+    <!-- PapaParse CSV 파서 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+    <div class="background-circles">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+        <div class="circle circle-3"></div>
+    </div>
+
+    <main class="glass-container">
+        <header>
+            <div class="logo">JH</div>
+            <h1>2026 진해고등학교<br><span class="highlight">입학홍보단 합격자 조회</span></h1>
+            <p>아래에 학번과 이름을 입력해주세요.</p>
+        </header>
+
+        <form id="checkForm">
+            <div class="input-group">
+                <input type="text" id="studentId" required autocomplete="off" placeholder=" ">
+                <label for="studentId">학번 (예: 10101)</label>
+            </div>
+            <div class="input-group">
+                <input type="text" id="studentName" required autocomplete="off" placeholder=" ">
+                <label for="studentName">이름 (예: 홍길동)</label>
+            </div>
+            <button type="submit" id="submitBtn">
+                <span class="btn-text">결과 확인하기</span>
+                <span class="loader hidden"></span>
+            </button>
+        </form>
+
+        <div id="resultBox" class="result-box hidden">
+            <!-- 결과가 여기에 동적으로 삽입됩니다 -->
+        </div>
+    </main>
+
+    <!-- 스크립트 -->
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[학습지] 최신 기출 연계 문법 탐구 : 음운론</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            line-height: 2.0;
+            margin: 40px;
+            padding: 0;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2em;
+            color: #0056b3;
+            border-bottom: 3px solid #0056b3;
+            padding-bottom: 15px;
+            margin-bottom: 40px;
+        }
+        h2 {
+            font-size: 1.5em;
+            color: #007bff;
+        }
+        .student-info {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #eaf4ff;
+        }
+        .student-info span {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .student-info input[type="text"] {
+            border: none;
+            border-bottom: 1px solid #aaa;
+            padding: 5px;
+            width: 100px;
+            margin-right: 20px;
+            background-color: transparent;
+        }
+        .box {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .box p, .box ol {
+            margin: 0;
+            padding: 0;
+        }
+        .box ol {
+            list-style-type: decimal;
+            padding-left: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            background-color: #ffffff;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            color: #555;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        textarea {
+            width: calc(100% - 22px);
+            min-height: 150px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            font-size: 1em;
+            line-height: 1.6;
+            margin-top: 10px;
+            resize: vertical;
+        }
+        .instruction {
+            background-color: #e6f7ff;
+            border-left: 5px solid #007bff;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            font-style: italic;
+            color: #0056b3;
+        }
+        .ai-tutor-guide {
+            background-color: #fff3e0;
+            border-left: 5px solid #ff9800;
+            padding: 10px 15px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            color: #e65100;
+        }
+        .example-note {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>[학습지] 최신 기출 연계 문법 탐구 : 음운론 (음운, 변이음, 형태소, 이형태, 음운 변동 - 자동적/비자동적 교체)</h1>
+
+    <div class="student-info">
+        <span>학년: <input type="text" placeholder="2학년"></span>
+        <span>반: <input type="text" placeholder="0반"></span>
+        <span>번호: <input type="text" placeholder="00번"></span>
+        <span>이름: <input type="text" placeholder="홍길동"></span>
+    </div>
+
+    <div class="instruction">
+        <p><strong>안내:</strong> 이 학습지는 2027학년도 6월 모의평가 음운론 기출문제를 바탕으로 음운, 변이음, 형태소, 이형태, 음운 변동(자동적/비자동적 교체) 개념을 귀납적으로 탐구하도록 구성되었습니다. 제시된 자료를 꼼꼼히 읽고, 스스로 발음해 보며 빈칸을 채워나가세요.</p>
+    </div>
+
+    <h2>[1단계] 기출 데이터 분석하기</h2>
+    <p>다음은 2027학년도 대학수학능력시험 6월 모의평가 35번 문제입니다. 제시된 <보기>와 발문을 읽고, 아래 표를 채워보세요.</p>
+
+    <h3><보기></h3>
+    <div class="box">
+        <p>우리는 ‘공’과 ‘콩’의 소리를 듣고 두 단어의 의미가 다름을 알 수 있는데, 이는 어두에서 실현되는 ‘ㄱ’와 ‘ㅋ’가 의미를 구별해 주기 때문이다. 이처럼 말의 뜻을 구별해 주는 소리의 최소 단위를 음운이라 한다. 그럼 ‘가구’에서 발음되는 두 ‘ㄱ’는 같은 소리일까? ‘가구’의 첫음절의 ‘ㄱ’는 성대의 울림이 없는 무성음 [k]이고, 둘째 음절의 ‘ㄱ’는 앞 모음의 영향을 받아 성대의 울림이 있는 유성음 [g]로 실현된다. 하지만 국어의 파열음에서 성대의 울림 여부가 의미 구별에 영향을 주지 못하기 때문에, 우리는 [k]와 [g]를 하나의 음운 ‘ㄱ’로 인식한다. 이처럼 한 음운이 환경에 따라 달리 실현되는 소리들을 변이음이라 하며, 한 음운의 변이음들은 출현 위치가 서로 겹치지 않는 상보적 분포를 이룬다. 예컨대 파열음 ‘ㅂ, ㄷ, ㄱ’는 어두에서는 무성음 [p, t, k]로 실현된다. 반면 모음과 모음 사이, 비음 ‘ㅁ, ㄴ, ㅇ’과 모음 사이, 유음 ‘ㄹ’와 모음 사이에서는 유성음 [b, d, g]로 실현된다. 이와 유사한 양상은 의미를 가지는 최소 단위인 형태소에도 나타난다. 예컨대 ‘옷’은 조사가 결합되는 환경에서 ‘옷＋이[오시]’, ‘옷＋도[옫또]’, ‘옷＋만[온만]’처럼 ‘옷’의 소리가 [옷], [옫], [온]으로 나타난다. 이처럼 하나의 형태소가 환경에 따라 다양한 모습으로 나타나는 형태들을 이형태라 한다. 한 형태소의 이형태들은 의미 차이를 만들지 않고, 문법적 기능은 동일하며, 나타나는 환경이 겹치지 않는다. 이렇듯 우리는 한 음운의 변이음들을 하나의 동일한 음운으로, 한 형태소의 이형태들을 하나의 동일한 형태소로 인식한다. 한편, 하나의 형태소가 환경에 따라 그 형태가 달리 나타나는 현상은 일어나는 동기에 따라 자동적 교체와 비자동적 교체로 나뉜다. 예컨대 ‘빗다’의 ‘빗-’에 비음 외의 자음이 결합되면 [빋], 비음이 결합되면 [빈]으로 교체된다. 이는 국어에서 종성에 ‘ㄱ, ㄴ, ㄷ, ㄹ, ㅁ, ㅂ, ㅇ’만 발음되고, 자음 ‘ㅂ, ㄷ, ㄱ’가 ‘ㅁ, ㄴ’ 앞에 올 수 없기 때문에 반드시 실현되는 자동적 교체이다. 반면, ‘(허리가) 굽다’의 ‘굽-’에 모음 ‘-어’가 결합될 때 [구버]가 되는 것처럼, 국어에서 ‘ㅂ’와 모음이 결합될 수 있음에도 불구하고 ‘(고기를) 굽다’의 ‘굽-’이 동일한 환경에서 [구워]의 ‘구우’로 교체되는 것은 그 동기를 설명할 수 없는 비자동적 교체이다.</p>
+    </div>
+
+    <h3>발문</h3>
+    <p>윗글을 이해한 내용으로 적절하지 않은 것은?</p>
+    <ol>
+        <li>‘가구’의 두 ‘ㄱ’는 하나의 동일한 음운이다.</li>
+        <li>국어의 파열음에서 성대의 울림은 의미 구별에 영향을 준다.</li>
+        <li>한 음운의 변이음들은 상보적 분포를 이룬다.</li>
+        <li>한 형태소의 이형태들은 동일한 문법적 기능을 수행한다.</li>
+        <li>교체는 하나의 형태소가 환경에 따라, 그 형태가 달리 나타나는 현상이다.</li>
+    </ol>
+
+    <p class="example-note">※ 제시된 <보기>의 내용을 바탕으로 다음 표를 완성해 봅시다. 실제 발음은 음성 기호로, 음운 변동은 해당 개념을 적어주세요.</p>
+    <table>
+        <thead>
+            <tr>
+                <th>표기</th>
+                <th>실제 발음 (음성 기호)</th>
+                <th>관련 음운 현상/개념</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>공</td>
+                <td>[공]</td>
+                <td>음운 (의미 구별)</td>
+            </tr>
+            <tr>
+                <td>콩</td>
+                <td>[콩]</td>
+                <td>음운 (의미 구별)</td>
+            </tr>
+            <tr>
+                <td>가구 (첫 'ㄱ')</td>
+                <td>[k]</td>
+                <td>변이음 (무성음)</td>
+            </tr>
+            <tr>
+                <td>가구 (둘째 'ㄱ')</td>
+                <td>[g]</td>
+                <td>변이음 (유성음)</td>
+            </tr>
+            <tr>
+                <td>옷 + 이</td>
+                <td>[오시]</td>
+                <td>이형태 ('옷'의 이형태 [옷], 연음)</td>
+            </tr>
+            <tr>
+                <td>옷 + 도</td>
+                <td>[옫또]</td>
+                <td>이형태 ('옷'의 이형태 [옫], 음절의 끝소리 규칙, 된소리되기)</td>
+            </tr>
+            <tr>
+                <td>옷 + 만</td>
+                <td>[온만]</td>
+                <td>이형태 ('옷'의 이형태 [온], 음절의 끝소리 규칙, 비음화)</td>
+            </tr>
+            <tr>
+                <td>빗다</td>
+                <td>[빋따]</td>
+                <td>자동적 교체 (음절의 끝소리 규칙, 된소리되기)</td>
+            </tr>
+            <tr>
+                <td>빗- + 만</td>
+                <td>[빈만]</td>
+                <td>자동적 교체 (음절의 끝소리 규칙, 비음화)</td>
+            </tr>
+            <tr>
+                <td>(허리가) 굽다 + -어</td>
+                <td>[구버]</td>
+                <td>비자동적 교체 (대조 예시, 일반 활용)</td>
+            </tr>
+            <tr>
+                <td>(고기를) 굽다 + -어</td>
+                <td>[구워]</td>
+                <td>비자동적 교체 (ㅂ 불규칙 활용)</td>
+            </tr>
+            <tr>
+                <td>(추가 예시)</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>(추가 예시)</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>[2단계] 가설 및 탐구</h2>
+    <p class="instruction">위 표를 바탕으로 이 문제의 정답이 2번인 이유를 귀납적으로 추론하여 가설을 세워봅시다.</p>
+    <textarea placeholder="여기에 가설을 작성하세요. (예: '가구'의 'ㄱ' 발음 변화를 통해... '옷'의 이형태 변화를 통해... 등)"></textarea>
+
+    <div class="ai-tutor-guide">
+        <p><strong>AI 튜터 활용 가이드:</strong> 여러분이 세운 가설이 맞는지, 또는 더 심층적인 탐구를 위해 AI 튜터 웹앱(예: ChatGPT, Bard, Copilot 등)에 접속하여 다음과 같이 질문해 볼 수 있습니다.</p>
+        <ul>
+            <li>"국어의 파열음에서 성대의 울림 여부가 의미 구별에 영향을 주는지 설명해 줘."</li>
+            <li>"음운과 변이음의 차이점을 예시와 함께 알려줘."</li>
+            <li>"자동적 교체와 비자동적 교체의 차이점을 더 많은 예시로 설명해 줘."</li>
+            <li>"내가 작성한 가설이 이 문제의 정답을 설명하는 데 적절한지 평가해 줘."</li>
+        </ul>
+    </div>
+
+    <h2>[3단계] 개념 정교화 및 응용</h2>
+    <p class="instruction">교과서에서 배운 음운론 개념을 떠올리며, 다음 단어들을 소리 내어 발음해 보고, 어떤 음운 현상과 관련이 있는지 분류해 봅시다. 빈칸을 채워보세요.</p>
+    <table>
+        <thead>
+            <tr>
+                <th>표기</th>
+                <th>실제 발음 (음성 기호)</th>
+                <th>관련 음운 현상/개념</th>
+                <th>분류 (음운/변이음/형태소/이형태/자동적 교체/비자동적 교체)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>달 vs 말</td>
+                <td>[달] vs [말]</td>
+                <td>'ㄷ'과 'ㅁ'이 의미를 구별함</td>
+                <td>음운</td>
+            </tr>
+            <tr>
+                <td>아기 (첫 'ㅇ')</td>
+                <td>[ʔ] (음절 초성 'ㅇ'은 소리 없음)</td>
+                <td>음운 (음절 초성 'ㅇ'은 음가가 없음)</td>
+                <td>음운</td>
+            </tr>
+            <tr>
+                <td>아기 (둘째 'ㄱ')</td>
+                <td>[g]</td>
+                <td>모음 사이에서 유성음화</td>
+                <td>변이음</td>
+            </tr>
+            <tr>
+                <td>책상</td>
+                <td>[책쌍]</td>
+                <td>된소리되기</td>
+                <td>자동적 교체</td>
+            </tr>
+            <tr>
+                <td>감기</td>
+                <td>[감기]</td>
+                <td>비음화 (자음동화)</td>
+                <td>자동적 교체</td>
+            </tr>
+            <tr>
+                <td>굳이</td>
+                <td>[구지]</td>
+                <td>구개음화</td>
+                <td>자동적 교체</td>
+            </tr>
+            <tr>
+                <td>돕다 + -아</td>
+                <td>[도와]</td>
+                <td>ㅂ 불규칙 활용</td>
+                <td>비자동적 교체</td>
+            </tr>
+            <tr>
+                <td>짓다 + -어</td>
+                <td>[지어]</td>
+                <td>ㅅ 불규칙 활용</td>
+                <td>비자동적 교체</td>
+            </tr>
+            <tr>
+                <td>빨갛다 + -은</td>
+                <td>[빨간]</td>
+                <td>ㅎ 탈락</td>
+                <td>자동적 교체 (음운 탈락)</td>
+            </tr>
+            <tr>
+                <td>솔 + 나무</td>
+                <td>[소나무]</td>
+                <td>ㄹ 탈락</td>
+                <td>자동적 교체 (음운 탈락)</td>
+            </tr>
+            <tr>
+                <td>꽃잎</td>
+                <td>[꼰닙]</td>
+                <td>음절의 끝소리 규칙, 비음화, ㄴ 첨가</td>
+                <td>자동적 교체</td>
+            </tr>
+            <tr>
+                <td>밭이랑</td>
+                <td>[반니랑]</td>
+                <td>음절의 끝소리 규칙, 비음화, ㄴ 첨가</td>
+                <td>자동적 교체</td>
+            </tr>
+            <tr>
+                <td>(스스로 추가)</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>(스스로 추가)</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

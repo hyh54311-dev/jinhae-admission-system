@@ -1,0 +1,614 @@
+=== INSPECTING WORKBOOK DOM ===
+
+Tag: a | Class: [] | ID:  | OnClick:  | Attrs: {'target': '_blank', 'rel': ['noopener', 'noreferrer'], 'href': 'https://aimyai-api.rootsall.net/media/Item/AI%EB%8F%99%ED%96%89%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8_%EC%A4%91%EB%93%B1%EA%B8%B0%EC%B4%88_%EA%B0%95%EC%9D%98%EC%9A%A9PPT_1%EC%B0%A8%EC%8B%9C_1.pdf'}
+Text (len=23): 1차시 수업 자료 PPT 보러가기 (링크)
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID: root | OnClick:  | Attrs: {'style': 'height:100%'}
+Text (len=729): RootsWBPDF 저장현재 페이지 PDF 저장1/ 6저장됨11차시: 데이터로 만드는 AI21차시 학습 정리32차시: 데이터의 배신42차시 학습 정리53차시: AI가 넘으면 안되는 선63차시 학습 정리1차시 강의용 PPT1차시 수업 자료 PPT 보러가기 (링크)새 탭에
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'size-full', 'bg-background', 'text-foreground'] | ID:  | OnClick:  | Attrs: {}
+Text (len=729): RootsWBPDF 저장현재 페이지 PDF 저장1/ 6저장됨11차시: 데이터로 만드는 AI21차시 학습 정리32차시: 데이터의 배신42차시 학습 정리53차시: AI가 넘으면 안되는 선63차시 학습 정리1차시 강의용 PPT1차시 수업 자료 PPT 보러가기 (링크)새 탭에
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'flex-1', 'h-full', 'min-w-0', 'flex-col', 'overflow-x-hidden'] | ID:  | OnClick:  | Attrs: {}
+Text (len=729): RootsWBPDF 저장현재 페이지 PDF 저장1/ 6저장됨11차시: 데이터로 만드는 AI21차시 학습 정리32차시: 데이터의 배신42차시 학습 정리53차시: AI가 넘으면 안되는 선63차시 학습 정리1차시 강의용 PPT1차시 수업 자료 PPT 보러가기 (링크)새 탭에
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'min-h-0', 'shrink', 'grow', 'relative'] | ID:  | OnClick:  | Attrs: {}
+Text (len=696): 11차시: 데이터로 만드는 AI21차시 학습 정리32차시: 데이터의 배신42차시 학습 정리53차시: AI가 넘으면 안되는 선63차시 학습 정리1차시 강의용 PPT1차시 수업 자료 PPT 보러가기 (링크)새 탭에서 열기AI로 더 좋아진 제품, 서비스 찾기1-1 (활동)규
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'size-full', 'flex-col', 'bg-background', 'h-full', 'w-[220px]', 'shrink-0', 'border-r', 'border-neutral-300'] | ID:  | OnClick:  | Attrs: {}
+Text (len=79): 11차시: 데이터로 만드는 AI21차시 학습 정리32차시: 데이터의 배신42차시 학습 정리53차시: AI가 넘으면 안되는 선63차시 학습 정리
+--------------------------------------------------------------------------------
+Tag: div | Class: ['grow', 'overflow-y-auto', 'p-2'] | ID:  | OnClick:  | Attrs: {}
+Text (len=79): 11차시: 데이터로 만드는 AI21차시 학습 정리32차시: 데이터의 배신42차시 학습 정리53차시: AI가 넘으면 안되는 선63차시 학습 정리
+--------------------------------------------------------------------------------
+Tag: div | Class: ['gap-2', 'flex', 'min-h-full', 'w-full', 'flex-col'] | ID:  | OnClick:  | Attrs: {}
+Text (len=79): 11차시: 데이터로 만드는 AI21차시 학습 정리32차시: 데이터의 배신42차시 학습 정리53차시: AI가 넘으면 안되는 선63차시 학습 정리
+--------------------------------------------------------------------------------
+Tag: div | Class: ['group'] | ID:  | OnClick:  | Attrs: {'draggable': 'false', 'style': 'order: 1;'}
+Text (len=17): 11차시: 데이터로 만드는 AI
+--------------------------------------------------------------------------------
+Tag: div | Class: ['cursor-pointer', 'group', 'relative', 'flex', 'w-full', 'items-center', 'justify-center', 'transition-border', 'p-1', 'rounded-md', 'hover:bg-gray-100', 'transition-all', 'bg-[#b4b4b438]'] | ID:  | OnClick:  | Attrs: {}
+Text (len=17): 11차시: 데이터로 만드는 AI
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'w-full', 'gap-2'] | ID:  | OnClick:  | Attrs: {}
+Text (len=17): 11차시: 데이터로 만드는 AI
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'flex-col', 'border', 'border-gray-300', 'rounded-sm', 'text-xs', 'flex-1', 'p-1', 'gap-2'] | ID:  | OnClick:  | Attrs: {}
+Text (len=16): 1차시: 데이터로 만드는 AI
+--------------------------------------------------------------------------------
+Tag: div | Class: ['group'] | ID:  | OnClick:  | Attrs: {'draggable': 'false', 'style': 'order: 3;'}
+Text (len=10): 21차시 학습 정리
+--------------------------------------------------------------------------------
+Tag: div | Class: ['cursor-pointer', 'group', 'relative', 'flex', 'w-full', 'items-center', 'justify-center', 'transition-border', 'p-1', 'rounded-md', 'hover:bg-gray-100', 'transition-all', 'bg-background'] | ID:  | OnClick:  | Attrs: {}
+Text (len=10): 21차시 학습 정리
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'w-full', 'gap-2'] | ID:  | OnClick:  | Attrs: {}
+Text (len=10): 21차시 학습 정리
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'flex-col', 'border', 'border-gray-300', 'rounded-sm', 'text-xs', 'flex-1', 'p-1', 'gap-2'] | ID:  | OnClick:  | Attrs: {}
+Text (len=9): 1차시 학습 정리
+--------------------------------------------------------------------------------
+Tag: div | Class: ['group'] | ID:  | OnClick:  | Attrs: {'draggable': 'false', 'style': 'order: 5;'}
+Text (len=13): 32차시: 데이터의 배신
+--------------------------------------------------------------------------------
+Tag: div | Class: ['cursor-pointer', 'group', 'relative', 'flex', 'w-full', 'items-center', 'justify-center', 'transition-border', 'p-1', 'rounded-md', 'hover:bg-gray-100', 'transition-all', 'bg-background'] | ID:  | OnClick:  | Attrs: {}
+Text (len=13): 32차시: 데이터의 배신
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'w-full', 'gap-2'] | ID:  | OnClick:  | Attrs: {}
+Text (len=13): 32차시: 데이터의 배신
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'flex-col', 'border', 'border-gray-300', 'rounded-sm', 'text-xs', 'flex-1', 'p-1', 'gap-2'] | ID:  | OnClick:  | Attrs: {}
+Text (len=12): 2차시: 데이터의 배신
+--------------------------------------------------------------------------------
+Tag: div | Class: ['group'] | ID:  | OnClick:  | Attrs: {'draggable': 'false', 'style': 'order: 7;'}
+Text (len=10): 42차시 학습 정리
+--------------------------------------------------------------------------------
+Tag: div | Class: ['cursor-pointer', 'group', 'relative', 'flex', 'w-full', 'items-center', 'justify-center', 'transition-border', 'p-1', 'rounded-md', 'hover:bg-gray-100', 'transition-all', 'bg-background'] | ID:  | OnClick:  | Attrs: {}
+Text (len=10): 42차시 학습 정리
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'w-full', 'gap-2'] | ID:  | OnClick:  | Attrs: {}
+Text (len=10): 42차시 학습 정리
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'flex-col', 'border', 'border-gray-300', 'rounded-sm', 'text-xs', 'flex-1', 'p-1', 'gap-2'] | ID:  | OnClick:  | Attrs: {}
+Text (len=9): 2차시 학습 정리
+--------------------------------------------------------------------------------
+Tag: div | Class: ['group'] | ID:  | OnClick:  | Attrs: {'draggable': 'false', 'style': 'order: 9;'}
+Text (len=19): 53차시: AI가 넘으면 안되는 선
+--------------------------------------------------------------------------------
+Tag: div | Class: ['cursor-pointer', 'group', 'relative', 'flex', 'w-full', 'items-center', 'justify-center', 'transition-border', 'p-1', 'rounded-md', 'hover:bg-gray-100', 'transition-all', 'bg-background'] | ID:  | OnClick:  | Attrs: {}
+Text (len=19): 53차시: AI가 넘으면 안되는 선
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'w-full', 'gap-2'] | ID:  | OnClick:  | Attrs: {}
+Text (len=19): 53차시: AI가 넘으면 안되는 선
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'flex-col', 'border', 'border-gray-300', 'rounded-sm', 'text-xs', 'flex-1', 'p-1', 'gap-2'] | ID:  | OnClick:  | Attrs: {}
+Text (len=18): 3차시: AI가 넘으면 안되는 선
+--------------------------------------------------------------------------------
+Tag: div | Class: ['group'] | ID:  | OnClick:  | Attrs: {'draggable': 'false', 'style': 'order: 11;'}
+Text (len=10): 63차시 학습 정리
+--------------------------------------------------------------------------------
+Tag: div | Class: ['cursor-pointer', 'group', 'relative', 'flex', 'w-full', 'items-center', 'justify-center', 'transition-border', 'p-1', 'rounded-md', 'hover:bg-gray-100', 'transition-all', 'bg-background'] | ID:  | OnClick:  | Attrs: {}
+Text (len=10): 63차시 학습 정리
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'w-full', 'gap-2'] | ID:  | OnClick:  | Attrs: {}
+Text (len=10): 63차시 학습 정리
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'flex-col', 'border', 'border-gray-300', 'rounded-sm', 'text-xs', 'flex-1', 'p-1', 'gap-2'] | ID:  | OnClick:  | Attrs: {}
+Text (len=9): 3차시 학습 정리
+--------------------------------------------------------------------------------
+Tag: div | Class: ['h-full', 'min-h-0', 'min-w-0', 'shrink', 'grow', 'bg-white', 'relative', 'overflow-auto', 'scrollableSlideViewer'] | ID:  | OnClick:  | Attrs: {}
+Text (len=617): 1차시 강의용 PPT1차시 수업 자료 PPT 보러가기 (링크)새 탭에서 열기AI로 더 좋아진 제품, 서비스 찾기1-1 (활동)규칙 기반 SW로 만든 제품 또는 서비스의 문제점을 AI로 해결한 사례를 찾아 봅시다.기존의 제품 또는 서비스(규칙 기반 SW)문제점AI로 해결
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'min-h-[720px]', 'w-fit', 'flex-col', 'py-5', 'bg-background'] | ID: pdf-target | OnClick:  | Attrs: {'style': 'margin: 40px 0px;'}
+Text (len=617): 1차시 강의용 PPT1차시 수업 자료 PPT 보러가기 (링크)새 탭에서 열기AI로 더 좋아진 제품, 서비스 찾기1-1 (활동)규칙 기반 SW로 만든 제품 또는 서비스의 문제점을 AI로 해결한 사례를 찾아 봅시다.기존의 제품 또는 서비스(규칙 기반 SW)문제점AI로 해결
+--------------------------------------------------------------------------------
+Tag: div | Class: ['SlideViewer_scaleShell__fP+1L'] | ID:  | OnClick:  | Attrs: {'style': 'width: 1058px; height: 5992.73px;'}
+Text (len=617): 1차시 강의용 PPT1차시 수업 자료 PPT 보러가기 (링크)새 탭에서 열기AI로 더 좋아진 제품, 서비스 찾기1-1 (활동)규칙 기반 SW로 만든 제품 또는 서비스의 문제점을 AI로 해결한 사례를 찾아 봅시다.기존의 제품 또는 서비스(규칙 기반 SW)문제점AI로 해결
+--------------------------------------------------------------------------------
+Tag: div | Class: ['SlideViewer_scaleDesignRoot__SpXWF'] | ID:  | OnClick:  | Attrs: {'style': 'width: 1900px; min-width: 1000px; max-width: 1900px; transform: scale(0.556842); transform-origin: left top;'}
+Text (len=617): 1차시 강의용 PPT1차시 수업 자료 PPT 보러가기 (링크)새 탭에서 열기AI로 더 좋아진 제품, 서비스 찾기1-1 (활동)규칙 기반 SW로 만든 제품 또는 서비스의 문제점을 AI로 해결한 사례를 찾아 봅시다.기존의 제품 또는 서비스(규칙 기반 SW)문제점AI로 해결
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=42): 1차시 강의용 PPT1차시 수업 자료 PPT 보러가기 (링크)새 탭에서 열기
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'flex-col', 'transition-colors', 'relative', 'outline-1', 'outline-neutral-400', 'outline-0'] | ID:  | OnClick:  | Attrs: {'tabindex': '0'}
+Text (len=42): 1차시 강의용 PPT1차시 수업 자료 PPT 보러가기 (링크)새 탭에서 열기
+--------------------------------------------------------------------------------
+Tag: div | Class: ['slide-contentgroup-block'] | ID:  | OnClick:  | Attrs: {}
+Text (len=42): 1차시 강의용 PPT1차시 수업 자료 PPT 보러가기 (링크)새 탭에서 열기
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {'data-content-id': '72252'}
+Text (len=42): 1차시 강의용 PPT1차시 수업 자료 PPT 보러가기 (링크)새 탭에서 열기
+--------------------------------------------------------------------------------
+Tag: div | Class: ['p-px'] | ID:  | OnClick:  | Attrs: {'style': 'max-height: 1017px;'}
+Text (len=42): 1차시 강의용 PPT1차시 수업 자료 PPT 보러가기 (링크)새 탭에서 열기
+--------------------------------------------------------------------------------
+Tag: div | Class: ['slide-content-block', 'flex', 'flex-col', 'gap-3', 'p-2', 'transition-colors', 'm-5', 'outline-1', 'outline-neutral-400', 'outline-0'] | ID:  | OnClick:  | Attrs: {'style': 'background-color: rgba(229, 228, 253, 0);'}
+Text (len=42): 1차시 강의용 PPT1차시 수업 자료 PPT 보러가기 (링크)새 탭에서 열기
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'gap-2', 'items-start', 'flex-col', 'md:flex-row'] | ID:  | OnClick:  | Attrs: {}
+Text (len=34): 1차시 강의용 PPT1차시 수업 자료 PPT 보러가기 (링크)
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex-1', 'flex', 'justify-center'] | ID:  | OnClick:  | Attrs: {}
+Text (len=34): 1차시 강의용 PPT1차시 수업 자료 PPT 보러가기 (링크)
+--------------------------------------------------------------------------------
+Tag: div | Class: ['Tiptap_wrapper__W5TTD', 'Tiptap_viewer__aoHs2'] | ID:  | OnClick:  | Attrs: {}
+Text (len=34): 1차시 강의용 PPT1차시 수업 자료 PPT 보러가기 (링크)
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=34): 1차시 강의용 PPT1차시 수업 자료 PPT 보러가기 (링크)
+--------------------------------------------------------------------------------
+Tag: div | Class: ['tiptap', 'ProseMirror'] | ID:  | OnClick:  | Attrs: {'contenteditable': 'false', 'translate': 'no', 'style': ''}
+Text (len=34): 1차시 강의용 PPT1차시 수업 자료 PPT 보러가기 (링크)
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=186): AI로 더 좋아진 제품, 서비스 찾기1-1 (활동)규칙 기반 SW로 만든 제품 또는 서비스의 문제점을 AI로 해결한 사례를 찾아 봅시다.기존의 제품 또는 서비스(규칙 기반 SW)문제점AI로 해결한 부분예시) 로봇 청소기예시) 문턱의 높이를 인식해서 이동하다 현관 밖으로
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'flex-col', 'transition-colors', 'relative', 'outline-1', 'outline-neutral-400', 'outline-0'] | ID:  | OnClick:  | Attrs: {'tabindex': '0'}
+Text (len=186): AI로 더 좋아진 제품, 서비스 찾기1-1 (활동)규칙 기반 SW로 만든 제품 또는 서비스의 문제점을 AI로 해결한 사례를 찾아 봅시다.기존의 제품 또는 서비스(규칙 기반 SW)문제점AI로 해결한 부분예시) 로봇 청소기예시) 문턱의 높이를 인식해서 이동하다 현관 밖으로
+--------------------------------------------------------------------------------
+Tag: div | Class: ['slide-contentgroup-block'] | ID:  | OnClick:  | Attrs: {}
+Text (len=186): AI로 더 좋아진 제품, 서비스 찾기1-1 (활동)규칙 기반 SW로 만든 제품 또는 서비스의 문제점을 AI로 해결한 사례를 찾아 봅시다.기존의 제품 또는 서비스(규칙 기반 SW)문제점AI로 해결한 부분예시) 로봇 청소기예시) 문턱의 높이를 인식해서 이동하다 현관 밖으로
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {'data-content-id': '72230'}
+Text (len=186): AI로 더 좋아진 제품, 서비스 찾기1-1 (활동)규칙 기반 SW로 만든 제품 또는 서비스의 문제점을 AI로 해결한 사례를 찾아 봅시다.기존의 제품 또는 서비스(규칙 기반 SW)문제점AI로 해결한 부분예시) 로봇 청소기예시) 문턱의 높이를 인식해서 이동하다 현관 밖으로
+--------------------------------------------------------------------------------
+Tag: div | Class: ['p-px'] | ID:  | OnClick:  | Attrs: {'style': 'max-height: 489px;'}
+Text (len=186): AI로 더 좋아진 제품, 서비스 찾기1-1 (활동)규칙 기반 SW로 만든 제품 또는 서비스의 문제점을 AI로 해결한 사례를 찾아 봅시다.기존의 제품 또는 서비스(규칙 기반 SW)문제점AI로 해결한 부분예시) 로봇 청소기예시) 문턱의 높이를 인식해서 이동하다 현관 밖으로
+--------------------------------------------------------------------------------
+Tag: div | Class: ['slide-content-block', 'flex', 'flex-col', 'gap-3', 'p-2', 'transition-colors', 'm-5', 'outline-1', 'outline-neutral-400', 'outline-0'] | ID:  | OnClick:  | Attrs: {'style': 'background-color: rgb(243, 230, 230);'}
+Text (len=186): AI로 더 좋아진 제품, 서비스 찾기1-1 (활동)규칙 기반 SW로 만든 제품 또는 서비스의 문제점을 AI로 해결한 사례를 찾아 봅시다.기존의 제품 또는 서비스(규칙 기반 SW)문제점AI로 해결한 부분예시) 로봇 청소기예시) 문턱의 높이를 인식해서 이동하다 현관 밖으로
+--------------------------------------------------------------------------------
+Tag: div | Class: ['w-full', 'space-y-4'] | ID:  | OnClick:  | Attrs: {}
+Text (len=110): 기존의 제품 또는 서비스(규칙 기반 SW)문제점AI로 해결한 부분예시) 로봇 청소기예시) 문턱의 높이를 인식해서 이동하다 현관 밖으로 나감예시) 공간을 학습해서 현관을 인지, 밖으로 나가지 않음제출
+--------------------------------------------------------------------------------
+Tag: div | Class: ['slide-subcontent-block'] | ID:  | OnClick:  | Attrs: {}
+Text (len=110): 기존의 제품 또는 서비스(규칙 기반 SW)문제점AI로 해결한 부분예시) 로봇 청소기예시) 문턱의 높이를 인식해서 이동하다 현관 밖으로 나감예시) 공간을 학습해서 현관을 인지, 밖으로 나가지 않음제출
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=110): 기존의 제품 또는 서비스(규칙 기반 SW)문제점AI로 해결한 부분예시) 로봇 청소기예시) 문턱의 높이를 인식해서 이동하다 현관 밖으로 나감예시) 공간을 학습해서 현관을 인지, 밖으로 나가지 않음제출
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=110): 기존의 제품 또는 서비스(규칙 기반 SW)문제점AI로 해결한 부분예시) 로봇 청소기예시) 문턱의 높이를 인식해서 이동하다 현관 밖으로 나감예시) 공간을 학습해서 현관을 인지, 밖으로 나가지 않음제출
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=110): 기존의 제품 또는 서비스(규칙 기반 SW)문제점AI로 해결한 부분예시) 로봇 청소기예시) 문턱의 높이를 인식해서 이동하다 현관 밖으로 나감예시) 공간을 학습해서 현관을 인지, 밖으로 나가지 않음제출
+--------------------------------------------------------------------------------
+Tag: div | Class: ['transition-shadow', 'relative', 'size-full'] | ID:  | OnClick:  | Attrs: {'data-ele': '{"category":"Subcontent","target":{"id":143903,"code":"dbf8feea-f550-47a3-a553-e5590be21251","type":"table","content":{"id":72230,"field":"components","order":0},"template":"","color":"#616bf0","metadata":{},"tableData":{"tableTitle":"","tableDescription":"","rowTitle":[{"height":"60px","content":"","type":"text"},{"height":"60px","content":"","type":"text"}],"colTitle":[{"width":"120px","content":"<p style=\\"text-align: center\\" class=\\"text-body-lg\\">기존의 제품 또는 서비스</p><p style=\\"text-align: center\\" class=\\"text-body-lg\\">(규칙 기반 SW)</p>","type":"text","sort":false},{"width":"120px","content":"<p style=\\"text-align: center\\" class=\\"text-body-lg\\">문제점</p>","type":"text","sort":false},{"width":"120px","content":"<p style=\\"text-align: center\\" class=\\"text-body-lg\\">AI로 해결한 부분</p>","type":"text","sort":false}],"rowTitleColWidth":"80px","additionalFunction":false,"titleEditable":false,"descriptionEditable":false,"showRowTitle":false,"showColTitle":true,"isFunctionTable":false,"fontSettings":{"rowTitle":"","colTitle":"","cell":""},"lastModified":"2026-05-20T01:39:10.428Z","data":[[{"type":"text","content":"<p style=\\"text-align: center\\" class=\\"text-body-lg\\">예시) 로봇 청소기</p>","editable":false},{"type":"text","content":"<p style=\\"text-align: center\\" class=\\"text-body-lg\\">예시) 문턱의 높이를 인식해서 이동하다 현관 밖으로 나감</p>","editable":false},{"type":"text","content":"<p style=\\"text-align: center\\" class=\\"text-body-lg\\">예시) 공간을 학습해서 현관을 인지, 밖으로 나가지 않음</p>","editable":false}],[{"type":"text","content":"","editable":true},{"type":"text","content":"","editable":true},{"type":"text","content":"","editable":true}]],"has_answer":false}},"event":null}', 'data-content-id': '143903', 'style': 'border-radius: 5px;'}
+Text (len=110): 기존의 제품 또는 서비스(규칙 기반 SW)문제점AI로 해결한 부분예시) 로봇 청소기예시) 문턱의 높이를 인식해서 이동하다 현관 밖으로 나감예시) 공간을 학습해서 현관을 인지, 밖으로 나가지 않음제출
+--------------------------------------------------------------------------------
+Tag: div | Class: ['relative'] | ID:  | OnClick:  | Attrs: {}
+Text (len=110): 기존의 제품 또는 서비스(규칙 기반 SW)문제점AI로 해결한 부분예시) 로봇 청소기예시) 문턱의 높이를 인식해서 이동하다 현관 밖으로 나감예시) 공간을 학습해서 현관을 인지, 밖으로 나가지 않음제출
+--------------------------------------------------------------------------------
+Tag: div | Class: ['Resizable_resize-area__6vkOm', 'mx-auto', 'max-w-full'] | ID:  | OnClick:  | Attrs: {'tabindex': '0', 'data-disabled': 'true', 'data-focused': 'false', 'style': 'width: 84.582%;'}
+Text (len=108): 기존의 제품 또는 서비스(규칙 기반 SW)문제점AI로 해결한 부분예시) 로봇 청소기예시) 문턱의 높이를 인식해서 이동하다 현관 밖으로 나감예시) 공간을 학습해서 현관을 인지, 밖으로 나가지 않음
+--------------------------------------------------------------------------------
+Tag: div | Class: ['w-full', 'h-full'] | ID:  | OnClick:  | Attrs: {}
+Text (len=108): 기존의 제품 또는 서비스(규칙 기반 SW)문제점AI로 해결한 부분예시) 로봇 청소기예시) 문턱의 높이를 인식해서 이동하다 현관 밖으로 나감예시) 공간을 학습해서 현관을 인지, 밖으로 나가지 않음
+--------------------------------------------------------------------------------
+Tag: div | Class: ['w-full', 'p-2'] | ID:  | OnClick:  | Attrs: {}
+Text (len=108): 기존의 제품 또는 서비스(규칙 기반 SW)문제점AI로 해결한 부분예시) 로봇 청소기예시) 문턱의 높이를 인식해서 이동하다 현관 밖으로 나감예시) 공간을 학습해서 현관을 인지, 밖으로 나가지 않음
+--------------------------------------------------------------------------------
+Tag: div | Class: ['relative', 'overflow-visible', 'border', 'border-gray-200', 'rounded-lg', 'bg-white'] | ID:  | OnClick:  | Attrs: {'style': 'width: 100%;'}
+Text (len=108): 기존의 제품 또는 서비스(규칙 기반 SW)문제점AI로 해결한 부분예시) 로봇 청소기예시) 문턱의 높이를 인식해서 이동하다 현관 밖으로 나감예시) 공간을 학습해서 현관을 인지, 밖으로 나가지 않음
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'flex-col', 'gap-1', 'w-fit', 'h-fit', 'overflow-visible'] | ID:  | OnClick:  | Attrs: {}
+Text (len=108): 기존의 제품 또는 서비스(규칙 기반 SW)문제점AI로 해결한 부분예시) 로봇 청소기예시) 문턱의 높이를 인식해서 이동하다 현관 밖으로 나감예시) 공간을 학습해서 현관을 인지, 밖으로 나가지 않음
+--------------------------------------------------------------------------------
+Tag: div | Class: ['relative', 'flex', 'gap-1', 'w-fit', 'h-fit', 'overflow-visible'] | ID:  | OnClick:  | Attrs: {}
+Text (len=108): 기존의 제품 또는 서비스(규칙 기반 SW)문제점AI로 해결한 부분예시) 로봇 청소기예시) 문턱의 높이를 인식해서 이동하다 현관 밖으로 나감예시) 공간을 학습해서 현관을 인지, 밖으로 나가지 않음
+--------------------------------------------------------------------------------
+Tag: div | Class: ['w-full', 'h-full', 'p-3', 'text-gray-700'] | ID:  | OnClick:  | Attrs: {}
+Text (len=31): 예시) 공간을 학습해서 현관을 인지, 밖으로 나가지 않음
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=40): 머신 러닝 학습 과정 [사용법][티처블 머신에서 이미지 프로젝트 만들기]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'flex-col', 'transition-colors', 'relative', 'outline-1', 'outline-neutral-400', 'outline-0'] | ID:  | OnClick:  | Attrs: {'tabindex': '0'}
+Text (len=40): 머신 러닝 학습 과정 [사용법][티처블 머신에서 이미지 프로젝트 만들기]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['slide-contentgroup-block'] | ID:  | OnClick:  | Attrs: {}
+Text (len=40): 머신 러닝 학습 과정 [사용법][티처블 머신에서 이미지 프로젝트 만들기]
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {'data-content-id': '72232'}
+Text (len=40): 머신 러닝 학습 과정 [사용법][티처블 머신에서 이미지 프로젝트 만들기]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['p-px'] | ID:  | OnClick:  | Attrs: {'style': 'max-height: 880px;'}
+Text (len=40): 머신 러닝 학습 과정 [사용법][티처블 머신에서 이미지 프로젝트 만들기]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['slide-content-block', 'flex', 'flex-col', 'gap-3', 'p-2', 'transition-colors', 'm-5', 'outline-1', 'outline-neutral-400', 'outline-0'] | ID:  | OnClick:  | Attrs: {'style': 'background-color: rgba(229, 228, 253, 0);'}
+Text (len=40): 머신 러닝 학습 과정 [사용법][티처블 머신에서 이미지 프로젝트 만들기]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'gap-2', 'items-start', 'flex-col', 'md:flex-row'] | ID:  | OnClick:  | Attrs: {}
+Text (len=17): 머신 러닝 학습 과정 [사용법]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex-1', 'flex', 'justify-start'] | ID:  | OnClick:  | Attrs: {}
+Text (len=17): 머신 러닝 학습 과정 [사용법]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['Tiptap_wrapper__W5TTD', 'Tiptap_viewer__aoHs2'] | ID:  | OnClick:  | Attrs: {}
+Text (len=17): 머신 러닝 학습 과정 [사용법]
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=17): 머신 러닝 학습 과정 [사용법]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['tiptap', 'ProseMirror'] | ID:  | OnClick:  | Attrs: {'contenteditable': 'false', 'translate': 'no', 'style': ''}
+Text (len=17): 머신 러닝 학습 과정 [사용법]
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=77): 웹 캠으로 실시간 데이터 수집 및 학습[웹 캠으로 데이터 추가][머신 러닝 학습 과정: 데이터 입력, 학습][머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'flex-col', 'transition-colors', 'relative', 'outline-1', 'outline-neutral-400', 'outline-0'] | ID:  | OnClick:  | Attrs: {'tabindex': '0'}
+Text (len=77): 웹 캠으로 실시간 데이터 수집 및 학습[웹 캠으로 데이터 추가][머신 러닝 학습 과정: 데이터 입력, 학습][머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['slide-contentgroup-block'] | ID:  | OnClick:  | Attrs: {}
+Text (len=77): 웹 캠으로 실시간 데이터 수집 및 학습[웹 캠으로 데이터 추가][머신 러닝 학습 과정: 데이터 입력, 학습][머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {'data-content-id': '72233'}
+Text (len=77): 웹 캠으로 실시간 데이터 수집 및 학습[웹 캠으로 데이터 추가][머신 러닝 학습 과정: 데이터 입력, 학습][머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['p-px'] | ID:  | OnClick:  | Attrs: {'style': 'max-height: 3052px;'}
+Text (len=77): 웹 캠으로 실시간 데이터 수집 및 학습[웹 캠으로 데이터 추가][머신 러닝 학습 과정: 데이터 입력, 학습][머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['slide-content-block', 'flex', 'flex-col', 'gap-3', 'p-2', 'transition-colors', 'm-5', 'outline-1', 'outline-neutral-400', 'outline-0'] | ID:  | OnClick:  | Attrs: {'style': 'background-color: rgba(229, 228, 253, 0);'}
+Text (len=77): 웹 캠으로 실시간 데이터 수집 및 학습[웹 캠으로 데이터 추가][머신 러닝 학습 과정: 데이터 입력, 학습][머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'gap-2', 'items-start', 'flex-col', 'md:flex-row'] | ID:  | OnClick:  | Attrs: {}
+Text (len=21): 웹 캠으로 실시간 데이터 수집 및 학습
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex-1', 'flex', 'justify-start'] | ID:  | OnClick:  | Attrs: {}
+Text (len=21): 웹 캠으로 실시간 데이터 수집 및 학습
+--------------------------------------------------------------------------------
+Tag: div | Class: ['Tiptap_wrapper__W5TTD', 'Tiptap_viewer__aoHs2'] | ID:  | OnClick:  | Attrs: {}
+Text (len=21): 웹 캠으로 실시간 데이터 수집 및 학습
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=21): 웹 캠으로 실시간 데이터 수집 및 학습
+--------------------------------------------------------------------------------
+Tag: div | Class: ['tiptap', 'ProseMirror'] | ID:  | OnClick:  | Attrs: {'contenteditable': 'false', 'translate': 'no', 'style': ''}
+Text (len=21): 웹 캠으로 실시간 데이터 수집 및 학습
+--------------------------------------------------------------------------------
+Tag: div | Class: ['w-full', 'space-y-4'] | ID:  | OnClick:  | Attrs: {}
+Text (len=56): [웹 캠으로 데이터 추가][머신 러닝 학습 과정: 데이터 입력, 학습][머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['slide-subcontent-block'] | ID:  | OnClick:  | Attrs: {}
+Text (len=56): [웹 캠으로 데이터 추가][머신 러닝 학습 과정: 데이터 입력, 학습][머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=56): [웹 캠으로 데이터 추가][머신 러닝 학습 과정: 데이터 입력, 학습][머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=56): [웹 캠으로 데이터 추가][머신 러닝 학습 과정: 데이터 입력, 학습][머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=14): [웹 캠으로 데이터 추가]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['transition-shadow', 'relative', 'size-full'] | ID:  | OnClick:  | Attrs: {'data-ele': '{"category":"Subcontent","target":{"id":143908,"code":"c5987cae-2c1d-4e19-bad9-0dcf0d04e4bc","type":"text","content":{"id":72233,"field":"submaterials","order":0},"template":"","color":"#168660","metadata":{},"text":"<p style=\\"text-align: center\\" class=\\"text-h3\\"><strong>[웹 캠으로 데이터 추가]</strong></p>","tags":""},"event":null}', 'data-content-id': '143908', 'style': 'border-radius: 5px;'}
+Text (len=14): [웹 캠으로 데이터 추가]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['relative'] | ID:  | OnClick:  | Attrs: {}
+Text (len=14): [웹 캠으로 데이터 추가]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['Resizable_resize-area__6vkOm', 'mx-auto', 'max-w-full'] | ID:  | OnClick:  | Attrs: {'tabindex': '0', 'data-disabled': 'true'}
+Text (len=14): [웹 캠으로 데이터 추가]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['w-full', 'h-full'] | ID:  | OnClick:  | Attrs: {}
+Text (len=14): [웹 캠으로 데이터 추가]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['size-full'] | ID:  | OnClick:  | Attrs: {}
+Text (len=14): [웹 캠으로 데이터 추가]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['size-full', 'p-0', 'Tiptap_wrapper__W5TTD', 'Tiptap_viewer__aoHs2'] | ID:  | OnClick:  | Attrs: {}
+Text (len=14): [웹 캠으로 데이터 추가]
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=14): [웹 캠으로 데이터 추가]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['tiptap', 'ProseMirror'] | ID:  | OnClick:  | Attrs: {'contenteditable': 'false', 'translate': 'no', 'style': ''}
+Text (len=14): [웹 캠으로 데이터 추가]
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=25): [머신 러닝 학습 과정: 데이터 입력, 학습]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['transition-shadow', 'relative', 'size-full'] | ID:  | OnClick:  | Attrs: {'data-ele': '{"category":"Subcontent","target":{"id":143910,"code":"5b1148e4-d258-4e66-ad3c-f8381b5d1612","type":"text","content":{"id":72233,"field":"submaterials","order":2},"template":"","color":"#387c3a","metadata":{},"text":"<p style=\\"text-align: center\\" class=\\"text-h3\\"><strong>[머신 러닝 학습 과정: 데이터 입력, 학습]</strong></p>","tags":""},"event":null}', 'data-content-id': '143910', 'style': 'border-radius: 5px;'}
+Text (len=25): [머신 러닝 학습 과정: 데이터 입력, 학습]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['relative'] | ID:  | OnClick:  | Attrs: {}
+Text (len=25): [머신 러닝 학습 과정: 데이터 입력, 학습]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['Resizable_resize-area__6vkOm', 'mx-auto', 'max-w-full'] | ID:  | OnClick:  | Attrs: {'tabindex': '0', 'data-disabled': 'true'}
+Text (len=25): [머신 러닝 학습 과정: 데이터 입력, 학습]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['w-full', 'h-full'] | ID:  | OnClick:  | Attrs: {}
+Text (len=25): [머신 러닝 학습 과정: 데이터 입력, 학습]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['size-full'] | ID:  | OnClick:  | Attrs: {}
+Text (len=25): [머신 러닝 학습 과정: 데이터 입력, 학습]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['size-full', 'p-0', 'Tiptap_wrapper__W5TTD', 'Tiptap_viewer__aoHs2'] | ID:  | OnClick:  | Attrs: {}
+Text (len=25): [머신 러닝 학습 과정: 데이터 입력, 학습]
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=25): [머신 러닝 학습 과정: 데이터 입력, 학습]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['tiptap', 'ProseMirror'] | ID:  | OnClick:  | Attrs: {'contenteditable': 'false', 'translate': 'no', 'style': ''}
+Text (len=25): [머신 러닝 학습 과정: 데이터 입력, 학습]
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=17): [머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['transition-shadow', 'relative', 'size-full'] | ID:  | OnClick:  | Attrs: {'data-ele': '{"category":"Subcontent","target":{"id":143912,"code":"b7614002-751d-42b4-bcd5-dafab77300b4","type":"text","content":{"id":72233,"field":"submaterials","order":4},"template":"","color":"#e06ee4","metadata":{},"text":"<p style=\\"text-align: center\\" class=\\"text-h3\\"><strong>[머신 러닝 학습 과정: 추론]</strong></p>","tags":""},"event":null}', 'data-content-id': '143912', 'style': 'border-radius: 5px;'}
+Text (len=17): [머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['relative'] | ID:  | OnClick:  | Attrs: {}
+Text (len=17): [머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['Resizable_resize-area__6vkOm', 'mx-auto', 'max-w-full'] | ID:  | OnClick:  | Attrs: {'tabindex': '0', 'data-disabled': 'true'}
+Text (len=17): [머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['w-full', 'h-full'] | ID:  | OnClick:  | Attrs: {}
+Text (len=17): [머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['size-full'] | ID:  | OnClick:  | Attrs: {}
+Text (len=17): [머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['size-full', 'p-0', 'Tiptap_wrapper__W5TTD', 'Tiptap_viewer__aoHs2'] | ID:  | OnClick:  | Attrs: {}
+Text (len=17): [머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=17): [머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['tiptap', 'ProseMirror'] | ID:  | OnClick:  | Attrs: {'contenteditable': 'false', 'translate': 'no', 'style': ''}
+Text (len=17): [머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=63): 1-2 (활동)웹 캠으로 머신 러닝을 학습 시킨 화면을 캡처하여 업로드 해 봅시다.이미지 1이미지 추가창 캡쳐제출
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'flex-col', 'transition-colors', 'relative', 'outline-1', 'outline-neutral-400', 'outline-0'] | ID:  | OnClick:  | Attrs: {'tabindex': '0'}
+Text (len=63): 1-2 (활동)웹 캠으로 머신 러닝을 학습 시킨 화면을 캡처하여 업로드 해 봅시다.이미지 1이미지 추가창 캡쳐제출
+--------------------------------------------------------------------------------
+Tag: div | Class: ['slide-contentgroup-block'] | ID:  | OnClick:  | Attrs: {}
+Text (len=63): 1-2 (활동)웹 캠으로 머신 러닝을 학습 시킨 화면을 캡처하여 업로드 해 봅시다.이미지 1이미지 추가창 캡쳐제출
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {'data-content-id': '72245'}
+Text (len=63): 1-2 (활동)웹 캠으로 머신 러닝을 학습 시킨 화면을 캡처하여 업로드 해 봅시다.이미지 1이미지 추가창 캡쳐제출
+--------------------------------------------------------------------------------
+Tag: div | Class: ['p-px'] | ID:  | OnClick:  | Attrs: {'style': 'max-height: 678px;'}
+Text (len=63): 1-2 (활동)웹 캠으로 머신 러닝을 학습 시킨 화면을 캡처하여 업로드 해 봅시다.이미지 1이미지 추가창 캡쳐제출
+--------------------------------------------------------------------------------
+Tag: div | Class: ['slide-content-block', 'flex', 'flex-col', 'gap-3', 'p-2', 'transition-colors', 'm-5', 'outline-1', 'outline-neutral-400', 'outline-0'] | ID:  | OnClick:  | Attrs: {'style': 'background-color: rgb(243, 230, 230);'}
+Text (len=63): 1-2 (활동)웹 캠으로 머신 러닝을 학습 시킨 화면을 캡처하여 업로드 해 봅시다.이미지 1이미지 추가창 캡쳐제출
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'gap-2', 'items-start', 'flex-col', 'md:flex-row'] | ID:  | OnClick:  | Attrs: {}
+Text (len=46): 1-2 (활동)웹 캠으로 머신 러닝을 학습 시킨 화면을 캡처하여 업로드 해 봅시다.
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex-1', 'flex', 'justify-start'] | ID:  | OnClick:  | Attrs: {}
+Text (len=46): 1-2 (활동)웹 캠으로 머신 러닝을 학습 시킨 화면을 캡처하여 업로드 해 봅시다.
+--------------------------------------------------------------------------------
+Tag: div | Class: ['Tiptap_wrapper__W5TTD', 'Tiptap_viewer__aoHs2'] | ID:  | OnClick:  | Attrs: {}
+Text (len=46): 1-2 (활동)웹 캠으로 머신 러닝을 학습 시킨 화면을 캡처하여 업로드 해 봅시다.
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=46): 1-2 (활동)웹 캠으로 머신 러닝을 학습 시킨 화면을 캡처하여 업로드 해 봅시다.
+--------------------------------------------------------------------------------
+Tag: div | Class: ['tiptap', 'ProseMirror'] | ID:  | OnClick:  | Attrs: {'contenteditable': 'false', 'translate': 'no', 'style': ''}
+Text (len=46): 1-2 (활동)웹 캠으로 머신 러닝을 학습 시킨 화면을 캡처하여 업로드 해 봅시다.
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=71): 제공된 데이터 셋 파일로 학습[업로드로 데이터 추가][머신 러닝 학습 과정: 데이터 입력, 학습][머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'flex-col', 'transition-colors', 'relative', 'outline-1', 'outline-neutral-400', 'outline-0'] | ID:  | OnClick:  | Attrs: {'tabindex': '0'}
+Text (len=71): 제공된 데이터 셋 파일로 학습[업로드로 데이터 추가][머신 러닝 학습 과정: 데이터 입력, 학습][머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['slide-contentgroup-block'] | ID:  | OnClick:  | Attrs: {}
+Text (len=71): 제공된 데이터 셋 파일로 학습[업로드로 데이터 추가][머신 러닝 학습 과정: 데이터 입력, 학습][머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {'data-content-id': '72234'}
+Text (len=71): 제공된 데이터 셋 파일로 학습[업로드로 데이터 추가][머신 러닝 학습 과정: 데이터 입력, 학습][머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['p-px'] | ID:  | OnClick:  | Attrs: {'style': 'max-height: 3052px;'}
+Text (len=71): 제공된 데이터 셋 파일로 학습[업로드로 데이터 추가][머신 러닝 학습 과정: 데이터 입력, 학습][머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['slide-content-block', 'flex', 'flex-col', 'gap-3', 'p-2', 'transition-colors', 'm-5', 'outline-1', 'outline-neutral-400', 'outline-0'] | ID:  | OnClick:  | Attrs: {'style': 'background-color: rgba(229, 228, 253, 0);'}
+Text (len=71): 제공된 데이터 셋 파일로 학습[업로드로 데이터 추가][머신 러닝 학습 과정: 데이터 입력, 학습][머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'gap-2', 'items-start', 'flex-col', 'md:flex-row'] | ID:  | OnClick:  | Attrs: {}
+Text (len=16): 제공된 데이터 셋 파일로 학습
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex-1', 'flex', 'justify-start'] | ID:  | OnClick:  | Attrs: {}
+Text (len=16): 제공된 데이터 셋 파일로 학습
+--------------------------------------------------------------------------------
+Tag: div | Class: ['Tiptap_wrapper__W5TTD', 'Tiptap_viewer__aoHs2'] | ID:  | OnClick:  | Attrs: {}
+Text (len=16): 제공된 데이터 셋 파일로 학습
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=16): 제공된 데이터 셋 파일로 학습
+--------------------------------------------------------------------------------
+Tag: div | Class: ['tiptap', 'ProseMirror'] | ID:  | OnClick:  | Attrs: {'contenteditable': 'false', 'translate': 'no', 'style': ''}
+Text (len=16): 제공된 데이터 셋 파일로 학습
+--------------------------------------------------------------------------------
+Tag: div | Class: ['w-full', 'space-y-4'] | ID:  | OnClick:  | Attrs: {}
+Text (len=55): [업로드로 데이터 추가][머신 러닝 학습 과정: 데이터 입력, 학습][머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['slide-subcontent-block'] | ID:  | OnClick:  | Attrs: {}
+Text (len=55): [업로드로 데이터 추가][머신 러닝 학습 과정: 데이터 입력, 학습][머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=55): [업로드로 데이터 추가][머신 러닝 학습 과정: 데이터 입력, 학습][머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=55): [업로드로 데이터 추가][머신 러닝 학습 과정: 데이터 입력, 학습][머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=13): [업로드로 데이터 추가]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['transition-shadow', 'relative', 'size-full'] | ID:  | OnClick:  | Attrs: {'data-ele': '{"category":"Subcontent","target":{"id":143915,"code":"e64fd8d9-3909-49bc-b39c-bd9798180f4e","type":"text","content":{"id":72234,"field":"submaterials","order":0},"template":"","color":"#7a9f07","metadata":{},"text":"<p style=\\"text-align: center\\" class=\\"text-h3\\"><strong>[업로드로 데이터 추가]</strong></p>","tags":""},"event":null}', 'data-content-id': '143915', 'style': 'border-radius: 5px;'}
+Text (len=13): [업로드로 데이터 추가]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['relative'] | ID:  | OnClick:  | Attrs: {}
+Text (len=13): [업로드로 데이터 추가]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['Resizable_resize-area__6vkOm', 'mx-auto', 'max-w-full'] | ID:  | OnClick:  | Attrs: {'tabindex': '0', 'data-disabled': 'true'}
+Text (len=13): [업로드로 데이터 추가]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['w-full', 'h-full'] | ID:  | OnClick:  | Attrs: {}
+Text (len=13): [업로드로 데이터 추가]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['size-full'] | ID:  | OnClick:  | Attrs: {}
+Text (len=13): [업로드로 데이터 추가]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['size-full', 'p-0', 'Tiptap_wrapper__W5TTD', 'Tiptap_viewer__aoHs2'] | ID:  | OnClick:  | Attrs: {}
+Text (len=13): [업로드로 데이터 추가]
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=13): [업로드로 데이터 추가]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['tiptap', 'ProseMirror'] | ID:  | OnClick:  | Attrs: {'contenteditable': 'false', 'translate': 'no', 'style': ''}
+Text (len=13): [업로드로 데이터 추가]
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=25): [머신 러닝 학습 과정: 데이터 입력, 학습]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['transition-shadow', 'relative', 'size-full'] | ID:  | OnClick:  | Attrs: {'data-ele': '{"category":"Subcontent","target":{"id":143917,"code":"9d691efb-d197-4dc0-a008-d23e4d32c562","type":"text","content":{"id":72234,"field":"submaterials","order":2},"template":"","color":"#4da637","metadata":{},"text":"<p style=\\"text-align: center\\" class=\\"text-h3\\"><strong>[머신 러닝 학습 과정: 데이터 입력, 학습]</strong></p>","tags":""},"event":null}', 'data-content-id': '143917', 'style': 'border-radius: 5px;'}
+Text (len=25): [머신 러닝 학습 과정: 데이터 입력, 학습]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['relative'] | ID:  | OnClick:  | Attrs: {}
+Text (len=25): [머신 러닝 학습 과정: 데이터 입력, 학습]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['Resizable_resize-area__6vkOm', 'mx-auto', 'max-w-full'] | ID:  | OnClick:  | Attrs: {'tabindex': '0', 'data-disabled': 'true'}
+Text (len=25): [머신 러닝 학습 과정: 데이터 입력, 학습]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['w-full', 'h-full'] | ID:  | OnClick:  | Attrs: {}
+Text (len=25): [머신 러닝 학습 과정: 데이터 입력, 학습]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['size-full'] | ID:  | OnClick:  | Attrs: {}
+Text (len=25): [머신 러닝 학습 과정: 데이터 입력, 학습]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['size-full', 'p-0', 'Tiptap_wrapper__W5TTD', 'Tiptap_viewer__aoHs2'] | ID:  | OnClick:  | Attrs: {}
+Text (len=25): [머신 러닝 학습 과정: 데이터 입력, 학습]
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=25): [머신 러닝 학습 과정: 데이터 입력, 학습]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['tiptap', 'ProseMirror'] | ID:  | OnClick:  | Attrs: {'contenteditable': 'false', 'translate': 'no', 'style': ''}
+Text (len=25): [머신 러닝 학습 과정: 데이터 입력, 학습]
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=17): [머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['transition-shadow', 'relative', 'size-full'] | ID:  | OnClick:  | Attrs: {'data-ele': '{"category":"Subcontent","target":{"id":143919,"code":"60649f50-1469-4be1-a989-ddce8e72efc1","type":"text","content":{"id":72234,"field":"submaterials","order":4},"template":"","color":"#bce7f5","metadata":{},"text":"<p style=\\"text-align: center\\" class=\\"text-h3\\"><strong>[머신 러닝 학습 과정: 추론]</strong></p>","tags":""},"event":null}', 'data-content-id': '143919', 'style': 'border-radius: 5px;'}
+Text (len=17): [머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['relative'] | ID:  | OnClick:  | Attrs: {}
+Text (len=17): [머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['Resizable_resize-area__6vkOm', 'mx-auto', 'max-w-full'] | ID:  | OnClick:  | Attrs: {'tabindex': '0', 'data-disabled': 'true'}
+Text (len=17): [머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['w-full', 'h-full'] | ID:  | OnClick:  | Attrs: {}
+Text (len=17): [머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['size-full'] | ID:  | OnClick:  | Attrs: {}
+Text (len=17): [머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['size-full', 'p-0', 'Tiptap_wrapper__W5TTD', 'Tiptap_viewer__aoHs2'] | ID:  | OnClick:  | Attrs: {}
+Text (len=17): [머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=17): [머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: ['tiptap', 'ProseMirror'] | ID:  | OnClick:  | Attrs: {'contenteditable': 'false', 'translate': 'no', 'style': ''}
+Text (len=17): [머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=71): 1-3 (활동)제공된 데이터 셋 파일로 머신 러닝을 학습 시킨 화면을 캡처하여 업로드 해 봅시다.이미지 1이미지 추가창 캡쳐제출
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'flex-col', 'transition-colors', 'relative', 'outline-1', 'outline-neutral-400', 'outline-0'] | ID:  | OnClick:  | Attrs: {'tabindex': '0'}
+Text (len=71): 1-3 (활동)제공된 데이터 셋 파일로 머신 러닝을 학습 시킨 화면을 캡처하여 업로드 해 봅시다.이미지 1이미지 추가창 캡쳐제출
+--------------------------------------------------------------------------------
+Tag: div | Class: ['slide-contentgroup-block'] | ID:  | OnClick:  | Attrs: {}
+Text (len=71): 1-3 (활동)제공된 데이터 셋 파일로 머신 러닝을 학습 시킨 화면을 캡처하여 업로드 해 봅시다.이미지 1이미지 추가창 캡쳐제출
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {'data-content-id': '72246'}
+Text (len=71): 1-3 (활동)제공된 데이터 셋 파일로 머신 러닝을 학습 시킨 화면을 캡처하여 업로드 해 봅시다.이미지 1이미지 추가창 캡쳐제출
+--------------------------------------------------------------------------------
+Tag: div | Class: ['p-px'] | ID:  | OnClick:  | Attrs: {'style': 'max-height: 678px;'}
+Text (len=71): 1-3 (활동)제공된 데이터 셋 파일로 머신 러닝을 학습 시킨 화면을 캡처하여 업로드 해 봅시다.이미지 1이미지 추가창 캡쳐제출
+--------------------------------------------------------------------------------
+Tag: div | Class: ['slide-content-block', 'flex', 'flex-col', 'gap-3', 'p-2', 'transition-colors', 'm-5', 'outline-1', 'outline-neutral-400', 'outline-0'] | ID:  | OnClick:  | Attrs: {'style': 'background-color: rgb(243, 230, 230);'}
+Text (len=71): 1-3 (활동)제공된 데이터 셋 파일로 머신 러닝을 학습 시킨 화면을 캡처하여 업로드 해 봅시다.이미지 1이미지 추가창 캡쳐제출
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex', 'gap-2', 'items-start', 'flex-col', 'md:flex-row'] | ID:  | OnClick:  | Attrs: {}
+Text (len=54): 1-3 (활동)제공된 데이터 셋 파일로 머신 러닝을 학습 시킨 화면을 캡처하여 업로드 해 봅시다.
+--------------------------------------------------------------------------------
+Tag: div | Class: ['flex-1', 'flex', 'justify-start'] | ID:  | OnClick:  | Attrs: {}
+Text (len=54): 1-3 (활동)제공된 데이터 셋 파일로 머신 러닝을 학습 시킨 화면을 캡처하여 업로드 해 봅시다.
+--------------------------------------------------------------------------------
+Tag: div | Class: ['Tiptap_wrapper__W5TTD', 'Tiptap_viewer__aoHs2'] | ID:  | OnClick:  | Attrs: {}
+Text (len=54): 1-3 (활동)제공된 데이터 셋 파일로 머신 러닝을 학습 시킨 화면을 캡처하여 업로드 해 봅시다.
+--------------------------------------------------------------------------------
+Tag: div | Class: [] | ID:  | OnClick:  | Attrs: {}
+Text (len=54): 1-3 (활동)제공된 데이터 셋 파일로 머신 러닝을 학습 시킨 화면을 캡처하여 업로드 해 봅시다.
+--------------------------------------------------------------------------------
+Tag: div | Class: ['tiptap', 'ProseMirror'] | ID:  | OnClick:  | Attrs: {'contenteditable': 'false', 'translate': 'no', 'style': ''}
+Text (len=54): 1-3 (활동)제공된 데이터 셋 파일로 머신 러닝을 학습 시킨 화면을 캡처하여 업로드 해 봅시다.
+--------------------------------------------------------------------------------
+Tag: p | Class: ['w-[130px]', 'font-size-1.3x', 'whitespace-pre-line', 'overflow-hidden', 'text-ellipsis'] | ID:  | OnClick:  | Attrs: {'style': 'display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;'}
+Text (len=16): 1차시: 데이터로 만드는 AI
+--------------------------------------------------------------------------------
+Tag: p | Class: ['w-[130px]', 'font-size-1.3x', 'whitespace-pre-line', 'overflow-hidden', 'text-ellipsis'] | ID:  | OnClick:  | Attrs: {'style': 'display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;'}
+Text (len=9): 1차시 학습 정리
+--------------------------------------------------------------------------------
+Tag: p | Class: ['w-[130px]', 'font-size-1.3x', 'whitespace-pre-line', 'overflow-hidden', 'text-ellipsis'] | ID:  | OnClick:  | Attrs: {'style': 'display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;'}
+Text (len=12): 2차시: 데이터의 배신
+--------------------------------------------------------------------------------
+Tag: p | Class: ['w-[130px]', 'font-size-1.3x', 'whitespace-pre-line', 'overflow-hidden', 'text-ellipsis'] | ID:  | OnClick:  | Attrs: {'style': 'display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;'}
+Text (len=9): 2차시 학습 정리
+--------------------------------------------------------------------------------
+Tag: p | Class: ['w-[130px]', 'font-size-1.3x', 'whitespace-pre-line', 'overflow-hidden', 'text-ellipsis'] | ID:  | OnClick:  | Attrs: {'style': 'display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;'}
+Text (len=18): 3차시: AI가 넘으면 안되는 선
+--------------------------------------------------------------------------------
+Tag: p | Class: ['w-[130px]', 'font-size-1.3x', 'whitespace-pre-line', 'overflow-hidden', 'text-ellipsis'] | ID:  | OnClick:  | Attrs: {'style': 'display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;'}
+Text (len=9): 3차시 학습 정리
+--------------------------------------------------------------------------------
+Tag: p | Class: ['text-h1'] | ID:  | OnClick:  | Attrs: {'style': 'text-align: center'}
+Text (len=11): 1차시 강의용 PPT
+--------------------------------------------------------------------------------
+Tag: p | Class: ['text-h3'] | ID:  | OnClick:  | Attrs: {'style': 'text-align: center'}
+Text (len=23): 1차시 수업 자료 PPT 보러가기 (링크)
+--------------------------------------------------------------------------------
+Tag: p | Class: ['text-body-lg'] | ID:  | OnClick:  | Attrs: {'style': 'text-align: center'}
+Text (len=31): 예시) 공간을 학습해서 현관을 인지, 밖으로 나가지 않음
+--------------------------------------------------------------------------------
+Tag: p | Class: ['text-h1'] | ID:  | OnClick:  | Attrs: {'style': 'text-align: justify'}
+Text (len=17): 머신 러닝 학습 과정 [사용법]
+--------------------------------------------------------------------------------
+Tag: p | Class: ['text-h1'] | ID:  | OnClick:  | Attrs: {'style': 'text-align: justify'}
+Text (len=21): 웹 캠으로 실시간 데이터 수집 및 학습
+--------------------------------------------------------------------------------
+Tag: p | Class: ['text-h3'] | ID:  | OnClick:  | Attrs: {'style': 'text-align: center'}
+Text (len=14): [웹 캠으로 데이터 추가]
+--------------------------------------------------------------------------------
+Tag: p | Class: ['text-h3'] | ID:  | OnClick:  | Attrs: {'style': 'text-align: center'}
+Text (len=25): [머신 러닝 학습 과정: 데이터 입력, 학습]
+--------------------------------------------------------------------------------
+Tag: p | Class: ['text-h3'] | ID:  | OnClick:  | Attrs: {'style': 'text-align: center'}
+Text (len=17): [머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: p | Class: ['text-body-lg'] | ID:  | OnClick:  | Attrs: {'style': 'text-align: justify'}
+Text (len=46): 1-2 (활동)웹 캠으로 머신 러닝을 학습 시킨 화면을 캡처하여 업로드 해 봅시다.
+--------------------------------------------------------------------------------
+Tag: p | Class: ['text-h1'] | ID:  | OnClick:  | Attrs: {'style': 'text-align: justify'}
+Text (len=16): 제공된 데이터 셋 파일로 학습
+--------------------------------------------------------------------------------
+Tag: p | Class: ['text-h3'] | ID:  | OnClick:  | Attrs: {'style': 'text-align: center'}
+Text (len=13): [업로드로 데이터 추가]
+--------------------------------------------------------------------------------
+Tag: p | Class: ['text-h3'] | ID:  | OnClick:  | Attrs: {'style': 'text-align: center'}
+Text (len=25): [머신 러닝 학습 과정: 데이터 입력, 학습]
+--------------------------------------------------------------------------------
+Tag: p | Class: ['text-h3'] | ID:  | OnClick:  | Attrs: {'style': 'text-align: center'}
+Text (len=17): [머신 러닝 학습 과정: 추론]
+--------------------------------------------------------------------------------
+Tag: p | Class: ['text-body-lg'] | ID:  | OnClick:  | Attrs: {'style': 'text-align: justify'}
+Text (len=54): 1-3 (활동)제공된 데이터 셋 파일로 머신 러닝을 학습 시킨 화면을 캡처하여 업로드 해 봅시다.
+--------------------------------------------------------------------------------

@@ -1,0 +1,29 @@
+# Security
+.env
+api/.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Logs
+*.log
+last_error.txt
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test Outputs
+test_output/
+token.json
+token_*.json
+credentials.json
+node_modules/

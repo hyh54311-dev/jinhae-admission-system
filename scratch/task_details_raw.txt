@@ -1,0 +1,577 @@
+﻿=======================================
+TaskName: Adobe Acrobat Update Task
+--- Actions ---
+
+
+Id               : 
+Arguments        : 
+Execute          : C:\Program Files (x86)\Common Files\Adobe\ARM\1.0\AdobeARM.exe
+WorkingDirectory : 
+PSComputerName   : 
+
+
+
+
+--- Triggers ---
+
+
+Enabled            : True
+EndBoundary        : 2032-05-02T08:00:00
+ExecutionTimeLimit : 
+Id                 : TriggerUserLoggon
+Repetition         : MSFT_TaskRepetitionPattern
+StartBoundary      : 2013-08-01T12:05:00
+Delay              : PT12M
+UserId             : 
+PSComputerName     : 
+
+Enabled            : True
+EndBoundary        : 2032-05-02T12:05:00
+ExecutionTimeLimit : 
+Id                 : TriggerDaily
+Repetition         : MSFT_TaskRepetitionPattern
+StartBoundary      : 2013-01-01T14:00:00
+DaysInterval       : 1
+RandomDelay        : 
+PSComputerName     : 
+
+
+
+
+=======================================
+TaskName: AI_Scholarship_Reminder
+--- Actions ---
+
+
+Id               : 
+Arguments        : "d:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\run_ai_reminder.vbs"
+Execute          : wscript.exe
+WorkingDirectory : 
+PSComputerName   : 
+
+
+
+
+--- Triggers ---
+
+
+Enabled            : True
+EndBoundary        : 
+ExecutionTimeLimit : 
+Id                 : MonthlyFirstMondayTrigger
+Repetition         : MSFT_TaskRepetitionPattern
+StartBoundary      : 2026-06-01T12:30:00
+PSComputerName     : 
+
+
+
+
+=======================================
+TaskName: Antigravity_Deployment_Reminder
+--- Actions ---
+
+
+Id               : 
+Arguments        : "d:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\remind_deployment.py"
+Execute          : pythonw.exe
+WorkingDirectory : 
+PSComputerName   : 
+
+
+
+
+--- Triggers ---
+
+
+Enabled            : True
+EndBoundary        : 
+ExecutionTimeLimit : 
+Id                 : 
+Repetition         : MSFT_TaskRepetitionPattern
+StartBoundary      : 2026-04-21T13:00:00
+RandomDelay        : 
+PSComputerName     : 
+
+
+
+
+=======================================
+TaskName: Antigravity_Scholarship_Reminder
+--- Actions ---
+
+
+Id               : 
+Arguments        : "d:\OneDrive - 寃쎌긽?⑤룄援먯쑁泥?諛뷀깢 ?붾㈃\吏꾪빐怨좊벑?숆탳\2026?숇뀈??antigravity_folder\scratch\notify_scholarship.p
+                   y"
+Execute          : python.exe
+WorkingDirectory : 
+PSComputerName   : 
+
+
+
+
+--- Triggers ---
+
+
+Enabled            : True
+EndBoundary        : 
+ExecutionTimeLimit : 
+Id                 : 
+Repetition         : MSFT_TaskRepetitionPattern
+StartBoundary      : 2026-05-07T09:30:00
+RandomDelay        : 
+PSComputerName     : 
+
+
+
+
+=======================================
+TaskName: Auto Convert HWP to PDF
+--- Actions ---
+
+
+Id               : 
+Arguments        : "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\run_hwp_convert.vbs"
+Execute          : wscript.exe
+WorkingDirectory : 
+PSComputerName   : 
+
+
+
+
+--- Triggers ---
+
+
+Enabled            : True
+EndBoundary        : 
+ExecutionTimeLimit : 
+Id                 : 
+Repetition         : MSFT_TaskRepetitionPattern
+StartBoundary      : 2026-05-20T10:08:00
+RandomDelay        : 
+PSComputerName     : 
+
+
+
+
+=======================================
+TaskName: DocManager_10AM
+--- Actions ---
+
+
+Id               : 
+Arguments        : "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\run_doc_manager.vbs"
+Execute          : wscript.exe
+WorkingDirectory : 
+PSComputerName   : 
+
+
+
+
+--- Triggers ---
+
+
+Enabled            : True
+EndBoundary        : 
+ExecutionTimeLimit : 
+Id                 : 
+Repetition         : MSFT_TaskRepetitionPattern
+StartBoundary      : 2026-04-20T10:00:00
+DaysOfWeek         : 62
+RandomDelay        : 
+WeeksInterval      : 1
+PSComputerName     : 
+
+
+
+
+=======================================
+TaskName: DocManager_2PM
+--- Actions ---
+
+
+Id               : 
+Arguments        : "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\run_doc_manager.vbs"
+Execute          : wscript.exe
+WorkingDirectory : 
+PSComputerName   : 
+
+
+
+
+--- Triggers ---
+
+
+Enabled            : True
+EndBoundary        : 
+ExecutionTimeLimit : 
+Id                 : 
+Repetition         : MSFT_TaskRepetitionPattern
+StartBoundary      : 2026-04-20T14:00:00
+DaysOfWeek         : 62
+RandomDelay        : 
+WeeksInterval      : 1
+PSComputerName     : 
+
+
+
+
+=======================================
+TaskName: FlightAlertCheck
+--- Actions ---
+
+
+Id               : 
+Arguments        : /c "d:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\run_flight_alert.bat"
+Execute          : cmd.exe
+WorkingDirectory : 
+PSComputerName   : 
+
+
+
+
+--- Triggers ---
+
+
+Enabled            : True
+EndBoundary        : 
+ExecutionTimeLimit : 
+Id                 : 
+Repetition         : MSFT_TaskRepetitionPattern
+StartBoundary      : 2026-03-26T09:00:00+09:00
+DaysInterval       : 1
+RandomDelay        : 
+PSComputerName     : 
+
+Enabled            : True
+EndBoundary        : 
+ExecutionTimeLimit : 
+Id                 : 
+Repetition         : MSFT_TaskRepetitionPattern
+StartBoundary      : 2026-03-26T15:00:00+09:00
+DaysInterval       : 1
+RandomDelay        : 
+PSComputerName     : 
+
+
+
+
+=======================================
+TaskName: GnGPIManager
+--- Actions ---
+
+
+Id               : 
+Arguments        : -r
+Execute          : C:\Program Files (x86)\Geni\CAM\update\GnGPIManager.exe
+WorkingDirectory : 
+PSComputerName   : 
+
+
+
+
+--- Triggers ---
+
+
+Enabled            : True
+EndBoundary        : 
+ExecutionTimeLimit : 
+Id                 : 
+Repetition         : MSFT_TaskRepetitionPattern
+StartBoundary      : 
+Delay              : PT1M
+UserId             : 
+PSComputerName     : 
+
+Enabled            : True
+EndBoundary        : 
+ExecutionTimeLimit : 
+Id                 : 
+Repetition         : MSFT_TaskRepetitionPattern
+StartBoundary      : 2013-07-05T07:05:00
+DaysInterval       : 1
+RandomDelay        : 
+PSComputerName     : 
+
+
+
+
+=======================================
+TaskName: MicrosoftEdgeUpdateTaskUserS-1-5-21-1439095155-3988164725-3033930189-1001Core{91D3525E-E919-440C-9F7B-B30A97A43CEA}
+--- Actions ---
+
+
+Id               : 
+Arguments        : /c
+Execute          : C:\Users\admin\AppData\Local\Microsoft\EdgeUpdate\MicrosoftEdgeUpdate.exe
+WorkingDirectory : 
+PSComputerName   : 
+
+
+
+
+--- Triggers ---
+
+
+Enabled            : True
+EndBoundary        : 
+ExecutionTimeLimit : 
+Id                 : 
+Repetition         : MSFT_TaskRepetitionPattern
+StartBoundary      : 
+Delay              : 
+UserId             : 송정아2025\admin
+PSComputerName     : 
+
+Enabled            : True
+EndBoundary        : 
+ExecutionTimeLimit : 
+Id                 : 
+Repetition         : MSFT_TaskRepetitionPattern
+StartBoundary      : 2026-03-09T09:22:16
+DaysInterval       : 1
+RandomDelay        : 
+PSComputerName     : 
+
+
+
+
+=======================================
+TaskName: MicrosoftEdgeUpdateTaskUserS-1-5-21-1439095155-3988164725-3033930189-1001UA{560879C0-E3D7-456D-ABC3-8B73878081DF}
+--- Actions ---
+
+
+Id               : 
+Arguments        : /ua /installsource scheduler
+Execute          : C:\Users\admin\AppData\Local\Microsoft\EdgeUpdate\MicrosoftEdgeUpdate.exe
+WorkingDirectory : 
+PSComputerName   : 
+
+
+
+
+--- Triggers ---
+
+
+Enabled            : True
+EndBoundary        : 
+ExecutionTimeLimit : 
+Id                 : 
+Repetition         : MSFT_TaskRepetitionPattern
+StartBoundary      : 2026-03-09T08:52:17
+DaysInterval       : 1
+RandomDelay        : 
+PSComputerName     : 
+
+
+
+
+=======================================
+TaskName: MorningCompanyRecommendation
+--- Actions ---
+
+
+Id               : 
+Arguments        : /c "d:\OneDrive - 寃쎌긽?⑤룄援먯쑁泥?諛뷀깢 ?붾㈃\吏꾪빐怨좊벑?숆탳\2026?숇뀈??antigravity_folder\scratch\run_recommend.bat
+                   "
+Execute          : cmd.exe
+WorkingDirectory : 
+PSComputerName   : 
+
+
+
+
+--- Triggers ---
+
+
+Enabled            : True
+EndBoundary        : 
+ExecutionTimeLimit : 
+Id                 : 
+Repetition         : MSFT_TaskRepetitionPattern
+StartBoundary      : 2026-05-13T08:30:00+09:00
+RandomDelay        : 
+PSComputerName     : 
+
+
+
+
+=======================================
+TaskName: OkinawaFlightAlert_10
+--- Actions ---
+
+
+Id               : 
+Arguments        : "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\run_flight_alert.vbs"
+Execute          : wscript.exe
+WorkingDirectory : 
+PSComputerName   : 
+
+
+
+
+--- Triggers ---
+
+
+Enabled            : True
+EndBoundary        : 
+ExecutionTimeLimit : 
+Id                 : 
+Repetition         : MSFT_TaskRepetitionPattern
+StartBoundary      : 2026-04-20T10:00:00
+DaysOfWeek         : 62
+RandomDelay        : 
+WeeksInterval      : 1
+PSComputerName     : 
+
+
+
+
+=======================================
+TaskName: OkinawaFlightAlert_15
+--- Actions ---
+
+
+Id               : 
+Arguments        : "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\run_flight_alert.vbs"
+Execute          : wscript.exe
+WorkingDirectory : 
+PSComputerName   : 
+
+
+
+
+--- Triggers ---
+
+
+Enabled            : True
+EndBoundary        : 
+ExecutionTimeLimit : 
+Id                 : 
+Repetition         : MSFT_TaskRepetitionPattern
+StartBoundary      : 2026-04-20T15:00:00
+DaysOfWeek         : 62
+RandomDelay        : 
+WeeksInterval      : 1
+PSComputerName     : 
+
+
+
+
+=======================================
+TaskName: OneDrive Reporting Task-S-1-5-21-1439095155-3988164725-3033930189-1001
+--- Actions ---
+
+
+Id               : 
+Arguments        : /reporting
+Execute          : %localappdata%\Microsoft\OneDrive\OneDriveStandaloneUpdater.exe
+WorkingDirectory : 
+PSComputerName   : 
+
+
+
+
+--- Triggers ---
+
+
+Enabled            : True
+EndBoundary        : 
+ExecutionTimeLimit : 
+Id                 : 
+Repetition         : MSFT_TaskRepetitionPattern
+StartBoundary      : 2026-06-01T14:11:51
+RandomDelay        : 
+PSComputerName     : 
+
+
+
+
+=======================================
+TaskName: OneDrive Standalone Update Task-S-1-5-21-1439095155-3988164725-3033930189-1001
+--- Actions ---
+
+
+Id               : 
+Arguments        : 
+Execute          : %localappdata%\Microsoft\OneDrive\OneDriveStandaloneUpdater.exe
+WorkingDirectory : 
+PSComputerName   : 
+
+
+
+
+--- Triggers ---
+
+
+Enabled            : True
+EndBoundary        : 
+ExecutionTimeLimit : 
+Id                 : 
+Repetition         : MSFT_TaskRepetitionPattern
+StartBoundary      : 1992-05-01T13:00:00
+RandomDelay        : PT4H
+PSComputerName     : 
+
+
+
+
+=======================================
+TaskName: OneDrive Startup Task-S-1-5-21-1439095155-3988164725-3033930189-1001
+--- Actions ---
+
+
+Id               : 
+Arguments        : /startInstances
+Execute          : C:\Users\admin\AppData\Local\Microsoft\OneDrive\26.084.0504.0007\OneDriveLauncher.exe
+WorkingDirectory : 
+PSComputerName   : 
+
+
+
+
+--- Triggers ---
+
+
+Enabled            : True
+EndBoundary        : 
+ExecutionTimeLimit : PT5M
+Id                 : 
+Repetition         : MSFT_TaskRepetitionPattern
+StartBoundary      : 
+Delay              : PT10M
+UserId             : 황요한2026\황요한2026
+PSComputerName     : 
+
+
+
+
+=======================================
+TaskName: Test
+--- Actions ---
+
+
+Id               : 
+Arguments        : - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\run_doc_manager.vbs
+Execute          : d:\OneDrive
+WorkingDirectory : 
+PSComputerName   : 
+
+
+
+
+--- Triggers ---
+
+
+Enabled            : True
+EndBoundary        : 
+ExecutionTimeLimit : 
+Id                 : 
+Repetition         : MSFT_TaskRepetitionPattern
+StartBoundary      : 2026-04-20T23:59:00
+RandomDelay        : 
+PSComputerName     : 
+
+
+
+

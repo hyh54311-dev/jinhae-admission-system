@@ -1,0 +1,5 @@
+requests==2.31.0
+python-dotenv==1.0.1
+functions-framework==3.5.0
+urllib3==2.2.1
+mcp

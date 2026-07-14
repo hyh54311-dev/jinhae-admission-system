@@ -1,0 +1,112 @@
+=== Google Apps Script Projects ===
+[1] 주말 경제 뉴스 생성 | ID: 1kgp-qF7pwekx_VZ_1kVZ4XMbNZGYbL_FlXOJI6E8UeUeoiCRQoE7Gtes | Modified: 2026-06-03T12:53:49.577Z
+[2] 매일 경제뉴스 생성 | ID: 1C4SmIseUA28iTVmYeYcteukRL9aXBcdcK_NvnuSILDjFwxfr4x6nrp1P | Modified: 2026-06-03T12:35:17.945Z
+[3] 제목 없는 프로젝트 | ID: 1NrVqbyfsrEghfM42vIJgW5_ayVhM5jV2x8BIIG4NgNoBzgkRXYCc--gB | Modified: 2026-05-06T01:30:47.545Z
+[4] 제목 없는 프로젝트 | ID: 19bFs6QW1-F3ec8RDaEvJkNqGW3htaLxracavLA9YXSPzYTVtNQFKTwUY | Modified: 2026-03-16T02:36:45.781Z
+[5] 제목 없는 프로젝트 | ID: 1jpxnsyyg8z4iDxxSz_vLmoSniqc-gV4E_CHAK-RjNLT_N2sI6GxeS56e | Modified: 2026-03-16T02:33:09.996Z
+[6] 제목 없는 프로젝트 | ID: 1QKzh25G-HBDLrlTXZT8T3WbofpRvw468gPamzqBbYd7A0Mrq3Fv-Ha7i | Modified: 2026-03-13T00:41:10.666Z
+[7] 제목 없는 프로젝트 | ID: 1XCqPOV7h0TgRn0Kd2wQvDk7ns1BEnRhlqitnDIytBHo6WbYht0tTDMOR | Modified: 2026-02-27T13:49:37.889Z
+[8] 제목 없는 프로젝트 | ID: 11WYiNnjkXgpUz0C5TZ2dxh7n0zZKOmLJjOwsXfbnCPzMiut5_HgyA5ot | Modified: 2026-02-24T04:31:47.107Z
+[9] 제목 없는 프로젝트 | ID: 1lGlbWbyIZ18VeZhuKeFGBCp2Cq5A5_5fg8p009OnqfjYzv_afU0RcPMk | Modified: 2026-02-17T04:55:49.201Z
+
+=== Keyword Search (news, economy, report, telegram) ===
+[1] daily_news_history.log | ID: 1lCA_A6cLNkE83sp46USuhruOe7RBvlg8 | Mime: text/plain | Modified: 2026-06-04T00:25:46.845Z
+[2] 2026-06-04_Macro_Briefing.html | ID: 1pvX6teP2kCfYJy1QzrZJNzMClYpV0CS4 | Mime: text/html | Modified: 2026-06-04T00:25:38.063Z
+[3] 2026-06-04_Macro_Briefing.md | ID: 1yiVucKtwyv4O79URxAnzfsTza9tCfOhQ | Mime: text/markdown | Modified: 2026-06-04T00:25:37.351Z
+[4] 2026-06-04_Macro_Briefing | ID: 1cFqXP8MM2FaSIcPoSISa9bpY6VVYqBK5wwf4rhunzWs | Mime: application/vnd.google-apps.document | Modified: 2026-06-04T00:25:34.837Z
+[5] 주말 경제 뉴스 생성 | ID: 1kgp-qF7pwekx_VZ_1kVZ4XMbNZGYbL_FlXOJI6E8UeUeoiCRQoE7Gtes | Mime: application/vnd.google-apps.script | Modified: 2026-06-03T12:53:49.577Z
+[6] weekend_news_gas.js | ID: 1QQuUM8wvkyB2xaPtFnuh4QKU5PGXxXd1 | Mime: text/javascript | Modified: 2026-06-03T12:53:05.413Z
+[7] daily_news.py | ID: 1HRNVz-5uVkeouE1fx2KbDI3sXoyEtlK3 | Mime: text/x-python | Modified: 2026-06-03T12:45:19.400Z
+[8] weekday_news_gas.js | ID: 10ZBnZ7_aWZkAlYGI-Z59dJkhOIBqugIL | Mime: text/javascript | Modified: 2026-06-03T12:43:12.076Z
+[9] 매일 경제뉴스 생성 | ID: 1C4SmIseUA28iTVmYeYcteukRL9aXBcdcK_NvnuSILDjFwxfr4x6nrp1P | Mime: application/vnd.google-apps.script | Modified: 2026-06-03T12:35:17.945Z
+[10] daily_news.cpython-312.pyc | ID: 1exet03EdUOoPzCc8K8HqU0lPQJCtCnGH | Mime: application/x-python-code | Modified: 2026-06-03T12:30:01.769Z
+[11] 2026-06-03_Macro_Professional_Report.md | ID: 1GNm0iVO3lJXrZgPKwkGjAiqax7OLEnBu | Mime: text/plain | Modified: 2026-06-03T06:19:14.952Z
+[12] 2026-06-02_Macro_Professional_Report.md | ID: 1M8Ujg-q5VC7b7Dg7IphzCxyGR7EdaHsG | Mime: text/plain | Modified: 2026-06-02T06:14:06.011Z
+[13] precise_sub_report.md | ID: 1gDb5CJVJqNiwX14TB43V1TYW6jdrbn2V | Mime: text/markdown | Modified: 2026-06-02T05:39:50.236Z
+[14] precise_core_report.md | ID: 1glctC52DJ30cNBmLdHe_zunFaRuj4pko | Mime: text/markdown | Modified: 2026-06-02T05:38:31.027Z
+[15] precise_exchange_report.md | ID: 1XplXkmIduyRFMzR6XmQZH7K56cTA2yNf | Mime: text/markdown | Modified: 2026-06-02T05:37:55.689Z
+[16] test_telegram.py | ID: 1CDpPYPI95IIPT7r0sHmgnn-Dk9TBD1wh | Mime: text/x-python | Modified: 2026-06-02T00:06:38.640Z
+[17] 2026-06-02_Macro_Briefing.html | ID: 1c2mdSqE1A4caLuc1FjF0_rxYf_JxEbda | Mime: text/html | Modified: 2026-06-01T23:38:24.058Z
+[18] 2026-06-02_Macro_Briefing.md | ID: 1P6UUV3-G5zl8CBbbFEK_5smWxbb3BOo1 | Mime: text/markdown | Modified: 2026-06-01T23:38:23.347Z
+[19] 2026-06-02_Macro_Briefing | ID: 1neBJryoberJs_dloSw3VNU8hmOzEfCQ0TPLlhQWHs9c | Mime: application/vnd.google-apps.document | Modified: 2026-06-01T23:38:21.863Z
+[20] 2026-06-01_Macro_Professional_Report.md | ID: 1fVNtqz2_CHqnta6BobsoW_P5jAAa2PPi | Mime: text/plain | Modified: 2026-06-01T06:26:47.584Z
+[21] 2026-05-28_Macro_Professional_Report | ID: 1FRAKz7VTJpsPT5QwladukHTOgnA3ADPJp3NDsCzZko0 | Mime: application/vnd.google-apps.document | Modified: 2026-05-28T06:53:30.324Z
+[22] 2026-05-27_Macro_Professional_Report | ID: 1ZW6r84FwHCEH4MkfEsOkHKMlgMmrMAm0Z-CioDtQ4hA | Mime: application/vnd.google-apps.document | Modified: 2026-05-27T06:18:34.419Z
+[23] Reporting and NEL-journal | ID: 1PDzo5mZqpjnPy_XltYEoAmJ_hJei7GYZ | Mime: application/octet-stream | Modified: 2026-05-27T04:01:18.452Z
+[24] Reporting and NEL | ID: 1Wnjz-VNJ3mBlVy1AViey1mWnvHI46L5K | Mime: application/octet-stream | Modified: 2026-05-27T04:01:18.418Z
+[25] SCT Auditing Pending Reports | ID: 1nkCHkUFMyTWXSjFwFVUbm1sM5XIei4nf | Mime: application/octet-stream | Modified: 2026-05-27T04:00:09.703Z
+[26] reports | ID: 1aPVJVP_pfwXvLuUD8wuZpv0A-Tydz8cR | Mime: application/vnd.google-apps.folder | Modified: 2026-05-27T04:00:06.517Z
+[27] 2026-05-26_Macro_Professional_Report | ID: 1KFXYauvEUMKOylugK5RgW99QPKlV5GGfyoi_k7L8ASc | Mime: application/vnd.google-apps.document | Modified: 2026-05-26T07:45:42.216Z
+[28] excel_inspection_report.txt | ID: 1QX8JJKgi8_G570WYKo9f6ppfRJmShc04 | Mime: text/plain | Modified: 2026-05-26T05:45:31.493Z
+[29] calendar_events_report.txt | ID: 1YL9T3gbqwxLoedQotMwmhQbipwM80eoK | Mime: text/plain | Modified: 2026-05-26T05:45:16.947Z
+[30] 2026-05-25_Macro_Professional_Report | ID: 1kqHVn1xW_l4fUDRR_7PrZvWMGR6XSBhig6x8V2WolvM | Mime: application/vnd.google-apps.document | Modified: 2026-05-25T12:47:08.524Z
+[31] backtest_report.xlsx | ID: 13aNx18gcggMoW342XiLYe-V-kUY5uReC | Mime: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet | Modified: 2026-05-23T16:04:59.535Z
+[32] 2026-05-22_Macro_Professional_Report | ID: 1b1X-OKOvK_bgMy3dooWfcfbZ-Iru0uw53g0TqFtiPOE | Mime: application/vnd.google-apps.document | Modified: 2026-05-22T06:06:01.109Z
+[33] 2025학년도 1학기 평가계획서(3학년 경제수학).pdf | ID: 1Wbf-QcWO4RYfYQD19DAf9Vo6XgjXbGZ6 | Mime: application/pdf | Modified: 2026-05-22T04:56:16.258Z
+[34] 2025학년도 1학기 평가계획서(3학년 경제).pdf | ID: 1TbyLSypMXbkWli9TN8QfWiONq5hq8sTz | Mime: application/pdf | Modified: 2026-05-22T04:56:13.829Z
+[35] 2026-05-21_Macro_Professional_Report | ID: 1WZ3Lp24a4JS9hXiI6WKuqucgytzrJcX4Th6nPECgisk | Mime: application/vnd.google-apps.document | Modified: 2026-05-21T06:53:23.821Z
+[36] 2026-05-20_Macro_Professional_Report | ID: 1KYpaXofHVDzVxoayTI2LYJgQqHjr8vaYGGzcuv1ca6w | Mime: application/vnd.google-apps.document | Modified: 2026-05-20T06:19:23.140Z
+[37] 대구대학교-일반전형-경제학과.pdf | ID: 1mFwXTBnoeqwYfFzY0ocp6ObEJPL6_rKS | Mime: application/pdf | Modified: 2026-05-20T05:23:56.021Z
+[38] fast_overlap_report.json | ID: 1kJT_i-QbcOb7CiZBs3jf_OilrsBDG2Aq | Mime: application/json | Modified: 2026-05-20T05:08:57.507Z
+[39] 2026-05-19_Macro_Professional_Report | ID: 1XstBtakHePTXE-qh-AfEw7I0y2BajArxzAGWAK6U8EI | Mime: application/vnd.google-apps.document | Modified: 2026-05-20T01:49:56.570Z
+[40] 1. 2025학년도 1학기 교수학습 계획(3학년 경제수학).pdf | ID: 1IbBHXh3DolO-cAtVEiQp2tAeEHs23OFE | Mime: application/pdf | Modified: 2026-05-20T01:23:15.054Z
+[41] 1. 2025학년도 1학기 교수학습 계획(3학년 경제).pdf | ID: 1GB0qg5-1n8ZSGwfCzz3impEsKKLhYoki | Mime: application/pdf | Modified: 2026-05-20T01:23:12.360Z
+[42] (진해고등학교-1993 (첨부) 재단법인 산해장학재단) [장학금 지원서] 자기소개서 및 장학금사용report.pdf | ID: 1TU-GPw0SJnyojsXp6E6pQBn3PdYZq90Q | Mime: application/pdf | Modified: 2026-05-20T01:05:34.491Z
+[43] (진해고등학교-1993 (첨부) 재단법인 산해장학재단) [장학금 지원서] 자기소개서 및 장학금사용report.pdf | ID: 1gCWfAtdIZ3xRvhXkMbtZ0zsQNwCzmaFJ | Mime: application/pdf | Modified: 2026-05-19T02:42:08.545Z
+[44] 2025-08호 붙임_[ 자기소개서 및 장학금사용report].pdf | ID: 1lhByqdwYdan2DwYYb11IXFS31rqYZ0J8 | Mime: application/pdf | Modified: 2026-05-19T02:40:48.284Z
+[45] 2026-05-18_Macro_Professional_Report | ID: 1Juy0w5ps7YjoHY71MDwgZnQLp9xGAnfQBo4GhlhmtWs | Mime: application/vnd.google-apps.document | Modified: 2026-05-18T13:01:13.831Z
+[46] 2024. 2학기 교수학습 및 평가계획 (3)학년 (경제).pdf | ID: 16BPnm0FC-fYvRYfRanWNhakLcATRfpxB | Mime: application/pdf | Modified: 2026-05-18T06:08:21.661Z
+[47] cloud_daily_news_fixed.py | ID: 1g3TrPuqC2fnH-tbfMtoApQ0xq8fV1-Yb | Mime: text/x-python | Modified: 2026-05-18T05:15:39.268Z
+[48] cloud_daily_news.cpython-312.pyc | ID: 1QUgpkQvpuHl7FpbKQfzM5Nv75_D7mb2e | Mime: application/x-python-code | Modified: 2026-05-18T05:13:11.487Z
+[49] cloud_daily_news.py | ID: 1WmedyxAMDdAh4o364IgxfEt95n0Jeq-p | Mime: text/x-python | Modified: 2026-05-18T05:13:04.484Z
+[50] 2026-05-15_Macro_Professional_Report | ID: 1NtvvAqsPqVRhkGdOJqezHkZtt38r6L1Tn1fr1BdAMYg | Mime: application/vnd.google-apps.document | Modified: 2026-05-15T06:05:12.109Z
+[51] 2026-05-14_Macro_Professional_Report | ID: 1LYsaM4xH30kTEIdDpzum0y_iU_i6cVCbVAYbOH8pW58 | Mime: application/vnd.google-apps.document | Modified: 2026-05-14T06:53:50.240Z
+[52] admission_news_gas.js | ID: 19YmklR6D_Eh_uxG22rFWgBgZms2u7fbY | Mime: text/javascript | Modified: 2026-05-13T00:44:28.705Z
+[53] telegram_assistant.py | ID: 1jTtBOTTkLCE7nU19y8H8RwHj4FiIXsEG | Mime: text/x-python | Modified: 2026-05-13T00:44:28.672Z
+[54] cloud_daily_news.py | ID: 1eaXOsOi4NA2nV5Kw8OVDx6d3-xputmBp | Mime: text/x-python | Modified: 2026-05-13T00:44:28.653Z
+[55] admission_news.py | ID: 1zVUoPadaJlNBrXS0AaIT0ovoGwjKvYjl | Mime: text/x-python | Modified: 2026-05-13T00:44:28.648Z
+[56] 글로벌 AI 패권 전쟁의 구조적 재편: 애플과 마이크로소프트의 수익화 전략 및 거시경제적 파급력 심층 분석 | ID: 1FHdeAoBivjffXcMF4e5ce713tVNWCjBmUbMj3Sb3ZR4 | Mime: application/vnd.google-apps.document | Modified: 2026-05-08T06:32:22.537Z
+[57] cloud_daily_news.cpython-312.pyc | ID: 1QULDs6Oi7uN0sh_MuuEcP5oWN1wFPH99 | Mime: application/x-python-code | Modified: 2026-05-06T00:47:28.989Z
+[58] admission_news.cpython-312.pyc | ID: 1Luuq1Y9tErnc7I8EGioSJozZ2Iw1sdys | Mime: application/x-python-code | Modified: 2026-04-28T01:07:18.308Z
+[59] 2026-04-24_Macro_Briefing.html | ID: 1BUwSWss2c4SgtDz59NdST1F64zL56lXf | Mime: text/html | Modified: 2026-04-24T02:02:11.000Z
+[60] 2026-04-24_Macro_Briefing.md | ID: 1-MZCNYsorHUGM1i5x_DLJmvS7hx15_6A | Mime: text/markdown | Modified: 2026-04-24T02:02:09.974Z
+[61] 2026-04-23_Macro_Briefing.html | ID: 17a8HxOHGrsiEdP3seQbLQ7-QlPhLpquq | Mime: text/html | Modified: 2026-04-23T07:13:49.377Z
+[62] 2026-04-23_Macro_Briefing.md | ID: 1WdcCy5yJ5xSzPMBZmTLLO5VpqFz6XhDp | Mime: text/markdown | Modified: 2026-04-23T07:13:48.771Z
+[63] [심화 학습 리포트] 전후 문학의 정점, 이범선의 ‘오발탄’ 심층 분석 | ID: 1FTxKlVBc4XlbHo-FGQe0zPhAotS2LrxkCNW7ok1G2ks | Mime: application/vnd.google-apps.document | Modified: 2026-04-23T07:13:23.537Z
+[64] daily_news.log | ID: 1LIY8PVXLPfDUqrro51wKtkOXdzuu9TXM | Mime: text/plain | Modified: 2026-04-23T06:15:33.894Z
+[65] run_news_once.py | ID: 12rxibtTVoyVNmnkEQaky_WNogkSBqHDY | Mime: text/x-python | Modified: 2026-04-22T07:33:12.821Z
+[66] 2026-04-22_Macro_Briefing.html | ID: 1fMvPNr6fh34eYo5iXh0GSzJiFwmey9XQ | Mime: text/html | Modified: 2026-04-22T07:23:33.298Z
+[67] 2026-04-22_Macro_Briefing.md | ID: 1OGKe93xcEADmlLfEEqyNaTDFEU9lHCH_ | Mime: text/markdown | Modified: 2026-04-22T07:23:33.247Z
+[68] restore_telegram_alerts.py | ID: 1u1vabQzRjriMU68eamgXYzNeyVagL8Y7 | Mime: text/x-python | Modified: 2026-04-22T07:11:08.034Z
+[69] surgical_repair_daily_news.py | ID: 1G38AWqwIBCrC1-TGoTM0As-HMh7m31DU | Mime: text/x-python | Modified: 2026-04-22T07:04:58.949Z
+[70] final_sanitize_daily_news.py | ID: 1LfvFNVLKH5f-i4B_V3rV62BC96jD7ZHH | Mime: text/x-python | Modified: 2026-04-22T07:04:27.070Z
+[71] deep_clean_daily_news.py | ID: 1E30Ay5U9xfw1QtCBOMpU78gN-MuhPvcB | Mime: text/x-python | Modified: 2026-04-22T07:03:00.838Z
+[72] repair_daily_news.py | ID: 1RTWDFfEP8Sm6Q-5saRwKWnR9_jTXUmAO | Mime: text/x-python | Modified: 2026-04-22T07:01:54.479Z
+[73] admission_news.log | ID: 1orkv6h6jInkCiWHPBDSbm2GjSVu0CPPf | Mime: text/plain | Modified: 2026-04-22T02:00:01.265Z
+[74] wait_telegram.py | ID: 1srttnd7PAvzIysC4bKoXltQ8MxT7H2sI | Mime: text/x-python | Modified: 2026-04-22T01:19:45.005Z
+[75] patch_daily_news.py | ID: 1pRxqFGRBZU4dbIezL0FP2VCJ7xSBoFzi | Mime: text/x-python | Modified: 2026-04-22T01:19:44.827Z
+[76] 20260318_경제뉴스.txt | ID: 1r7oufoIlU8lHSoHhy38HMUQP8oZsOIHI | Mime: text/plain | Modified: 2026-04-22T01:17:41.571Z
+[77] 260327_경제뉴스.txt | ID: 1z_H0nE9EhWELDhi71_ggi9uT3H9eoC5t | Mime: text/plain | Modified: 2026-04-22T01:17:41.554Z
+[78] 260326_경제뉴스.txt | ID: 1-WfNyXC9PPlIq74pag3EHWm_DrXhSnBo | Mime: text/plain | Modified: 2026-04-22T01:17:41.548Z
+[79] 260325_경제뉴스.txt | ID: 1biJxiPM_IRKL2j9K9qrZ_XRI364mVQYT | Mime: text/plain | Modified: 2026-04-22T01:17:41.545Z
+[80] 260324_경제뉴스.txt | ID: 17TON46cUnp4DPhwaEt4_M0FW57hBLpB7 | Mime: text/plain | Modified: 2026-04-22T01:17:41.538Z
+[81] 2026-04-21_Macro_Briefing.md | ID: 1XqrEm2Pluj-1eMO_dzD_zN0_Y8kNlAzH | Mime: text/markdown | Modified: 2026-04-22T01:17:41.522Z
+[82] 2026-04-20_Macro_Briefing.md | ID: 1H9pVp1RcXqdzAnx0eGcZe7L1qwCRzuAW | Mime: text/markdown | Modified: 2026-04-22T01:17:41.514Z
+[83] 2026-04-17_Macro_Briefing.md | ID: 1dF_ViVR-Myxf7ESrZJXGjQrpB9rxVw-3 | Mime: text/markdown | Modified: 2026-04-22T01:17:41.502Z
+[84] 2026-04-16_Macro_Briefing.md | ID: 176Xpnh9Olu6frhrIPTwZvgPn3BHQhTBk | Mime: text/markdown | Modified: 2026-04-22T01:17:41.483Z
+[85] 2026-04-15_Macro_Briefing.md | ID: 1gIoH1176j1N_UDHq2n0XGnpESahFg2m9 | Mime: text/markdown | Modified: 2026-04-22T01:17:41.476Z
+[86] 2026-04-14_Macro_Briefing.md | ID: 1eGQSrciKYIfw9Y6XP2sjXTYATg5mFzIC | Mime: text/markdown | Modified: 2026-04-22T01:17:41.471Z
+[87] 2026-04-13_Macro_Briefing.md | ID: 1Rx7BlCFPqCBQfWXMqyshdsOKhryKndc_ | Mime: text/markdown | Modified: 2026-04-22T01:17:41.467Z
+[88] 2026-04-10_Macro_Briefing.md | ID: 1bgZfMVWGn1HS6_ZTqT5gXk4sFOOX_I5I | Mime: text/markdown | Modified: 2026-04-22T01:17:41.462Z
+[89] 2026-04-09_Macro_Briefing.md | ID: 11duJyjrbRxbex_0AOQQ8JKLEvJsq1Up9 | Mime: text/markdown | Modified: 2026-04-22T01:17:41.424Z
+[90] 2026-04-08_Macro_Briefing.md | ID: 1SxZaQmOT3dUtIV75PP865nRGg3In9IBN | Mime: text/markdown | Modified: 2026-04-22T01:17:41.418Z
+[91] 2026-04-07_Macro_Briefing.md | ID: 1Wgf1IQvuWilRJ8gpvrhS7njiav2TPGtJ | Mime: text/markdown | Modified: 2026-04-22T01:17:41.410Z
+[92] 2026-04-06_Macro_Briefing.md | ID: 1ck3uHrCJ7Yt-S1S9yhWD-xhDurY-zfeX | Mime: text/markdown | Modified: 2026-04-22T01:17:41.407Z
+[93] 2026-04-03_Macro_Briefing.md | ID: 1BTdAabnDVojajKGr1kAtP2VoP_NGaGs7 | Mime: text/markdown | Modified: 2026-04-22T01:17:41.400Z
+[94] 2026-04-02_Macro_Briefing.md | ID: 1gEQgjjJrVAh2s7cu719GvOn5RbNX1z1d | Mime: text/markdown | Modified: 2026-04-22T01:17:41.383Z
+[95] 2026-04-01_Macro_Briefing.md | ID: 1VKT16_atOkITg6tZ6iB8kg2qTDJ42fSD | Mime: text/markdown | Modified: 2026-04-22T01:17:41.376Z
+[96] 2026-03-31_Macro_Briefing.md | ID: 1j_tyu94dlClASp3V7yigPjxIPtBCQHPc | Mime: text/markdown | Modified: 2026-04-22T01:17:41.369Z
+[97] 2026-03-30_Macro_Briefing.md | ID: 1jfq0emzjNs6uaGuOL9Ri632o47tQ-KBm | Mime: text/markdown | Modified: 2026-04-22T01:17:41.364Z
+[98] verification_report.md | ID: 1lafn18U0_yXEWf4-btfjCTABZs9bwZMj | Mime: text/markdown | Modified: 2026-04-22T01:17:41.321Z
+[99] 260422_경제뉴스.txt | ID: 1auXCyXxiupCtwjeJ7ePDosikq9XOB4rW | Mime: text/plain | Modified: 2026-04-21T20:00:04.965Z
+[100] telegram_assistant.cpython-312.pyc | ID: 1pZyt0gDlxzCkPJWFUcSjcPh_cqNHznol | Mime: application/x-python-code | Modified: 2026-04-21T02:03:09.056Z

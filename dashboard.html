@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>문법 탐구 학습 실시간 대시보드 (Padlet 스타일)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #e2e8f0; /* 패들렛 감성의 따뜻한 회색 배경 */
+      --header-bg: #ffffff;
+      --primary-color: #4f46e5;
+      
+      /* 포스트잇 파스텔 컬러셋 */
+      --postit-yellow-bg: #fef08a;
+      --postit-yellow-border: #facc15;
+      --postit-yellow-text: #713f12;
+      
+      --postit-green-bg: #bbf7d0;
+      --postit-green-border: #4ade80;
+      --postit-green-text: #14532d;
+      
+      --postit-red-bg: #fecaca;
+      --postit-red-border: #f87171;
+      --postit-red-text: #7f1d1d;
+
+      --postit-blue-bg: #bfdbfe;
+      --postit-blue-border: #60a5fa;
+      --postit-blue-text: #1e3a8a;
+      
+      --postit-purple-bg: #e9d5ff;
+      --postit-purple-border: #c084fc;
+      --postit-purple-text: #581c87;
+      
+      --postit-orange-bg: #fed7aa;
+      --postit-orange-border: #fb923c;
+      --postit-orange-text: #7c2d12;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      color: #334155;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 상단 컨트롤 헤더 */
+    header {
+      background-color: var(--header-bg);
+      padding: 15px 30px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    /* 탭 네비게이션 */
+    .tabs {
+      display: flex;
+      gap: 8px;
+      background-color: #f1f5f9;
+      padding: 4px;
+      border-radius: 8px;
+    }
+
+    .tab-btn {
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      background: none;
+      border-radius: 6px;
+      cursor: pointer;
+      color: #64748b;
+      transition: all 0.2s;
+    }
+
+    .tab-btn.active {
+      background-color: white;
+      color: var(--primary-color);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .controls-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    select, button {
+      padding: 8px 16px;
+      font-size: 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background-color: white;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+    }
+
+    select:focus {
+      border-color: var(--primary-color);
+    }
+
+    .refresh-btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      transition: background-color 0.2s;
+    }
+
+    .refresh-btn:hover {
+      background-color: #4338ca;
+    }
+
+    .timer-indicator {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #10b981;
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    /* 메인 뷰 컨테이너 */
+    main {
+      flex: 1;
+      padding: 30px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .view-content {
+      display: none;
+      flex: 1;
+    }
+
+    .view-content.active {
+      display: block;
+    }
+
+    /* =======================================================
+       1페이지: 개인별 뷰 (격자형 그리드)
+       ======================================================= */
+    .individual-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    /* 패들렛 포스트잇 공통 스타일 */
+    .postit-card {
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.08);
+      border-left: 5px solid transparent;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+      min-height: 160px;
+      height: auto; /* 내용 길이에 맞춰 자동 크기 조절 */
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transform: rotate(calc(var(--rotation, 0) * 1deg)); /* 랜덤 회전 각도로 내추럴한 포스트잇 느낌 연출 */
+    }
+
+    .postit-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 5px 10px 20px rgba(0,0,0,0.12);
+      z-index: 10;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      border-bottom: 1px dashed rgba(0,0,0,0.1);
+      padding-bottom: 6px;
+    }
+
+    .card-body {
+      font-size: 14px;
+      line-height: 1.5;
+      flex-grow: 1;
+      word-break: break-all;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      margin-top: 10px;
+      border-top: 1px dashed rgba(0,0,0,0.06);
+      padding-top: 6px;
+    }
+
+    /* 포스트잇 색상 매핑 (1반~10반 번호 매칭용 또는 정체 상태별 파스텔톤) */
+    .color-yellow { background-color: #fef9c3; border-color: #eab308; color: #713f12; }
+    .color-green { background-color: #dcfce7; border-color: #22c55e; color: #14532d; }
+    .color-red { background-color: #fee2e2; border-color: #ef4444; color: #7f1d1d; }
+    .color-blue { background-color: #dbeafe; border-color: #3b82f6; color: #1e3a8a; }
+    .color-purple { background-color: #f3e8ff; border-color: #a855f7; color: #581c87; }
+    .color-orange { background-color: #ffedd5; border-color: #f97316; color: #7c2d12; }
+
+    /* =======================================================
+       2페이지: 조별 뷰 (패들렛 선반 레이아웃 - 1조~6조)
+       ======================================================= */
+    .group-shelf-container {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      align-items: flex-start;
+      padding-bottom: 20px;
+      height: 100%;
+    }
+
+    /* 각 조별 열(Column) 선반 */
+    .shelf-column {
+      flex: 0 0 300px;
+      background-color: rgba(255, 255, 255, 0.45);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      max-height: 80vh;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    }
+
+    .shelf-header {
+      background-color: #ffffff;
+      padding: 12px 16px;
+      font-weight: 700;
+      font-size: 16px;
+      color: #1e293b;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      border-bottom: 2px solid var(--primary-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+    }
+
+    .shelf-card-count {
+      font-size: 12px;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    /* 선반 내부 카드 스크롤 영역 */
+    .shelf-cards-list {
+      padding: 15px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      flex-grow: 1;
+    }
+
+    /* 조별 카드용 패들렛 포스트잇 */
+    .group-card {
+      background-color: #ffffff;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.04);
+      border-left: 4px solid var(--primary-color);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .group-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 12px rgba(0,0,0,0.08);
+    }
+
+    .group-card-header {
+      font-size: 13px;
+      font-weight: 700;
+      color: #64748b;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .group-card-body {
+      font-size: 13.5px;
+      line-height: 1.5;
+      color: #334155;
+      word-break: break-all;
+    }
+
+    .group-card-footer {
+      font-size: 11px;
+      color: #94a3b8;
+      margin-top: 8px;
+      border-top: 1px dashed #f1f5f9;
+      padding-top: 6px;
+      text-align: right;
+    }
+
+    /* 대형 발표 전광판 */
+    .zoom-board {
+      background-color: #0f172a;
+      color: #f8fafc;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+      margin-top: 30px;
+      border: 1px solid #1e293b;
+      display: none;
+      animation: slideUp 0.3s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .zoom-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 10px;
+    }
+
+    .zoom-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #38bdf8;
+    }
+
+    .zoom-close {
+      cursor: pointer;
+      color: #64748b;
+      background: none;
+      border: none;
+      font-size: 24px;
+    }
+
+    .zoom-content {
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.5;
+      color: #f8fafc;
+      word-break: keep-all;
+    }
+
+    .zoom-meta {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #64748b;
+      display: flex;
+      gap: 20px;
+    }
+
+    .empty-message {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 40px 20px;
+      color: #64748b;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-left">
+      <!-- 반 선택 필터 (공용) -->
+      <select id="class-select" onchange="onClassChange()">
+        <option value="all">전체 학급 보기</option>
+        <option value="1">1반</option>
+        <option value="2">2반</option>
+        <option value="3">3반</option>
+        <option value="4">4반</option>
+        <option value="5">5반</option>
+        <option value="6">6반</option>
+        <option value="7">7반</option>
+        <option value="8">8반</option>
+        <option value="9">9반</option>
+        <option value="10">10반</option>
+      </select>
+      
+      <!-- 탭 전환 버튼 -->
+      <div class="tabs">
+        <button class="tab-btn active" id="tab-personal" onclick="switchTab('personal')">👤 학생 개인별 피드</button>
+        <button class="tab-btn" id="tab-group" onclick="switchTab('group')">👥 조별 협력 피드 (1~6조)</button>
+      </div>
+    </div>
+
+    <h1>📋 문법 탐구 실시간 대시보드</h1>
+
+    <div class="controls-right">
+      <div class="timer-indicator">
+        <div class="pulse-dot"></div>
+        <span id="sync-timer">실시간 연동 중..</span>
+      </div>
+      <button class="refresh-btn" onclick="loadData()">🔄 새로고침</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ==========================================
+         1페이지: 개인별 뷰 (격자 그리드 피드)
+         ========================================== -->
+    <div class="view-content active" id="view-personal">
+      <div class="individual-grid" id="personal-grid">
+        <div class="empty-message">데이터를 불러오는 중입니다...</div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         2페이지: 조별 뷰 (패들렛 선반형 컬럼)
+         ========================================== -->
+    <div class="view-content" id="view-group">
+      <div class="group-shelf-container">
+        
+        <!-- 1조~6조 Shelf 컬럼 루프 생성 -->
+        <div class="shelf-column" id="shelf-1">
+          <div class="shelf-header"><span>1조</span><span class="shelf-card-count" id="count-1">0</span></div>
+          <div class="shelf-cards-list" id="list-1"></div>
+        </div>
+        
+        <div class="shelf-column" id="shelf-2">
+          <div class="shelf-header"><span>2조</span><span class="shelf-card-count" id="count-2">0</span></div>
+          <div class="shelf-cards-list" id="list-2"></div>
+        </div>
+
+        <div class="shelf-column" id="shelf-3">
+          <div class="shelf-header"><span>3조</span><span class="shelf-card-count" id="count-3">0</span></div>
+          <div class="shelf-cards-list" id="list-3"></div>
+        </div>
+
+        <div class="shelf-column" id="shelf-4">
+          <div class="shelf-header"><span>4조</span><span class="shelf-card-count" id="count-4">0</span></div>
+          <div class="shelf-cards-list" id="list-4"></div>
+        </div>
+
+        <div class="shelf-column" id="shelf-5">
+          <div class="shelf-header"><span>5조</span><span class="shelf-card-count" id="count-5">0</span></div>
+          <div class="shelf-cards-list" id="list-5"></div>
+        </div>
+
+        <div class="shelf-column" id="shelf-6">
+          <div class="shelf-header"><span>6조</span><span class="shelf-card-count" id="count-6">0</span></div>
+          <div class="shelf-cards-list" id="list-6"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 대형 발표 전광판 (두 탭 공용) -->
+    <div class="zoom-board" id="zoom-board">
+      <div class="zoom-header">
+        <span class="zoom-title" id="zoom-student-info">선택된 카드 정보</span>
+        <button class="zoom-close" onclick="closeZoomBoard()">✕</button>
+      </div>
+      <div class="zoom-content" id="zoom-text">
+        선택된 카드의 상세 정보가 28pt 크기로 큼직하게 표시됩니다.
+      </div>
+      <div class="zoom-meta">
+        <span id="zoom-topic">주제: 미정</span>
+        <span id="zoom-time">제출시간: 미정</span>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    let personalData = [];
+    let groupData = [];
+    let currentTab = 'personal';
+
+    // 1. 구글 서버 API로부터 데이터 수집
+    function loadData() {
+      document.getElementById('sync-timer').innerText = "데이터 갱신 중...";
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(onDataLoaded)
+          .withFailureHandler(onDataLoadFailed)
+          .getTeacherDashboardData();
+      } else {
+        // 로컬 테스트용 더미 데이터
+        setTimeout(() => {
+          onDataLoaded({
+            success: true,
+            personal: [
+              { ban: 1, num: 1, name: "강준수", topic: "음절 끝소리 규칙", initialHypothesis: "ㄷ으로 발음한다", historyLength: 114, finalHypothesis: "음절 끝소리 규칙은 자음 'ㅅ, ㅌ'이 음절 끝에 오면 대표음 [ㄷ]으로 변한다.", timestamp: new Date(Date.now() - 600000).toISOString() },
+              { ban: 1, num: 2, name: "김태희", topic: "구개음화 현상", initialHypothesis: "ㄷ이 ㅈ이 된다", historyLength: 42, finalHypothesis: "ㄷ, ㅌ이 형식 형태소 ㅣ를 만나면 센입천장소리인 ㅈ, ㅊ으로 바뀐다.", timestamp: new Date(Date.now() - 300000).toISOString() },
+              { ban: 1, num: 3, name: "강지한", topic: "ㄴ 첨가 현상", initialHypothesis: "솜이불[솜니불]", historyLength: 4, finalHypothesis: "자음 받침 뒤에 이가 오면 ㄴ 소리가 덧난다.", timestamp: new Date().toISOString() }
+            ],
+            group: [
+              { ban: 1, groupNum: 1, members: "강준수, 김태희, 강지한", topic: "음절 끝소리와 동화의 관계", report: "우리는 음절 끝소리 규칙이 자음 결합 시 비음화로 이어지는 유기적 동화 과정을 도출하였다.", timestamp: new Date(Date.now() - 400000).toISOString() },
+              { ban: 1, groupNum: 2, members: "이순신, 홍길동", topic: "구개음화의 연쇄 작용", report: "ㄷ이 ㅎ을 만나 ㅌ이 되고 다시 ㅣ를 만나 ㅊ이 되는 연쇄 규칙을 증명하였다.", timestamp: new Date().toISOString() }
+            ]
+          });
+        }, 1000);
+      }
+    }
+
+    function onDataLoaded(res) {
+      if (res.success) {
+        personalData = res.personal || [];
+        groupData = res.group || [];
+        
+        // 디버깅 정보 노출
+        if (res.debugInfo) {
+          console.log("Debug Info:", res.debugInfo);
+          const debugStr = `(연결시트:${res.debugInfo.spreadsheetName}, 로우수:${res.debugInfo.lastRowPersonal}, 데이터수:${res.debugInfo.personalValuesLength})`;
+          document.querySelector('h1').innerText = "📋 문법 탐구 실시간 대시보드 " + debugStr;
+        }
+        
+        // 정렬 및 렌더링 적용
+        renderData();
+        document.getElementById('sync-timer').innerText = "최근 연동: " + new Date().toLocaleTimeString();
+      } else {
+        onDataLoadFailed(res.error + (res.debugInfo ? " / Debug: " + JSON.stringify(res.debugInfo) : ""));
+      }
+    }
+
+    function onDataLoadFailed(err) {
+      document.getElementById('personal-grid').innerHTML = 
+        `<div class="empty-message" style="color:red; border-color:red;">데이터 연동 오류: ${err}</div>`;
+      document.getElementById('sync-timer').innerText = "연동 실패";
+    }
+
+    // HTML 이스케이프 함수
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // 학생 질문 이력 파싱 함수
+    function parseStudentQuestions(aiHistory) {
+      if (!aiHistory) return [];
+      const blocks = aiHistory.split(/\n\n+/);
+      const questions = [];
+      blocks.forEach(block => {
+        const match = block.match(/학생:\s*([\s\S]*?)(?=\nAI:|$)/);
+        if (match && match[1]) {
+          const q = match[1].trim();
+          if (q) questions.push(q);
+        }
+      });
+      return questions;
+    }
+
+    // 2. 탭 전환 제어 및 로컬 스토리지에 탭 상태 보존
+    function switchTab(tabName) {
+      currentTab = tabName;
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.view-content').forEach(view => view.classList.remove('active'));
+
+      if (tabName === 'personal') {
+        document.getElementById('tab-personal').classList.add('active');
+        document.getElementById('view-personal').classList.add('active');
+      } else {
+        document.getElementById('tab-group').classList.add('active');
+        document.getElementById('view-group').classList.add('active');
+      }
+      localStorage.setItem('current_dashboard_tab', tabName);
+      renderData();
+    }
+
+    // 3. 반 선택 필터 연동 (탭 간 반 설정 동기화)
+    function onClassChange() {
+      const selectedClass = document.getElementById('class-select').value;
+      localStorage.setItem('selected_class_filter', selectedClass);
+      renderData();
+    }
+
+    // 4. 데이터 렌더링 및 정렬 처리
+    function renderData() {
+      const selectedClass = document.getElementById('class-select').value;
+      
+      if (currentTab === 'personal') {
+        renderPersonalGrid(selectedClass);
+      } else {
+        renderGroupShelves(selectedClass);
+      }
+    }
+
+    // [1페이지] 학생 개인별 뷰 렌더링 (최신 제출 순 정렬)
+    function renderPersonalGrid(selectedClass) {
+      const grid = document.getElementById('personal-grid');
+      grid.innerHTML = '';
+
+      let filtered = selectedClass === 'all' 
+        ? [...personalData] 
+        : personalData.filter(d => d.ban.toString() === selectedClass);
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '<div class="empty-message">해당 반에 제출된 개인 가설 피드가 없습니다.</div>';
+        return;
+      }
+
+      // 요구사항: 최근 응답(timestamp 내림차순)이 가장 먼저 보이도록 정렬
+      filtered.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+      // 포스트잇마다 내추럴한 각도 질감을 주기 위한 변수
+      filtered.forEach((item, index) => {
+        let statusClass = 'color-green';
+        if (item.historyLength <= 10) {
+          statusClass = 'color-red'; // 대화 정체 조
+        } else if (item.historyLength <= 50) {
+          statusClass = 'color-yellow'; // 대화 지연 조
+        } else {
+          // 정상 조는 파스텔 컬러 로테이션으로 패들렛의 화사함 부여
+          const colors = ['color-green', 'color-blue', 'color-purple', 'color-orange'];
+          statusClass = colors[index % colors.length];
+        }
+
+        // -3도에서 +3도 사이의 랜덤 각도 주입 (디자인 내추럴함)
+        const rotation = (index % 7) - 3; 
+
+        const card = document.createElement('div');
+        card.className = `postit-card ${statusClass}`;
+        card.style.setProperty('--rotation', rotation);
+        card.onclick = () => showZoomBoard(item, 'personal');
+
+        // 학생 질문 목록 파싱 및 HTML 생성
+        const questions = parseStudentQuestions(item.aiHistory);
+        let questionsHtml = '';
+        questions.forEach((q, idx) => {
+          questionsHtml += `<div style="margin-bottom: 6px; font-size: 13px; line-height: 1.4; word-break: break-all;"><strong>질문 ${idx + 1}:</strong> ${escapeHtml(q)}</div>`;
+        });
+
+        card.innerHTML = `
+          <div style="flex-grow: 1; display: flex; flex-direction: column;">
+            <div class="card-header">
+              <span>${item.ban}반 ${item.num}번 ${item.name}</span>
+              <span style="font-size:10px; opacity:0.8;">${formatTime(item.timestamp)}</span>
+            </div>
+            <div class="card-body" style="flex-grow: 1;">
+              ${questionsHtml}
+              <div style="margin-top: 10px; border-top: 1px dashed rgba(0,0,0,0.15); padding-top: 8px; font-size: 13.5px; line-height: 1.4; word-break: break-all;">
+                <strong>가설:</strong> ${escapeHtml(item.finalHypothesis || '가설 구상 중...')}
+              </div>
+            </div>
+          </div>
+          <div class="card-footer" style="margin-top: 12px; justify-content: flex-end;">
+            <span>주제: ${item.topic}</span>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // [2페이지] 조별 뷰 렌더링 (패들렛 선반 레이아웃, 조별 최신순 스택)
+    function renderGroupShelves(selectedClass) {
+      // 1조부터 6조까지 리스트 초기화 및 카운트
+      for (let g = 1; g <= 6; g++) {
+        document.getElementById(`list-${g}`).innerHTML = '';
+        document.getElementById(`count-${g}`).innerText = '0';
+      }
+
+      let filtered = selectedClass === 'all' 
+        ? [...groupData] 
+        : groupData.filter(d => d.ban.toString() === selectedClass);
+
+      if (filtered.length === 0) {
+        return;
+      }
+
+      // 요구사항: 조별 리스트에서도 최근에 제출된 것이 가장 위로 오도록 정렬
+      filtered.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+      // 각 조의 카드 리스트에 누적 렌더링
+      const counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
+
+      filtered.forEach(item => {
+        const gNum = item.groupNum;
+        if (gNum >= 1 && gNum <= 6) {
+          counts[gNum]++;
+          const listContainer = document.getElementById(`list-${gNum}`);
+          
+          const card = document.createElement('div');
+          card.className = 'group-card';
+          card.onclick = () => showZoomBoard(item, 'group');
+
+          card.innerHTML = `
+            <div class="group-card-header">
+              <span>조원: ${item.members}</span>
+              <span>${formatTime(item.timestamp)}</span>
+            </div>
+            <div class="group-card-body">
+              <strong>보고서:</strong> ${item.report}
+            </div>
+            <div class="group-card-footer">
+              <span>주제: ${item.topic}</span>
+            </div>
+          `;
+          listContainer.appendChild(card);
+        }
+      });
+
+      // 최종 조별 카드 카운트 수 갱신
+      for (let g = 1; g <= 6; g++) {
+        document.getElementById(`count-${g}`).innerText = counts[g];
+        if (counts[g] === 0) {
+          document.getElementById(`list-${g}`).innerHTML = '<div style="font-size:12px; color:#94a3b8; text-align:center; padding:20px 0;">제출 없음</div>';
+        }
+      }
+    }
+
+    // 대형 전광판 줌인 활성화
+    function showZoomBoard(item, type) {
+      const board = document.getElementById('zoom-board');
+      board.style.display = 'block';
+
+      if (type === 'personal') {
+        document.getElementById('zoom-student-info').innerText = `📢 ${item.ban}반 ${item.num}번 ${item.name} 학생의 문법 탐구 가설`;
+        document.getElementById('zoom-text').innerText = item.finalHypothesis || "아직 최종 가설이 등록되지 않았습니다.";
+        document.getElementById('zoom-topic').innerText = `주제: ${item.topic}`;
+      } else {
+        document.getElementById('zoom-student-info').innerText = `📢 ${item.ban}반 [${item.groupNum}조] 통합 탐구 보고서`;
+        document.getElementById('zoom-text').innerText = item.report || "아직 조별 통합 보고서가 제출되지 않았습니다.";
+        document.getElementById('zoom-topic').innerText = `조원: ${item.members} | 주제: ${item.topic}`;
+      }
+      
+      document.getElementById('zoom-time').innerText = `제출 시간: ${item.timestamp ? new Date(item.timestamp).toLocaleString() : '알 수 없음'}`;
+      board.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function closeZoomBoard() {
+      document.getElementById('zoom-board').style.display = 'none';
+    }
+
+    function formatTime(isoString) {
+      if (!isoString) return '';
+      const date = new Date(isoString);
+      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    }
+
+    // 초기 상태 로드 및 페이지 동기화 세션 읽기
+    window.onload = () => {
+      // 1. 저장된 반 필터 읽기
+      const savedClass = localStorage.getItem('selected_class_filter');
+      if (savedClass) {
+        document.getElementById('class-select').value = savedClass;
+      }
+
+      // 2. 저장된 탭 상태 읽기
+      const savedTab = localStorage.getItem('current_dashboard_tab');
+      if (savedTab) {
+        switchTab(savedTab);
+      } else {
+        switchTab('personal');
+      }
+
+      loadData();
+      // 15초 주기로 실시간 동적 새로고침
+      setInterval(loadData, 15000);
+    };
+  </script>
+</body>
+</html>

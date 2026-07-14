@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[학습지] 최신 기출 연계 문법 탐구 : 음운 변동</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            line-height: 2.0;
+            margin: 20px;
+            padding: 0;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 15px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-left: 5px solid #3498db;
+            padding-left: 10px;
+            font-size: 1.4em;
+        }
+        .student-info {
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: #ecf0f1;
+            border-radius: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .student-info span {
+            display: inline-block;
+            min-width: 120px;
+            border-bottom: 1px dashed #7f8c8d;
+            padding-bottom: 3px;
+            margin-right: 10px;
+        }
+        .student-info label {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .box {
+            border: 1px solid #bdc3c7;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            background-color: #fdfdfd;
+        }
+        .box h3 {
+            color: #2c3e50;
+            margin-top: 0;
+            font-size: 1.1em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            color: #555;
+        }
+        td {
+            background-color: #fff;
+        }
+        .problem-statement {
+            background-color: #e8f4f8;
+            border-left: 5px solid #3498db;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .problem-statement p {
+            margin: 0 0 10px 0;
+        }
+        .problem-statement ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .problem-statement li {
+            margin-bottom: 5px;
+        }
+        .fill-in-blank {
+            width: 98%;
+            min-height: 150px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 10px;
+            font-size: 1em;
+            line-height: 1.8;
+            background-color: #fefefe;
+            resize: vertical;
+        }
+        .guide-text {
+            background-color: #f0f8ff;
+            border-left: 4px solid #aed6f1;
+            padding: 10px 15px;
+            margin-top: 15px;
+            border-radius: 5px;
+            font-size: 0.95em;
+            color: #555;
+        }
+        .small-text {
+            font-size: 0.9em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>[학습지] 최신 기출 연계 문법 탐구 : 음운 변동 (교체 - 비음화, ㅂ 불규칙 활용, ㄷ 불규칙 활용), 형태소 교체 (자동적/비자동적 교체)</h1>
+
+        <div class="student-info">
+            <label>학년:</label><span></span>
+            <label>반:</label><span></span>
+            <label>번호:</label><span></span>
+            <label>이름:</label><span></span>
+        </div>
+
+        <h2>[1단계] 기출 데이터 분석하기</h2>
+        <div class="box">
+            <h3>2027학년도 6월 모의평가 (36번) 기출문제</h3>
+            <div class="problem-statement">
+                <p><strong>발문:</strong> 윗글을 바탕으로, ㉠～㉢을 분석한 내용으로 적절한 것은?</p>
+                <p><strong>보기:</strong> <자료1>은 음운 ‘ㅂ, ㄷ, ㄱ’가 환경에 따라 실현되는 소리가 달라지는 단어들이고, <자료2>는 종성에 ‘ㅂ, ㄷ, ㄱ’를 갖는 형태소들이 환경에 따라 형태를 달리하는 교체의 예들이다.</p>
+                <p><strong><자료1></strong><br>
+                ㉠ 바지, 후보<br>
+                ㉡ 더위, 온도<br>
+                ㉢ 거위, 인고</p>
+                <p><strong><자료2></strong><br>
+                ◦잡＋아[자바], 잡＋는[잠는], 잡＋고[잡꼬]<br>
+                ◦춥＋어[추워], 춥＋은[추운], 춥＋고[춥꼬]<br>
+                ◦닫＋아[다다], 닫＋는[단는], 닫＋고[닫꼬]<br>
+                ◦듣＋어[드러], 듣＋는[든는], 듣＋고[듣꼬]<br>
+                ◦먹＋어[머거], 먹＋는[멍는], 먹＋고[먹꼬]</p>
+                <p class="small-text">※ 선지는 학습지 탐구의 초점을 위해 생략합니다.</p>
+            </div>
+
+            <h3><자료1> 음운 'ㅂ, ㄷ, ㄱ'의 실현 양상 탐구</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>표기</th>
+                        <th>실제 발음</th>
+                        <th>음운 'ㅂ, ㄷ, ㄱ'의 실현 양상 (무성음/유성음)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>바지</td>
+                        <td>[바지]</td>
+                        <td>[ㅂ]: 어두 무성음</td>
+                    </tr>
+                    <tr>
+                        <td>후보</td>
+                        <td>[후보]</td>
+                        <td>[ㅂ]: 모음 사이 유성음</td>
+                    </tr>
+                    <tr>
+                        <td>더위</td>
+                        <td>[더위]</td>
+                        <td>[ㄷ]: 어두 무성음</td>
+                    </tr>
+                    <tr>
+                        <td>온도</td>
+                        <td>[온도]</td>
+                        <td>[ㄷ]: 비음 뒤 유성음</td>
+                    </tr>
+                    <tr>
+                        <td>거위</td>
+                        <td>[거위]</td>
+                        <td>[ㄱ]: 어두 무성음</td>
+                    </tr>
+                    <tr>
+                        <td>인고</td>
+                        <td>[인고]</td>
+                        <td>[ㄱ]: 비음 뒤 유성음</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3><자료2> 형태소 교체 및 음운 변동 탐구</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>표기</th>
+                        <th>실제 발음</th>
+                        <th>발생한 음운 변동 (교체)</th>
+                        <th>형태소 교체 유형 (자동적/비자동적)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>잡＋아</td>
+                        <td>[자바]</td>
+                        <td>(없음)</td>
+                        <td>(없음)</td>
+                    </tr>
+                    <tr>
+                        <td>잡＋는</td>
+                        <td>[잠는]</td>
+                        <td>비음화 (ㅂ → ㅁ)</td>
+                        <td>자동적</td>
+                    </tr>
+                    <tr>
+                        <td>잡＋고</td>
+                        <td>[잡꼬]</td>
+                        <td>된소리되기 (ㄱ → ㄲ)</td>
+                        <td>자동적</td>
+                    </tr>
+                    <tr>
+                        <td>춥＋어</td>
+                        <td>[추워]</td>
+                        <td>ㅂ 불규칙 활용 (ㅂ → ㅜ)</td>
+                        <td>비자동적</td>
+                    </tr>
+                    <tr>
+                        <td>춥＋은</td>
+                        <td>[추운]</td>
+                        <td>ㅂ 불규칙 활용 (ㅂ → ㅜ)</td>
+                        <td>비자동적</td>
+                    </tr>
+                    <tr>
+                        <td>춥＋고</td>
+                        <td>[춥꼬]</td>
+                        <td>된소리되기 (ㄱ → ㄲ)</td>
+                        <td>자동적</td>
+                    </tr>
+                    <tr>
+                        <td>닫＋아</td>
+                        <td>[다다]</td>
+                        <td>(없음)</td>
+                        <td>(없음)</td>
+                    </tr>
+                    <tr>
+                        <td>닫＋는</td>
+                        <td>[단는]</td>
+                        <td>비음화 (ㄷ → ㄴ)</td>
+                        <td>자동적</td>
+                    </tr>
+                    <tr>
+                        <td>닫＋고</td>
+                        <td>[닫꼬]</td>
+                        <td>된소리되기 (ㄱ → ㄲ)</td>
+                        <td>자동적</td>
+                    </tr>
+                    <tr>
+                        <td>듣＋어</td>
+                        <td>[드러]</td>
+                        <td>ㄷ 불규칙 활용 (ㄷ → ㄹ)</td>
+                        <td>자동적</td>
+                    </tr>
+                    <tr>
+                        <td>듣＋는</td>
+                        <td>[든는]</td>
+                        <td>비음화 (ㄷ → ㄴ)</td>
+                        <td>자동적</td>
+                    </tr>
+                    <tr>
+                        <td>듣＋고</td>
+                        <td>[듣꼬]</td>
+                        <td>된소리되기 (ㄱ → ㄲ)</td>
+                        <td>자동적</td>
+                    </tr>
+                    <tr>
+                        <td>먹＋어</td>
+                        <td>[머거]</td>
+                        <td>(없음)</td>
+                        <td>(없음)</td>
+                    </tr>
+                    <tr>
+                        <td>먹＋는</td>
+                        <td>[멍는]</td>
+                        <td>비음화 (ㄱ → ㅇ)</td>
+                        <td>자동적</td>
+                    </tr>
+                    <tr>
+                        <td>먹＋고</td>
+                        <td>[먹꼬]</td>
+                        <td>된소리되기 (ㄱ → ㄲ)</td>
+                        <td>자동적</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>[2단계] 가설 및 탐구</h2>
+        <div class="box">
+            <p>위의 표를 바탕으로, 이 문제의 정답이 4번인 이유를 귀납적으로 추론하여 가설을 세워봅시다. 특히 '자동적 교체'와 '비자동적 교체'의 차이에 초점을 맞춰 설명해 보세요.</p>
+            <div class="fill-in-blank" contenteditable="true" placeholder="여기에 가설을 작성하세요."></div>
+            <div class="guide-text">
+                <strong>AI 튜터 활용 가이드:</strong><br>
+                여러분이 세운 가설이 맞는지, 혹은 더 자세한 규칙을 알고 싶다면 AI 튜터 웹앱에 접속하여 검증해 보세요.<br>
+                (예: '비음화 규칙', 'ㅂ 불규칙 활용', 'ㄷ 불규칙 활용', '자동적 교체와 비자동적 교체의 차이' 등 검색)
+            </div>
+        </div>
+
+        <h2>[3단계] 개념 정교화 및 응용</h2>
+        <div class="box">
+            <p>교과서 연계 추가 탐구 단어들을 제시합니다. 다음 단어들을 소리 내어 발음해 보고, 어떤 음운 변동이 일어나는지 분류해 봅시다. (교체 현상에 집중하여 작성)</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>표기</th>
+                        <th>실제 발음</th>
+                        <th>음운 변동 유형 (교체)</th>
+                        <th>설명</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>국물</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>앞문</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>굳이</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>밭이</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>신라</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>칼날</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>학교</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>책상</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>옷</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>꽃</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>낮</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

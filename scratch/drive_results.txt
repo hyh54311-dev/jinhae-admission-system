@@ -1,0 +1,14 @@
+Found 13 files:
+[1] 연수 이수 결과 | ID: 1d9lwuABtuKW6xAoB7BpJv-MJ8C3OS5mOu35UZVxIpx0 | Mime: application/vnd.google-apps.spreadsheet
+[2] 2026학년도 진해고등학교 입학홍보단 합격자 명단 | ID: 1TToeuU1kLUyZASjBZGP3oFjgaA5Sc1NW9bScztP9CoQ | Mime: application/vnd.google-apps.spreadsheet
+[3] 2026학년도 진해고등학교 입학홍보단 합격자 명단 | ID: 1StgbTBxK0xlSL4L_R-4JUE6egj_v-hP9tQ5aivpbGBA | Mime: application/vnd.google-apps.spreadsheet
+[4] [2026학년도] 방학 계획서 입력 시스템 (결과물 수집용) | ID: 1h2MeRaFt248SMFZyPZ-RPsL6jgvzMWRdoRRoS5DrmRs | Mime: application/vnd.google-apps.spreadsheet
+[5] 2026학년도 진해고등학교 입학홍보단 합격자 명단 | ID: 1PjHn4e8oju-9otOZjqd4uX5Hl1glcdn3UtV-XaRnFYs | Mime: application/vnd.google-apps.spreadsheet
+[6] [최종] 2학년 국어 세특 초안 결과물 (0316_1416) | ID: 1JCrVEDhivEJyI4KZD1dt5SRcBECjsHOx0kuD35Usqp4 | Mime: application/vnd.google-apps.spreadsheet
+[7] AI 동아리 활동지 기획서 양식 | ID: 1B-9mYocVzdZd45ywYA0hWZksAc0rKtnrPGp4amM-g2o | Mime: application/vnd.google-apps.spreadsheet
+[8] 학생 명단 변환 및 추가 작업 지원 | ID: 1RQ8cOiC7aPTgY8hlkZ9BqegU05MmnLGZVTQhnLUxmlk | Mime: application/vnd.google-apps.spreadsheet
+[9] 2026.교사개설동아리명 및 지도교사(취합) | ID: 1mMe_NjTBIZp0J8aC2V6GE574m7dmlDOtwzweT4SpcxU | Mime: application/vnd.google-apps.spreadsheet
+[10] 2025학년도 동아리(꿈틀영상실) 특기사항 | ID: 1ZvrAq_6EKiQyy6kU5Lv1cBjtasi5zchPrQcSQ8ci_Ns | Mime: application/vnd.google-apps.spreadsheet
+[11] 신입생 반별 배정 | ID: 1B7IrLRJ7S57hVxdqq_VVTpJZ6qk4e1pdsWI2ETtXpQA | Mime: application/vnd.google-apps.spreadsheet
+[12] 학생 배정 로직 및 데이터 입력 안내 | ID: 1505C7ZpPmEUYZznVDy6_3b18Tpmdhi4kerXnX4_sqOI | Mime: application/vnd.google-apps.spreadsheet
+[13] 도움반 학생 성적 제외 반 배정 | ID: 1j4A0McEs6gPmqYjlY3kamVlGmSe9GOFP4W4qcx2Ym7Q | Mime: application/vnd.google-apps.spreadsheet

@@ -1,0 +1,108 @@
+{
+  "alerted_links": [
+    "https://biz.sbs.co.kr/article_hub/20000316246?division=NAVER",
+    "http://www.yonhapnewstv.co.kr/news/AKR20260612153613TId",
+    "http://www.newswell.co.kr/news/articleView.html?idxno=19437",
+    "https://imnews.imbc.com/replay/2026/nw1400/article/6829767_36974.html",
+    "https://www.ajunews.com/view/20260615083758831",
+    "https://biz.heraldcorp.com/article/10771430?ref=naver",
+    "https://biz.sbs.co.kr/article_hub/20000316474?division=NAVER",
+    "https://www.tokenpost.kr/news/market/369282",
+    "http://www.newsroad.co.kr/news/articleView.html?idxno=60412",
+    "https://www.yna.co.kr/view/AKR20260615020000008?input=1195m",
+    "https://www.youthdaily.co.kr/news/article.html?no=220825",
+    "https://www.hankyung.com/article/2026061556296",
+    "https://www.gokorea.kr/news/articleView.html?idxno=869101",
+    "https://www.newspim.com/news/view/20260615000129",
+    "https://www.sedaily.com/article/20055665?ref=naver",
+    "http://www.fnnews.com/news/202606150906512233",
+    "https://www.cbci.co.kr/news/articleView.html?idxno=581972",
+    "https://www.hankyung.com/article/2026061560446",
+    "https://www.viva100.com/article/20260615500135",
+    "https://www.dt.co.kr/article/12067528?ref=naver",
+    "https://www.etoday.co.kr/news/view/2593504",
+    "https://biz.newdaily.co.kr/site/data/html/2026/06/15/2026061500042.html",
+    "https://www.joongang.co.kr/article/25436760",
+    "https://view.asiae.co.kr/article/2026061509070028059",
+    "https://news.mtn.co.kr/news-detail/2026061509121683566",
+    "http://mbnmoney.mbn.co.kr/news/view?news_no=MM1005857956",
+    "http://www.yonhapnewstv.co.kr/news/MYH20260623114831cqo",
+    "https://www.sedaily.com/article/20058984?ref=naver",
+    "https://www.kmib.co.kr/article/view.asp?arcid=0030018218&code=61141111&cp=nv",
+    "https://biz.chosun.com/stock/stock_general/2026/06/25/3255FQZMFNALJJ7LFYGBQPZSRI/?utm_source=naver&utm_medium=original&utm_campaign=biz",
+    "https://www.hankyung.com/article/2026062698236",
+    "http://www.yonhapnewstv.co.kr/news/AKR20260626111634QTT",
+    "http://www.fnnews.com/news/202606290930131421",
+    "https://www.dailian.co.kr/news/view/1660848/?sc=Naver",
+    "https://www.sedaily.com/article/20062808?ref=naver",
+    "https://www.imaeil.com/page/view/2026070209084110513",
+    "https://www.news1.kr/finance/general-stock/6217047",
+    "https://biz.chosun.com/stock/stock_general/2026/07/07/L4BNN26ROZEIJPCCOKLKBTDOYQ/?utm_source=naver&utm_medium=original&utm_campaign=biz",
+    "https://www.busan.com/view/busan/view.php?code=2026070710263693572",
+    "https://www.hankyung.com/article/2026070827547",
+    "https://www.mk.co.kr/article/12093254",
+    "http://mbn.mk.co.kr/pages/news/newsView.php?category=mbn00003&news_seq_no=5205077",
+    "https://news.sbs.co.kr/news/endPage.do?news_id=N1008651597&plink=ORI&cooper=NAVER",
+    "https://www.dt.co.kr/article/12072557?ref=naver",
+    "https://www.sedaily.com/article/20066935?ref=naver",
+    "https://www.yna.co.kr/view/AKR20260714094300008?input=1195m"
+  ],
+  "alerted_dates": {
+    "2026-06-12": [],
+    "2026-06-15": [
+      "news_사이드카",
+      "news_사이드카"
+    ],
+    "2026-06-19": [
+      "cb_kosdaq_1단계"
+    ],
+    "2026-06-23": [
+      "news_사이드카",
+      "news_사이드카"
+    ],
+    "2026-06-24": [
+      "cb_kospi_1단계",
+      "cb_kosdaq_1단계"
+    ],
+    "2026-06-25": [
+      "news_사이드카",
+      "news_사이드카"
+    ],
+    "2026-06-26": [
+      "news_사이드카",
+      "news_사이드카"
+    ],
+    "2026-06-29": [
+      "news_사이드카",
+      "news_사이드카"
+    ],
+    "2026-07-02": [
+      "news_사이드카",
+      "news_사이드카"
+    ],
+    "2026-07-03": [
+      "cb_kosdaq_1단계",
+      "news_사이드카"
+    ],
+    "2026-07-07": [
+      "news_사이드카",
+      "news_사이드카"
+    ],
+    "2026-07-08": [
+      "news_사이드카",
+      "news_사이드카"
+    ],
+    "2026-07-10": [
+      "news_사이드카",
+      "news_사이드카"
+    ],
+    "2026-07-13": [
+      "news_사이드카",
+      "news_사이드카"
+    ],
+    "2026-07-14": [
+      "cb_kospi_1단계",
+      "news_사이드카"
+    ]
+  }
+}

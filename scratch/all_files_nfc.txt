@@ -1,0 +1,1235 @@
+.\(수정)_수사법_학습지_완성본.md
+.\.env
+.\.gitignore
+.\2025_scholarship.csv
+.\2025_scholarship.xlsx
+.\2026. 창체동아리 연간계획서(동아리명).pdf
+.\20260318_경제뉴스.txt
+.\2026_경남대학교_마이크로디그리_연수_수강계획서.md
+.\2026_청소년_SW동행프로젝트_책임안전AI_학생안내장.docx
+.\2026_청소년_SW동행프로젝트_학생명단.md
+.\2026학년도_1학기_2차고사_안내_사항.md
+.\2026학년도_교육과정_편성표_의견수렴_결과보고서.docx
+.\2026학년도_입학홍보물품_기획안.md
+.\2026학년도_진해고등학교_입학홍보단_발대식_운영계획(안).hwp
+.\2026학년도_진해고등학교_입학홍보단_발대식_운영계획(안).pdf
+.\2026학년도_진해고등학교_입학홍보단_합격자_명단.html
+.\2026학년도_홍보예산목록.md
+.\2027 수능특강 문학 원본.pdf
+.\2027 수능특강 문학(244-266).pdf
+.\2027 수능특강 문학(267-282, 288-292).pdf
+.\2학년 문학 교과서 시험범위(오발탄, 대설주의보).pdf
+.\3학년_화법과작문_수행평가_양식.xlsx
+.\add_ai_reminder.py
+.\add_calendar_events.py
+.\add_example_row.py
+.\add_family_outing_calendar.py
+.\add_summary_tab.py
+.\add_taiwan_reminder.py
+.\add_training_events.py
+.\admission_knowledge.js
+.\admission_news.log
+.\admission_news.py
+.\admission_news_gas.js
+.\agent_login_helper.py
+.\ai_scholarship_reminder.ps1
+.\alert_log.txt
+.\all_files.txt
+.\all_hwp.txt
+.\all_hwps.txt
+.\all_py.txt
+.\app.js
+.\app.py
+.\attendance_system.js
+.\auth_recovery.py
+.\automation_standard.md
+.\auto_scavenge_nlm_session.py
+.\bot_logic.py
+.\bot_maintenance.py
+.\bot_stress_harness.py
+.\calendar_events_report.txt
+.\check_bot_status.bat
+.\check_cancellation.py
+.\check_models.py
+.\check_pdf_content.py
+.\check_tasks.py
+.\Chrome_디버그모드.bat
+.\Chrome_메인프로필_디버그.bat
+.\clean_text.txt
+.\cloud_daily_news.py
+.\Code.gs
+.\Code_Literature.gs
+.\convert_to_gdoc.py
+.\Cookies
+.\copy_latest.py
+.\create_corrected_worksheet.py
+.\create_exam_question_doc.py
+.\create_google_docs.py
+.\create_heidegger_questions.py
+.\create_hwp_files.py
+.\create_hwp_plan.py
+.\create_hwp_plan_expert.py
+.\create_hwp_plan_perfect.py
+.\create_hwp_plan_pyhwpx.py
+.\create_hwp_plan_rtf.py
+.\create_hwp_worksheet.py
+.\create_literature_worksheet_v2.py
+.\create_plan_final.py
+.\create_plan_v2.py
+.\create_plan_v3.py
+.\create_ppt.py
+.\create_sijo_essay_question.py
+.\create_slides_v1.py
+.\create_slides_v2.py
+.\create_slides_v3.py
+.\create_slides_v4.py
+.\create_substitute_plan.py
+.\create_worksheet_docs.py
+.\create_worksheet_docs_v2.py
+.\create_worksheet_student_final.py
+.\create_worksheet_student_rich.py
+.\create_worksheet_student_v5.py
+.\credentials.json
+.\daeseol.txt
+.\daily_news.log
+.\daily_news.py
+.\daily_news_history.log
+.\debug_upload.py
+.\delete_example_row.py
+.\deployment_guide.md
+.\diag_cookies.py
+.\diag_cookies_v2.py
+.\document_manager.log
+.\document_manager.py
+.\document_manager_history.log
+.\essay_question_history.md
+.\excel_content.txt
+.\excel_inspection_report.txt
+.\extracted_text.txt
+.\extracted_text_p250.txt
+.\extracted_webapp.html
+.\extract_booking_info.py
+.\extract_cancellation_details.py
+.\extract_hwp.py
+.\extract_page_250.py
+.\find_deadline.py
+.\fix_bat.py
+.\fix_column_widths.py
+.\fix_task.py
+.\flight_alert.log
+.\flight_alert.py
+.\flight_alert_history.log
+.\format_accounting_sheet.py
+.\gas_proxy.js
+.\gmail_tool.py
+.\google_docs_links.txt
+.\Google인증_복구.bat
+.\hidden_cliff_email.txt
+.\hidden_cliff_email_content.txt
+.\hwps.txt
+.\hwp_decoded.txt
+.\hwp_extracted_clean.txt
+.\hwp_standard_content.txt
+.\hwp_template_text.txt
+.\hwp_text.json
+.\index.css
+.\index.html
+.\index_literature.html
+.\inspect_hwp.py
+.\inspect_hwp_template.py
+.\jinhae-bot.zip
+.\kis_bot_multi.py
+.\kis_bot_multi_backup.py
+.\kospi_cloud_tracker.js
+.\kospi_halt_monitor.py
+.\kospi_investor_tracker.py
+.\kospi_rebound_detector.py
+.\last_error.txt
+.\learn_hwp_standard.py
+.\list.json
+.\list_models.py
+.\literature_seteuk_v7_5.js
+.\literature_seteuk_v7_6.js
+.\literature_tracker_3rd_grade.js
+.\literature_tracker_final.js
+.\literature_tracker_passive_final.js
+.\literature_tracker_sync_final.js
+.\main.py
+.\maintenance_utils.js
+.\monday_briefing.py
+.\monthly_economic_calendar.py
+.\nlm.bat
+.\notebooklm_auto.py
+.\NotebookLM_초기로그인.bat
+.\notify_custom_popup.ps1
+.\notify_popup_perfect.py
+.\notify_silent.ps1
+.\notify_us_events.py
+.\organizeCallLogs_optimized.js
+.\patch_daily_news.py
+.\pdf_extracted.txt
+.\precise_core_report.md
+.\precise_exchange_report.md
+.\precise_sub_report.md
+.\processed_docs.txt
+.\processed_files.txt
+.\processed_folders.txt
+.\progress_tracker_refined.js
+.\query_formulas_정리.py
+.\raw_rows.json
+.\read_hwp.py
+.\read_pyhwpx.py
+.\register.py
+.\register_ai_reminder.ps1
+.\register_bot_watchdog.bat
+.\register_messenger_tasks.ps1
+.\register_tasks.ps1
+.\register_telegram_bot.ps1
+.\register_training_reminder.ps1
+.\register_watchdog.py
+.\remind_deployment.py
+.\repair_nlm_session.py
+.\requirements.txt
+.\retirement_savings_dual_momentum_guide.md
+.\run.py
+.\run_admission_news.bat
+.\run_admission_news.vbs
+.\run_ai_reminder.bat
+.\run_ai_reminder.vbs
+.\run_doc_manager.bat
+.\run_doc_manager.vbs
+.\run_flight_alert.bat
+.\run_flight_alert.vbs
+.\run_harness_at_night.py
+.\run_hidden.vbs
+.\run_hwp_convert.bat
+.\run_hwp_convert.vbs
+.\run_monday_briefing.bat
+.\run_news_once.bat
+.\run_news_once.py
+.\run_news_once.vbs
+.\run_night_harness.bat
+.\run_nlm_patched.py
+.\run_sms_automation.bat
+.\run_telegram_assistant.bat
+.\run_training_reminder.bat
+.\run_training_reminder.vbs
+.\save_hidden_cliff_email.py
+.\schedule_reminder_bridge.bat
+.\scholarship_bot.py
+.\scholarship_bot_history.log
+.\school_logo.png
+.\school_reminder_trigger.py
+.\search_and_copy.py
+.\search_cal.py
+.\search_cal2.py
+.\search_drive_for_ai.py
+.\search_res.txt
+.\search_token_usage.py
+.\send_bulk_sms.py
+.\send_training_reminder.py
+.\setup_accounting_system.py
+.\Setup_Autostart_on_SchoolPC.ps1
+.\setup_drive_folder.py
+.\Setup_KOSPI_Detector_Scheduler.bat
+.\Setup_KOSPI_Halt_Monitor_Scheduler.bat
+.\Setup_KOSPI_Halt_Monitor_Scheduler.ps1
+.\Setup_KOSPI_Investor_Scheduler.bat
+.\setup_messenger_schedule.bat
+.\Setup_Quant_Scheduler_SchoolPC.bat
+.\Setup_Quant_Scheduler_SchoolPC.ps1
+.\setup_scheduler.bat
+.\setup_telegram_persistence.bat
+.\sheet.html
+.\silent_register.bat
+.\SMS_발송_가이드.md
+.\startup_debug.log
+.\start_chat.py
+.\start_chatbot.bat
+.\stay_awake.py
+.\target_files.txt
+.\telegram_assistant.log
+.\telegram_assistant.py
+.\temp.txt
+.\temp2.txt
+.\template_dump.txt
+.\test_bot.py
+.\test_content.html
+.\test_content_ko.html
+.\test_decrypt.py
+.\test_gemini_model.py
+.\test_gemini_model_v2.py
+.\test_harness.js
+.\test_harness_literature.js
+.\test_inner_text.txt
+.\test_models.py
+.\test_nlm.py
+.\test_notification.py
+.\test_save.hwp
+.\test_save.pdf
+.\tmp_(진해고등학교-3197 (첨부)) 2025학년도 장학생소심의위원회 협의록(송산 장학회, 창원시장학회, 창원한마음병원).pdf
+.\tmp_(진해고등학교-3197 (첨부)) 2025학년도 장학생심의위원회 협의록(송산 장학회, 창원시장학회, 창원한마음병원).pdf
+.\tmp_(진해고등학교-3213 (본문)) 재단법인 창원시장학회 장학생 추천.pdf
+.\tmp_(진해고등학교-3213 (첨부)) 장학생 추천서류(우편제출).pdf
+.\tmp_(진해고등학교-3215 (첨부)) 장학생 추천서(창원한마음병원).pdf
+.\tmp_(진해고등학교-3215 (첨부)) 학교발전기금 통장사본.pdf
+.\tmp_(진해고등학교-3215 (첨부)) 학교발전기금기탁서 양식.pdf
+.\tmp_(진해고등학교-3216 (첨부)) 장학생 추천서류(우편제출).pdf
+.\tmp_(진해고등학교-3272 (본문)) 2025학년도 스승의날 유공교원 교육부 장관 및 교육감 표창 서류 제출.pdf
+.\tmp_(진해고등학교-3272 (첨부)) 교육감표창-진해-고-김혜양(진해고) 서식4-2.pdf
+.\tmp_(진해고등학교-3272 (첨부)) 교육감표창-진해-고-김혜양(진해고) 서식5.pdf
+.\tmp_(진해고등학교-3272 (첨부)) 교육부장관표창-진해-고-최영내(진해고).pdf
+.\tmp_(진해고등학교-7651 (본문)) 산해장학재단 박영선 장학금 장학생 추천.pdf
+.\tmp_(진해고등학교-7652 (본문)) 2025년 (재)산해장학재단 박영선 장학금 장학생 추천 협의록.pdf
+.\tmp_(진해고등학교-7652 (첨부)) 2025학년도 장학생선발소심의위원회 협의록.PDF
+.\tmp_(진해고등학교-7652 (첨부)) 2025학년도 장학생선발심의위원회 협의록.pdf
+.\token.json
+.\token_calendar.json
+.\token_gmail.json
+.\token_tasks.json
+.\trigger_alert.ps1
+.\unified_schedule.py
+.\update.ps1
+.\update_exam_question_doc.py
+.\vercel.json
+.\verify_new_key.py
+.\verify_nlm_session.py
+.\wait_telegram.py
+.\weekday_news_gas.js
+.\weekend_news_gas.js
+.\winners_candidates.json
+.\winners_to_verify.json
+.\worksheet_presentation.pptx
+.\worksheet_presentation_v2.pptx
+.\worksheet_presentation_v3.pptx
+.\worksheet_presentation_v4.pptx
+.\write_report.ps1
+.\write_report_rel.ps1
+.\고사_출제_현황_및_계획.md
+.\고성고_2026_학사일정.json
+.\고성고_2026_학사일정.md
+.\공군사관학교_진학_로드맵.html
+.\공군사관학교_진학_로드맵.md
+.\공문_관리_리스트.xlsx
+.\교육과정_구글폼_생성_스크립트.gs
+.\교육과정_웹앱_코드.gs
+.\교육과정_웹앱_화면.html
+.\교육과정_테스트_하네스.js
+.\구글폼_생성_스크립트.gs
+.\남지여자중학교_2026_학사일정.json
+.\남지여자중학교_2026_학사일정.md
+.\대설주의보_새들도세상을뜨는구나_수업계획.html
+.\대설주의보_새들도세상을뜨는구나_수업계획.md
+.\수행평가_미응시자_명단.md
+.\수행평가_미응시자_분석_인쇄용.md
+.\수행평가_미응시자_분석_인쇄용_temp.html
+.\수행평가_미제출_최종_temp.html
+.\수행평가_수기입력_가이드.md
+.\쉬었음_청년_연구보고서_양식.md
+.\쉬었음_청년_연구보고서_양식_temp.html
+.\쉬었음_청년_현상_탐구_운영계획.md
+.\쉬었음_청년_현상_탐구_운영계획_temp.html
+.\시험_출제_및_제출_일정.md
+.\오발탄_수업설계_백업.md
+.\자동_PDF_변환_등록(켜기).bat
+.\자동_PDF_변환_해제(끄기).bat
+.\진해고_입학홍보단_문자발송기.bat
+.\청소년 SW동행프로젝트_학생_회원정보_양식.xlsx
+.\퀀트_투자자를_위한_단계별_독서_로드맵_10선.md
+.\학교PC_상태점검.py
+.\한국과학기술고등학교_2026_학사일정.json
+.\한국과학기술고등학교_2026_학사일정.md
+.\해군사관학교_진학_로드맵.html
+.\해군사관학교_진학_로드맵.md
+.\.agents\workflows\generate-lecture-slides.md
+.\.agents\workflows\generate-literature-worksheet.md
+.\.agents\workflows\verify-chatbot-reliability.md
+.\.github\workflows\weekend_news.yml
+.\.google_messages_session\first_party_sets.db
+.\.google_messages_session\first_party_sets.db-journal
+.\.google_messages_session\Last Browser
+.\.google_messages_session\Last Version
+.\.google_messages_session\Local State
+.\.google_messages_session\Variations
+.\.google_messages_session\component_crx_cache\metadata.json
+.\.google_messages_session\Crashpad\settings.dat
+.\.google_messages_session\Default\Account Web Data
+.\.google_messages_session\Default\Account Web Data-journal
+.\.google_messages_session\Default\Affiliation Database
+.\.google_messages_session\Default\Affiliation Database-journal
+.\.google_messages_session\Default\BookmarkMergedSurfaceOrdering
+.\.google_messages_session\Default\DIPS
+.\.google_messages_session\Default\Favicons
+.\.google_messages_session\Default\Favicons-journal
+.\.google_messages_session\Default\heavy_ad_intervention_opt_out.db
+.\.google_messages_session\Default\heavy_ad_intervention_opt_out.db-journal
+.\.google_messages_session\Default\History
+.\.google_messages_session\Default\History-journal
+.\.google_messages_session\Default\LOCK
+.\.google_messages_session\Default\LOG
+.\.google_messages_session\Default\Login Data
+.\.google_messages_session\Default\Login Data For Account
+.\.google_messages_session\Default\Login Data For Account-journal
+.\.google_messages_session\Default\Login Data-journal
+.\.google_messages_session\Default\Network Action Predictor
+.\.google_messages_session\Default\Network Action Predictor-journal
+.\.google_messages_session\Default\Preferences
+.\.google_messages_session\Default\PreferredApps
+.\.google_messages_session\Default\README
+.\.google_messages_session\Default\Secure Preferences
+.\.google_messages_session\Default\ServerCertificate
+.\.google_messages_session\Default\ServerCertificate-journal
+.\.google_messages_session\Default\SharedStorage
+.\.google_messages_session\Default\Shortcuts
+.\.google_messages_session\Default\Shortcuts-journal
+.\.google_messages_session\Default\Top Sites
+.\.google_messages_session\Default\Top Sites-journal
+.\.google_messages_session\Default\trusted_vault.pb
+.\.google_messages_session\Default\Web Data
+.\.google_messages_session\Default\Web Data-journal
+.\.google_messages_session\Default\AutofillAiModelCache\LOCK
+.\.google_messages_session\Default\AutofillAiModelCache\LOG
+.\.google_messages_session\Default\AutofillStrikeDatabase\LOCK
+.\.google_messages_session\Default\AutofillStrikeDatabase\LOG
+.\.google_messages_session\Default\BudgetDatabase\LOCK
+.\.google_messages_session\Default\BudgetDatabase\LOG
+.\.google_messages_session\Default\Cache\Cache_Data\data_0
+.\.google_messages_session\Default\Cache\Cache_Data\data_1
+.\.google_messages_session\Default\Cache\Cache_Data\data_2
+.\.google_messages_session\Default\Cache\Cache_Data\data_3
+.\.google_messages_session\Default\Cache\Cache_Data\f_000001
+.\.google_messages_session\Default\Cache\Cache_Data\f_000002
+.\.google_messages_session\Default\Cache\Cache_Data\f_000003
+.\.google_messages_session\Default\Cache\Cache_Data\f_000004
+.\.google_messages_session\Default\Cache\Cache_Data\f_000005
+.\.google_messages_session\Default\Cache\Cache_Data\f_000006
+.\.google_messages_session\Default\Cache\Cache_Data\f_000007
+.\.google_messages_session\Default\Cache\Cache_Data\f_000008
+.\.google_messages_session\Default\Cache\Cache_Data\f_000009
+.\.google_messages_session\Default\Cache\Cache_Data\f_00000a
+.\.google_messages_session\Default\Cache\Cache_Data\f_00000b
+.\.google_messages_session\Default\Cache\Cache_Data\f_00000c
+.\.google_messages_session\Default\Cache\Cache_Data\f_00000d
+.\.google_messages_session\Default\Cache\Cache_Data\f_00000e
+.\.google_messages_session\Default\Cache\Cache_Data\f_00000f
+.\.google_messages_session\Default\Cache\Cache_Data\f_000010
+.\.google_messages_session\Default\Cache\Cache_Data\f_000011
+.\.google_messages_session\Default\Cache\Cache_Data\f_000012
+.\.google_messages_session\Default\Cache\Cache_Data\f_000013
+.\.google_messages_session\Default\Cache\Cache_Data\f_000014
+.\.google_messages_session\Default\Cache\Cache_Data\f_000015
+.\.google_messages_session\Default\Cache\Cache_Data\f_000016
+.\.google_messages_session\Default\Cache\Cache_Data\index
+.\.google_messages_session\Default\Cache\No_Vary_Search\journal.baj
+.\.google_messages_session\Default\Cache\No_Vary_Search\snapshot.baf
+.\.google_messages_session\Default\chrome_cart_db\LOCK
+.\.google_messages_session\Default\chrome_cart_db\LOG
+.\.google_messages_session\Default\ClientCertificates\LOCK
+.\.google_messages_session\Default\ClientCertificates\LOG
+.\.google_messages_session\Default\Code Cache\js\bf3073b3feacb5b4_0
+.\.google_messages_session\Default\Code Cache\js\cb87fe9b6a3c0c1a_0
+.\.google_messages_session\Default\Code Cache\js\index
+.\.google_messages_session\Default\Code Cache\js\index-dir\the-real-index
+.\.google_messages_session\Default\Code Cache\wasm\index
+.\.google_messages_session\Default\Code Cache\wasm\index-dir\the-real-index
+.\.google_messages_session\Default\commerce_subscription_db\LOCK
+.\.google_messages_session\Default\commerce_subscription_db\LOG
+.\.google_messages_session\Default\DawnGraphiteCache\data_0
+.\.google_messages_session\Default\DawnGraphiteCache\data_1
+.\.google_messages_session\Default\DawnGraphiteCache\data_2
+.\.google_messages_session\Default\DawnGraphiteCache\data_3
+.\.google_messages_session\Default\DawnGraphiteCache\index
+.\.google_messages_session\Default\DawnWebGPUCache\data_0
+.\.google_messages_session\Default\DawnWebGPUCache\data_1
+.\.google_messages_session\Default\DawnWebGPUCache\data_2
+.\.google_messages_session\Default\DawnWebGPUCache\data_3
+.\.google_messages_session\Default\DawnWebGPUCache\index
+.\.google_messages_session\Default\discounts_db\LOCK
+.\.google_messages_session\Default\discounts_db\LOG
+.\.google_messages_session\Default\discount_infos_db\LOCK
+.\.google_messages_session\Default\discount_infos_db\LOG
+.\.google_messages_session\Default\Extension Rules\000003.log
+.\.google_messages_session\Default\Extension Rules\CURRENT
+.\.google_messages_session\Default\Extension Rules\LOCK
+.\.google_messages_session\Default\Extension Rules\LOG
+.\.google_messages_session\Default\Extension Rules\MANIFEST-000001
+.\.google_messages_session\Default\Extension Scripts\000003.log
+.\.google_messages_session\Default\Extension Scripts\CURRENT
+.\.google_messages_session\Default\Extension Scripts\LOCK
+.\.google_messages_session\Default\Extension Scripts\LOG
+.\.google_messages_session\Default\Extension Scripts\MANIFEST-000001
+.\.google_messages_session\Default\Extension State\000003.log
+.\.google_messages_session\Default\Extension State\CURRENT
+.\.google_messages_session\Default\Extension State\LOCK
+.\.google_messages_session\Default\Extension State\LOG
+.\.google_messages_session\Default\Extension State\MANIFEST-000001
+.\.google_messages_session\Default\Feature Engagement Tracker\AvailabilityDB\LOCK
+.\.google_messages_session\Default\Feature Engagement Tracker\AvailabilityDB\LOG
+.\.google_messages_session\Default\Feature Engagement Tracker\EventDB\LOCK
+.\.google_messages_session\Default\Feature Engagement Tracker\EventDB\LOG
+.\.google_messages_session\Default\GCM Store\000003.log
+.\.google_messages_session\Default\GCM Store\CURRENT
+.\.google_messages_session\Default\GCM Store\LOCK
+.\.google_messages_session\Default\GCM Store\LOG
+.\.google_messages_session\Default\GCM Store\MANIFEST-000001
+.\.google_messages_session\Default\GPUCache\data_0
+.\.google_messages_session\Default\GPUCache\data_1
+.\.google_messages_session\Default\GPUCache\data_2
+.\.google_messages_session\Default\GPUCache\data_3
+.\.google_messages_session\Default\GPUCache\index
+.\.google_messages_session\Default\IndexedDB\https_messages.google.com_0.indexeddb.leveldb\000003.log
+.\.google_messages_session\Default\IndexedDB\https_messages.google.com_0.indexeddb.leveldb\CURRENT
+.\.google_messages_session\Default\IndexedDB\https_messages.google.com_0.indexeddb.leveldb\LOCK
+.\.google_messages_session\Default\IndexedDB\https_messages.google.com_0.indexeddb.leveldb\LOG
+.\.google_messages_session\Default\IndexedDB\https_messages.google.com_0.indexeddb.leveldb\MANIFEST-000001
+.\.google_messages_session\Default\Local Storage\leveldb\000003.log
+.\.google_messages_session\Default\Local Storage\leveldb\CURRENT
+.\.google_messages_session\Default\Local Storage\leveldb\LOCK
+.\.google_messages_session\Default\Local Storage\leveldb\LOG
+.\.google_messages_session\Default\Local Storage\leveldb\MANIFEST-000001
+.\.google_messages_session\Default\Network\Cookies
+.\.google_messages_session\Default\Network\Cookies-journal
+.\.google_messages_session\Default\Network\Network Persistent State
+.\.google_messages_session\Default\Network\NetworkDataMigrated
+.\.google_messages_session\Default\Network\Reporting and NEL
+.\.google_messages_session\Default\Network\Reporting and NEL-journal
+.\.google_messages_session\Default\Network\SCT Auditing Pending Reports
+.\.google_messages_session\Default\Network\TransportSecurity
+.\.google_messages_session\Default\Network\Trust Tokens
+.\.google_messages_session\Default\Network\Trust Tokens-journal
+.\.google_messages_session\Default\parcel_tracking_db\LOCK
+.\.google_messages_session\Default\parcel_tracking_db\LOG
+.\.google_messages_session\Default\PersistentOriginTrials\LOCK
+.\.google_messages_session\Default\PersistentOriginTrials\LOG
+.\.google_messages_session\Default\Safe Browsing Network\NetworkDataMigrated
+.\.google_messages_session\Default\Safe Browsing Network\Safe Browsing Cookies
+.\.google_messages_session\Default\Safe Browsing Network\Safe Browsing Cookies-journal
+.\.google_messages_session\Default\Segmentation Platform\SegmentInfoDB\LOCK
+.\.google_messages_session\Default\Segmentation Platform\SegmentInfoDB\LOG
+.\.google_messages_session\Default\Segmentation Platform\SignalDB\LOCK
+.\.google_messages_session\Default\Segmentation Platform\SignalDB\LOG
+.\.google_messages_session\Default\Segmentation Platform\SignalStorageConfigDB\LOCK
+.\.google_messages_session\Default\Segmentation Platform\SignalStorageConfigDB\LOG
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\index.txt
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\0560cd7a0c8467b9_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\0560cd7a0c8467b9_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\076c29a1554d80d3_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\076c29a1554d80d3_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\08d37a5c601695cb_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\08d37a5c601695cb_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\0ce658a3613161dd_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\0ce658a3613161dd_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\0ee9c0a760354ca1_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\0ee9c0a760354ca1_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\1460902911f7100f_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\1460902911f7100f_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\1a9fe86e59afe286_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\1a9fe86e59afe286_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\22216037891bb75c_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\22216037891bb75c_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\23d693477af1ece7_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\23d693477af1ece7_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\2a03f5ac3b32a513_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\2a03f5ac3b32a513_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\330dbe9964b6bf34_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\330dbe9964b6bf34_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\4016db1dfa129a88_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\4016db1dfa129a88_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\438076b4eddef1fb_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\438076b4eddef1fb_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\463f4381aa574843_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\463f4381aa574843_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\50e86816b16471a2_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\50e86816b16471a2_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\532026c819b91530_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\532026c819b91530_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\55a5a9253f634a9d_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\55a5a9253f634a9d_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\562014e02812b4fe_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\562014e02812b4fe_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\5e500729033c545b_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\5e500729033c545b_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\5e86ecea0ad17e33_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\5e86ecea0ad17e33_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\661ff56c99a4748e_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\661ff56c99a4748e_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\66e3c7720173831b_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\66e3c7720173831b_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\6813510c6407e19d_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\6813510c6407e19d_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\751f997b0f49c9be_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\751f997b0f49c9be_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\798759369501d621_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\798759369501d621_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\7b48e74bbc5bda35_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\7b48e74bbc5bda35_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\7b51f0836c929c5f_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\7b51f0836c929c5f_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\7c195f9ec2a8dcc4_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\7c195f9ec2a8dcc4_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\7eeb51021310be08_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\7eeb51021310be08_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\80065941a10e8eea_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\80065941a10e8eea_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\86acf4daf962e974_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\86acf4daf962e974_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\8767f646c24253c8_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\8767f646c24253c8_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\8a87f9c5538f35ab_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\8a87f9c5538f35ab_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\90137bd9e482c531_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\90137bd9e482c531_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\9256dbc2495914fd_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\9256dbc2495914fd_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\931787c79dd25bd9_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\931787c79dd25bd9_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\a48de2ec5f4b0713_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\a48de2ec5f4b0713_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\a5ff26e786014378_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\a5ff26e786014378_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\a62a3f7fac91fbc6_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\a62a3f7fac91fbc6_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\a835e6816d4957ec_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\a835e6816d4957ec_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\ad0de43a4d02dfba_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\ad0de43a4d02dfba_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\b266258d2f7100bb_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\b85caba7e2060527_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\b85caba7e2060527_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\b8b4539fe30c8c99_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\b8b4539fe30c8c99_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\bad09c67405f72bf_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\bad09c67405f72bf_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\c2022a43b7f34ffb_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\c2022a43b7f34ffb_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\c2191e1bd108a47c_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\c2191e1bd108a47c_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\c5116fe4746fc294_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\c5116fe4746fc294_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\c7dee46494605b70_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\c7dee46494605b70_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\ca9b1f111d865fc5_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\ca9b1f111d865fc5_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\ce68fa4fa04a3387_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\ce68fa4fa04a3387_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\cfd1be1c93a13e7b_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\cfd1be1c93a13e7b_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\d0e32983ed2603c0_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\d0e32983ed2603c0_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\d1e574b5e72d570f_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\d1e574b5e72d570f_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\d4771dae0a1e2a7e_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\d4771dae0a1e2a7e_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\d7f952ee9bc3471c_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\d7f952ee9bc3471c_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\e7385502b77f5f5f_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\e7385502b77f5f5f_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\ea096eb5f24d7ab7_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\ea096eb5f24d7ab7_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\ebc9bd2d8b5e10e5_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\ebc9bd2d8b5e10e5_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\f5059ade6f3319fd_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\f5059ade6f3319fd_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\f86d7437f08e1ea9_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\f86d7437f08e1ea9_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\fd61440b5f45ef38_0
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\fd61440b5f45ef38_1
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\index
+.\.google_messages_session\Default\Service Worker\CacheStorage\f7b336925bf4c71547fa2eec65b5cc4f70bee74e\765781d6-ec43-4ac0-945b-73f8c88cbc8e\index-dir\the-real-index
+.\.google_messages_session\Default\Service Worker\Database\000003.log
+.\.google_messages_session\Default\Service Worker\Database\CURRENT
+.\.google_messages_session\Default\Service Worker\Database\LOCK
+.\.google_messages_session\Default\Service Worker\Database\LOG
+.\.google_messages_session\Default\Service Worker\Database\MANIFEST-000001
+.\.google_messages_session\Default\Service Worker\ScriptCache\67a473248953641b_0
+.\.google_messages_session\Default\Service Worker\ScriptCache\67a473248953641b_1
+.\.google_messages_session\Default\Service Worker\ScriptCache\fa813c9ad67834ac_0
+.\.google_messages_session\Default\Service Worker\ScriptCache\fa813c9ad67834ac_1
+.\.google_messages_session\Default\Service Worker\ScriptCache\index
+.\.google_messages_session\Default\Service Worker\ScriptCache\index-dir\the-real-index
+.\.google_messages_session\Default\Session Storage\000003.log
+.\.google_messages_session\Default\Session Storage\CURRENT
+.\.google_messages_session\Default\Session Storage\LOCK
+.\.google_messages_session\Default\Session Storage\LOG
+.\.google_messages_session\Default\Session Storage\MANIFEST-000001
+.\.google_messages_session\Default\Sessions\Session_13424328009935240
+.\.google_messages_session\Default\Sessions\Tabs_13424328096251781
+.\.google_messages_session\Default\Shared Dictionary\db
+.\.google_messages_session\Default\Shared Dictionary\db-journal
+.\.google_messages_session\Default\Shared Dictionary\cache\index
+.\.google_messages_session\Default\Shared Dictionary\cache\index-dir\the-real-index
+.\.google_messages_session\Default\shared_proto_db\000003.log
+.\.google_messages_session\Default\shared_proto_db\CURRENT
+.\.google_messages_session\Default\shared_proto_db\LOCK
+.\.google_messages_session\Default\shared_proto_db\LOG
+.\.google_messages_session\Default\shared_proto_db\MANIFEST-000001
+.\.google_messages_session\Default\shared_proto_db\metadata\000003.log
+.\.google_messages_session\Default\shared_proto_db\metadata\CURRENT
+.\.google_messages_session\Default\shared_proto_db\metadata\LOCK
+.\.google_messages_session\Default\shared_proto_db\metadata\LOG
+.\.google_messages_session\Default\shared_proto_db\metadata\MANIFEST-000001
+.\.google_messages_session\Default\Site Characteristics Database\000003.log
+.\.google_messages_session\Default\Site Characteristics Database\CURRENT
+.\.google_messages_session\Default\Site Characteristics Database\LOCK
+.\.google_messages_session\Default\Site Characteristics Database\LOG
+.\.google_messages_session\Default\Site Characteristics Database\MANIFEST-000001
+.\.google_messages_session\Default\Sync Data\LevelDB\000003.log
+.\.google_messages_session\Default\Sync Data\LevelDB\CURRENT
+.\.google_messages_session\Default\Sync Data\LevelDB\LOCK
+.\.google_messages_session\Default\Sync Data\LevelDB\LOG
+.\.google_messages_session\Default\Sync Data\LevelDB\MANIFEST-000001
+.\.google_messages_session\Default\WebStorage\QuotaManager
+.\.google_messages_session\Default\WebStorage\QuotaManager-journal
+.\.google_messages_session\extensions_crx_cache\metadata.json
+.\.google_messages_session\GraphiteDawnCache\data_0
+.\.google_messages_session\GraphiteDawnCache\data_1
+.\.google_messages_session\GraphiteDawnCache\data_2
+.\.google_messages_session\GraphiteDawnCache\data_3
+.\.google_messages_session\GraphiteDawnCache\index
+.\.google_messages_session\GrShaderCache\data_0
+.\.google_messages_session\GrShaderCache\data_1
+.\.google_messages_session\GrShaderCache\data_2
+.\.google_messages_session\GrShaderCache\data_3
+.\.google_messages_session\GrShaderCache\index
+.\.google_messages_session\segmentation_platform\ukm_db
+.\.google_messages_session\segmentation_platform\ukm_db-wal
+.\.google_messages_session\ShaderCache\data_0
+.\.google_messages_session\ShaderCache\data_1
+.\.google_messages_session\ShaderCache\data_2
+.\.google_messages_session\ShaderCache\data_3
+.\.google_messages_session\ShaderCache\index
+.\admission_check_app\app.js
+.\admission_check_app\index.html
+.\admission_check_app\style.css
+.\api\index.py
+.\jeju_trip\index.html
+.\jeju_trip\script.js
+.\jeju_trip\style.css
+.\jinhae-bot\jinhae-bot-main\admission_knowledge.js
+.\jinhae-bot\jinhae-bot-main\app.js
+.\jinhae-bot\jinhae-bot-main\index.css
+.\jinhae-bot\jinhae-bot-main\index.html
+.\jinhae-bot\jinhae-bot-main\requirements.txt
+.\jinhae-bot\jinhae-bot-main\school_logo.png
+.\jinhae-bot\jinhae-bot-main\vercel.json
+.\jinhae-bot\jinhae-bot-main\api\.env
+.\jinhae-bot\jinhae-bot-main\api\index.py
+.\jinhae-bot\jinhae-bot-main\api\index_pro_backup.py
+.\jinhae-bot\jinhae-bot-main\api\knowledge.txt
+.\jinhae-bot\jinhae-bot-main\api\__pycache__\index.cpython-312.pyc
+.\scratch\02반24번 조정안.png
+.\scratch\1. 2016. 2학기 1차 고사원안.png
+.\scratch\1. 2016. 2학기 2차 고사원안.png
+.\scratch\1안.png
+.\scratch\2-4답안.png
+.\scratch\2-5답안.png
+.\scratch\2-6답안.png
+.\scratch\2002독서지도안.png
+.\scratch\2014학년도 안전지도 방안.png
+.\scratch\2014학년도 지구대회 연구 수업 지도안.png
+.\scratch\2014학년도 천함제 안전지도 방안.png
+.\scratch\2015 수석교사연수01_붙임2_윤리사상 1단원_지도안.png
+.\scratch\2017학년도 자기소개서 특강 현수막 시안.png
+.\scratch\2018학년도 수업실연 지도안.png
+.\scratch\2019학년도 일반고 3학년 자기개발시기 학사 운영 내실화를 위한 운영비 사용안.png
+.\scratch\2020학년도 입학생 3개년 교육과정 편제표안.png
+.\scratch\2025학년도 신입생 모집요강 팸플릿 시안.png
+.\scratch\2026. 1학기 1차시험 시간표_안.png
+.\scratch\2026. 동아리 조직현황(발송용).pdf
+.\scratch\2026.교사개설 동아리 각반 안내.pdf
+.\scratch\2026_청소년_SW동행프로젝트_책임안전AI_학생안내장.png
+.\scratch\2026학년도 1학기 1차고사 문학 지필평가원안.png
+.\scratch\2026학년도 1학기 1차고사 화법과작문 지필평가원안.png
+.\scratch\2026학년도 진해고등학교 입학안내 팸플릿 시안.png
+.\scratch\2안.png
+.\scratch\2학년 7반 27번 허수안.png
+.\scratch\3안.png
+.\scratch\4안.png
+.\scratch\actual_merge_phase2.txt
+.\scratch\actual_move.txt
+.\scratch\add_admission_ceremony.py
+.\scratch\ai_club_reply.html
+.\scratch\ai_survey.xlsx
+.\scratch\all_files_nfc.txt
+.\scratch\all_images.txt
+.\scratch\all_markdown_dump.txt
+.\scratch\analysis_summary.json
+.\scratch\analyze_exam_files.py
+.\scratch\analyze_files.py
+.\scratch\analyze_kospi_drops.py
+.\scratch\analyze_new_sources.py
+.\scratch\analyze_new_sources_summary.json
+.\scratch\analyze_overlaps.py
+.\scratch\analyze_overlaps_fast.py
+.\scratch\analyze_schedule_combinations.py
+.\scratch\analyze_scholarships.py
+.\scratch\analyze_src2.py
+.\scratch\analyze_template.py
+.\scratch\append_automation_standard.py
+.\scratch\append_form_responses.py
+.\scratch\append_students.py
+.\scratch\append_students_2.py
+.\scratch\append_students_3.py
+.\scratch\append_students_4.py
+.\scratch\append_students_5.py
+.\scratch\apply_frontend_changes.py
+.\scratch\attendance_script_3.js
+.\scratch\autosave_findings.txt
+.\scratch\auto_convert_hwp_to_pdf.py
+.\scratch\backtest_chart.png
+.\scratch\backtest_report.xlsx
+.\scratch\batch_convert_pdf.py
+.\scratch\boot_time_result.txt
+.\scratch\calendar_events_decoded.txt
+.\scratch\check_all_hwp_windows.py
+.\scratch\check_cal_may_june.py
+.\scratch\check_club_members.py
+.\scratch\check_enc.py
+.\scratch\check_enc_v2.py
+.\scratch\check_file_exist.py
+.\scratch\check_file_info.py
+.\scratch\check_hwp_win32.py
+.\scratch\check_hwp_windows.py
+.\scratch\check_local_excel.py
+.\scratch\check_pdf_header.py
+.\scratch\check_processes.py
+.\scratch\check_recent_pdfs.py
+.\scratch\check_scheduled_tasks.py
+.\scratch\check_sheets.py
+.\scratch\check_spreadsheet_details.py
+.\scratch\check_startup.py
+.\scratch\check_startup_target.py
+.\scratch\check_students_submission.py
+.\scratch\check_system_boot.py
+.\scratch\check_task_details.py
+.\scratch\check_verifier.py
+.\scratch\cleanup_stats.json
+.\scratch\clean_drive_today.py
+.\scratch\cloud_daily_news.py
+.\scratch\cloud_daily_news_fixed.py
+.\scratch\club_status.pdf
+.\scratch\club_students.xlsx
+.\scratch\compare_2021_folders.py
+.\scratch\compare_nam_answers.py
+.\scratch\compare_sheets.py
+.\scratch\compare_summary.json
+.\scratch\compress_logo.py
+.\scratch\convert_pdf_to_png.py
+.\scratch\convert_user_requested.py
+.\scratch\create_book_gdoc.py
+.\scratch\create_bot_manual.py
+.\scratch\create_curriculum_form.py
+.\scratch\create_curriculum_gdoc.py
+.\scratch\create_docx.py
+.\scratch\create_dual_momentum_gdoc.py
+.\scratch\create_dual_momentum_guide.py
+.\scratch\create_kafa_roadmap_gdoc.py
+.\scratch\create_minutes.py
+.\scratch\create_minutes_v2.py
+.\scratch\create_reminders.py
+.\scratch\create_report_gdoc.py
+.\scratch\create_roadmap_gdoc.py
+.\scratch\create_shortcuts.py
+.\scratch\curriculum_survey_data.json
+.\scratch\date_expectations.pdf
+.\scratch\date_expectations_extracted.txt
+.\scratch\debug_naver_news.py
+.\scratch\decode_holidays.py
+.\scratch\deep_clean_daily_news.py
+.\scratch\delete_row_156.py
+.\scratch\diagnose_popups.py
+.\scratch\diag_popups.py
+.\scratch\disable_daily_news_startup.py
+.\scratch\download_submissions.py
+.\scratch\drive_files_list.json
+.\scratch\drive_results.txt
+.\scratch\dry_run_merge_phase2.txt
+.\scratch\dry_run_move.txt
+.\scratch\dump_all_markdown.py
+.\scratch\dump_pdf_text.py
+.\scratch\dump_visible_windows.py
+.\scratch\error_log.txt
+.\scratch\evaluation_plan.pdf
+.\scratch\evaluation_plan_extracted.txt
+.\scratch\exam_analysis_result.txt
+.\scratch\exam_findings.txt
+.\scratch\execute_backtest.py
+.\scratch\execute_cleanup.py
+.\scratch\execute_merge_2021.py
+.\scratch\execute_merge_phase2.py
+.\scratch\export_gas.py
+.\scratch\extracted_data.json
+.\scratch\extract_ai_club_details.py
+.\scratch\extract_drive_pdf.py
+.\scratch\extract_excel.py
+.\scratch\extract_from_pdf.py
+.\scratch\extract_hwp_ole.py
+.\scratch\extract_lesson_plans.py
+.\scratch\extract_lit_pages.py
+.\scratch\extract_pdf_pages.py
+.\scratch\extract_plan.py
+.\scratch\extract_to_json.py
+.\scratch\fast_overlap_report.json
+.\scratch\final_sanitize_daily_news.py
+.\scratch\find_admission_event.py
+.\scratch\find_all_daily_news.py
+.\scratch\find_all_daily_news_c.py
+.\scratch\find_all_notes.py
+.\scratch\find_all_sheet_ids.py
+.\scratch\find_all_standards.py
+.\scratch\find_and_dump_survey.py
+.\scratch\find_autosave_hwp.py
+.\scratch\find_drive_form.py
+.\scratch\find_exam_2nd.txt
+.\scratch\find_exam_source.py
+.\scratch\find_helper_students.py
+.\scratch\find_hwp_path.py
+.\scratch\find_hwp_path_robust.py
+.\scratch\find_log_success_2.py
+.\scratch\find_names_roster.py
+.\scratch\find_non_submitters.py
+.\scratch\find_recent_sheets.py
+.\scratch\find_roster_sheets.py
+.\scratch\find_sheet_containing_responses.py
+.\scratch\find_titles.py
+.\scratch\fix_dates.py
+.\scratch\fix_hwp_classes.py
+.\scratch\form_link.xlsx
+.\scratch\form_structure.txt
+.\scratch\gas_daily_news_gas.json
+.\scratch\gas_weekend_news_gas.json
+.\scratch\gdoc_report_info.json
+.\scratch\gdrive_files.txt
+.\scratch\gemini_ocr.py
+.\scratch\generate_discussion_record.py
+.\scratch\generate_survey_docx.py
+.\scratch\get_calendar_events.py
+.\scratch\get_clean_responses.py
+.\scratch\get_form_destination_via_drive.py
+.\scratch\get_form_responses.py
+.\scratch\get_gold_price.py
+.\scratch\get_live_price.py
+.\scratch\get_nasdaq_futures.py
+.\scratch\get_premarket_quote.py
+.\scratch\get_responses.py
+.\scratch\get_semiconductor_futures.py
+.\scratch\get_standard_from_specific_log.py
+.\scratch\get_today_prices.py
+.\scratch\get_top10_prices.py
+.\scratch\get_yahoo_price.py
+.\scratch\gmail_results.json
+.\scratch\gviz.csv
+.\scratch\historical_structure.txt
+.\scratch\historical_structure_new.txt
+.\scratch\hwp_convert_log.txt
+.\scratch\hyh_submit.xlsx
+.\scratch\insert_students.py
+.\scratch\insert_to_google_sheets_directly.py
+.\scratch\inspect_backup.py
+.\scratch\inspect_columns.py
+.\scratch\inspect_contact.py
+.\scratch\inspect_contact_header.py
+.\scratch\inspect_creative_plan.py
+.\scratch\inspect_enc.py
+.\scratch\inspect_hwpx.py
+.\scratch\inspect_mismatches.py
+.\scratch\inspect_mock_exam.py
+.\scratch\inspect_raw_sheets.py
+.\scratch\inspect_root.py
+.\scratch\inspect_roster.py
+.\scratch\inspect_roster_bottom.py
+.\scratch\inspect_roster_detail.py
+.\scratch\inspect_roster_full_bottom.py
+.\scratch\inspect_sheet0.py
+.\scratch\inspect_sheet0_classes.py
+.\scratch\inspect_specific_submissions.py
+.\scratch\inspect_study_status.py
+.\scratch\inspect_submissions_detail.py
+.\scratch\inspect_submissions_names.py
+.\scratch\inspect_trip_accommodation.py
+.\scratch\inspect_volunteer_helpers.py
+.\scratch\inspect_volunteer_helpers_2.py
+.\scratch\inspect_xlsx.py
+.\scratch\inspect_xlsx_utf8.py
+.\scratch\inspect_xlsx_utf8.txt
+.\scratch\large_popup.ps1
+.\scratch\large_popup_hwp.ps1
+.\scratch\list_calendars.py
+.\scratch\list_classes.py
+.\scratch\list_folder.py
+.\scratch\list_images.py
+.\scratch\list_md_files.py
+.\scratch\list_open_windows.py
+.\scratch\list_recent_files.py
+.\scratch\list_recent_forms.py
+.\scratch\list_recent_sheets.py
+.\scratch\list_src1_non_images.py
+.\scratch\literature_files_list.txt
+.\scratch\literature_search_results.txt
+.\scratch\literature_search_results_nfc.txt
+.\scratch\lit_ocr_result.txt
+.\scratch\lit_role.png
+.\scratch\lit_score.png
+.\scratch\logo_base64.txt
+.\scratch\logs2.zip
+.\scratch\makeup_data.json
+.\scratch\manage_makeup_students.py
+.\scratch\markdown_details.txt
+.\scratch\merge_hwps.py
+.\scratch\merge_stats.json
+.\scratch\new_sheet.csv
+.\scratch\notify_completion.ps1
+.\scratch\notify_merge_complete.py
+.\scratch\notify_merge_complete_phase3.py
+.\scratch\notify_popup.py
+.\scratch\notify_reorganization_complete.ps1
+.\scratch\notify_scholarship.py
+.\scratch\organize_historical_data.py
+.\scratch\parse_google_form.py
+.\scratch\parse_log.py
+.\scratch\parse_log_1030.py
+.\scratch\parse_log_success.py
+.\scratch\parse_telegram_log.py
+.\scratch\pdf_contents.txt
+.\scratch\pdf_extracted_data.json
+.\scratch\pdf_raw_dump.txt
+.\scratch\pdf_to_image.py
+.\scratch\plan_extracted.txt
+.\scratch\popup_process_log.txt
+.\scratch\print_first_lines.py
+.\scratch\print_target_classes.py
+.\scratch\print_unicode_sheets.py
+.\scratch\query_next_week.py
+.\scratch\read_contacts.py
+.\scratch\read_exam_files.py
+.\scratch\read_excel_members.py
+.\scratch\read_gdoc.py
+.\scratch\read_hwanjak_excel.py
+.\scratch\read_hwpx_full.py
+.\scratch\read_hwpx_text.py
+.\scratch\read_hwpx_xml.py
+.\scratch\read_log.py
+.\scratch\read_pdfs.py
+.\scratch\read_pdf_contacts.py
+.\scratch\read_sheets.py
+.\scratch\read_sheet_zero.py
+.\scratch\read_template.py
+.\scratch\read_txt_files.py
+.\scratch\rebound_state.json
+.\scratch\recommend_company.ps1
+.\scratch\refined_summary.json
+.\scratch\refine_classify.py
+.\scratch\register_task.bat
+.\scratch\register_task.ps1
+.\scratch\register_task.py
+.\scratch\register_us_events.ps1
+.\scratch\repair_daily_news.py
+.\scratch\restore_and_cleanup.py
+.\scratch\restore_telegram_alerts.py
+.\scratch\run_recommend.bat
+.\scratch\run_search.py
+.\scratch\scan_all_sheets.py
+.\scratch\scan_historical.py
+.\scratch\scan_new_folder.py
+.\scratch\scan_new_sources.py
+.\scratch\scan_new_sources_summary.json
+.\scratch\scan_result.json
+.\scratch\scheduled_tasks_results.txt
+.\scratch\schedule_reminder.bat
+.\scratch\schedule_reminder.ps1
+.\scratch\schedule_reminder_0930.bat
+.\scratch\schedule_task.ps1
+.\scratch\search_all_june8.py
+.\scratch\search_all_logs.py
+.\scratch\search_all_logs_complete.py
+.\scratch\search_all_sheets.py
+.\scratch\search_code.py
+.\scratch\search_drive.py
+.\scratch\search_drive_exact.py
+.\scratch\search_drive_results.txt
+.\scratch\search_exam_details.py
+.\scratch\search_exam_drive.py
+.\scratch\search_files.py
+.\scratch\search_gas.py
+.\scratch\search_gmail_eval.py
+.\scratch\search_google_links.py
+.\scratch\search_gs_files.py
+.\scratch\search_hyeonjun.py
+.\scratch\search_johyeonjun.py
+.\scratch\search_names_xml.py
+.\scratch\search_past_logs.py
+.\scratch\search_past_logs_for_sheet.py
+.\scratch\search_past_logs_for_standard.py
+.\scratch\search_raw_logs.py
+.\scratch\search_raw_logs_v2.py
+.\scratch\search_schedules.py
+.\scratch\search_spreadsheets.py
+.\scratch\search_student_in_sheet.py
+.\scratch\search_vacation.py
+.\scratch\search_workspace_all.py
+.\scratch\send_live_now.py
+.\scratch\send_manual_telegram.py
+.\scratch\setup_hwp_pdf_scheduler.bat
+.\scratch\sheet.csv
+.\scratch\src1_non_images.txt
+.\scratch\startup_bat_content.txt
+.\scratch\startup_target_info.txt
+.\scratch\stress_test_harness.py
+.\scratch\student_list_work.xlsx
+.\scratch\submissions.xlsx
+.\scratch\submit_additional_students.py
+.\scratch\submit_and_reflect_student.py
+.\scratch\submit_form_answers.py
+.\scratch\submit_one_student.py
+.\scratch\surgical_repair_daily_news.py
+.\scratch\task_details_raw.txt
+.\scratch\task_details_results.txt
+.\scratch\teacher_clubs.xlsx
+.\scratch\template_dump.txt
+.\scratch\temp_backtest.py
+.\scratch\temp_calc.py
+.\scratch\temp_gdoc.html
+.\scratch\test_cloud_api.py
+.\scratch\test_conn.py
+.\scratch\test_daum.py
+.\scratch\test_daum_via_gas.py
+.\scratch\test_ddg.py
+.\scratch\test_ddg_titles.py
+.\scratch\test_deal_api.py
+.\scratch\test_dismiss_direct.py
+.\scratch\test_flash_lite.py
+.\scratch\test_gemini.py
+.\scratch\test_gmail_access.py
+.\scratch\test_halt_monitor.py
+.\scratch\test_harness.js
+.\scratch\test_hwp_read.py
+.\scratch\test_kis_api.py
+.\scratch\test_kis_investor.py
+.\scratch\test_mock_trade.py
+.\scratch\test_models.py
+.\scratch\test_modified_cloud.py
+.\scratch\test_naver_investortrend.py
+.\scratch\test_paxnet.py
+.\scratch\test_published_form.py
+.\scratch\test_pykrx.py
+.\scratch\test_real_api.py
+.\scratch\test_robustness.py
+.\scratch\test_submit_robust.py
+.\scratch\test_telegram.py
+.\scratch\test_yahoo.py
+.\scratch\test_yahoo_chart.py
+.\scratch\trash_gmail_messages.py
+.\scratch\update_book_gdoc.py
+.\scratch\update_gdoc.py
+.\scratch\update_gemini_model.py
+.\scratch\update_hwp.py
+.\scratch\update_reminder.bat
+.\scratch\update_summary.py
+.\scratch\uploaded_image_ids.json
+.\scratch\uploaded_pdf_links.json
+.\scratch\upload_images_to_drive.py
+.\scratch\upload_options_to_drive.py
+.\scratch\vacation_search_results.txt
+.\scratch\verify_helpers_submissions.py
+.\scratch\verify_parser.py
+.\scratch\verify_regular_submissions.py
+.\scratch\verify_scope_details.py
+.\scratch\view_final_rows.py
+.\scratch\view_june_events.py
+.\scratch\view_last_rows_detailed.py
+.\scratch\view_log.py
+.\scratch\view_markdown_contents.py
+.\scratch\view_startup_bat.py
+.\scratch\write_knowledge.py
+.\scratch\개인별 활동계획서(4.15.).pdf
+.\scratch\서강대학교 2010 수시1차 모범답안.png
+.\scratch\시간 - 허수안.png
+.\scratch\연금저축_듀얼모멘텀_가이드.docx
+.\scratch\자율활동 항목별 초안.png
+.\scratch\창원명지여고_신4_시안.png
+.\scratch\초안.png
+.\scratch\__pycache__\auto_convert_hwp_to_pdf.cpython-312.pyc
+.\scratch\__pycache__\cloud_daily_news.cpython-312.pyc
+.\scratch\__pycache__\execute_backtest.cpython-312.pyc
+.\temp\2026-04-22_Macro_Briefing.html
+.\temp\2026-04-23_Macro_Briefing.html
+.\temp\2026-04-24_Macro_Briefing.html
+.\temp\2026-06-02_Macro_Briefing.html
+.\temp\2026-06-04_Macro_Briefing.html
+.\temp\absence_hwp_maker.py
+.\temp\check_models_v2.py
+.\temp\gas_form_trigger.js
+.\temp\hwp_auto_maker.py
+.\temp\register_once.ps1
+.\temp\simulate_gemini.py
+.\temp\simulate_gemini_flushed.py
+.\temp\test_simple.py
+.\temp\test_sim_gemini15.py
+.\temp\test_v8_short.py
+.\temp_jinhae_bot\jinhae-bot-main\requirements.txt
+.\temp_jinhae_bot\jinhae-bot-main\vercel.json
+.\temp_jinhae_bot\jinhae-bot-main\api\index.py
+.\temp_jinhae_bot\jinhae-bot-main\api\api\knowledge.txt
+.\temp_unzip\requirements.txt
+.\temp_unzip\vercel.json
+.\temp_unzip\api\index.py
+.\temp_unzip\api\api\knowledge.txt
+.\temp_unzip\public\index.html
+.\temp_unzip\public\script.js
+.\temp_unzip\public\style.css
+.\vacation_plan_system\Code.gs
+.\vacation_plan_system\deployment_guide.md
+.\vacation_plan_system\Index.html
+.\verify\test_questions.json
+.\verify\verification_report.md
+.\verify\verification_results.json
+.\verify\verify_reliability.py
+.\__pycache__\admission_news.cpython-312.pyc
+.\__pycache__\bot_logic.cpython-312.pyc
+.\__pycache__\cloud_daily_news.cpython-312.pyc
+.\__pycache__\convert_to_gdoc.cpython-312.pyc
+.\__pycache__\create_google_docs.cpython-312.pyc
+.\__pycache__\daily_news.cpython-312.pyc
+.\__pycache__\document_manager.cpython-312.pyc
+.\__pycache__\find_exchange_precise.cpython-312.pyc
+.\__pycache__\gmail_tool.cpython-312.pyc
+.\__pycache__\kis_bot_multi.cpython-312.pyc
+.\__pycache__\kospi_investor_tracker.cpython-312.pyc
+.\__pycache__\main.cpython-312.pyc
+.\__pycache__\notebooklm_auto.cpython-312.pyc
+.\__pycache__\notify_popup_perfect.cpython-312.pyc
+.\__pycache__\run_harness_at_night.cpython-312.pyc
+.\__pycache__\stay_awake.cpython-312.pyc
+.\__pycache__\telegram_assistant.cpython-312.pyc
+.\__pycache__\unified_schedule.cpython-312.pyc
+.\경제뉴스 TXT\2026-03-30_Macro_Briefing.md
+.\경제뉴스 TXT\2026-03-31_Macro_Briefing.md
+.\경제뉴스 TXT\2026-04-01_Macro_Briefing.md
+.\경제뉴스 TXT\2026-04-02_Macro_Briefing.md
+.\경제뉴스 TXT\2026-04-03_Macro_Briefing.md
+.\경제뉴스 TXT\2026-04-06_Macro_Briefing.md
+.\경제뉴스 TXT\2026-04-07_Macro_Briefing.md
+.\경제뉴스 TXT\2026-04-08_Macro_Briefing.md
+.\경제뉴스 TXT\2026-04-09_Macro_Briefing.md
+.\경제뉴스 TXT\2026-04-10_Macro_Briefing.md
+.\경제뉴스 TXT\2026-04-13_Macro_Briefing.md
+.\경제뉴스 TXT\2026-04-14_Macro_Briefing.md
+.\경제뉴스 TXT\2026-04-15_Macro_Briefing.md
+.\경제뉴스 TXT\2026-04-16_Macro_Briefing.md
+.\경제뉴스 TXT\2026-04-17_Macro_Briefing.md
+.\경제뉴스 TXT\2026-04-20_Macro_Briefing.md
+.\경제뉴스 TXT\2026-04-21_Macro_Briefing.md
+.\경제뉴스 TXT\2026-04-22_Macro_Briefing.md
+.\경제뉴스 TXT\2026-04-23_Macro_Briefing.md
+.\경제뉴스 TXT\2026-04-24_Macro_Briefing.md
+.\경제뉴스 TXT\2026-06-02_Macro_Briefing.md
+.\경제뉴스 TXT\2026-06-04_Macro_Briefing.md
+.\경제뉴스 TXT\260324_경제뉴스.txt
+.\경제뉴스 TXT\260325_경제뉴스.txt
+.\경제뉴스 TXT\260326_경제뉴스.txt
+.\경제뉴스 TXT\260327_경제뉴스.txt
+.\공문_입고\test_doc.pdf
+.\공문_입고\test_doc_text.pdf
+.\공문_입고\2026_03_장학\sub_test.pdf
+.\대입정보 TXT\20260408_Admission_Info.md
+.\대입정보 TXT\20260413_Admission_Info.md

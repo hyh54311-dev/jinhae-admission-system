@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>진해고등학교 2026학년도 입학 홍보 실전 기획안 - Google Docs</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700;900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Docs Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --bg-workspace: #f9fbfd;
+            --bg-page: #ffffff;
+            --text-main: #3c4043;
+            --text-title: #1a73e8;
+            --border-color: #dadce0;
+            --toolbar-bg: #edf2fa;
+            --accent-blue: #1a73e8;
+            --sidebar-width: 260px;
+        }
+
+        .dark-mode {
+            --bg-workspace: #1e1e1e;
+            --bg-page: #2d2d2d;
+            --text-main: #e8eaed;
+            --text-title: #8ab4f8;
+            --border-color: #3c4043;
+            --toolbar-bg: #2a2c2e;
+            --accent-blue: #8ab4f8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', 'Inter', sans-serif;
+            background-color: var(--bg-workspace);
+            color: var(--text-main);
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* --- 상단 구글 문서 헤더 영역 --- */
+        header {
+            background-color: var(--bg-page);
+            border-bottom: 1px solid var(--border-color);
+            padding: 8px 16px 4px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+            flex-shrink: 0;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .docs-icon {
+            color: #2684fc;
+            font-size: 32px;
+        }
+
+        .docs-meta {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .docs-title-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .docs-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text-main);
+            border: 1px solid transparent;
+            padding: 2px 6px;
+            border-radius: 4px;
+            cursor: pointer;
+            max-width: 450px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .docs-title:hover {
+            border-color: var(--border-color);
+        }
+
+        .docs-title:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            background-color: var(--bg-workspace);
+        }
+
+        .docs-star {
+            color: #5f6368;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .docs-star.active {
+            color: #f4b400;
+        }
+
+        .docs-menu {
+            display: flex;
+            gap: 14px;
+            margin-top: 2px;
+            list-style: none;
+            font-size: 13px;
+            color: #5f6368;
+        }
+
+        .docs-menu li {
+            cursor: pointer;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        .docs-menu li:hover {
+            background-color: #f1f3f4;
+            color: #202124;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .btn-share {
+            background-color: #c2e7ff;
+            color: #001d35;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-share:hover {
+            background-color: #b3dbf2;
+        }
+
+        .profile-img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #1a73e8;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            border: 2px solid var(--border-color);
+        }
+
+        /* --- 툴바 영역 --- */
+        .toolbar {
+            background-color: var(--toolbar-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 6px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            overflow-x: auto;
+            white-space: nowrap;
+            height: 40px;
+            flex-shrink: 0;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .toolbar-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-right: 1px solid var(--border-color);
+            padding-right: 12px;
+            height: 24px;
+        }
+
+        .toolbar-group:last-child {
+            border-right: none;
+        }
+
+        .toolbar-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            padding: 4px 6px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            gap: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .toolbar-btn:hover {
+            background-color: rgba(60, 64, 67, 0.08);
+        }
+
+        .toolbar-select {
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 13px;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* --- 메인 워크스페이스 --- */
+        .workspace {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- 좌측 문서 구조 목차 (사이드바) --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            border-right: 1px solid var(--border-color);
+            background-color: var(--bg-page);
+            padding: 20px 16px;
+            overflow-y: auto;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #5f6368;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toc-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .toc-item {
+            font-size: 13px;
+            cursor: pointer;
+            padding: 6px 8px;
+            border-radius: 4px;
+            color: var(--text-main);
+            transition: background-color 0.2s, color 0.2s;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .toc-item:hover {
+            background-color: rgba(26, 115, 232, 0.08);
+            color: var(--accent-blue);
+        }
+
+        .toc-item.active {
+            background-color: rgba(26, 115, 232, 0.12);
+            color: var(--accent-blue);
+            font-weight: 500;
+        }
+
+        .toc-h1 { font-weight: bold; font-size: 14px; }
+        .toc-h2 { padding-left: 16px; color: #5f6368; }
+        .toc-h3 { padding-left: 28px; color: #80868b; font-size: 12px; }
+
+        /* --- 문서 인쇄용 A4 컨테이너 --- */
+        .document-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            scroll-behavior: smooth;
+        }
+
+        /* A4 용지 폼 */
+        .a4-page {
+            width: 816px;
+            min-height: 1056px;
+            background-color: var(--bg-page);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            padding: 96px 96px; /* 1인치 표준 여백 */
+            position: relative;
+            margin-bottom: 40px;
+            transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+
+        /* --- 본문 스타일 (Google Docs 포맷) --- */
+        .content {
+            line-height: 1.7;
+            font-size: 15px;
+            word-break: keep-all;
+        }
+
+        /* 마크다운 제목 렌더링 스타일 */
+        .content h1 {
+            font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin-bottom: 24px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .content h2 {
+            font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-top: 36px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--accent-blue);
+            padding-left: 10px;
+        }
+
+        .content h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+
+        .content p {
+            margin-bottom: 16px;
+            color: var(--text-main);
+            text-align: justify;
+        }
+
+        .content ul, .content ol {
+            margin-bottom: 16px;
+            padding-left: 24px;
+        }
+
+        .content li {
+            margin-bottom: 6px;
+        }
+
+        /* 블록 인용구 (GitHub Alert 스타일로 고급화) */
+        .content blockquote {
+            margin: 20px 0;
+            padding: 16px 20px;
+            border-radius: 8px;
+            font-size: 14.5px;
+            line-height: 1.6;
+            background-color: rgba(26, 115, 232, 0.04);
+            border-left: 5px solid var(--accent-blue);
+        }
+
+        .content blockquote strong {
+            color: var(--accent-blue);
+        }
+
+        /* 테이블 스타일 */
+        .content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .content th, .content td {
+            border: 1px solid var(--border-color);
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        .content th {
+            background-color: var(--toolbar-bg);
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .content tr:nth-child(even) {
+            background-color: rgba(240,244,248,0.3);
+        }
+
+        /* 코드 및 머메이드 다이어그램 박스 스타일링 */
+        .content pre {
+            background-color: #f6f8fa;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13.5px;
+        }
+
+        .dark-mode .content pre {
+            background-color: #1e1e1e;
+        }
+
+        .content code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: rgba(27,31,35,0.05);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        /* 대화형 다이어그램 (Mermaid 구글문서풍 커스텀 대체) */
+        .diagram-container {
+            background-color: var(--toolbar-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .diagram-node {
+            background-color: var(--bg-page);
+            border: 2px solid var(--accent-blue);
+            border-radius: 8px;
+            padding: 12px 16px;
+            text-align: center;
+            min-width: 140px;
+            font-size: 13.5px;
+            font-weight: 500;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.04);
+            position: relative;
+        }
+
+        .diagram-node.highlight {
+            border-color: #d93025;
+            color: #d93025;
+            background-color: #fce8e6;
+        }
+
+        .diagram-arrow {
+            color: var(--accent-blue);
+            font-size: 20px;
+        }
+
+        /* 플로팅 컨트롤러 */
+        .floating-actions {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 1000;
+        }
+
+        .floating-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: var(--accent-blue);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .floating-btn:hover {
+            transform: scale(1.05);
+            background-color: #1557b0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- --- 상단 구글 문서 헤더 영역 --- -->
+    <header>
+        <div class="header-left">
+            <i class="fa-solid fa-file-invoice docs-icon"></i>
+            <div class="docs-meta">
+                <div class="docs-title-row">
+                    <div class="docs-title" id="docTitle" contenteditable="true" spellcheck="false">진해고등학교 2026학년도 입학 홍보 실전 기획안</div>
+                    <i class="fa-regular fa-star docs-star" id="starBtn"></i>
+                </div>
+                <ul class="docs-menu">
+                    <li>파일</li>
+                    <li>수정</li>
+                    <li>보기</li>
+                    <li>삽입</li>
+                    <li>서식</li>
+                    <li>도구</li>
+                    <li>도움말</li>
+                </ul>
+            </div>
+        </div>
+        <div class="header-right">
+            <button class="btn-share"><i class="fa-solid fa-user-plus"></i> 공유</button>
+            <div class="profile-img">진</div>
+        </div>
+    </header>
+
+    <!-- --- 툴바 영역 --- -->
+    <div class="toolbar">
+        <div class="toolbar-group">
+            <button class="toolbar-btn" onclick="window.print()" title="인쇄"><i class="fa-solid fa-print"></i></button>
+            <button class="toolbar-btn" title="실행 취소"><i class="fa-solid fa-rotate-left"></i></button>
+            <button class="toolbar-btn" title="다시 실행"><i class="fa-solid fa-rotate-right"></i></button>
+        </div>
+        <div class="toolbar-group">
+            <select class="toolbar-select" id="fontSelector" onchange="changeFont(this.value)" title="글꼴">
+                <option value="'Noto Sans KR', sans-serif">Noto Sans KR</option>
+                <option value="'Inter', sans-serif">Inter</option>
+                <option value="'Outfit', sans-serif">Outfit</option>
+                <option value="'Courier New', monospace">Courier</option>
+            </select>
+            <select class="toolbar-select" id="fontSizeSelector" onchange="changeFontSize(this.value)" title="글자 크기">
+                <option value="13px">13</option>
+                <option value="14px">14</option>
+                <option value="15px" selected>15</option>
+                <option value="16px">16</option>
+                <option value="18px">18</option>
+                <option value="20px">20</option>
+            </select>
+        </div>
+        <div class="toolbar-group">
+            <button class="toolbar-btn" style="font-weight:bold" title="굵게"><i class="fa-solid fa-bold"></i></button>
+            <button class="toolbar-btn" style="font-style:italic" title="기울임꼴"><i class="fa-solid fa-italic"></i></button>
+            <button class="toolbar-btn" style="text-decoration:underline" title="밑줄"><i class="fa-solid fa-underline"></i></button>
+        </div>
+        <div class="toolbar-group">
+            <button class="toolbar-btn" title="맞춤"><i class="fa-solid fa-align-left"></i></button>
+            <button class="toolbar-btn" title="줄 간격"><i class="fa-solid fa-arrows-up-down"></i></button>
+        </div>
+        <div class="toolbar-group">
+            <button class="toolbar-btn" id="themeToggle" onclick="toggleDarkMode()" title="다크 모드 토글"><i class="fa-solid fa-moon"></i> 테마 전환</button>
+        </div>
+    </div>
+
+    <!-- --- 메인 워크스페이스 --- -->
+    <div class="workspace">
+        
+        <!-- 좌측 문서 구조 목차 -->
+        <aside class="sidebar">
+            <div class="sidebar-title"><i class="fa-solid fa-list-ul"></i> 문서 구조 개요</div>
+            <ul class="toc-list" id="tocList">
+                <!-- 자바스크립트로 자동 생성 -->
+            </ul>
+        </aside>
+
+        <!-- 문서 인쇄용 컨테이너 -->
+        <main class="document-container" id="docContainer">
+            <div class="a4-page">
+                <article class="content" id="markdownContent">
+                    <!-- 마크다운 파싱 결과 렌더링 영역 -->
+                </article>
+            </div>
+        </main>
+    </div>
+
+    <!-- 플로팅 액션 -->
+    <div class="floating-actions">
+        <button class="floating-btn" onclick="scrollToTop()" title="맨 위로 스크롤"><i class="fa-solid fa-arrow-up"></i></button>
+        <button class="floating-btn" onclick="window.print()" title="PDF 다운로드/인쇄"><i class="fa-solid fa-file-pdf"></i></button>
+    </div>
+
+    <script>
+        // 원시 마크다운 컨텐트 바인딩
+        const rawMarkdown = `# 🏫 진해고등학교 2026학년도 입학 홍보 실전 기획안
+
+본 기획안은 진해고등학교의 브랜드 가치를 높이고 중학생 및 학부모의 신뢰를 확보하기 위해, 구체적인 운영 포맷과 실전 시나리오를 바탕으로 구성되었습니다. 
+
+---
+
+## 📌 [Track 1] 중학교로 찾아가는 입학설명회 (강당 대형 설명회)
+
+### 1. 부장교사 Professional 브리핑 (강당 전체 진행)
+* **컨셉:** 거시적인 신뢰감 형성 및 팩트 기반의 진해고 선택 당위성 제시
+* **핵심 메시지:** *"대입 제도의 변화 속에서 왜 학생 수가 많고 교육과정이 유연한 진해고등학교가 대학 입시에 압도적으로 유리한가?"*
+* **주요 흐름 (약 15분):**
+  1. **Intro:** 진해고의 역사와 지역 사회 내 위상 (명문 공립고의 든든한 안정감)
+  2. **Fact Check:** 최근 대입 수시/정시 합격 실적 및 진학 트렌드 분석
+  3. **Core Advantage:** 넓은 학생 수 확보를 통한 내신 등급 획득의 유리함 & 과목 선택의 자유 (Track 2 상세 연계)
+  4. **Outro:** 든든한 교사진이 학생 개개인의 미래를 설계해주는 학교임을 각인
+
+---
+
+### 2. 재학생 입학홍보단 '솔직 담백' 토크쇼 & Q&A
+재학생 선배(형, 오빠)들이 강단 전면에 나서서 질문 공백을 없애고, 친근하고 진솔하게 매력을 발산하는 코너입니다. (소요시간: 15~20분)
+
+#### ① 질문 공백 방지용 '예상 Q&A 큐카드' 시나리오
+
+> [!TIP]
+> **운영 팁:** 도우미 학생 2~3명이 무대 위에서 대화형(토크쇼 형식)으로 진행합니다. 사회자 역할을 하는 학생이 큐카드를 보며 질문을 던지고, 패널 학생들이 답하는 방식입니다.
+
+\`\`\`mermaid
+graph TD
+    A[사회자 학생] -->|가벼운 질문 던지기| B(재학생 패널 A)
+    A -->|현실적인 내신 질문| C(재학생 패널 B)
+    B -->|매점/급식/학교생활 꿀팁 전수| D[중3 학생들 공감대 형성]
+    C -->|공부 분위기 및 멘토링 프로그램 소개| E[학습 불안 해소]
+\`\`\`
+
+* **Q1. (가벼운 아이스브레이킹) "솔직히 진해고 매점 메뉴랑 급식 맛있나요?"**
+  * **답변 가이드 (패널 A):** "솔직히 고등학교 오면 밥이 제일 중요한 거 인정하죠? 진해고 급식은 일단 양도 푸짐하고 매월 특별 메뉴(돈까스, 스파게티 등)가 정말 고퀄리티로 나옵니다. 그리고 우리 매점 닭강정이랑 매운 만두는 2교시 쉬는 시간만 되면 쟁탈전이 벌어져요. 공부하다 지칠 때 매점 한 번 다녀오면 다시 공부할 힘이 납니다."
+* **Q2. (현실적인 내신 질문) "진해## 🏫 [Track 2] 교내 입학설명회 (차별화 및 신뢰도 강화)
+
+### 1. 대규모 남고만이 가지는 독보적 구조적 강점
+진해고등학교는 **학년별 약 300명 규모의 대규모 일반고이자 남학교**입니다. 이는 대학 입시와 내신 관리에서 엄청난 시너지를 냅니다.
+
+* **여학생들과의 내신 경쟁 스트레스 배제:**
+  * 고교 내신 관리에서 꼼꼼하고 감성적인 수행평가 비율이 늘어나면서, 일반 공학 고등학교에서는 남학생들이 내신 1~2등급 구간에서 여학생들에게 밀려 불리함을 겪는 경우가 매우 흔합니다.
+  * 진해고등학교는 남학교이므로 이러한 불필요한 성별 내신 편차가 원천 차단되며, 오직 학업 성취도에 기반한 공정하고 유리한 내신 등급 경쟁 환경이 조성됩니다.
+* **학교 안에서 해결하는 진로 과목 100% 개설 (선택과목 폐강/통폐합 걱정 Zero):**
+  * 고교학점제 하에서 학생들은 자신의 진로에 필요한 과목(기하, 물리학Ⅱ, 화학Ⅱ, 생명과학Ⅱ, 지구과학Ⅱ, 프로그래밍, 인공지능기초 등)을 수강해야 합니다.
+  * 소규모 고등학교(학년당 100~150명)는 교사 수급과 수강 인원 부족으로 인해 신청 인원이 10~15명 미만인 과목들은 모두 폐강하거나 다른 학교와 공동교육과정(학교 밖 거점 교육)으로 위탁 이수해야 하므로 학생들의 시공간적 부담이 막대합니다.
+  * **진해고등학교는 학년당 약 300명의 풍부한 학생 수 덕분에 본인이 듣고 싶은 과목은 굳이 학교 밖으로 나가지 않고 교내 정규 교육과정 안에서 100% 개설 및 수강이 가능합니다.** 이는 생기부 세특의 깊이와 완성도를 비약적으로 높이는 강력한 치트키입니다.
+
+---
+
+### 2. '다수 인원 = 내신 및 과목 선택의 치트키' 시각화 자료 기획
+학부모님들의 현실적인 불안감(내신 등급 확보)을 시각적인 데이터로 해소합니다.
+
+#### 📊 5등급제(1등급 10%) 기준 수강 인원별 1등급 인원 비교
+* **논리:** 수강 인원이 적을수록 1등급 문호가 극도로 좁아져, 단 한 번의 실수로 등급이 무너집니다.
+
+| 학교 규모 / 과목별 수강 인원 | 1등급 (상위 10%) 인원수 | 2등급 누적 (상위 34%) 인원수 | 특징 및 학부모 안심 포인트 |
+| :--- | :---: | :---: | :--- |
+| **소규모 학교/과목 (20명 수강)** | **단 2명** | **누적 6명** | 실수 한 번으로 2등급 이하로 추락. 심리적 압박 극대화. |
+| **중규모 학교/과목 (40명 수강)** | **4명** | **누적 13명** | 선택의 폭이 좁고 내신 경쟁이 치열함. |
+| **진해고 대규모 과목 (100명 선택 시)** | **10명** | **누적 34명** | **내신 획득의 문호가 5배 넓어짐.** 한두 번 실수해도 충분히 극복 가능. |
+
+\`\`\`mermaid
+gantt
+    title 수강 인원별 1등급 영토 비교 (5등급제 기준)
+    dateFormat  X
+    axisFormat %d
+    
+    section 소규모 과목 (20명 수강)
+    1등급 (2명) : 0, 2
+    2등급 (4명) : 2, 6
+    
+    section 진해고 우위 과목 (100명 수강)
+    1등급 (10명) : 0, 10
+    2등급 (24명) : 10, 34
+\`\`\`
+
+> **🗣️ 학부모 대상 브리핑 멘트 예시:**
+> *"학부모님, 고교학점제에서 학생 수가 적은 학교를 선택하는 것은 매우 위험한 도박입니다. 아이가 아무리 열심히 해도, 수강 인원이 20명뿐인 과목에서는 단 2명만 1등급을 받습니다. 감기 한 번 걸려 시험을 치르면 바로 등급이 밀려납니다. 반면 저희 진해고등학교처럼 전체 인원이 확보된 학교에서는 1등급의 문이 넓어지고, 설령 과목 선택이 분산되더라도 충분한 이수 인원이 보장되어 내신 등급의 안정성을 확보할 수 있습니다."*
+
+---
+
+### 3. 실증 성적 분석 데이터 (2024학년도 1학년 코호트 분석 결과)
+소문이나 추측이 아닌, 실제 진해고등학교 학생들의 누적 성적 매칭 데이터를 공개하여 신뢰성을 극대화합니다.
+
+* **중학 내신 백분율(%)과 고교 내신 등수의 강력한 상관성 입증:**
+  * 2024학년도 신입생 데이터 분석 결과, **중학 백분율과 고교 1학기말 석차 간의 피어슨 상관계수는 0.8631**로 대단히 높은 양의 상관관계를 보여줍니다. 이는 중학 기초 학업 능력이 진해고의 면학 분위기 속에서 고교 성적으로 직결됨을 증명합니다.
+* **꿈을 현실로 만드는 '내신 역전(도약)의 드라마' 실증 팩트:**
+  * 진해고등학교는 중학교 성적이 다소 아쉬웠던 학생들도 입학 후 기숙사 맞춤 프로그램과 교사 1:1 관리를 통해 최상위권으로 도약할 수 있는 최적의 학업 레버리지를 선사합니다.
+  * **대도약 성공 선배 대표 사례:**
+    * **임지민 선배 (안골포중 출신):** 입학 성적 26등 ➔ 1학년 1학기말 **전교 1등 달성** (▲25계단 수직 도약!)
+    * **김준민 선배 (진해남중 출신):** 입학 성적 21등 ➔ 1학년 1학기말 **전교 4등 달성** (▲17계단 도약!)
+    * **윤영 선배 (진해남중 출신):** 입학 성적 17등 ➔ 1학년 1학기말 **전교 3등 달성** (▲14계단 도약!)
+* **관외 및 원거리 출신 학생들의 탁월한 유입 및 완벽 적응:**
+  * 전체 신입생 중 창원 관내, 용원, 웅천 등 **관외/원거리 지역 출신 비율이 20.7% (63명)**에 달해 진해고의 높은 평판이 외곽까지 미치고 있음을 입증합니다.
+  * 특히 관외 출신 우수 학생들(안골포중 출신 임지민, 유도훈 선배 등)이 고교 입학 후 송학관/동백관 기숙사 정주 여건 지원을 바탕으로 전교 1등(최상위 내신)을 휩쓸며, 멀리서 통학/입사한 학생들도 진해고의 시스템 속에서 압도적으로 성공하고 있음을 보여줍니다.
+
+---
+
+### 4. 의·치·약학 계열 및 SKY 진학을 위한 최상위 선배 실제 사례
+진해고등학교에서 1학년부터 체계적으로 학업을 관리하여 전국 최상위권 메디컬 및 SKY 진학을 목표로 정진하고 있는 생생한 재학생 팩트입니다.
+
+* **유도훈 선배 (2학년 1반):**
+  * **내신 등급:** 전과목 내신 평균 **1.08등급**
+  * **지망 학과:** 연세대학교 의예과
+  * **특징:** 중학 백분율 1.67%로 입학하여 고교 입학 후 1.08의 압도적인 성취를 유지하고 있으며, 생명과학 및 의학 융합 탐구 세특을 완성도 높게 관리 중.
+* **임지민 선배 (2학년 2반):**
+  * **내신 등급:** 전과목 내신 평균 **1.20등급**
+  * **지망 학과:** 경상국립대학교 의예과
+  * **특징:** 중학 백분율 0.83%로 안골포중에서 진해고로 입학하여, 1학기말 전교 1등을 달성한 이후 지역인재 특별전형을 통한 메디컬 수시 진학 로드맵 가동 중.
+* **박준형 선배 (2학년 5반):**
+  * **내신 등급:** 전과목 내신 평균 **2.00등급**
+  * **지망 학과:** 경상국립대학교 의예과
+  * **특징:** 진해고의 깊이 있는 탐구 기반 교육과정과 멘토링의 도움을 받아 교과 종합 전형 및 메디컬 수시 타겟팅 진행 중.
+
+---
+
+### 5. AI 기반 첨단 학생 지도 시스템 시연 연출안
+진해고등학교가 공교육 현장에서 최첨단 기술을 통해 학생들을 어떻게 관리하고 학습을 촉진하는지 눈으로 보여주는 세션입니다. (황요한 선생님의 실제 개발 포트폴리오 활용)
+
+#### 🎬 시연 시나리오 및 연출 가이드
+
+* **시연 아이템 1: [AI 국어 문법 Socratic 튜터]**
+  * **화면 연출:** 대형 스크린에 \`index_grammar.html\` 구동 화면 송출. 
+  * **시연 행동:** 발표자가 직접 학생 계정으로 로그인하여 엉뚱하거나 부족한 문법 가설을 입력합니다. (예: *"음절의 끝소리 규칙은 자음이 무서워서 도망치는 규칙이에요!"*)
+  * **AI 반응:** AI가 정답을 바로 말해주지 않고, *"그렇게 생각한 이유가 있나요? 그렇다면 '잎'이 [입]으로 발음될 때 피읖(ㅍ)이 왜 비읍(ㅂ)으로 바뀌었는지 질문을 통해 생각해보세요"*라며 소크라테스식 대화로 유도하는 모습을 보여줍니다.
+  * **브리핑 포인트:** *"진해고등학교 학생들은 집에 가서도 24시간 언제든 현직 교사가 직접 설계한 AI 튜터와 1:1로 질문을 주고받으며 자기주도적 탐구를 수행합니다."*
+
+* **시연 아이템 2: [AI 기반 개별 맞춤형 세특 초안 생성 시스템]**
+  * **화면 연출:** 구글 시트 백엔드와 Gemini API 연동 화면 시연.
+  * **시연 행동:** 학생들이 입력한 탐구 데이터가 실시간으로 시트에 쌓이고, 이를 바탕으로 버튼 클릭 한 번에 학생의 탐구 과정과 개성이 듬뿍 담긴 고퀄리티의 과목별 세특 초안이 추출되는 모습을 보여줍니다.
+  * **브리핑 포인트:** *"선생님들의 업무 과중으로 인해 학교생활기록부 세특이 복사-붙여넣기식으로 단순해지는 시대입니다. 진해고는 AI 기술을 교무 업무에 선도적으로 도입하여, 학생들의 활동 이력을 꼼꼼하게 기록하고 이를 통해 대학 사정관의 눈길을 사로잡는 1:1 맞춤형 세특을 체계적으로 생성·관리합니다."*
+
+* **시연 아이템 3: [학부모 소통용 AI 감동 메시지 생성기 (스마트 포털)]**
+  * **화면 연출:** \`Jinhae_Portal.html\` 모바일 또는 PC 구동 화면 시연.
+  * **시연 행동:** 담임 선생님이 메모장에 간단히 적은 문구(예: *"김민우, 오늘 청소 시간 주도함, 기특"* )가 AI를 거쳐 학부모님 스마트폰으로 전송될 감동적이고 예의 바른 격식체 알림 문자 메시지로 단 3초 만에 완벽하게 변환되는 모습을 보여줍니다.
+  * **브리핑 포인트:** *"학부모님들과의 실시간 소통도 스마트하게 진행합니다. 담임 선생님들의 세밀한 관찰이 AI를 만나 따뜻하고 구체적인 소통으로 이어지며, 내 아이가 학교에서 어떤 칭찬을 받았는지 학부모님들께서 실시간으로 생생하게 전달받으실 수 있습니다."*
+
+---
+
+## 📈 입학 설명회 성공을 위한 Action Item (체크리스트)
+
+* [ ] **도우미 학생 선발 및 시나리오 리딩:** 입학홍보단 학생 중 스피치가 우수하고 인상이 밝은 학생 3명 선정 후 Q&A 시나리오 연습.
+* [x] **설명회용 실증 성적 데이터 통계 추출 완료:** 2024학년도 중학 내신 vs 고교 등수 조인 분석(상관계수 0.8631 확인 및 우수 역전 사례 확보).
+* [ ] **설명회용 시각화 슬라이드(PPT) 제작:** 5등급제 등급 비교 그래프 및 교육과정 강점 도식화 이미지 삽입.
+* [ ] **AI 시연 환경 세팅:** 설명회장 인터넷 연결 상태 확인 및 \`index_grammar.html\`, \`Jinhae_Portal\` 시연용 데모 계정 사전 로그인.
+* [ ] **배포용 홍보물품 준비:** 대량 배포용 L자 파일 홀더(QR코드 인쇄 확인) 및 주요 귀빈용 지문인식 자물쇠 검수.
+1부터 전면 도입되는 **5등급제(고교학점제)** 하에서, 학생 맞춤형 교육과정을 설계해 줄 수 있는 진해고의 구조적 강점을 어필합니다.
+* **설득 논리:**
+  * **수시/학종에서의 압도적 강점:** 고교학점제는 학생이 진로에 맞게 과목을 선택하는 것이 핵심입니다. 소규모 학교는 교사 수와 학생 수의 한계로 인해 '물리학 II', '화학 II', '경제', '국제 관계' 등의 심화·융합 과목을 개설하고 싶어도 인원 미달로 개설하지 못하거나 폐강됩니다.
+  * **진해고의 해결책:** 다양한 교사 라인업과 넉넉한 학생 수 덕분에, **학생이 원하는 어떤 과목이든 실제 개설이 가능**합니다. 이는 대학 입학사정관에게 "본인의 진로를 위해 적극적으로 도전한 학생"이라는 강한 인상을 주어 학생부종합전형에서 절대적으로 유리합니다.
+
+---
+
+### 2. '다수 인원 = 내신 및 과목 선택의 치트키' 시각화 자료 기획
+학부모님들의 현실적인 불안감(내신 등급 확보)을 시각적인 데이터로 해소합니다.
+
+#### 📊 5등급제(1등급 10%) 기준 수강 인원별 1등급 인원 비교
+* **논리:** 수강 인원이 적을수록 1등급 문호가 극도로 좁아져, 단 한 번의 실수로 등급이 무너집니다.
+
+| 학교 규모 / 과목별 수강 인원 | 1등급 (상위 10%) 인원수 | 2등급 누적 (상위 34%) 인원수 | 특징 및 학부모 안심 포인트 |
+| :--- | :---: | :---: | :--- |
+| **소규모 학교/과목 (20명 수강)** | **단 2명** | **누적 6명** | 실수 한 번으로 2등급 이하로 추락. 심리적 압박 극대화. |
+| **중규모 학교/과목 (40명 수강)** | **4명** | **누적 13명** | 선택의 폭이 좁고 내신 경쟁이 치열함. |
+| **진해고 대규모 과목 (100명 선택 시)** | **10명** | **누적 34명** | **내신 획득의 문호가 5배 넓어짐.** 한두 번 실수해도 충분히 극복 가능. |
+
+\`\`\`mermaid
+gantt
+    title 수강 인원별 1등급 영토 비교 (5등급제 기준)
+    dateFormat  X
+    axisFormat %d
+    
+    section 소규모 과목 (20명 수강)
+    1등급 (2명) : 0, 2
+    2등급 (4명) : 2, 6
+    
+    section 진해고 우위 과목 (100명 수강)
+    1등급 (10명) : 0, 10
+    2등급 (24명) : 10, 34
+\`\`\`
+
+> **🗣️ 학부모 대상 브리핑 멘트 예시:**
+> *"학부모님, 고교학점제에서 학생 수가 적은 학교를 선택하는 것은 매우 위험한 도박입니다. 아이가 아무리 열심히 해도, 수강 인원이 20명뿐인 과목에서는 단 2명만 1등급을 받습니다. 감기 한 번 걸려 시험을 치르면 바로 등급이 밀려납니다. 반면 저희 진해고등학교처럼 전체 인원이 확보된 학교에서는 1등급의 문이 넓어지고, 설령 과목 선택이 분산되더라도 충분한 이수 인원이 보장되어 내신 등급의 안정성을 확보할 수 있습니다."*
+
+---
+
+### 3. AI 기반 첨단 학생 지도 시스템 시연 연출안
+진해고등학교가 공교육 현장에서 최첨단 기술을 통해 학생들을 어떻게 관리하고 학습을 촉진하는지 눈으로 보여주는 세션입니다. (황요한 선생님의 실제 개발 포트폴리오 활용)
+
+#### 🎬 시연 시나리오 및 연출 가이드
+
+* **시연 아이템 1: [AI 국어 문법 Socratic 튜터]**
+  * **화면 연출:** 대형 스크린에 \`index_grammar.html\` 구동 화면 송출. 
+  * **시연 행동:** 발표자가 직접 학생 계정으로 로그인하여 엉뚱하거나 부족한 문법 가설을 입력합니다. (예: *"음절의 끝소리 규칙은 자음이 무서워서 도망치는 규칙이에요!"*)
+  * **AI 반응:** AI가 정답을 바로 말해주지 않고, *"그렇게 생각한 이유가 있나요? 그렇다면 '잎'이 [입]으로 발음될 때 피읖(ㅍ)이 왜 비읍(ㅂ)으로 바뀌었는지 질문을 통해 생각해보세요"*라며 소크라테스식 대화로 유도하는 모습을 보여줍니다.
+  * **브리핑 포인트:** *"진해고등학교 학생들은 집에 가서도 24시간 언제든 현직 교사가 직접 설계한 AI 튜터와 1:1로 질문을 주고받으며 자기주도적 탐구를 수행합니다."*
+
+* **시연 아이템 2: [AI 기반 개별 맞춤형 세특 초안 생성 시스템]**
+  * **화면 연출:** 구글 시트 백엔드와 Gemini API 연동 화면 시연.
+  * **시연 행동:** 학생들이 입력한 탐구 데이터가 실시간으로 시트에 쌓이고, 이를 바탕으로 버튼 클릭 한 번에 학생의 탐구 과정과 개성이 듬뿍 담긴 고퀄리티의 과목별 세특 초안이 추출되는 모습을 보여줍니다.
+  * **브리핑 포인트:** *"선생님들의 업무 과중으로 인해 학교생활기록부 세특이 복사-붙여넣기식으로 단순해지는 시대입니다. 진해고는 AI 기술을 교무 업무에 선도적으로 도입하여, 학생들의 활동 이력을 꼼꼼하게 기록하고 이를 통해 대학 사정관의 눈길을 사로잡는 1:1 맞춤형 세특을 체계적으로 생성·관리합니다."*
+
+* **시연 아이템 3: [학부모 소통용 AI 감동 메시지 생성기 (스마트 포털)]**
+  * **화면 연출:** \`Jinhae_Portal.html\` 모바일 또는 PC 구동 화면 시연.
+  * **시연 행동:** 담임 선생님이 메모장에 간단히 적은 문구(예: *"김민우, 오늘 청소 시간 주도함, 기특"* )가 AI를 거쳐 학부모님 스마트폰으로 전송될 감동적이고 예의 바른 격식체 알림 문자 메시지로 단 3초 만에 완벽하게 변환되는 모습을 보여줍니다.
+  * **브리핑 포인트:** *"학부모님들과의 실시간 소통도 스마트하게 진행합니다. 담임 선생님들의 세밀한 관찰이 AI를 만나 따뜻하고 구체적인 소통으로 이어지며, 내 아이가 학교에서 어떤 칭찬을 받았는지 학부모님들께서 실시간으로 생생하게 전달받으실 수 있습니다."*
+
+---
+
+## 📈 입학 설명회 성공을 위한 Action Item (체크리스트)
+
+* [ ] **도우미 학생 선발 및 시나리오 리딩:** 입학홍보단 학생 중 스피치가 우수하고 인상이 밝은 학생 3명 선정 후 Q&A 시나리오 연습.
+* [ ] **설명회용 시각화 슬라이드(PPT) 제작:** 5등급제 등급 비교 그래프 및 교육과정 강점 도식화 이미지 삽입.
+* [ ] **AI 시연 환경 세팅:** 설명회장 인터넷 연결 상태 확인 및 \`index_grammar.html\`, \`Jinhae_Portal\` 시연용 데모 계정 사전 로그인.
+* [ ] **배포용 홍보물품 준비:** 대량 배포용 L자 파일 홀더(QR코드 인쇄 확인) 및 주요 귀빈용 지문인식 자물쇠 검수.
+`;
+
+        // 마크다운 파싱 실행
+        document.getElementById('markdownContent').innerHTML = marked.parse(rawMarkdown);
+
+        // 목차(TOC) 자동 생성 및 수동 앵커 연결
+        function generateTOC() {
+            const contentDiv = document.getElementById('markdownContent');
+            const headings = contentDiv.querySelectorAll('h1, h2, h3');
+            const tocList = document.getElementById('tocList');
+            tocList.innerHTML = '';
+
+            headings.forEach((heading, index) => {
+                // 고유 ID 부여
+                const id = 'heading-' + index;
+                heading.setAttribute('id', id);
+
+                const li = document.createElement('li');
+                li.className = 'toc-item';
+                
+                // 태그 깊이에 따른 클래스 부여
+                if (heading.tagName === 'H1') li.classList.add('toc-h1');
+                else if (heading.tagName === 'H2') li.classList.add('toc-h2');
+                else if (heading.tagName === 'H3') li.classList.add('toc-h3');
+
+                li.textContent = heading.textContent;
+                li.onclick = () => {
+                    heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    
+                    // 활성 상태 스타일 변경
+                    document.querySelectorAll('.toc-item').forEach(item => item.classList.remove('active'));
+                    li.classList.add('active');
+                };
+                tocList.appendChild(li);
+            });
+        }
+
+        // 글꼴 변경
+        function changeFont(fontFamily) {
+            document.getElementById('markdownContent').style.fontFamily = fontFamily;
+        }
+
+        // 글자 크기 변경
+        function changeFontSize(size) {
+            document.getElementById('markdownContent').style.fontSize = size;
+        }
+
+        // 다크 모드 토글
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const themeBtn = document.getElementById('themeToggle');
+            if (document.body.classList.contains('dark-mode')) {
+                themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i> 라이트 모드';
+            } else {
+                themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i> 테마 전환';
+            }
+        }
+
+        // 맨 위로 스크롤
+        function scrollToTop() {
+            document.getElementById('docContainer').scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 별표 토글
+        document.getElementById('starBtn').onclick = function() {
+            this.classList.toggle('fa-regular');
+            this.classList.toggle('fa-solid');
+            this.classList.toggle('active');
+        };
+
+        // 로드 시 목차 생성 실행
+        generateTOC();
+
+        // 머메이드 다이어그램 영역 구글문서형 세련된 커스텀 UI로 변환 처리
+        const codeBlocks = document.querySelectorAll('pre');
+        codeBlocks.forEach(block => {
+            if (block.textContent.includes('graph TD') || block.textContent.includes('graph LR')) {
+                const container = document.createElement('div');
+                container.className = 'diagram-container';
+                container.innerHTML = `
+                    <div class="diagram-node">👤 사회자 학생<br><span style="font-size:11px;font-weight:normal;color:#666">가벼운 질문 던지기</span></div>
+                    <div class="diagram-arrow"><i class="fa-solid fa-circle-arrow-right"></i></div>
+                    <div class="diagram-node">👦 재학생 패널 A<br><span style="font-size:11px;font-weight:normal;color:#666">매점/급식/생활 꿀팁</span></div>
+                    <div class="diagram-arrow"><i class="fa-solid fa-circle-arrow-right"></i></div>
+                    <div class="diagram-node highlight">🔥 중3 학생들 공감대<br><span style="font-size:11px;font-weight:normal;color:#d93025">학습/생활 불안 해소</span></div>
+                `;
+                block.parentNode.replaceChild(container, block);
+            }
+        });
+    </script>
+</body>
+</html>

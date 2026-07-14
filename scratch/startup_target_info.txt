@@ -1,0 +1,4 @@
+Found daily_news.py line in bat:
+start "" "C:\Users\admin\AppData\Local\Programs\Python\Python312\pythonw.exe" "D:\OneDrive - 󳲵û\ ȭ\ذб\2026г⵵\antigravity_folder\daily_news.py"
+Extracted target path: D:\OneDrive - 󳲵û\ ȭ\ذб\2026г⵵\antigravity_folder\daily_news.py
+Target path does not exist on disk!

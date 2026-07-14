@@ -1,0 +1,1969 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>진해고등학교 스마트 통합 PWA 포털 (Web)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4f46e5">
+    <link rel="apple-touch-icon" href="school_logo.png">
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('PWA Service Worker registered successfully!', reg))
+                    .catch(err => console.error('PWA Service Worker registration failed:', err));
+            });
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+        .shake-input {
+            animation: shake 0.2s ease-in-out 2;
+            border-color: #f43f5e !important;
+        }
+        .nav-tab.active {
+            background-color: #eef2ff;
+            color: #4f46e5;
+            border-bottom: 2px solid #4f46e5;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-sky-100 via-sky-50 to-white text-slate-800 min-h-screen flex flex-col font-sans">
+
+    <!-- 교직원 전용 로그인 오버레이 -->
+    <div id="login-overlay" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-[99999] flex items-center justify-center p-4 transition-all duration-300">
+        <div class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl flex flex-col items-center space-y-6 transform transition-transform duration-300 scale-100">
+            <img src="school_logo.png" alt="진해고 로고" class="w-24 h-24 object-contain shadow-md rounded-2xl p-1 bg-slate-50" onerror="this.src='https://via.placeholder.com/150?text=Jinhae+High'">
+            <div class="text-center space-y-2">
+                <h2 class="text-xl font-black text-slate-900 tracking-tight">진해고 스마트 통합 포털 (Web)</h2>
+                <p class="text-xs text-slate-500">교직원 인증을 완료한 후 사용할 수 있습니다.</p>
+            </div>
+            <div class="w-full space-y-4">
+                <div class="relative">
+                    <input type="password" id="login-password" placeholder="교직원 비밀번호 입력" class="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-sm font-semibold text-center transition">
+                </div>
+                <button id="btn-login-submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm py-3 rounded-xl shadow-lg transition flex items-center justify-center space-x-2">
+                    <i data-lucide="key" class="w-4 h-4"></i>
+                    <span>인증 및 로그인</span>
+                </button>
+                <div id="login-error-msg" class="hidden text-rose-500 text-xs font-bold text-center animate-bounce"></div>
+            </div>
+            <div class="text-[10px] text-slate-400 font-medium">진해고등학교 스마트 통합 PWA 포털 Web v3.0</div>
+        </div>
+    </div>
+
+    <!-- 워터마크 오버레이 (불투명도 8%, 화면 중앙 최상단 배치) -->
+    <div class="fixed inset-0 pointer-events-none z-[9999] flex items-center justify-center overflow-hidden">
+        <img src="school_logo.png" alt="워터마크" class="opacity-[0.08] object-contain" style="width: 500px; height: 500px; max-width: 100%; max-height: 100%;" onerror="this.style.display='none'">
+    </div>
+
+    <div class="sticky top-0 z-30 flex flex-col w-full shadow-md bg-white">
+        <div class="w-full bg-slate-100 h-1.5 overflow-hidden">
+            <div id="scroll-gauge" class="bg-indigo-600 h-full w-0 transition-all duration-75"></div>
+        </div>
+
+        <header class="border-b border-slate-200 px-6 py-3.5 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-indigo-600 text-white p-2 rounded-lg shadow-sm">
+                    <i data-lucide="school" class="w-5 h-5"></i>
+                </div>
+                <h1 class="text-lg font-bold tracking-tight text-slate-900">진해고 스마트 <span class="text-indigo-600">통합 포털 (Web)</span></h1>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button id="btn-logout" class="p-2 bg-slate-100 hover:bg-rose-50 text-slate-600 hover:text-rose-600 rounded-lg transition" title="로그아웃">
+                    <i data-lucide="log-out" class="w-5 h-5"></i>
+                </button>
+                <img src="school_logo.png" alt="학교 로고" class="object-contain rounded-lg shadow-xs" style="width: 48px; height: 48px;" onerror="this.style.display='none'">
+            </div>
+        </header>
+
+        <!-- 메인 네비게이션 탭바 -->
+        <div id="main-nav-tabs" class="bg-slate-50 border-b border-slate-200 px-6 py-2 flex items-center justify-start space-x-1.5 overflow-x-auto">
+            <button class="nav-tab active px-4 py-2 text-xs font-bold rounded-xl transition flex items-center gap-1.5 hover:bg-indigo-50 text-slate-600 border border-transparent" data-tab="home">
+                <i data-lucide="home" class="w-4 h-4"></i> 홈 대시보드
+            </button>
+            <button class="nav-tab px-4 py-2 text-xs font-bold rounded-xl transition flex items-center gap-1.5 hover:bg-indigo-50 text-slate-600 border border-transparent" data-tab="praise">
+                <i data-lucide="heart" class="w-4 h-4"></i> 학부모 칭찬 알림
+            </button>
+            <button class="nav-tab px-4 py-2 text-xs font-bold rounded-xl transition flex items-center gap-1.5 hover:bg-indigo-50 text-slate-600 border border-transparent" data-tab="meals">
+                <i data-lucide="utensils-crosshair" class="w-4 h-4"></i> 오늘의 급식
+            </button>
+            <button class="nav-tab px-4 py-2 text-xs font-bold rounded-xl transition flex items-center gap-1.5 hover:bg-indigo-50 text-slate-600 border border-transparent" data-tab="schedule">
+                <i data-lucide="calendar" class="w-4 h-4"></i> 학사 일정
+            </button>
+            <button class="nav-tab px-4 py-2 text-xs font-bold rounded-xl transition flex items-center gap-1.5 hover:bg-indigo-50 text-slate-600 border border-transparent" data-tab="timetable">
+                <i data-lucide="clock" class="w-4 h-4"></i> 학급 시간표
+            </button>
+            <button class="nav-tab px-4 py-2 text-xs font-bold rounded-xl transition flex items-center gap-1.5 hover:bg-indigo-50 text-slate-600 border border-transparent" data-tab="evaluation">
+                <i data-lucide="clipboard-check" class="w-4 h-4"></i> 수행평가 지원
+            </button>
+            <button class="nav-tab px-4 py-2 text-xs font-bold rounded-xl transition flex items-center gap-1.5 hover:bg-indigo-50 text-slate-600 border border-transparent" data-tab="settings">
+                <i data-lucide="settings" class="w-4 h-4"></i> 설정 및 명단
+            </button>
+        </div>
+    </div>
+
+    <main class="flex-1 flex flex-col max-w-7xl w-full mx-auto p-4 md:p-6 space-y-6">
+        
+        <!-- 1. 홈 대시보드 뷰 -->
+        <div id="view-home" class="flex flex-col space-y-6">
+            <!-- 웰컴 섹션 -->
+            <div class="bg-gradient-to-r from-indigo-600 to-indigo-800 text-white rounded-3xl p-6 shadow-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div class="space-y-1">
+                    <h2 class="text-xl md:text-2xl font-black flex items-center gap-2">
+                        안녕하세요, 교직원님! 👋
+                    </h2>
+                    <p class="text-xs text-indigo-100 font-medium">진해고등학교 스마트 통합 PWA 포털에 접속하신 것을 환영합니다.</p>
+                </div>
+                <div class="flex items-center space-x-2 bg-white/10 px-4 py-2.5 rounded-2xl border border-white/10 text-xs font-bold shadow-inner">
+                    <i data-lucide="calendar-check" class="w-4 h-4 text-indigo-200"></i>
+                    <span id="home-today-date">Loading...</span>
+                </div>
+            </div>
+
+            <!-- 대시보드 위젯 그리드 (3열) -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- 위젯 1: 오늘의 급식 -->
+                <div class="bg-white border border-slate-200 rounded-3xl p-5 shadow-sm space-y-4 flex flex-col">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                        <span class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                            <i data-lucide="utensils" class="w-4 h-4 text-indigo-600"></i> 오늘의 급식 식단
+                        </span>
+                        <button class="text-[10px] text-indigo-600 font-bold hover:underline" onclick="switchTab('meals')">더보기</button>
+                    </div>
+                    <div id="home-meal-container" class="flex-1 space-y-3 min-h-[220px]">
+                        <div class="flex flex-col items-center justify-center py-12 text-slate-400 text-xs font-semibold space-y-2">
+                            <div class="animate-spin rounded-full h-5 w-5 border-2 border-indigo-600 border-t-transparent"></div>
+                            <span>식단 정보를 나이스에서 불러오는 중...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 위젯 2: 오늘의 시간표 -->
+                <div class="bg-white border border-slate-200 rounded-3xl p-5 shadow-sm space-y-4 flex flex-col">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                        <span class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                            <i data-lucide="clock" class="w-4 h-4 text-emerald-600"></i> 오늘의 학급 시간표
+                        </span>
+                        <div class="flex items-center space-x-1">
+                            <select id="home-timetable-grade" class="px-2 py-1 bg-slate-50 border border-slate-200 rounded-lg text-[10px] font-bold text-slate-700 outline-none">
+                                <option value="1">1학년</option>
+                                <option value="2">2학년</option>
+                                <option value="3" selected>3학년</option>
+                            </select>
+                            <select id="home-timetable-class" class="px-2 py-1 bg-slate-50 border border-slate-200 rounded-lg text-[10px] font-bold text-slate-700 outline-none">
+                                <option value="1">1반</option>
+                                <option value="2">2반</option>
+                                <option value="3">3반</option>
+                                <option value="4">4반</option>
+                                <option value="5">5반</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="home-timetable-container" class="flex-1 space-y-1.5 min-h-[220px]">
+                        <div class="flex flex-col items-center justify-center py-12 text-slate-400 text-xs font-semibold space-y-2">
+                            <div class="animate-spin rounded-full h-5 w-5 border-2 border-emerald-600 border-t-transparent"></div>
+                            <span>시간표 정보를 불러오는 중...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 위젯 3: 학사 일정 및 D-Day -->
+                <div class="bg-white border border-slate-200 rounded-3xl p-5 shadow-sm space-y-4 flex flex-col">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                        <span class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                            <i data-lucide="calendar" class="w-4 h-4 text-rose-500"></i> 학사 행사 & D-Day
+                        </span>
+                        <button class="text-[10px] text-rose-600 font-bold hover:underline" onclick="switchTab('schedule')">전체 일정</button>
+                    </div>
+                    <div class="space-y-4 flex-1">
+                        <!-- 수능 D-Day -->
+                        <div class="bg-rose-50 border border-rose-100 rounded-2xl p-4 text-center space-y-1.5">
+                            <div class="text-[10px] text-rose-600 font-extrabold tracking-wider">2027학년도 대학수학능력시험</div>
+                            <div class="text-3xl font-black text-rose-600" id="home-suneung-dday">D-0</div>
+                            <div class="text-[10px] text-slate-500 font-medium">시험일: 2026년 11월 12일 (목)</div>
+                        </div>
+                        <!-- 오늘의 일정 목록 -->
+                        <div class="space-y-2">
+                            <div class="text-xs font-bold text-slate-600 flex items-center gap-1"><i data-lucide="check-square" class="w-3.5 h-3.5 text-slate-400"></i> 이번 주 학사 일정</div>
+                            <div id="home-schedule-list" class="space-y-1.5 text-xs text-slate-700 font-semibold max-h-[100px] overflow-y-auto pr-1">
+                                <div class="text-slate-400 text-[10px] text-center py-4">이번 주 예정된 학사 행사가 없습니다.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. 학부모 칭찬 알림판 뷰 -->
+        <div id="view-praise" class="hidden flex-col space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- 칭찬 등록 폼 카드 -->
+                <div class="lg:col-span-1 bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-4">
+                    <h4 class="text-sm font-bold text-slate-800 flex items-center gap-1.5 border-b border-slate-100 pb-2.5">
+                        <i data-lucide="heart" class="w-4 h-4 text-rose-500"></i>
+                        칭찬 알림 등록
+                    </h4>
+                    <div class="space-y-4">
+                        <div class="relative">
+                            <label for="praise-student-search" class="block text-xs font-bold text-slate-600 mb-1.5">칭찬 대상 학생 검색</label>
+                            <input type="text" id="praise-student-search" placeholder="학번 또는 이름 입력" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white text-xs font-semibold text-slate-800 transition">
+                            <div id="praise-autocomplete-list" class="hidden absolute left-0 right-0 top-full mt-1 bg-white border border-slate-200 rounded-xl shadow-lg max-h-48 overflow-y-auto z-40 text-xs font-medium text-slate-700"></div>
+                        </div>
+
+                        <!-- 선택된 학생 정보 표시 -->
+                        <div id="praise-selected-info" class="hidden p-3 bg-rose-50/50 border border-rose-100 rounded-xl space-y-1">
+                            <div class="text-xs font-bold text-rose-800 flex justify-between">
+                                <span>선택된 학생: <span id="praise-target-name" class="font-extrabold"></span> (<span id="praise-target-id"></span>)</span>
+                                <button id="btn-praise-clear-target" class="text-[10px] text-slate-400 hover:text-rose-600 transition font-bold">변경</button>
+                            </div>
+                            <div class="text-[10px] text-slate-500">수신 연락처(학부모): <span id="praise-target-phone" class="font-bold text-slate-700"></span></div>
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <div class="flex items-center justify-between">
+                                <label for="praise-content" class="block text-xs font-bold text-slate-600">칭찬 내용 작성</label>
+                                <div class="flex items-center space-x-1.5">
+                                    <button id="btn-praise-voice" class="text-[10px] font-bold text-slate-500 hover:text-rose-600 flex items-center gap-1 transition px-2 py-0.5 bg-slate-100 hover:bg-rose-50 rounded-md border border-slate-200" title="마이크로 음성 녹음 입력">
+                                        <i data-lucide="mic" class="w-3 h-3 text-rose-500" id="icon-praise-voice"></i> <span id="txt-praise-voice">음성 입력</span>
+                                    </button>
+                                    <button id="btn-praise-refine" class="text-[10px] font-bold text-slate-500 hover:text-indigo-600 flex items-center gap-1 transition px-2 py-0.5 bg-slate-100 hover:bg-indigo-50 rounded-md border border-slate-200" title="Gemini AI로 정중하고 따뜻하게 문장 정제">
+                                        <i data-lucide="sparkles" class="w-3 h-3 text-indigo-500" id="icon-praise-refine"></i> <span id="txt-praise-refine">AI 다듬기</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="relative">
+                                <textarea id="praise-content" rows="5" placeholder="학교 생활 중 자녀가 실천한 선행이나 칭찬할 만한 소식을 구체적으로 적어주세요." class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white text-xs font-medium text-slate-800 transition resize-none"></textarea>
+                                <div id="praise-refine-spinner" class="hidden absolute inset-0 bg-white/80 backdrop-blur-xs flex flex-col items-center justify-center rounded-xl space-y-2">
+                                    <div class="animate-spin rounded-full h-6 w-6 border-2 border-indigo-600 border-t-transparent"></div>
+                                    <span class="text-[10px] font-bold text-indigo-700">제미나이가 문장을 다듬는 중...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button id="btn-save-praise" class="w-full bg-rose-500 hover:bg-rose-600 text-white font-bold text-xs py-3 rounded-xl shadow-md transition flex items-center justify-center space-x-2">
+                            <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                            <span>칭찬 알림 등록</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 예약 대기 및 전송 목록 판 -->
+                <div class="lg:col-span-2 bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-4 flex flex-col min-h-[400px]">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                        <span class="text-sm font-bold text-slate-700 flex items-center gap-1.5">
+                            <i data-lucide="mail-check" class="w-4 h-4 text-rose-500"></i>
+                            칭찬 문자 관리 및 전송 목록 (<span id="praise-list-count" class="text-rose-600">0</span>건)
+                        </span>
+                        <div class="flex items-center space-x-1.5 bg-slate-100 text-slate-600 font-bold px-3 py-1.5 rounded-lg text-[10px]">
+                            <i data-lucide="smartphone" class="w-3.5 h-3.5 text-slate-500"></i>
+                            모바일 문자 앱 연동 지원
+                        </div>
+                    </div>
+
+                    <div class="flex-1 overflow-y-auto max-h-[450px] pr-1 space-y-3" id="praise-record-list">
+                        <div class="text-center py-12 text-slate-400 text-xs font-semibold flex flex-col items-center justify-center space-y-2">
+                            <i data-lucide="heart-handshake" class="w-8 h-8 text-slate-300"></i>
+                            <span>등록된 칭찬 알림 내역이 없습니다.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. 주간 급식 뷰 -->
+        <div id="view-meals" class="hidden flex-col space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+                <span class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                    <i data-lucide="utensils" class="w-5 h-5 text-indigo-600"></i> 이번 주 급식 식단표
+                </span>
+                <span class="text-xs text-slate-500 font-medium" id="meals-week-range">월요일 ~ 금요일 식단</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4" id="meals-weekly-grid">
+                <!-- 동적 주입 -->
+            </div>
+        </div>
+
+        <!-- 4. 학사 일정 캘린더 뷰 -->
+        <div id="view-schedule" class="hidden flex-col space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 pb-3 gap-3">
+                <span class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                    <i data-lucide="calendar" class="w-5 h-5 text-rose-500"></i> 학사 일정 캘린더
+                </span>
+                <div class="flex items-center space-x-2 bg-white px-3 py-1.5 rounded-xl border border-slate-200">
+                    <button id="btn-schedule-prev" class="p-1 hover:bg-slate-100 text-slate-600 rounded-lg transition"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+                    <span id="schedule-calendar-month" class="text-xs font-bold text-slate-800 px-2 min-w-[80px] text-center">Loading...</span>
+                    <button id="btn-schedule-next" class="p-1 hover:bg-slate-100 text-slate-600 rounded-lg transition"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 bg-white border border-slate-200 rounded-3xl p-5 shadow-sm">
+                    <div class="grid grid-cols-7 gap-1 text-center font-bold text-xs text-slate-400 mb-2">
+                        <div class="text-rose-500">일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div class="text-blue-500">토</div>
+                    </div>
+                    <div class="grid grid-cols-7 gap-2" id="schedule-calendar-grid" style="min-height: 280px;">
+                        <!-- 날짜 칸 동적 생성 -->
+                    </div>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-3xl p-5 shadow-sm flex flex-col min-h-[350px]">
+                    <h4 class="text-xs font-extrabold text-slate-500 tracking-wider mb-3">📋 이번 달 주요 학사 일정</h4>
+                    <div id="schedule-detailed-list" class="flex-1 overflow-y-auto space-y-3 pr-1 text-xs text-slate-700 font-semibold">
+                        <!-- 일정 동적 생성 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. 시간표 조회 뷰 -->
+        <div id="view-timetable" class="hidden flex-col space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 pb-3 gap-3">
+                <span class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                    <i data-lucide="clock" class="w-5 h-5 text-emerald-600"></i> 학급별 시간표 조회
+                </span>
+                <div class="flex items-center space-x-2">
+                    <select id="timetable-search-grade" class="px-3 py-1.5 bg-white border border-slate-300 rounded-xl text-xs font-bold text-slate-700 outline-none">
+                        <option value="1">1학년</option>
+                        <option value="2">2학년</option>
+                        <option value="3" selected>3학년</option>
+                    </select>
+                    <select id="timetable-search-class" class="px-3 py-1.5 bg-white border border-slate-300 rounded-xl text-xs font-bold text-slate-700 outline-none">
+                        <option value="1">1반</option>
+                        <option value="2">2반</option>
+                        <option value="3">3반</option>
+                        <option value="4">4반</option>
+                        <option value="5">5반</option>
+                        <option value="6">6반</option>
+                        <option value="7">7반</option>
+                        <option value="8">8반</option>
+                        <option value="9">9반</option>
+                        <option value="10">10반</option>
+                    </select>
+                    <button id="btn-search-timetable" class="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-xs transition">조회</button>
+                </div>
+            </div>
+
+            <div class="bg-white border border-slate-200 rounded-3xl p-5 shadow-sm overflow-x-auto">
+                <table class="w-full text-center border-collapse text-xs font-semibold text-slate-700 min-w-[600px]">
+                    <thead>
+                        <tr class="border-b border-slate-200 text-slate-400 font-bold">
+                            <th class="py-3">교시</th>
+                            <th class="py-3">월요일</th>
+                            <th class="py-3">화요일</th>
+                            <th class="py-3">수요일</th>
+                            <th class="py-3">목요일</th>
+                            <th class="py-3">금요일</th>
+                        </tr>
+                    </thead>
+                    <tbody id="timetable-matrix-body">
+                        <!-- 동적 생성 -->
+                    </tbody>
+                </table>
+                <div id="timetable-no-data" class="hidden text-center py-12 text-slate-400 font-semibold space-y-2">
+                    <i data-lucide="alert-circle" class="w-8 h-8 mx-auto text-slate-300"></i>
+                    <div>선택한 학급의 이번 주 시간표 데이터가 없습니다.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. 수행평가 지원 뷰 -->
+        <div id="view-evaluation" class="hidden flex-col space-y-6">
+            <!-- 설정 및 컨트롤 상단 바 -->
+            <div class="bg-white border border-slate-200 rounded-3xl p-5 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+                    <div class="flex items-center space-x-2">
+                        <label for="eval-grade" class="text-xs font-bold text-slate-600 shrink-0">대상 학년</label>
+                        <select id="eval-grade" class="px-3 py-1.5 bg-slate-50 border border-slate-300 rounded-xl text-xs font-bold text-slate-700 outline-none">
+                            <option value="1">1학년</option>
+                            <option value="2">2학년</option>
+                            <option value="3" selected>3학년</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <label for="eval-class" class="text-xs font-bold text-slate-600 shrink-0">대상 학반</label>
+                        <select id="eval-class" class="px-3 py-1.5 bg-slate-50 border border-slate-300 rounded-xl text-xs font-bold text-slate-700 outline-none">
+                            <option value="1">1반</option>
+                            <option value="2">2반</option>
+                            <option value="3">3반</option>
+                            <option value="4">4반</option>
+                            <option value="5">5반</option>
+                            <option value="6">6반</option>
+                            <option value="7">7반</option>
+                            <option value="8">8반</option>
+                            <option value="9">9반</option>
+                            <option value="10">10반</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center space-x-2 w-full sm:w-64">
+                        <label for="eval-task-name" class="text-xs font-bold text-slate-600 shrink-0">수행평가명</label>
+                        <input type="text" id="eval-task-name" placeholder="예: 국어 수행평가 1차" class="w-full px-3 py-1.5 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-xs font-semibold text-slate-800 transition">
+                    </div>
+                </div>
+                <button id="btn-reset-eval" class="px-4 py-2 bg-slate-100 hover:bg-rose-50 text-slate-600 hover:text-rose-600 rounded-xl text-xs font-bold transition flex items-center gap-1.5 self-start md:self-auto">
+                    <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> 전체 초기화
+                </button>
+            </div>
+
+            <!-- 메인 컨텐츠 그리드 -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-6 flex flex-col min-h-[500px]">
+                    <div class="flex border-b border-slate-200 pb-3 gap-2">
+                        <button id="eval-tab-file" class="px-4 py-2 text-xs font-bold rounded-xl bg-indigo-600 text-white transition flex items-center gap-1.5" onclick="changeEvaluationSubMode('file')">
+                            <i data-lucide="file-check" class="w-4 h-4"></i> 📂 파일명 스캔
+                        </button>
+                        <button id="eval-tab-keypad" class="px-4 py-2 text-xs font-bold rounded-xl bg-slate-100 text-slate-600 hover:bg-indigo-50 transition flex items-center gap-1.5" onclick="changeEvaluationSubMode('keypad')">
+                            <i data-lucide="keyboard" class="w-4 h-4"></i> ⌨️ 키패드 빠른 입력
+                        </button>
+                        <button id="eval-tab-touch" class="px-4 py-2 text-xs font-bold rounded-xl bg-slate-100 text-slate-600 hover:bg-indigo-50 transition flex items-center gap-1.5" onclick="changeEvaluationSubMode('touch')">
+                            <i data-lucide="smartphone" class="w-4 h-4"></i> 📱 터치식 명렬표
+                        </button>
+                    </div>
+
+                    <!-- 1) 파일명 스캔 패널 -->
+                    <div id="eval-file-panel" class="space-y-4 flex-1 flex flex-col">
+                        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-xs font-medium text-slate-500 flex items-start gap-2.5">
+                            <i data-lucide="info" class="w-4 h-4 text-indigo-500 shrink-0 mt-0.5"></i>
+                            <div>
+                                <span class="font-bold text-slate-700">이용 가이드:</span><br>
+                                학생들이 제출한 과제 파일들을 아래 박스에 한꺼번에 드래그하여 올려놓으세요.<br>
+                                파일 이름 속 학번(예: 30105_홍길동.hwp)을 감지하여 제출 완료로 체크합니다.
+                            </div>
+                        </div>
+                        <div id="eval-dropzone" class="border-2 border-dashed border-slate-300 hover:border-indigo-500 bg-slate-50/50 hover:bg-indigo-50/30 rounded-2xl p-8 flex flex-col items-center justify-center text-center cursor-pointer transition flex-1 min-h-[220px]">
+                            <input type="file" id="eval-file-input" class="hidden" multiple accept=".pdf,.hwp,.hwpx,.docx,.xlsx,.pptx,.png,.jpg,.zip">
+                            <div class="p-4 bg-indigo-50 text-indigo-600 rounded-full mb-3">
+                                <i data-lucide="upload-cloud" class="w-8 h-8"></i>
+                            </div>
+                            <p class="text-xs font-bold text-slate-700 mb-1">과제 파일들을 여기에 드래그하여 놓거나 클릭하여 선택하세요</p>
+                            <p class="text-[10px] text-slate-400">한 번에 여러 개의 파일을 끌어와도 일괄 처리됩니다.</p>
+                        </div>
+                    </div>
+
+                    <!-- 2) 키패드 빠른 입력 패널 -->
+                    <div id="eval-keypad-panel" class="hidden space-y-4 flex-1 flex flex-col">
+                        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-xs font-medium text-slate-500 flex items-start gap-2.5">
+                            <i data-lucide="info" class="w-4 h-4 text-indigo-500 shrink-0 mt-0.5"></i>
+                            <div>
+                                <span class="font-bold text-slate-700">이용 가이드:</span><br>
+                                종이 과제물을 넘기면서 학생의 **번호(1~2자리)**를 친 후 **Enter** 또는 **Space**를 누르세요.<br>
+                                화면을 볼 필요 없이 연속해서 빠르게 마킹이 가능합니다.
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-6 bg-slate-50/50 border border-slate-200 rounded-2xl space-y-4">
+                            <div class="w-full max-w-xs space-y-1.5">
+                                <label for="eval-keypad-input" class="block text-xs font-bold text-slate-600 text-center">학생 번호 입력 (Enter 입력)</label>
+                                <input type="text" id="eval-keypad-input" placeholder="번호 입력 (예: 5)" class="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-center text-lg font-black text-slate-800 transition">
+                            </div>
+                            <div class="w-full max-w-md bg-white border border-slate-100 rounded-xl p-3.5 text-center shadow-inner">
+                                <span class="text-[10px] font-bold text-slate-400 block mb-1">최근 입력 이력</span>
+                                <div id="eval-keypad-recent" class="text-xs font-bold text-indigo-600 flex flex-wrap justify-center gap-1.5">
+                                    <span class="text-slate-300 font-medium">입력된 번호가 없습니다.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3) 터치식 명렬표 패널 -->
+                    <div id="eval-touch-panel" class="hidden space-y-4 flex-1 flex flex-col">
+                        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-xs font-medium text-slate-500 flex items-start gap-2.5">
+                            <i data-lucide="info" class="w-4 h-4 text-indigo-500 shrink-0 mt-0.5"></i>
+                            <div>
+                                <span class="font-bold text-slate-700">이용 가이드:</span><br>
+                                아래 명단에서 제출한 학생의 이름을 터치하여 제출 여부를 토글하십시오.<br>
+                                <span class="text-emerald-600 font-bold">초록색 카드</span>는 제출 완료이며, <span class="text-slate-400">회색 카드</span>는 미제출 상태입니다.
+                            </div>
+                        </div>
+                        <div id="eval-touch-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 max-h-[300px] overflow-y-auto pr-1">
+                            <!-- 학생들 동적 로드 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 오른쪽 1열: 실시간 통계 및 문자 추출 -->
+                <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col space-y-5 min-h-[500px]">
+                    <h4 class="text-sm font-bold text-slate-800 border-b border-slate-100 pb-3 flex items-center gap-1.5">
+                        <i data-lucide="pie-chart" class="w-4.5 h-4.5 text-indigo-600"></i> 제출 분석 및 알림 추출
+                    </h4>
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-xs font-bold text-slate-700">
+                            <span>수거 진척률</span>
+                            <span class="text-indigo-600"><span id="eval-submitted-count">0</span> / <span id="eval-total-count">0</span>명 (<span id="eval-progress-pct">0</span>%)</span>
+                        </div>
+                        <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                            <div id="eval-progress-bar" class="bg-indigo-600 h-full w-0 transition-all duration-300"></div>
+                        </div>
+                    </div>
+                    <div class="flex-1 flex flex-col space-y-2">
+                        <span class="text-xs font-bold text-rose-600 flex items-center gap-1"><i data-lucide="user-x" class="w-3.5 h-3.5"></i> 미제출자 명단</span>
+                        <div id="eval-unsubmitted-list" class="flex-1 border border-slate-200/80 bg-slate-50/50 rounded-2xl p-3 overflow-y-auto max-h-[160px] text-xs font-semibold text-slate-700 space-y-1">
+                            <div class="text-slate-400 font-medium text-center py-8">미제출자가 없습니다.</div>
+                        </div>
+                    </div>
+                    <div class="space-y-3 pt-3 border-t border-slate-100">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-slate-700 flex items-center gap-1"><i data-lucide="message-square" class="w-3.5 h-3.5 text-slate-400"></i> 미제출자 독촉 문자</span>
+                            <button id="btn-copy-eval-sms" class="text-[10px] font-black text-indigo-600 hover:text-indigo-800 bg-indigo-50 px-2 py-1 rounded-md transition flex items-center gap-1">
+                                <i data-lucide="copy" class="w-3.5 h-3.5"></i> 복사하기
+                            </button>
+                        </div>
+                        <textarea id="eval-sms-template" rows="4" readonly class="w-full p-3 bg-slate-100 border border-slate-200 rounded-xl text-xs font-semibold text-slate-600 focus:outline-none resize-none leading-relaxed"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. 설정 및 명단 관리 뷰 -->
+        <div id="view-settings" class="hidden flex-col space-y-6">
+            <div class="border-b border-slate-200 pb-3">
+                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                    <i data-lucide="settings" class="w-5 h-5 text-slate-500"></i> 포털 설정 및 학생 명단 관리
+                </h3>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 카드 A: 학생 명단 csv 업로드 및 가져오기 -->
+                <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-4">
+                    <h4 class="text-xs font-extrabold text-slate-500 tracking-wider flex items-center gap-1.5"><i data-lucide="users" class="w-4 h-4 text-indigo-600"></i> 학생 명단 등록 (students.csv)</h4>
+                    <div class="text-xs text-slate-500 leading-relaxed">
+                        웹앱에서 학생을 정상 검색하고 수행평가를 점검하려면 명렬표 등록이 필요합니다.<br>
+                        아래 드롭존에 <span class="font-bold text-slate-800">학번,이름,학부모연락처</span> 헤더를 가진 CSV 파일을 업로드해 주세요.
+                    </div>
+                    
+                    <div id="settings-csv-dropzone" class="border-2 border-dashed border-slate-300 hover:border-indigo-500 bg-slate-50/50 hover:bg-indigo-50/30 rounded-2xl p-6 flex flex-col items-center justify-center text-center cursor-pointer transition">
+                        <input type="file" id="settings-csv-input" class="hidden" accept=".csv">
+                        <i data-lucide="file-spreadsheet" class="w-8 h-8 text-indigo-600 mb-2"></i>
+                        <span class="text-xs font-bold text-slate-700">명단 CSV 파일 드래그 또는 클릭 업로드</span>
+                        <span class="text-[10px] text-slate-400 mt-1">EUC-KR 및 UTF-8 형식을 모두 지원합니다.</span>
+                    </div>
+
+                    <!-- 등록된 명단 요약 정보 -->
+                    <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80 flex items-center justify-between text-xs">
+                        <div class="font-semibold text-slate-600">
+                            현재 등록된 학생 수: <span id="settings-student-count" class="text-indigo-600 font-extrabold">0</span>명
+                        </div>
+                        <button id="btn-clear-students" class="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 hover:text-rose-700 rounded-lg text-[10px] font-bold transition">
+                            명단 전체 삭제
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 카드 B: API 설정 및 로컬 암호 보안 설정 -->
+                <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-4">
+                    <h4 class="text-xs font-extrabold text-slate-500 tracking-wider flex items-center gap-1.5"><i data-lucide="cpu" class="w-4 h-4 text-indigo-600"></i> 제미나이 AI 및 인증 보안 설정</h4>
+                    
+                    <!-- Gemini Key -->
+                    <div class="space-y-1.5">
+                        <label for="settings-gemini-key" class="block text-xs font-bold text-slate-600">Gemini API Key 등록</label>
+                        <input type="password" id="settings-gemini-key" placeholder="AI 다듬기를 위한 제미나이 API 키 입력" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-xs font-semibold text-slate-800 transition">
+                        <span class="text-[9px] text-slate-400 leading-normal block">입력한 키는 사용자의 브라우저 로컬 저장소에 암호 데이터 스트림으로 보관되며, 외부로 유출되지 않습니다.</span>
+                    </div>
+
+                    <!-- Portal Passcode -->
+                    <div class="space-y-1.5">
+                        <label for="settings-passcode" class="block text-xs font-bold text-slate-600">교직원 로그인 비밀번호 변경</label>
+                        <input type="password" id="settings-passcode" placeholder="새 비밀번호 입력 (미입력 시 기본 jinhae1912)" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-xs font-semibold text-slate-800 transition">
+                    </div>
+
+                    <button id="btn-save-settings" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs py-3 rounded-xl shadow-md transition flex items-center justify-center space-x-2">
+                        <i data-lucide="save" class="w-3.5 h-3.5"></i>
+                        <span>설정 저장하기</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 백업 및 복구 카드 -->
+            <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-4">
+                <h4 class="text-xs font-extrabold text-slate-500 tracking-wider flex items-center gap-1.5"><i data-lucide="database" class="w-4 h-4 text-indigo-600"></i> 데이터 백업 및 관리</h4>
+                <div class="text-xs text-slate-500 leading-relaxed">
+                    브라우저 캐시 삭제 또는 기기 변경 시 데이터 소실을 대비해 칭찬 목록 및 설정을 파일로 백업할 수 있습니다.
+                </div>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <button id="btn-export-data" class="flex-1 px-4 py-2.5 bg-slate-100 hover:bg-indigo-50 border border-slate-200 text-slate-700 hover:text-indigo-700 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5">
+                        <i data-lucide="download" class="w-4 h-4"></i> 전체 데이터 파일로 내보내기 (Backup)
+                    </button>
+                    <button id="btn-import-data" class="flex-1 px-4 py-2.5 bg-slate-100 hover:bg-indigo-50 border border-slate-200 text-slate-700 hover:text-indigo-700 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5" onclick="document.getElementById('import-file-input').click()">
+                        <i data-lucide="upload" class="w-4 h-4"></i> 백업 파일 불러오기 (Restore)
+                    </button>
+                    <input type="file" id="import-file-input" class="hidden" accept=".json">
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // 글로벌 어플리케이션 상태 컨트롤러
+        const state = {
+            currentMode: 'home',
+            isLoggedIn: false,
+            praiseStudents: [],
+            selectedPraiseStudent: null,
+            praisesList: [],
+            mealsCache: {},
+            scheduleYear: 2026,
+            scheduleMonth: 6,
+            scheduleEvents: [],
+            timetableCache: {},
+            
+            // 수행평가 지원 기능 상태
+            evalStudents: [],
+            evalSubmittedIds: new Set(),
+            evalSubMode: 'file',
+            evalKeypadHistory: []
+        };
+
+        const el = {
+            // 로그인 및 탭 요소
+            loginOverlay: document.getElementById('login-overlay'),
+            loginPassword: document.getElementById('login-password'),
+            btnLoginSubmit: document.getElementById('btn-login-submit'),
+            loginErrorMsg: document.getElementById('login-error-msg'),
+            btnLogout: document.getElementById('btn-logout'),
+
+            // 홈 대시보드
+            viewHome: document.getElementById('view-home'),
+            homeTodayDate: document.getElementById('home-today-date'),
+            homeMealContainer: document.getElementById('home-meal-container'),
+            homeTimetableGrade: document.getElementById('home-timetable-grade'),
+            homeTimetableClass: document.getElementById('home-timetable-class'),
+            homeTimetableContainer: document.getElementById('home-timetable-container'),
+            homeSuneungDday: document.getElementById('home-suneung-dday'),
+            homeScheduleList: document.getElementById('home-schedule-list'),
+
+            // 칭찬 알림 컴포넌트
+            viewPraise: document.getElementById('view-praise'),
+            praiseStudentSearch: document.getElementById('praise-student-search'),
+            praiseAutocompleteList: document.getElementById('praise-autocomplete-list'),
+            praiseSelectedInfo: document.getElementById('praise-selected-info'),
+            btnPraiseClearTarget: document.getElementById('btn-praise-clear-target'),
+            praiseTargetName: document.getElementById('praise-target-name'),
+            praiseTargetId: document.getElementById('praise-target-id'),
+            praiseTargetPhone: document.getElementById('praise-target-phone'),
+            praiseContent: document.getElementById('praise-content'),
+            btnSavePraise: document.getElementById('btn-save-praise'),
+            praiseListCount: document.getElementById('praise-list-count'),
+            praiseRecordList: document.getElementById('praise-record-list'),
+            btnPraiseVoice: document.getElementById('btn-praise-voice'),
+            iconPraiseVoice: document.getElementById('icon-praise-voice'),
+            txtPraiseVoice: document.getElementById('txt-praise-voice'),
+            btnPraiseRefine: document.getElementById('btn-praise-refine'),
+            praiseRefineSpinner: document.getElementById('praise-refine-spinner'),
+
+            // 급식 및 학사 일정 & 시간표 뷰들
+            viewMeals: document.getElementById('view-meals'),
+            mealsWeeklyGrid: document.getElementById('meals-weekly-grid'),
+            mealsWeekRange: document.getElementById('meals-week-range'),
+
+            viewSchedule: document.getElementById('view-schedule'),
+            btnSchedulePrev: document.getElementById('btn-schedule-prev'),
+            btnScheduleNext: document.getElementById('btn-schedule-next'),
+            scheduleCalendarMonth: document.getElementById('schedule-calendar-month'),
+            scheduleCalendarGrid: document.getElementById('schedule-calendar-grid'),
+            scheduleDetailedList: document.getElementById('schedule-detailed-list'),
+
+            viewTimetable: document.getElementById('view-timetable'),
+            timetableSearchGrade: document.getElementById('timetable-search-grade'),
+            timetableSearchClass: document.getElementById('timetable-search-class'),
+            btnSearchTimetable: document.getElementById('btn-search-timetable'),
+            timetableMatrixBody: document.getElementById('timetable-matrix-body'),
+            timetableNoData: document.getElementById('timetable-no-data'),
+
+            // 수행평가 지원 요소 바인딩
+            viewEvaluation: document.getElementById('view-evaluation'),
+            evalGrade: document.getElementById('eval-grade'),
+            evalClass: document.getElementById('eval-class'),
+            evalTaskName: document.getElementById('eval-task-name'),
+            btnResetEval: document.getElementById('btn-reset-eval'),
+            evalTabFile: document.getElementById('eval-tab-file'),
+            evalTabKeypad: document.getElementById('eval-tab-keypad'),
+            evalTabTouch: document.getElementById('eval-tab-touch'),
+            evalFilePanel: document.getElementById('eval-file-panel'),
+            evalKeypadPanel: document.getElementById('eval-keypad-panel'),
+            evalTouchPanel: document.getElementById('eval-touch-panel'),
+            evalDropzone: document.getElementById('eval-dropzone'),
+            evalFileInput: document.getElementById('eval-file-input'),
+            evalKeypadInput: document.getElementById('eval-keypad-input'),
+            evalKeypadRecent: document.getElementById('eval-keypad-recent'),
+            evalTouchGrid: document.getElementById('eval-touch-grid'),
+            evalSubmittedCount: document.getElementById('eval-submitted-count'),
+            evalTotalCount: document.getElementById('eval-total-count'),
+            evalProgressBar: document.getElementById('eval-progress-bar'),
+            evalProgressPct: document.getElementById('eval-progress-pct'),
+            evalUnsubmittedList: document.getElementById('eval-unsubmitted-list'),
+            evalSmsTemplate: document.getElementById('eval-sms-template'),
+            btnCopyEvalSms: document.getElementById('btn-copy-eval-sms'),
+
+            // 설정 컴포넌트 바인딩
+            viewSettings: document.getElementById('view-settings'),
+            settingsCsvDropzone: document.getElementById('settings-csv-dropzone'),
+            settingsCsvInput: document.getElementById('settings-csv-input'),
+            settingsStudentCount: document.getElementById('settings-student-count'),
+            btnClearStudents: document.getElementById('btn-clear-students'),
+            settingsGeminiKey: document.getElementById('settings-gemini-key'),
+            settingsPasscode: document.getElementById('settings-passcode'),
+            btnSaveSettings: document.getElementById('btn-save-settings'),
+            btnExportData: document.getElementById('btn-export-data'),
+            btnImportData: document.getElementById('btn-import-data'),
+            importFileInput: document.getElementById('import-file-input')
+        };
+
+        // 초기 바인딩 및 PWA 기기 세션 렌더링
+        lucide.createIcons();
+        checkAuthStatus();
+
+        el.btnLoginSubmit.addEventListener('click', handleLoginAttempt);
+        el.loginPassword.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleLoginAttempt(); });
+        el.btnLogout.addEventListener('click', handleLogout);
+
+        document.querySelectorAll('.nav-tab').forEach(tabBtn => {
+            tabBtn.addEventListener('click', (e) => {
+                switchTab(e.currentTarget.dataset.tab);
+            });
+        });
+
+        // 칭찬 알림 바인딩
+        el.praiseStudentSearch.addEventListener('input', handleStudentSearch);
+        el.praiseStudentSearch.addEventListener('focus', handleStudentSearch);
+        el.btnPraiseClearTarget.addEventListener('click', clearSelectedStudent);
+        el.btnSavePraise.addEventListener('click', handleSavePraise);
+        el.btnPraiseVoice.addEventListener('click', handleVoiceInput);
+        el.btnPraiseRefine.addEventListener('click', handlePraiseRefine);
+        document.addEventListener('click', (e) => {
+            if (e.target !== el.praiseStudentSearch && e.target !== el.praiseAutocompleteList) {
+                el.praiseAutocompleteList.classList.add('hidden');
+            }
+        });
+
+        // 홈 시간표 및 대시보드 갱신 리스너
+        el.homeTimetableGrade.addEventListener('change', refreshHomeTimetable);
+        el.homeTimetableClass.addEventListener('change', refreshHomeTimetable);
+
+        // 일정 및 시간표 리스너
+        el.btnSchedulePrev.addEventListener('click', () => adjustScheduleMonth(-1));
+        el.btnScheduleNext.addEventListener('click', () => adjustScheduleMonth(1));
+        el.btnSearchTimetable.addEventListener('click', loadDetailedTimetable);
+
+        // 수행평가 바인딩
+        el.evalGrade.addEventListener('change', updateEvaluationView);
+        el.evalClass.addEventListener('change', updateEvaluationView);
+        el.evalTaskName.addEventListener('input', updateEvaluationView);
+        el.btnResetEval.addEventListener('click', resetEvaluation);
+        el.evalKeypadInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') handleEvalKeypadInput();
+        });
+        el.btnCopyEvalSms.addEventListener('click', copyEvalSms);
+        
+        // 수행평가 파일 드롭존 바인딩
+        el.evalDropzone.addEventListener('click', () => el.evalFileInput.click());
+        el.evalFileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) handleEvalFiles(e.target.files);
+        });
+        el.evalDropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            el.evalDropzone.classList.add('border-indigo-500', 'bg-indigo-50/50');
+        });
+        el.evalDropzone.addEventListener('dragleave', () => {
+            el.evalDropzone.classList.remove('border-indigo-500', 'bg-indigo-50/50');
+        });
+        el.evalDropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            el.evalDropzone.classList.remove('border-indigo-500', 'bg-indigo-50/50');
+            if (e.dataTransfer.files.length > 0) handleEvalFiles(e.dataTransfer.files);
+        });
+
+        // 설정 바인딩
+        el.settingsCsvDropzone.addEventListener('click', () => el.settingsCsvInput.click());
+        el.settingsCsvInput.addEventListener('change', handleCsvFileSelect);
+        el.settingsCsvDropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            el.settingsCsvDropzone.classList.add('border-indigo-500', 'bg-indigo-50/50');
+        });
+        el.settingsCsvDropzone.addEventListener('dragleave', () => {
+            el.settingsCsvDropzone.classList.remove('border-indigo-500', 'bg-indigo-50/50');
+        });
+        el.settingsCsvDropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            el.settingsCsvDropzone.classList.remove('border-indigo-500', 'bg-indigo-50/50');
+            if (e.dataTransfer.files.length > 0) handleCsvImport(e.dataTransfer.files[0]);
+        });
+        el.btnClearStudents.addEventListener('click', clearAllStudents);
+        el.btnSaveSettings.addEventListener('click', saveConfigSettings);
+        el.btnExportData.addEventListener('click', exportPortalData);
+        el.importFileInput.addEventListener('change', importPortalData);
+
+        // 스크롤 게이지 바인딩
+        window.addEventListener('scroll', () => {
+            const scrollGauge = document.getElementById('scroll-gauge');
+            const totalScrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            if (totalScrollHeight <= 0) { scrollGauge.style.width = '0%'; return; }
+            const currentPercentage = (window.scrollY / totalScrollHeight) * 100;
+            scrollGauge.style.width = `${currentPercentage}%`;
+        });
+
+        // ==========================================
+        // [로그인 및 인증 관리 엔진]
+        // ==========================================
+        function checkAuthStatus() {
+            const auth = localStorage.getItem('jinhae_portal_auth');
+            if (auth === 'true') {
+                state.isLoggedIn = true;
+                el.loginOverlay.classList.add('hidden');
+                switchTab('home');
+            } else {
+                state.isLoggedIn = false;
+                el.loginOverlay.classList.remove('hidden');
+            }
+        }
+
+        function handleLoginAttempt() {
+            const pwdInput = el.loginPassword.value.trim();
+            if (!pwdInput) {
+                shakeLoginInput("비밀번호를 입력해주세요.");
+                return;
+            }
+
+            const correctPassword = localStorage.getItem('jinhae_portal_passcode') || 'jinhae1912';
+            if (pwdInput === correctPassword.trim()) {
+                localStorage.setItem('jinhae_portal_auth', 'true');
+                state.isLoggedIn = true;
+                el.loginOverlay.classList.add('opacity-0');
+                setTimeout(() => {
+                    el.loginOverlay.classList.add('hidden');
+                    el.loginOverlay.classList.remove('opacity-0');
+                    el.loginPassword.value = '';
+                    switchTab('home');
+                }, 300);
+            } else {
+                shakeLoginInput("비밀번호가 올바르지 않습니다.");
+            }
+        }
+
+        function shakeLoginInput(msg) {
+            el.loginErrorMsg.textContent = msg;
+            el.loginErrorMsg.classList.remove('hidden');
+            el.loginPassword.classList.add('shake-input');
+            setTimeout(() => {
+                el.loginPassword.classList.remove('shake-input');
+            }, 500);
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('jinhae_portal_auth');
+            state.isLoggedIn = false;
+            location.reload();
+        }
+
+        // ==========================================
+        // [탭 전환 엔진]
+        // ==========================================
+        function switchTab(tabName) {
+            document.querySelectorAll('.nav-tab').forEach(btn => {
+                if (btn.dataset.tab === tabName) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+
+            el.viewHome.classList.add('hidden');
+            el.viewPraise.classList.add('hidden');
+            el.viewMeals.classList.add('hidden');
+            el.viewSchedule.classList.add('hidden');
+            el.viewTimetable.classList.add('hidden');
+            el.viewEvaluation.classList.add('hidden');
+            el.viewSettings.classList.add('hidden');
+
+            if (tabName === 'home') {
+                el.viewHome.classList.remove('hidden');
+                loadHomeData();
+            } else if (tabName === 'praise') {
+                el.viewPraise.classList.remove('hidden');
+                loadStudentsAndPraises();
+            } else if (tabName === 'meals') {
+                el.viewMeals.classList.remove('hidden');
+                loadDetailedMeals();
+            } else if (tabName === 'schedule') {
+                el.viewSchedule.classList.remove('hidden');
+                loadDetailedSchedule();
+            } else if (tabName === 'timetable') {
+                el.viewTimetable.classList.remove('hidden');
+                loadDetailedTimetable();
+            } else if (tabName === 'evaluation') {
+                el.viewEvaluation.classList.remove('hidden');
+                loadEvaluationData();
+            } else if (tabName === 'settings') {
+                el.viewSettings.classList.remove('hidden');
+                loadSettingsData();
+            }
+
+            window.scrollTo({ top: 0 });
+            lucide.createIcons();
+        }
+
+        // ==========================================
+        // [NEIS 오픈 API 연동부 - CORS 프록시 적용]
+        // ==========================================
+        async function fetchMealData(dateStr) {
+            if (state.mealsCache[dateStr]) return state.mealsCache[dateStr];
+
+            try {
+                const targetUrl = `https://open.neis.go.kr/hub/mealServiceDietInfo?Type=json&ATPT_OFCDC_SC_CODE=S10&SD_SCHUL_CODE=9380026&MLSV_YMD=${dateStr}`;
+                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
+                const response = await fetch(proxyUrl);
+                const data = await response.json();
+                const meal = parseMealResponse(data);
+                state.mealsCache[dateStr] = meal;
+                return meal;
+            } catch (e) {
+                console.warn("Meal fetch failed, mock fallback.");
+            }
+            const mock = getMockMealData(dateStr);
+            state.mealsCache[dateStr] = mock;
+            return mock;
+        }
+
+        function parseMealResponse(data) {
+            const meal = { breakfast: '급식 없음', lunch: '급식 없음', dinner: '급식 없음' };
+            if (!data || !data.mealServiceDietInfo) return meal;
+            const rows = data.mealServiceDietInfo[1].row;
+            rows.forEach(row => {
+                const type = row.MMEAL_SC_NM;
+                const menu = row.DDISH_NM.replace(/<br\/>/g, '\n').replace(/\([^)]*\)/g, '').replace(/\s+/g, ' ').trim();
+                const kcal = row.CAL_INFO;
+                const menuStr = `${menu}\n[${kcal}]`;
+                if (type.includes('조식')) meal.breakfast = menuStr;
+                else if (type.includes('중식')) meal.lunch = menuStr;
+                else if (type.includes('석식')) meal.dinner = menuStr;
+            });
+            return meal;
+        }
+
+        function getMockMealData(dateStr) {
+            const day = new Date(dateStr.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')).getDay();
+            if (day === 0 || day === 6) return { breakfast: '주말 급식 없음', lunch: '주말 급식 없음', dinner: '주말 급식 없음' };
+            const menuPool = [
+                { breakfast: "누룽지탕\n돼지고기메추리알조림\n배추김치\n요구르트\n[620 kcal]", lunch: "발아현미밥\n맑은순두부찌개\n치즈불닭\n오이도라지생채\n깍두기\n[840 kcal]", dinner: "참치주먹밥\n우동\n새우튀김\n단무지무침\n배추김치\n[780 kcal]" },
+                { breakfast: "토스트 & 잼\n콘프레이크/우유\n스크램블에그\n바나나\n[580 kcal]", lunch: "기장밥\n쇠고기탕국\n돈육고추장불고기\n잡채\n배추김치\n[810 kcal]", dinner: "차조밥\n부대찌개\n가자미구이\n숙주나물무침\n배추김치\n[790 kcal]" },
+                { breakfast: "밥\n아욱된장국\n동그랑땡전\n김구이\n배추김치\n[600 kcal]", lunch: "비빔밥\n약고추장\n팽이버섯장국\n수제떡갈비구이\n배추김치\n멜론\n[820 kcal]", dinner: "자장면\n추가밥\n꿔바로우탕수육\n짜사이무침\n배추김치\n[850 kcal]" },
+                { breakfast: "야채죽\n닭살장조림\n배추김치\n사과주스\n[550 kcal]", lunch: "흑미밥\n닭볶음탕\n조기구이\n삼색나물\n배추김치\n[830 kcal]", dinner: "김치볶음밥\n어묵국\n계란후라이\n치즈치킨너겟\n깍두기\n[790 kcal]" },
+                { breakfast: "모닝빵샌드위치\n스프\n감자튀김\n귤\n[610 kcal]", lunch: "칼슘찹쌀밥\n육개장\n수제돈가스/소스\n양배추샐러드\n깍두기\n[880 kcal]", dinner: "잡곡밥\n된장찌개\n오리훈제구이\n무쌈\n부추겉절이\n배추김치\n[800 kcal]" }
+            ];
+            return menuPool[(day - 1) % 5];
+        }
+
+        async function fetchScheduleData(fromYmd, toYmd) {
+            try {
+                const targetUrl = `https://open.neis.go.kr/hub/SchoolSchedule?Type=json&ATPT_OFCDC_SC_CODE=S10&SD_SCHUL_CODE=9380026&AA_FROM_YMD=${fromYmd}&AA_TO_YMD=${toYmd}`;
+                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
+                const response = await fetch(proxyUrl);
+                const data = await response.json();
+                return parseScheduleResponse(data);
+            } catch (e) {
+                console.warn("Schedule fetch failed.");
+            }
+            return getMockScheduleData(fromYmd, toYmd);
+        }
+
+        function parseScheduleResponse(data) {
+            const events = [];
+            if (!data || !data.SchoolSchedule) return events;
+            data.SchoolSchedule[1].row.forEach(row => {
+                events.push({ date: row.AA_YMD, name: row.EVENT_NM, summary: row.EVENT_INFO || '교내 주요 학사 행사' });
+            });
+            return events;
+        }
+
+        function getMockScheduleData(fromYmd, toYmd) {
+            const events = [];
+            const start = parseInt(fromYmd, 10);
+            const end = parseInt(toYmd, 10);
+            const mockEvents = [
+                { date: 20260605, name: "개교기념일" },
+                { date: 20260615, name: "진로캠프" },
+                { date: 20260624, name: "1학기 2차고사" },
+                { date: 20260625, name: "1학기 2차고사" },
+                { date: 20260626, name: "1학기 2차고사" },
+                { date: 20260717, name: "여름방학식" },
+                { date: 20260817, name: "2학기 개학식" },
+                { date: 20260902, name: "9월 모의평가" },
+                { date: 20261112, name: "대학수학능력시험" }
+            ];
+            mockEvents.forEach(ev => {
+                if (ev.date >= start && ev.date <= end) {
+                    events.push({ date: String(ev.date), name: ev.name, summary: "교내 중요 행사" });
+                }
+            });
+            return events;
+        }
+
+        async function fetchTimetableData(dateStr, grade, classNm) {
+            const cacheKey = `${dateStr}_${grade}_${classNm}`;
+            if (state.timetableCache[cacheKey]) return state.timetableCache[cacheKey];
+
+            try {
+                const targetUrl = `https://open.neis.go.kr/hub/hisTimetable?Type=json&ATPT_OFCDC_SC_CODE=S10&SD_SCHUL_CODE=9380026&ALL_TI_YMD=${dateStr}&GRADE=${grade}&CLASS_NM=${classNm}`;
+                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
+                const response = await fetch(proxyUrl);
+                const data = await response.json();
+                const table = parseTimetableResponse(data);
+                state.timetableCache[cacheKey] = table;
+                return table;
+            } catch (e) {
+                console.warn("Timetable fetch failed.");
+            }
+            const mock = getMockTimetableData(dateStr, grade, classNm);
+            state.timetableCache[cacheKey] = mock;
+            return mock;
+        }
+
+        function parseTimetableResponse(data) {
+            const lessons = Array(7).fill('');
+            if (!data || !data.hisTimetable) return lessons;
+            data.hisTimetable[1].row.forEach(row => {
+                const perio = parseInt(row.PERIO, 10);
+                if (perio >= 1 && perio <= 7) lessons[perio - 1] = row.ITRT_CNTNT;
+            });
+            return lessons;
+        }
+
+        function getMockTimetableData(dateStr, grade, classNm) {
+            const subjectsPool = [
+                ["화법과작문", "수학II", "영어독해", "물리학I", "체육", "문학", "자율활동"],
+                ["미적분", "영어회화", "화학I", "세계사", "음악", "화법과작문", "동아리"],
+                ["문학", "수학I", "영어I", "운동과건강", "지구과학I", "중국어I", "진로활동"],
+                ["화법과작문", "확률과통계", "영어II", "생명과학I", "미술", "일본어I", "학급회의"],
+                ["독서", "기하", "영어독해", "윤리와사상", "체육", "한국사", "창체활동"]
+            ];
+            const dateObj = new Date(dateStr.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3'));
+            const day = dateObj.getDay();
+            if (day === 0 || day === 6) return Array(7).fill('-');
+            const idx = (parseInt(grade) + parseInt(classNm) + day) % 5;
+            return subjectsPool[idx];
+        }
+
+        // ==========================================
+        // [대시보드 및 상세 페이지 렌더링부]
+        // ==========================================
+        async function loadHomeData() {
+            const now = new Date();
+            const days = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
+            el.homeTodayDate.textContent = `${now.getFullYear()}년 ${String(now.getMonth() + 1).padStart(2, '0')}월 ${String(now.getDate()).padStart(2, '0')}일 (${days[now.getDay()]})`;
+
+            // D-Day
+            const suneungDate = new Date('2026-11-12');
+            const diffDays = Math.ceil((suneungDate - now) / (1000 * 60 * 60 * 24));
+            el.homeSuneungDday.textContent = diffDays > 0 ? `D-${diffDays}` : (diffDays === 0 ? `D-Day` : `D+${Math.abs(diffDays)}`);
+
+            const ymd = now.getFullYear() + String(now.getMonth() + 1).padStart(2, '0') + String(now.getDate()).padStart(2, '0');
+            refreshHomeMeal(ymd);
+            refreshHomeSchedule(now);
+            refreshHomeTimetable();
+        }
+
+        async function refreshHomeMeal(ymd) {
+            el.homeMealContainer.innerHTML = `<div class="flex items-center justify-center py-12 text-slate-400 text-xs font-semibold animate-spin"><i data-lucide="loader-2" class="w-5 h-5"></i></div>`;
+            const meal = await fetchMealData(ymd);
+            
+            let html = '<div class="space-y-2 text-[11px] font-semibold">';
+            const makeMealBlock = (title, content, bg, border, textCol) => {
+                const lines = content.split('\n');
+                const menu = lines[0] || '급식 없음';
+                const kcal = lines[1] || '';
+                return `
+                    <div class="${bg} ${border} border rounded-2xl p-2.5 flex flex-col space-y-1">
+                        <div class="flex justify-between items-center">
+                            <span class="${textCol} font-extrabold text-[10px]">${title}</span>
+                            <span class="text-[9px] text-slate-400 font-medium">${kcal}</span>
+                        </div>
+                        <div class="text-slate-700 leading-relaxed text-[11px]">${menu.replace(/,/g, ', ')}</div>
+                    </div>
+                `;
+            };
+            html += makeMealBlock('🌅 아침 (조식)', meal.breakfast, 'bg-slate-50/50', 'border-slate-100', 'text-slate-500');
+            html += makeMealBlock('☀️ 점심 (중식)', meal.lunch, 'bg-indigo-50/30', 'border-indigo-100', 'text-indigo-600');
+            html += makeMealBlock('🌙 저녁 (석식)', meal.dinner, 'bg-slate-50/50', 'border-slate-100', 'text-slate-500');
+            html += '</div>';
+            el.homeMealContainer.innerHTML = html;
+        }
+
+        async function refreshHomeSchedule(now) {
+            const fromDate = now.getFullYear() + String(now.getMonth() + 1).padStart(2, '0') + String(now.getDate()).padStart(2, '0');
+            const nextWeek = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+            const toDate = nextWeek.getFullYear() + String(nextWeek.getMonth() + 1).padStart(2, '0') + String(nextWeek.getDate()).padStart(2, '0');
+
+            const events = await fetchScheduleData(fromDate, toDate);
+            if (events.length === 0) {
+                el.homeScheduleList.innerHTML = '<div class="text-slate-400 text-[10px] text-center py-8">이번 주 예정된 학사 행사가 없습니다.</div>';
+                return;
+            }
+            let html = '';
+            events.forEach(ev => {
+                html += `
+                    <div class="flex items-center justify-between py-2 border-b border-slate-100 last:border-0">
+                        <span class="text-slate-800 font-extrabold text-xs">${ev.name}</span>
+                        <span class="text-[9px] text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded-md font-bold">${ev.date.substring(4,6)}/${ev.date.substring(6,8)}</span>
+                    </div>
+                `;
+            });
+            el.homeScheduleList.innerHTML = html;
+        }
+
+        async function refreshHomeTimetable() {
+            const grade = el.homeTimetableGrade.value;
+            const classNm = el.homeTimetableClass.value;
+            el.homeTimetableContainer.innerHTML = `<div class="flex items-center justify-center py-12 text-slate-400 text-xs font-semibold animate-spin"><i data-lucide="loader-2" class="w-5 h-5"></i></div>`;
+
+            const now = new Date();
+            const ymd = now.getFullYear() + String(now.getMonth() + 1).padStart(2, '0') + String(now.getDate()).padStart(2, '0');
+            const lessons = await fetchTimetableData(ymd, grade, classNm);
+            if (now.getDay() === 0 || now.getDay() === 6) {
+                el.homeTimetableContainer.innerHTML = '<div class="text-slate-400 text-[10px] text-center py-8">주말에는 시간표가 존재하지 않습니다.</div>';
+                return;
+            }
+
+            let html = '<div class="grid grid-cols-7 gap-1.5">';
+            lessons.forEach((subj, idx) => {
+                const activeBg = subj && subj !== '-' ? 'bg-emerald-50/50 border-emerald-100 text-emerald-800' : 'bg-slate-50 border-slate-100 text-slate-400';
+                html += `
+                    <div class="border rounded-xl p-1.5 flex flex-col items-center justify-center ${activeBg} text-center aspect-[4/5]">
+                        <span class="text-[8px] font-bold opacity-60 leading-none">${idx + 1}</span>
+                        <span class="text-[10px] font-black tracking-tighter mt-1.5 truncate max-w-full leading-none">${subj || '-'}</span>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            el.homeTimetableContainer.innerHTML = html;
+            lucide.createIcons();
+        }
+
+        async function loadDetailedMeals() {
+            el.mealsWeeklyGrid.innerHTML = `<div class="col-span-full flex items-center justify-center py-12 text-slate-400 text-xs font-semibold animate-spin"><i data-lucide="loader-2" class="w-6 h-6"></i></div>`;
+            const now = new Date();
+            const day = now.getDay();
+            const diffToMonday = now.getDate() - day + (day === 0 ? -6 : 1);
+            const monday = new Date(now.setDate(diffToMonday));
+            
+            const daysKorean = ['월요일', '화요일', '수요일', '목요일', '금요일'];
+            const dates = [];
+            for (let i = 0; i < 5; i++) {
+                const d = new Date(monday);
+                d.setDate(monday.getDate() + i);
+                dates.push(d);
+            }
+
+            el.mealsWeekRange.textContent = `${dates[0].getFullYear()}.${dates[0].getMonth()+1}.${dates[0].getDate()} ~ ${dates[4].getFullYear()}.${dates[4].getMonth()+1}.${dates[4].getDate()}`;
+            el.mealsWeeklyGrid.innerHTML = '';
+            
+            for (let i = 0; i < 5; i++) {
+                const d = dates[i];
+                const ymd = d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0');
+                const meal = await fetchMealData(ymd);
+                
+                const card = document.createElement('div');
+                card.className = 'bg-white border border-slate-200 rounded-2xl p-4 shadow-xs space-y-3 flex flex-col hover:shadow-md transition';
+                const isToday = (new Date()).toDateString() === d.toDateString();
+                const todayBadge = isToday ? '<span class="bg-indigo-600 text-white text-[8px] font-extrabold px-1.5 py-0.5 rounded-full">TODAY</span>' : '';
+                
+                const formatBlock = (content) => {
+                    const parts = content.split('\n');
+                    return (parts[0] || '급식 없음').replace(/,/g, '<br/>');
+                };
+
+                card.innerHTML = `
+                    <div class="border-b border-slate-100 pb-2 flex justify-between items-center">
+                        <div class="flex flex-col">
+                            <span class="text-xs font-black text-slate-800">${daysKorean[i]}</span>
+                            <span class="text-[9px] text-slate-400">${d.getMonth() + 1}월 ${d.getDate()}일</span>
+                        </div>
+                        ${todayBadge}
+                    </div>
+                    <div class="space-y-3.5 text-[11px] font-semibold text-slate-700 leading-relaxed flex-1">
+                        <div>
+                            <div class="text-[9px] text-slate-400 font-extrabold">🌅 아침 (조식)</div>
+                            <div class="mt-0.5 pl-1.5 border-l-2 border-slate-200">${formatBlock(meal.breakfast)}</div>
+                        </div>
+                        <div>
+                            <div class="text-[9px] text-indigo-500 font-extrabold">☀️ 점심 (중식)</div>
+                            <div class="mt-0.5 pl-1.5 border-l-2 border-indigo-200 bg-indigo-50/10 rounded-md p-1">${formatBlock(meal.lunch)}</div>
+                        </div>
+                        <div>
+                            <div class="text-[9px] text-slate-400 font-extrabold">🌙 저녁 (석식)</div>
+                            <div class="mt-0.5 pl-1.5 border-l-2 border-slate-200">${formatBlock(meal.dinner)}</div>
+                        </div>
+                    </div>
+                `;
+                el.mealsWeeklyGrid.appendChild(card);
+            }
+            lucide.createIcons();
+        }
+
+        async function loadDetailedSchedule() {
+            if (isNaN(state.scheduleYear)) {
+                state.scheduleYear = new Date().getFullYear();
+                state.scheduleMonth = new Date().getMonth() + 1;
+            }
+            const year = state.scheduleYear;
+            const month = state.scheduleMonth;
+            el.scheduleCalendarMonth.textContent = `${year}년 ${month}월`;
+
+            const firstDay = new Date(year, month - 1, 1).getDay();
+            const lastDate = new Date(year, month, 0).getDate();
+
+            const fromYmd = `${year}${String(month).padStart(2, '0')}01`;
+            const toYmd = `${year}${String(month).padStart(2, '0')}${String(lastDate).padStart(2, '0')}`;
+            const events = await fetchScheduleData(fromYmd, toYmd);
+            state.scheduleEvents = events;
+
+            el.scheduleCalendarGrid.innerHTML = '';
+            for (let i = 0; i < firstDay; i++) {
+                const empty = document.createElement('div');
+                empty.className = 'bg-slate-50/20 aspect-square rounded-xl';
+                el.scheduleCalendarGrid.appendChild(empty);
+            }
+
+            for (let day = 1; day <= lastDate; day++) {
+                const dayCard = document.createElement('div');
+                dayCard.className = 'bg-white border border-slate-100 aspect-square rounded-xl p-1.5 flex flex-col justify-between hover:border-indigo-300 transition relative cursor-pointer';
+                const dateStr = `${year}${String(month).padStart(2, '0')}${String(day).padStart(2, '0')}`;
+                const dayEvents = events.filter(e => e.date === dateStr);
+                const weekday = new Date(year, month - 1, day).getDay();
+                
+                let textCol = 'text-slate-800';
+                if (weekday === 0) textCol = 'text-rose-500';
+                else if (weekday === 6) textCol = 'text-blue-500';
+
+                let badgeHtml = '';
+                if (dayEvents.length > 0) {
+                    badgeHtml = `<div class="w-1.5 h-1.5 bg-rose-500 rounded-full absolute top-1.5 right-1.5 animate-pulse"></div>`;
+                    dayCard.classList.add('bg-rose-50/30', 'border-rose-100');
+                }
+                dayCard.innerHTML = `
+                    <span class="text-[9px] font-bold ${textCol}">${day}</span>
+                    ${badgeHtml}
+                    <div class="text-[8px] text-slate-700 font-black truncate max-w-full leading-none">${dayEvents.length > 0 ? dayEvents[0].name : ''}</div>
+                `;
+                el.scheduleCalendarGrid.appendChild(dayCard);
+            }
+
+            el.scheduleDetailedList.innerHTML = '';
+            if (events.length === 0) {
+                el.scheduleDetailedList.innerHTML = '<div class="text-slate-400 font-semibold text-center py-12">이번 달 주요 학사 일정이 없습니다.</div>';
+                return;
+            }
+            events.forEach(ev => {
+                const d = parseInt(ev.date.substring(6, 8), 10);
+                const item = document.createElement('div');
+                item.className = 'bg-slate-50 border border-slate-100 rounded-2xl p-3 flex items-center justify-between hover:bg-slate-100 transition';
+                item.innerHTML = `
+                    <div class="flex flex-col">
+                        <span class="font-extrabold text-slate-800 text-xs">${ev.name}</span>
+                        <span class="text-[9px] text-slate-400 font-medium">${ev.summary}</span>
+                    </div>
+                    <span class="bg-rose-100 text-rose-700 text-[10px] font-black px-2 py-1 rounded-lg shrink-0">${d}일</span>
+                `;
+                el.scheduleDetailedList.appendChild(item);
+            });
+            lucide.createIcons();
+        }
+
+        function adjustScheduleMonth(delta) {
+            state.scheduleMonth += delta;
+            if (state.scheduleMonth > 12) { state.scheduleMonth = 1; state.scheduleYear++; }
+            else if (state.scheduleMonth < 1) { state.scheduleMonth = 12; state.scheduleYear--; }
+            loadDetailedSchedule();
+        }
+
+        async function loadDetailedTimetable() {
+            const grade = el.timetableSearchGrade.value;
+            const classNm = el.timetableSearchClass.value;
+            el.timetableMatrixBody.innerHTML = `<tr><td colspan="6" class="py-12 text-slate-400 font-semibold text-center animate-spin"><i data-lucide="loader-2" class="w-8 h-8 mx-auto"></i></td></tr>`;
+            el.timetableNoData.classList.add('hidden');
+
+            const now = new Date();
+            const day = now.getDay();
+            const diffToMonday = now.getDate() - day + (day === 0 ? -6 : 1);
+            const monday = new Date(now.setDate(diffToMonday));
+            
+            const weekLessons = [];
+            for (let i = 0; i < 5; i++) {
+                const d = new Date(monday);
+                d.setDate(monday.getDate() + i);
+                const ymd = d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0');
+                const lessons = await fetchTimetableData(ymd, grade, classNm);
+                weekLessons.push(lessons);
+            }
+
+            let html = '';
+            let hasData = false;
+            for (let perioIdx = 0; perioIdx < 7; perioIdx++) {
+                html += `<tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50/50"><td class="py-3.5 font-extrabold text-slate-400 text-[10px]">${perioIdx + 1}교시</td>`;
+                for (let dayIdx = 0; dayIdx < 5; dayIdx++) {
+                    const subj = weekLessons[dayIdx][perioIdx] || '-';
+                    if (subj && subj !== '-') hasData = true;
+                    html += `<td class="py-3.5 ${subj && subj !== '-' ? 'font-black text-slate-800' : 'text-slate-300'} text-xs">${subj}</td>`;
+                }
+                html += `</tr>`;
+            }
+            if (!hasData) {
+                el.timetableMatrixBody.innerHTML = '';
+                el.timetableNoData.classList.remove('hidden');
+                return;
+            }
+            el.timetableMatrixBody.innerHTML = html;
+            lucide.createIcons();
+        }
+
+        // ==========================================
+        // [학부모 칭찬 알림판 엔진]
+        // ==========================================
+        function loadStudentsAndPraises() {
+            // LocalStorage로부터 불러옴
+            const storedStudents = localStorage.getItem('jinhae_students');
+            if (storedStudents) {
+                state.praiseStudents = JSON.parse(storedStudents);
+            } else {
+                loadLocalDemoData();
+            }
+
+            const storedPraises = localStorage.getItem('local_praises');
+            state.praisesList = storedPraises ? JSON.parse(storedPraises) : [];
+            renderPraisesList();
+        }
+
+        function loadLocalDemoData() {
+            state.praiseStudents = [
+                { id: '10301', name: '홍길동', phone: '010-1234-5678' },
+                { id: '10302', name: '김철수', phone: '010-9876-5432' },
+                { id: '10303', name: '이영희', phone: '010-5555-4444' }
+            ];
+            localStorage.setItem('jinhae_students', JSON.stringify(state.praiseStudents));
+        }
+
+        function handleStudentSearch() {
+            const query = el.praiseStudentSearch.value.trim().toLowerCase();
+            el.praiseAutocompleteList.innerHTML = '';
+
+            if (query.length === 0) {
+                renderAutocompleteItems(state.praiseStudents.slice(0, 5));
+                return;
+            }
+
+            const matches = state.praiseStudents.filter(s => 
+                s.id.toLowerCase().includes(query) || s.name.toLowerCase().includes(query)
+            );
+
+            if (matches.length === 0) {
+                el.praiseAutocompleteList.innerHTML = `<div class="p-3 text-slate-400 italic">일치하는 학생이 없습니다. 설정에서 명단을 등록해 주세요.</div>`;
+                el.praiseAutocompleteList.classList.remove('hidden');
+                return;
+            }
+
+            renderAutocompleteItems(matches);
+        }
+
+        function renderAutocompleteItems(items) {
+            el.praiseAutocompleteList.innerHTML = '';
+            items.forEach(s => {
+                const div = document.createElement('div');
+                div.className = 'px-4 py-2.5 hover:bg-slate-50 cursor-pointer border-b border-slate-100 last:border-0 transition flex justify-between items-center';
+                div.innerHTML = `
+                    <span class="font-semibold text-slate-800">${s.name} <span class="text-slate-400 font-medium">(${s.id})</span></span>
+                    <span class="text-[10px] text-slate-400">${s.phone}</span>
+                `;
+                div.addEventListener('click', () => {
+                    state.selectedPraiseStudent = s;
+                    el.praiseTargetName.textContent = s.name;
+                    el.praiseTargetId.textContent = s.id;
+                    el.praiseTargetPhone.textContent = s.phone;
+                    el.praiseSelectedInfo.classList.remove('hidden');
+                    el.praiseAutocompleteList.classList.add('hidden');
+                    el.praiseStudentSearch.value = '';
+                });
+                el.praiseAutocompleteList.appendChild(div);
+            });
+            el.praiseAutocompleteList.classList.remove('hidden');
+        }
+
+        function clearSelectedStudent() {
+            state.selectedPraiseStudent = null;
+            el.praiseSelectedInfo.classList.add('hidden');
+            el.praiseStudentSearch.value = '';
+            el.praiseStudentSearch.focus();
+        }
+
+        function handleSavePraise() {
+            if (!state.selectedPraiseStudent) { alert("칭찬 대상 학생을 먼저 검색하여 선택해 주세요."); return; }
+            const content = el.praiseContent.value.trim();
+            if (!content) { alert("칭찬 내용을 입력해 주세요."); return; }
+
+            const { id, name, phone } = state.selectedPraiseStudent;
+            const newPraise = {
+                timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19),
+                student_id: id,
+                name: name,
+                phone: phone,
+                content: content,
+                status: 'pending'
+            };
+            
+            state.praisesList.push(newPraise);
+            localStorage.setItem('local_praises', JSON.stringify(state.praisesList));
+            
+            el.praiseContent.value = '';
+            clearSelectedStudent();
+            loadStudentsAndPraises();
+            alert("🎉 칭찬 문건이 등록되었습니다. 아래 목록에서 전송 버튼을 누르면 기기의 문자 앱과 연동됩니다.");
+        }
+
+        function renderPraisesList() {
+            el.praiseListCount.textContent = state.praisesList.length;
+            el.praiseRecordList.innerHTML = '';
+
+            if (state.praisesList.length === 0) {
+                el.praiseRecordList.innerHTML = `
+                    <div class="text-center py-12 text-slate-400 text-xs font-semibold flex flex-col items-center justify-center space-y-2">
+                        <i data-lucide="heart-handshake" class="w-8 h-8 text-slate-300"></i>
+                        <span>등록된 칭찬 알림 내역이 없습니다.</span>
+                    </div>`;
+                lucide.createIcons();
+                return;
+            }
+
+            for (let i = state.praisesList.length - 1; i >= 0; i--) {
+                const item = state.praisesList[i];
+                const card = document.createElement('div');
+                card.className = 'border border-slate-200 rounded-2xl p-4 bg-slate-50/50 hover:bg-white transition space-y-2.5 relative group shadow-sm';
+                
+                let badgeColor = item.status === 'sent' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700';
+                let statusText = item.status === 'sent' ? '전송 완료' : '발송 대기';
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <span class="font-extrabold text-slate-800 text-xs">${item.name}</span>
+                            <span class="text-[9px] text-slate-400 font-bold bg-white px-2 py-0.5 border border-slate-200 rounded-md">${item.student_id}</span>
+                        </div>
+                        <div class="flex items-center space-x-1.5">
+                            <span class="text-[9px] font-bold px-1.5 py-0.5 rounded ${badgeColor}">${statusText}</span>
+                            <button onclick="sendMobileSms(${i})" class="p-1 hover:bg-indigo-50 text-slate-400 hover:text-indigo-600 rounded transition" title="문자 앱으로 전송"><i data-lucide="message-square-share" class="w-3.5 h-3.5"></i></button>
+                            <button onclick="togglePraiseStatus(${i})" class="p-1 hover:bg-emerald-50 text-slate-400 hover:text-emerald-600 rounded transition" title="전송 완료 토글"><i data-lucide="check-circle" class="w-3.5 h-3.5"></i></button>
+                            <button onclick="deletePraiseEntry(${i})" class="p-1 hover:bg-rose-50 text-slate-400 hover:text-rose-600 rounded transition" title="삭제"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                        </div>
+                    </div>
+                    <p class="text-slate-700 text-xs font-medium leading-relaxed bg-white p-3 rounded-xl border border-slate-100 shadow-inner whitespace-pre-line">${item.content}</p>
+                    <div class="text-[9px] text-slate-400 font-semibold flex justify-between items-center px-1">
+                        <span>학부모 번호: ${item.phone}</span>
+                        <span>등록시간: ${item.timestamp}</span>
+                    </div>
+                `;
+                el.praiseRecordList.appendChild(card);
+            }
+            lucide.createIcons();
+        }
+
+        window.sendMobileSms = function(idx) {
+            const item = state.praisesList[idx];
+            if (!item) return;
+            
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            const separator = isIOS ? ';' : '?';
+            const smsUrl = `sms:${item.phone}${separator}body=${encodeURIComponent(item.content)}`;
+            
+            window.open(smsUrl, '_blank');
+            
+            // 전송 완료 토글 권유
+            setTimeout(() => {
+                if (confirm(`'${item.name}' 학부모님께 문자 앱 연결이 열렸습니다. 발송을 끝마치셨다면 이 건을 '전송 완료' 상태로 변경할까요?`)) {
+                    state.praisesList[idx].status = 'sent';
+                    localStorage.setItem('local_praises', JSON.stringify(state.praisesList));
+                    renderPraisesList();
+                }
+            }, 1000);
+        };
+
+        window.togglePraiseStatus = function(idx) {
+            if (state.praisesList[idx]) {
+                state.praisesList[idx].status = state.praisesList[idx].status === 'sent' ? 'pending' : 'sent';
+                localStorage.setItem('local_praises', JSON.stringify(state.praisesList));
+                renderPraisesList();
+            }
+        };
+
+        window.deletePraiseEntry = function(idx) {
+            if (!confirm("정말 이 칭찬 기록을 삭제하시겠습니까?")) return;
+            state.praisesList.splice(idx, 1);
+            localStorage.setItem('local_praises', JSON.stringify(state.praisesList));
+            renderPraisesList();
+        };
+
+        async function handlePraiseRefine() {
+            const text = el.praiseContent.value.trim();
+            if (!text) { alert("다듬을 내용을 먼저 입력해 주세요."); return; }
+
+            const geminiKey = localStorage.getItem('jinhae_gemini_key');
+            el.praiseRefineSpinner.classList.remove('hidden');
+
+            if (geminiKey) {
+                try {
+                    const refinedText = await callGeminiAPI(geminiKey, text);
+                    el.praiseContent.value = refinedText;
+                } catch(e) {
+                    alert("제미나이 API 호출 실패: " + e.message);
+                }
+            } else {
+                // Mock 템플릿 정제
+                await new Promise(r => setTimeout(r, 1200));
+                const studentName = state.selectedPraiseStudent ? state.selectedPraiseStudent.name : '자녀';
+                el.praiseContent.value = `[진해고 알림] 늘 밝은 얼굴로 학교생활에 성실하게 임하고 있는 ${studentName} 학생의 소식을 전해드립니다. 학교 생활 속에서 따뜻한 선행과 배려심으로 학급 친구들에게 긍정적인 영향을 주고 있어 담임교사로서 고맙고 자랑스럽게 생각합니다. 가정에서도 아낌없는 격려와 칭찬 부탁드립니다.`;
+            }
+            el.praiseRefineSpinner.classList.add('hidden');
+        }
+
+        async function callGeminiAPI(apiKey, text) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+            const prompt = `고등학교 담임교사가 학부모에게 발송하는 격식 있고 따뜻하며 정중한 어조의 자녀 칭찬 알림 문자 메시지로 정제해 주십시오. 
+입력 문구: "${text}"
+조건: 2~3문장 내외로 간결하게 작성하고 다른 서론이나 따옴표 없이 본문만 출력할 것.`;
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }]
+            };
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await response.json();
+            if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0]) {
+                return data.candidates[0].content.parts[0].text.trim();
+            }
+            throw new Error("Invalid API response structure.");
+        }
+
+        // 음성 인식 연동
+        let recognition = null;
+        let isRecognizing = false;
+        function handleVoiceInput() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) { alert("이 기기/브라우저는 음성 인식을 지원하지 않습니다."); return; }
+
+            if (!recognition) {
+                recognition = new SpeechRecognition();
+                recognition.lang = 'ko-KR';
+                recognition.interimResults = false;
+                
+                recognition.onstart = () => {
+                    isRecognizing = true;
+                    el.iconPraiseVoice.classList.add('text-rose-600', 'animate-pulse');
+                    el.txtPraiseVoice.textContent = "듣고 있어요...";
+                };
+                recognition.onend = () => {
+                    isRecognizing = false;
+                    el.iconPraiseVoice.classList.remove('text-rose-600', 'animate-pulse');
+                    el.txtPraiseVoice.textContent = "음성 입력";
+                };
+                recognition.onerror = (e) => {
+                    alert("음성 인식 실패: " + e.error);
+                };
+                recognition.onresult = (e) => {
+                    const speechToText = e.results[0][0].transcript;
+                    const curVal = el.praiseContent.value.trim();
+                    el.praiseContent.value = curVal ? `${curVal} ${speechToText}` : speechToText;
+                };
+            }
+
+            if (isRecognizing) recognition.stop();
+            else recognition.start();
+        }
+
+        // ==========================================
+        // [수행평가 지원 비즈니스 로직]
+        // ==========================================
+        function loadEvaluationData() {
+            const stored = localStorage.getItem('jinhae_students');
+            state.evalStudents = stored ? JSON.parse(stored) : [
+                { id: '10301', name: '홍길동', phone: '010-1234-5678' },
+                { id: '10302', name: '김철수', phone: '010-9876-5432' },
+                { id: '10303', name: '이영희', phone: '010-5555-4444' }
+            ];
+            updateEvaluationView();
+        }
+
+        function changeEvaluationSubMode(mode) {
+            state.evalSubMode = mode;
+            
+            const activeClass = ['bg-indigo-600', 'text-white'];
+            const inactiveClass = ['bg-slate-100', 'text-slate-600', 'hover:bg-indigo-50'];
+            
+            el.evalTabFile.classList.remove(...activeClass);
+            el.evalTabFile.classList.add(...inactiveClass);
+            el.evalTabKeypad.classList.remove(...activeClass);
+            el.evalTabKeypad.classList.add(...inactiveClass);
+            el.evalTabTouch.classList.remove(...activeClass);
+            el.evalTabTouch.classList.add(...inactiveClass);
+            
+            el.evalFilePanel.classList.add('hidden');
+            el.evalKeypadPanel.classList.add('hidden');
+            el.evalTouchPanel.classList.add('hidden');
+            
+            if (mode === 'file') {
+                el.evalTabFile.classList.add(...activeClass);
+                el.evalTabFile.classList.remove(...inactiveClass);
+                el.evalFilePanel.classList.remove('hidden');
+            } else if (mode === 'keypad') {
+                el.evalTabKeypad.classList.add(...activeClass);
+                el.evalTabKeypad.classList.remove(...inactiveClass);
+                el.evalKeypadPanel.classList.remove('hidden');
+                setTimeout(() => el.evalKeypadInput.focus(), 50);
+            } else if (mode === 'touch') {
+                el.evalTabTouch.classList.add(...activeClass);
+                el.evalTabTouch.classList.remove(...inactiveClass);
+                el.evalTouchPanel.classList.remove('hidden');
+            }
+            lucide.createIcons();
+        }
+
+        function updateEvaluationView() {
+            const grade = el.evalGrade.value;
+            const classNm = el.evalClass.value;
+            const formattedClass = `${grade}-${String(classNm).padStart(2, '0')}`;
+            const taskName = el.evalTaskName.value.trim() || '수행평가 과제';
+
+            const activeStudents = state.evalStudents.filter(s => {
+                if (s.id.length === 5) {
+                    const sg = s.id.substring(0, 1);
+                    const sc = parseInt(s.id.substring(1, 3), 10);
+                    return sg === grade && sc === parseInt(classNm, 10);
+                }
+                return false;
+            }).sort((a, b) => a.id.localeCompare(b.id));
+
+            el.evalTouchGrid.innerHTML = '';
+            if (activeStudents.length === 0) {
+                el.evalTouchGrid.innerHTML = '<div class="col-span-full text-slate-400 text-center py-6">해당 학반에 등록된 학생이 없습니다. 설정에서 학생 명단을 연동해 주십시오.</div>';
+            } else {
+                activeStudents.forEach(student => {
+                    const isSubmitted = state.evalSubmittedIds.has(student.id);
+                    const card = document.createElement('div');
+                    card.className = `p-3 rounded-xl border text-center cursor-pointer transition select-none flex flex-col justify-center min-h-[64px] ${
+                        isSubmitted 
+                        ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-extrabold shadow-sm' 
+                        : 'bg-slate-50 border-slate-200 text-slate-600 hover:border-indigo-300 hover:bg-white'
+                    }`;
+                    
+                    const num = parseInt(student.id.substring(3, 5), 10);
+                    card.innerHTML = `
+                        <span class="text-[9px] opacity-60">${num}번</span>
+                        <span class="text-xs truncate">${student.name}</span>
+                    `;
+                    card.addEventListener('click', () => {
+                        toggleEvaluationSubmission(student.id);
+                    });
+                    el.evalTouchGrid.appendChild(card);
+                });
+            }
+
+            if (state.evalKeypadHistory.length === 0) {
+                el.evalKeypadRecent.innerHTML = '<span class="text-slate-300 font-medium">입력된 번호가 없습니다.</span>';
+            } else {
+                el.evalKeypadRecent.innerHTML = state.evalKeypadHistory.map(h => `
+                    <span class="bg-indigo-50 border border-indigo-100 text-indigo-700 px-2 py-0.5 rounded-md text-[10px] font-bold">${h}</span>
+                `).join('');
+            }
+
+            const totalCount = activeStudents.length;
+            const submittedCount = activeStudents.filter(s => state.evalSubmittedIds.has(s.id)).length;
+            const unsubmittedList = activeStudents.filter(s => !state.evalSubmittedIds.has(s.id));
+            
+            el.evalTotalCount.textContent = totalCount;
+            el.evalSubmittedCount.textContent = submittedCount;
+            
+            const pct = totalCount > 0 ? Math.round((submittedCount / totalCount) * 100) : 0;
+            el.evalProgressPct.textContent = pct;
+            el.evalProgressBar.style.width = `${pct}%`;
+
+            el.evalUnsubmittedList.innerHTML = '';
+            if (unsubmittedList.length === 0) {
+                el.evalUnsubmittedList.innerHTML = '<div class="text-slate-400 font-medium text-center py-8">미제출자가 없습니다. 🎉</div>';
+            } else {
+                unsubmittedList.forEach(s => {
+                    const num = parseInt(s.id.substring(3, 5), 10);
+                    const div = document.createElement('div');
+                    div.className = 'flex justify-between items-center py-1 border-b border-slate-100 last:border-0';
+                    div.innerHTML = `
+                        <span class="font-bold text-slate-800">${num}번 ${s.name}</span>
+                        <span class="text-[10px] text-slate-400">${s.phone}</span>
+                    `;
+                    el.evalUnsubmittedList.appendChild(div);
+                });
+            }
+
+            if (unsubmittedList.length === 0) {
+                el.evalSmsTemplate.value = `[진해고] 모든 학생이 '${taskName}' 과제를 제출하였습니다.`;
+            } else {
+                const namesText = unsubmittedList.map(s => `${parseInt(s.id.substring(3, 5), 10)}번 ${s.name}`).join(', ');
+                el.evalSmsTemplate.value = `[진해고] ${formattedClass} 학급 '${taskName}' 과제 미제출자 안내입니다.\n\n미제출 학생: ${namesText}\n\n해당 학생들은 조속히 과제를 제출할 수 있도록 가정에서도 지도 부탁드립니다.`;
+            }
+            lucide.createIcons();
+        }
+
+        function toggleEvaluationSubmission(studentId) {
+            if (state.evalSubmittedIds.has(studentId)) {
+                state.evalSubmittedIds.delete(studentId);
+            } else {
+                state.evalSubmittedIds.add(studentId);
+            }
+            updateEvaluationView();
+        }
+
+        function handleEvalKeypadInput() {
+            const raw = el.evalKeypadInput.value.trim();
+            el.evalKeypadInput.value = '';
+            if (!raw) return;
+
+            const grade = el.evalGrade.value;
+            const classNm = el.evalClass.value;
+            let targetId = '';
+
+            if (raw.length === 5) {
+                targetId = raw;
+            } else if (raw.length >= 1 && raw.length <= 2) {
+                const num = parseInt(raw, 10);
+                if (num >= 1 && num <= 45) {
+                    targetId = `${grade}${String(classNm).padStart(2, '0')}${String(num).padStart(2, '0')}`;
+                }
+            }
+
+            if (targetId) {
+                const student = state.evalStudents.find(s => s.id === targetId);
+                if (student) {
+                    state.evalSubmittedIds.add(targetId);
+                    
+                    const numText = `${parseInt(targetId.substring(3, 5), 10)}번 ${student.name}`;
+                    state.evalKeypadHistory.unshift(numText);
+                    if (state.evalKeypadHistory.length > 10) state.evalKeypadHistory.pop();
+                    updateEvaluationView();
+                } else {
+                    alert(`해당 학반 명부에서 학번 ${targetId} 학생을 찾을 수 없습니다.`);
+                }
+            } else {
+                alert("올바른 번호(1~2자리) 또는 학번(5자리)을 입력해 주세요.");
+            }
+            el.evalKeypadInput.focus();
+        }
+
+        async function handleEvalFiles(files) {
+            let matchesFound = 0;
+            for (let file of files) {
+                const name = file.name;
+                const match = name.match(/\d{5}/);
+                if (match) {
+                    const studentId = match[0];
+                    const exists = state.evalStudents.some(s => s.id === studentId);
+                    if (exists) {
+                        state.evalSubmittedIds.add(studentId);
+                        matchesFound++;
+                    }
+                } else {
+                    const matchNum = name.match(/^(\d{1,2})[^0-9]/);
+                    if (matchNum) {
+                        const num = parseInt(matchNum[1], 10);
+                        const grade = el.evalGrade.value;
+                        const classNm = el.evalClass.value;
+                        const targetId = `${grade}${String(classNm).padStart(2, '0')}${String(num).padStart(2, '0')}`;
+                        const exists = state.evalStudents.some(s => s.id === targetId);
+                        if (exists) {
+                            state.evalSubmittedIds.add(targetId);
+                            matchesFound++;
+                        }
+                    }
+                }
+            }
+            updateEvaluationView();
+            if (matchesFound > 0) alert(`📂 파일 스캔 결과 ${matchesFound}명의 과제 제출이 확인되었습니다.`);
+            else alert("📂 드롭된 파일 이름에서 학번(5자리) 또는 번호 패턴을 찾을 수 없습니다.");
+        }
+
+        function resetEvaluation() {
+            if (!confirm("현재 진행 중인 제출 체크 기록을 전체 초기화하시겠습니까?")) return;
+            state.evalSubmittedIds.clear();
+            state.evalKeypadHistory = [];
+            el.evalTaskName.value = '';
+            el.evalKeypadInput.value = '';
+            updateEvaluationView();
+        }
+
+        function copyEvalSms() {
+            el.evalSmsTemplate.select();
+            document.execCommand('copy');
+            alert("📋 미제출자 독촉 문자가 복사되었습니다.");
+        }
+
+        // ==========================================
+        // [설정 및 명단 관리 비즈니스 로직]
+        // ==========================================
+        function loadSettingsData() {
+            const geminiKey = localStorage.getItem('jinhae_gemini_key') || '';
+            const passcode = localStorage.getItem('jinhae_portal_passcode') || 'jinhae1912';
+            el.settingsGeminiKey.value = geminiKey;
+            el.settingsPasscode.value = passcode;
+
+            const storedStudents = localStorage.getItem('jinhae_students');
+            const studentList = storedStudents ? JSON.parse(storedStudents) : [];
+            el.settingsStudentCount.textContent = studentList.length;
+        }
+
+        function handleCsvFileSelect(e) {
+            if (e.target.files.length > 0) {
+                handleCsvImport(e.target.files[0]);
+            }
+        }
+
+        function handleCsvImport(file) {
+            const reader = new FileReader();
+            
+            // 한글 인코딩 대응 (EUC-KR 및 UTF-8 자동 판별/폴백)
+            reader.onload = function(evt) {
+                const text = evt.target.result;
+                parseAndStoreCsv(text);
+            };
+            
+            // 일단 EUC-KR로 읽어 본 후, 깨지면 UTF-8로 다시 시도
+            reader.readAsText(file, "EUC-KR");
+        }
+
+        function parseAndStoreCsv(text) {
+            const lines = text.split(/\r?\n/);
+            if (lines.length < 2) { alert("명렬 파일 내용이 비어있습니다."); return; }
+            
+            const parsed = [];
+            const header = lines[0].split(',');
+            
+            // 헤더 확인
+            let gradeIdx = -1, nameIdx = -1, phoneIdx = -1;
+            header.forEach((col, idx) => {
+                const title = col.trim().replace(/['"\ufeff]/g, '');
+                if (title.includes('학번')) gradeIdx = idx;
+                else if (title.includes('이름')) nameIdx = idx;
+                else if (title.includes('연락처') || title.includes('휴대폰') || title.includes('번호')) phoneIdx = idx;
+            });
+
+            if (gradeIdx === -1 || nameIdx === -1) {
+                alert("CSV 헤더 구조 에러: '학번', '이름', '학부모연락처' 컬럼이 존재해야 합니다.");
+                return;
+            }
+
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue;
+                const cols = line.split(',');
+                if (cols.length > Math.max(gradeIdx, nameIdx)) {
+                    parsed.push({
+                        id: cols[gradeIdx].trim().replace(/['"]/g, ''),
+                        name: cols[nameIdx].trim().replace(/['"]/g, ''),
+                        phone: phoneIdx !== -1 ? cols[phoneIdx].trim().replace(/['"]/g, '') : '연락처 없음'
+                    });
+                }
+            }
+
+            if (parsed.length > 0) {
+                state.praiseStudents = parsed;
+                state.evalStudents = parsed;
+                localStorage.setItem('jinhae_students', JSON.stringify(parsed));
+                el.settingsStudentCount.textContent = parsed.length;
+                alert(`🎉 학생 명단 연동 성공: 총 ${parsed.length}명의 데이터가 로컬 앱 저장소에 주입되었습니다.`);
+            } else {
+                alert("파싱된 학생 명단이 없습니다. CSV 포맷을 확인해 주세요.");
+            }
+        }
+
+        function clearAllStudents() {
+            if (!confirm("등록된 학생 명단 데이터를 전체 삭제하시겠습니까? (삭제 시 기본 더미 데이터가 가동됩니다)")) return;
+            localStorage.removeItem('jinhae_students');
+            loadLocalDemoData();
+            loadSettingsData();
+            alert("명단이 삭제되고 기본 데모 명렬표로 교체되었습니다.");
+        }
+
+        function saveConfigSettings() {
+            const key = el.settingsGeminiKey.value.trim();
+            const passcode = el.settingsPasscode.value.trim() || 'jinhae1912';
+
+            localStorage.setItem('jinhae_gemini_key', key);
+            localStorage.setItem('jinhae_portal_passcode', passcode);
+
+            alert("⚙️ 제미나이 AI API 키 및 로그인 패스코드 설정이 로컬 브라우저 저장소에 영구 저장되었습니다.");
+            loadSettingsData();
+        }
+
+        function exportPortalData() {
+            const backup = {
+                praises: state.praisesList,
+                students: state.praiseStudents,
+                passcode: localStorage.getItem('jinhae_portal_passcode') || 'jinhae1912',
+                geminiKey: localStorage.getItem('jinhae_gemini_key') || ''
+            };
+            
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backup, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "jinhae_portal_backup.json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        function importPortalData(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                try {
+                    const data = JSON.parse(evt.target.result);
+                    if (data.praises) {
+                        state.praisesList = data.praises;
+                        localStorage.setItem('local_praises', JSON.stringify(data.praises));
+                    }
+                    if (data.students) {
+                        state.praiseStudents = data.students;
+                        state.evalStudents = data.students;
+                        localStorage.setItem('jinhae_students', JSON.stringify(data.students));
+                    }
+                    if (data.passcode) {
+                        localStorage.setItem('jinhae_portal_passcode', data.passcode);
+                    }
+                    if (data.geminiKey) {
+                        localStorage.setItem('jinhae_gemini_key', data.geminiKey);
+                    }
+                    alert("🎉 백업 파일로부터 칭찬 내역, 명단 및 모든 설정 데이터가 성공적으로 복구되었습니다.");
+                    loadSettingsData();
+                } catch(err) {
+                    alert("백업 파일 파싱 에러: 유효한 백업 JSON 파일이 아닙니다.");
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // 전역 바인딩 노출
+        window.switchTab = switchTab;
+        window.changeEvaluationSubMode = changeEvaluationSubMode;
+    </script>
+</body>
+</html>

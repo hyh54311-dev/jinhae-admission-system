@@ -1,0 +1,160 @@
+HREF: #lnb
+CLASS: []
+TEXT: 메뉴 영역으로 바로가기
+
+HREF: #content
+CLASS: []
+TEXT: 본문 영역으로 바로가기
+
+HREF: #
+CLASS: ['bt_atcp', '_btn_arw']
+TEXT: 자동완성 레이어검색 레이어
+
+HREF: #
+CLASS: ['txt', 'txt_option', '_calendar_select_trigger']
+TEXT: 직접입력옵션펼치기접기
+
+HREF: #
+CLASS: ['spnew_bf', 'ico_calendar', '_start_trigger', 'selected']
+TEXT: 2026.06.15.
+
+HREF: #
+CLASS: ['spnew_bf', 'ico_calendar', '_end_trigger']
+TEXT: 2026.06.15.
+
+HREF: javascript:;
+CLASS: ['txt', 'txt_option', '_category_select_trigger']
+TEXT: 언론사 분류순옵션펼치기접기
+
+HREF: javascript:;
+CLASS: ['txt', 'txt_option', '_local_select_trigger']
+TEXT: 지역언론사별옵션펼치기접기
+
+HREF: javascript:;
+CLASS: ['txt', 'txt_option', '_abc_select_trigger']
+TEXT: 가나다순옵션펼치기접기
+
+HREF: javascript:;
+CLASS: ['btn_info', '_trigger']
+TEXT: 이 정보가 표시된 이유
+
+HREF: javascript:;
+CLASS: ['btn_toast', 'spnew_af', 'disabled']
+TEXT: 서비스 영역과 언론사의 선택 옵션이 유지됩니다.
+
+HREF: https://news.naver.com/main/static/channelPromotion.html
+CLASS: ['spnew_af', 'banner_link']
+TEXT: 언론사 선정언론사가 선정한 주요기사 혹은 심층기획 기사입니다.네이버 메인에서 보고 싶은 언론사를 구독하세요.
+
+HREF: https://www.gokorea.kr/news/articleView.html?idxno=869101
+CLASS: ['fender-ui_228e3bd1', 'WmRhsmHBd7CojDZe69QY']
+TEXT: 미국-이란 종전협상…코스피 8천선 회복하나?
+
+HREF: https://www.gokorea.kr/news/articleView.html?idxno=869101
+CLASS: ['fender-ui_228e3bd1', 'ZBeYZEceTe_4NtAIarmh']
+TEXT: 이 과정에서 프로그램매수호가의 일시효력정지, 즉 매수사이드카가발동되었다. 특히, 외국인은 2조2천40억원어치를 순매수하며 다시 '사자'로 전환, 시장에 활기를 불어넣었다. 이와 함께 반도체 주식에 대한 외국인 매수가 집중하면서 삼성전자와 SK하이닉스가 상승세를 나타냈다. 뉴욕증시에서는...
+
+HREF: https://www.gokorea.kr/news/articleView.html?idxno=869101
+CLASS: ['fender-ui_228e3bd1']
+TEXT: 
+
+HREF: https://www.ajunews.com/view/20260615083758831
+CLASS: ['fender-ui_228e3bd1', 'WmRhsmHBd7CojDZe69QY']
+TEXT: [마켓 프리뷰] 중동 리스크 해소 국면…코스피 상승 출발 전망
+
+HREF: https://www.ajunews.com/view/20260615083758831
+CLASS: ['fender-ui_228e3bd1', 'ZBeYZEceTe_4NtAIarmh']
+TEXT: 장 초반 유가증권시장에서 프로그램매수호가 일시효력정지(매수사이드카)가발동되기도 했다. 외국인은 2조2040억원을 순매수하며 25거래일 만에 순매수세로 전환했다. 이날 오전 8시 8분 기준 넥스트레이드(NXT) 프리마켓에서는 삼성전자가 전 거래일 대비 5.89% 오른 34만1500원, SK하이닉스가5.40...
+
+HREF: https://www.newspim.com/news/view/20260615000129
+CLASS: ['fender-ui_228e3bd1', 'WmRhsmHBd7CojDZe69QY']
+TEXT: [AI MY 증시전망] 종전 기대에 외국인 매수까지…상승 출발 전망
+
+HREF: https://www.newspim.com/news/view/20260615000129
+CLASS: ['fender-ui_228e3bd1', 'ZBeYZEceTe_4NtAIarmh']
+TEXT: 장 초반 코스피200 선물 급등으로 유가증권시장에 매수사이드카가발동되는 등 위험자산 선호가 빠르게 회복됐다. 시가총액 상위 종목도 대부분 상승했다. 삼성전자는 7.86%, SK하이닉스는 2.33% 올랐다. SK스퀘어, 삼성전자우, 현대차, LG에너지솔루션, 삼성생명, 삼성물산 등도 상승 마감했다. 반면...
+
+HREF: https://biz.heraldcorp.com/article/10771430?ref=naver
+CLASS: ['fender-ui_228e3bd1', 'WmRhsmHBd7CojDZe69QY']
+TEXT: “개장만 기다렸다” 마침내 미·이란 종전 합의 타결…코스피 상승 출...
+
+HREF: https://biz.heraldcorp.com/article/10771430?ref=naver
+CLASS: ['fender-ui_228e3bd1', 'ZBeYZEceTe_4NtAIarmh']
+TEXT: 급등장에 장 초반 유가증권시장에서 프로그램매수호가 일시효력정지(매수사이드카)가발동되기도 했다. 특히, 외국인이 2조2040억원 순매수하며 25거래일 만에 코스피 시장에서 ‘사자’로 돌아섰다. 외국인은 반도체주로 쏠리면서 삼성전자(7.86%), SK하이닉스(2.33%)가 동반 상승해 지수를 끌어올렸다....
+
+HREF: https://biz.sbs.co.kr/article_hub/20000316474?division=NAVER
+CLASS: ['fender-ui_228e3bd1', 'WmRhsmHBd7CojDZe69QY']
+TEXT: [어제장 오늘장] 미-이란 종전 합의…국내증시, 종전 랠리 시작될까
+
+HREF: https://biz.sbs.co.kr/article_hub/20000316474?division=NAVER
+CLASS: ['fender-ui_228e3bd1', 'ZBeYZEceTe_4NtAIarmh']
+TEXT: 코스피 장중에 대형주가 급등하며 매수사이드카가발동됐고, 코스닥은 5거래일 만에 천스닥 회복했습니다. 주간 단위로는 코스피 0.45% 내렸고, 코스닥은 2.65% 상승했습니다. 트럼프 대통령이 이란과 합의가 마무리됐고, MOU 최종 서명이 임박했다고 밝히자 종전 기대감이 커진 영향이었습니다. 다만 오후...
+
+HREF: https://www.tokenpost.kr/news/market/369282
+CLASS: ['fender-ui_228e3bd1', 'WmRhsmHBd7CojDZe69QY']
+TEXT: 코스피, 미국-이란 종전 합의 소식에 상승세 전망
+
+HREF: https://www.tokenpost.kr/news/market/369282
+CLASS: ['fender-ui_228e3bd1', 'ZBeYZEceTe_4NtAIarmh']
+TEXT: 장 초반에는 급격한 매수세가 몰리면서 유가증권시장에서 프로그램매수호가 일시효력정지, 이른바 매수사이드카가발동되기도 했다. 특히 외국인이 2조2천40억원어치를 순매수하며 25거래일 만에 매수 우위로 돌아선 점이 지수 반등의 핵심 동력이 됐다. 외국인 자금은 반도체 업종에 집중됐고...
+
+HREF: http://www.newsroad.co.kr/news/articleView.html?idxno=60412
+CLASS: ['fender-ui_228e3bd1', 'WmRhsmHBd7CojDZe69QY']
+TEXT: [증시전망대] 미·이란 종전 타결에 코스피 '9천피' 시동…외국인·반도...
+
+HREF: http://www.newsroad.co.kr/news/articleView.html?idxno=60412
+CLASS: ['fender-ui_228e3bd1', 'ZBeYZEceTe_4NtAIarmh']
+TEXT: 12일 장 초반 유가증권시장에서는 프로그램매수호가 일시효력정지(매수사이드카)가발동될 정도로 매수세가 거셌다. 외국인은 이날 하루에만 2조2040억원을 순매수하며 25거래일 만에 코스피 시장에서 '사자'로 돌아섰다. 외국인 매수는 삼성전자와 SK하이닉스 등 반도체 대형주에 집중됐고, 삼성전자는...
+
+HREF: https://www.yna.co.kr/view/AKR20260615020000008?input=1195m
+CLASS: ['fender-ui_228e3bd1', 'WmRhsmHBd7CojDZe69QY']
+TEXT: [마켓뷰] 미·이란 종전…코스피, 다시 '9천피' 향해 달리나
+
+HREF: https://www.yna.co.kr/view/AKR20260615020000008?input=1195m
+CLASS: ['fender-ui_228e3bd1', 'ZBeYZEceTe_4NtAIarmh']
+TEXT: 급등장에 장 초반 유가증권시장에서 프로그램매수호가 일시효력정지(매수사이드카)가발동되기도 했다. 외국인이 2조2천40억원 순매수하며 25거래일 만에 코스피 시장에서 '사자'로 돌아섰다. 외국인의 매기가 반도체주로 쏠리면서 삼성전자(7.86%), SK하이닉스(2.33%)가 동반 상승해 지수를 끌어올렸다....
+
+HREF: https://www.youthdaily.co.kr/news/article.html?no=220825
+CLASS: ['fender-ui_228e3bd1', 'WmRhsmHBd7CojDZe69QY']
+TEXT: [기자수첩]사이드카잦아진 증시…’묻지마 투자’ 경계해야
+
+HREF: https://www.youthdaily.co.kr/news/article.html?no=220825
+CLASS: ['fender-ui_228e3bd1', 'ZBeYZEceTe_4NtAIarmh']
+TEXT: 한국거래소에 따르면 올 들어 코스피 시장에서발동된사이드카는 이미 20회를 넘어섰다. 이는 글로벌 금융위기 당시인 2008년 연간발동횟수인 26회에 근접한 수준이다. 올 상반기가 끝나기도 전에 금융위기 당시 기록에 육박했다는 점에서 현재 시장 변동성의 수준을 짐작할 수 있다. 물론 시장 변동성 자체를...
+
+HREF: https://www.hankyung.com/article/2026061556296
+CLASS: ['fender-ui_228e3bd1', 'WmRhsmHBd7CojDZe69QY']
+TEXT: 널뛰는 코스피…증권가 "방어주 KT&G 투자 적기" [종목+]
+
+HREF: https://www.hankyung.com/article/2026061556296
+CLASS: ['fender-ui_228e3bd1', 'ZBeYZEceTe_4NtAIarmh']
+TEXT: 지난 8일과 10일에는 매도사이드카가, 9일과 12일에는 매수사이드카가발동됐다. 지난 11일을 제외하고 매도사이드카와 매수사이드카가 번갈아 울렸다. 지난 8일에는 서킷브레이커(20분간 매매 중단)도발동됐다. 이 기간 코스피지수는 널뛰기했다. 지난 8일 코스피는 8%대 급락하며 7400선까지...
+
+HREF: https://help.naver.com/alias/news/news_21.naver
+CLASS: ['banner_nmessage']
+TEXT: 뉴스 기사와 댓글로 인한 문제 발생시24시간 센터로 접수해주세요.
+
+HREF: https://mkt.naver.com/p1/atrb?channel_id=naver_pcsearchmktbanner&campaign_id=2603-naverclip-001&target=https%3A%2F%2Fclipcreators.naver.com%2Fpromotion%2Ftoday%3Fdtm_source%3Dnaver_pcsearchmktbanner%26dtm_medium%3Dmktatrb_etc%26dtm_campaign%3D2603-naverclip-001
+CLASS: ['spnew_bf', 'item']
+TEXT: 오늘의 경험, 클립으로 연결해요정보태그 붙이고 Npay포인트 적립
+
+HREF: https://mkt.naver.com/p1/atrb?channel_id=naver_pcsearchmktbanner&campaign_id=2512-shopping-024&material=L&target=https%3A%2F%2Fmkt.naver.com%2Fstore_discovery%3Fdtm_detail%3DL%26dtm_source%3Dnaver_pcsearchmktbanner%26dtm_medium%3Dmktatrb_etc%26dtm_campaign%3D2512-shopping-024
+CLASS: ['spnew_bf', 'item']
+TEXT: 화제의 인벤타리오문구 스토어 랭킹 공개
+
+HREF: https://mkt.naver.com/p1/atrb?channel_id=naver_pcsearchmktbanner&campaign_id=2604-shopping-033&target=https%3A%2F%2Fshopping.naver.com%2Ffesta%2Fonsale%2Ffood%2F69e0ad173cda702a9b5553dc%3Fdtm_source%3Dnaver_pcsearchmktbanner%26dtm_medium%3Dmktatrb_etc%26dtm_campaign%3D2604-shopping-033
+CLASS: ['spnew_bf', 'item']
+TEXT: 컬리N마트 5O% 첫 구매 혜택반값 쿠폰 받고 최대 2만원 적립까지
+
+HREF: https://mkt.naver.com/p1/atrb?channel_id=naver_pcsearchmktbanner&campaign_id=2606-sports-001&material=naver_pcsearchmktbanner_001&target=https%3A%2F%2Fm.sports.naver.com%2Ffifaworldcup2026%3Fdtm_detail%3Dnaver_pcsearchmktbanner_001%26dtm_source%3Dnaver_pcsearchmktbanner%26dtm_medium%3Dmktatrb_etc%26dtm_campaign%3D2606-sports-001
+CLASS: ['spnew_bf', 'item']
+TEXT: 2026 FIFA 북중미 월드컵네이버와 함께하세요
+
+HREF: https://www.navercorp.com/
+CLASS: ['link']
+TEXT: © NAVER Corp.
+
+HREF: https://www.navercorp.com/
+CLASS: ['link']
+TEXT: © NAVER Corp.
+

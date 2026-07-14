@@ -1,0 +1,656 @@
+Google Sheets list (UTF-8 clean):
+================================================================================
+Name: 2026. 자율적 교육과정 개세특 (3학년 반별)
+ID:   14oBXe4HmjyUQqlzIxiB32Xi4jakCg-UBR5D3jAJXjmM
+Link: https://docs.google.com/spreadsheets/d/14oBXe4HmjyUQqlzIxiB32Xi4jakCg-UBR5D3jAJXjmM/edit?usp=drivesdk
+Created: 2026-07-08T00:06:23.815Z | Modified: 2026-07-13T06:33:12.683Z
+Owners: sun851231s
+--------------------------------------------------------------------------------
+Name: 교사용 데스크탑 구입연월 조사
+ID:   1dHdSrPDQNfQRDR76E6n68DmXabgQuX37lHwckBfPggE
+Link: https://docs.google.com/spreadsheets/d/1dHdSrPDQNfQRDR76E6n68DmXabgQuX37lHwckBfPggE/edit?usp=drivesdk
+Created: 2026-07-13T02:01:57.039Z | Modified: 2026-07-13T05:57:13.594Z
+Owners: sooriya80
+--------------------------------------------------------------------------------
+Name: 진해고 비품 수리 요청서
+ID:   16kX3g2KVqBfnSaBifmxAmppN2Ncna0ZUr-ERkceRqkI
+Link: https://docs.google.com/spreadsheets/d/16kX3g2KVqBfnSaBifmxAmppN2Ncna0ZUr-ERkceRqkI/edit?usp=drivesdk
+Created: 2024-03-11T03:59:35.945Z | Modified: 2026-07-13T05:28:14.502Z
+Owners: admin.jhh
+--------------------------------------------------------------------------------
+Name: 전화통화녹음파일
+ID:   1CtFAtJnysSLa1JWExpPXzImvCxvvZcDU4OuiLqV0p10
+Link: https://docs.google.com/spreadsheets/d/1CtFAtJnysSLa1JWExpPXzImvCxvvZcDU4OuiLqV0p10/edit?usp=drivesdk
+Created: 2026-02-18T06:54:03.506Z | Modified: 2026-07-13T03:29:52.345Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 진해고 입학 홍보 챗봇 v2.0 질문과 답변
+ID:   12bXJl_SRj8mVIZBBADWix8ZZ5Rh7XKFodH62iGzDTF8
+Link: https://docs.google.com/spreadsheets/d/12bXJl_SRj8mVIZBBADWix8ZZ5Rh7XKFodH62iGzDTF8/edit?usp=drivesdk
+Created: 2026-04-22T05:30:35.201Z | Modified: 2026-07-13T03:29:52.193Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 제목 없는 스프레드시트
+ID:   1GG3_Yld5QSzqQ-Ai3XvNWbTosPyOqDSVaWiQEJ_43cY
+Link: https://docs.google.com/spreadsheets/d/1GG3_Yld5QSzqQ-Ai3XvNWbTosPyOqDSVaWiQEJ_43cY/edit?usp=drivesdk
+Created: 2026-07-10T01:26:19.176Z | Modified: 2026-07-13T02:39:47.356Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 교육과정 박람회
+ID:   1_o3k8JPUUQp59XICZ-AT1baL1afFqCU9AnY6Z0KnV0w
+Link: https://docs.google.com/spreadsheets/d/1_o3k8JPUUQp59XICZ-AT1baL1afFqCU9AnY6Z0KnV0w/edit?usp=drivesdk
+Created: 2026-07-13T01:28:33.891Z | Modified: 2026-07-13T01:32:02.230Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 진해고 정보화기기 유지 보수 일지
+ID:   1mBSa-qPgkW19z7Ia7_IsHsmx8YNh5NXV1wPD_r4ayXM
+Link: https://docs.google.com/spreadsheets/d/1mBSa-qPgkW19z7Ia7_IsHsmx8YNh5NXV1wPD_r4ayXM/edit?usp=drivesdk
+Created: 2023-04-20T02:31:22.339Z | Modified: 2026-07-12T23:40:44.708Z
+Owners: admin.jhh
+--------------------------------------------------------------------------------
+Name: 2학년 문학 오리엔테이션
+ID:   1cDTH4hXGN0e-ZA3rkBUjStRwjE4GRyyvmKxkBbG7ocM
+Link: https://docs.google.com/spreadsheets/d/1cDTH4hXGN0e-ZA3rkBUjStRwjE4GRyyvmKxkBbG7ocM/edit?usp=drivesdk
+Created: 2026-03-01T07:56:00.594Z | Modified: 2026-07-12T15:28:24.286Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026학년도 2학년 1학기 문학 출석부
+ID:   1iIM8J_tG6-E77bjvkTX5HJpJJnCS6WHl7hwTmTWJync
+Link: https://docs.google.com/spreadsheets/d/1iIM8J_tG6-E77bjvkTX5HJpJJnCS6WHl7hwTmTWJync/edit?usp=drivesdk
+Created: 2026-04-14T08:56:14.558Z | Modified: 2026-07-12T15:24:48.186Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026. 생활비
+ID:   1EReikad-ObOGz1eQBRrkcWhAq-ViHL38BmL6uCI7mqc
+Link: https://docs.google.com/spreadsheets/d/1EReikad-ObOGz1eQBRrkcWhAq-ViHL38BmL6uCI7mqc/edit?usp=drivesdk
+Created: 2026-03-25T02:12:54.278Z | Modified: 2026-07-11T01:27:37.034Z
+Owners: 박지혜
+--------------------------------------------------------------------------------
+Name: 2026학년도 1학기 자율적교육과정
+ID:   1VU8Kwa7c5wD0LlFaQaHoAmVt-Il9saOt6e9iGXqQReQ
+Link: https://docs.google.com/spreadsheets/d/1VU8Kwa7c5wD0LlFaQaHoAmVt-Il9saOt6e9iGXqQReQ/edit?usp=drivesdk
+Created: 2026-06-22T08:35:53.379Z | Modified: 2026-07-10T07:38:33.842Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026. 자율적 교육과정 개세특 (3학년 프로젝트 팀별)
+ID:   1pp7vDhJTgDbPWiq8dFfIHEoAbs_16OwDnhfyKjkviuI
+Link: https://docs.google.com/spreadsheets/d/1pp7vDhJTgDbPWiq8dFfIHEoAbs_16OwDnhfyKjkviuI/edit?usp=drivesdk
+Created: 2026-07-07T04:07:58.876Z | Modified: 2026-07-09T05:08:47.323Z
+Owners: sun851231s
+--------------------------------------------------------------------------------
+Name: 특별식 예약
+ID:   14Jjo0wItMXSuUZaUCgSPEEaLY7ACCHelfHUj5pMBZpU
+Link: https://docs.google.com/spreadsheets/d/14Jjo0wItMXSuUZaUCgSPEEaLY7ACCHelfHUj5pMBZpU/edit?usp=drivesdk
+Created: 2026-07-08T02:25:56.068Z | Modified: 2026-07-08T16:37:24.253Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026학년도 교직원 2차 구입 희망도서 신청서
+ID:   1QIaZOx2kwBB33tEBkvsynRDfDh8mnEka2ObDtaKCKPM
+Link: https://docs.google.com/spreadsheets/d/1QIaZOx2kwBB33tEBkvsynRDfDh8mnEka2ObDtaKCKPM/edit?usp=drivesdk
+Created: 2025-03-26T05:05:50.406Z | Modified: 2026-07-07T08:28:30.780Z
+Owners: kyehyung84
+--------------------------------------------------------------------------------
+Name: 26년 시험기간 교직원 중식
+ID:   1K08vJ8dfulLZV315zAYoBzL6nXXcF8eko3frjZywA88
+Link: https://docs.google.com/spreadsheets/d/1K08vJ8dfulLZV315zAYoBzL6nXXcF8eko3frjZywA88/edit?usp=drivesdk
+Created: 2025-04-23T01:19:14.085Z | Modified: 2026-07-06T02:15:07.587Z
+Owners: sejin950816
+--------------------------------------------------------------------------------
+Name: 진해고 프린터 토너 신청, 복사기 일지
+ID:   1mo8VwNcAPCOw0julQWpvMFUvHHbtwAVY0DHSFAaQcvk
+Link: https://docs.google.com/spreadsheets/d/1mo8VwNcAPCOw0julQWpvMFUvHHbtwAVY0DHSFAaQcvk/edit?usp=drivesdk
+Created: 2024-04-17T07:38:45.263Z | Modified: 2026-07-06T01:38:10.627Z
+Owners: admin.jhh
+--------------------------------------------------------------------------------
+Name: 2학년 명렬
+ID:   1K-qDRvGiv6hXFtbtHBOusqp1b7KH8j6r_8RRd_LHSmI
+Link: https://docs.google.com/spreadsheets/d/1K-qDRvGiv6hXFtbtHBOusqp1b7KH8j6r_8RRd_LHSmI/edit?usp=drivesdk
+Created: 2026-06-09T05:29:12.676Z | Modified: 2026-07-03T06:38:54.085Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 1학기 2회 시험 대기 교사
+ID:   1I8C4HoeaXnwl5sbuVd0kJPDoruRSAZyxEfphc9AFxrQ
+Link: https://docs.google.com/spreadsheets/d/1I8C4HoeaXnwl5sbuVd0kJPDoruRSAZyxEfphc9AFxrQ/edit?usp=drivesdk
+Created: 2026-04-16T01:07:05.149Z | Modified: 2026-07-02T22:56:54.274Z
+Owners: fabulousjjenny
+--------------------------------------------------------------------------------
+Name: 연수 이수 결과
+ID:   1d9lwuABtuKW6xAoB7BpJv-MJ8C3OS5mOu35UZVxIpx0
+Link: https://docs.google.com/spreadsheets/d/1d9lwuABtuKW6xAoB7BpJv-MJ8C3OS5mOu35UZVxIpx0/edit?usp=drivesdk
+Created: 2026-05-20T00:28:20.748Z | Modified: 2026-06-28T23:51:02.613Z
+Owners: felicityshout
+--------------------------------------------------------------------------------
+Name: 제목 없는 스프레드시트
+ID:   1P3EuWeLlxjmozKGPpow279Qyc_moSGt4QAzx68SqJBU
+Link: https://docs.google.com/spreadsheets/d/1P3EuWeLlxjmozKGPpow279Qyc_moSGt4QAzx68SqJBU/edit?usp=drivesdk
+Created: 2026-06-02T02:41:05.323Z | Modified: 2026-06-26T07:28:35.404Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 교직원 성관련 연수이수 여부
+ID:   1ZoWNBspxbGktKxR_5fxdJ0GHYlptpA2rlEEYEX5-gEM
+Link: https://docs.google.com/spreadsheets/d/1ZoWNBspxbGktKxR_5fxdJ0GHYlptpA2rlEEYEX5-gEM/edit?usp=drivesdk
+Created: 2026-06-23T00:28:45.802Z | Modified: 2026-06-24T05:22:17.943Z
+Owners: sunheekang925
+--------------------------------------------------------------------------------
+Name: 2026. 필수연수목록
+ID:   1w8yis9cpjyFW9E8TAdF_s2giChd6yhp9MdBE36N-IL0
+Link: https://docs.google.com/spreadsheets/d/1w8yis9cpjyFW9E8TAdF_s2giChd6yhp9MdBE36N-IL0/edit?usp=drivesdk
+Created: 2025-04-09T03:57:15.901Z | Modified: 2026-06-24T04:48:00.490Z
+Owners: eeeongee13
+--------------------------------------------------------------------------------
+Name: 2026학년도 3학년 1학기 독서(수능특강) 출석부
+ID:   14aNxKbgWSa0gGnWd90cCwrXZNEAgF7Sg2Un-rQMH_Do
+Link: https://docs.google.com/spreadsheets/d/14aNxKbgWSa0gGnWd90cCwrXZNEAgF7Sg2Un-rQMH_Do/edit?usp=drivesdk
+Created: 2026-06-12T07:16:34.759Z | Modified: 2026-06-22T23:43:30.984Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026학년도 2학기 문법 탐구 학습
+ID:   1eBxIut6dQIo3PoRvA9unwwBb4KQWlrBiyoXrTVMrLv4
+Link: https://docs.google.com/spreadsheets/d/1eBxIut6dQIo3PoRvA9unwwBb4KQWlrBiyoXrTVMrLv4/edit?usp=drivesdk
+Created: 2026-06-22T00:43:31.757Z | Modified: 2026-06-22T06:08:54.454Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 학생 응답 게시판
+ID:   1lWdTZAaIK4go8JRNeLzWpWvFUqhJ1WtaIcEQz_qnMe8
+Link: https://docs.google.com/spreadsheets/d/1lWdTZAaIK4go8JRNeLzWpWvFUqhJ1WtaIcEQz_qnMe8/edit?usp=drivesdk
+Created: 2026-06-22T03:49:25.065Z | Modified: 2026-06-22T04:08:48.136Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026학년도 2학기 문법 탐구 학습
+ID:   1X5IV_D62mZ9Fk8hM3KFbwplgIRY5TcJSmyZN3zsVmhM
+Link: https://docs.google.com/spreadsheets/d/1X5IV_D62mZ9Fk8hM3KFbwplgIRY5TcJSmyZN3zsVmhM/edit?usp=drivesdk
+Created: 2026-06-22T00:42:07.040Z | Modified: 2026-06-22T00:42:29.132Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 주제별 글 읽고 쓰기 활동 채점표(황 수정)
+ID:   17C2RJNVzt96RLOlnrv4mCL523MZ5X8QC_RHegXaO_UY
+Link: https://docs.google.com/spreadsheets/d/17C2RJNVzt96RLOlnrv4mCL523MZ5X8QC_RHegXaO_UY/edit?usp=drivesdk
+Created: 2026-06-19T02:01:02.431Z | Modified: 2026-06-19T02:08:39.944Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 문법 챗봇
+ID:   1fQ42oL4Zt1tqPy671ggo9FG8lodnuwBLL2y4gSySr2w
+Link: https://docs.google.com/spreadsheets/d/1fQ42oL4Zt1tqPy671ggo9FG8lodnuwBLL2y4gSySr2w/edit?usp=drivesdk
+Created: 2026-06-17T04:34:32.548Z | Modified: 2026-06-18T07:08:09.074Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2학년 명렬
+ID:   1ezZ0wVwTDeaRhflRAIJzQAmn_qB5idUNv4a7NcWLIzs
+Link: https://docs.google.com/spreadsheets/d/1ezZ0wVwTDeaRhflRAIJzQAmn_qB5idUNv4a7NcWLIzs/edit?usp=drivesdk
+Created: 2026-06-17T04:26:51.393Z | Modified: 2026-06-17T04:26:54.688Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2학년 명렬의 사본
+ID:   1n-iOZGpta-JGV4F8fz4_ZjE4S_fJfIWlFcKpBOcQk9c
+Link: https://docs.google.com/spreadsheets/d/1n-iOZGpta-JGV4F8fz4_ZjE4S_fJfIWlFcKpBOcQk9c/edit?usp=drivesdk
+Created: 2026-06-17T04:24:30.607Z | Modified: 2026-06-17T04:24:30.607Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 문법 챗봇
+ID:   1GZoPazTSwWtQy0flJC80A6V_hAo9BOBDB7Eeb_TFqp4
+Link: https://docs.google.com/spreadsheets/d/1GZoPazTSwWtQy0flJC80A6V_hAo9BOBDB7Eeb_TFqp4/edit?usp=drivesdk
+Created: 2026-06-17T04:20:22.017Z | Modified: 2026-06-17T04:22:07.775Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 웹앱(예시용)
+ID:   15iIn_44J8GufzyKjso1mP2BNDgQNH2zRu1kDKno6IVA
+Link: https://docs.google.com/spreadsheets/d/15iIn_44J8GufzyKjso1mP2BNDgQNH2zRu1kDKno6IVA/edit?usp=drivesdk
+Created: 2026-06-13T03:45:23.135Z | Modified: 2026-06-13T08:52:55.483Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: D라이브러리_웹기사_목록
+ID:   1WqQ0rXchonK3YAq9SXiJGjTJ5KnDEAa5OW920TSNEWE
+Link: https://docs.google.com/spreadsheets/d/1WqQ0rXchonK3YAq9SXiJGjTJ5KnDEAa5OW920TSNEWE/edit?usp=drivesdk
+Created: 2026-06-12T14:38:00.460Z | Modified: 2026-06-12T14:38:00.461Z
+Owners: haeok.lim
+--------------------------------------------------------------------------------
+Name: 2026학년도 1학기 2학년 문학 진도표
+ID:   1njSdSIs2jYu74SASzNBJrVVH9KQJ4kDJDyIyHMiZw8A
+Link: https://docs.google.com/spreadsheets/d/1njSdSIs2jYu74SASzNBJrVVH9KQJ4kDJDyIyHMiZw8A/edit?usp=drivesdk
+Created: 2026-02-25T19:01:51.994Z | Modified: 2026-06-10T12:22:20.052Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: KOSPI 시황 트래커
+ID:   14pdYRQsZnfnLpEdVWHHaqQGrzeNDbVU2yqsUC3leIpY
+Link: https://docs.google.com/spreadsheets/d/14pdYRQsZnfnLpEdVWHHaqQGrzeNDbVU2yqsUC3leIpY/edit?usp=drivesdk
+Created: 2026-06-10T01:20:09.391Z | Modified: 2026-06-10T06:39:01.255Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2학년 명렬
+ID:   1KgpBoxrQUwiqA86qJr9eB6KAckSNfuC7QJea-m7qiSg
+Link: https://docs.google.com/spreadsheets/d/1KgpBoxrQUwiqA86qJr9eB6KAckSNfuC7QJea-m7qiSg/edit?usp=drivesdk
+Created: 2026-03-16T05:10:44.251Z | Modified: 2026-06-09T06:18:03.458Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 구글 폼 생성용 시트
+ID:   1uXPT8g0wc8-Ryufwk3yTr2RmX5TMraW4v5t9mBxpKYw
+Link: https://docs.google.com/spreadsheets/d/1uXPT8g0wc8-Ryufwk3yTr2RmX5TMraW4v5t9mBxpKYw/edit?usp=drivesdk
+Created: 2026-06-05T06:05:55.882Z | Modified: 2026-06-08T04:41:05.690Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2025. 신입생 원서접수대장(12.15)
+ID:   10MKsvEpU6qd9hY9MUvM4w4UQoxmxeobOvflFdn_KWWM
+Link: https://docs.google.com/spreadsheets/d/10MKsvEpU6qd9hY9MUvM4w4UQoxmxeobOvflFdn_KWWM/edit?usp=drivesdk
+Created: 2026-03-10T02:38:40.430Z | Modified: 2026-06-05T05:42:27.128Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026학년도 1학기 교무기획부 경비 정산부
+ID:   1yHEJsvgtQ6crum5H3PuKZzoQzEOxUhs5tT1_WUJzGr8
+Link: https://docs.google.com/spreadsheets/d/1yHEJsvgtQ6crum5H3PuKZzoQzEOxUhs5tT1_WUJzGr8/edit?usp=drivesdk
+Created: 2026-04-03T04:35:33.910Z | Modified: 2026-06-05T01:49:31.829Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 공문_관리_대장
+ID:   1irIsLFYCggNyW5WBolfKW0IzA7_pjj7F6nSh7mwrOZc
+Link: https://docs.google.com/spreadsheets/d/1irIsLFYCggNyW5WBolfKW0IzA7_pjj7F6nSh7mwrOZc/edit?usp=drivesdk
+Created: 2026-03-27T06:02:02.028Z | Modified: 2026-06-05T01:00:11.913Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026학년도 1학기 3학년 독서(수능특강) 진도표
+ID:   1uwzh7t2K5igDR3UX5OYfQl2-tBqurlD9opzJCjsQuiI
+Link: https://docs.google.com/spreadsheets/d/1uwzh7t2K5igDR3UX5OYfQl2-tBqurlD9opzJCjsQuiI/edit?usp=drivesdk
+Created: 2026-02-27T17:05:52.021Z | Modified: 2026-06-04T00:58:00.535Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 성취평가제 연수 이수 여부
+ID:   144Sj-6EJ8KtIBSJJnaIUZnY3sMVEVNCxs5xa9f555wo
+Link: https://docs.google.com/spreadsheets/d/144Sj-6EJ8KtIBSJJnaIUZnY3sMVEVNCxs5xa9f555wo/edit?usp=drivesdk
+Created: 2026-04-13T04:20:27.973Z | Modified: 2026-06-02T05:39:10.862Z
+Owners: fabulousjjenny
+--------------------------------------------------------------------------------
+Name: 삼성바이오로직스 주가 알림
+ID:   1N2h9VzppwepaU0vLWNlZ8aTHeJ3vu_6Kfvwx7i-51Vk
+Link: https://docs.google.com/spreadsheets/d/1N2h9VzppwepaU0vLWNlZ8aTHeJ3vu_6Kfvwx7i-51Vk/edit?usp=drivesdk
+Created: 2026-05-13T06:05:57.108Z | Modified: 2026-06-01T04:34:32.371Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026학년도 진해고등학교 입학홍보단 합격자 명단
+ID:   1TToeuU1kLUyZASjBZGP3oFjgaA5Sc1NW9bScztP9CoQ
+Link: https://docs.google.com/spreadsheets/d/1TToeuU1kLUyZASjBZGP3oFjgaA5Sc1NW9bScztP9CoQ/edit?usp=drivesdk
+Created: 2026-05-27T01:35:45.654Z | Modified: 2026-05-27T04:26:37.433Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026학년도 진해고등학교 입학홍보단 지원서(응답)
+ID:   1EVwwxdU4rDRuqTHDSB-1cn5Bx85rqA_uo3disf4uVNo
+Link: https://docs.google.com/spreadsheets/d/1EVwwxdU4rDRuqTHDSB-1cn5Bx85rqA_uo3disf4uVNo/edit?usp=drivesdk
+Created: 2026-05-08T03:09:07.058Z | Modified: 2026-05-27T04:19:28.242Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026학년도 진해고등학교 입학홍보단 합격자 명단
+ID:   1StgbTBxK0xlSL4L_R-4JUE6egj_v-hP9tQ5aivpbGBA
+Link: https://docs.google.com/spreadsheets/d/1StgbTBxK0xlSL4L_R-4JUE6egj_v-hP9tQ5aivpbGBA/edit?usp=drivesdk
+Created: 2026-05-27T01:35:35.348Z | Modified: 2026-05-27T01:35:35.853Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 연수이수증 제출 Ver.2(배포용)
+ID:   1q3BLh2J3pmKm9_Iv1mKdnOy2dI4h4PpYg49NAgEyQFc
+Link: https://docs.google.com/spreadsheets/d/1q3BLh2J3pmKm9_Iv1mKdnOy2dI4h4PpYg49NAgEyQFc/edit?usp=drivesdk
+Created: 2026-03-12T06:58:39.042Z | Modified: 2026-05-26T04:22:07.269Z
+Owners: imwings84
+--------------------------------------------------------------------------------
+Name: 2026학년도 장학생 명부
+ID:   1zyIRImgmdR-ocr3gqrmqgDR1Nzt92c8jZUd5sZYs_z8
+Link: https://docs.google.com/spreadsheets/d/1zyIRImgmdR-ocr3gqrmqgDR1Nzt92c8jZUd5sZYs_z8/edit?usp=drivesdk
+Created: 2026-05-12T01:10:15.235Z | Modified: 2026-05-26T01:54:04.755Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: [2026학년도] 방학 계획서 입력 시스템 (결과물 수집용)
+ID:   1h2MeRaFt248SMFZyPZ-RPsL6jgvzMWRdoRRoS5DrmRs
+Link: https://docs.google.com/spreadsheets/d/1h2MeRaFt248SMFZyPZ-RPsL6jgvzMWRdoRRoS5DrmRs/edit?usp=drivesdk
+Created: 2026-05-22T05:10:06.874Z | Modified: 2026-05-22T05:10:09.390Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026학년도 진해고등학교 입학홍보단 합격자 명단
+ID:   1PjHn4e8oju-9otOZjqd4uX5Hl1glcdn3UtV-XaRnFYs
+Link: https://docs.google.com/spreadsheets/d/1PjHn4e8oju-9otOZjqd4uX5Hl1glcdn3UtV-XaRnFYs/edit?usp=drivesdk
+Created: 2026-05-18T06:47:18.975Z | Modified: 2026-05-18T06:48:22.656Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026학년도 진해고등학교 입학홍보단 지원서(1학년)
+ID:   111IXv4GOBukEUk6c_h8-AMuh0fKF_0Q0bt4okYFt5WA
+Link: https://docs.google.com/spreadsheets/d/111IXv4GOBukEUk6c_h8-AMuh0fKF_0Q0bt4okYFt5WA/edit?usp=drivesdk
+Created: 2026-05-18T05:36:55.081Z | Modified: 2026-05-18T05:42:10.109Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: [응답 데이터] 쉽게 씌어진 시 성찰하기
+ID:   1UAO-OHKMDtc8J50pNYcB4SGthiLEJtvVFoOZihjwGWw
+Link: https://docs.google.com/spreadsheets/d/1UAO-OHKMDtc8J50pNYcB4SGthiLEJtvVFoOZihjwGWw/edit?usp=drivesdk
+Created: 2026-03-16T04:29:49.349Z | Modified: 2026-05-13T01:41:14.789Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026.1학기 두드림학교(1,2학년)
+ID:   1W7jnHcVAj9MC-SAB4M3xDVOxwQqZkLRpbF9ofvPf-sY
+Link: https://docs.google.com/spreadsheets/d/1W7jnHcVAj9MC-SAB4M3xDVOxwQqZkLRpbF9ofvPf-sY/edit?usp=drivesdk
+Created: 2026-03-19T01:57:11.717Z | Modified: 2026-05-12T01:01:50.401Z
+Owners: khwon4920
+--------------------------------------------------------------------------------
+Name: 2025학년도 장학생 명부(구글시트)
+ID:   1tgIuBsyN1HuvABE8Ho7swzjRxcBpMS7o_jjofTxIkow
+Link: https://docs.google.com/spreadsheets/d/1tgIuBsyN1HuvABE8Ho7swzjRxcBpMS7o_jjofTxIkow/edit?usp=drivesdk
+Created: 2026-05-11T05:15:13.035Z | Modified: 2026-05-11T05:26:02.516Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026. 입학홍보단 모집(구글 폼 생성)
+ID:   1PzN6sV6x7XSzOY6YzFxTf0dGq7p7o9-KIiM5P8yNYvc
+Link: https://docs.google.com/spreadsheets/d/1PzN6sV6x7XSzOY6YzFxTf0dGq7p7o9-KIiM5P8yNYvc/edit?usp=drivesdk
+Created: 2026-05-08T02:02:41.425Z | Modified: 2026-05-08T02:10:10.510Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026. 1학기 학부모초청 수업공개 운영물품 구입
+ID:   1uf2BO6-BQUYHkIND7EH03CKy1M7aLvSoyqNHN8oqcFo
+Link: https://docs.google.com/spreadsheets/d/1uf2BO6-BQUYHkIND7EH03CKy1M7aLvSoyqNHN8oqcFo/edit?usp=drivesdk
+Created: 2026-04-20T07:32:24.383Z | Modified: 2026-04-29T00:32:57.675Z
+Owners: sun851231s
+--------------------------------------------------------------------------------
+Name: [최종] 2학년 국어 세특 초안 결과물 (0316_1416)
+ID:   1JCrVEDhivEJyI4KZD1dt5SRcBECjsHOx0kuD35Usqp4
+Link: https://docs.google.com/spreadsheets/d/1JCrVEDhivEJyI4KZD1dt5SRcBECjsHOx0kuD35Usqp4/edit?usp=drivesdk
+Created: 2026-03-16T05:16:08.150Z | Modified: 2026-04-24T03:32:35.091Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2024. 신입생 명렬(출신중)
+ID:   1TchfJiIWjZ460hjx6agGk6hZOcIa81pttrRSVh7O4cQ
+Link: https://docs.google.com/spreadsheets/d/1TchfJiIWjZ460hjx6agGk6hZOcIa81pttrRSVh7O4cQ/edit?usp=drivesdk
+Created: 2026-03-10T03:56:50.025Z | Modified: 2026-04-21T02:31:46.332Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 제목 없는 스프레드시트
+ID:   12N9yLXXspKSIjU8yd03_Xe_yND0iPb-p6mOq-7jIdyY
+Link: https://docs.google.com/spreadsheets/d/12N9yLXXspKSIjU8yd03_Xe_yND0iPb-p6mOq-7jIdyY/edit?usp=drivesdk
+Created: 2026-04-01T04:04:03.050Z | Modified: 2026-04-20T14:57:05.596Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: AI 동아리 활동지 기획서 양식
+ID:   1B-9mYocVzdZd45ywYA0hWZksAc0rKtnrPGp4amM-g2o
+Link: https://docs.google.com/spreadsheets/d/1B-9mYocVzdZd45ywYA0hWZksAc0rKtnrPGp4amM-g2o/edit?usp=drivesdk
+Created: 2026-04-15T04:59:45.714Z | Modified: 2026-04-15T04:59:47.300Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 문학 성취 기준 매칭 리스트
+ID:   1TaB-4GRlKtd5FL33vyBCD6ZFzWKHd6E3bqmoTNiyb8g
+Link: https://docs.google.com/spreadsheets/d/1TaB-4GRlKtd5FL33vyBCD6ZFzWKHd6E3bqmoTNiyb8g/edit?usp=drivesdk
+Created: 2026-04-14T09:16:23.136Z | Modified: 2026-04-14T09:18:23.391Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026학년도 진해고등학교 학생 및 교직원 인원 수
+ID:   1CteXH9gqcZTKxbkdaA1_49WL6mCrZ7_bIoZQ3qq3sKw
+Link: https://docs.google.com/spreadsheets/d/1CteXH9gqcZTKxbkdaA1_49WL6mCrZ7_bIoZQ3qq3sKw/edit?usp=drivesdk
+Created: 2026-04-02T06:44:16.676Z | Modified: 2026-04-08T06:58:38.224Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 3학년 독서 및 문학 초안(v.2)
+ID:   19qy5cEiafjrmPZOqVSPLi4nTXd5mRC1cD-noJABZgPk
+Link: https://docs.google.com/spreadsheets/d/19qy5cEiafjrmPZOqVSPLi4nTXd5mRC1cD-noJABZgPk/edit?usp=drivesdk
+Created: 2026-04-05T15:06:23.289Z | Modified: 2026-04-06T01:08:54.435Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 문항별 정보
+ID:   1QDLYMwOtJI4mJ_Vg4JHKZaR1_TI83lnOBZIQkLKjE3s
+Link: https://docs.google.com/spreadsheets/d/1QDLYMwOtJI4mJ_Vg4JHKZaR1_TI83lnOBZIQkLKjE3s/edit?usp=drivesdk
+Created: 2026-04-03T02:40:33.530Z | Modified: 2026-04-03T12:11:01.934Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026 체육대제전 집계표
+ID:   1f_V-FdBc9NM-OKXm65Pf7qRvIrEucbw2AqU4kAFKTRE
+Link: https://docs.google.com/spreadsheets/d/1f_V-FdBc9NM-OKXm65Pf7qRvIrEucbw2AqU4kAFKTRE/edit?usp=drivesdk
+Created: 2026-03-31T02:46:03.513Z | Modified: 2026-04-03T05:48:53.373Z
+Owners: bae6959
+--------------------------------------------------------------------------------
+Name: 챗봇 FAQ 스프레드시트 구조 설계
+ID:   1KEsW86BvUfubSNGuQG8c0PogZEBU_jiSYip44ebu_Z0
+Link: https://docs.google.com/spreadsheets/d/1KEsW86BvUfubSNGuQG8c0PogZEBU_jiSYip44ebu_Z0/edit?usp=drivesdk
+Created: 2026-04-01T01:03:31.613Z | Modified: 2026-04-01T03:58:32.961Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026학년도 진해고등학교 교육과정 설명회(응답)
+ID:   1AdVPqNwz7RA_CUlqn0wvQwNhlRCgRG45KyqHhLbt20c
+Link: https://docs.google.com/spreadsheets/d/1AdVPqNwz7RA_CUlqn0wvQwNhlRCgRG45KyqHhLbt20c/edit?usp=drivesdk
+Created: 2026-03-11T05:35:22.916Z | Modified: 2026-03-26T09:12:36.924Z
+Owners: felicityshout
+--------------------------------------------------------------------------------
+Name: 부산대 의대 수시 일반전형 선발 정보
+ID:   1eOIbVudemVrodYEUZkMY7aLJD3EUr-7QKPci_CF8vtQ
+Link: https://docs.google.com/spreadsheets/d/1eOIbVudemVrodYEUZkMY7aLJD3EUr-7QKPci_CF8vtQ/edit?usp=drivesdk
+Created: 2026-03-26T02:06:03.856Z | Modified: 2026-03-26T02:06:06.183Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 재산내역
+ID:   1iWX4jU3KZUT564wHKZ4WoUGeiOwkE2UiSLGETa43Hfg
+Link: https://docs.google.com/spreadsheets/d/1iWX4jU3KZUT564wHKZ4WoUGeiOwkE2UiSLGETa43Hfg/edit?usp=drivesdk
+Created: 2026-03-25T04:38:20.317Z | Modified: 2026-03-25T04:43:06.239Z
+Owners: 박지혜
+--------------------------------------------------------------------------------
+Name: 학생 명단 변환 및 추가 작업 지원
+ID:   1RQ8cOiC7aPTgY8hlkZ9BqegU05MmnLGZVTQhnLUxmlk
+Link: https://docs.google.com/spreadsheets/d/1RQ8cOiC7aPTgY8hlkZ9BqegU05MmnLGZVTQhnLUxmlk/edit?usp=drivesdk
+Created: 2026-03-25T00:53:02.353Z | Modified: 2026-03-25T01:14:40.058Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026_장학업무_총괄표
+ID:   1Frtkn3UvK4p64lr8d4j4UJWUzhK4dfxIW4c-iS0OX2Q
+Link: https://docs.google.com/spreadsheets/d/1Frtkn3UvK4p64lr8d4j4UJWUzhK4dfxIW4c-iS0OX2Q/edit?usp=drivesdk
+Created: 2026-03-23T01:14:28.027Z | Modified: 2026-03-23T05:20:34.493Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026.교사개설동아리명 및 지도교사(취합)
+ID:   1mMe_NjTBIZp0J8aC2V6GE574m7dmlDOtwzweT4SpcxU
+Link: https://docs.google.com/spreadsheets/d/1mMe_NjTBIZp0J8aC2V6GE574m7dmlDOtwzweT4SpcxU/edit?usp=drivesdk
+Created: 2026-03-10T05:09:59.635Z | Modified: 2026-03-22T13:47:51.100Z
+Owners: ppiano720
+--------------------------------------------------------------------------------
+Name: 장학금 지급처 게시판
+ID:   1qBAWz5a0ofQZKUnJhr-ECe5bD2jgnndOGSKyaftJWD0
+Link: https://docs.google.com/spreadsheets/d/1qBAWz5a0ofQZKUnJhr-ECe5bD2jgnndOGSKyaftJWD0/edit?usp=drivesdk
+Created: 2026-03-03T23:31:42.796Z | Modified: 2026-03-20T02:01:01.413Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 추석 연휴 오키나와 항공권 검색
+ID:   1l_iOE3uRZ_lskfnZpN8JpExT7zwF_64LQAIwagMTxZQ
+Link: https://docs.google.com/spreadsheets/d/1l_iOE3uRZ_lskfnZpN8JpExT7zwF_64LQAIwagMTxZQ/edit?usp=drivesdk
+Created: 2026-03-17T01:34:02.502Z | Modified: 2026-03-18T03:56:11.642Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026. 3학년부 명렬표
+ID:   1igQ3jUelfoTgKZOj76myJl-ldNaE7Kzi5OBV5iBL1YU
+Link: https://docs.google.com/spreadsheets/d/1igQ3jUelfoTgKZOj76myJl-ldNaE7Kzi5OBV5iBL1YU/edit?usp=drivesdk
+Created: 2026-03-16T17:46:39.746Z | Modified: 2026-03-16T17:46:39.747Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 구글 폼 연동
+ID:   1o5Kh4-6-cKr4jCk0eh_axvo7eLCDKz7nPl3BaQ0vI6c
+Link: https://docs.google.com/spreadsheets/d/1o5Kh4-6-cKr4jCk0eh_axvo7eLCDKz7nPl3BaQ0vI6c/edit?usp=drivesdk
+Created: 2026-03-16T01:37:48.780Z | Modified: 2026-03-16T01:37:56.935Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026학년도 신입생 성적(중학교 백분위 기준)
+ID:   19HNK8KKDAxqGvVKvxyvfvOVSg2sK-e2KXl7LSBhvHDg
+Link: https://docs.google.com/spreadsheets/d/19HNK8KKDAxqGvVKvxyvfvOVSg2sK-e2KXl7LSBhvHDg/edit?usp=drivesdk
+Created: 2026-03-12T06:24:29.994Z | Modified: 2026-03-12T06:26:44.383Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026학년도 신입생 반편성(확정 v1)
+ID:   1gZCcbwQCO950yF5KrhCYN9UVVXoblhvN9uoc3MkirOg
+Link: https://docs.google.com/spreadsheets/d/1gZCcbwQCO950yF5KrhCYN9UVVXoblhvN9uoc3MkirOg/edit?usp=drivesdk
+Created: 2026-02-25T04:45:30.635Z | Modified: 2026-03-12T06:23:52.796Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026학년도 진해고등학교 교육과정 설명회(응답)의 사본
+ID:   1mx_A-xsgqeYcps0PjF_sKmbLg23bGmAirCNAcUVgpPE
+Link: https://docs.google.com/spreadsheets/d/1mx_A-xsgqeYcps0PjF_sKmbLg23bGmAirCNAcUVgpPE/edit?usp=drivesdk
+Created: 2026-03-12T05:25:59.542Z | Modified: 2026-03-12T05:25:59.543Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026학년도 진해고등학교 교육과정 설명회(응답)
+ID:   1u6l5BJTegEd-Kytkf-2K1Ug-LCBDHHpPPsCUBmoPMBs
+Link: https://docs.google.com/spreadsheets/d/1u6l5BJTegEd-Kytkf-2K1Ug-LCBDHHpPPsCUBmoPMBs/edit?usp=drivesdk
+Created: 2026-03-12T05:25:23.944Z | Modified: 2026-03-12T05:25:35.698Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026. 1학년 반편성(학적)
+ID:   1bl0Rxl5i5d6--g3qkkx8NCfG00ShFZBy4cf31Tnf67k
+Link: https://docs.google.com/spreadsheets/d/1bl0Rxl5i5d6--g3qkkx8NCfG00ShFZBy4cf31Tnf67k/edit?usp=drivesdk
+Created: 2026-03-10T02:11:54.866Z | Modified: 2026-03-10T02:34:25.391Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2024. 신입생 명렬(출신중)
+ID:   1tqY9fOOBcO24WLRh_9M2VVpT1MkEQjf8zhhOlIEIbcc
+Link: https://docs.google.com/spreadsheets/d/1tqY9fOOBcO24WLRh_9M2VVpT1MkEQjf8zhhOlIEIbcc/edit?usp=drivesdk
+Created: 2026-03-10T02:06:27.084Z | Modified: 2026-03-10T02:06:27.088Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2024학년도 장학생 명부
+ID:   1FeHHIsIULvACuJxXpp748JLGn1qyKKsyt0Evv08Lzrg
+Link: https://docs.google.com/spreadsheets/d/1FeHHIsIULvACuJxXpp748JLGn1qyKKsyt0Evv08Lzrg/edit?usp=drivesdk
+Created: 2026-03-10T00:48:22.947Z | Modified: 2026-03-10T01:04:13.425Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 황요한&박지혜 육아시간
+ID:   1pLGOz0cfAKFzdd7IzCczoA5zyBblPb_Mb-TcMllC_kQ
+Link: https://docs.google.com/spreadsheets/d/1pLGOz0cfAKFzdd7IzCczoA5zyBblPb_Mb-TcMllC_kQ/edit?usp=drivesdk
+Created: 2026-03-08T03:35:36.516Z | Modified: 2026-03-09T01:16:06.844Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 발표수업 자동 기록 시트(예시)
+ID:   1MzbJpT0TBQHpp9qoIipeRxHrYnF0OIeoCqLq_irI6dc
+Link: https://docs.google.com/spreadsheets/d/1MzbJpT0TBQHpp9qoIipeRxHrYnF0OIeoCqLq_irI6dc/edit?usp=drivesdk
+Created: 2026-02-05T15:13:33.971Z | Modified: 2026-02-26T10:56:01.407Z
+Owners: hyh54311
+--------------------------------------------------------------------------------
+Name: 2026학년도 2학년 반편성 내역
+ID:   1Vw36jNaGyh2l7cbh9DdcxnxzD1OH7Rl89F-HBp2oLpU
+Link: https://docs.google.com/spreadsheets/d/1Vw36jNaGyh2l7cbh9DdcxnxzD1OH7Rl89F-HBp2oLpU/edit?usp=drivesdk
+Created: 2026-02-26T05:22:46.824Z | Modified: 2026-02-26T05:42:29.609Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026학년도 3학년 반편성 내역
+ID:   143qNFZIPN1b24eHULHSTa-dFHZSqxrJphto6wDUqQhY
+Link: https://docs.google.com/spreadsheets/d/143qNFZIPN1b24eHULHSTa-dFHZSqxrJphto6wDUqQhY/edit?usp=drivesdk
+Created: 2026-02-26T05:22:55.805Z | Modified: 2026-02-26T05:41:58.362Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026학년도 1학년 반편성 내역
+ID:   1jb7T82MtR7lF02QDBEh6u_lYrvRVKE1xBvvEhnVOHN8
+Link: https://docs.google.com/spreadsheets/d/1jb7T82MtR7lF02QDBEh6u_lYrvRVKE1xBvvEhnVOHN8/edit?usp=drivesdk
+Created: 2026-02-26T05:22:39.714Z | Modified: 2026-02-26T05:22:39.714Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026학년도 신입생 반편성(초안 v1)
+ID:   1bQxdPBLBY6kfoqUI9JHNwZuvlsgjIcAaglfWn78IZyY
+Link: https://docs.google.com/spreadsheets/d/1bQxdPBLBY6kfoqUI9JHNwZuvlsgjIcAaglfWn78IZyY/edit?usp=drivesdk
+Created: 2026-02-19T04:21:35.559Z | Modified: 2026-02-25T04:30:06.137Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 신입생 반편성 공지용
+ID:   1nD5F2VUXMD-UZt8Wavt-Ir7sISoP-Biw3-WSdXZiNMk
+Link: https://docs.google.com/spreadsheets/d/1nD5F2VUXMD-UZt8Wavt-Ir7sISoP-Biw3-WSdXZiNMk/edit?usp=drivesdk
+Created: 2026-02-23T00:21:45.663Z | Modified: 2026-02-23T00:50:02.529Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 2026학년도 신입생 반편성(초안 v1) 검증 파일(사본)
+ID:   1Ywbd6O1WMWeFcIXo0U1BwyC_wg62UeHEFtFhAu-9uVk
+Link: https://docs.google.com/spreadsheets/d/1Ywbd6O1WMWeFcIXo0U1BwyC_wg62UeHEFtFhAu-9uVk/edit?usp=drivesdk
+Created: 2026-02-20T02:38:43.641Z | Modified: 2026-02-20T02:38:57.718Z
+Owners: 황요한
+--------------------------------------------------------------------------------
+Name: 전화통화녹음파일
+ID:   1Ps4D5lnrLMLj-0ssQdfJLUa1L-F1JVToJ0lnDPR0S_E
+Link: https://docs.google.com/spreadsheets/d/1Ps4D5lnrLMLj-0ssQdfJLUa1L-F1JVToJ0lnDPR0S_E/edit?usp=drivesdk
+Created: 2026-02-08T22:06:59.644Z | Modified: 2026-02-18T07:03:49.701Z
+Owners: hyh54311
+--------------------------------------------------------------------------------
+Name: 3학년 8반 논술 세특(2025학년도)
+ID:   12IKSzKw-ivIf4ZBo3fE9-YAP0KQmWaz66ju97fKUCbo
+Link: https://docs.google.com/spreadsheets/d/12IKSzKw-ivIf4ZBo3fE9-YAP0KQmWaz66ju97fKUCbo/edit?usp=drivesdk
+Created: 2025-12-04T06:23:38.966Z | Modified: 2026-02-17T04:55:49.201Z
+Owners: hyh54311
+--------------------------------------------------------------------------------
+Name: 2025학년도 동아리(꿈틀영상실) 특기사항
+ID:   1ZvrAq_6EKiQyy6kU5Lv1cBjtasi5zchPrQcSQ8ci_Ns
+Link: https://docs.google.com/spreadsheets/d/1ZvrAq_6EKiQyy6kU5Lv1cBjtasi5zchPrQcSQ8ci_Ns/edit?usp=drivesdk
+Created: 2025-12-19T06:07:29.737Z | Modified: 2026-02-17T04:55:49.201Z
+Owners: hyh54311
+--------------------------------------------------------------------------------
+Name: 제목 없는 스프레드시트
+ID:   1KIot6NRmyWxR8dEM5CagOV8GgeKHr2QpmdUJF9uF-Xw
+Link: https://docs.google.com/spreadsheets/d/1KIot6NRmyWxR8dEM5CagOV8GgeKHr2QpmdUJF9uF-Xw/edit?usp=drivesdk
+Created: 2025-10-22T23:54:52.511Z | Modified: 2026-02-17T04:55:49.201Z
+Owners: hyh54311
+--------------------------------------------------------------------------------
+Name: 엑셀 파일 예시 및 작성 가이드
+ID:   1qNTxs8D9zHYbCMteQ0CiNTwEin-U-86OPTHZNOQyV8U
+Link: https://docs.google.com/spreadsheets/d/1qNTxs8D9zHYbCMteQ0CiNTwEin-U-86OPTHZNOQyV8U/edit?usp=drivesdk
+Created: 2026-02-13T02:48:38.895Z | Modified: 2026-02-17T04:55:49.201Z
+Owners: hyh54311
+--------------------------------------------------------------------------------
+Name: 2학년 2반 챗지피티
+ID:   1GiYU-hT2n6Xgl2A3U7uzY7io1bi4XjBukQa-q8pCbzE
+Link: https://docs.google.com/spreadsheets/d/1GiYU-hT2n6Xgl2A3U7uzY7io1bi4XjBukQa-q8pCbzE/edit?usp=drivesdk
+Created: 2025-12-29T04:15:47.019Z | Modified: 2026-02-17T04:55:49.201Z
+Owners: hyh54311
+--------------------------------------------------------------------------------
+Name: 2025학년도 2학기 2학년 1반 교과창체 세특
+ID:   1Ki9qAcaNr2paCO-n-S21ttEW-MqNonX8tNTrYumJ-kU
+Link: https://docs.google.com/spreadsheets/d/1Ki9qAcaNr2paCO-n-S21ttEW-MqNonX8tNTrYumJ-kU/edit?usp=drivesdk
+Created: 2025-12-26T01:41:51.766Z | Modified: 2026-02-17T04:55:49.201Z
+Owners: hyh54311
+--------------------------------------------------------------------------------
+Name: 신입생 반별 배정
+ID:   1B7IrLRJ7S57hVxdqq_VVTpJZ6qk4e1pdsWI2ETtXpQA
+Link: https://docs.google.com/spreadsheets/d/1B7IrLRJ7S57hVxdqq_VVTpJZ6qk4e1pdsWI2ETtXpQA/edit?usp=drivesdk
+Created: 2026-02-13T04:13:01.494Z | Modified: 2026-02-17T04:55:49.201Z
+Owners: hyh54311
+--------------------------------------------------------------------------------
+Name: 제목 없는 스프레드시트
+ID:   16Ttp1_lVHo_jyXO2USCfcfjzo7b7zKARN3Qk56Ly5eo
+Link: https://docs.google.com/spreadsheets/d/16Ttp1_lVHo_jyXO2USCfcfjzo7b7zKARN3Qk56Ly5eo/edit?usp=drivesdk
+Created: 2025-09-11T05:35:54.888Z | Modified: 2026-02-17T04:55:49.201Z
+Owners: hyh54311
+--------------------------------------------------------------------------------
+Name: 문제 만들기 수업(2,8,9,10반)
+ID:   1RSmDomoC2DrtnWaGsB6AVXx1HsPsellHlr4z9F1XEpw
+Link: https://docs.google.com/spreadsheets/d/1RSmDomoC2DrtnWaGsB6AVXx1HsPsellHlr4z9F1XEpw/edit?usp=drivesdk
+Created: 2025-11-25T23:52:02.912Z | Modified: 2026-02-17T04:55:49.201Z
+Owners: hyh54311
+--------------------------------------------------------------------------------
+Name: 학생 배정 로직 및 데이터 입력 안내
+ID:   1505C7ZpPmEUYZznVDy6_3b18Tpmdhi4kerXnX4_sqOI
+Link: https://docs.google.com/spreadsheets/d/1505C7ZpPmEUYZznVDy6_3b18Tpmdhi4kerXnX4_sqOI/edit?usp=drivesdk
+Created: 2026-02-13T02:54:00.861Z | Modified: 2026-02-17T04:55:49.201Z
+Owners: hyh54311
+--------------------------------------------------------------------------------
+Name: 2026_독서_심화보고서_제출응답
+ID:   18krVTpNTVnizmJMvPTvb0HUP4toF5-vblmerxg9WNeE
+Link: https://docs.google.com/spreadsheets/d/18krVTpNTVnizmJMvPTvb0HUP4toF5-vblmerxg9WNeE/edit?usp=drivesdk
+Created: 2026-01-30T15:59:40.953Z | Modified: 2026-02-17T04:55:49.201Z
+Owners: hyh54311
+--------------------------------------------------------------------------------
+Name: 2학년 1반
+ID:   1qEoahNKVsVkQ1c_DLz23tVbFBdKalCj0TQuebHSB95Y
+Link: https://docs.google.com/spreadsheets/d/1qEoahNKVsVkQ1c_DLz23tVbFBdKalCj0TQuebHSB95Y/edit?usp=drivesdk
+Created: 2025-12-15T04:54:51.243Z | Modified: 2026-02-17T04:55:49.201Z
+Owners: hyh54311
+--------------------------------------------------------------------------------
+Name: 2학년 1반 챗지피티
+ID:   1h6PQgnix0Q6QhT39kf-SjpIKDxTVybVKcCZsvpn33Wc
+Link: https://docs.google.com/spreadsheets/d/1h6PQgnix0Q6QhT39kf-SjpIKDxTVybVKcCZsvpn33Wc/edit?usp=drivesdk
+Created: 2025-12-29T04:09:33.410Z | Modified: 2026-02-17T04:55:49.201Z
+Owners: hyh54311
+--------------------------------------------------------------------------------
+Name: 2025학년도 2학기 2학년 독서 수행평가 심화(1,2,3반)
+ID:   1x6fzY87g1nxcMpHOXvTiVaKW67dv3AiXimbxd5-VskE
+Link: https://docs.google.com/spreadsheets/d/1x6fzY87g1nxcMpHOXvTiVaKW67dv3AiXimbxd5-VskE/edit?usp=drivesdk
+Created: 2025-12-17T04:04:45.322Z | Modified: 2026-02-17T04:55:49.201Z
+Owners: hyh54311
+--------------------------------------------------------------------------------
+Name: 제목 없는 스프레드시트
+ID:   1ePkAYOd5dOo4Qs4ADp0ZXOd3z2_YHZdA1yy55yj39T0
+Link: https://docs.google.com/spreadsheets/d/1ePkAYOd5dOo4Qs4ADp0ZXOd3z2_YHZdA1yy55yj39T0/edit?usp=drivesdk
+Created: 2026-02-05T03:43:54.858Z | Modified: 2026-02-17T04:55:49.201Z
+Owners: hyh54311
+--------------------------------------------------------------------------------
+Name: 도움반 학생 성적 제외 반 배정
+ID:   1j4A0McEs6gPmqYjlY3kamVlGmSe9GOFP4W4qcx2Ym7Q
+Link: https://docs.google.com/spreadsheets/d/1j4A0McEs6gPmqYjlY3kamVlGmSe9GOFP4W4qcx2Ym7Q/edit?usp=drivesdk
+Created: 2026-02-13T02:50:55.457Z | Modified: 2026-02-17T04:55:49.201Z
+Owners: hyh54311
+--------------------------------------------------------------------------------

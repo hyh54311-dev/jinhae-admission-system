@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>2027학년도 진해고등학교 입학등록 확인서 제출</title>
+  
+  <!-- Premium Web Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  
+  <style>
+    /* CSS Reset and Global Settings */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Noto Sans KR', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at 18% 18%, #f8fafc 0%, #eff6ff 50%, #dbeafe 100%);
+      color: #1e293b;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    
+    /* Main Layout Glassmorphism Container */
+    .container {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 25px 60px -15px rgba(30, 58, 138, 0.08);
+      border-radius: 28px;
+      width: 100%;
+      max-width: 600px;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    /* Elegant Progress Bar Indicator */
+    .progress-wrapper {
+      margin-bottom: 30px;
+    }
+    
+    .progress-track {
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: 99px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6 0%, #1e3a8a 100%);
+      width: 25%; /* Initial step is 25% */
+      transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 700;
+      color: #1e3a8a;
+      letter-spacing: -0.01em;
+    }
+    
+    /* Header Styles */
+    header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    
+    .badge {
+      display: inline-block;
+      background: #eff6ff;
+      color: #1e3a8a;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 99px;
+      margin-bottom: 12px;
+      border: 1px solid #dbeafe;
+    }
+    
+    h1 {
+      font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: #1e3a8a;
+      line-height: 1.35;
+      letter-spacing: -0.02em;
+    }
+    
+    .subtitle {
+      font-size: 14px;
+      color: #64748b;
+      margin-top: 6px;
+    }
+    
+    /* Step Containers */
+    .step {
+      display: none;
+    }
+    
+    .step.active {
+      display: block;
+      animation: slideIn 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Form Groups and Fields */
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+      font-size: 13.5px;
+      color: #334155;
+    }
+    
+    input[type="text"], input[type="tel"] {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 14.5px;
+      color: #1e293b;
+      font-family: inherit;
+      background-color: #ffffff;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.01) inset;
+    }
+    
+    input[type="text"]:focus, input[type="tel"]:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+    }
+    
+    /* Consent Document Area */
+    .scrollbox {
+      border: 1.5px solid #cbd5e1;
+      background: #f8fafc;
+      padding: 16px;
+      border-radius: 12px;
+      height: 150px;
+      overflow-y: scroll;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #475569;
+      margin-bottom: 12px;
+    }
+    
+    .scrollbox p {
+      margin-bottom: 8px;
+    }
+    
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 15px 0;
+      cursor: pointer;
+    }
+    
+    .checkbox-group input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #1e3a8a;
+    }
+    
+    .checkbox-group span {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #334155;
+    }
+    
+    /* Interactive Verification Box */
+    .verify-box {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    
+    .verify-box input {
+      flex: 1;
+    }
+    
+    .btn-verify {
+      background: #1e3a8a;
+      color: white;
+      border: none;
+      padding: 0 20px;
+      font-size: 13.5px;
+      font-weight: 700;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+    }
+    
+    .btn-verify:hover {
+      background: #1d4ed8;
+    }
+    
+    .btn-verify:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+    }
+    
+    /* Dynamic Feedback Cards */
+    .status-card {
+      padding: 16px;
+      border-radius: 12px;
+      margin-top: 15px;
+      display: none;
+      animation: fadeIn 0.3s ease;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .status-card.success {
+      display: block;
+      background: #ecfdf5;
+      border: 1px solid #10b981;
+      color: #065f46;
+    }
+    
+    .status-card.error {
+      display: block;
+      background: #fef2f2;
+      border: 1px solid #ef4444;
+      color: #991b1b;
+    }
+    
+    /* Signature Pad Styling */
+    .canvas-container {
+      border: 2px dashed #3b82f6;
+      background: #f8fafc;
+      border-radius: 14px;
+      margin-top: 6px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    canvas {
+      display: block;
+      width: 100%;
+      height: 150px;
+      touch-action: none; /* Prevents mobile scroll while drawing */
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><circle cx="4" cy="12" r="3" fill="black"/></svg>') 4 12, crosshair;
+    }
+    
+    .canvas-tools {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+    }
+    
+    .canvas-hint {
+      font-size: 11.5px;
+      color: #64748b;
+    }
+    
+    .btn-clear {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .btn-clear:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+    
+    /* Button Controls Navigation */
+    .button-bar {
+      display: flex;
+      gap: 12px;
+      margin-top: 30px;
+    }
+    
+    .btn {
+      flex: 1;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+    }
+    
+    .btn-secondary {
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .btn-secondary:hover {
+      background: #e2e8f0;
+      color: #1e293b;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #2563eb 0%, #1e3a8a 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+    }
+    
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
+    }
+    
+    .btn-success {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+    }
+    
+    .btn-success:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.25);
+    }
+    
+    .btn:disabled {
+      background: #e2e8f0;
+      color: #94a3b8;
+      border: none;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+    
+    /* Loading Spinner Overlay */
+    .loader-view {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 0;
+      text-align: center;
+    }
+    
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid #cbd5e1;
+      border-top: 4px solid #1e3a8a;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Success Completion Screen styling */
+    .success-view {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 0;
+      text-align: center;
+      animation: popScale 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    @keyframes popScale {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    
+    .success-icon {
+      width: 72px;
+      height: 72px;
+      background: #ecfdf5;
+      color: #10b981;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      border: 2px solid #a7f3d0;
+    }
+    
+    .success-view h2 {
+      font-size: 20px;
+      font-weight: 800;
+      color: #065f46;
+      margin-bottom: 12px;
+    }
+    
+    .success-view p {
+      font-size: 13.5px;
+      color: #475569;
+      line-height: 1.6;
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Step Indicator Progress Bar -->
+    <div class="progress-wrapper" id="progressArea">
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-text">
+        <span id="stepLabel">약관 동의</span>
+        <span id="stepRatio">1 / 3</span>
+      </div>
+    </div>
+
+    <header id="headerArea">
+      <div class="badge">진해고 행정 서비스</div>
+      <h1>입학등록 확인서 온라인 제출</h1>
+      <p class="subtitle" id="headerSubtitle">학생 및 보호자 공동 서명 시스템</p>
+    </header>
+
+    <form id="admissionForm" onsubmit="event.preventDefault();">
+      
+      <!-- STEP 1: Terms & Conditions and Signature Consent -->
+      <div class="step active" data-step-index="1" data-step-name="약관 동의" data-step-ratio="33">
+        <label>1. 개인정보 수집 및 이용 동의 (필수)</label>
+        <div class="scrollbox">
+          <p><strong>[개인정보 수집·이용 및 보관 안내]</strong></p>
+          <p>진해고등학교는 2027학년도 신입생 입학등록 업무 처리를 위해 아래와 같이 개인정보를 수집·이용하고자 합니다.</p>
+          <p>1. 수집 항목: 학생 성명, 접수번호, 출신중학교, 생년월일, 학부모(보호자) 성명, 연락처, 자필 서명 이미지 데이터.</p>
+          <p>2. 이용 목적: 고등학교 입학등록 접수 의사 확인 및 등록 처리 업무.</p>
+          <p>3. 보유 및 이용 기간: 목적 달성 즉시 파기(단, 교육청 보고 및 학적 편성을 위해 입학 완료 시점까지 보관).</p>
+          <p>귀하는 개인정보 수집·이용에 동의하지 않을 권리가 있으나, 동의하지 않을 경우 비대면 온라인 입학등록 처리가 불가하므로 방문 접수를 진행하셔야 합니다.</p>
+        </div>
+        <div class="checkbox-group" onclick="toggleCheckbox('agreePrivacy')">
+          <input type="checkbox" id="agreePrivacy" required onclick="event.stopPropagation(); checkConsentValidation();">
+          <span>개인정보 수집 및 이용에 동의합니다.</span>
+        </div>
+        
+        <label style="margin-top: 15px;">2. 전자서명 및 법적 효력 안내 (필수)</label>
+        <div class="scrollbox">
+          <p><strong>[전자서명법에 따른 서명 효력 고지]</strong></p>
+          <p>본 시스템을 통해 제출하는 터치/마우스 자필 서명은 전자서명법 제3조 제1항 및 제2항에 따라 실제 종이 문서에 자필로 서명 및 날인하는 것과 동일한 법적 효력을 갖습니다.</p>
+          <p>위 서명 데이터를 활용하여 자동으로 생성되는 전자 문서(PDF)는 전자문서 및 전자거래 기본법 제4조 제1항에 근거하여 행정적으로 안전하게 유효함을 알려드립니다.</p>
+          <p>※ 부정 제출 또는 타인 명의 도용 제출 시 관계 법령에 따라 처벌받을 수 있으며 입학 취소 사유가 될 수 있습니다.</p>
+        </div>
+        <div class="checkbox-group" onclick="toggleCheckbox('agreeSignature')">
+          <input type="checkbox" id="agreeSignature" required onclick="event.stopPropagation(); checkConsentValidation();">
+          <span>전자서명 법적 고지 및 서면 대체에 동의합니다.</span>
+        </div>
+      </div>
+
+      <!-- STEP 2: Candidate Verification -->
+      <div class="step" data-step-index="2" data-step-name="합격자 조회" data-step-ratio="66">
+        <div class="form-group">
+          <label for="studentName">학생 성명</label>
+          <input type="text" id="studentName" placeholder="예: 홍길동" autocomplete="off" oninput="resetCandidateCheck()">
+        </div>
+        
+        <div class="form-group">
+          <label for="studentId">접수번호</label>
+          <div class="verify-box">
+            <input type="text" id="studentId" placeholder="예: 2027-0001" autocomplete="off" oninput="resetCandidateCheck()">
+            <button type="button" class="btn-verify" id="btnVerify" onclick="verifyCandidate()">조회 및 신원 확인</button>
+          </div>
+        </div>
+        
+        <!-- Verification Output Card -->
+        <div class="status-card" id="verifyStatus"></div>
+      </div>
+
+      <!-- STEP 3: Parent Info & Signature Pads -->
+      <div class="step" data-step-index="3" data-step-name="서명 제출" data-step-ratio="100">
+        <div class="form-group">
+          <label for="parentName">학부모(보호자) 성명</label>
+          <input type="text" id="parentName" placeholder="예: 홍판서" autocomplete="off" oninput="checkFormValidation()">
+        </div>
+        
+        <div class="form-group">
+          <label for="parentPhone">학부모(보호자) 연락처</label>
+          <input type="tel" id="parentPhone" placeholder="010-XXXX-XXXX" autocomplete="off" oninput="formatPhoneNumber(this); checkFormValidation();">
+        </div>
+        
+        <div class="form-group">
+          <label>학생 서명</label>
+          <div class="canvas-container">
+            <canvas id="studentSignaturePad"></canvas>
+          </div>
+          <div class="canvas-tools">
+            <span class="canvas-hint">사각 안내선 안에 학생 본인이 서명하세요.</span>
+            <button type="button" class="btn-clear" onclick="clearStudentCanvas()">지우기</button>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 15px;">
+          <label>학부모(보호자) 서명</label>
+          <div class="canvas-container">
+            <canvas id="parentSignaturePad"></canvas>
+          </div>
+          <div class="canvas-tools">
+            <span class="canvas-hint">사각 안내선 안에 보호자 본인이 서명하세요.</span>
+            <button type="button" class="btn-clear" onclick="clearParentCanvas()">지우기</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Buttons -->
+      <div class="button-bar" id="buttonBar">
+        <button type="button" class="btn btn-secondary" id="btnPrev" onclick="navigateStep(-1)" style="display:none;">이전</button>
+        <button type="button" class="btn btn-primary" id="btnNext" onclick="navigateStep(1)" disabled>다음 단계</button>
+      </div>
+
+    </form>
+
+    <!-- Submitting State Loader -->
+    <div class="loader-view" id="loaderView">
+      <div class="spinner"></div>
+      <h3 style="font-family:'Outfit', sans-serif; font-size:17px; font-weight:700; color:#1e3a8a; margin-bottom:8px;">입학등록 확인서 제출 중</h3>
+      <p style="font-size:13px; color:#64748b; line-height:1.5;">서명 데이터 검증 및 행정 보관용 PDF 문서를<br>보안 생성하고 있습니다. 잠시만 기다려 주세요...</p>
+    </div>
+
+    <!-- Success View -->
+    <div class="success-view" id="successView">
+      <div class="success-icon">✓</div>
+      <h2>제출 완료</h2>
+      <p style="font-weight: 700; color: #1e293b; margin-top: 8px;" id="successMsgHeader"></p>
+      <p style="margin-top: 8px;">2027학년도 진해고등학교 신입생 입학등록이<br>정상적으로 신청 및 승인 완료되었습니다.</p>
+      <p style="color: #64748b; font-size: 12.5px; margin-top: 12px;">안내장에 기재된 입학 전 교과 안내 및 소집일에 맞춰<br>안내를 준수해주시기 바랍니다. 브라우저 창을 닫으셔도 됩니다.</p>
+    </div>
+
+  </div>
+
+  <script>
+    // Local Testing Mock for google.script.run (when not in GAS environment)
+    if (typeof google === 'undefined') {
+      window.google = {
+        script: {
+          run: {
+            withSuccessHandler: function(successCallback) {
+              this.successCallback = successCallback;
+              return this;
+            },
+            withFailureHandler: function(failureCallback) {
+              this.failureCallback = failureCallback;
+              return this;
+            },
+            checkCandidate: function(studentName, studentId) {
+              console.log("Mock checkCandidate called with:", studentName, studentId);
+              const self = google.script.run;
+              setTimeout(() => {
+                const idStr = String(studentId).trim();
+                const nameStr = String(studentName).trim();
+                if (nameStr === "홍길동" && idStr === "2027-0001") {
+                  self.successCallback({
+                    valid: true,
+                    alreadySubmitted: false,
+                    schoolName: "진해남중학교",
+                    birthDate: "090101"
+                  });
+                } else if (nameStr === "성춘향" && idStr === "2027-0002") {
+                  self.successCallback({
+                    valid: true,
+                    alreadySubmitted: false,
+                    schoolName: "석동중학교",
+                    birthDate: "090202"
+                  });
+                } else if (nameStr === "이몽룡" && idStr === "2027-0003") {
+                  self.successCallback({
+                    valid: true,
+                    alreadySubmitted: true,
+                    message: "이미 해당 학생의 입학등록 확인서가 접수되었습니다."
+                  });
+                } else {
+                  self.successCallback({
+                    valid: false,
+                    error: "입력하신 접수번호와 학생 성명이 합격자 명단과 일치하지 않습니다. 다시 확인해주세요."
+                  });
+                }
+              }, 800);
+            },
+            submitAdmissionConfirmation: function(payload) {
+              console.log("Mock submitAdmissionConfirmation sending fetch request to local server:", payload);
+              const self = google.script.run;
+              fetch('/api/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+              })
+              .then(response => response.json())
+              .then(data => {
+                if (data.success) {
+                  self.successCallback(data);
+                } else {
+                  self.failureCallback(data.error || "로컬 서버 저장 오류");
+                }
+              })
+              .catch(err => {
+                self.failureCallback("로컬 서버 통신 실패: " + err.toString());
+              });
+            }
+          }
+        }
+      };
+    }
+
+    // State Variables
+    let currentStep = 1;
+    let isCandidateChecked = false;
+    let verifiedSchoolName = "";
+    let verifiedBirthDate = "";
+    let isDrawingStudent = false;
+    let isDrawingParent = false;
+    let hasSignedStudent = false;
+    let hasSignedParent = false;
+    
+    // Canvas Elements
+    const studentCanvas = document.getElementById('studentSignaturePad');
+    const studentCtx = studentCanvas.getContext('2d');
+    const parentCanvas = document.getElementById('parentSignaturePad');
+    const parentCtx = parentCanvas.getContext('2d');
+    
+    // Setup and scaling of signature canvas (high DPI Retina compatibility)
+    function initCanvas() {
+      if (currentStep !== 3) return; // Only init when visible
+      
+      setupCanvas(studentCanvas, studentCtx);
+      setupCanvas(parentCanvas, parentCtx);
+      
+      hasSignedStudent = false;
+      hasSignedParent = false;
+      checkFormValidation();
+    }
+    
+    function setupCanvas(canvasEl, ctxEl) {
+      const rect = canvasEl.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      
+      canvasEl.width = rect.width * dpr;
+      canvasEl.height = rect.height * dpr;
+      ctxEl.scale(dpr, dpr);
+      
+      // Canvas Drawing Context Properties
+      ctxEl.strokeStyle = '#0f172a'; // Deep slate ink
+      ctxEl.lineWidth = 3.5;
+      ctxEl.lineCap = 'round';
+      ctxEl.lineJoin = 'round';
+      
+      // Draw subtle gray grid lines or boundary guidelines in canvas background
+      drawCanvasGuidelines(canvasEl, ctxEl);
+    }
+    
+    function drawCanvasGuidelines(canvasEl, ctxEl) {
+      ctxEl.save();
+      ctxEl.strokeStyle = '#e2e8f0';
+      ctxEl.lineWidth = 1;
+      ctxEl.setLineDash([4, 4]);
+      
+      // Middle horizontal helper line
+      const w = canvasEl.width / (window.devicePixelRatio || 1);
+      const h = canvasEl.height / (window.devicePixelRatio || 1);
+      ctxEl.beginPath();
+      ctxEl.moveTo(10, h / 2);
+      ctxEl.lineTo(w - 10, h / 2);
+      ctxEl.stroke();
+      ctxEl.restore();
+    }
+    
+    // Canvas Drawing Event Handlers
+    function getMousePos(canvasEl, e) {
+      const rect = canvasEl.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return {
+        x: clientX - rect.left,
+        y: clientY - rect.top
+      };
+    }
+    
+    // Student Canvas Handlers
+    studentCanvas.addEventListener('mousedown', function(e) {
+      isDrawingStudent = true;
+      hasSignedStudent = true;
+      const pos = getMousePos(studentCanvas, e);
+      studentCtx.beginPath();
+      studentCtx.moveTo(pos.x, pos.y);
+      e.preventDefault();
+    });
+    studentCanvas.addEventListener('mousemove', function(e) {
+      if (!isDrawingStudent) return;
+      const pos = getMousePos(studentCanvas, e);
+      studentCtx.lineTo(pos.x, pos.y);
+      studentCtx.stroke();
+      e.preventDefault();
+      checkFormValidation();
+    });
+    window.addEventListener('mouseup', () => isDrawingStudent = false);
+    
+    studentCanvas.addEventListener('touchstart', function(e) {
+      isDrawingStudent = true;
+      hasSignedStudent = true;
+      const pos = getMousePos(studentCanvas, e);
+      studentCtx.beginPath();
+      studentCtx.moveTo(pos.x, pos.y);
+      e.preventDefault();
+    });
+    studentCanvas.addEventListener('touchmove', function(e) {
+      if (!isDrawingStudent) return;
+      const pos = getMousePos(studentCanvas, e);
+      studentCtx.lineTo(pos.x, pos.y);
+      studentCtx.stroke();
+      e.preventDefault();
+      checkFormValidation();
+    });
+    window.addEventListener('touchend', () => isDrawingStudent = false);
+
+    // Parent Canvas Handlers
+    parentCanvas.addEventListener('mousedown', function(e) {
+      isDrawingParent = true;
+      hasSignedParent = true;
+      const pos = getMousePos(parentCanvas, e);
+      parentCtx.beginPath();
+      parentCtx.moveTo(pos.x, pos.y);
+      e.preventDefault();
+    });
+    parentCanvas.addEventListener('mousemove', function(e) {
+      if (!isDrawingParent) return;
+      const pos = getMousePos(parentCanvas, e);
+      parentCtx.lineTo(pos.x, pos.y);
+      parentCtx.stroke();
+      e.preventDefault();
+      checkFormValidation();
+    });
+    window.addEventListener('mouseup', () => isDrawingParent = false);
+    
+    parentCanvas.addEventListener('touchstart', function(e) {
+      isDrawingParent = true;
+      hasSignedParent = true;
+      const pos = getMousePos(parentCanvas, e);
+      parentCtx.beginPath();
+      parentCtx.moveTo(pos.x, pos.y);
+      e.preventDefault();
+    });
+    parentCanvas.addEventListener('touchmove', function(e) {
+      if (!isDrawingParent) return;
+      const pos = getMousePos(parentCanvas, e);
+      parentCtx.lineTo(pos.x, pos.y);
+      parentCtx.stroke();
+      e.preventDefault();
+      checkFormValidation();
+    });
+    window.addEventListener('touchend', () => isDrawingParent = false);
+    
+    function clearStudentCanvas() {
+      studentCtx.clearRect(0, 0, studentCanvas.width, studentCanvas.height);
+      drawCanvasGuidelines(studentCanvas, studentCtx);
+      hasSignedStudent = false;
+      checkFormValidation();
+    }
+    
+    function clearParentCanvas() {
+      parentCtx.clearRect(0, 0, parentCanvas.width, parentCanvas.height);
+      drawCanvasGuidelines(parentCanvas, parentCtx);
+      hasSignedParent = false;
+      checkFormValidation();
+    }
+    
+    // Check Consent Step Validation
+    function checkConsentValidation() {
+      const agreePrivacy = document.getElementById('agreePrivacy').checked;
+      const agreeSignature = document.getElementById('agreeSignature').checked;
+      const nextBtn = document.getElementById('btnNext');
+      
+      nextBtn.disabled = !(agreePrivacy && agreeSignature);
+    }
+    
+    function toggleCheckbox(id) {
+      const cb = document.getElementById(id);
+      cb.checked = !cb.checked;
+      checkConsentValidation();
+    }
+    
+    // Reset Student Verification state when user modifies name or number
+    function resetCandidateCheck() {
+      isCandidateChecked = false;
+      const statusCard = document.getElementById('verifyStatus');
+      statusCard.className = 'status-card';
+      statusCard.innerHTML = '';
+      statusCard.style.display = 'none';
+      
+      document.getElementById('btnNext').disabled = true;
+    }
+    
+    // Call GAS checkCandidate API
+    function verifyCandidate() {
+      const studentName = document.getElementById('studentName').value.trim();
+      const studentId = document.getElementById('studentId').value.trim();
+      const statusCard = document.getElementById('verifyStatus');
+      const verifyBtn = document.getElementById('btnVerify');
+      
+      if (!studentName || !studentId) {
+        statusCard.className = 'status-card error';
+        statusCard.innerHTML = '학생 성명과 접수번호를 모두 입력해주세요.';
+        statusCard.style.display = 'block';
+        return;
+      }
+      
+      verifyBtn.disabled = true;
+      verifyBtn.innerText = '확인 중...';
+      
+      google.script.run
+        .withSuccessHandler(function(response) {
+          verifyBtn.disabled = false;
+          verifyBtn.innerText = '조회 및 신원 확인';
+          
+          if (response.valid) {
+            if (response.alreadySubmitted) {
+              statusCard.className = 'status-card error';
+              statusCard.innerHTML = '<strong>접수 불가:</strong> ' + response.message;
+              statusCard.style.display = 'block';
+              isCandidateChecked = false;
+              document.getElementById('btnNext').disabled = true;
+            } else {
+              // Store verified information
+              verifiedSchoolName = response.schoolName;
+              verifiedBirthDate = response.birthDate;
+              
+              statusCard.className = 'status-card success';
+              statusCard.innerHTML = `<strong>조회 성공:</strong> 진해고 합격자 명단에 정상 등록되어 있습니다.<br>출신교: ${verifiedSchoolName} | 생년월일: ${verifiedBirthDate}<br>다음 단계로 넘어가 서명을 완료해주십시오.`;
+              statusCard.style.display = 'block';
+              isCandidateChecked = true;
+              document.getElementById('btnNext').disabled = false;
+            }
+          } else {
+            statusCard.className = 'status-card error';
+            statusCard.innerHTML = '<strong>조회 실패:</strong> ' + response.error;
+            statusCard.style.display = 'block';
+            isCandidateChecked = false;
+            document.getElementById('btnNext').disabled = true;
+          }
+        })
+        .withFailureHandler(function(err) {
+          verifyBtn.disabled = false;
+          verifyBtn.innerText = '조회 및 신원 확인';
+          statusCard.className = 'status-card error';
+          statusCard.innerHTML = '네트워크 통신 중 에러가 발생했습니다: ' + err.toString();
+          statusCard.style.display = 'block';
+          isCandidateChecked = false;
+          document.getElementById('btnNext').disabled = true;
+        })
+        .checkCandidate(studentName, studentId);
+    }
+    
+    // Check Step 3 Form Validation (Guardian and Signature pad)
+    function checkFormValidation() {
+      if (currentStep !== 3) return;
+      
+      const parentName = document.getElementById('parentName').value.trim();
+      const parentPhone = document.getElementById('parentPhone').value.trim();
+      const submitBtn = document.getElementById('btnNext');
+      
+      // Standard Korean mobile format validation
+      const phoneRegex = /^01[016789]-\d{3,4}-\d{4}$/;
+      const isPhoneValid = phoneRegex.test(parentPhone);
+      
+      submitBtn.disabled = !(parentName && isPhoneValid && hasSignedStudent && hasSignedParent);
+    }
+    
+    // Automatically inject dashes into Korean Phone Numbers
+    function formatPhoneNumber(input) {
+      let num = input.value.replace(/[^0-9]/g, '');
+      if (num.length < 4) {
+        input.value = num;
+      } else if (num.length < 8) {
+        input.value = num.substr(0, 3) + '-' + num.substr(3);
+      } else {
+        input.value = num.substr(0, 3) + '-' + num.substr(3, 4) + '-' + num.substr(7, 4);
+      }
+    }
+    
+    // Multi-step navigation
+    function navigateStep(direction) {
+      const steps = document.querySelectorAll('.step');
+      
+      // Validate transitions
+      if (direction === 1) {
+        if (currentStep === 1) {
+          const agreePrivacy = document.getElementById('agreePrivacy').checked;
+          const agreeSignature = document.getElementById('agreeSignature').checked;
+          if (!agreePrivacy || !agreeSignature) return;
+        } else if (currentStep === 2) {
+          if (!isCandidateChecked) return;
+        }
+      }
+      
+      steps[currentStep - 1].classList.remove('active');
+      currentStep += direction;
+      steps[currentStep - 1].classList.add('active');
+      
+      // Update progress bar UI
+      updateProgress();
+      
+      // Update Buttons layout
+      const prevBtn = document.getElementById('btnPrev');
+      const nextBtn = document.getElementById('btnNext');
+      
+      prevBtn.style.display = currentStep > 1 ? 'block' : 'none';
+      
+      if (currentStep === 3) {
+        nextBtn.innerText = '확인서 최종 제출';
+        nextBtn.className = 'btn btn-success';
+        nextBtn.onclick = function() { submitForm(); };
+        
+        // Canvas dimensioning needs step to be rendered active
+        setTimeout(initCanvas, 100);
+      } else {
+        nextBtn.innerText = '다음 단계';
+        nextBtn.className = 'btn btn-primary';
+        nextBtn.onclick = function() { navigateStep(1); };
+      }
+      
+      // Validate next buttons for new step state
+      if (currentStep === 1) {
+        checkConsentValidation();
+      } else if (currentStep === 2) {
+        nextBtn.disabled = !isCandidateChecked;
+      } else if (currentStep === 3) {
+        checkFormValidation();
+      }
+    }
+    
+    // Update progress bar filling
+    function updateProgress() {
+      const progressFill = document.getElementById('progressFill');
+      const stepLabel = document.getElementById('stepLabel');
+      const stepRatio = document.getElementById('stepRatio');
+      
+      const steps = document.querySelectorAll('.step');
+      const activeStep = steps[currentStep - 1];
+      const ratio = activeStep.getAttribute('data-step-ratio');
+      const name = activeStep.getAttribute('data-step-name');
+      
+      progressFill.style.width = ratio + '%';
+      stepLabel.innerText = name;
+      stepRatio.innerText = currentStep + ' / 3';
+    }
+    
+    // Form submission payload handler
+    function submitForm() {
+      const studentName = document.getElementById('studentName').value.trim();
+      const studentId = document.getElementById('studentId').value.trim();
+      const parentName = document.getElementById('parentName').value.trim();
+      const parentPhone = document.getElementById('parentPhone').value.trim();
+      
+      if (!hasSignedStudent || !hasSignedParent) return;
+      
+      // Convert canvases drawing to Base64 image URLs
+      const studentDataUrl = studentCanvas.toDataURL('image/png');
+      const parentDataUrl = parentCanvas.toDataURL('image/png');
+      
+      // Hide form contents
+      document.getElementById('admissionForm').style.display = 'none';
+      document.getElementById('progressArea').style.display = 'none';
+      document.getElementById('headerArea').style.display = 'none';
+      
+      // Show loader
+      document.getElementById('loaderView').style.display = 'flex';
+      
+      const payload = {
+        studentName: studentName,
+        studentId: studentId,
+        schoolName: verifiedSchoolName,
+        birthDate: verifiedBirthDate,
+        parentName: parentName,
+        parentPhone: parentPhone,
+        studentSignature: studentDataUrl,
+        parentSignature: parentDataUrl
+      };
+      
+      // Call GAS Backend submission
+      google.script.run
+        .withSuccessHandler(onSuccess)
+        .withFailureHandler(onFailure)
+        .submitAdmissionConfirmation(payload);
+    }
+    
+    function onSuccess(response) {
+      document.getElementById('loaderView').style.display = 'none';
+      if (response && response.success) {
+        document.getElementById('successMsgHeader').innerText = response.studentName + " 학생 입학등록 완료";
+        
+        // Remove any existing doc link button first to prevent duplicates on multiple tests
+        const existingBtn = document.getElementById('localDocBtn');
+        if (existingBtn) existingBtn.remove();
+        
+        if (response.docLink) {
+          const docBtn = document.createElement('a');
+          docBtn.id = 'localDocBtn';
+          docBtn.href = response.docLink;
+          docBtn.target = '_blank';
+          docBtn.className = 'btn btn-primary';
+          docBtn.style.marginTop = '20px';
+          docBtn.style.textDecoration = 'none';
+          docBtn.innerText = '생성된 구글 문서(Google Doc) 확인하기';
+          document.getElementById('successView').appendChild(docBtn);
+        }
+        
+        document.getElementById('successView').style.display = 'flex';
+      } else {
+        alert('입학등록 확인서 제출에 실패했습니다:\n' + (response ? response.error : '서버 에러'));
+        resetFormView();
+      }
+    }
+    
+    function onFailure(error) {
+      document.getElementById('loaderView').style.display = 'none';
+      alert('스프레드시트 통신 장애가 발생했습니다:\n' + error.toString());
+      resetFormView();
+    }
+    
+    function resetFormView() {
+      document.getElementById('admissionForm').style.display = 'block';
+      document.getElementById('progressArea').style.display = 'block';
+      document.getElementById('headerArea').style.display = 'block';
+      navigateStep(0); // return to consent
+    }
+  </script>
+</body>
+</html>

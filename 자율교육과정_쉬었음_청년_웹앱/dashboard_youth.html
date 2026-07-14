@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>쉬었음 청년 탐구 - 실시간 대시보드 (Padlet 스타일)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-color: #cbd5e1; /* 패들렛 감성의 회색 톤 */
+      --header-bg: #ffffff;
+      --primary-color: #2563eb;
+      
+      /* 포스트잇 파스텔 컬러셋 */
+      --postit-yellow-bg: #fef08a;
+      --postit-yellow-border: #eab308;
+      --postit-yellow-text: #713f12;
+      
+      --postit-green-bg: #bbf7d0;
+      --postit-green-border: #22c55e;
+      --postit-green-text: #14532d;
+      
+      --postit-red-bg: #fecaca;
+      --postit-red-border: #f87171;
+      --postit-red-text: #7f1d1d;
+ 
+      --postit-blue-bg: #bfdbfe;
+      --postit-blue-border: #3b82f6;
+      --postit-blue-text: #1e3a8a;
+      
+      --postit-purple-bg: #e9d5ff;
+      --postit-purple-border: #a855f7;
+      --postit-purple-text: #581c87;
+      
+      --postit-orange-bg: #fed7aa;
+      --postit-orange-border: #f97316;
+      --postit-orange-text: #7c2d12;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      color: #1e293b;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 상단 컨트롤 헤더 */
+    header {
+      background-color: var(--header-bg);
+      padding: 15px 30px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 19px;
+      font-weight: 800;
+      color: #0f172a;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    /* 탭 컨트롤 */
+    .tabs {
+      display: flex;
+      gap: 6px;
+      background-color: #f1f5f9;
+      padding: 4px;
+      border-radius: 8px;
+    }
+
+    .tab-btn {
+      padding: 8px 14px;
+      font-size: 13.5px;
+      font-weight: 700;
+      border: none;
+      background: none;
+      border-radius: 6px;
+      cursor: pointer;
+      color: #64748b;
+      transition: all 0.2s;
+    }
+
+    .tab-btn.active {
+      background-color: white;
+      color: var(--primary-color);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .controls-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    select, button {
+      padding: 8px 14px;
+      font-size: 13.5px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background-color: white;
+      font-family: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .refresh-btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      transition: background-color 0.2s;
+    }
+
+    .refresh-btn:hover {
+      background-color: #1d4ed8;
+    }
+
+    .timer-indicator {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12.5px;
+      color: #64748b;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #10b981;
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    main {
+      flex: 1;
+      padding: 30px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .view-content {
+      display: none;
+      flex: 1;
+    }
+
+    .view-content.active {
+      display: block;
+    }
+
+    /* 개인 탭 격자 그리드 */
+    .individual-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .postit-card {
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);
+      border-left: 5px solid transparent;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+      min-height: 160px;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transform: rotate(calc(var(--rotation, 0) * 1deg));
+    }
+
+    .postit-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 5px 12px 24px rgba(0,0,0,0.12);
+      z-index: 10;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13.5px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      border-bottom: 1px dashed rgba(0,0,0,0.1);
+      padding-bottom: 6px;
+    }
+
+    .card-body {
+      font-size: 13.5px;
+      line-height: 1.5;
+      flex-grow: 1;
+      word-break: break-all;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      margin-top: 10px;
+      border-top: 1px dashed rgba(0,0,0,0.06);
+      padding-top: 6px;
+    }
+
+    /* 조별 선반 컬럼 */
+    .group-shelf-container {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      align-items: flex-start;
+      padding-bottom: 20px;
+      height: 100%;
+    }
+
+    .shelf-column {
+      flex: 0 0 290px;
+      background-color: rgba(255, 255, 255, 0.5);
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      max-height: 80vh;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .shelf-header {
+      background-color: #ffffff;
+      padding: 12px 16px;
+      font-weight: 700;
+      font-size: 15px;
+      color: #0f172a;
+      border-top-left-radius: 14px;
+      border-top-right-radius: 14px;
+      border-bottom: 2px solid var(--primary-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .shelf-card-count {
+      font-size: 11px;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 99px;
+    }
+
+    .shelf-cards-list {
+      padding: 12px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex-grow: 1;
+    }
+
+    .group-card {
+      background-color: #ffffff;
+      border-radius: 8px;
+      padding: 14px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+      border-left: 4px solid var(--primary-color);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .group-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.06);
+    }
+
+    /* 대형 발표 스크린 */
+    .zoom-board {
+      background-color: #0f172a;
+      color: #f8fafc;
+      border-radius: 18px;
+      padding: 28px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+      margin-top: 30px;
+      display: none;
+      animation: slideUp 0.3s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(18px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .zoom-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 8px;
+    }
+
+    .zoom-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #38bdf8;
+    }
+
+    .zoom-close {
+      cursor: pointer;
+      color: #94a3b8;
+      background: none;
+      border: none;
+      font-size: 22px;
+    }
+
+    .zoom-content {
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 1.6;
+      color: #f8fafc;
+      word-break: keep-all;
+      white-space: pre-wrap;
+    }
+
+    .zoom-meta {
+      margin-top: 20px;
+      font-size: 13px;
+      color: #64748b;
+      display: flex;
+      gap: 20px;
+    }
+
+    .empty-message {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 40px;
+      color: #475569;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-left">
+      <select id="class-select" onchange="onClassChange()">
+        <option value="all">전체 학급 보기</option>
+        <option value="1">1반</option>
+        <option value="2">2반</option>
+        <option value="3">3반</option>
+        <option value="4">4반</option>
+      </select>
+      
+      <div class="tabs">
+        <button class="tab-btn active" id="tab-personal" onclick="switchTab('personal')">👤 개인 연구보고서 피드 (1~5차시)</button>
+        <button class="tab-btn" id="tab-group" onclick="switchTab('group')">👥 조별 미디어 기획 (6~11차시)</button>
+        <button class="tab-btn" id="tab-reflection" onclick="switchTab('reflection')">📝 12차시 성찰 일지 피드</button>
+      </div>
+    </div>
+
+    <h1>🎬 쉬었음 청년 탐구 프로젝트 실시간 대시보드</h1>
+
+    <div class="controls-right">
+      <div class="timer-indicator">
+        <div class="pulse-dot"></div>
+        <span id="sync-timer">연동 준비 중...</span>
+      </div>
+      <button class="refresh-btn" onclick="loadData()">🔄 새로고침</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1. 개인별 가설 및 분석 격자 -->
+    <div class="view-content active" id="view-personal">
+      <div class="individual-grid" id="personal-grid">
+        <div class="empty-message">데이터 로딩 중...</div>
+      </div>
+    </div>
+
+    <!-- 2. 조별 시나리오 기획 선반 -->
+    <div class="view-content" id="view-group">
+      <div class="group-shelf-container">
+        <div class="shelf-column" id="shelf-1">
+          <div class="shelf-header"><span>1조</span><span class="shelf-card-count" id="count-1">0</span></div>
+          <div class="shelf-cards-list" id="list-1"></div>
+        </div>
+        <div class="shelf-column" id="shelf-2">
+          <div class="shelf-header"><span>2조</span><span class="shelf-card-count" id="count-2">0</span></div>
+          <div class="shelf-cards-list" id="list-2"></div>
+        </div>
+        <div class="shelf-column" id="shelf-3">
+          <div class="shelf-header"><span>3조</span><span class="shelf-card-count" id="count-3">0</span></div>
+          <div class="shelf-cards-list" id="list-3"></div>
+        </div>
+        <div class="shelf-column" id="shelf-4">
+          <div class="shelf-header"><span>4조</span><span class="shelf-card-count" id="count-4">0</span></div>
+          <div class="shelf-cards-list" id="list-4"></div>
+        </div>
+        <div class="shelf-column" id="shelf-5">
+          <div class="shelf-header"><span>5조</span><span class="shelf-card-count" id="count-5">0</span></div>
+          <div class="shelf-cards-list" id="list-5"></div>
+        </div>
+        <div class="shelf-column" id="shelf-6">
+          <div class="shelf-header"><span>6조</span><span class="shelf-card-count" id="count-6">0</span></div>
+          <div class="shelf-cards-list" id="list-6"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. 개인 성찰록(KWL) 전용 격자 -->
+    <div class="view-content" id="view-reflection">
+      <div class="individual-grid" id="reflection-grid">
+        <div class="empty-message">성찰 일지 제출 현황 로딩 중...</div>
+      </div>
+    </div>
+
+    <!-- 대형 전광판 -->
+    <div class="zoom-board" id="zoom-board">
+      <div class="zoom-header">
+        <span class="zoom-title" id="zoom-title">상세 정보 전광판</span>
+        <button class="zoom-close" onclick="closeZoomBoard()">✕</button>
+      </div>
+      <div class="zoom-content" id="zoom-text">...</div>
+      <div class="zoom-meta">
+        <span id="zoom-topic">...</span>
+        <span id="zoom-time">...</span>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    let personalData = [];
+    let groupData = [];
+    let currentTab = 'personal';
+
+    function loadData() {
+      document.getElementById('sync-timer').innerText = "업데이트 중...";
+      google.script.run
+        .withSuccessHandler(onDataLoaded)
+        .withFailureHandler(onDataFailed)
+        .getTeacherDashboardData();
+    }
+
+    function onDataLoaded(res) {
+      if (res.success) {
+        personalData = res.personal || [];
+        groupData = res.group || [];
+        renderData();
+        document.getElementById('sync-timer').innerText = "동기화 시간: " + new Date().toLocaleTimeString();
+      } else {
+        onDataFailed(res.error);
+      }
+    }
+
+    function onDataFailed(err) {
+      document.getElementById('sync-timer').innerText = "연동 에러";
+      console.error(err);
+    }
+
+    function switchTab(tabName) {
+      currentTab = tabName;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.view-content').forEach(v => v.classList.remove('active'));
+      
+      document.getElementById(`tab-${tabName}`).classList.add('active');
+      document.getElementById(`view-${tabName}`).classList.add('active');
+      
+      renderData();
+    }
+
+    function onClassChange() {
+      renderData();
+    }
+
+    function renderData() {
+      const cls = document.getElementById('class-select').value;
+      if (currentTab === 'personal') {
+        renderPersonal(cls);
+      } else if (currentTab === 'group') {
+        renderGroup(cls);
+      } else {
+        renderReflection(cls);
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.toString().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    function renderPersonal(cls) {
+      const grid = document.getElementById('personal-grid');
+      grid.innerHTML = '';
+      
+      let filtered = cls === 'all' ? [...personalData] : personalData.filter(d => d.ban.toString() === cls);
+      // 최초 가설이라도 입력한 데이터들만 격자에 노출
+      filtered = filtered.filter(d => d.initialHypothesis && d.initialHypothesis.trim().length > 0);
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '<div class="empty-message">아직 제출된 개인 가설 및 연구 보고서가 없습니다.</div>';
+        return;
+      }
+
+      // 최신 등록 순 정렬
+      filtered.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+      filtered.forEach((item, index) => {
+        const rotation = (index % 7) - 3;
+        const colors = ['color-green', 'color-blue', 'color-purple', 'color-orange'];
+        const colorClass = colors[index % colors.length];
+
+        const card = document.createElement('div');
+        card.className = `postit-card ${colorClass}`;
+        card.style.setProperty('--rotation', rotation);
+        card.onclick = () => showZoom(item, 'personal');
+
+        card.innerHTML = `
+          <div>
+            <div class="card-header">
+              <span>${item.ban}반 ${item.num}번 ${item.name}</span>
+              <span style="font-size:9px; opacity:0.8;">${formatTime(item.timestamp)}</span>
+            </div>
+            <div class="card-body">
+              <strong>가설:</strong> ${escapeHtml(item.initialHypothesis)}<br>
+              <strong style="display:inline-block; margin-top:8px;">인과:</strong> ${escapeHtml(item.causeAnalysis || '분석 중')}
+            </div>
+          </div>
+          <div class="card-footer" style="justify-content: flex-end;">
+            <span>제언: ${escapeHtml((item.policyIdea || '').substring(0, 20))}...</span>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function renderGroup(cls) {
+      for (let g = 1; g <= 6; g++) {
+        document.getElementById(`list-${g}`).innerHTML = '';
+        document.getElementById(`count-${g}`).innerText = '0';
+      }
+
+      let filtered = cls === 'all' ? [...groupData] : groupData.filter(d => d.ban.toString() === cls);
+      filtered.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+      const counts = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0};
+      filtered.forEach(item => {
+        const gNum = item.groupNum;
+        if (gNum >= 1 && gNum <= 6) {
+          counts[gNum]++;
+          const list = document.getElementById(`list-${gNum}`);
+          const card = document.createElement('div');
+          card.className = 'group-card';
+          card.onclick = () => showZoom(item, 'group');
+
+          card.innerHTML = `
+            <div class="group-card-header">
+              <span>조원: ${escapeHtml(item.members)}</span>
+            </div>
+            <div class="group-card-body">
+              <strong>대본:</strong> ${escapeHtml(item.scenarioText.substring(0, 80))}...
+            </div>
+          `;
+          list.appendChild(card);
+        }
+      });
+
+      for (let g = 1; g <= 6; g++) {
+        document.getElementById(`count-${g}`).innerText = counts[g];
+        if (counts[g] === 0) {
+          document.getElementById(`list-${g}`).innerHTML = '<div style="font-size:11px; color:#94a3b8; text-align:center; padding:15px 0;">기획 없음</div>';
+        }
+      }
+    }
+
+    function renderReflection(cls) {
+      const grid = document.getElementById('reflection-grid');
+      grid.innerHTML = '';
+      
+      let filtered = cls === 'all' ? [...personalData] : personalData.filter(d => d.ban.toString() === cls);
+      filtered = filtered.filter(d => d.reflection && d.reflection.trim().length > 0);
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '<div class="empty-message">제출된 12차시 성찰록이 아직 없습니다.</div>';
+        return;
+      }
+
+      filtered.forEach((item, index) => {
+        const rotation = (index % 5) - 2;
+        const card = document.createElement('div');
+        card.className = `postit-card color-yellow`;
+        card.style.setProperty('--rotation', rotation);
+        card.onclick = () => showZoom(item, 'reflection');
+
+        card.innerHTML = `
+          <div>
+            <div class="card-header">
+              <span>${item.ban}반 ${item.name}의 성찰</span>
+            </div>
+            <div class="card-body">
+              ${escapeHtml(item.reflection.substring(0, 120))}...
+            </div>
+          </div>
+          <div class="card-footer" style="justify-content: flex-end;">
+            <span>자세히 보기 🔍</span>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function showZoom(item, type) {
+      const board = document.getElementById('zoom-board');
+      board.style.display = 'block';
+      
+      if (type === 'personal') {
+        document.getElementById('zoom-title').innerText = `📢 ${item.ban}반 ${item.num}번 ${item.name} 연구보고서 핵심`;
+        document.getElementById('zoom-text').innerText = `[1차시 가설]\n${item.initialHypothesis}\n\n[통계 분석]\n${item.statAnalysis}\n\n[구조-심리 인과관계]\n${item.causeAnalysis}\n\n[대안 정책]\n${item.policyIdea}`;
+        document.getElementById('zoom-topic').innerText = `상태: ${item.status || '대기'}`;
+      } else if (type === 'group') {
+        document.getElementById('zoom-title').innerText = `📢 ${item.ban}반 ${item.groupNum}조 미디어 시나리오`;
+        document.getElementById('zoom-text').innerText = `[미디어 유형: ${item.mediaType} (${item.alternativeType})]\n\n${item.scenarioText}\n\n[제출 링크]: ${item.mediaLink}`;
+        document.getElementById('zoom-topic').innerText = `조원: ${item.members}`;
+      } else {
+        document.getElementById('zoom-title').innerText = `📢 ${item.ban}반 ${item.name} 12차시 KWL 성찰 일지`;
+        document.getElementById('zoom-text').innerText = item.reflection;
+        document.getElementById('zoom-topic').innerText = `진로 연계 학습 성장 궤적`;
+      }
+      
+      document.getElementById('zoom-time').innerText = `시간: ${item.timestamp ? new Date(item.timestamp).toLocaleTimeString() : ''}`;
+      board.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function closeZoomBoard() {
+      document.getElementById('zoom-board').style.display = 'none';
+    }
+
+    function formatTime(isoStr) {
+      if (!isoStr) return '';
+      return new Date(isoStr).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    }
+
+    window.onload = () => {
+      loadData();
+      setInterval(loadData, 15000); // 15초 실시간 동기화
+    };
+  </script>
+</body>
+</html>

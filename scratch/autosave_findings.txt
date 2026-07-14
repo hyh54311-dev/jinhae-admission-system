@@ -1,0 +1,688 @@
+=== Searching for HWP Auto-Save and Temporary Files ===
+Search directories: ['C:\\Users\\admin\\AppData\\Roaming\\Hnc', 'C:\\Users\\admin\\AppData\\Local\\Temp', 'C:\\Users\\admin\\AppData']
+Scanning: C:\Users\admin\AppData\Roaming\Hnc...
+Scanning: C:\Users\admin\AppData\Local\Temp...
+Scanning: C:\Users\admin\AppData...
+
+Found 227 autosave/temporary files modified today:
+[2026-06-04 15:08:30] Size: 512 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFD02A996519E729D8.TMP
+--------------------------------------------------
+[2026-06-04 15:08:30] Size: 512 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFD02A996519E729D8.TMP
+--------------------------------------------------
+[2026-06-04 15:08:28] Size: 16,384 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF154266006867BE8A.TMP
+--------------------------------------------------
+[2026-06-04 15:08:28] Size: 16,384 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF154266006867BE8A.TMP
+--------------------------------------------------
+[2026-06-04 15:07:49] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\874ebeb4-7a7a-4ef7-be1d-1111f5620cfb.tmp
+--------------------------------------------------
+[2026-06-04 15:07:49] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\874ebeb4-7a7a-4ef7-be1d-1111f5620cfb.tmp
+--------------------------------------------------
+[2026-06-04 15:07:35] Size: 6,828 bytes
+Path: C:\Users\admin\AppData\Local\Temp\JSO4E59.tmp
+--------------------------------------------------
+[2026-06-04 15:07:35] Size: 6,828 bytes
+Path: C:\Users\admin\AppData\Local\Temp\JSO4E59.tmp
+--------------------------------------------------
+[2026-06-04 15:07:06] Size: 16,539 bytes
+Path: C:\Users\admin\AppData\Local\Temp\JSODD79.tmp
+--------------------------------------------------
+[2026-06-04 15:07:06] Size: 16,539 bytes
+Path: C:\Users\admin\AppData\Local\Temp\JSODD79.tmp
+--------------------------------------------------
+[2026-06-04 15:02:24] Size: 13,416 bytes
+Path: C:\Users\admin\AppData\Local\Temp\JSO8EF7.tmp
+--------------------------------------------------
+[2026-06-04 15:02:24] Size: 13,416 bytes
+Path: C:\Users\admin\AppData\Local\Temp\JSO8EF7.tmp
+--------------------------------------------------
+[2026-06-04 15:02:08] Size: 7,770 bytes
+Path: C:\Users\admin\AppData\Local\Temp\JSO5294.tmp
+--------------------------------------------------
+[2026-06-04 15:02:08] Size: 7,770 bytes
+Path: C:\Users\admin\AppData\Local\Temp\JSO5294.tmp
+--------------------------------------------------
+[2026-06-04 15:01:56] Size: 7,936 bytes
+Path: C:\Users\admin\AppData\Local\Temp\JSO24E7.tmp
+--------------------------------------------------
+[2026-06-04 15:01:56] Size: 7,936 bytes
+Path: C:\Users\admin\AppData\Local\Temp\JSO24E7.tmp
+--------------------------------------------------
+[2026-06-04 15:01:50] Size: 6,908 bytes
+Path: C:\Users\admin\AppData\Local\Temp\JSOB0F.tmp
+--------------------------------------------------
+[2026-06-04 15:01:50] Size: 6,908 bytes
+Path: C:\Users\admin\AppData\Local\Temp\JSOB0F.tmp
+--------------------------------------------------
+[2026-06-04 15:00:59] Size: 12,372 bytes
+Path: C:\Users\admin\AppData\Local\Temp\JSO45B5.tmp
+--------------------------------------------------
+[2026-06-04 15:00:59] Size: 12,372 bytes
+Path: C:\Users\admin\AppData\Local\Temp\JSO45B5.tmp
+--------------------------------------------------
+[2026-06-04 15:00:51] Size: 8,822 bytes
+Path: C:\Users\admin\AppData\Local\Temp\JSO2517.tmp
+--------------------------------------------------
+[2026-06-04 15:00:51] Size: 8,822 bytes
+Path: C:\Users\admin\AppData\Local\Temp\JSO2517.tmp
+--------------------------------------------------
+[2026-06-04 15:00:44] Size: 13,485 bytes
+Path: C:\Users\admin\AppData\Local\Temp\JSO91D.tmp
+--------------------------------------------------
+[2026-06-04 15:00:44] Size: 13,485 bytes
+Path: C:\Users\admin\AppData\Local\Temp\JSO91D.tmp
+--------------------------------------------------
+[2026-06-04 15:00:00] Size: 1,418,795 bytes
+Path: C:\Users\admin\AppData\Local\Temp\8c1b85b3-e073-4879-9571-557be6b7bd79.tmp
+--------------------------------------------------
+[2026-06-04 15:00:00] Size: 1,418,795 bytes
+Path: C:\Users\admin\AppData\Local\Temp\8c1b85b3-e073-4879-9571-557be6b7bd79.tmp
+--------------------------------------------------
+[2026-06-04 14:59:28] Size: 1,999,170 bytes
+Path: C:\Users\admin\AppData\Local\Temp\2768abe8-fe25-4647-9b8d-c697ea308a66.tmp
+--------------------------------------------------
+[2026-06-04 14:59:28] Size: 1,999,170 bytes
+Path: C:\Users\admin\AppData\Local\Temp\2768abe8-fe25-4647-9b8d-c697ea308a66.tmp
+--------------------------------------------------
+[2026-06-04 14:59:27] Size: 1,923,745 bytes
+Path: C:\Users\admin\AppData\Local\Temp\f3f08b0d-def4-4b5c-9d8c-58f3bb1aad37.tmp
+--------------------------------------------------
+[2026-06-04 14:59:27] Size: 1,923,745 bytes
+Path: C:\Users\admin\AppData\Local\Temp\f3f08b0d-def4-4b5c-9d8c-58f3bb1aad37.tmp
+--------------------------------------------------
+[2026-06-04 14:59:20] Size: 28,134 bytes
+Path: C:\Users\admin\AppData\Local\Google\Chrome\User Data\Profile 3\JumpListIconsRecentClosed\46c16f2d-d144-491f-a0c2-f3cdadd6d384.tmp
+--------------------------------------------------
+[2026-06-04 14:58:42] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\1aa5c7eb-d4e7-40d5-aafd-a111669ab478.tmp
+--------------------------------------------------
+[2026-06-04 14:58:42] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\1aa5c7eb-d4e7-40d5-aafd-a111669ab478.tmp
+--------------------------------------------------
+[2026-06-04 14:57:25] Size: 16,384 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF07EE61BCFC31B1D8.TMP
+--------------------------------------------------
+[2026-06-04 14:57:25] Size: 16,384 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF07EE61BCFC31B1D8.TMP
+--------------------------------------------------
+[2026-06-04 14:56:06] Size: 922,105 bytes
+Path: C:\Users\admin\AppData\Local\Temp\6886d10b-0490-4f75-868e-43cd53895e06.tmp
+--------------------------------------------------
+[2026-06-04 14:56:06] Size: 922,105 bytes
+Path: C:\Users\admin\AppData\Local\Temp\6886d10b-0490-4f75-868e-43cd53895e06.tmp
+--------------------------------------------------
+[2026-06-04 14:56:03] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF16C07494367BDF4B.TMP
+--------------------------------------------------
+[2026-06-04 14:56:03] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF16C07494367BDF4B.TMP
+--------------------------------------------------
+[2026-06-04 14:54:48] Size: 28,134 bytes
+Path: C:\Users\admin\AppData\Local\Google\Chrome\User Data\Profile 3\JumpListIconsRecentClosed\4a86cc77-f51a-42df-b7f9-549d5471fe39.tmp
+--------------------------------------------------
+[2026-06-04 14:52:12] Size: 3,542,468 bytes
+Path: C:\Users\admin\AppData\Local\Temp\948087fe-beca-4531-b923-c315048a781e.tmp
+--------------------------------------------------
+[2026-06-04 14:52:12] Size: 3,542,468 bytes
+Path: C:\Users\admin\AppData\Local\Temp\948087fe-beca-4531-b923-c315048a781e.tmp
+--------------------------------------------------
+[2026-06-04 14:48:30] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFAFCA11CFA2897793.TMP
+--------------------------------------------------
+[2026-06-04 14:48:30] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFAFCA11CFA2897793.TMP
+--------------------------------------------------
+[2026-06-04 14:41:27] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF41E8BD69B4627C1F.TMP
+--------------------------------------------------
+[2026-06-04 14:41:27] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF41E8BD69B4627C1F.TMP
+--------------------------------------------------
+[2026-06-04 14:36:46] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF7CDF2BDBC11E1F9A.TMP
+--------------------------------------------------
+[2026-06-04 14:36:46] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF7CDF2BDBC11E1F9A.TMP
+--------------------------------------------------
+[2026-06-04 14:36:30] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFC67C2D3126265790.TMP
+--------------------------------------------------
+[2026-06-04 14:36:30] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFC67C2D3126265790.TMP
+--------------------------------------------------
+[2026-06-04 14:35:45] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF9FD569C0AF2EFBAC.TMP
+--------------------------------------------------
+[2026-06-04 14:35:45] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF9FD569C0AF2EFBAC.TMP
+--------------------------------------------------
+[2026-06-04 14:35:32] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF8BF3B66148BC61E2.TMP
+--------------------------------------------------
+[2026-06-04 14:35:32] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF8BF3B66148BC61E2.TMP
+--------------------------------------------------
+[2026-06-04 14:35:16] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF601E192031449C63.TMP
+--------------------------------------------------
+[2026-06-04 14:35:16] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF601E192031449C63.TMP
+--------------------------------------------------
+[2026-06-04 14:33:59] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF6E3F0FE894845AB3.TMP
+--------------------------------------------------
+[2026-06-04 14:33:59] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF6E3F0FE894845AB3.TMP
+--------------------------------------------------
+[2026-06-04 14:21:00] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF046CAC4966C6D416.TMP
+--------------------------------------------------
+[2026-06-04 14:21:00] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF046CAC4966C6D416.TMP
+--------------------------------------------------
+[2026-06-04 14:20:43] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF6AE9912476D59BF9.TMP
+--------------------------------------------------
+[2026-06-04 14:20:43] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF6AE9912476D59BF9.TMP
+--------------------------------------------------
+[2026-06-04 14:20:14] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFC8CAAD0E0A22075F.TMP
+--------------------------------------------------
+[2026-06-04 14:20:14] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFC8CAAD0E0A22075F.TMP
+--------------------------------------------------
+[2026-06-04 14:19:49] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF5A8296A2D5DFB67E.TMP
+--------------------------------------------------
+[2026-06-04 14:19:49] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF5A8296A2D5DFB67E.TMP
+--------------------------------------------------
+[2026-06-04 14:12:26] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFD4BD40BF85324C16.TMP
+--------------------------------------------------
+[2026-06-04 14:12:26] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFD4BD40BF85324C16.TMP
+--------------------------------------------------
+[2026-06-04 14:09:50] Size: 10,819 bytes
+Path: C:\Users\admin\AppData\Local\Temp\9dc90591-3bbe-4cb1-b75e-d549e37ad302.tmp
+--------------------------------------------------
+[2026-06-04 14:09:50] Size: 10,819 bytes
+Path: C:\Users\admin\AppData\Local\Temp\9dc90591-3bbe-4cb1-b75e-d549e37ad302.tmp
+--------------------------------------------------
+[2026-06-04 14:09:48] Size: 3,571,800 bytes
+Path: C:\Users\admin\AppData\Local\Temp\ead758a8-ac8a-4e51-810f-ed6b18a52508.tmp
+--------------------------------------------------
+[2026-06-04 14:09:48] Size: 3,571,800 bytes
+Path: C:\Users\admin\AppData\Local\Temp\ead758a8-ac8a-4e51-810f-ed6b18a52508.tmp
+--------------------------------------------------
+[2026-06-04 14:09:23] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFE7D8E80559A0331E.TMP
+--------------------------------------------------
+[2026-06-04 14:09:23] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFE7D8E80559A0331E.TMP
+--------------------------------------------------
+[2026-06-04 14:09:21] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF2E0A04FAD3722F33.TMP
+--------------------------------------------------
+[2026-06-04 14:09:21] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF2E0A04FAD3722F33.TMP
+--------------------------------------------------
+[2026-06-04 14:09:07] Size: 28,134 bytes
+Path: C:\Users\admin\AppData\Local\Google\Chrome\User Data\Profile 3\JumpListIconsRecentClosed\68d5a64d-cc38-40d3-9db0-9d46f67da415.tmp
+--------------------------------------------------
+[2026-06-04 14:08:12] Size: 15,588 bytes
+Path: C:\Users\admin\AppData\Local\Temp\fe901103-4102-49cd-859e-0731511d49bb.tmp
+--------------------------------------------------
+[2026-06-04 14:08:12] Size: 15,588 bytes
+Path: C:\Users\admin\AppData\Local\Temp\fe901103-4102-49cd-859e-0731511d49bb.tmp
+--------------------------------------------------
+[2026-06-04 14:06:33] Size: 16,384 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF94F5DFB776556234.TMP
+--------------------------------------------------
+[2026-06-04 14:06:33] Size: 16,384 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF94F5DFB776556234.TMP
+--------------------------------------------------
+[2026-06-04 14:02:51] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\84d4fade-aa60-4d6a-b245-8d4fba8fd5cf.tmp
+--------------------------------------------------
+[2026-06-04 14:02:51] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\84d4fade-aa60-4d6a-b245-8d4fba8fd5cf.tmp
+--------------------------------------------------
+[2026-06-04 13:34:23] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF6A2F8B3EAD52A740.TMP
+--------------------------------------------------
+[2026-06-04 13:34:23] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF6A2F8B3EAD52A740.TMP
+--------------------------------------------------
+[2026-06-04 13:26:11] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\ab2fc6a1-0b28-4f6b-980f-8cdd1e6b6f7c.tmp
+--------------------------------------------------
+[2026-06-04 13:26:11] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\ab2fc6a1-0b28-4f6b-980f-8cdd1e6b6f7c.tmp
+--------------------------------------------------
+[2026-06-04 13:25:20] Size: 45,590,025 bytes
+Path: C:\Users\admin\AppData\Local\Temp\BWP_V3_c7df63f2-2b80-453e-a539-fba10b148613.tmp
+--------------------------------------------------
+[2026-06-04 13:25:20] Size: 45,590,025 bytes
+Path: C:\Users\admin\AppData\Local\Temp\BWP_V3_c7df63f2-2b80-453e-a539-fba10b148613.tmp
+--------------------------------------------------
+[2026-06-04 12:51:49] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF376419EFB2941823.TMP
+--------------------------------------------------
+[2026-06-04 12:51:49] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF376419EFB2941823.TMP
+--------------------------------------------------
+[2026-06-04 12:50:09] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF6C93A9DA439CDA72.TMP
+--------------------------------------------------
+[2026-06-04 12:50:09] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF6C93A9DA439CDA72.TMP
+--------------------------------------------------
+[2026-06-04 12:45:59] Size: 16,384 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFEA2EC4EAF1D7E61E.TMP
+--------------------------------------------------
+[2026-06-04 12:45:59] Size: 16,384 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFEA2EC4EAF1D7E61E.TMP
+--------------------------------------------------
+[2026-06-04 12:45:16] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF70977BE646B10D4E.TMP
+--------------------------------------------------
+[2026-06-04 12:45:16] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF70977BE646B10D4E.TMP
+--------------------------------------------------
+[2026-06-04 12:44:50] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFE742CBE70E2E8765.TMP
+--------------------------------------------------
+[2026-06-04 12:44:50] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFE742CBE70E2E8765.TMP
+--------------------------------------------------
+[2026-06-04 12:44:32] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFADA589E7531AE2A4.TMP
+--------------------------------------------------
+[2026-06-04 12:44:32] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFADA589E7531AE2A4.TMP
+--------------------------------------------------
+[2026-06-04 12:41:14] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFA326037F11C9194F.TMP
+--------------------------------------------------
+[2026-06-04 12:41:14] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFA326037F11C9194F.TMP
+--------------------------------------------------
+[2026-06-04 12:16:39] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF0C3C0AA6DFFF8DBF.TMP
+--------------------------------------------------
+[2026-06-04 12:16:39] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF0C3C0AA6DFFF8DBF.TMP
+--------------------------------------------------
+[2026-06-04 12:14:13] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF89D1ED22C2871858.TMP
+--------------------------------------------------
+[2026-06-04 12:14:13] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF89D1ED22C2871858.TMP
+--------------------------------------------------
+[2026-06-04 12:12:52] Size: 28,134 bytes
+Path: C:\Users\admin\AppData\Local\Google\Chrome\User Data\Profile 3\JumpListIconsMostVisited\5f6a13f9-11ba-4f14-8bff-0d3a3dc4f646.tmp
+--------------------------------------------------
+[2026-06-04 12:07:25] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF6EB22D4FE69C93BC.TMP
+--------------------------------------------------
+[2026-06-04 12:07:25] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF6EB22D4FE69C93BC.TMP
+--------------------------------------------------
+[2026-06-04 12:06:48] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF01B1C6E2C303FBCD.TMP
+--------------------------------------------------
+[2026-06-04 12:06:48] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF01B1C6E2C303FBCD.TMP
+--------------------------------------------------
+[2026-06-04 12:06:07] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF04C98049591B0936.TMP
+--------------------------------------------------
+[2026-06-04 12:06:07] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF04C98049591B0936.TMP
+--------------------------------------------------
+[2026-06-04 12:05:00] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFAB0EEEF03EA7D83E.TMP
+--------------------------------------------------
+[2026-06-04 12:05:00] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFAB0EEEF03EA7D83E.TMP
+--------------------------------------------------
+[2026-06-04 12:04:54] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF716270E9D8E85058.TMP
+--------------------------------------------------
+[2026-06-04 12:04:54] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF716270E9D8E85058.TMP
+--------------------------------------------------
+[2026-06-04 12:03:04] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFC04A1A2E0886EDC2.TMP
+--------------------------------------------------
+[2026-06-04 12:03:04] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFC04A1A2E0886EDC2.TMP
+--------------------------------------------------
+[2026-06-04 12:02:41] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF5833161CE4B3049C.TMP
+--------------------------------------------------
+[2026-06-04 12:02:41] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF5833161CE4B3049C.TMP
+--------------------------------------------------
+[2026-06-04 12:02:18] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF8B61BBF4D201D579.TMP
+--------------------------------------------------
+[2026-06-04 12:02:18] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF8B61BBF4D201D579.TMP
+--------------------------------------------------
+[2026-06-04 12:02:11] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF2759A68A763623B2.TMP
+--------------------------------------------------
+[2026-06-04 12:02:11] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF2759A68A763623B2.TMP
+--------------------------------------------------
+[2026-06-04 12:01:48] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF52C7955F987FA70D.TMP
+--------------------------------------------------
+[2026-06-04 12:01:48] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF52C7955F987FA70D.TMP
+--------------------------------------------------
+[2026-06-04 12:01:36] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFD041E2090D88AA06.TMP
+--------------------------------------------------
+[2026-06-04 12:01:36] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFD041E2090D88AA06.TMP
+--------------------------------------------------
+[2026-06-04 12:01:27] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF67429C8F5A16DF50.TMP
+--------------------------------------------------
+[2026-06-04 12:01:27] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF67429C8F5A16DF50.TMP
+--------------------------------------------------
+[2026-06-04 11:58:15] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFA7750A2D2ED091F5.TMP
+--------------------------------------------------
+[2026-06-04 11:58:15] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFA7750A2D2ED091F5.TMP
+--------------------------------------------------
+[2026-06-04 11:57:46] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF4FD42A6206CBA8F6.TMP
+--------------------------------------------------
+[2026-06-04 11:57:46] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF4FD42A6206CBA8F6.TMP
+--------------------------------------------------
+[2026-06-04 11:56:53] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF949C4F3381F3B0F5.TMP
+--------------------------------------------------
+[2026-06-04 11:56:53] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF949C4F3381F3B0F5.TMP
+--------------------------------------------------
+[2026-06-04 11:56:50] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFEC4F4F1B3E68AB3D.TMP
+--------------------------------------------------
+[2026-06-04 11:56:50] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFEC4F4F1B3E68AB3D.TMP
+--------------------------------------------------
+[2026-06-04 11:45:03] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF8A4D9E1FF400CA87.TMP
+--------------------------------------------------
+[2026-06-04 11:45:03] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF8A4D9E1FF400CA87.TMP
+--------------------------------------------------
+[2026-06-04 11:44:54] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFE7A0E4BE2E765896.TMP
+--------------------------------------------------
+[2026-06-04 11:44:54] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFE7A0E4BE2E765896.TMP
+--------------------------------------------------
+[2026-06-04 11:26:13] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF270814C4DCE960FB.TMP
+--------------------------------------------------
+[2026-06-04 11:26:13] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF270814C4DCE960FB.TMP
+--------------------------------------------------
+[2026-06-04 11:19:49] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF6B6E3B2EAF66B96D.TMP
+--------------------------------------------------
+[2026-06-04 11:19:49] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF6B6E3B2EAF66B96D.TMP
+--------------------------------------------------
+[2026-06-04 11:18:37] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF7B96718AEB2126B0.TMP
+--------------------------------------------------
+[2026-06-04 11:18:37] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF7B96718AEB2126B0.TMP
+--------------------------------------------------
+[2026-06-04 11:17:06] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFD202256B35DFF336.TMP
+--------------------------------------------------
+[2026-06-04 11:17:06] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFD202256B35DFF336.TMP
+--------------------------------------------------
+[2026-06-04 11:12:45] Size: 6,903 bytes
+Path: C:\Users\admin\AppData\Local\Temp\JSO5050.tmp
+--------------------------------------------------
+[2026-06-04 11:12:45] Size: 6,903 bytes
+Path: C:\Users\admin\AppData\Local\Temp\JSO5050.tmp
+--------------------------------------------------
+[2026-06-04 11:11:39] Size: 16,384 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF537E7CB12E27A250.TMP
+--------------------------------------------------
+[2026-06-04 11:11:39] Size: 16,384 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF537E7CB12E27A250.TMP
+--------------------------------------------------
+[2026-06-04 11:11:09] Size: 16,384 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFE1439A7F34AD1708.TMP
+--------------------------------------------------
+[2026-06-04 11:11:09] Size: 16,384 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFE1439A7F34AD1708.TMP
+--------------------------------------------------
+[2026-06-04 11:02:50] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF731476B93BC9DCBF.TMP
+--------------------------------------------------
+[2026-06-04 11:02:50] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF731476B93BC9DCBF.TMP
+--------------------------------------------------
+[2026-06-04 11:02:22] Size: 238,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\be0ef250-8921-4e53-9983-08526c5b0392.tmp
+--------------------------------------------------
+[2026-06-04 11:02:22] Size: 238,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\be0ef250-8921-4e53-9983-08526c5b0392.tmp
+--------------------------------------------------
+[2026-06-04 11:02:08] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF734259EA9842CE9C.TMP
+--------------------------------------------------
+[2026-06-04 11:02:08] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF734259EA9842CE9C.TMP
+--------------------------------------------------
+[2026-06-04 11:01:58] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF0105594334769727.TMP
+--------------------------------------------------
+[2026-06-04 11:01:58] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF0105594334769727.TMP
+--------------------------------------------------
+[2026-06-04 11:01:57] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF433C2A86B7E716BD.TMP
+--------------------------------------------------
+[2026-06-04 11:01:57] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF433C2A86B7E716BD.TMP
+--------------------------------------------------
+[2026-06-04 11:01:56] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFF858C2A00FF087C9.TMP
+--------------------------------------------------
+[2026-06-04 11:01:56] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFF858C2A00FF087C9.TMP
+--------------------------------------------------
+[2026-06-04 11:01:55] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFD465B8517EBE0645.TMP
+--------------------------------------------------
+[2026-06-04 11:01:55] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFD465B8517EBE0645.TMP
+--------------------------------------------------
+[2026-06-04 11:00:44] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF496438B36C1A8D90.TMP
+--------------------------------------------------
+[2026-06-04 11:00:44] Size: 1,536 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF496438B36C1A8D90.TMP
+--------------------------------------------------
+[2026-06-04 10:26:13] Size: 16,384 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF7420C09223F6CE89.TMP
+--------------------------------------------------
+[2026-06-04 10:26:13] Size: 16,384 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF7420C09223F6CE89.TMP
+--------------------------------------------------
+[2026-06-04 09:51:53] Size: 16,384 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF46A0355EAEDE00FC.TMP
+--------------------------------------------------
+[2026-06-04 09:51:53] Size: 16,384 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF46A0355EAEDE00FC.TMP
+--------------------------------------------------
+[2026-06-04 09:42:52] Size: 1,508,908 bytes
+Path: C:\Users\admin\AppData\Local\Temp\JSO619.tmp
+--------------------------------------------------
+[2026-06-04 09:42:52] Size: 1,508,908 bytes
+Path: C:\Users\admin\AppData\Local\Temp\JSO619.tmp
+--------------------------------------------------
+[2026-06-04 09:42:52] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\tmp62C.tmp
+--------------------------------------------------
+[2026-06-04 09:42:52] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\tmp62C.tmp
+--------------------------------------------------
+[2026-06-04 09:42:52] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\tmp62B.tmp
+--------------------------------------------------
+[2026-06-04 09:42:52] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\tmp62B.tmp
+--------------------------------------------------
+[2026-06-04 09:42:52] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\tmp62A.tmp
+--------------------------------------------------
+[2026-06-04 09:42:52] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\tmp62A.tmp
+--------------------------------------------------
+[2026-06-04 09:42:51] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\tmp2FB.tmp
+--------------------------------------------------
+[2026-06-04 09:42:51] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\tmp2FB.tmp
+--------------------------------------------------
+[2026-06-04 09:42:51] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\tmp2EA.tmp
+--------------------------------------------------
+[2026-06-04 09:42:51] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\tmp2EA.tmp
+--------------------------------------------------
+[2026-06-04 09:38:49] Size: 16,384 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFD8B4412F3C6359E5.TMP
+--------------------------------------------------
+[2026-06-04 09:38:49] Size: 16,384 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFD8B4412F3C6359E5.TMP
+--------------------------------------------------
+[2026-06-04 09:38:03] Size: 16,384 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFC7868B0B9C01A8B2.TMP
+--------------------------------------------------
+[2026-06-04 09:38:03] Size: 16,384 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DFC7868B0B9C01A8B2.TMP
+--------------------------------------------------
+[2026-06-04 09:37:13] Size: 16,384 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF399A5A7BDD670B11.TMP
+--------------------------------------------------
+[2026-06-04 09:37:13] Size: 16,384 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF399A5A7BDD670B11.TMP
+--------------------------------------------------
+[2026-06-04 09:35:53] Size: 30,951 bytes
+Path: C:\Users\admin\AppData\Local\Temp\JSO9FC0.tmp
+--------------------------------------------------
+[2026-06-04 09:35:53] Size: 30,951 bytes
+Path: C:\Users\admin\AppData\Local\Temp\JSO9FC0.tmp
+--------------------------------------------------
+[2026-06-04 09:29:08] Size: 16,384 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF3C6EE65708BE3796.TMP
+--------------------------------------------------
+[2026-06-04 09:29:08] Size: 16,384 bytes
+Path: C:\Users\admin\AppData\Local\Temp\~DF3C6EE65708BE3796.TMP
+--------------------------------------------------
+[2026-06-04 09:28:52] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\wct356F.tmp
+--------------------------------------------------
+[2026-06-04 09:28:52] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\wct356F.tmp
+--------------------------------------------------
+[2026-06-04 09:27:42] Size: 29,819 bytes
+Path: C:\Users\admin\AppData\Local\Temp\1b9c261f-b500-48e1-a121-712a6c92429b.tmp
+--------------------------------------------------
+[2026-06-04 09:27:42] Size: 29,819 bytes
+Path: C:\Users\admin\AppData\Local\Temp\1b9c261f-b500-48e1-a121-712a6c92429b.tmp
+--------------------------------------------------
+[2026-06-04 09:27:38] Size: 269,621 bytes
+Path: C:\Users\admin\AppData\Local\Temp\8538814a-1122-48b8-bba2-09279073033c.tmp
+--------------------------------------------------
+[2026-06-04 09:27:38] Size: 269,621 bytes
+Path: C:\Users\admin\AppData\Local\Temp\8538814a-1122-48b8-bba2-09279073033c.tmp
+--------------------------------------------------
+[2026-06-04 09:26:23] Size: 28,134 bytes
+Path: C:\Users\admin\AppData\Local\Google\Chrome\User Data\Profile 3\JumpListIconsMostVisited\301f39f3-359d-4bdb-8c9c-6589323f7ccd.tmp
+--------------------------------------------------
+[2026-06-04 09:26:23] Size: 28,134 bytes
+Path: C:\Users\admin\AppData\Local\Google\Chrome\User Data\Profile 3\JumpListIconsMostVisited\a798167c-97d8-4647-baa3-dd3cf4d33224.tmp
+--------------------------------------------------
+[2026-06-04 09:26:23] Size: 28,134 bytes
+Path: C:\Users\admin\AppData\Local\Google\Chrome\User Data\Profile 3\JumpListIconsMostVisited\7eefec01-c730-45eb-9344-57653bae12ce.tmp
+--------------------------------------------------
+[2026-06-04 09:25:38] Size: 34,695 bytes
+Path: C:\Users\admin\AppData\Local\Temp\35ce90bd-456d-4c60-bd9f-fea433105cc6.tmp
+--------------------------------------------------
+[2026-06-04 09:25:38] Size: 34,695 bytes
+Path: C:\Users\admin\AppData\Local\Temp\35ce90bd-456d-4c60-bd9f-fea433105cc6.tmp
+--------------------------------------------------
+[2026-06-04 09:25:06] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\d48d52e0-d051-4767-a2b9-e59ed7e79298.tmp
+--------------------------------------------------
+[2026-06-04 09:25:06] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\d48d52e0-d051-4767-a2b9-e59ed7e79298.tmp
+--------------------------------------------------
+[2026-06-04 09:25:06] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\3b21c931-91a8-4100-9c23-8ad02225343b.tmp
+--------------------------------------------------
+[2026-06-04 09:25:06] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\3b21c931-91a8-4100-9c23-8ad02225343b.tmp
+--------------------------------------------------
+[2026-06-04 09:24:45] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\18c0a544-e241-41a0-ad86-f2c443689c84.tmp
+--------------------------------------------------
+[2026-06-04 09:24:45] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\18c0a544-e241-41a0-ad86-f2c443689c84.tmp
+--------------------------------------------------
+[2026-06-04 09:24:43] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\cf9561db-dfb4-4919-a0e7-233afe6a70f6.tmp
+--------------------------------------------------
+[2026-06-04 09:24:43] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\cf9561db-dfb4-4919-a0e7-233afe6a70f6.tmp
+--------------------------------------------------
+[2026-06-04 09:24:42] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\d9c67fd2-d27b-4c5c-83c8-c9b39eec8e79.tmp
+--------------------------------------------------
+[2026-06-04 09:24:42] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Temp\d9c67fd2-d27b-4c5c-83c8-c9b39eec8e79.tmp
+--------------------------------------------------
+[2026-06-04 09:24:29] Size: 27,216 bytes
+Path: C:\Users\admin\AppData\Local\Temp\783435e9-5487-48ea-af6a-a3117787856e.tmp
+--------------------------------------------------
+[2026-06-04 09:24:29] Size: 27,216 bytes
+Path: C:\Users\admin\AppData\Local\Temp\783435e9-5487-48ea-af6a-a3117787856e.tmp
+--------------------------------------------------
+[2026-06-04 09:23:35] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Packages\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\AC\Temp\561cd37e-5823-4161-9f4b-c4205bfc0631.tmp
+--------------------------------------------------
+[2026-06-04 09:23:27] Size: 0 bytes
+Path: C:\Users\admin\AppData\Local\Microsoft\Windows\Notifications\WPNPRMRY.tmp
+--------------------------------------------------
+[2026-06-04 06:51:07] Size: 141,233 bytes
+Path: C:\Users\admin\AppData\Local\Temp\msedgeedge_BITS_5472_1236572429\BIT2CC4.tmp
+--------------------------------------------------
+[2026-06-04 06:51:07] Size: 141,233 bytes
+Path: C:\Users\admin\AppData\Local\Temp\msedgeedge_BITS_5472_1236572429\BIT2CC4.tmp
+--------------------------------------------------
