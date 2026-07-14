@@ -19,8 +19,31 @@ try:
 except ImportError:
     HAS_GOOGLE_API = False
 
+# Helper to get or create a specific folder in Google Drive
+def get_or_create_folder(drive_service, folder_name):
+    try:
+        # Search for folder with specified name
+        query = f"name = '{folder_name}' and mimeType = 'application/vnd.google-apps.folder' and trashed = false"
+        results = drive_service.files().list(q=query, fields="files(id)").execute()
+        files = results.get('files', [])
+        
+        if files:
+            return files[0]['id']
+        else:
+            # Create folder if it doesn't exist
+            file_metadata = {
+                'name': folder_name,
+                'mimeType': 'application/vnd.google-apps.folder'
+            }
+            folder = drive_service.files().create(body=file_metadata, fields='id').execute()
+            print(f"[GOOGLE DRIVE FOLDER] Created Folder: {folder_name} (ID: {folder.get('id')})")
+            return folder.get('id')
+    except Exception as e:
+        print(f"[ERROR] Failed to get or create folder {folder_name}: {e}")
+        return None
+
 # Helper to upload signature image to Drive and return direct download URL (needed for Google Doc import)
-def upload_signature_image(drive_service, sig_b64, filename):
+def upload_signature_image(drive_service, sig_b64, filename, folder_id):
     try:
         if not sig_b64 or "," not in sig_b64:
             return ""
@@ -31,10 +54,14 @@ def upload_signature_image(drive_service, sig_b64, filename):
         with open(temp_path, "wb") as f:
             f.write(sig_data)
             
+        # Save image inside the specified folder
         file_metadata = {
             'name': filename,
             'mimeType': 'image/png'
         }
+        if folder_id:
+            file_metadata['parents'] = [folder_id]
+            
         media = MediaFileUpload(temp_path, mimetype='image/png', resumable=True)
         file = drive_service.files().create(body=file_metadata, media_body=media, fields='id').execute()
         file_id = file.get('id')
@@ -88,16 +115,22 @@ def upload_to_google_drive(html_path, doc_title, student_sig_b64, parent_sig_b64
             
         drive_service = build('drive', 'v3', credentials=creds)
         
-        # 1) Upload signature images first to get direct download links
+        # Get or create specific folder: "2027학년도_입학등록확인서_제출본"
+        folder_name = "2027학년도_입학등록확인서_제출본"
+        folder_id = get_or_create_folder(drive_service, folder_name)
+        
+        # 1) Upload signature images inside target folder first to get direct download links
         student_sig_url = upload_signature_image(
             drive_service, 
             student_sig_b64, 
-            f"{student_id}_{student_name}_학생서명_임시.png"
+            f"{student_id}_{student_name}_학생서명_임시.png",
+            folder_id
         )
         parent_sig_url = upload_signature_image(
             drive_service, 
             parent_sig_b64, 
-            f"{student_id}_{student_name}_보호자서명_임시.png"
+            f"{student_id}_{student_name}_보호자서명_임시.png",
+            folder_id
         )
         
         # Read HTML file and replace placeholder URLs with direct download URLs
@@ -111,11 +144,14 @@ def upload_to_google_drive(html_path, doc_title, student_sig_b64, parent_sig_b64
         with open(html_path, "w", encoding="utf-8") as f:
             f.write(html_content)
             
-        # Define metadata to upload and convert HTML to Google Doc format
+        # Define metadata to upload and convert HTML to Google Doc format inside the folder
         file_metadata = {
             'name': doc_title,
             'mimeType': 'application/vnd.google-apps.document'
         }
+        if folder_id:
+            file_metadata['parents'] = [folder_id]
+            
         media = MediaFileUpload(html_path, mimetype='text/html', resumable=True)
         file = drive_service.files().create(body=file_metadata, media_body=media, fields='id, webViewLink').execute()
         
