@@ -1,6 +1,7 @@
 import os
 import json
 import base64
+import requests
 from flask import Flask, request, jsonify
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
@@ -23,21 +24,33 @@ def upload_to_google_drive(html_path, doc_title):
         print("[WARNING] Google API libraries not installed. Skipping Google Doc upload.")
         return None
         
-    token_path = os.path.join(DIRECTORY, 'token.json')
-    if not os.path.exists(token_path):
-        print("[WARNING] token.json not found. Skipping Google Doc upload.")
+    # Support both Vercel Environment Variable and local token.json file
+    token_json_str = os.environ.get("GOOGLE_TOKEN_JSON")
+    creds = None
+    if token_json_str:
+        try:
+            token_data = json.loads(token_json_str)
+            creds = Credentials.from_authorized_user_info(token_data, ['https://www.googleapis.com/auth/drive'])
+        except Exception as e:
+            print(f"[WARNING] Failed to parse GOOGLE_TOKEN_JSON env var: {e}")
+            creds = None
+            
+    if not creds:
+        token_path = os.path.join(DIRECTORY, 'token.json')
+        if os.path.exists(token_path):
+            try:
+                creds = Credentials.from_authorized_user_file(token_path, ['https://www.googleapis.com/auth/drive'])
+            except Exception as e:
+                print(f"[WARNING] Failed to load token.json file: {e}")
+                
+    if not creds:
+        print("[WARNING] No valid Google credentials found. Skipping Google Doc upload.")
         return None
         
     try:
-        # Load credentials from token.json
-        creds = Credentials.from_authorized_user_file(token_path, ['https://www.googleapis.com/auth/drive'])
-        if not creds or not creds.valid:
-            if creds and creds.expired and creds.refresh_token:
-                creds.refresh(Request())
-            else:
-                print("[WARNING] Google credentials invalid or expired. Skipping Google Doc upload.")
-                return None
-                
+        if creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+            
         drive_service = build('drive', 'v3', credentials=creds)
         
         # Define metadata to upload and convert HTML to Google Doc format
@@ -88,7 +101,7 @@ def submit():
         student_sig_b64 = payload.get("studentSignature", "")
         parent_sig_b64 = payload.get("parentSignature", "")
         
-        # Generate A4 formatted HTML with embedded base64 signature images (mix-blend overlay)
+        # Generate A4 formatted HTML with embedded base64 signature images
         html_content = f"""<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -130,7 +143,6 @@ def submit():
       font-weight: bold;
       color: #1c4587;
       margin-bottom: 12px;
-      font-family: sans-serif;
     }}
     .title-line {{
       height: 2.5px;
@@ -294,6 +306,27 @@ def submit():
         
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
+
+@app.route("/api/chat", methods=["POST"])
+def chat_proxy():
+    # Keep support for Gemini Chatbot Proxy API if needed
+    try:
+        data = request.get_json()
+        api_key = data.get("apiKey")
+        model = data.get("model")
+        contents = data.get("contents")
+        
+        if not api_key:
+            api_key = os.environ.get("GEMINI_API_KEY")
+            
+        if not api_key:
+            return jsonify({"error": "API Key is missing"}), 400
+            
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
+        response = requests.post(url, json={"contents": contents}, timeout=60)
+        return jsonify(response.json())
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
