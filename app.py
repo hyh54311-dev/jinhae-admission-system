@@ -9,6 +9,10 @@ PDF_URLS = [
     "https://drive.google.com/file/d/1n9TbyKBxk9EKbwlVpBToNM4AeoM9LCK-/view?usp=sharing",
 ]
 
+@app.route("/")
+def home():
+    return "진해고등학교 신입생 입학등록 챗봇 서버가 정상 작동 중입니다. (KakaoTalk Chatbot API Server is running.)"
+
 @app.route("/message", methods=["POST"])
 def message():
     """
