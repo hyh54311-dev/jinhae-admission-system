@@ -19,12 +19,47 @@ try:
 except ImportError:
     HAS_GOOGLE_API = False
 
-def upload_to_google_drive(html_path, doc_title):
+# Helper to upload signature image to Drive and return direct download URL (needed for Google Doc import)
+def upload_signature_image(drive_service, sig_b64, filename):
+    try:
+        if not sig_b64 or "," not in sig_b64:
+            return ""
+            
+        # Decode base64 signature image
+        sig_data = base64.b64decode(sig_b64.split(",")[1])
+        temp_path = f"/tmp/{filename}"
+        with open(temp_path, "wb") as f:
+            f.write(sig_data)
+            
+        file_metadata = {
+            'name': filename,
+            'mimeType': 'image/png'
+        }
+        media = MediaFileUpload(temp_path, mimetype='image/png', resumable=True)
+        file = drive_service.files().create(body=file_metadata, media_body=media, fields='id').execute()
+        file_id = file.get('id')
+        
+        # Share permission: anyone with link can view (reader) so Google Doc importer can fetch it
+        drive_service.permissions().create(
+            fileId=file_id,
+            body={'type': 'anyone', 'role': 'reader'}
+        ).execute()
+        
+        # Clean up temp file
+        if os.path.exists(temp_path):
+            os.remove(temp_path)
+            
+        # Direct download link structure
+        return f"https://drive.google.com/uc?export=download&id={file_id}"
+    except Exception as e:
+        print(f"[ERROR] Failed to upload signature image {filename}: {e}")
+        return ""
+
+def upload_to_google_drive(html_path, doc_title, student_sig_b64, parent_sig_b64, student_id, student_name):
     if not HAS_GOOGLE_API:
         print("[WARNING] Google API libraries not installed. Skipping Google Doc upload.")
         return None
         
-    # Support both Vercel Environment Variable and local token.json file
     token_json_str = os.environ.get("GOOGLE_TOKEN_JSON")
     creds = None
     if token_json_str:
@@ -53,6 +88,29 @@ def upload_to_google_drive(html_path, doc_title):
             
         drive_service = build('drive', 'v3', credentials=creds)
         
+        # 1) Upload signature images first to get direct download links
+        student_sig_url = upload_signature_image(
+            drive_service, 
+            student_sig_b64, 
+            f"{student_id}_{student_name}_학생서명_임시.png"
+        )
+        parent_sig_url = upload_signature_image(
+            drive_service, 
+            parent_sig_b64, 
+            f"{student_id}_{student_name}_보호자서명_임시.png"
+        )
+        
+        # Read HTML file and replace placeholder URLs with direct download URLs
+        with open(html_path, "r", encoding="utf-8") as f:
+            html_content = f.read()
+            
+        html_content = html_content.replace("PLACEHOLDER_STUDENT_SIG_URL", student_sig_url)
+        html_content = html_content.replace("PLACEHOLDER_PARENT_SIG_URL", parent_sig_url)
+        
+        # Rewrite the resolved HTML to temp file
+        with open(html_path, "w", encoding="utf-8") as f:
+            f.write(html_content)
+            
         # Define metadata to upload and convert HTML to Google Doc format
         file_metadata = {
             'name': doc_title,
@@ -101,188 +159,115 @@ def submit():
         student_sig_b64 = payload.get("studentSignature", "")
         parent_sig_b64 = payload.get("parentSignature", "")
         
-        # Generate A4 formatted HTML with embedded base64 signature images
+        # Generate A4 formatted HTML using standard HTML Tables (Google Doc Import compatible)
         html_content = f"""<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <title>2027학년도 진해고등학교 입학등록확인서</title>
-  <style>
-    body {{
-      font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
-      display: flex;
-      justify-content: center;
-      padding: 40px 0;
-      background-color: #f1f5f9;
-    }}
-    .page {{
-      background-color: #ffffff;
-      width: 210mm;
-      height: 297mm;
-      padding: 20mm;
-      box-sizing: border-box;
-      border: 1px solid #cbd5e1;
-      position: relative;
-    }}
-    .border-box {{
-      border: 2px solid #1c4587;
-      width: 100%;
-      height: 100%;
-      box-sizing: border-box;
-      padding: 50px 40px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }}
-    .title-area {{
-      text-align: center;
-      margin-top: 20px;
-    }}
-    .title {{
-      font-size: 26px;
-      font-weight: bold;
-      color: #1c4587;
-      margin-bottom: 12px;
-    }}
-    .title-line {{
-      height: 2.5px;
-      background-color: #1c4587;
-      width: 80%;
-      margin: 0 auto;
-    }}
-    .info-table {{
-      margin-left: auto;
-      margin-right: 50px;
-      margin-top: 60px;
-      border-collapse: collapse;
-      font-size: 16px;
-    }}
-    .info-table td {{
-      padding: 10px 12px;
-      vertical-align: middle;
-    }}
-    .info-label {{
-      font-weight: bold;
-      width: 130px;
-      letter-spacing: 0.1em;
-    }}
-    .info-colon {{
-      width: 15px;
-      text-align: center;
-      font-weight: bold;
-    }}
-    .info-value {{
-      width: 200px;
-      border-bottom: 1px solid #94a3b8;
-      padding-left: 10px;
-      font-size: 16px;
-    }}
-    .statement-area {{
-      text-align: center;
-      font-size: 17px;
-      font-weight: bold;
-      line-height: 1.8;
-      margin: 60px 0;
-      color: #000000;
-    }}
-    .date-area {{
-      text-align: center;
-      font-size: 16px;
-      margin: 40px 0;
-      font-weight: 500;
-    }}
-    .signature-area {{
-      margin-left: auto;
-      margin-right: 50px;
-      margin-bottom: 50px;
-      font-size: 16px;
-    }}
-    .sig-row {{
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      margin-bottom: 20px;
-      gap: 15px;
-    }}
-    .sig-label {{
-      width: 80px;
-      font-weight: bold;
-      letter-spacing: 0.2em;
-    }}
-    .footer-area {{
-      text-align: center;
-      font-size: 26px;
-      font-weight: bold;
-      color: #000000;
-      margin-bottom: 30px;
-      letter-spacing: 0.05em;
-    }}
-  </style>
 </head>
-<body>
-  <div class="page">
-    <div class="border-box">
-      <div class="title-area">
-        <div class="title">2027학년도 진해고등학교 입학등록확인서</div>
-        <div class="title-line"></div>
-      </div>
-      
-      <table class="info-table" border="0">
-        <tr>
-          <td class="info-label">접 수 번 호</td>
-          <td class="info-colon">:</td>
-          <td class="info-value">{student_id}</td>
-        </tr>
-        <tr>
-          <td class="info-label">성&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;명</td>
-          <td class="info-colon">:</td>
-          <td class="info-value">{student_name}</td>
-        </tr>
-        <tr>
-          <td class="info-label">출 신 중 학 교</td>
-          <td class="info-colon">:</td>
-          <td class="info-value">{school_name}</td>
-        </tr>
-        <tr>
-          <td class="info-label">생 년 월 일</td>
-          <td class="info-colon">:</td>
-          <td class="info-value">{birth_date}</td>
-        </tr>
-      </table>
-      
-      <div class="statement-area">
-        본인은 2027학년도 비평준화지역 일반고 입학전형에서<br>진해고등학교에 입학을 희망합니다.
-      </div>
-      
-      <div class="date-area">
-        2027년   1월   4일
-      </div>
-      
-      <div class="signature-area">
-        <div class="sig-row">
-          <div class="sig-label">학  생 :</div>
-          <div style="font-weight: 500; font-size: 16px; width: 100px; text-align: center; border-bottom: 1px solid #94a3b8; padding-bottom: 5px;">{student_name}</div>
-          <div style="position: relative; width: 130px; height: 40px; display: inline-block; vertical-align: middle; border-bottom: 1px solid #94a3b8; padding-bottom: 5px; margin-left: 10px;">
-            <span style="position: absolute; left: 10px; top: 10px; color: #64748b; font-size: 15px; z-index: 1;">(서명 또는 인)</span>
-            <img src="{student_sig_b64}" style="position: absolute; left: 10px; top: -10px; width: 100px; height: 50px; z-index: 2; mix-blend-mode: multiply; opacity: 0.9;">
-          </div>
-        </div>
+<body style="font-family: 'Malgun Gothic', 'Noto Sans KR', sans-serif; background-color: #ffffff; padding: 0; margin: 0; display: flex; justify-content: center;">
+  
+  <!-- Outer border box using standard table -->
+  <table border="0" cellpadding="0" cellspacing="0" style="border: 2px solid #1c4587; width: 620px; min-height: 870px; margin: 20px auto; border-collapse: collapse;">
+    <tr>
+      <td style="padding: 40px 35px; vertical-align: top; height: 100%;">
         
-        <div class="sig-row" style="margin-top: 15px;">
-          <div class="sig-label">보호자 :</div>
-          <div style="font-weight: 500; font-size: 16px; width: 100px; text-align: center; border-bottom: 1px solid #94a3b8; padding-bottom: 5px;">{parent_name}</div>
-          <div style="position: relative; width: 130px; height: 40px; display: inline-block; vertical-align: middle; border-bottom: 1px solid #94a3b8; padding-bottom: 5px; margin-left: 10px;">
-            <span style="position: absolute; left: 10px; top: 10px; color: #64748b; font-size: 15px; z-index: 1;">(서명 또는 인)</span>
-            <img src="{parent_sig_b64}" style="position: absolute; left: 10px; top: -10px; width: 100px; height: 50px; z-index: 2; mix-blend-mode: multiply; opacity: 0.9;">
-          </div>
-        </div>
-      </div>
-      
-      <div class="footer-area">
-        진해고등학교장 귀하
-      </div>
-    </div>
-  </div>
+        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; height: 100%;">
+          
+          <!-- Title Header -->
+          <tr>
+            <td align="center" style="padding-top: 10px; padding-bottom: 25px;">
+              <span style="font-size: 24px; font-weight: bold; color: #1c4587; letter-spacing: -0.01em;">2027학년도 진해고등학교 입학등록확인서</span>
+              <div style="height: 2px; background-color: #1c4587; width: 90%; margin-top: 10px; overflow: hidden;"></div>
+            </td>
+          </tr>
+          
+          <!-- Info block (Right Aligned Table) -->
+          <tr>
+            <td align="right" style="padding-top: 20px; padding-bottom: 30px;">
+              <table border="0" cellpadding="0" cellspacing="0" style="font-size: 15px; margin-right: 20px; text-align: left;">
+                <tr>
+                  <td style="font-weight: bold; padding: 6px 0; width: 110px; letter-spacing: 0.1em;">접 수 번 호</td>
+                  <td style="padding: 6px 10px; font-weight: bold;">:</td>
+                  <td style="border-bottom: 1px solid #94a3b8; width: 170px; padding: 6px 5px; color: #334155;">{student_id}</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: bold; padding: 6px 0; letter-spacing: 0.2em;">성&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;명</td>
+                  <td style="padding: 6px 10px; font-weight: bold;">:</td>
+                  <td style="border-bottom: 1px solid #94a3b8; padding: 6px 5px; color: #334155;">{student_name}</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: bold; padding: 6px 0; letter-spacing: 0.1em;">출신중학교</td>
+                  <td style="padding: 6px 10px; font-weight: bold;">:</td>
+                  <td style="border-bottom: 1px solid #94a3b8; padding: 6px 5px; color: #334155;">{school_name}</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: bold; padding: 6px 0; letter-spacing: 0.1em;">생 년 월 일</td>
+                  <td style="padding: 6px 10px; font-weight: bold;">:</td>
+                  <td style="border-bottom: 1px solid #94a3b8; padding: 6px 5px; color: #334155;">{birth_date}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          
+          <!-- Pledge Statement -->
+          <tr>
+            <td align="center" style="font-size: 16px; font-weight: bold; line-height: 1.8; padding: 50px 0; color: #000000; text-align: center;">
+              본인은 2027학년도 비평준화지역 일반고 입학전형에서<br>
+              <span style="color: #1c4587;">진해고등학교</span>에 입학을 희망합니다.
+            </td>
+          </tr>
+          
+          <!-- Date -->
+          <tr>
+            <td align="center" style="font-size: 15px; font-weight: bold; padding: 30px 0; text-align: center; color: #000000;">
+              2027년   1월   4일
+            </td>
+          </tr>
+          
+          <!-- Signature Block (Right Aligned Table) -->
+          <tr>
+            <td align="right" style="padding-top: 30px; padding-bottom: 40px;">
+              <table border="0" cellpadding="0" cellspacing="0" style="font-size: 15px; margin-right: 20px; text-align: left;">
+                
+                <!-- Student Signature -->
+                <tr>
+                  <td style="font-weight: bold; padding: 10px 0; width: 70px; letter-spacing: 0.2em;">학&nbsp;&nbsp;&nbsp;생 :</td>
+                  <td style="border-bottom: 1px solid #94a3b8; width: 90px; text-align: center; padding: 10px 5px;">{student_name}</td>
+                  <td style="border-bottom: 1px solid #94a3b8; width: 110px; text-align: center; padding: 0 5px; vertical-align: middle;">
+                    <img src="PLACEHOLDER_STUDENT_SIG_URL" width="90" height="35" style="display: block; margin: 0 auto; vertical-align: middle;">
+                  </td>
+                  <td style="color: #64748b; font-size: 13px; padding: 10px 0 10px 10px;">(서명 또는 인)</td>
+                </tr>
+                
+                <!-- Parent Signature -->
+                <tr>
+                  <td style="font-weight: bold; padding: 10px 0; letter-spacing: 0.2em;">보호자 :</td>
+                  <td style="border-bottom: 1px solid #94a3b8; width: 90px; text-align: center; padding: 10px 5px;">{parent_name}</td>
+                  <td style="border-bottom: 1px solid #94a3b8; width: 110px; text-align: center; padding: 0 5px; vertical-align: middle;">
+                    <img src="PLACEHOLDER_PARENT_SIG_URL" width="90" height="35" style="display: block; margin: 0 auto; vertical-align: middle;">
+                  </td>
+                  <td style="color: #64748b; font-size: 13px; padding: 10px 0 10px 10px;">(서명 또는 인)</td>
+                </tr>
+                
+              </table>
+            </td>
+          </tr>
+          
+          <!-- Dean Seal/Name -->
+          <tr>
+            <td align="center" style="font-size: 22px; font-weight: bold; color: #000000; padding-top: 40px; padding-bottom: 20px; text-align: center; letter-spacing: 0.05em;">
+              진해고등학교장 귀하
+            </td>
+          </tr>
+          
+        </table>
+        
+      </td>
+    </tr>
+  </table>
+  
 </body>
 </html>"""
         
@@ -292,7 +277,15 @@ def submit():
             f.write(html_content)
             
         doc_title = f"{student_id}_{student_name}_입학등록확인서"
-        doc_link = upload_to_google_drive(temp_html_path, doc_title)
+        # Call Google Drive API with signature URLs replacement flow
+        doc_link = upload_to_google_drive(
+            temp_html_path, 
+            doc_title, 
+            student_sig_b64, 
+            parent_sig_b64, 
+            student_id, 
+            student_name
+        )
         
         # Cleanup temporary file
         if os.path.exists(temp_html_path):
@@ -309,7 +302,6 @@ def submit():
 
 @app.route("/api/chat", methods=["POST"])
 def chat_proxy():
-    # Keep support for Gemini Chatbot Proxy API if needed
     try:
         data = request.get_json()
         api_key = data.get("apiKey")
