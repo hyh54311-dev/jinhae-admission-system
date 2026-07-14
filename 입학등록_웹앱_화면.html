@@ -692,17 +692,26 @@
     
     function drawCanvasGuidelines(canvasEl, ctxEl) {
       ctxEl.save();
-      ctxEl.strokeStyle = '#e2e8f0';
-      ctxEl.lineWidth = 1;
-      ctxEl.setLineDash([4, 4]);
       
-      // Middle horizontal helper line
       const w = canvasEl.width / (window.devicePixelRatio || 1);
       const h = canvasEl.height / (window.devicePixelRatio || 1);
+      
+      // Middle horizontal helper line
+      ctxEl.strokeStyle = '#f1f5f9';
+      ctxEl.lineWidth = 1;
+      ctxEl.setLineDash([4, 4]);
       ctxEl.beginPath();
       ctxEl.moveTo(10, h / 2);
       ctxEl.lineTo(w - 10, h / 2);
       ctxEl.stroke();
+      
+      // Draw subtle gray watermark text "(서명 또는 인)"
+      ctxEl.fillStyle = '#cbd5e1';
+      ctxEl.font = '16px "Malgun Gothic", "Noto Sans KR", sans-serif';
+      ctxEl.textAlign = 'center';
+      ctxEl.textBaseline = 'middle';
+      ctxEl.fillText('(서명 또는 인)', w / 2, h / 2);
+      
       ctxEl.restore();
     }
     

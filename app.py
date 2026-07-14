@@ -269,22 +269,20 @@ def submit():
                 
                 <!-- Student Signature -->
                 <tr>
-                  <td style="font-weight: bold; padding: 10px 0; width: 70px; letter-spacing: 0.2em;">학&nbsp;&nbsp;&nbsp;생 :</td>
-                  <td style="border-bottom: 1px solid #94a3b8; width: 90px; text-align: center; padding: 10px 5px;">{student_name}</td>
-                  <td style="border-bottom: 1px solid #94a3b8; width: 110px; text-align: center; padding: 0 5px; vertical-align: middle;">
-                    <img src="PLACEHOLDER_STUDENT_SIG_URL" width="90" height="35" style="display: block; margin: 0 auto; vertical-align: middle;">
+                  <td style="font-weight: bold; padding: 10px 0; width: 80px; letter-spacing: 0.2em; font-size: 16px;">학&nbsp;&nbsp;&nbsp;생 :</td>
+                  <td style="border-bottom: 1px solid #94a3b8; width: 100px; text-align: center; padding: 10px 5px; font-size: 16px;">{student_name}</td>
+                  <td style="border-bottom: 1px solid #94a3b8; width: 130px; text-align: center; padding: 0 5px; vertical-align: middle;">
+                    <img src="PLACEHOLDER_STUDENT_SIG_URL" width="110" height="40" style="display: block; margin: 0 auto; vertical-align: middle;">
                   </td>
-                  <td style="color: #64748b; font-size: 13px; padding: 10px 0 10px 10px;">(서명 또는 인)</td>
                 </tr>
                 
                 <!-- Parent Signature -->
                 <tr>
-                  <td style="font-weight: bold; padding: 10px 0; letter-spacing: 0.2em;">보호자 :</td>
-                  <td style="border-bottom: 1px solid #94a3b8; width: 90px; text-align: center; padding: 10px 5px;">{parent_name}</td>
-                  <td style="border-bottom: 1px solid #94a3b8; width: 110px; text-align: center; padding: 0 5px; vertical-align: middle;">
-                    <img src="PLACEHOLDER_PARENT_SIG_URL" width="90" height="35" style="display: block; margin: 0 auto; vertical-align: middle;">
+                  <td style="font-weight: bold; padding: 10px 0; letter-spacing: 0.2em; font-size: 16px;">보호자 :</td>
+                  <td style="border-bottom: 1px solid #94a3b8; width: 100px; text-align: center; padding: 10px 5px; font-size: 16px;">{parent_name}</td>
+                  <td style="border-bottom: 1px solid #94a3b8; width: 130px; text-align: center; padding: 0 5px; vertical-align: middle;">
+                    <img src="PLACEHOLDER_PARENT_SIG_URL" width="110" height="40" style="display: block; margin: 0 auto; vertical-align: middle;">
                   </td>
-                  <td style="color: #64748b; font-size: 13px; padding: 10px 0 10px 10px;">(서명 또는 인)</td>
                 </tr>
                 
               </table>
