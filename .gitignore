@@ -1,8 +1,13 @@
-# Security
+# Security & Tokens
 .env
 api/.env
+token.json
+token_*.json
+credentials.json
+.google_messages_session/
+Cookies
 
-# Python
+# Python & Node Build Outputs
 __pycache__/
 *.pyc
 *.pyo
@@ -10,20 +15,35 @@ __pycache__/
 .Python
 env/
 venv/
-pip-log.txt
-pip-delete-this-directory.txt
+node_modules/
+build/
+dist/
+*.spec
 
-# Logs
-*.log
-last_error.txt
+# Windows Binaries & Archives
+*.exe
+*.zip
+*.bat
+*.vbs
 
-# OS
-.DS_Store
-Thumbs.db
+# Desktop Document Assets (Not needed on server)
+*.pdf
+*.xlsx
+*.csv
+*.docx
+*.hwp
+*.pptx
+
+# Media Assets (Not needed on server)
+*.png
+*.jpg
+*.jpeg
+*.ico
+*.svg
 
 # Test Outputs
 test_output/
-token.json
-token_*.json
-credentials.json
-node_modules/
+
+# OS Files
+.DS_Store
+Thumbs.db

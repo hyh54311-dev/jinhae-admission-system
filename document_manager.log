@@ -1,0 +1,1353 @@
+D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py:13: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-03-27 14:46:51] 공문 분석 작업 시작...
+[2026-03-27 14:46:51] 새 문서 감지: test_doc.pdf
+[2026-03-27 14:46:52] Gemini 분석 중 오류 발생: 404 This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.
+[2026-03-27 14:46:52] 추가로 처리할 새 문서가 없습니다.
+[2026-03-27 14:46:52] 마감일 알림 체크 중...
+D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py:13: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-03-27 14:47:17] 공문 분석 작업 시작...
+[2026-03-27 14:47:17] 새 문서 감지: test_doc.pdf
+[2026-03-27 14:47:17] Gemini 분석 중 오류 발생: 404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+[2026-03-27 14:47:17] 추가로 처리할 새 문서가 없습니다.
+[2026-03-27 14:47:17] 마감일 알림 체크 중...
+D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py:13: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-03-27 14:47:45] 공문 분석 작업 시작...
+[2026-03-27 14:47:45] 새 문서 감지: test_doc.pdf
+[2026-03-27 14:47:49] 엑셀 기록 완료: N/A
+[2026-03-27 14:47:49] 마감일 알림 체크 중...
+D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py:13: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-03-27 14:48:30] 공문 분석 작업 시작...
+[2026-03-27 14:48:30] 새 문서 감지: test_doc_text.pdf
+[2026-03-27 14:48:36] 엑셀 기록 완료: 재단법인 창원시장학회 장학생 추천
+[2026-03-27 14:48:36] 마감일 알림 체크 중...
+D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py:13: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-03-27 14:49:59] 공문 분석 작업 시작...
+[2026-03-27 14:49:59] 추가로 처리할 새 문서가 없습니다.
+[2026-03-27 14:49:59] 마감일 알림 체크 중...
+D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py:13: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-03-27 14:50:24] 공문 분석 작업 시작...
+[2026-03-27 14:50:24] 새 문서 감지: test_doc.pdf
+[2026-03-27 14:50:29] 엑셀 기록 완료: N/A
+[2026-03-27 14:50:29] 새 문서 감지: test_doc_text.pdf
+[2026-03-27 14:50:34] 엑셀 기록 완료: 재단법인 창원시장학회 장학생 추천
+[2026-03-27 14:50:34] 마감일 알림 체크 중...
+D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py:13: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-03-27 14:51:59] 공문 분석 작업 시작 (하위 폴더 포함)...
+[2026-03-27 14:51:59] 새 문서 감지: 2026_03_장학\sub_test.pdf
+[2026-03-27 14:52:03] 엑셀 기록 완료: N/A
+[2026-03-27 14:52:03] 마감일 알림 체크 중...
+D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py:13: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-03-27 14:56:09] 공문 분석 작업 시작 (구글 드라이브 통합)...
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py", line 294, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py", line 235, in process_docs
+    service = get_drive_service()
+              ^^^^^^^^^^^^^^^^^^^
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py", line 50, in get_drive_service
+    creds.refresh(Request())
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\credentials.py", line 412, in refresh
+    ) = reauth.refresh_grant(
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\reauth.py", line 370, in refresh_grant
+    _client._handle_error_response(response_data, retryable_error)
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_scope: Bad Request', {'error': 'invalid_scope', 'error_description': 'Bad Request'})
+D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py:13: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-03-27 14:58:17] 공문 분석 작업 시작 (구글 드라이브 통합)...
+Please visit this URL to authorize this application: https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=808969117427-4fk8cfpt99bnoh2ihnef39eosij812le.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A5994%2F&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive&state=WP4LOmVORACQxcaVm1F1sQM5VuE990&code_challenge=smqz0r9eIF0xu9P8oAYSFrahK0eC_eHz_4h2l8-A3Sg&code_challenge_method=S256&access_type=offline
+[2026-03-27 14:58:27] 새 문서 감지 (드라이브): 2027학년도 경상남도 고등학교 입학전형 기본계획\(진해고등학교-3611 (첨부) 경상남도교육청 진로교육과) 2027학년도 경상남도 고등학교 입학전형 기본계획(기타전형 포함).pdf
+[2026-03-27 14:58:46] 드라이브 엑셀 신규 생성 완료: 2027학년도 경상남도 고등학교 입학전형 기본계획
+[2026-03-27 14:58:46] 새 문서 감지 (드라이브): 2027학년도 경상남도 고등학교 입학전형 기본계획\(진해고등학교-3611 (본문) 경상남도교육청 진로교육과) [알림] 2027학년도 경상남도 고등학교 입학전형 기본계획.pdf
+[2026-03-27 14:58:55] 드라이브 엑셀 업데이트 완료: 2027학년도 경상남도 고등학교 입학전형 기본계획 알림
+[2026-03-27 14:58:55] 드라이브 엑셀 기반 마감일 알림 체크 중...
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py", line 294, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py", line 291, in process_docs
+    check_reminders_from_drive(service)
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py", line 209, in check_reminders_from_drive
+    if os.path.exists(local_excel): os.remove(local_excel)
+                                    ^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 32] 다른 프로세스가 파일을 사용 중이기 때문에 프로세스가 액세스 할 수 없습니다: 'D:\\OneDrive - 경상남도교육청\\바탕 화면\\antigravity_folder\\temp_check_공문_관리_리스트.xlsx'
+D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-03-27 15:01:11] 공문 분석 작업 시작 (폴더 단위 & 구글 시트)...
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py", line 300, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py", line 233, in process_docs
+    sheet_id = get_or_create_spreadsheet(sheets_service)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py", line 128, in get_or_create_spreadsheet
+    results = service.files().list(q=query, fields="files(id, name)").execute()
+              ^^^^^^^^^^^^^
+AttributeError: 'Resource' object has no attribute 'files'
+D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-03-27 15:02:00] 공문 분석 작업 시작 (폴더 단위 & 구글 시트 전문가 서식)...
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py", line 308, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py", line 256, in process_docs
+    sheet_id = get_or_create_spreadsheet(drive_service, sheets_service)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py", line 181, in get_or_create_spreadsheet
+    valueInputOption="RAW", body={"values": headers}).execute()
+                                                      ^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\googleapiclient\_helpers.py", line 130, in positional_wrapper
+    return wrapped(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\googleapiclient\http.py", line 938, in execute
+    raise HttpError(resp, content, uri=self.uri)
+googleapiclient.errors.HttpError: <HttpError 403 when requesting https://sheets.googleapis.com/v4/spreadsheets/1irIsLFYCggNyW5WBolfKW0IzA7_pjj7F6nSh7mwrOZc/values/A1?valueInputOption=RAW&alt=json returned "Google Sheets API has not been used in project 808969117427 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/sheets.googleapis.com/overview?project=808969117427 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.". Details: "[{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'SERVICE_DISABLED', 'domain': 'googleapis.com', 'metadata': {'consumer': 'projects/808969117427', 'service': 'sheets.googleapis.com', 'serviceTitle': 'Google Sheets API', 'activationUrl': 'https://console.developers.google.com/apis/api/sheets.googleapis.com/overview?project=808969117427', 'containerInfo': '808969117427'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'Google Sheets API has not been used in project 808969117427 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/sheets.googleapis.com/overview?project=808969117427 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.'}, {'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Google developers console API activation', 'url': 'https://console.developers.google.com/apis/api/sheets.googleapis.com/overview?project=808969117427'}]}]">
+D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-03-27 15:03:27] 공문 분석 작업 시작 (폴더 단위 & 구글 시트 전문가 서식)...
+[2026-03-27 15:03:28] 새 공문 폴더 감지: 2027학년도 경상남도 고등학교 입학전형 기본계획
+[2026-03-27 15:03:51] 구글 시트 기록 완료: 2027학년도 경상남도 고등학교 입학전형 기본계획
+[2026-03-27 15:03:51] 구글 시트 기반 마감일 알림 체크 중...
+D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-03-27 15:07:56] 공문 분석 작업 시작 (폴더 단위 & 프리미엄 가독성 디자인)...
+[2026-03-27 15:07:59] 서식 적용 중 오류 발생: <HttpError 400 when requesting https://sheets.googleapis.com/v4/spreadsheets/1irIsLFYCggNyW5WBolfKW0IzA7_pjj7F6nSh7mwrOZc:batchUpdate?alt=json returned "Invalid JSON payload received. Unknown name "wrapStyle" at 'requests[7].repeat_cell.cell.user_entered_format': Cannot find field.". Details: "[{'@type': 'type.googleapis.com/google.rpc.BadRequest', 'fieldViolations': [{'field': 'requests[7].repeat_cell.cell.user_entered_format', 'description': 'Invalid JSON payload received. Unknown name "wrapStyle" at \'requests[7].repeat_cell.cell.user_entered_format\': Cannot find field.'}]}]">
+[2026-03-27 15:07:59] 추가로 처리할 신규 공문 폴더가 없습니다.
+[2026-03-27 15:07:59] 구글 시트 기반 마감일 알림 체크 중...
+D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-03-27 15:09:10] 공문 분석 작업 시작 (폴더 단위 & 프리미엄 가독성 디자인 2.0)...
+[2026-03-27 15:09:13] 프리미엄 가독성 디자인 서식 적용 완료 (wrapStrategy 수정 및 조건부 서식 강화).
+[2026-03-27 15:09:13] 추가로 처리할 신규 공문 폴더가 없습니다.
+[2026-03-27 15:09:13] 구글 시트 기반 마감일 알림 체크 중...
+D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-03-27 15:13:54] 공문 분석 작업 시작 (폴더 단위 & 프리미엄 가독성 디자인 2.0)...
+[2026-03-27 15:13:56] 프리미엄 가독성 디자인 서식 적용 완료 (wrapStrategy 수정 및 조건부 서식 강화).
+[2026-03-27 15:13:56] 새 공문 폴더 감지: 2027학년도 경상남도 고등학교 입학전형 기본계획
+[2026-03-27 15:14:14] 구글 시트 데이터 기록 완료: 2027학년도 경상남도 고등학교 입학전형 기본계획
+[2026-03-27 15:14:14] 구글 시트 기반 마감일 알림 체크 중...
+D:\OneDrive - 경상남도교육청\바탕 화면\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-03-27 15:30:09] 공문 분석 작업 시작 (자동 스케줄링 & 양방향 태스크 동기화)...
+Please visit this URL to authorize this application: https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=808969117427-4fk8cfpt99bnoh2ihnef39eosij812le.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A1785%2F&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Ftasks&state=Suy0XI6TV4uVjrNXEBa1toYw2MsFTe&code_challenge=hqHno4BXLnde84QUdYcAg06RFKj0-rCP2wdrWMmBxqY&code_challenge_method=S256&access_type=offline
+[2026-03-27 15:30:21] 프리미엄 가독성 디자인 서식 적용 완료.
+[2026-03-27 15:30:21] 추가로 처리할 신규 공문 폴더가 없습니다.
+[2026-03-27 15:30:21] 구글 시트 및 구글 태스크 양방향 동기화 점검 중...
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-04-07 14:00:06] 공문 분석 작업 시작 (자동 스케줄링 & 양방향 태스크 동기화)...
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 378, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 304, in process_docs
+    drive_service, sheets_service, tasks_service = get_google_services()
+                                                   ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 61, in get_google_services
+    creds.refresh(Request())
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\credentials.py", line 412, in refresh
+    ) = reauth.refresh_grant(
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\reauth.py", line 370, in refresh_grant
+    _client._handle_error_response(response_data, retryable_error)
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_scope: Bad Request', {'error': 'invalid_scope', 'error_description': 'Bad Request'})
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-04-08 10:00:08] 공문 분석 작업 시작 (자동 스케줄링 & 양방향 태스크 동기화)...
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 378, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 304, in process_docs
+    drive_service, sheets_service, tasks_service = get_google_services()
+                                                   ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 61, in get_google_services
+    creds.refresh(Request())
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\credentials.py", line 412, in refresh
+    ) = reauth.refresh_grant(
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\reauth.py", line 370, in refresh_grant
+    _client._handle_error_response(response_data, retryable_error)
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_scope: Bad Request', {'error': 'invalid_scope', 'error_description': 'Bad Request'})
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-04-08 14:00:07] 공문 분석 작업 시작 (자동 스케줄링 & 양방향 태스크 동기화)...
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 378, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 304, in process_docs
+    drive_service, sheets_service, tasks_service = get_google_services()
+                                                   ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 61, in get_google_services
+    creds.refresh(Request())
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\credentials.py", line 412, in refresh
+    ) = reauth.refresh_grant(
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\reauth.py", line 370, in refresh_grant
+    _client._handle_error_response(response_data, retryable_error)
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_scope: Bad Request', {'error': 'invalid_scope', 'error_description': 'Bad Request'})
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-04-09 10:00:12] 공문 분석 작업 시작 (자동 스케줄링 & 양방향 태스크 동기화)...
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 378, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 304, in process_docs
+    drive_service, sheets_service, tasks_service = get_google_services()
+                                                   ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 61, in get_google_services
+    creds.refresh(Request())
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\credentials.py", line 412, in refresh
+    ) = reauth.refresh_grant(
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\reauth.py", line 370, in refresh_grant
+    _client._handle_error_response(response_data, retryable_error)
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_scope: Bad Request', {'error': 'invalid_scope', 'error_description': 'Bad Request'})
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-04-09 14:00:08] 공문 분석 작업 시작 (자동 스케줄링 & 양방향 태스크 동기화)...
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 378, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 304, in process_docs
+    drive_service, sheets_service, tasks_service = get_google_services()
+                                                   ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 61, in get_google_services
+    creds.refresh(Request())
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\credentials.py", line 412, in refresh
+    ) = reauth.refresh_grant(
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\reauth.py", line 370, in refresh_grant
+    _client._handle_error_response(response_data, retryable_error)
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_scope: Bad Request', {'error': 'invalid_scope', 'error_description': 'Bad Request'})
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-04-10 10:00:07] 공문 분석 작업 시작 (자동 스케줄링 & 양방향 태스크 동기화)...
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 378, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 304, in process_docs
+    drive_service, sheets_service, tasks_service = get_google_services()
+                                                   ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 61, in get_google_services
+    creds.refresh(Request())
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\credentials.py", line 412, in refresh
+    ) = reauth.refresh_grant(
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\reauth.py", line 370, in refresh_grant
+    _client._handle_error_response(response_data, retryable_error)
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_scope: Bad Request', {'error': 'invalid_scope', 'error_description': 'Bad Request'})
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-04-10 14:00:08] 공문 분석 작업 시작 (자동 스케줄링 & 양방향 태스크 동기화)...
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 378, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 304, in process_docs
+    drive_service, sheets_service, tasks_service = get_google_services()
+                                                   ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 61, in get_google_services
+    creds.refresh(Request())
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\credentials.py", line 412, in refresh
+    ) = reauth.refresh_grant(
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\reauth.py", line 370, in refresh_grant
+    _client._handle_error_response(response_data, retryable_error)
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_scope: Bad Request', {'error': 'invalid_scope', 'error_description': 'Bad Request'})
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-04-13 10:00:08] 공문 분석 작업 시작 (자동 스케줄링 & 양방향 태스크 동기화)...
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 378, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 304, in process_docs
+    drive_service, sheets_service, tasks_service = get_google_services()
+                                                   ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 61, in get_google_services
+    creds.refresh(Request())
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\credentials.py", line 412, in refresh
+    ) = reauth.refresh_grant(
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\reauth.py", line 370, in refresh_grant
+    _client._handle_error_response(response_data, retryable_error)
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_scope: Bad Request', {'error': 'invalid_scope', 'error_description': 'Bad Request'})
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-04-13 14:00:03] 공문 분석 작업 시작 (자동 스케줄링 & 양방향 태스크 동기화)...
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 378, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 304, in process_docs
+    drive_service, sheets_service, tasks_service = get_google_services()
+                                                   ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 61, in get_google_services
+    creds.refresh(Request())
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\credentials.py", line 412, in refresh
+    ) = reauth.refresh_grant(
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\reauth.py", line 370, in refresh_grant
+    _client._handle_error_response(response_data, retryable_error)
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_scope: Bad Request', {'error': 'invalid_scope', 'error_description': 'Bad Request'})
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-04-14 10:00:09] 공문 분석 작업 시작 (자동 스케줄링 & 양방향 태스크 동기화)...
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 378, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 304, in process_docs
+    drive_service, sheets_service, tasks_service = get_google_services()
+                                                   ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 61, in get_google_services
+    creds.refresh(Request())
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\credentials.py", line 412, in refresh
+    ) = reauth.refresh_grant(
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\reauth.py", line 370, in refresh_grant
+    _client._handle_error_response(response_data, retryable_error)
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_scope: Bad Request', {'error': 'invalid_scope', 'error_description': 'Bad Request'})
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-04-14 11:43:19] 공문 분석 작업 시작 (자동 스케줄링 & 양방향 태스크 동기화)...
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 378, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 304, in process_docs
+    drive_service, sheets_service, tasks_service = get_google_services()
+                                                   ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 61, in get_google_services
+    creds.refresh(Request())
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\credentials.py", line 412, in refresh
+    ) = reauth.refresh_grant(
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\reauth.py", line 370, in refresh_grant
+    _client._handle_error_response(response_data, retryable_error)
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_scope: Bad Request', {'error': 'invalid_scope', 'error_description': 'Bad Request'})
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-04-14 11:44:04] 공문 분석 작업 시작 (자동 스케줄링 & 양방향 태스크 동기화)...
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 378, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 304, in process_docs
+    drive_service, sheets_service, tasks_service = get_google_services()
+                                                   ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 61, in get_google_services
+    creds.refresh(Request())
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\credentials.py", line 412, in refresh
+    ) = reauth.refresh_grant(
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\reauth.py", line 370, in refresh_grant
+    _client._handle_error_response(response_data, retryable_error)
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_scope: Bad Request', {'error': 'invalid_scope', 'error_description': 'Bad Request'})
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-04-14 11:45:34] 공문 분석 작업 시작 (자동 스케줄링 & 양방향 태스크 동기화)...
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 379, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 305, in process_docs
+    drive_service, sheets_service, tasks_service = get_google_services()
+                                                   ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 62, in get_google_services
+    creds.refresh(Request())
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\credentials.py", line 412, in refresh
+    ) = reauth.refresh_grant(
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\reauth.py", line 370, in refresh_grant
+    _client._handle_error_response(response_data, retryable_error)
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_scope: Bad Request', {'error': 'invalid_scope', 'error_description': 'Bad Request'})
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-04-14 14:00:20] 공문 분석 작업 시작 (자동 스케줄링 & 양방향 태스크 동기화)...
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 380, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 306, in process_docs
+    drive_service, sheets_service, tasks_service = get_google_services()
+                                                   ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 69, in get_google_services
+    creds = flow.run_local_server(port=8140, open_browser=False)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google_auth_oauthlib\flow.py", line 437, in run_local_server
+    local_server = wsgiref.simple_server.make_server(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\wsgiref\simple_server.py", line 154, in make_server
+    server = server_class((host, port), handler_class)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\wsgiref\simple_server.py", line 50, in server_bind
+    HTTPServer.server_bind(self)
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 136, in server_bind
+    socketserver.TCPServer.server_bind(self)
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 478, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [WinError 10048] 각 소켓 주소(프로토콜/네트워크 주소/포트)는 하나만 사용할 수 있습니다
+d:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+^CD:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+d:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+^CD:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-04-16 14:00:04] 공문 분석 작업 시작 (자동 스케줄링 & 양방향 태스크 동기화)...
+[2026-04-16 14:00:08] 프리미엄 가독성 디자인 서식 적용 완료.
+[2026-04-16 14:00:08] 새 공문 폴더 감지: 재단법인 산해장학재단
+[2026-04-16 14:00:08] 추가로 처리할 신규 공문 폴더가 없습니다.
+[2026-04-16 14:00:08] 구글 시트 및 구글 태스크 양방향 동기화 점검 중...
+[2026-04-16 14:00:09] 동기화 및 알림 처리 실패: <HttpError 403 when requesting https://tasks.googleapis.com/tasks/v1/lists/%40default/tasks?showCompleted=true&showHidden=true&alt=json returned "Request had insufficient authentication scopes.". Details: "[{'message': 'Insufficient Permission', 'domain': 'global', 'reason': 'insufficientPermissions'}]">
+[2026-04-16 14:00:10] 텔레그램 알림 전송 완료!
+d:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-04-17 10:00:07] 공문 분석 작업 시작 (자동 스케줄링 & 양방향 태스크 동기화)...
+[2026-04-17 10:00:11] 프리미엄 가독성 디자인 서식 적용 완료.
+[2026-04-17 10:00:11] 새 공문 폴더 감지: 재단법인 산해장학재단
+[2026-04-17 10:00:11] 추가로 처리할 신규 공문 폴더가 없습니다.
+[2026-04-17 10:00:11] 구글 시트 및 구글 태스크 양방향 동기화 점검 중...
+[2026-04-17 10:00:12] 동기화 및 알림 처리 실패: <HttpError 403 when requesting https://tasks.googleapis.com/tasks/v1/lists/%40default/tasks?showCompleted=true&showHidden=true&alt=json returned "Request had insufficient authentication scopes.". Details: "[{'message': 'Insufficient Permission', 'domain': 'global', 'reason': 'insufficientPermissions'}]">
+[2026-04-17 10:00:13] 텔레그램 알림 전송 완료!
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-04-17 14:00:07] 공문 분석 작업 시작 (자동 스케줄링 & 양방향 태스크 동기화)...
+[2026-04-17 14:00:11] 프리미엄 가독성 디자인 서식 적용 완료.
+[2026-04-17 14:00:11] 새 공문 폴더 감지: 재단법인 산해장학재단
+[2026-04-17 14:00:11] 추가로 처리할 신규 공문 폴더가 없습니다.
+[2026-04-17 14:00:11] 구글 시트 및 구글 태스크 양방향 동기화 점검 중...
+[2026-04-17 14:00:12] 동기화 및 알림 처리 실패: <HttpError 403 when requesting https://tasks.googleapis.com/tasks/v1/lists/%40default/tasks?showCompleted=true&showHidden=true&alt=json returned "Request had insufficient authentication scopes.". Details: "[{'message': 'Insufficient Permission', 'domain': 'global', 'reason': 'insufficientPermissions'}]">
+[2026-04-17 14:00:13] 텔레그램 알림 전송 완료!
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-04-21 10:00:14] 공문 분석 작업 시작 (자동 스케줄링 & 양방향 태스크 동기화)...
+[2026-04-21 10:00:19] 프리미엄 가독성 디자인 서식 적용 완료.
+[2026-04-21 10:00:19] 새 공문 폴더 감지: 재단법인 산해장학재단
+[2026-04-21 10:00:19] 추가로 처리할 신규 공문 폴더가 없습니다.
+[2026-04-21 10:00:19] 구글 시트 및 구글 태스크 양방향 동기화 점검 중...
+[2026-04-21 10:00:20] 동기화 및 알림 처리 실패: <HttpError 403 when requesting https://tasks.googleapis.com/tasks/v1/lists/%40default/tasks?showCompleted=true&showHidden=true&alt=json returned "Request had insufficient authentication scopes.". Details: "[{'message': 'Insufficient Permission', 'domain': 'global', 'reason': 'insufficientPermissions'}]">
+[2026-04-21 10:00:21] 텔레그램 알림 전송 완료!
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-04-21 14:00:02] 공문 분석 작업 시작 (자동 스케줄링 & 양방향 태스크 동기화)...
+[2026-04-21 14:00:07] 프리미엄 가독성 디자인 서식 적용 완료.
+[2026-04-21 14:00:07] 새 공문 폴더 감지: 재단법인 산해장학재단
+[2026-04-21 14:00:07] 추가로 처리할 신규 공문 폴더가 없습니다.
+[2026-04-21 14:00:07] 구글 시트 및 구글 태스크 양방향 동기화 점검 중...
+[2026-04-21 14:00:08] 동기화 및 알림 처리 실패: <HttpError 403 when requesting https://tasks.googleapis.com/tasks/v1/lists/%40default/tasks?showCompleted=true&showHidden=true&alt=json returned "Request had insufficient authentication scopes.". Details: "[{'message': 'Insufficient Permission', 'domain': 'global', 'reason': 'insufficientPermissions'}]">
+[2026-04-21 14:00:09] 텔레그램 알림 전송 완료!
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 389, in process_docs
+    log_message(f"\U0001f514 알림창 실행 (PC: {current_pc})")
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 47, in log_message
+    print(full_message)
+UnicodeEncodeError: 'cp949' codec can't encode character '\U0001f514' in position 22: illegal multibyte sequence
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 395, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 392, in process_docs
+    log_message(f"\u26a0\ufe0f 팝업 알림 실행 실패: {e}")
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 47, in log_message
+    print(full_message)
+UnicodeEncodeError: 'cp949' codec can't encode character '\u26a0' in position 22: illegal multibyte sequence
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:11: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-04-22 10:00:17] 공문 분석 작업 시작 (자동 스케줄링 & 양방향 태스크 동기화)...
+[2026-04-22 10:00:22] 프리미엄 가독성 디자인 서식 적용 완료.
+[2026-04-22 10:00:22] 새 공문 폴더 감지: 재단법인 산해장학재단
+[2026-04-22 10:00:23] 추가로 처리할 신규 공문 폴더가 없습니다.
+[2026-04-22 10:00:23] 구글 시트 및 구글 태스크 양방향 동기화 점검 중...
+[2026-04-22 10:00:24] 동기화 및 알림 처리 실패: <HttpError 403 when requesting https://tasks.googleapis.com/tasks/v1/lists/%40default/tasks?showCompleted=true&showHidden=true&alt=json returned "Request had insufficient authentication scopes.". Details: "[{'message': 'Insufficient Permission', 'domain': 'global', 'reason': 'insufficientPermissions'}]">
+[2026-04-22 10:00:25] 텔레그램 알림 전송 완료!
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 392, in process_docs
+    log_message(f"\U0001f514 알림창 실행 (PC: {current_pc})")
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 50, in log_message
+    print(full_message)
+UnicodeEncodeError: 'cp949' codec can't encode character '\U0001f514' in position 22: illegal multibyte sequence
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 398, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 395, in process_docs
+    log_message(f"\u26a0\ufe0f 팝업 알림 실행 실패: {e}")
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 50, in log_message
+    print(full_message)
+UnicodeEncodeError: 'cp949' codec can't encode character '\u26a0' in position 22: illegal multibyte sequence
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 33
+    SHEET_NAME = "怨듬Ц_愿\x80由??\x80??
+                 ^
+SyntaxError: unterminated string literal (detected at line 33)
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 208, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 169, in process_docs
+    sheet_id = get_or_create_spreadsheet(drive_service, sheets_service)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 83, in get_or_create_spreadsheet
+    sheets_service.spreadsheets().values().update(spreadsheetId=sheet_id, range="A1", valueInputOption="RAW", body={"values": headers}).execute()
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\googleapiclient\_helpers.py", line 130, in positional_wrapper
+    return wrapped(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\googleapiclient\http.py", line 923, in execute
+    resp, content = _retry_request(
+                    ^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\googleapiclient\http.py", line 222, in _retry_request
+    raise exception
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\googleapiclient\http.py", line 191, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\google_auth_httplib2.py", line 216, in request
+    response, content = self.http.request(
+                        ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\httplib2\__init__.py", line 1727, in request
+    (response, content) = self._request(
+                          ^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\httplib2\__init__.py", line 1447, in _request
+    (response, content) = self._conn_request(conn, request_uri, method, body, headers)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\httplib2\__init__.py", line 1399, in _conn_request
+    response = conn.getresponse()
+               ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 1430, in getresponse
+    response.begin()
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 331, in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 292, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\socket.py", line 720, in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\ssl.py", line 1251, in recv_into
+    return self.read(nbytes, buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\ssl.py", line 1103, in read
+    return self._sslobj.read(len, buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TimeoutError: The read operation timed out
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 208, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 199, in process_docs
+    if f.startswith("temp_"): os.remove(f)
+                              ^^^^^^^^^^^^
+PermissionError: [WinError 5] 액세스가 거부되었습니다: 'temp_jinhae_bot'
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 208, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 199, in process_docs
+    if f.startswith("temp_"): os.remove(f)
+                              ^^^^^^^^^^^^
+PermissionError: [WinError 5] 액세스가 거부되었습니다: 'temp_jinhae_bot'
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 208, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 199, in process_docs
+    if f.startswith("temp_"): os.remove(f)
+                              ^^^^^^^^^^^^
+PermissionError: [WinError 5] 액세스가 거부되었습니다: 'temp_jinhae_bot'
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 208, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 199, in process_docs
+    if f.startswith("temp_"): os.remove(f)
+                              ^^^^^^^^^^^^
+PermissionError: [WinError 5] 액세스가 거부되었습니다: 'temp_jinhae_bot'
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 208, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 199, in process_docs
+    if f.startswith("temp_"): os.remove(f)
+                              ^^^^^^^^^^^^
+PermissionError: [WinError 5] 액세스가 거부되었습니다: 'temp_jinhae_bot'
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 208, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 199, in process_docs
+    if f.startswith("temp_"): os.remove(f)
+                              ^^^^^^^^^^^^
+PermissionError: [WinError 5] 액세스가 거부되었습니다: 'temp_jinhae_bot'
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 208, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 199, in process_docs
+    if f.startswith("temp_"): os.remove(f)
+                              ^^^^^^^^^^^^
+PermissionError: [WinError 5] 액세스가 거부되었습니다: 'temp_jinhae_bot'
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 208, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 199, in process_docs
+    if f.startswith("temp_"): os.remove(f)
+                              ^^^^^^^^^^^^
+PermissionError: [WinError 5] 액세스가 거부되었습니다: 'temp_jinhae_bot'
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 208, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 199, in process_docs
+    if f.startswith("temp_"): os.remove(f)
+                              ^^^^^^^^^^^^
+PermissionError: [WinError 5] 액세스가 거부되었습니다: 'temp_jinhae_bot'
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 208, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 199, in process_docs
+    if f.startswith("temp_"): os.remove(f)
+                              ^^^^^^^^^^^^
+PermissionError: [WinError 5] 액세스가 거부되었습니다: 'temp_jinhae_bot'
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 208, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 199, in process_docs
+    if f.startswith("temp_"): os.remove(f)
+                              ^^^^^^^^^^^^
+PermissionError: [WinError 5] 액세스가 거부되었습니다: 'temp_jinhae_bot'
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+Traceback (most recent call last):
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 208, in <module>
+    process_docs()
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 169, in process_docs
+    sheet_id = get_or_create_spreadsheet(drive_service, sheets_service)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py", line 83, in get_or_create_spreadsheet
+    sheets_service.spreadsheets().values().update(spreadsheetId=sheet_id, range="A1", valueInputOption="RAW", body={"values": headers}).execute()
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\googleapiclient\_helpers.py", line 130, in positional_wrapper
+    return wrapped(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python312\Lib\site-packages\googleapiclient\http.py", line 938, in execute
+    raise HttpError(resp, content, uri=self.uri)
+googleapiclient.errors.HttpError: <HttpError 503 when requesting https://sheets.googleapis.com/v4/spreadsheets/1irIsLFYCggNyW5WBolfKW0IzA7_pjj7F6nSh7mwrOZc/values/A1?valueInputOption=RAW&alt=json returned "The service is currently unavailable.". Details: "The service is currently unavailable.">
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\document_manager.py:10: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
