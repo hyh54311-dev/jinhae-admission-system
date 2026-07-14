@@ -13,6 +13,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Root endpoint
+@app.get("/")
+async def root():
+    return {"status": "alive", "message": "Jinhae High School Admission Chatbot API Server is running."}
+
 # Gemini API Chat Proxy Endpoint
 @app.post("/api/chat")
 async def chat_proxy(request: Request):
