@@ -222,26 +222,26 @@ def submit():
           <!-- Info block (Right Aligned Table) -->
           <tr>
             <td align="right" style="padding-top: 20px; padding-bottom: 30px;">
-              <table border="0" cellpadding="0" cellspacing="0" style="font-size: 15px; margin-right: 20px; text-align: left;">
+              <table border="0" cellpadding="0" cellspacing="0" style="font-size: 15px; margin-right: 20px; text-align: left; width: 300px;">
                 <tr>
-                  <td style="font-weight: bold; padding: 6px 0; width: 110px; letter-spacing: 0.1em;">접 수 번 호</td>
-                  <td style="padding: 6px 10px; font-weight: bold;">:</td>
-                  <td style="border-bottom: 1px solid #94a3b8; width: 170px; padding: 6px 5px; color: #334155;">{student_id}</td>
+                  <td style="font-weight: bold; padding: 6px 0; width: 100px; letter-spacing: 0.1em;">접 수 번 호</td>
+                  <td style="padding: 6px 5px; font-weight: bold; width: 20px; text-align: center;">:</td>
+                  <td style="border-bottom: 1px solid #94a3b8; width: 180px; padding: 6px 5px; color: #334155;">{student_id}</td>
                 </tr>
                 <tr>
-                  <td style="font-weight: bold; padding: 6px 0; letter-spacing: 0.2em;">성&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;명</td>
-                  <td style="padding: 6px 10px; font-weight: bold;">:</td>
-                  <td style="border-bottom: 1px solid #94a3b8; padding: 6px 5px; color: #334155;">{student_name}</td>
+                  <td style="font-weight: bold; padding: 6px 0; width: 100px; letter-spacing: 0.2em;">성&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;명</td>
+                  <td style="padding: 6px 5px; font-weight: bold; width: 20px; text-align: center;">:</td>
+                  <td style="border-bottom: 1px solid #94a3b8; width: 180px; padding: 6px 5px; color: #334155;">{student_name}</td>
                 </tr>
                 <tr>
-                  <td style="font-weight: bold; padding: 6px 0; letter-spacing: 0.1em;">출신중학교</td>
-                  <td style="padding: 6px 10px; font-weight: bold;">:</td>
-                  <td style="border-bottom: 1px solid #94a3b8; padding: 6px 5px; color: #334155;">{school_name}</td>
+                  <td style="font-weight: bold; padding: 6px 0; width: 100px; letter-spacing: 0.1em;">출신중학교</td>
+                  <td style="padding: 6px 5px; font-weight: bold; width: 20px; text-align: center;">:</td>
+                  <td style="border-bottom: 1px solid #94a3b8; width: 180px; padding: 6px 5px; color: #334155;">{school_name}</td>
                 </tr>
                 <tr>
-                  <td style="font-weight: bold; padding: 6px 0; letter-spacing: 0.1em;">생 년 월 일</td>
-                  <td style="padding: 6px 10px; font-weight: bold;">:</td>
-                  <td style="border-bottom: 1px solid #94a3b8; padding: 6px 5px; color: #334155;">{birth_date}</td>
+                  <td style="font-weight: bold; padding: 6px 0; width: 100px; letter-spacing: 0.1em;">생 년 월 일</td>
+                  <td style="padding: 6px 5px; font-weight: bold; width: 20px; text-align: center;">:</td>
+                  <td style="border-bottom: 1px solid #94a3b8; width: 180px; padding: 6px 5px; color: #334155;">{birth_date}</td>
                 </tr>
               </table>
             </td>
