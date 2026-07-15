@@ -4,7 +4,7 @@ import base64
 import requests
 import json
 
-api_key = "AIzaSyCnK2Sbp_facY0A7zveaKU7ClEgURlOI-4"
+api_key = "YOUR_GEMINI_API_KEY_HERE"
 model = "gemini-2.5-flash"
 url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
 

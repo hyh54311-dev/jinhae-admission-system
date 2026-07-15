@@ -4,7 +4,7 @@ import json
 import datetime
 import requests
 
-GEMINI_API_KEY = "AIzaSyCnK2Sbp_facY0A7zveaKU7ClEgURlOI-4"
+GEMINI_API_KEY = "YOUR_GEMINI_API_KEY_HERE"
 MODEL_NAME = "gemini-3.1-flash-lite-preview"
 
 url = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL_NAME}:generateContent?key={GEMINI_API_KEY}"

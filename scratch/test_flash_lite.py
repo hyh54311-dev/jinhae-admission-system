@@ -1,7 +1,7 @@
 import urllib.request
 import json
 
-API_KEY = "AIzaSyCnK2Sbp_facY0A7zveaKU7ClEgURlOI-4"
+API_KEY = "YOUR_GEMINI_API_KEY_HERE"
 MODEL_NAME = "gemini-3.1-flash-lite"
 URL = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL_NAME}:generateContent?key={API_KEY}"
 
