@@ -228,7 +228,7 @@ def submit():
           <!-- Info block (Right Aligned Table) -->
           <tr>
             <td align="right" style="padding-top: 5px; padding-bottom: 10px;">
-              <table border="0" cellpadding="0" cellspacing="0" style="font-size: 14px; margin-right: 15px; text-align: left; width: 280px;">
+              <table align="right" border="0" cellpadding="0" cellspacing="0" style="font-size: 14px; margin-right: 15px; text-align: left; width: 280px;">
                 <tr>
                   <td style="font-weight: bold; padding: 4px 0; width: 90px; letter-spacing: 0.1em;">접 수 번 호</td>
                   <td style="padding: 4px; font-weight: bold; width: 20px; text-align: center;">:</td>
@@ -271,7 +271,7 @@ def submit():
           <!-- Signature Block (Right Aligned Table) -->
           <tr>
             <td align="right" style="padding-top: 10px; padding-bottom: 15px;">
-              <table border="0" cellpadding="0" cellspacing="0" style="font-size: 14px; margin-right: 15px; text-align: left; width: 300px;">
+              <table align="right" border="0" cellpadding="0" cellspacing="0" style="font-size: 14px; margin-right: 15px; text-align: left; width: 300px;">
                 
                 <!-- Student Signature -->
                 <tr>
