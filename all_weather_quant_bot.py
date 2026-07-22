@@ -417,22 +417,95 @@ def submit_order_overseas(token, ticker, qty, order_type="BUY", current_price=0.
         
     return res.json()
 
+def get_actual_monthly_run_date(year, month):
+    """
+    매달 올웨더 가동일(25일)을 계산합니다.
+    - 25일이 주말(토/일)이거나 공휴일인 경우 다음 첫 영업일로 자동 이월됩니다.
+    """
+    target_day = 25
+    krx_holidays = {
+        # 2026년
+        "2026-01-01", "2026-02-16", "2026-02-17", "2026-02-18",
+        "2026-03-01", "2026-03-02", "2026-05-05", "2026-05-25",
+        "2026-06-06", "2026-07-17", "2026-08-15", "2026-08-17", "2026-09-24",
+        "2026-09-25", "2026-09-26", "2026-09-28", "2026-10-03",
+        "2026-10-05", "2026-10-09", "2026-12-25", "2026-12-31",
+        # 2027년
+        "2027-01-01", "2027-02-05", "2027-02-06", "2027-02-07",
+        "2027-02-08", "2027-03-01", "2027-05-05", "2027-05-13",
+        "2027-06-06", "2027-06-07", "2027-07-17", "2027-08-15", "2027-08-16",
+        "2027-10-03", "2027-10-04", "2027-10-09", "2027-10-11",
+        "2027-12-25", "2027-12-31"
+    }
+    
+    check_date = datetime.date(year, month, target_day)
+    while True:
+        if check_date.weekday() >= 5:
+            check_date += datetime.timedelta(days=1)
+            continue
+        if check_date.strftime("%Y-%m-%d") in krx_holidays:
+            check_date += datetime.timedelta(days=1)
+            continue
+        return check_date
+
+def get_actual_annual_rebalance_date(year):
+    """
+    매년 올웨더 정기 리밸런싱 실행일(1월 2일)을 계산합니다.
+    - 1월 2일이 주말/공휴일인 경우 다음 첫 영업일로 자동 이월됩니다.
+    """
+    krx_holidays = {
+        "2026-01-01", "2026-01-02", "2027-01-01", "2027-01-02"
+    }
+    check_date = datetime.date(year, 1, 2)
+    while True:
+        if check_date.weekday() >= 5:
+            check_date += datetime.timedelta(days=1)
+            continue
+        if check_date.strftime("%Y-%m-%d") in krx_holidays:
+            check_date += datetime.timedelta(days=1)
+            continue
+        return check_date
+
 def main():
     global CANO
     print(f"[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] All Weather 자산배분 엔진 구동...")
     init_config()
     
     kst_tz = datetime.timezone(datetime.timedelta(hours=9))
-    today = datetime.datetime.now(kst_tz)
-    today_mmdd = today.strftime("%m-%d")
+    today_dt = datetime.datetime.now(kst_tz)
+    today = today_dt.date()
     
-    is_rebalance_day = (today_mmdd == ANNUAL_REBALANCE_DATE)
+    actual_monthly_run_date = get_actual_monthly_run_date(today.year, today.month)
+    actual_annual_rebalance_date = get_actual_annual_rebalance_date(today.year)
+    
     is_force = "--force" in sys.argv
     
-    print(f"▶ 매년 정기 리밸런싱 실행 예정일: {ANNUAL_REBALANCE_DATE} | 오늘 날짜: {today_mmdd}")
+    print(f"▶ 금월 가동 예정일: {actual_monthly_run_date} | 매년 정기 리밸런싱 예정일: {actual_annual_rebalance_date} | 오늘: {today}")
     
-    run_full_rebalance = is_rebalance_day or is_force
-    
+    # 1. 월별 실행일 게이트키퍼 (매달 25일 / 주말·공휴일 시 다음 영업일)
+    if today != actual_monthly_run_date and not is_force:
+        if not (KIS_DRY_RUN or KIS_MOCK or KIS_TEST_MODE):
+            msg = (
+                f"ℹ️ [가동 즉시 중단] 오늘은 올웨더 월별 가동 예정일이 아닙니다.\n"
+                f"   - 이번 달 가동 예정일: {actual_monthly_run_date} (매달 25일 기준 / 휴장일 시 다음 영업일로 이월)\n"
+                f"   - 오늘 날짜: {today}\n"
+                f"   - 강제 가동을 원하시면 '--force' 파라미터로 실행하십시오."
+            )
+            print(msg)
+            if __name__ == "__main__":
+                sys.exit(0)
+            else:
+                return
+        else:
+            print("⚠️ [스케줄 우회] 오늘이 월별 가동 예정일은 아니지만, Dry-run/모의/테스트 옵션이 활성화되어 계속 진행합니다.")
+
+    # 2. 연간 정기 리밸런싱 여부 판정 (1월 2일 또는 이월 영업일)
+    run_full_rebalance = (today == actual_annual_rebalance_date) or is_force
+    if run_full_rebalance:
+        print(f"🎯 [연간 정기 리밸런싱 진행] 오늘({today})은 연간 정기 리밸런싱 실행일입니다.")
+    else:
+        print(f"🪙 [월별 적립식 매수 진행] 오늘({today})은 월별 정기 점검일입니다 (USD $100 이상 입금 시 매수 적립).")
+
     if KIS_TEST_MODE:
         print("🧪 [TEST MODE] 테스트 모드로 가동합니다. KIS API 호출을 최소화하고 시뮬레이션을 수행합니다.")
         token = "MOCK_TOKEN_VALUE"

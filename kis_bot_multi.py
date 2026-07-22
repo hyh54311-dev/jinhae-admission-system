@@ -38,14 +38,14 @@ TICKER_KOSPI = "069500"   # KODEX 200 (한국 대표 주식)
 TICKER_SP500 = "360750"   # TIGER 미국S&P500 (미국 대표 주식)
 TICKER_GOLD  = "411060"   # ACE KRX금현물 (금 현물)
 TICKER_TLT   = "476760"   # ACE 미국30년국채액티브 (미국 장기채)
-TICKER_SAFE  = "304580"   # KODEX 미국달러단기채권 (안전자산 피신처)
+TICKER_SAFE  = "329750"   # TIGER 미국달러단기채권액티브 (안전자산 피신처)
 
 TICKER_NAMES = {
     TICKER_KOSPI: "KODEX 200 (한국 대표 주식)",
     TICKER_SP500: "TIGER 미국S&P500 (미국 대표 주식)",
     TICKER_GOLD: "ACE KRX금현물 (금 현물)",
     TICKER_TLT: "ACE 미국30년국채액티브 (미국 장기채)",
-    TICKER_SAFE: "KODEX 미국달러단기채권 (안전자산 피신처)"
+    TICKER_SAFE: "TIGER 미국달러단기채권액티브 (안전자산 피신처)"
 }
 
 def init_config():
@@ -913,4 +913,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

@@ -147,10 +147,10 @@ echo ""
 echo ">> Deleting old scheduler job if exists..."
 gcloud scheduler jobs delete all-weather-daily-job --location=$FUNC_REGION --quiet 2>/dev/null || true
 
-# 7. Create Google Cloud Scheduler job for 11:00 PM KST (Mon-Fri)
-echo ">> Scheduling daily cron execution for Mon-Fri at 11:00 PM KST..."
+# 7. Create Google Cloud Scheduler job for Monthly Execution (Days 25-31 at 11:00 PM KST)
+echo ">> Scheduling monthly cron execution (Days 25-31 at 11:00 PM KST)..."
 gcloud scheduler jobs create http all-weather-daily-job \
-  --schedule="0 23 * * 1-5" \
+  --schedule="0 23 25-31 * *" \
   --time-zone="Asia/Seoul" \
   --uri="${URL}" \
   --http-method=GET \
@@ -162,7 +162,7 @@ echo "=================================================="
 echo "🎉 Google Cloud Serverless Setup Completed!"
 echo "- Cloud Function '$FUNC_NAME' is deployed."
 echo "- Scheduler job 'all-weather-daily-job' is registered."
-echo "- Trigger time: Monday to Friday at 11:00 PM KST."
+echo "- Trigger time: Monthly on days 25-31 at 11:00 PM KST (Auto-deiters weekend/holidays)."
 echo "=================================================="
 cd $ORIG_DIR
 rm -rf ~/gcp_deploy_all_weather
