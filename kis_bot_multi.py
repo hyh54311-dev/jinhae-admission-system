@@ -725,7 +725,10 @@ def main():
     
     is_force = len(sys.argv) > 1 and sys.argv[1] == "--force"
     
-    if today != actual_rebalance_date:
+    # [핵심 복구] 7월 17일 제헌절 미집행 건 ➔ 7월 21일~31일 이월 자동 실행 허용
+    is_special_july = (datetime.date(2026, 7, 21) <= today <= datetime.date(2026, 7, 31))
+    
+    if today != actual_rebalance_date and not is_special_july:
         if not (KIS_DRY_RUN or KIS_MOCK or is_force):
             msg = (
                 f"ℹ️ [가동 중단] 오늘은 실전 리밸런싱 실행일이 아닙니다.\n"
@@ -738,6 +741,8 @@ def main():
             else: return
         else:
             print("⚠️ [스케줄 우회] 시뮬레이션/모의투자/강제실행 옵션으로 진행합니다.")
+    elif is_special_july:
+        print(f"🎯 [특별 이월 실행 적용] 7월 17일 미집행 건으로 오늘({today}) 리밸런싱을 수행합니다.")
 
     start_time = datetime.datetime.now(kst_tz).strftime("%Y-%m-%d %H:%M:%S")
     mode_str = "Dry-run 시뮬레이션" if KIS_DRY_RUN else ("모의투자" if KIS_MOCK else "실전 자동 거래")
