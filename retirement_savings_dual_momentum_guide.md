@@ -3,37 +3,43 @@
 
 ---
 
-## 💌 프롤로그: 차트를 끄고 일상과 노후를 되찾는 스마트한 투자자의 자세
+## 💌 프롤로그: 8,000만 원의 쓰라린 손실, 그리고 나를 구원한 퀀트 봇
 
-안녕하세요. 저는 교단에서 아이들을 가르치고 있는 현직 고등학교 교사입니다. 
+**저자 유요한 (현직 고등학교 교사 / 퀀트·AI 자동화 연구자)**
 
-매일 아침 학교로 출근해 수업을 준비하고, 아이들과 상담하고, 과중한 교직 업무를 처리하다 보면 하루가 어떻게 지나가는지 모를 정도로 분주한 삶을 살아가고 있습니다. 아마 이 책을 펼쳐 드신 독자 여러분도 공무원, 교사, 혹은 매일 숨 가쁘게 살아가는 직장인이실 것입니다.
+안녕하세요. 저는 교단에서 아이들을 가르치고 있는 현직 고등학교 교사 유요한입니다. 
 
-요즘 세상은 "투자하지 않으면 뒤처진다", "월급만으로는 안 된다"는 조급함으로 가득 차 있습니다. 그러다 보니 많은 분들이 쉬는 시간이나 점심시간, 심지어 일하는 도중에도 휴대폰을 꺼내 주식 차트를 들여다보고, 주가 폭락 소식에 가슴을 졸이곤 합니다. 
+지난 10년 동안 저는 누구보다 열정적으로 주식 시장과 매크로 경제를 공부했습니다. 수많은 경제 서적을 읽고, 출퇴근길에는 늘 경제 팟캐스트와 라디오를 들으며 시장의 흐름을 쫓았습니다. 스스로 경제 지식이 충분하다고 믿었고, 시장을 이길 수 있다는 자만심도 있었습니다.
 
-하지만 투자가 내 일상을 집어삼키고 본업에 집중하지 못하게 만든다면, 그것은 주객이 전도된 삶입니다. 직장에서 인정받고 내 본업에서 성공하는 것이야말로 자산 형성의 가장 든든한 첫걸음(기저 자산)이기 때문입니다.
+그러나 그 10년의 공부도 '인간의 감정과 조급함' 앞에서는 한순간에 무너져 내렸습니다.
 
-그렇다고 투자를 포기할 수도 없습니다. 연금 개혁 논의가 이어지면서 은퇴 후 받게 될 연금만으로는 노후가 불확실해지고 있는 것이 서글픈 현실입니다.
+얼마 전, 저는 AI(제미나이)의 조언과 시장의 열기에 휩쓸려 **삼성바이오로직스라는 단일 종목에 무려 8,000만 원이라는 거금을 투자**했습니다. 결과는 참혹했습니다. 주가는 예상을 벗어나 끊임없이 하락했고, 결국 저는 **1,700만 원이라는 쓰라린 손실을 확정**지어야만 했습니다.
 
-**"어떻게 하면 본업에 100% 몰입하면서도, 마음 편히 안정적인 노후 자산을 만들어갈 수 있을까?"**
+1,700만 원이라는 돈의 크기보다 저를 더 괴롭혔던 것은 **'일상의 파괴'**였습니다. 
 
-이 질문에 대한 저의 답이 바로 **'구글 안티그래비티(Google Antigravity) AI 에이전트와 파이썬 봇, 그리고 텔레그램 실시간 알림을 활용한 퀀트 자산배분 투자'**입니다. 
+8,000만 원이 매일 휘청거리는 동안, 저는 수업 시간과 쉬는 시간에도 휴대폰을 꺼내 주식 창을 들여다보았습니다. 정성껏 준비해야 할 수업과 상담을 기다리는 아이들의 눈빛을 온전히 바라보지 못했습니다. 손실 과정에서 몰려온 극심한 심리적 타격과 스트레스는 교사로서의 사명감마저 흔들어 놓았습니다.
 
-퀀트 투자에서 가장 커다란 적은 '전략의 미비'가 아니라 **'인간의 심리'**입니다. 시장에 공포가 몰아칠 때 퀀트 법칙은 매수를 지시하지만, 인간의 뇌는 망설이고 손가락은 주저합니다. 결국 이 망설임이 법칙을 어기게 만들고 투자 실패로 이어집니다. 
+**"10년을 공부하고도 결국 감정에 휘둘려 1,700만 원을 잃고 아이들마저 챙기지 못했구나."**
 
-인간의 공포와 탐욕, 망설임이 단 0.01%도 개입될 수 없는 **파이썬 자동화 봇**이야말로 백테스트의 우수한 수익률을 현실 계좌에 100% 그대로 재현해 내는 가장 완벽한 무기입니다. 특히 최신 AI 에이전트인 **구글 안티그래비티(Google Antigravity)**로 코드를 구축하고, **클로드 코드(Claude Code)** 등으로 더블 체크한 뒤, **텔레그램(Telegram) 실시간 메시지 알림**을 연동하면, 본업에 몰입하고 있는 동안 내 봇이 거래를 완수한 결과를 손안의 스마트폰 알림으로 편안하게 받아보실 수 있습니다.
+자책과 고통 속에서 저는 과거 2020년과 2021년에 공부했던 **'퀀트 자산배분 투자'**를 다시 떠올렸습니다. 
 
-이제 주식 차트를 끄고, 여러분의 소중한 일상과 노후를 스스로 지켜내는 여행을 함께 시작해 봅시다.
+주식 시장에서 인간의 감정은 가장 치명적인 독입니다. 시장이 공포에 질렸을 때 살 수 있는 용기, 환희에 찼을 때 팔 수 있는 절제는 사람이 아닌 **'규칙(Rule)'**에서 나옵니다. 그리고 인간의 공포와 망설임이 단 0.01%도 개입되지 않는 **파이썬 자동화 봇**이야말로 나를 구원하고, 내 일상과 학생들을 지켜줄 유일한 답이라는 사실을 깨달았습니다.
+
+저는 내년, 정부 국비 예산 지원의 마지막 기회를 잡기 위해 **인공지능(AI) 대학원 진학**을 준비하고 있습니다. AI와 파이썬 봇을 활용하여 사람의 감정을 제어하고 안정적인 자산을 구축하는 이 연구는 제 삶을 바꾼 실전 기록이자, 인공지능 연구자로서의 도전이기도 합니다.
+
+이 책은 저처럼 주식 창에 매여 일상과 본업을 잃어버렸던 수많은 교사, 공무원, 직장인 독자 여러분을 위해 쓴 진심 어린 고백이자 가장 정교한 지침서입니다. 
+
+이제 주식 차트를 끄고, AI 봇에게 매매를 맡긴 채 소중한 본업과 노후를 지켜내는 여정을 시작해 봅시다.
 
 ---
 
 ## 1부. 🎓 교사의 제언: 시간과 노후를 지키는 투자
 
-### 1.1 투자를 망치는 것은 전략이 아니라 '손가락의 망설임'이다 (인간 심리의 한계)
-퀀트 투자나 자산배분 서적을 읽고 정교한 전략을 세운 투자자도 실전에서 무너지는 가장 결정적인 원인은 **'인간의 심리'** 때문입니다.
-* **공포와 망설임의 함정:** 2008년 금융위기나 2020년 코로나 폭락장 한복판에서 퀀트 법칙에 따라 "지금이 주식을 사야 할 때"라는 신호가 떨어져도, 인간의 심리는 깊은 공포에 휩싸입니다. *"지금 사면 더 떨어지는 것 아닐까?", "며칠 더 관망하다가 사자"*라는 인간적인 망설임이 시작됩니다.
-* **규칙 파괴와 실패의 원인:** 이 손가락의 망설임이 단 한 번 발생하는 순간, 오랜 기간 백테스트로 검증해 놓은 퀀트 알고리즘의 톱니바퀴는 수수께끼처럼 어긋나버립니다. 법칙을 어긴 결과는 기대 수익률 하락과 손실로 이어지고, 결국 투자자는 퀀트 투자 자체를 포기해 버립니다.
-* **자동화 봇(Bot)의 본질:** 파이썬 자동화 봇은 어떠한 감정도 느끼지 않습니다. 시장 뉴스에 흔들리지 않고, 폭락장에서도 오직 수학적 법칙에 따라 기계처럼 클릭하여 0.001초 만에 주문을 집행합니다. **인간 심리의 완전한 배제이야말로 퀀트 투자의 성공 확률을 극대화하는 핵심 비밀**입니다.
+### 1.1 10년의 경제 공부도 무너뜨린 인간 심리: 삼성바이오로직스 1,700만 원 손실의 교훈
+10년 동안 경제 팟캐스트를 듣고 수십 권의 재테크 서적을 읽어도, 단일 종목에 큰 돈이 들어가면 인간은 이성을 잃게 됩니다.
+* **8,000만 원 투자와 AI 확증 편향:** 2026년 단기 이슈에 휩싸여 8,000만 원을 투자했던 시기, 매일 주식 앱을 들여다보느라 정작 중요한 교단 위의 아이들(학생들)을 온전히 챙기지 못했습니다. 
+* **손실 확정의 고통 (-1,700만 원):** 주가 하락 과정에서 몰려오는 스트레스는 수업 준비와 일상생활을 마비시켰습니다. 1,700만 원의 손실을 확정짓던 날, 저는 인간이 자신의 감정을 제어하며 투자한다는 것이 얼마나 허황된 일인지를 뼈저리게 깨달았습니다.
+* **퀀트 투자로의 회귀:** 2020~2021년 공부했던 퀀트 자산배분으로 돌아와, 매매 판단과 실행을 100% 파이썬 봇에게 위임하자 비로소 심리적 평화와 교사로서의 일상이 완벽하게 복원되었습니다.
 
 ### 1.2 교사와 공무원의 재테크 강점: 안정적 현금흐름과 장기 투자 시너지
 교사와 공무원, 정년이 보장된 직장인은 퀀트 투자에 있어 전 세계 그 누구보다 유리한 **'최고의 구조적 강점'**을 가지고 있습니다.
@@ -139,418 +145,50 @@ graph TD
 | **미국 S&P 500 단순 보유** | **10.95%** | **-23.77%** | **0.70** | **1,200,873,745 원** |
 | **한국 KOSPI 지수 단순 보유** | **10.67%** | **-48.52%** | **0.49** | **1,148,352,923 원** |
 
-* **2008년 글로벌 금융위기:** KOSPI 지수가 **-48.52%** 반토막 날 때, 듀얼모멘텀은 즉시 안전자산(달러채권)으로 피신하여 계좌 하락을 **-26.02%**로 방어했습니다. 손실폭이 적으면 원금 회복 속도가 기하급수적으로 빨라집니다.
-* **2020년 코로나 팬데믹 & 2022년 인플레이션 하락장:** 절대 모멘텀 스코어(AMS)가 주식 비중을 단계적으로 줄이고 안전자산 비중을 늘려 계좌 손실을 최소화했습니다.
-
 ---
 
-## 4부. 🤖 따라만 하면 끝나는 한투 API + 파이썬 봇 원클릭 구축 & 텔레그램 연동
+## 4부. 🤖 따라만 하면 끝나는 한투 API + 파이썬 봇 원클릭 구축 & AI 교차 검증
 
 ### 4.1 Google Antigravity(안티그래비티) 기반 코드 생성 및 커스터마이징
-초보 투자자가 파이썬 코드를 처음부터 직접 작성하는 것은 매우 어렵습니다. 차세대 개발 에이전트인 **Google Antigravity(안티그래비티)**를 활용하면 자연어 대화만으로 전체 봇 코드를 생성하고 원하는 대로 손쉽게 커스터마이징할 수 있습니다.
-
-* **기반 구축:** Antigravity 에이전트에게 "한국투자증권 API 기반 K-듀얼모멘텀 코드를 작성해 줘"라고 요청하여 기초 스켈레톤 코드를 단번에 완성합니다.
-* **자연어 수정:** *"안전자산을 달러채권에서 KOFR 금리형 ETF로 바꿔 줘"*, *"매수 비중을 90%로 제한해 줘"*처럼 자연어로 명령하면 Antigravity가 소스 코드를 안전하게 자동 업데이트합니다.
+* **기반 구축:** Antigravity 에이전트에게 자연어로 요청하여 K-듀얼모멘텀 봇 코드를 5분 만에 생성.
+* **자연어 수정:** *"안전자산을 KOFR 금리형 ETF로 바꿔 줘"*, *"매수 비중을 90%로 제한해 줘"*처럼 대화형 명령으로 코드 커스터마이징.
 
 ### 4.2 Claude Code(클로드 코드)를 활용한 더블 체크(Double-Check) 디버깅 법
-실제 자금이 오가는 금융 자동매매 봇은 단 한 줄의 버그나 예외 처리 미비로도 큰 손실을 초래할 수 있습니다. 따라서 **다른 AI 도구(Claude Code 등)를 활용한 2차 교차 검증(Cross-Verification)** 파이프라인이 필수적입니다.
-
-```mermaid
-graph LR
-    A["1차: Google Antigravity<br>(전체 코드 구조 생성 및 연동)"] --> B["2차: Claude Code 교차 검증<br>(더블 체크 및 엣지케이스 검수)"]
-    B --> C["3차: 텔레그램 실시간 알림 연동<br>(손안의 스마트폰 거래 결과 전송)"]
-```
+* **AI 2차 교차 검증:** Claude Code를 활용해 예수금 0원 예외 처리, 휴장일 판정, 텔레그램 길이 제한 등 엣지 케이스를 더블 체크하여 디버깅 시행착오를 90% 차단.
 
 ---
 
 ### 📱 STEP 0. 한국투자증권 계좌 개설 & 텔레그램 API 키 발급 (3분 완료)
-
-#### 1. 한투 증권 계좌 개설 및 KIS API 키 발급
-* 종합위탁계좌(`01`) 및 연금저축펀드계좌(`22`) 개설 후 KIS Developers 포털에서 **AppKey** 및 **AppSecret** 발급.
-
-#### 2. 텔레그램(Telegram) 봇 생성 및 API 토큰·Chat ID 발급 가이드
-투자 봇이 거래를 수행한 후 내 스마트폰 텔레그램으로 결과를 즉시 발송해 주도록 3분 만에 무료 알림 환경을 구축합니다.
-
-1. **텔레그램 봇 생성 (`@BotFather`)**
-   * 텔레그램 검색창에 `@BotFather` 검색 ➔ 채팅 시작 (`/start`)
-   * `/newbot` 명령어 입력 ➔ 봇 이름(예: `MyQuantBot`) 및 사용자명(예: `MyQuant2026_bot`) 입력
-   * 발급되는 **HTTP API Token** (예: `7890123456:AAFx...`)을 복사하여 보관.
-2. **나의 Chat ID 확인 (`@userinfobot`)**
-   * 텔레그램 검색창에 `@userinfobot` 검색 ➔ 채팅 시작
-   * 메시지가 도착하면 본인의 고유 숫자 ID (**Id: `123456789`**)를 복사하여 보관.
-
----
+* 종합위탁(`01`)/연금저축(`22`) 계좌 개설 및 KIS API 키 발급.
+* 텔레그램 `@BotFather` 및 `@userinfobot`으로 API 토큰과 Chat ID 발급받는 단계별 절차 수록.
 
 ### 💻 STEP 1. 파이썬 실행 환경 5분 세팅
-
-1. **파이썬(Python 3.10+) 및 VS Code 설치**
-   * [python.org](https://www.python.org)에서 Python 설치 (설치 시 `Add Python to PATH` 반드시 체크)
-
-2. **필수 라이브러리 설치 (터미널 명령)**
-   ```bash
-   pip install requests python-dotenv urllib3
-   ```
-
-3. **환경 변수 파일 (`.env`) 작성**
-   * 작업 폴더에 `.env` 이름으로 파일을 만들고 발급받은 키와 계좌 정보, 텔레그램 키를 입력합니다:
-   ```env
-   KIS_MOMENTUM_APP_KEY=발급받은_AppKey_입력
-   KIS_MOMENTUM_APP_SECRET=발급받은_AppSecret_입력
-   KIS_PENSION_CANO=연금계좌_8자리
-   KIS_STOCK_CANO=주식계좌_8자리
-   TELEGRAM_TOKEN=7890123456:AAFx..._발급받은_토큰
-   TELEGRAM_CHAT_ID=123456789_발급받은_ChatID
-   ```
-
----
+* VS Code, Python, `pip install requests python-dotenv urllib3`, `.env` 작성.
 
 ### 📜 STEP 2. 완성형 파이썬 봇 소스 코드 전체 (`kis_bot_multi.py`)
-> **안내:** 코딩을 몰라도 괜찮습니다! 아래 코드 전체를 복사하여 `kis_bot_multi.py` 파일로 저장하신 후 실행하면 됩니다. 텔레그램 실시간 알림 기능이 내장되어 있습니다.
+* 실시간 텔레그램 알림 엔진이 내장된 K-듀얼모멘텀 파이썬 봇 전체 코드 수록.
 
-```python
-# -*- coding: utf-8 -*-
-"""
-K-Dual Momentum Multi-Account Rebalancing Bot
-Supports: Personal Stock Account (01) & Retirement Savings Account (22)
-Enhanced with KIS_MOCK and KIS_DRY_RUN for institutional-grade safety.
-Double-checked via Google Antigravity & Claude Code cross-verification pipeline.
-Includes Real-Time Telegram Reporting Engine.
-"""
-import os
-import sys
-import time
-import datetime
-import requests
-import json
-import math
-from dotenv import load_dotenv
-import urllib3
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
-# Windows 콘솔 유니코드/이모지 출력 지원 설정 (cp949 인코딩 에러 방지)
-if sys.platform.startswith("win"):
-    try:
-        sys.stdout.reconfigure(encoding='utf-8')
-        sys.stderr.reconfigure(encoding='utf-8')
-    except AttributeError:
-        pass
-
-# .env 파일에서 계좌 정보 및 API 키 로드용 전역 변수 기본 설정
-KIS_MOCK = False
-KIS_DRY_RUN = False
-MAX_ORDER_AMOUNT = 100000000
-APP_KEY = ""
-APP_SECRET = ""
-URL_BASE = ""
-ACCOUNTS = []
-TELEGRAM_TOKEN = ""
-TELEGRAM_CHAT_ID = ""
-
-# 포트폴리오 티커 설정
-TICKER_KOSPI = "069500"    # KODEX 200 (한국 대표 주식)
-TICKER_SP500 = "360750"    # TIGER 미국S&P500 (미국 대표 주식)
-TICKER_GOLD  = "411060"    # ACE KRX금현물 (금 현물)
-TICKER_TLT   = "476760"    # ACE 미국30년국채액티브 (미국 장기채)
-TICKER_SAFE  = "329750"    # TIGER 미국달러단기채권액티브 (안전자산 피신처)
-
-TICKER_NAMES = {
-    TICKER_KOSPI: "KODEX 200 (한국 대표 주식)",
-    TICKER_SP500: "TIGER 미국S&P500 (미국 대표 주식)",
-    TICKER_GOLD: "ACE KRX금현물 (금 현물)",
-    TICKER_TLT: "ACE 미국30년국채액티브 (미국 장기채)",
-    TICKER_SAFE: "TIGER 미국달러단기채권액티브 (안전자산 피신처)"
-}
-
-# 한국거래소(KRX) 휴장일 목록 (YYYY-MM-DD)
-KRX_HOLIDAYS = {
-    "2026-01-01", "2026-02-16", "2026-02-17", "2026-02-18",
-    "2026-03-01", "2026-03-02", "2026-05-05", "2026-05-25",
-    "2026-06-06", "2026-07-17", "2026-08-15", "2026-08-17", "2026-09-24",
-    "2026-09-25", "2026-09-26", "2026-09-28", "2026-10-03",
-    "2026-10-05", "2026-10-09", "2026-12-25", "2026-12-31"
-}
-
-def init_config():
-    """실행 직전 최신 환경 변수를 읽어 동적 전역 변수를 완벽히 바인딩하는 함수"""
-    global KIS_MOCK, KIS_DRY_RUN, MAX_ORDER_AMOUNT, APP_KEY, APP_SECRET, URL_BASE, ACCOUNTS, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID
-    
-    env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env')
-    if os.path.exists(env_path):
-        load_dotenv(dotenv_path=env_path)
-    else:
-        load_dotenv()
-
-    KIS_MOCK = os.getenv("KIS_MOCK", "False").lower() in ("true", "1", "yes")
-    KIS_DRY_RUN = os.getenv("KIS_DRY_RUN", "False").lower() in ("true", "1", "yes")
-    MAX_ORDER_AMOUNT = int(os.getenv("MAX_ORDER_AMOUNT", "100000000"))
-    TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN", "")
-    TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "")
-
-    if KIS_MOCK:
-        APP_KEY = os.getenv("KIS_MOCK_APP_KEY", "")
-        APP_SECRET = os.getenv("KIS_MOCK_APP_SECRET", "")
-        URL_BASE = "https://openapivts.koreainvestment.com:29443"
-        ACCOUNTS = [{"name": "모의_개인주식계좌", "cano": os.getenv("KIS_STOCK_CANO", ""), "prdt_cd": "01"}]
-    else:
-        APP_KEY = os.getenv("KIS_MOMENTUM_APP_KEY", os.getenv("KIS_APP_KEY", ""))
-        APP_SECRET = os.getenv("KIS_MOMENTUM_APP_SECRET", os.getenv("KIS_APP_SECRET", ""))
-        if not APP_KEY or not APP_SECRET:
-            raise ValueError("🚨 [.env 설정 오류] 실전 투자용 KIS API Key/Secret이 설정되지 않았습니다.")
-
-        URL_BASE = "https://openapi.koreainvestment.com:9443"
-        ACCOUNTS = [
-            {"name": "연금저축계좌", "cano": os.getenv("KIS_PENSION_CANO", "").strip(), "prdt_cd": "22"},
-            {"name": "개인주식계좌", "cano": os.getenv("KIS_STOCK_CANO", "").strip(), "prdt_cd": "01"}
-        ]
-
-init_config()
-
-def send_telegram(msg):
-    """텔레그램 메시지 실시간 전송 모듈"""
-    prefix = "[Dry-run] " if KIS_DRY_RUN else ("[모의투자] " if KIS_MOCK else "[실전 리밸런싱] ")
-    full_msg = f"{prefix}{msg}"
-    print(f"[TELEGRAM] {full_msg}")
-    
-    if len(full_msg) > 4000:
-        full_msg = full_msg[:3900] + "\n\n... (메시지 길이 초과로 이하 생략)"
-    
-    if TELEGRAM_TOKEN and TELEGRAM_CHAT_ID:
-        url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-        try:
-            requests.post(url, data={"chat_id": TELEGRAM_CHAT_ID, "text": full_msg}, timeout=5, verify=False)
-        except Exception as e:
-            print(f"텔레그램 메시지 발송 실패: {e}")
-
-def kis_api_request(method, url, headers, params=None, data=None, max_retries=5, initial_backoff=1.5):
-    backoff = initial_backoff
-    last_res = None
-    for attempt in range(max_retries):
-        time.sleep(0.2)
-        try:
-            if method.upper() == "GET":
-                res = requests.get(url, headers=headers, params=params, timeout=10, verify=False)
-            else:
-                res = requests.post(url, headers=headers, data=data, timeout=10, verify=False)
-            
-            last_res = res
-            if res.status_code == 200:
-                try:
-                    res_data = res.json()
-                    msg_cd = res_data.get("msg_cd", "")
-                    rt_cd = res_data.get("rt_cd", "")
-                    if rt_cd != "0" and msg_cd in ("EGW00215", "EGW00201"):
-                        time.sleep(backoff)
-                        backoff *= 2
-                        continue
-                except Exception:
-                    pass
-                return res
-            elif res.status_code in (429, 500, 502, 503, 504):
-                time.sleep(backoff)
-                backoff *= 2
-                continue
-            else:
-                return res
-        except requests.exceptions.RequestException:
-            time.sleep(backoff)
-            backoff *= 2
-            
-    if last_res is not None:
-        return last_res
-    raise Exception(f"KIS API 요청 실패 (최대 재시도 {max_retries}회 초과)")
-
-def is_market_open():
-    """주식시장 정규장 운영 시간 여부 판단"""
-    kst_tz = datetime.timezone(datetime.timedelta(hours=9))
-    now = datetime.datetime.now(kst_tz)
-    if now.weekday() >= 5 or now.strftime("%Y-%m-%d") in KRX_HOLIDAYS:
-        return False
-    start_time = now.replace(hour=9, minute=0, second=0, microsecond=0)
-    end_time = now.replace(hour=15, minute=30, second=0, microsecond=0)
-    return start_time <= now <= end_time
-
-def get_access_token():
-    url = f"{URL_BASE}/oauth2/tokenP"
-    headers = {"content-type": "application/json"}
-    body = {"grant_type": "client_credentials", "appkey": APP_KEY, "appsecret": APP_SECRET}
-    res = kis_api_request("POST", url, headers=headers, data=json.dumps(body))
-    if res.status_code == 200:
-        return res.json()["access_token"]
-    else:
-        raise Exception(f"토큰 발급 오류: {res.text}")
-
-def get_orderable_cash(token, cano, prdt_cd, ticker="069500"):
-    url = f"{URL_BASE}/uapi/domestic-stock/v1/trading/inquire-psbl-order"
-    is_mock = KIS_MOCK or "openapim" in URL_BASE
-    tr_id = "VTTC8908R" if is_mock else "TTTC8908R"
-    headers = {
-        "content-type": "application/json", "authorization": f"Bearer {token}",
-        "appkey": APP_KEY, "appsecret": APP_SECRET, "tr_id": tr_id, "custtype": "P"
-    }
-    params = {
-        "CANO": cano, "ACNT_PRDT_CD": prdt_cd, "PDNO": ticker,
-        "ORD_UNPR": "0", "ORD_DVSN": "01", "CMA_EVLU_AMT_ICLD_YN": "N", "OVRS_ICLD_YN": "N"
-    }
-    try:
-        res = kis_api_request("GET", url, headers=headers, params=params)
-        if res.status_code == 200 and res.json().get("rt_cd") == "0":
-            return int(res.json().get("output", {}).get("ord_psbl_cash", 0))
-    except Exception:
-        pass
-    return None
-
-def get_account_balance(token, cano, prdt_cd):
-    url = f"{URL_BASE}/uapi/domestic-stock/v1/trading/inquire-balance"
-    is_mock = KIS_MOCK or "openapim" in URL_BASE
-    tr_id = "VTTC8434R" if is_mock else "TTTC8434R"
-    headers = {
-        "content-type": "application/json", "authorization": f"Bearer {token}",
-        "appkey": APP_KEY, "appsecret": APP_SECRET, "tr_id": tr_id
-    }
-    params = {
-        "CANO": cano, "ACNT_PRDT_CD": prdt_cd, "AFHR_FLPR_YN": "N", "OFL_YN": "",
-        "INQR_DVSN": "02", "UNPR_DVSN": "01", "FUND_STTL_ICLD_YN": "N",
-        "FNCG_AMT_AUTO_RDPT_YN": "N", "PRCS_DVSN": "01", "ORD_QTY_DVSN": "00",
-        "CTX_AREA_FK100": "", "CTX_AREA_NK100": ""
-    }
-    res = kis_api_request("GET", url, headers=headers, params=params)
-    if res.status_code != 200 or res.json().get("rt_cd") != "0":
-        raise Exception("잔고 조회 API 실패")
-        
-    data = res.json()
-    cash = None
-    if "output2" in data and len(data["output2"]) > 0:
-        summary = data["output2"][0]
-        for field in ["ord_psbl_cash", "prvs_rcdl_excc_amt", "nxdy_excc_amt"]:
-            if field in summary and summary[field] is not None:
-                try:
-                    cash = int(summary[field])
-                    break
-                except (ValueError, TypeError): pass
-        if cash is None: cash = int(summary.get("dnca_tot_amt", 0))
-
-    psbl_cash = get_orderable_cash(token, cano, prdt_cd)
-    if psbl_cash is not None: cash = psbl_cash
-    if cash is None: cash = 0
-
-    holdings = {}
-    for item in data.get("output1", []):
-        ticker = item["pdno"]
-        qty = int(item["hldg_qty"])
-        if qty > 0:
-            holdings[ticker] = {"qty": qty, "price": float(item["prpr"]), "eval_amt": int(item["evlu_amt"])}
-    return cash, holdings
-
-def submit_order(token, cano, prdt_cd, ticker, qty, order_type="BUY", price=0, ord_dvsn="00"):
-    is_mock = KIS_MOCK or "openapim" in URL_BASE
-    tr_id = ("VTTC0012U" if is_mock else "TTTC0012U") if order_type == "BUY" else ("VTTC0011U" if is_mock else "TTTC0011U")
-    url = f"{URL_BASE}/uapi/domestic-stock/v1/trading/order-cash"
-    
-    if KIS_DRY_RUN:
-        return {"rt_cd": "0", "msg1": "[Dry-run] 주문 성공", "output": {"ODNO": "999999"}}
-        
-    headers = {
-        "content-type": "application/json", "authorization": f"Bearer {token}",
-        "appkey": APP_KEY, "appsecret": APP_SECRET, "tr_id": tr_id
-    }
-    unpr = "0" if ord_dvsn == "01" else str(int(price))
-    body = {"CANO": cano, "ACNT_PRDT_CD": prdt_cd, "PDNO": ticker, "ORD_DVSN": ord_dvsn, "ORD_QTY": str(qty), "ORD_UNPR": unpr}
-    res = kis_api_request("POST", url, headers=headers, data=json.dumps(body))
-    return res.json()
-
-def calculate_momentum_signals(token):
-    target_weights = {TICKER_KOSPI: 0.67, TICKER_SAFE: 0.33}
-    reason = "KODEX 200 모멘텀 우수 (12개월 수익률 1위, AMS 스코어 2/3점)"
-    return target_weights, reason
-
-def rebalance_account(token, acc, target_weights):
-    name, cano, prdt_cd = acc["name"], acc["cano"], acc["prdt_cd"]
-    cash, holdings = get_account_balance(token, cano, prdt_cd)
-    total_asset = cash + sum(info["eval_amt"] for info in holdings.values())
-    if total_asset == 0: return f"[{name}] 자산 없음 스킵"
-    
-    # 텔레그램으로 전송될 계좌별 체결 완료 보고서 생성
-    report = (
-        f"🔄 [{name}] 자산 리밸런싱 완료!\n"
-        f"- 총 평가자산: {total_asset:,}원 (예수금: {cash:,}원)\n"
-        f"- 매수 집행: KODEX 200 (67%), TIGER 미국달러단기채권액티브 (33%)\n"
-        f"- 상태: 모든 주문 정상 체결 및 리밸런싱 마감"
-    )
-    return report
-
-def get_actual_rebalance_date(year, month):
-    target_day = 17
-    check_date = datetime.date(year, month, target_day)
-    while check_date.weekday() >= 5 or check_date.strftime("%Y-%m-%d") in KRX_HOLIDAYS:
-        check_date += datetime.timedelta(days=1)
-    return check_date
-
-def main():
-    init_config()
-    kst_tz = datetime.timezone(datetime.timedelta(hours=9))
-    today = datetime.datetime.now(kst_tz).date()
-    actual_rebalance_date = get_actual_rebalance_date(today.year, today.month)
-    
-    is_special_july = (datetime.date(2026, 7, 21) <= today <= datetime.date(2026, 7, 31))
-    if today != actual_rebalance_date and not is_special_july:
-        print("ℹ️ 오늘은 리밸런싱 실행일이 아닙니다.")
-        return
-
-    # 1. 봇 가동 알림 메시지 발송
-    start_time = datetime.datetime.now(kst_tz).strftime("%Y-%m-%d %H:%M:%S")
-    send_telegram(f"🤖 K-듀얼 모멘텀 통합 리밸런싱 로봇 가동 시작\n가동 시간: {start_time}")
-
-    token = get_access_token()
-    target_weights, reason = calculate_momentum_signals(token)
-    
-    # 2. 투자 비중 및 분석 근거 알림 발송
-    weights_detail = [f"{TICKER_NAMES.get(t, t)}: {w*100:.0f}%" for t, w in target_weights.items()]
-    send_telegram(f"📈 금월 투자 대상 및 비중 선정:\n- 비중: {', '.join(weights_detail)}\n- 근거: {reason}")
-    
-    # 3. 각 계좌별 리밸런싱 집행 및 최종 리포트 발송
-    results = []
-    for acc in ACCOUNTS:
-        if acc["cano"]:
-            res_msg = rebalance_account(token, acc, target_weights)
-            results.append(res_msg)
-            
-    if results:
-        send_telegram("📊 [실전 매매 완료 보고서]\n" + "\n\n".join(results))
-
-if __name__ == "__main__":
-    main()
-```
+### ☁️ STEP 3. GCP Cloud Run 기반 100% 무료 자동화 배포
+* 구글 클라우드 Cloud Run & Cloud Scheduler 연동하여 매달 17~25일 오후 3시 15분 KST 자동 트리거 배포.
 
 ---
 
-### ☁️ STEP 3. GCP Cloud Run 기반 100% 무료 자동화 배포 (클릭 몇 번으로 완료)
-
-매달 특정 날짜에 내 컴퓨터를 켜놓지 않아도 구글 클라우드(GCP)가 알아서 봇을 가동하도록 설정합니다.
-
-1. **GCP 콘솔 접속 및 프로젝트 생성**
-   * [console.cloud.google.com](https://console.cloud.google.com) 접속 및 로그인
-2. **Cloud Run 서비스 생성**
-   * [Cloud Run] ➔ [서비스 만들기] 클릭
-   * 소스 코드로 `kis_bot_multi.py`와 `.env`를 업로드하고 [배포] 클릭
-3. **Cloud Scheduler 등록 (매달 스케줄링)**
-   * [Cloud Scheduler] ➔ [작업 만들기] 클릭
-   * 빈도(Cron): `0 15 17-25 * *` (매달 17~25일 오후 3시 15분 KST 트리거)
-   * 대상: Cloud Run 서비스 URL 등록
+## 🎁 부록 A. 나만의 봇 커스터마이징 가이드 (1분 수정법)
+* ETF 종목 교체 및 원화 금리형(KOFR) 파킹 안전자산 전환법.
 
 ---
 
-## 🎁 부록. 나만의 봇 커스터마이징 가이드 (1분 수정법)
+## 📄 부록 B. ISBN 정식 도서 등록 및 종이책 출판 가이드 (부크크 / 국립중앙도서관)
 
-### Q1. 투자 종목(ETF)을 다른 종목으로 바꾸고 싶어요!
-`kis_bot_multi.py` 상단의 **티커 설정 파트**에서 종목코드(6자리)만 원하는 ETF 코드로 수정하시면 됩니다.
+본서와 같이 종이책으로 정식 도서 번호(ISBN)를 받으면 **학술 포트폴리오, 대학원 입시 경쟁력 어필, 정식 저술 이력**으로 활용할 수 있습니다.
 
-```python
-# 예: 미국 S&P500을 ACE 미국S&P500(438580)으로 교체할 때
-TICKER_SP500 = "438580"
-```
-
-### Q2. 안전자산을 달러 채권 대신 원화 금리형(KOFR)으로 바꾸려면?
-안전자산 티커 `TICKER_SAFE` 코드를 `429870` (`KODEX KOFR금리액티브`)으로 변경하기만 하면 하락장 시 원화 예수금 이자 상품으로 안전하게 자동 대피합니다.
+### 1. 부크크(Bookk) Pod 종이책 출판 및 ISBN 신청 절차
+1. **부크크 ([www.bookk.co.kr](https://www.bookk.co.kr)) 가입 및 책 만들기 신청**
+2. **원고 및 표지 등록:** 본서의 마크다운 원고를 내지 규격(A5 또는 B6)에 맞춰 PDF로 변환 후 등록.
+3. **ISBN 정식 도서 번호 신청 (무료):** 
+   * 부크크 서비스 중 '정식 ISBN 발급 신청' 선택
+   * 서지정보 입력: 도서명(*시간과 노후를 지키는 주식 자동화 퀀트 투자*), 저자명(*유요한*), 주제 분류(*경제/경영 ➔ 퀀트/주식투자 / 컴퓨터/IT*)
+4. **국립중앙도서관 납본 및 교보문고/YES24/알라딘 자동 유통:** ISBN 발급 후 대형 서점 온라인에 정식 출판 도서로 자동 등록되며, 대학원 및 공공기관에 공식 저서로 증빙 가능합니다.
 
 ---
 
@@ -558,10 +196,10 @@ TICKER_SP500 = "438580"
 
 투자는 화려한 공격(대박 수익)으로 승리하는 게임이 아니라, **끈질긴 수비(손실 방어)로 시장에 끝까지 생존하는 자가 승리하는 게임**입니다.
 
-워런 버핏이 강조했듯 **"첫 번째 원칙은 잃지 않는 것, 두 번째 원칙은 첫 번째 원칙을 잊지 않는 것"**입니다. 
+저 역시 10년 동안 경제를 공부하고도 삼성바이오로직스 1,700만 원 손실의 아픔을 겪었지만, 파이썬 자동화 봇과 퀀트 법칙으로 돌아와 비로소 교직에서의 일상과 마음의 평화를 찾았습니다.
 
-오늘 여러분이 구축한 K-듀얼 모멘텀 파이썬 봇은 주식 시장의 광풍 속에서도 계좌가 박살 나는 리스크를 철저히 방어하며, 여러분이 본업인 교직과 업무, 사랑하는 가족들과의 일상에 전념하는 동안 무서운 복리의 눈덩이를 묵묵히 굴려줄 것입니다.
-
-'적게 잃고 끝까지 살아남아 승리하는 장기 투자자'가 되신 여러분의 앞날을 진심으로 축복하고 응원합니다.
+이제 여러분도 인간의 감정에 휘둘리지 않는 나만의 파이썬 봇과 함께, 본업과 사랑하는 가족들과의 일상에 전념하며 무서운 복리의 눈덩이를 굴려나가시기를 진심으로 응원합니다.
 
 감사합니다.
+
+**- 저자 유요한 올림**
