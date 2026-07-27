@@ -186,3 +186,22 @@
 - **개요:** 기존 GCP Cloud Functions/Cloud Run 기반 스케줄러 및 수동 배포 체계를 **GitHub Actions (100% 무료 Cron 스케줄러 & git push 자동 배포 파이프라인)** 체계로 이전할 예정임.
 - **아침 브리핑 규칙:** 매일 아침 일정/안내 브리핑을 드릴 때마다 **'GCP 퀀트 봇의 GitHub Actions 100% 무료 스케줄러 및 자동 배포 전환 작업'**을 필수 상기 항목으로 포함하여 함께 안내할 것.
 
+## 24. 퀀트 봇 2종 GitHub Actions 100% 무료 무인 서버 이그레이션 및 실전 검증 완료 (2026-07-27)
+- **개요:** GCP Cloud Run/Cloud Scheduler ➔ **GitHub Actions (100% 무료 서버리스 무인 스케줄러)** 이전을 완벽히 마감하고 텔레그램 실전 가동 테스트 완료.
+- **저장소 및 계좌 정보 체계**:
+  1. **K-듀얼 모멘텀 봇**:
+     - **GitHub 저장소:** `https://github.com/hyh54311-dev/jinhae-k-momentum-bot`
+     - **스케줄:** 매달 17일~31일 한국시간 15:15 KST (`cron: '15 6 17-31 * *'`)
+     - **연동 계좌:** 연금저축펀드계좌 (`CANO: 63183004`, `prdt_cd: 22`) & 개인주식계좌 (`CANO: 63183004`, `prdt_cd: 01`)
+     - **안전자산 교체 코드:** `329750` (`TIGER 미국달러단기채권액티브`)
+     - **GitHub Secrets (6개):** `KIS_MOMENTUM_APP_KEY`, `KIS_MOMENTUM_APP_SECRET`, `KIS_PENSION_CANO` (`63183004`), `KIS_STOCK_CANO` (`63183004`), `TELEGRAM_TOKEN` (`8407908239:AAHgWACsaJ9y4JMkxI0iC4Kyhs4RNbxpdaY`), `TELEGRAM_CHAT_ID` (`8518409134`)
+  2. **올웨더 자산배분 봇**:
+     - **GitHub 저장소:** `https://github.com/hyh54311-dev/jinhae-all-weather-bot`
+     - **스케줄:** 매달 25일~31일 한국시간 23:00 KST (`cron: '0 14 25-31 * *'`)
+     - **연동 계좌:** 올웨더 전용 해외주식 서브계좌 (`CANO: 72394127`, `prdt_cd: 01`)
+     - **포트폴리오 비중:** VOO 30%, TLT 40%, IEF 15%, GLD 7.5%, PDBC 7.5%
+     - **GitHub Secrets (5개):** `KIS_APP_KEY`, `KIS_APP_SECRET`, `KIS_ALL_WEATHER_CANO` (`72394127`), `TELEGRAM_TOKEN` (`8407908239:AAHgWACsaJ9y4JMkxI0iC4Kyhs4RNbxpdaY`), `TELEGRAM_CHAT_ID` (`8518409134`)
+- **GCP 인프라 조치 상태**:
+  - GCP Cloud Scheduler (`k-momentum-rebalance-schedule`, `all-weather-daily-job`) **Paused (일시 중지 완료)**. 중복 매매 위험 0%.
+
+
