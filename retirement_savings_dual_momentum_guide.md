@@ -300,21 +300,23 @@ graph TD
 
 ## 4부. 🤖 따라만 하면 끝나는 한투 API + 파이썬 봇 3단계 마스터 로드맵 & 실전 디버깅집
 
-독자(선생님 및 직장인)가 자신의 코딩 실력에 상관없이 단계별로 자립할 수 있도록 돕는 **'3단계 스캐폴딩(Scaffolding) 마스터 로드맵'**을 제공합니다.
+독자(선생님 및 직장인)가 자신의 코딩 실력에 상관없이 단계별로 자립할 수 있도록 돕는 **'3단계 스캐폴딩(Scaffolding) 마스터 로드맵'**을 제공합니다. 
+
+이 책은 기존의 복잡한 구글 클라우드(GCP) 방식에서 벗어나, **코드 수정과 ETF 종목 변경이 가장 직관적이고 100% 평생 무료인 'GitHub Actions 무인 서버 스케줄러'**를 전면 적용하여 독자들의 진입장벽을 제로(0)로 만들었습니다.
 
 ### 🗺️ [독자 맞춤형] K-퀀트 봇 3단계 마스터 로드맵
 
 | 단계 | 단계명 | 독자의 행동 | 도달 목표 및 핵심 가치 |
 | :---: | :--- | :--- | :--- |
-| **1단계** | **딸깍(Click) 단계를 넘어라** | 완성된 템플릿 코드 복사 & Key 값 입력 | **진입장벽 0!** 클릭 한 번으로 내 첫 자동매매 봇 즉시 가동 |
-| **2단계** | **내 입맛대로 주무르기** | ETF 종목 교체, 모멘텀 주기 코드 수정 | 남의 전략이 아닌 **나만의 맞춤형 K-듀얼모멘텀 봇으로 진화** |
-| **3단계** | **생존 디버깅 (오류 파괴)** | 실전 운용 중 발생하는 에러코드 검색 | **삽질 100시간 단축!** 수십 가지 예외를 해결하는 무결점 무인 시스템 |
+| **1단계** | **딸깍(Click) 단계를 넘어라** | 완성된 템플릿 코드 복사 & Secrets Key 입력 | **진입장벽 0!** GitHub 클릭 한 번으로 내 첫 자동매매 봇 즉시 가동 |
+| **2단계** | **내 입맛대로 주무르기** | ETF 종목 교체, `git push`로 코드 수정 | 남의 전략이 아닌 **나만의 맞춤형 K-듀얼모멘텀 봇으로 진화** |
+| **3단계** | **생존 디버깅 (오류 파괴)** | 실전 운용 중 발생하는 에러코드 검색 | **삽질 100시간 단축!** GitHub Actions 24시간 무결점 무인 시스템 |
 
 ---
 
 ### 4.1 [1단계] 복사&붙여넣기로 3분 만에 실행하는 완제품 봇
 
-코딩을 전혀 몰라도 괜찮습니다! 제공된 전체 파이썬 소스 코드(`kis_bot_multi.py`)를 복사하고 환경 변수 파일(`.env`)에 한국투자증권 API 키와 텔레그램 토큰만 입력하면, 즉시 가동되는 완제품 템플릿입니다.
+코딩을 전혀 몰라도 괜찮습니다! 제공된 전체 파이썬 소스 코드(`kis_bot_multi.py`)와 GitHub Actions 워크플로우 파일(`.github/workflows/rebalance.yml`)을 깃허브 저장소에 올리고, **[Settings] ➔ [Secrets and variables]**에 한국투자증권 API 키와 텔레그램 토큰만 입력하면 즉시 가동되는 완제품 템플릿입니다.
 
 #### 📱 STEP 0. 한국투자증권 계좌 개설 & 텔레그램 API 키 발급 (3분 완료)
 1. **한투 증권 계좌 개설 및 KIS API 키 발급:** 종합위탁계좌(`01`) 및 연금저축펀드계좌(`22`) 개설 후 KIS Developers 포털에서 AppKey/AppSecret 발급.
@@ -322,25 +324,25 @@ graph TD
    * `@BotFather`에서 `/newbot`으로 나만의 봇 생성 후 `HTTP API Token` 발급.
    * `@userinfobot`에서 본인의 고유 `Chat ID` 확인.
 
-#### 💻 STEP 1. 파이썬 실행 환경 및 `.env` 파일 작성
-```env
-KIS_MOMENTUM_APP_KEY=발급받은_AppKey_입력
-KIS_MOMENTUM_APP_SECRET=발급받은_AppSecret_입력
-KIS_PENSION_CANO=연금계좌_8자리
-KIS_STOCK_CANO=주식계좌_8자리
-TELEGRAM_TOKEN=발급받은_텔레그램_토큰
-TELEGRAM_CHAT_ID=발급받은_텔레그램_ChatID
-```
+#### 💻 STEP 1. GitHub Repository 생성 및 Secret 변수 등록 (100% 무료)
+1. 본인의 GitHub 계정에 새 저장소(Repository) 생성.
+2. `Settings` ➔ `Secrets and variables` ➔ `Actions` ➔ `New repository secret` 클릭 후 아래 6개 키 등록:
+   * `KIS_MOMENTUM_APP_KEY`: 발급받은 KIS AppKey
+   * `KIS_MOMENTUM_APP_SECRET`: 발급받은 KIS AppSecret
+   * `KIS_PENSION_CANO`: 연금계좌 8자리
+   * `KIS_STOCK_CANO`: 주식계좌 8자리
+   * `TELEGRAM_TOKEN`: 텔레그램 Bot 토큰
+   * `TELEGRAM_CHAT_ID`: 텔레그램 Chat ID
 
 #### 📜 STEP 2. 완성형 파이썬 봇 소스 코드 전체 (`kis_bot_multi.py`)
-> 아래 소스 코드 전체를 복사하여 `kis_bot_multi.py`로 저장한 후 실행하면, 즉시 모멘텀을 계산하고 텔레그램으로 매매 보고서를 전송합니다.
+> 아래 소스 코드 전체를 저장소 루트에 `kis_bot_multi.py`로 저장합니다.
 
 ```python
 # -*- coding: utf-8 -*-
 """
 K-Dual Momentum Multi-Account Rebalancing Bot
 Supports: Personal Stock Account (01) & Retirement Savings Account (22)
-Includes Real-Time Telegram Reporting Engine & GCP Serverless Roll-Forward Safety.
+Engineered for 100% Free GitHub Actions Serverless Execution & Telegram Reporting.
 """
 import os
 import sys
@@ -455,18 +457,57 @@ if __name__ == "__main__":
     main()
 ```
 
+#### ☁️ STEP 3. GitHub Actions 100% 무료 무인 스케줄러 세팅 (`.github/workflows/rebalance.yml`)
+> `.github/workflows/rebalance.yml` 파일로 저장하면 매달 17~31일 한국시각 15시 15분에 무인 가동됩니다.
+
+```yaml
+name: Jinhae K-Momentum Rebalancer Bot
+
+on:
+  schedule:
+    # 매달 17일~31일 한국 시각(KST) 15:15 -> UTC 06:15 자동 실행
+    - cron: '15 6 17-31 * *'
+  workflow_dispatch: # 수동 즉시 실행 (테스트용 버튼)
+
+jobs:
+  run-rebalancer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          pip install requests python-dotenv urllib3
+
+      - name: Run K-Momentum Bot
+        env:
+          KIS_MOMENTUM_APP_KEY: ${{ secrets.KIS_MOMENTUM_APP_KEY }}
+          KIS_MOMENTUM_APP_SECRET: ${{ secrets.KIS_MOMENTUM_APP_SECRET }}
+          KIS_PENSION_CANO: ${{ secrets.KIS_PENSION_CANO }}
+          KIS_STOCK_CANO: ${{ secrets.KIS_STOCK_CANO }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python kis_bot_multi.py
+```
+
 ---
 
-### 4.2 [2단계] 내 스타일대로 주무르는 커스텀 패치
+### 4.2 [2단계] 내 스타일대로 주무르는 커스텀 패치 (`git push` 한 번으로 수정 완료)
 
-완제품 봇을 돌려본 독자가 **"내 투자 성향에 딱 맞는 나만의 봇"**으로 진화시키는 가이드입니다.
+GitHub Actions 환경의 가장 큰 장점은 **복잡한 클라우드 콘솔 재배포 없이 `git push` 한 번으로 종목 교체와 코드 수정이 완료**된다는 점입니다.
 
 1. **ETF 종목 교체 파라미터:**
-   * 안전자산을 달러채권 대신 원화 파킹형 **`KODEX KOFR금리액티브 (429870)`**로 바꾸고 싶다면, 코드 상단 `TICKER_SAFE = "429870"`으로 수정.
+   * 안전자산을 달러채권 대신 원화 파킹형 **`KODEX KOFR금리액티브 (429870)`**로 바꾸고 싶다면, 코드 상단 `TICKER_SAFE = "429870"`으로 수정 후 GitHub에 `push`하면 즉시 최신 전략으로 업데이트됩니다.
 2. **모멘텀 주기 및 가중치 수정:**
    * 12개월 단일 모멘텀 대신 최근 3, 6, 12개월 혼합 모멘텀 가중치를 부여하고 싶을 때의 파이썬 수식 조절법.
-3. **매매 실행 시점 변경:**
-   * 매달 17일 정기 실행에서 매달 1일, 혹은 특정 손절/이익실현 스코어 조건 충족 시 즉시 실행되도록 게이트 조건 수정법.
+3. **매매 실행 시점 및 크론(Cron) 스케줄 조절:**
+   * `.github/workflows/rebalance.yml` 파일 내 `cron` 표현식을 조절하여 실행 날짜와 시각을 자유롭게 변경 가능합니다.
 
 ---
 
@@ -474,35 +515,32 @@ if __name__ == "__main__":
 
 ★ **이 책의 핵심 셀링 포인트 (USP):** 황요한 저자가 수개월간 직접 바닥부터 부딪히며 해결해 낸 실전 에러 수십 가지를 단 몇 초 만에 파괴하는 핵심 해결 모음집입니다.
 
-#### 1. KIS 포트 `:9443` 유지 및 GCP 네트워크 타임아웃 해결
-* **증상:** GCP Cloud Run 서버리스 환경에서 KIS API 호출 시 Connection Timeout 에러 발생.
-* **원인:** KIS Base URL(`https://openapi.koreainvestment.com:9443`)에서 명시적 포트 `:9443`을 제거하면 443 포트로 우회되어 GCP 네트워크 보안 방화벽에 차단됨.
+#### 1. KIS 포트 `:9443` 유지 및 GitHub Actions 네트워크 인증 성공
+* **증상:** 무인 서버 환경에서 KIS API 호출 시 Connection Timeout 에러 발생.
+* **원인:** KIS Base URL(`https://openapi.koreainvestment.com:9443`)에서 명시적 포트 `:9443`을 제거하면 443 포트로 우회되어 통신 차단됨.
 * **해결:** URL 코드에서 포트 제거 로직을 없애고 `:9443` 포트를 명시적으로 유지해야 함.
 
-#### 2. KIS API 해외/국내 잔고 조회 필수 파라미터 오기 (`CMA_EVLU_AMT_ICLD_YN`)
-* **증상:** 잔고 조회 시 `OPSQ2001: ERROR : INPUT_FIELD_NAME CMA_EVLU_AMT_ICLD_YN` 에러 반환.
-* **원인:** 한투 API 업데이트로 매수가능조회(`TTTC8908R`) 파라미터명이 변경되었음.
-* **해결:** `CMA_EVLU_AMT_ICLD_YN="N"`, `ORD_UNPR="0"`으로 정확히 전달해야 오류 없이 실시간 가용 현금을 조회함.
+#### 2. GCP Cloud Run 수동 배포 괴리 극복 ➔ GitHub Actions로 완벽 해결
+* **기존 GCP 방식의 비극:** 코드만 수정하고 GCP 콘솔에서 수동 [DEPLOY] 버튼을 누르지 않으면 구 버전 코드가 계속 실행되어 리밸런싱이 누락되는 배포 괴리 발생.
+* **GitHub Actions의 혁신:** 코드 수정 후 `git push`를 수행하는 순간 GitHub 액션 무인 서버에 최신 코드가 100% 자동 적용되므로 배포 괴리가 완벽히 사라짐.
 
-#### 3. 전일 미정산 예수금 초과 및 실시간 현금 차감 캡(Cap) 로직
-* **증상:** 1차 종목 매수 후 2차 종목 매수 시 "주문가능금액을 초과했습니다" 에러로 매수 실패.
-* **원인:** D+2 예수금에는 전일 매수 결제 미정산금이 차감되어 있지 않아 가용 금액보다 큰 금액으로 수량이 산정됨.
+#### 3. KIS API 해외/국내 잔고 조회 필수 파라미터 오기 (`CMA_EVLU_AMT_ICLD_YN`)
+* **증상:** 잔고 조회 시 `OPSQ2001: ERROR : INPUT_FIELD_NAME CMA_EVLU_AMT_ICLD_YN` 에러 반환.
+* **해결:** `CMA_EVLU_AMT_ICLD_YN="N"`, `ORD_UNPR="0"`으로 정확히 전달하여 실시간 가용 현금을 조회함.
+
+#### 4. 전일 미정산 예수금 초과 및 실시간 현금 차감 캡(Cap) 로직
+* **증상:** 1차 종목 매수 후 2차 종목 매수 시 "주문가능금액을 초과했습니다" 에러 발생.
 * **해결:** `rebalance_account()` 내에서 1차 매수 직후 남은 가용 현금을 `current_avail_cash -= amount`로 실시간 차감 추적하여 2차 매수 수량을 동적으로 조율하는 Cap 로직 적용.
 
-#### 4. 휴장일 이월 알고리즘 (`is_special_july`) 및 Cloud Run 수동 배포 괴리
-* **증상:** 제헌절(7월 17일) 같은 평일 공휴일에 거래소가 문을 닫아 봇이 가동되지 않고 종료됨.
-* **원인:** 단순 날짜 비교 로직은 공휴일 익일 가동 시 "오늘은 실행일이 아님"으로 간주하고 즉시 중단됨.
-* **해결:** `get_actual_rebalance_date()` 함수를 도입하여 휴장일/주말일 경우 다음 첫 영업일로 자동 이월 연장하고, 클라우드 수동 배포 시 GCP 소스 탭에 최신 코드를 덮어쓰고 [DEPLOY]를 실행해야 배포 괴리가 해결됨.
-
 #### 5. 텔레그램 4,000자 길이 초과 400 에러 자름(Truncate)
-* **증상:** 잔고 및 계좌 디버깅 정보가 길어지면 텔레그램 전송 실패.
+* **증상:** 디버깅 정보가 길어지면 텔레그램 전송 실패.
 * **해결:** `send_telegram()` 함수 내에서 `len(msg) > 4000` 일 경우 자동으로 상위 3,900자만 자르고 트렁케이트 안내를 붙여 400 API 실패를 차단함.
 
 ---
 
 ### 4.4 Google Antigravity 자연어 커스터마이징 & Claude Code 더블 체크 교차 검증
 
-* **Google Antigravity 바이브 코딩:** 코딩 문법을 몰라도 "안전자산 비중을 30%로 제한해 줘"라는 자연어 요청으로 코드를 즉시 생성하고 수정.
+* **Google Antigravity 바이브 코딩:** 코딩 문법을 몰라도 "GitHub Actions용 `.yml` 워크플로우를 짜줘"라는 자연어 요청으로 코드를 즉시 생성하고 수정.
 * **Claude Code 2차 더블 체크:** 1차 완성된 코드를 Claude Code에 입력하여 "예수금 0원 예외 처리, 휴장일 판정, 텔레그램 길이 초과 에러가 없는지 더블 체크해 줘"라고 요청함으로써 실전 디버깅 시행착오를 90% 차단하는 무결점 AI 개발 파이프라인 정립.
 
 ---
