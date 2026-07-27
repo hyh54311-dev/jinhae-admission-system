@@ -316,7 +316,24 @@ graph TD
 
 ### 4.1 [1단계] 복사&붙여넣기로 3분 만에 실행하는 완제품 봇
 
-코딩을 전혀 몰라도 괜찮습니다! 제공된 전체 파이썬 소스 코드(`kis_bot_multi.py`)와 GitHub Actions 워크플로우 파일(`.github/workflows/rebalance.yml`)을 깃허브 저장소에 올리고, **[Settings] ➔ [Secrets and variables]**에 한국투자증권 API 키와 텔레그램 토큰만 입력하면 즉시 가동되는 완제품 템플릿입니다.
+코딩을 전혀 몰라도 괜찮습니다! 저자(황요한)가 미리 구축해둔 **공개 GitHub Template(템플릿) 저장소**를 활용하면, 클릭 단 한 번만으로 독자 본인의 GitHub 계정에 파이썬 봇 소스 코드(`kis_bot_multi.py`)와 무인 실행 워크플로우(`.github/workflows/rebalance.yml`)가 1초 만에 통째로 복사됩니다.
+
+---
+
+### 🚀 [2단계 독자 경험] 10초 무인 서버 복사 & 사전 테스트 가이드
+
+#### 🔗 메인 트랙: 1-Click GitHub Template 복사 (실전 24시간 무인 가동용)
+1. 스마트폰 카메라로 아래 **QR 코드**를 스캔하거나 전용 링크로 접속합니다.
+   * 📱 **[공개 템플릿 저장소 주소]:** `https://github.com/hyh54311-dev/jinhae-k-momentum-bot`
+   > 📸 **[도서 포함 예정 이미지 3: 1-Click 템플릿 복사용 QR 코드 및 GitHub 저장소 화면]**
+2. 상단의 초록색 **`[Use this template]` ➔ `[Create a new repository]`** 버튼을 클릭합니다.
+3. 저장소 이름(예: `my-k-momentum-bot`)을 입력하고 `Create repository`를 누르면, 독자의 깃허브 계정에 무인 봇 환경이 100% 자동 세팅됩니다.
+
+#### 🧪 서브 트랙: Google Colab 1초 사전 API 테스트 (선택 사항)
+* 무인 서버를 돌리기 전, 내가 발급받은 한투 API 키가 제대로 동작하는지 웹 브라우저에서 1초 만에 확인하고 싶다면 **[Google Colab 사전 테스트 링크]**를 통해 '재생(▶)' 버튼만 눌러 확인해보세요.
+  * 🧪 **[Google Colab 1초 테스트 전용 링크]:** `https://colab.research.google.com/drive/1_example_kis_test`
+
+---
 
 #### 📱 STEP 0. 한국투자증권 계좌 개설 & 텔레그램 API 키 발급 (3분 완료)
 1. **한투 증권 계좌 개설 및 KIS API 키 발급:** 종합위탁계좌(`01`) 및 연금저축펀드계좌(`22`) 개설 후 KIS Developers 포털에서 AppKey/AppSecret 발급.
@@ -324,15 +341,17 @@ graph TD
    * `@BotFather`에서 `/newbot`으로 나만의 봇 생성 후 `HTTP API Token` 발급.
    * `@userinfobot`에서 본인의 고유 `Chat ID` 확인.
 
-#### 💻 STEP 1. GitHub Repository 생성 및 Secret 변수 등록 (100% 무료)
-1. 본인의 GitHub 계정에 새 저장소(Repository) 생성.
-2. `Settings` ➔ `Secrets and variables` ➔ `Actions` ➔ `New repository secret` 클릭 후 아래 6개 키 등록:
-   * `KIS_MOMENTUM_APP_KEY`: 발급받은 KIS AppKey
-   * `KIS_MOMENTUM_APP_SECRET`: 발급받은 KIS AppSecret
-   * `KIS_PENSION_CANO`: 연금계좌 8자리
-   * `KIS_STOCK_CANO`: 주식계좌 8자리
-   * `TELEGRAM_TOKEN`: 텔레그램 Bot 토큰
-   * `TELEGRAM_CHAT_ID`: 텔레그램 Chat ID
+#### 💻 STEP 1. GitHub Repository Secret 변수 등록 (100% 평생 무료)
+템플릿 복사로 생성된 본인의 GitHub 저장소에서 **[Settings] ➔ [Secrets and variables] ➔ [Actions] ➔ [New repository secret]**을 누르고 아래 6개 Key 값을 등록합니다:
+
+* `KIS_MOMENTUM_APP_KEY`: 발급받은 KIS AppKey
+* `KIS_MOMENTUM_APP_SECRET`: 발급받은 KIS AppSecret
+* `KIS_PENSION_CANO`: 연금저축계좌 8자리 번호
+* `KIS_STOCK_CANO`: 주식계좌 8자리 번호
+* `TELEGRAM_TOKEN`: 텔레그램 Bot 토큰
+* `TELEGRAM_CHAT_ID`: 텔레그램 Chat ID
+
+> 💡 **보안 주의:** API 키나 계좌번호를 코드에 직접 적지 않고 깃허브 `Secrets`에 저장하면, 외부에 절대로 노출되지 않는 철통 보안이 유지됩니다.
 
 #### 📜 STEP 2. 완성형 파이썬 봇 소스 코드 전체 (`kis_bot_multi.py`)
 > 아래 소스 코드 전체를 저장소 루트에 `kis_bot_multi.py`로 저장합니다.
