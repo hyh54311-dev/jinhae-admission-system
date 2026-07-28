@@ -679,7 +679,12 @@ K-듀얼모멘텀 알고리즘이 지난 40년 역사상의 대폭락장에서 �
 > * **실전투자 서버 주소:** `https://openapi.koreainvestment.com:9443` (뒤에 `:9443` 포트가 붙는 것을 꼭 유지해야 통신이 성공합니다)  
 > * **OAuth 2.0 토큰 체계:** 발급받은 `AppKey`와 `AppSecret`으로 24시간 유효한 Access Token이 자동 발급되어 봇이 무인으로 작동합니다.
 
-#### 💻 STEP 1. GitHub Repository Secret 변수 등록 (100% 평생 무료)
+#### 💻 STEP 1. GitHub Repository Secret 변수 등록 (무료 계정 한도 객관적 분석)
+
+> 📊 **[2026년 기준] GitHub Free(무료 계정) 정량적 허용 한도 팩트 체크:**  
+> * **GitHub Actions 무료 제공 서버 시간:** 개인 무료 계정(Free Plan) 기준 매월 **`2,000분 (Minutes)`**의 실행 시간이 기본 제공됩니다.  
+> * **K-퀀트 봇 실제 소요 시간:** 매월 말 1회 가동 시 **단 30초~1분**만 소비되므로, 한 달 무료 제공량(2,000분)의 **단 0.05%만 사용하여 압도적으로 여유**롭습니다.  
+> * **Secrets 변수 저장 한도:** 저장소 1개당 **최대 100개**(개당 64KB)까지 암호화 변수 등록이 가능하며, 봇 운용에 필요한 6개 키는 용량 과금 염려가 0%입니다.
 템플릿 복사로 생성된 본인의 GitHub 저장소에서 **[Settings] ➔ [Secrets and variables] ➔ [Actions] ➔ [New repository secret]**을 누르고 아래 6개 Key 값을 등록합니다:
 
 * `KIS_MOMENTUM_APP_KEY`: 발급받은 KIS AppKey
