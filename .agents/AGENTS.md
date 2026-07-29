@@ -192,7 +192,7 @@
 - **저장소 및 계좌 정보 체계**:
   1. **K-듀얼 모멘텀 봇**:
      - **GitHub 저장소:** `https://github.com/hyh54311-dev/jinhae-k-momentum-bot`
-     - **스케줄:** 매달 17일~31일 한국시간 15:15 KST (`cron: '15 6 17-31 * *'`)
+     - **스케줄:** 매달 17일~31일 한국시간 12:30 KST (`cron: '30 3 17-31 * *'`) (장 마감 3시간 전 여유 실행)
      - **연동 계좌:** 연금저축펀드계좌 (`CANO: 63183004`, `prdt_cd: 22`) & 개인주식계좌 (`CANO: 63183004`, `prdt_cd: 01`)
      - **안전자산 교체 코드:** `329750` (`TIGER 미국달러단기채권액티브`)
      - **GitHub Secrets (6개):** `KIS_MOMENTUM_APP_KEY`, `KIS_MOMENTUM_APP_SECRET`, `KIS_PENSION_CANO` (`63183004`), `KIS_STOCK_CANO` (`63183004`), `TELEGRAM_TOKEN` (`8407908239:AAHgWACsaJ9y4JMkxI0iC4Kyhs4RNbxpdaY`), `TELEGRAM_CHAT_ID` (`8518409134`)
