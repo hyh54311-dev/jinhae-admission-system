@@ -647,9 +647,6 @@ K-듀얼모멘텀 알고리즘이 지난 40년 역사상의 대폭락장에서 �
 2. 상단의 초록색 **`[Use this template]` ➔ `[Create a new repository]`** 버튼을 클릭합니다.
 3. 저장소 이름(예: `my-k-momentum-bot`)을 입력하고 `Create repository`를 누르면, 독자의 깃허브 계정에 무인 봇 환경이 100% 자동 세팅됩니다.
 
-#### 🧪 서브 트랙: Google Colab 1초 사전 API 테스트 (선택 사항)
-* 무인 서버를 돌리기 전, 내가 발급받은 한투 API 키가 제대로 동작하는지 웹 브라우저에서 1초 만에 확인하고 싶다면 **[Google Colab 사전 테스트 링크]**를 통해 '재생(▶)' 버튼만 눌러 확인해보세요.
-  * 🧪 **[Google Colab 1초 테스트 전용 링크]:** `https://colab.research.google.com/drive/1_example_kis_test`
 
 ---
 
@@ -668,7 +665,19 @@ K-듀얼모멘텀 알고리즘이 지난 40년 역사상의 대폭락장에서 �
 * 스마트폰 기본 카메라나 네이버/카카오톡 스캔 기능으로 아래 **QR 코드**를 스캔하면 한국투자증권 개발자 포털로 1초 만에 바로 이동합니다. (또는 주소창에 직접 입력하셔도 됩니다.)
   > 📱 **[스마트폰 전용 1초 접속 QR 코드]:**  
   > 📸 **[도서 수록 예정 이미지: 한국투자증권 KIS Developers 포털 접속용 QR 코드 (https://apiportal.koreainvestment.com)]**
-  * 🌐 **[모바일 KIS 포털 주소]:** `https://apiportal.koreainvestment.com`
+  > 🌐 **[한국투자증권 공식 개발자 사이트 3대 레퍼런스 & QR 코드 안내]:**  
+  > 
+  > 1. 🌐 **[한국투자증권 KIS Developers 공식 포털]:** `https://apiportal.koreainvestment.com`  
+  >    * 📸 **[도서 수록 QR 1]:** 📲 *(스마트폰 전용 KIS Developers 메인 포털 접속 QR 코드)*  
+  >    * **[접속 시 나오는 내용]:** KIS 개발자 센터 메인 페이지로, PC나 스마트폰으로 로그인하여 계좌 연동 신청 및 `AppKey`/`AppSecret`을 발급받는 메인 포털입니다.  
+  > 
+  > 2. 📘 **[한투 공식 Open API 서비스 소개 및 발급 가이드]:** `https://apiportal.koreainvestment.com/intro`  
+  >    * 📸 **[도서 수록 QR 2]:** 📲 *(스마트폰 전용 한투 공식 발급 가이드 페이지 접속 QR 코드)*  
+  >    * **[접속 시 나오는 내용]:** API 발급이 처음인 초보 독자를 위해 계좌 신청부터 앱키 수령까지 전 과정을 그림과 함께 친절하게 안내하는 한국투자증권 공식 사용 설명서 페이지입니다.  
+  > 
+  > 3. 💻 **[한국투자증권 공식 Open Trading API 깃허브 저장소]:** `https://github.com/koreainvestment/open-trading-api`  
+  >    * 📸 **[도서 수록 QR 3]:** 📲 *(스마트폰 전용 한투 공식 open-trading-api 깃허브 접속 QR 코드)*  
+  >    * **[접속 시 나오는 내용]:** 한투 본사 개발팀이 직접 운영하는 공식 파이썬 샘플 코드 창고로, 본서의 봇 코드 외에 다른 주식 API 기능을 확장하거나 참고할 때 활용하는 공식 예제 모음집입니다.
 * 한국투자증권 계정 아이디와 비밀번호로 로그인합니다.
 
 ##### 3. [3단계] 'Open API 서비스 신청' 버튼 터치하기
