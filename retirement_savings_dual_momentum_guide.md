@@ -646,9 +646,9 @@ K-듀얼모멘텀 알고리즘이 지난 40년 역사상의 대폭락장에서 �
 
 #### 🔗 메인 트랙: 1-Click GitHub Template 복사 (실전 24시간 무인 가동용)
 1. 스마트폰 카메라로 아래 **QR 코드**를 스캔하거나 전용 링크로 접속합니다.
-   * 📱 **[공개 템플릿 저장소 주소]:** `https://github.com/hyh54311-dev/jinhae-k-momentum-bot`
+   * 📱 **[공개 템플릿 저장소 주소]:** `https://github.com/hyh54311-dev/jinhae-admission-system`
    ![1-Click 템플릿 복사용 QR 코드](qr_template_repo.png)
-> 📲 **[스마트폰 1초 스캔] K-듀얼모멘텀 봇 1-Click 템플릿 복사용 QR 코드 (https://github.com/hyh54311-dev/jinhae-k-momentum-bot)**
+> 📲 **[스마트폰 1초 스캔] K-듀얼모멘텀 봇 1-Click 템플릿 복사용 QR 코드 (https://github.com/hyh54311-dev/jinhae-admission-system)**
 2. 상단의 초록색 **`[Use this template]` ➔ `[Create a new repository]`** 버튼을 클릭합니다.
 3. 저장소 이름(예: `my-k-momentum-bot`)을 입력하고 `Create repository`를 누르면, 독자의 깃허브 계정에 무인 봇 환경이 100% 자동 세팅됩니다.
 
