@@ -240,7 +240,7 @@ def create_guide():
     add_styled_paragraph(doc, "■ 투자 대상 자산 매칭 (국내 상장 대표 ETF):", bold=True)
     add_styled_paragraph(doc, "- 미국 주식: TIGER 미국S&P500 (360750) ➔ 환노출형으로 글로벌 폭락 위기 시 달러 초강세로 추가 방어(환쿠션)를 제공합니다.\n"
                              "- 한국 주식: KODEX 200 (069500) ➔ 국내 코스피 대형주 200개 사 지수를 동적으로 추종합니다.\n"
-                             "- 안전 자산: KODEX 미국달러단기채권 (304580) ➔ 대세 하락장 판정 시 피신하는 훌륭한 달러 환노출 안전판입니다.")
+                             "- 안전 자산: TIGER 미국달러단기채권 (329750) ➔ 대세 하락장 판정 시 피신하는 훌륭한 달러 환노출 안전판입니다.")
     
     add_styled_paragraph(doc, "■ 월간 매매 리밸런싱 프로세스 (매월 1회 실행):", bold=True)
     add_styled_paragraph(doc, "1. 상대 모멘텀 필터링: 매월 말일 종가 기준으로 미국 S&P 500 지수와 코스피 지수의 최근 12개월 누적 수익률을 각각 계산하여 더 높게 오른 자산을 금월 투자 후보군으로 점지합니다.\n"
@@ -390,7 +390,7 @@ def create_guide():
         "]\n"
         "TICKER_KOSPI = '069500'   # KODEX 200\n"
         "TICKER_SP500 = '360750'   # TIGER 미국S&P500\n"
-        "TICKER_SAFE  = '304580'   # KODEX 미국달러단기채권\n\n"
+        "TICKER_SAFE  = '329750'   # TIGER 미국달러단기채권\n\n"
         "def get_access_token():\n"
         "    url = f'{URL_BASE}/oauth2/tokenP'\n"
         "    body = {'grant_type': 'client_credentials', 'appkey': APP_KEY, 'appsecret': APP_SECRET}\n"

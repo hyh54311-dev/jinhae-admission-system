@@ -417,7 +417,7 @@ def update_word_document(cagr_ks, mdd_ks, cagr_sp, mdd_sp, cagr_strat, mdd_strat
                              "2. 한국 대표 주식 (KOSPI 200):\n"
                              "   - TIGER 200 (102110) / KODEX 200 (069500)\n"
                              "3. 대피용 안전자산:\n"
-                             "   - KODEX 미국달러단기채권 (304580) (달러 환노출로 절대모멘텀 붕괴 시 환차익 추가 방어)\n"
+                             "   - TIGER 미국달러단기채권 (329750) (달러 환노출로 절대모멘텀 붕괴 시 환차익 추가 방어)\n"
                              "   - KODEX KOFR금리액티브(합성) (429870) / TIGER KOFR금리액티브(합성) (433330) (원화 초단기 금리형으로 안정적 이자 수취)")
     add_styled_paragraph(doc, "■ 월간 매매 판단 프로세스 (매월 1일 아침 8시 55분 실행):", bold=True)
     add_styled_paragraph(doc, "1단계 (상대 모멘텀): 최근 12개월 동안 '코스피'와 '미국 S&P500'의 현지 통화 기준 누적 수익률을 각각 비교해 더 우수한 성과를 보인 자산을 우수 자산으로 정합니다.\n"
@@ -654,7 +654,7 @@ URL_BASE = 'https://openapi.koreainvestment.com:9443'
 # 매매 대상 ETF 티커 정의
 TICKER_KOSPI = '069500'   # KODEX 200
 TICKER_SP500 = '360750'   # TIGER 미국S&P500
-TICKER_SAFE  = '304580'   # KODEX 미국달러단기채권 (대피용 안전자산)
+TICKER_SAFE  = '329750'   # TIGER 미국달러단기채권 (대피용 안전자산)
 
 def fetch_momentum_signals():
     # 무료 야후 파이낸스 API를 통해 12개월 모멘텀 연산
