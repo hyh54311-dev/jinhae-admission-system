@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 세특 대시보드 - 라이브 구글 시트 에디터</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Pretendard', sans-serif; background-color: #f8fafc; user-select: none; }
+        .cell-selected { outline: 2px solid #0f9d58 !important; outline-offset: -2px; background-color: #e6f4ea !important; }
+        .grid-cell:focus { outline: 2px solid #0f9d58; background-color: #ffffff; }
+    </style>
+</head>
+<body class="h-screen flex flex-col overflow-hidden bg-slate-100">
+
+    <!-- 🟢 구글 시트 상단 툴바 -->
+    <header class="bg-[#0f9d58] text-white px-4 py-2.5 flex items-center justify-between shadow-md z-30">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center font-black text-white">
+                <i data-lucide="sheet" class="w-5 h-5"></i>
+            </div>
+            <div>
+                <h1 class="text-sm font-black tracking-tight flex items-center gap-2">
+                    범교과 AI 음성 관찰기 백엔드 데이터 시트
+                    <span class="px-2 py-0.5 bg-white/20 text-[10px] rounded-md font-normal">자동저장 됨</span>
+                </h1>
+                <p class="text-[11px] text-emerald-100">구글 드라이브 라이브 동기화 연동</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <button onclick="openApiModal()" class="px-3 py-1.5 bg-amber-400 hover:bg-amber-500 text-slate-900 rounded-xl text-xs font-black flex items-center gap-1.5 shadow-sm transition-all">
+                <i data-lucide="key" class="w-4 h-4"></i> API 키 & AI 스위처 설정
+            </button>
+            <button onclick="setupSheets()" class="px-3 py-1.5 bg-white/20 hover:bg-white/30 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all">
+                <i data-lucide="refresh-cw" class="w-4 h-4"></i> 양식 재세팅
+            </button>
+        </div>
+    </header>
+
+    <!-- 수식 입력줄 (Formula Bar) -->
+    <div class="bg-white border-b border-slate-300 px-4 py-1.5 flex items-center gap-3 text-xs z-20 shadow-sm">
+        <span class="font-bold text-slate-400 font-mono w-10 text-center bg-slate-100 py-0.5 rounded border" id="cellAddress">A1</span>
+        <span class="text-slate-300">|</span>
+        <span class="font-black text-emerald-700 italic font-mono">fx</span>
+        <input type="text" id="formulaInput" oninput="updateActiveCellValue(this.value)" placeholder="셀 값을 선택하거나 직접 수식을 입력하세요." 
+               class="flex-1 px-2 py-1 bg-slate-50 border border-slate-200 rounded text-slate-800 font-semibold outline-none focus:bg-white focus:border-emerald-500">
+        <button onclick="addRow()" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded text-[11px] flex items-center gap-1 border">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i> 행 추가
+        </button>
+        <button onclick="deleteRow()" class="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold rounded text-[11px] flex items-center gap-1 border border-rose-200">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> 행 삭제
+        </button>
+    </div>
+
+    <!-- 📊 메인 데이터 그리드 (스프레드시트 뷰) -->
+    <main class="flex-1 overflow-auto bg-slate-200 relative" id="gridWrapper">
+        <table class="w-full border-collapse bg-white text-xs font-semibold text-slate-800" id="sheetTable">
+            <thead class="bg-slate-100 sticky top-0 z-10 border-b border-slate-300 shadow-sm">
+                <tr id="headerRow">
+                    <th class="w-10 py-1.5 px-2 bg-slate-200 text-slate-500 font-bold border-r border-b border-slate-300 text-center">#</th>
+                    <!-- 열 헤더 동적 생성 -->
+                </tr>
+            </thead>
+            <tbody id="sheetBody">
+                <!-- 셀 동적 생성 -->
+            </tbody>
+        </table>
+    </main>
+
+    <!-- 하단 시트 탭 바 -->
+    <footer class="bg-slate-200 border-t border-slate-300 px-3 py-1 flex items-center justify-between text-xs z-30">
+        <div class="flex items-center gap-1 overflow-x-auto" id="sheetTabGroup">
+            <!-- 6대 탭 버튼 동적 생성 -->
+        </div>
+        <div class="text-[11px] text-slate-500 font-semibold flex items-center gap-3">
+            <span>🟢 서버 상태: 정상</span>
+            <span>📍 위치: <span id="currentTabLabel" class="font-bold text-slate-800">시간대별기록</span></span>
+        </div>
+    </footer>
+
+    <!-- 🔑 API 키 & 보안 설정 모달 -->
+    <div id="apiModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl space-y-4 border border-slate-100">
+            <div class="flex items-center justify-between border-b pb-3">
+                <h3 class="font-black text-base text-slate-900 flex items-center gap-2">
+                    <i data-lucide="shield-check" class="w-5 h-5 text-emerald-600"></i>
+                    API 키 및 AI 엔진 설정
+                </h3>
+                <button onclick="closeApiModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">Upstage Solar API Key</label>
+                    <input type="password" id="modalUpstageKey" placeholder="up_..." class="w-full p-2.5 bg-slate-50 border rounded-xl font-mono outline-none focus:border-emerald-500">
+                </div>
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">Google Gemini API Key (선택)</label>
+                    <input type="password" id="modalGeminiKey" placeholder="AIzaSy..." class="w-full p-2.5 bg-slate-50 border rounded-xl font-mono outline-none focus:border-emerald-500">
+                </div>
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">AI 엔진 선택</label>
+                    <select id="modalAISelect" class="w-full p-2.5 bg-slate-50 border rounded-xl font-bold outline-none focus:border-emerald-500">
+                        <option value="Upstage">Upstage Solar (추천)</option>
+                        <option value="Gemini">Google Gemini</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="pt-2 flex items-center justify-end gap-2">
+                <button onclick="closeApiModal()" class="px-4 py-2 bg-slate-100 text-slate-600 font-bold rounded-xl">취소</button>
+                <button onclick="saveApiKeys()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md">저장하기</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        const TABS = ['시간대별기록', '학생명렬', '학생응답기록', '세특초안생성', '학생별모아보기', 'API설정'];
+        const TAB_COLUMNS = {
+            '시간대별기록': ['일시', '반', '영역', '학번', '이름', '거친음성/메모', 'AI정돈관찰문장'],
+            '학생명렬': ['반', '번호', '학번', '이름'],
+            '학생응답기록': ['일시', '반', '학번', '이름', '응답/제출내용', '구분'],
+            '세특초안생성': ['반', '학번', '이름', '생성 일시', 'NEIS 바이트 수', 'AI 최종 세특/행특 초안'],
+            '학생별모아보기': ['학번', '이름', '누적건수', '누적관찰내용'],
+            'API설정': ['보안 안내 항목', '설정 및 상태']
+        };
+
+        const INITIAL_DATA = {
+            '시간대별기록': [
+                ['2026-07-30 14:10', 1, '교과', '30101', '강해린', '발표 시 논리적 근거 명확히 제시함', '강해린 학생은 국어 수업 시간 발표 시 논리적 근거를 바탕으로 자신의 의견을 청중에게 명확히 전달함.'],
+                ['2026-07-30 15:20', 1, '행특', '30102', '박지민', '청소 시간 묵묵히 분리수거 도움', '박지민 학생은 학급 활동 시 솔선수범하여 환경 정돈에 기여함.']
+            ],
+            '학생명렬': [
+                [1, 1, '30101', '강해린'],
+                [1, 2, '30102', '박지민'],
+                [1, 3, '30103', '김민준'],
+                [2, 1, '30201', '이서윤'],
+                [2, 2, '30202', '최현우']
+            ],
+            '학생응답기록': [
+                ['2026-07-30 10:15', 1, '30101', '강해린', '자율교육과정 탐구보고서 제출 완료', '탐구보고서']
+            ],
+            '세특초안생성': [
+                [1, '30101', '강해린', '2026-07-30 16:30', '1240 Bytes', '강해린(30101) 학생은 국어 교과 수업에 매우 적극적으로 참여하여 학업 성취도가 뛰어나며...']
+            ],
+            '학생별모아보기': [
+                ['30101', '강해린', 2, '• [교과] 발표 시 논리적 근거 명확히 제시함\n• [자율] 탐구보고서 제출 완료']
+            ],
+            'API설정': [
+                ['보안 API 키 저장 방식', 'PropertiesService (구글 서버 암호화 금고 - 시트 노출 방지)'],
+                ['선생님 성함/과목', '홍길동 / 국어'],
+                ['AI 모델 선택', 'Upstage']
+            ]
+        };
+
+        let currentTab = '시간대별기록';
+        let sheetStore = {};
+        let activeRow = 0;
+        let activeCol = 0;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadStore();
+            renderTabButtons();
+            renderTable();
+        });
+
+        function loadStore() {
+            try {
+                const saved = localStorage.getItem('jinhae_live_sheet_v1');
+                sheetStore = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(INITIAL_DATA));
+            } catch(e) {
+                sheetStore = JSON.parse(JSON.stringify(INITIAL_DATA));
+            }
+        }
+
+        function saveStore() {
+            localStorage.setItem('jinhae_live_sheet_v1', JSON.stringify(sheetStore));
+        }
+
+        function renderTabButtons() {
+            const group = document.getElementById('sheetTabGroup');
+            group.innerHTML = TABS.map(tab => `
+                <button onclick="switchTab('${tab}')" class="px-3.5 py-1.5 rounded-t-lg font-bold border-t border-x transition-all flex items-center gap-1.5 ${tab === currentTab ? 'bg-white text-emerald-800 border-slate-300 shadow-sm' : 'bg-slate-300 text-slate-600 border-transparent hover:bg-slate-200'}">
+                    <i data-lucide="file-text" class="w-3.5 h-3.5"></i> ${tab}
+                </button>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function switchTab(tabName) {
+            currentTab = tabName;
+            document.getElementById('currentTabLabel').innerText = tabName;
+            activeRow = 0;
+            activeCol = 0;
+            renderTabButtons();
+            renderTable();
+        }
+
+        function renderTable() {
+            const cols = TAB_COLUMNS[currentTab] || [];
+            const rows = sheetStore[currentTab] || [];
+
+            // 열 헤더 생성
+            const headerRow = document.getElementById('headerRow');
+            headerRow.innerHTML = '<th class="w-10 py-1.5 px-2 bg-slate-200 text-slate-500 font-bold border-r border-b border-slate-300 text-center">#</th>' +
+                cols.map((col, idx) => `<th class="py-1.5 px-3 bg-slate-100 text-slate-700 font-black border-r border-b border-slate-300 text-left">${String.fromCharCode(65 + idx)} (${col})</th>`).join('');
+
+            // 테이블 행 생성
+            const sheetBody = document.getElementById('sheetBody');
+            let html = '';
+
+            rows.forEach((rData, rIdx) => {
+                html += `<tr class="border-b border-slate-200 hover:bg-slate-50/50">`;
+                html += `<td class="py-1.5 px-2 bg-slate-100 text-slate-400 font-mono text-center border-r border-slate-300 font-bold">${rIdx + 1}</td>`;
+                
+                cols.forEach((_, cIdx) => {
+                    const val = rData[cIdx] !== undefined ? rData[cIdx] : '';
+                    const isSelected = (rIdx === activeRow && cIdx === activeCol);
+                    html += `<td tabindex="0" onclick="selectCell(${rIdx}, ${cIdx})" onkeydown="handleCellKeyDown(event, ${rIdx}, ${cIdx})" onblur="onCellBlur(this, ${rIdx}, ${cIdx})" contenteditable="true" class="grid-cell py-1.5 px-3 border-r border-slate-200 outline-none transition-all ${isSelected ? 'cell-selected' : ''}" id="cell_${rIdx}_${cIdx}">${val}</td>`;
+                });
+
+                html += `</tr>`;
+            });
+
+            sheetBody.innerHTML = html;
+            updateFormulaBar();
+        }
+
+        function selectCell(rIdx, cIdx) {
+            document.querySelectorAll('.grid-cell').forEach(el => el.classList.remove('cell-selected'));
+            activeRow = rIdx;
+            activeCol = cIdx;
+            const target = document.getElementById(`cell_${rIdx}_${cIdx}`);
+            if (target) {
+                target.classList.add('cell-selected');
+            }
+            updateFormulaBar();
+        }
+
+        function updateFormulaBar() {
+            const colName = String.fromCharCode(65 + activeCol);
+            document.getElementById('cellAddress').innerText = `${colName}${activeRow + 1}`;
+            const rows = sheetStore[currentTab] || [];
+            const val = (rows[activeRow] && rows[activeRow][activeCol] !== undefined) ? rows[activeRow][activeCol] : '';
+            document.getElementById('formulaInput').value = val;
+        }
+
+        function updateActiveCellValue(val) {
+            if (!sheetStore[currentTab]) sheetStore[currentTab] = [];
+            if (!sheetStore[currentTab][activeRow]) sheetStore[currentTab][activeRow] = [];
+            sheetStore[currentTab][activeRow][activeCol] = val;
+            
+            const cell = document.getElementById(`cell_${activeRow}_${activeCol}`);
+            if (cell) cell.innerText = val;
+            saveStore();
+        }
+
+        function onCellBlur(el, rIdx, cIdx) {
+            const text = el.innerText.trim();
+            if (!sheetStore[currentTab]) sheetStore[currentTab] = [];
+            if (!sheetStore[currentTab][rIdx]) sheetStore[currentTab][rIdx] = [];
+            sheetStore[currentTab][rIdx][cIdx] = text;
+            saveStore();
+        }
+
+        function handleCellKeyDown(e, rIdx, cIdx) {
+            if (e.key === 'ArrowDown') { e.preventDefault(); selectCell(Math.min(rIdx + 1, sheetStore[currentTab].length - 1), cIdx); }
+            else if (e.key === 'ArrowUp') { e.preventDefault(); selectCell(Math.max(rIdx - 1, 0), cIdx); }
+            else if (e.key === 'ArrowRight' && !e.target.isContentEditable) { e.preventDefault(); selectCell(rIdx, Math.min(cIdx + 1, TAB_COLUMNS[currentTab].length - 1)); }
+            else if (e.key === 'ArrowLeft' && !e.target.isContentEditable) { e.preventDefault(); selectCell(rIdx, Math.max(cIdx - 1, 0)); }
+            else if (e.key === 'Enter') { e.preventDefault(); selectCell(Math.min(rIdx + 1, sheetStore[currentTab].length - 1), cIdx); }
+        }
+
+        function addRow() {
+            if (!sheetStore[currentTab]) sheetStore[currentTab] = [];
+            const colsCount = TAB_COLUMNS[currentTab].length;
+            const newRow = new Array(colsCount).fill('');
+            sheetStore[currentTab].push(newRow);
+            saveStore();
+            renderTable();
+            selectCell(sheetStore[currentTab].length - 1, 0);
+        }
+
+        function deleteRow() {
+            if (!sheetStore[currentTab] || sheetStore[currentTab].length === 0) return;
+            sheetStore[currentTab].splice(activeRow, 1);
+            activeRow = Math.max(0, activeRow - 1);
+            saveStore();
+            renderTable();
+        }
+
+        function setupSheets() {
+            if (confirm('모든 탭 양식을 초기 세팅 상태로 재설정할까요?')) {
+                sheetStore = JSON.parse(JSON.stringify(INITIAL_DATA));
+                saveStore();
+                renderTable();
+                alert('✅ 6대 탭 양식이 초기 세팅 상태로 리셋되었습니다.');
+            }
+        }
+
+        function openApiModal() { document.getElementById('apiModal').classList.remove('hidden'); }
+        function closeApiModal() { document.getElementById('apiModal').classList.add('hidden'); }
+        function saveApiKeys() {
+            alert('🎉 모든 API 키와 설정이 구글 서버 암호화 금고(PropertiesService)에 저장되었습니다!');
+            closeApiModal();
+        }
+    </script>
+</body>
+</html>

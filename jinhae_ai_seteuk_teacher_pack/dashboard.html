@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>교사용 관찰기 기록 & AI 세특 완성 대시보드</title>
+    <!-- 캐시 방지 헤더 -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for (let r of registrations) { r.unregister(); }
+            });
+        }
+        if ('caches' in window) {
+            caches.keys().then(function(names) {
+                for (let name of names) { caches.delete(name); }
+            });
+        }
+    </script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        .tab-btn-active {
+            background-color: #4f46e5 !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);
+        }
+        .subtab-btn-active {
+            border-bottom: 3px solid #4f46e5 !important;
+            color: #4f46e5 !important;
+            font-weight: 800 !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- 상단 대시보드 네비게이션 헤더 -->
+    <header class="bg-indigo-900 text-white shadow-lg sticky top-0 z-30">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-indigo-500 rounded-2xl flex items-center justify-center font-bold text-white shadow-inner">
+                    <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-black tracking-tight">AI 세특 완성 교사 대시보드</h1>
+                    <p class="text-xs text-indigo-200">선생님을 위한 에듀테크 풀스택 관찰 플랫폼</p>
+                </div>
+            </div>
+
+            <!-- 반 선택 메인 탭 (전체, 1반~10반) -->
+            <div class="flex items-center gap-1 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 scrollbar-none" id="classTabGroup">
+                <button onclick="selectClass('all')" data-class="all" class="class-tab-btn tab-btn-active px-3.5 py-2 rounded-xl text-xs font-bold bg-indigo-800 text-indigo-100 hover:bg-indigo-700 transition-all">
+                    전체
+                </button>
+                <script>
+                    for(let i=1; i<=10; i++){
+                        document.write(`<button onclick="selectClass(${i})" data-class="${i}" class="class-tab-btn px-3 py-2 rounded-xl text-xs font-bold bg-indigo-800/60 text-indigo-100 hover:bg-indigo-700 transition-all">${i}반</button>`);
+                    }
+                </script>
+            </div>
+        </div>
+    </header>
+
+    <!-- 하단 3개 메인 서브탭 바 -->
+    <div class="bg-white border-b border-slate-200 sticky top-[68px] z-20 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 flex items-center gap-6 text-sm font-semibold text-slate-500">
+            <button onclick="switchSubTab('timeline')" id="subtab-timeline" class="subtab-btn subtab-btn-active py-3.5 flex items-center gap-2">
+                <i data-lucide="clock" class="w-4 h-4"></i> 1. 반별 모아보기 (시간순)
+            </button>
+            <button onclick="switchSubTab('student')" id="subtab-student" class="subtab-btn py-3.5 flex items-center gap-2">
+                <i data-lucide="users" class="w-4 h-4"></i> 2. 학생별 모아보기 (검색/필터)
+            </button>
+            <button onclick="switchSubTab('report')" id="subtab-report" class="subtab-btn py-3.5 flex items-center gap-2">
+                <i data-lucide="file-check" class="w-4 h-4"></i> 3. AI 최종 세특 생성 & NEIS CSV
+            </button>
+        </div>
+    </div>
+
+    <!-- 대시보드 메인 본문 -->
+    <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full space-y-6">
+
+        <!-- 📌 1. 반별 모아보기 (시간순 타임라인) -->
+        <section id="view-timeline" class="space-y-4">
+            <div class="flex items-center justify-between">
+                <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                    <span class="w-2 h-5 bg-indigo-600 rounded-full"></span>
+                    <span id="timelineTitle">전체 반 관찰 기록 타임라인</span>
+                </h2>
+                <span id="obsCountBadge" class="px-2.5 py-1 bg-slate-100 border border-slate-200 text-slate-600 rounded-lg text-xs font-bold">
+                    총 0건
+                </span>
+            </div>
+
+            <!-- 타임라인 목록 -->
+            <div class="space-y-3" id="timelineContainer">
+                <div class="text-center py-12 text-slate-400 text-sm">데이터를 불러오는 중입니다...</div>
+            </div>
+        </section>
+
+
+        <!-- 📌 2. 학생별 모아보기 (시간순 & 실시간 검색 필수) -->
+        <section id="view-student" class="space-y-4 hidden">
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                    <span class="w-2 h-5 bg-indigo-600 rounded-full"></span>
+                    <span id="studentSectionTitle">전체 학생별 관찰 & 응답</span>
+                </h2>
+                
+                <!-- 🔍 학생 이름/학번 필수 검색창 -->
+                <div class="relative w-full sm:w-72">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-3"></i>
+                    <input type="text" id="studentSearchInput" onkeyup="filterStudentCards()" placeholder="학생 이름 또는 학번 검색..." 
+                           class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+            </div>
+
+            <!-- 학생 카드 그리드 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="studentCardContainer">
+                <div class="text-center py-12 text-slate-400 text-sm col-span-full">데이터를 불러오는 중입니다...</div>
+            </div>
+        </section>
+
+
+        <!-- 📌 3. AI 최종 세특 초안 자동 생성 & NEIS CSV 다운로드 -->
+        <section id="view-report" class="space-y-4 hidden">
+            <div class="bg-gradient-to-r from-indigo-900 via-indigo-800 to-purple-900 text-white p-6 rounded-3xl shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div>
+                    <span class="px-3 py-1 bg-white/20 text-indigo-100 rounded-full text-xs font-bold">Multi-AI 엔진 연동</span>
+                    <h2 class="text-xl font-black mt-1" id="reportSectionTitle">NEIS 세특/행특 초안 자동 완성</h2>
+                    <p class="text-xs text-indigo-200 mt-1">누적된 관찰 메모를 바탕으로 NEIS 글자수(1500Byte) 맞춤 초안을 생성합니다.</p>
+                </div>
+                
+                <div class="flex flex-wrap items-center gap-2">
+                    <!-- AI 일괄 생성 버튼 -->
+                    <button onclick="triggerGenerateReports()" class="px-5 py-3 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white font-bold rounded-2xl shadow-md text-sm flex items-center gap-2 btn-active">
+                        <i data-lucide="sparkles" class="w-4 h-4"></i> AI 초안 생성
+                    </button>
+                    <!-- 📥 NEIS CSV 파일 다운로드 버튼 -->
+                    <button onclick="downloadNeisCsv()" class="px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-2xl shadow-md text-sm flex items-center gap-2 btn-active">
+                        <i data-lucide="download" class="w-4 h-4"></i> NEIS CSV 다운로드
+                    </button>
+                </div>
+            </div>
+
+            <!-- 완성된 세특 목록 -->
+            <div class="space-y-4" id="reportContainer">
+                <div class="text-center py-12 text-slate-400 text-sm bg-white rounded-2xl border border-slate-200">생성된 세특 초안이 없습니다. 위 [AI 초안 생성] 버튼을 클릭하세요.</div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // 개발용 목 객체 (미리보기 지원)
+        if (typeof google === 'undefined' || !google.script || !google.script.run) {
+            window.google = {
+                script: {
+                    run: {
+                        withSuccessHandler: function(cb) { this._success = cb; return this; },
+                        withFailureHandler: function(cb) { this._failure = cb; return this; },
+                        getDashboardFullData: function(cNum) {
+                            const self = this;
+                            setTimeout(() => {
+                                const allStudents = [
+                                    { classNum: 1, number: 1, hakbun: '30101', name: '강해린', display: '30101 강해린' },
+                                    { classNum: 1, number: 2, hakbun: '30102', name: '박지민', display: '30102 박지민' },
+                                    { classNum: 1, number: 3, hakbun: '30103', name: '김민준', display: '30103 김민준' },
+                                    { classNum: 2, number: 1, hakbun: '30201', name: '이서윤', display: '30201 이서윤' },
+                                    { classNum: 2, number: 2, hakbun: '30202', name: '최현우', display: '30202 최현우' }
+                                ];
+                                const filteredStudents = (!cNum || cNum === 'all') ? allStudents : allStudents.filter(s => s.classNum == cNum);
+
+                                const allObs = [
+                                    { date: '2026-07-30 14:10', classNum: 1, category: '교과', hakbun: '30101', name: '강해린', rawMemo: '발표 시 논리적 근거 명확히 제시함', refinedText: '강해린 학생은 국어 수업 시간 발표 시 논리적 근거를 바탕으로 자신의 의견을 청중에게 명확히 전달하는 역량을 보여줌.' },
+                                    { date: '2026-07-30 15:20', classNum: 1, category: '행특', hakbun: '30102', name: '박지민', rawMemo: '청소 시간 묵묵히 쓰레기 분리수거 도움', refinedText: '박지민 학생은 학급 활동 시 솔선수범하여 학급 환경 정돈에 기여하고 배려심이 깊음.' }
+                                ];
+                                const allResp = [
+                                    { date: '2026-07-30 10:00', classNum: 1, hakbun: '30101', name: '강해린', content: '자율교육과정 탐구보고서 제출 완료 (주제: 현대시 소리상징)', type: '탐구보고서' }
+                                ];
+                                const allRep = [
+                                    { classNum: 1, hakbun: '30101', name: '강해린', date: '2026-07-30 16:30', bytes: '1240 Bytes', reportText: '강해린(30101) 학생은 국어 교과 수업에 매우 적극적으로 참여하여 학업 성취도가 뛰어나며...' }
+                                ];
+
+                                if (self._success) {
+                                    self._success({
+                                        success: true,
+                                        students: filteredStudents,
+                                        observations: (!cNum || cNum === 'all') ? allObs : allObs.filter(o => o.classNum == cNum),
+                                        responses: (!cNum || cNum === 'all') ? allResp : allResp.filter(r => r.classNum == cNum),
+                                        reports: (!cNum || cNum === 'all') ? allRep : allRep.filter(r => r.classNum == cNum)
+                                    });
+                                }
+                            }, 200);
+                        },
+                        generateAllStudentReports: function(cNum) {
+                            const self = this;
+                            setTimeout(() => {
+                                if (self._success) self._success({ success: true, count: 1 });
+                            }, 600);
+                        }
+                    }
+                }
+            };
+        }
+
+        lucide.createIcons();
+
+        let currentClass = 'all';
+        let currentSubTab = 'timeline';
+        let rawDashboardData = { observations: [], responses: [], reports: [] };
+        let studentList = [];
+
+        window.addEventListener('DOMContentLoaded', () => {
+            fetchDashboardData();
+        loadGradeAndClassConfig();
+        });
+
+        function selectClass(cNum) {
+            currentClass = cNum;
+            document.querySelectorAll('.class-tab-btn').forEach(btn => {
+                if (btn.getAttribute('data-class') == cNum) {
+                    btn.classList.add('tab-btn-active');
+                } else {
+                    btn.classList.remove('tab-btn-active');
+                }
+            });
+
+            const titleText = (currentClass === 'all') ? '전체 반' : `${currentClass}반`;
+            document.getElementById('timelineTitle').innerText = `${titleText} 관찰 기록 타임라인`;
+            document.getElementById('studentSectionTitle').innerText = `${titleText} 학생별 관찰 & 응답`;
+            document.getElementById('reportSectionTitle').innerText = `[${titleText}] NEIS 세특/행특 초안 자동 완성`;
+
+            fetchDashboardData();
+        loadGradeAndClassConfig();
+        }
+
+        function switchSubTab(tabName) {
+            currentSubTab = tabName;
+            ['timeline', 'student', 'report'].forEach(t => {
+                const btn = document.getElementById(`subtab-${t}`);
+                const view = document.getElementById(`view-${t}`);
+                if (t === tabName) {
+                    btn.classList.add('subtab-btn-active');
+                    view.classList.remove('hidden');
+                } else {
+                    btn.classList.remove('subtab-btn-active');
+                    view.classList.add('hidden');
+                }
+            });
+        }
+
+        function fetchDashboardData() {
+            google.script.run
+                .withSuccessHandler(function(data) {
+                    if (data && data.success) {
+                        studentList = data.students || [];
+                        rawDashboardData = data;
+                        renderTimeline();
+                        renderStudentCards();
+                        renderReports();
+                    } else {
+                        var msg = (data && data.message) ? data.message : '데이터를 가져오지 못했습니다.';
+                        document.getElementById('timelineContainer').innerHTML = '<div class="text-center py-12 text-slate-500 text-sm bg-white rounded-2xl border border-slate-200 p-6">' + msg + '</div>';
+                    }
+                })
+                .withFailureHandler(function(err) {
+                    var errMsg = err ? (err.message || err.toString()) : '구글 서버 연결 실패';
+                    document.getElementById('timelineContainer').innerHTML = '<div class="text-center py-12 text-rose-500 font-bold text-sm bg-white rounded-2xl border border-rose-200 p-6">⚠️ 로딩 실패: ' + errMsg + '<br><span class="text-xs text-slate-400 font-normal mt-2 block">구글 시트 상단 메뉴 [1. 🔑 API 키 및 보안 설정] 또는 [2. 📋 시트 6대 탭 양식 세팅]을 한 번 실행해 주세요.</span></div>';
+                })
+                .getDashboardFullData(currentClass);
+        }
+
+        function renderTimeline() {
+            const container = document.getElementById('timelineContainer');
+            const countBadge = document.getElementById('obsCountBadge');
+            const list = (rawDashboardData.observations || []).filter(item => {
+                return (currentClass === 'all' || item.classNum == currentClass);
+            });
+            
+            countBadge.innerText = `총 ${list.length}건`;
+
+            if (list.length === 0) {
+                const className = (currentClass === 'all') ? '전체 반' : `${currentClass}반`;
+                container.innerHTML = `<div class="text-center py-12 text-slate-400 text-sm bg-white rounded-2xl border border-slate-200">${className}에 등록된 관찰 메모가 없습니다.</div>`;
+                return;
+            }
+
+            let html = '';
+            list.forEach(item => {
+                const catColors = {
+                    '교과': 'bg-blue-100 text-blue-800 border-blue-200',
+                    '행특': 'bg-emerald-100 text-emerald-800 border-emerald-200',
+                    '자율': 'bg-amber-100 text-amber-800 border-amber-200',
+                    '진로': 'bg-pink-100 text-pink-800 border-pink-200',
+                    '동아리': 'bg-purple-100 text-purple-800 border-purple-200'
+                };
+                const color = catColors[item.category] || 'bg-slate-100 text-slate-800 border-slate-200';
+
+                html += `
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2.5 py-0.5 rounded-full text-xs font-black border ${color}">
+                                    ${item.category}
+                                </span>
+                                <span class="font-bold text-slate-800 text-sm">${item.classNum}반 ${item.hakbun} ${item.name}</span>
+                                <span class="text-xs text-slate-400 font-mono">${item.date}</span>
+                            </div>
+                            <p class="text-sm font-semibold text-slate-700 bg-slate-50 p-2.5 rounded-xl border border-slate-100">${item.refinedText}</p>
+                            <p class="text-xs text-slate-400">🎙️ 녹음 원본: "${item.rawMemo}"</p>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderStudentCards() {
+            const container = document.getElementById('studentCardContainer');
+            const obs = (rawDashboardData.observations || []).filter(o => currentClass === 'all' || o.classNum == currentClass);
+            const resp = (rawDashboardData.responses || []).filter(r => currentClass === 'all' || r.classNum == currentClass);
+
+            const studentMap = {};
+
+            studentList.forEach(s => {
+                const key = `${s.hakbun}_${s.name}`;
+                studentMap[key] = { hakbun: s.hakbun, name: s.name, classNum: s.classNum, obsList: [], respList: [] };
+            });
+
+            obs.forEach(o => {
+                const key = `${o.hakbun}_${o.name}`;
+                if (!studentMap[key]) studentMap[key] = { hakbun: o.hakbun, name: o.name, classNum: o.classNum, obsList: [], respList: [] };
+                studentMap[key].obsList.push(o);
+            });
+
+            resp.forEach(r => {
+                const key = `${r.hakbun}_${r.name}`;
+                if (!studentMap[key]) studentMap[key] = { hakbun: r.hakbun, name: r.name, classNum: r.classNum, obsList: [], respList: [] };
+                studentMap[key].respList.push(r);
+            });
+
+            const keys = Object.keys(studentMap);
+            if (keys.length === 0) {
+                const className = (currentClass === 'all') ? '전체' : `${currentClass}반`;
+                container.innerHTML = `<div class="text-center py-12 text-slate-400 text-sm col-span-full bg-white rounded-2xl border border-slate-200">${className} 명렬 및 기록이 없습니다.</div>`;
+                return;
+            }
+
+            let html = '';
+            keys.forEach(k => {
+                const s = studentMap[k];
+                html += `
+                    <div class="student-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3" data-search="${s.hakbun} ${s.name}">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                            <div>
+                                <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md">${s.classNum}반</span>
+                                <h3 class="text-base font-black text-slate-800 inline ml-1">${s.name} (${s.hakbun})</h3>
+                            </div>
+                            <span class="text-xs font-bold text-slate-400">누적 ${s.obsList.length}건</span>
+                        </div>
+
+                        <div class="space-y-1.5 text-xs">
+                            <span class="font-bold text-slate-500">📝 관찰 기록</span>
+                            ${s.obsList.length > 0 ? s.obsList.map(o => `
+                                <div class="bg-slate-50 p-2 rounded-xl border border-slate-100">
+                                    <span class="font-bold text-indigo-600">[${o.category}]</span> ${o.refinedText}
+                                </div>
+                            `).join('') : '<div class="text-slate-400 italic text-[11px]">기록된 관찰 메모가 없습니다.</div>'}
+                        </div>
+
+                        ${s.respList.length > 0 ? `
+                            <div class="space-y-1.5 text-xs pt-1">
+                                <span class="font-bold text-amber-600">📥 학생 제출 응답</span>
+                                ${s.respList.map(r => `
+                                    <div class="bg-amber-50/60 p-2 rounded-xl border border-amber-100 text-slate-700">
+                                        <span class="font-bold text-amber-700">[${r.type}]</span> ${r.content}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function filterStudentCards() {
+            var query = document.getElementById('studentSearchInput').value.toLowerCase().trim();
+            var cards = document.querySelectorAll('.student-card');
+            cards.forEach(function(card) {
+                var searchAttr = card.getAttribute('data-search');
+                var text = searchAttr ? searchAttr.toLowerCase() : '';
+                if (text.indexOf(query) >= 0) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        function renderReports() {
+            const container = document.getElementById('reportContainer');
+            const list = (rawDashboardData.reports || []).filter(r => {
+                return (currentClass === 'all' || r.classNum == currentClass);
+            });
+
+            if (list.length === 0) {
+                const className = (currentClass === 'all') ? '전체 반' : `${currentClass}반`;
+                container.innerHTML = `<div class="text-center py-12 text-slate-400 text-sm bg-white rounded-2xl border border-slate-200">[${className}] 생성된 세특 초안이 없습니다. 위 [AI 초안 생성] 버튼을 클릭하세요.</div>`;
+                return;
+            }
+
+            let html = '';
+            list.forEach(r => {
+                html += `
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2.5 py-1 bg-purple-100 text-purple-800 rounded-lg text-xs font-bold">${r.classNum}반</span>
+                                <h3 class="text-base font-black text-slate-800">${r.name} (${r.hakbun})</h3>
+                            </div>
+                            <span class="text-xs font-mono font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg border border-indigo-100">${r.bytes}</span>
+                        </div>
+                        <p class="text-sm font-semibold text-slate-800 leading-relaxed bg-purple-50/40 p-4 rounded-xl border border-purple-100">${r.reportText}</p>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+                function triggerGenerateReports() {
+            const className = (currentClass === 'all') ? '전체 반' : `${currentClass}반`;
+            const subjectEl = document.getElementById('selSubject');
+            const compEl = document.getElementById('txtCompetency');
+            const bytesEl = document.getElementById('selTargetBytes');
+
+            const subject = subjectEl ? subjectEl.value : '국어';
+            const competency = compEl ? compEl.value : '비판적 사고력, 지식정보처리 역량';
+            const bytes = bytesEl ? bytesEl.value : '1500';
+
+            if (!confirm(`[${className}] 학생들의 AI 세특/행특 초안을 생성할까요?
+• 담당 과목: [${subject}]
+• 2022 교과역량: [${competency}]
+• 목표 바이트: [${bytes} Bytes]`)) return;
+            
+            google.script.run
+                .withSuccessHandler(function(res) {
+                    if (res && res.success) {
+                        alert(`🎉 ${res.count}명 학생의 [${res.subject}] ${res.targetBytes}B AI 세특 초안이 성공적으로 생성되었습니다!`);
+                        fetchDashboardData();
+        loadGradeAndClassConfig();
+                    } else {
+                        alert('오류: ' + (res ? res.message : '알 수 없는 오류'));
+                    }
+                })
+                .withFailureHandler(function(err) {
+                    alert('AI 초안 생성 중 서버 오류가 발생했습니다: ' + (err.message || err));
+                })
+                .generateAllStudentReports(currentClass, subject, competency, bytes);
+        }
+
+        function downloadNeisCsv() {
+            const list = (rawDashboardData.reports || []).filter(r => currentClass === 'all' || r.classNum == currentClass);
+            if (list.length === 0) {
+                alert('다운로드할 세특 초안 데이터가 없습니다. 먼저 AI 초안을 생성해주세요.');
+                return;
+            }
+
+            let csvContent = "\uFEFF학반,학번,이름,NEIS바이트,세부능력및특기사항초안\n";
+            list.forEach(r => {
+                const escapedText = `"${(r.reportText || '').replace(/"/g, '""')}"`;
+                csvContent += `${r.classNum},${r.hakbun},${r.name},${r.bytes},${escapedText}\n`;
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.setAttribute("href", url);
+            link.setAttribute("download", `NEIS_세특초안_${currentClass === 'all' ? '전체' : currentClass + '반'}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>

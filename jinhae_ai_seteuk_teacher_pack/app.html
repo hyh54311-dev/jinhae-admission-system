@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 캐시 방지 헤더 -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>AI 음성 관찰기 (5분할 휠)</title>
+    
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for (let r of registrations) { r.unregister(); }
+            });
+        }
+        if ('caches' in window) {
+            caches.keys().then(function(names) {
+                for (let name of names) { caches.delete(name); }
+            });
+        }
+    </script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+            min-height: 100vh;
+            color: #f8fafc;
+            user-select: none;
+        }
+        .btn-active:active {
+            transform: scale(0.95);
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 16px rgba(239, 68, 68, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+        .mic-recording {
+            animation: pulse-ring 1.5s infinite;
+            background-color: #ef4444 !important;
+            color: white !important;
+        }
+        .pie-slice {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .pie-slice:hover, .pie-slice:active {
+            filter: brightness(1.25);
+            transform: scale(1.02);
+            transform-origin: 100px 100px;
+        }
+        .slice-text {
+            font-family: 'Pretendard', sans-serif;
+            font-weight: 800;
+            font-size: 13px;
+            fill: #ffffff;
+            pointer-events: none;
+            text-anchor: middle;
+            dominant-baseline: central;
+            filter: drop-shadow(0px 2px 3px rgba(0,0,0,0.8));
+        }
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fade-in 0.3s ease-out;
+        }
+    </style>
+</head>
+<body class="p-4 flex flex-col justify-between max-w-md mx-auto min-h-screen relative overflow-hidden">
+
+    <!-- 상단 헤더 -->
+    <header class="text-center pt-3 pb-1 z-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/20 border border-indigo-400/30 rounded-full text-indigo-300 text-xs font-bold mb-1">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> 1초 스마트 음성 관찰기
+        </div>
+        <h1 class="text-2xl font-black tracking-tight bg-gradient-to-r from-white via-indigo-100 to-purple-200 bg-clip-text text-transparent">
+            관찰 영역 5분할 터치
+        </h1>
+        <p class="text-xs text-slate-400 mt-1">원하는 영역 조각을 터치하면 바로 음성 녹음이 시작됩니다.</p>
+    </header>
+
+    <!-- PWA 앱 1초 설치 배너 -->
+    <div id="pwaInstallBanner" class="hidden my-1 p-3 bg-gradient-to-r from-indigo-600 to-purple-600 border border-indigo-400/40 rounded-2xl flex items-center justify-between text-white text-xs font-bold shadow-lg z-20">
+        <span class="flex items-center gap-1.5">
+            <i data-lucide="download" class="w-4 h-4 text-indigo-200"></i>
+            <span>스마트폰에 앱으로 설치하기</span>
+        </span>
+        <button type="button" id="pwaInstallBtn" onclick="installPWA()" class="px-3 py-1.5 bg-white text-indigo-900 rounded-xl text-xs font-black shadow-md btn-active">
+            1초 설치
+        </button>
+    </div>
+
+    <!-- 오프라인 알림 배너 -->
+    <div id="offlineBanner" class="hidden my-1 p-3 bg-amber-500/20 border border-amber-400/40 rounded-2xl flex items-center justify-between text-amber-200 text-xs font-bold z-10 animate-pulse">
+        <span class="flex items-center gap-1.5">
+            <i data-lucide="wifi-off" class="w-4 h-4 text-amber-400"></i>
+            <span id="offlineBannerText">미전송 메모 1건 임시보관 중</span>
+        </span>
+        <button type="button" onclick="syncPendingBuffer()" class="px-2.5 py-1 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-[11px] font-bold">
+            재전송
+        </button>
+    </div>
+
+    <!-- 중앙 5분할 원형 휠 -->
+    <main class="flex-1 flex flex-col items-center justify-center relative my-4 z-10">
+        <div class="w-80 h-80 relative flex items-center justify-center drop-shadow-2xl">
+            <svg viewBox="0 0 200 200" class="w-full h-full">
+                <g stroke="#0f172a" stroke-width="2.5" stroke-linejoin="round">
+                    <path d="M 100 100 L 100 0 A 100 100 0 0 1 195.11 69.10 Z" fill="#2563eb" class="pie-slice" onclick="openMicModal('교과')"/>
+                    <path d="M 100 100 L 195.11 69.10 A 100 100 0 0 1 158.78 180.90 Z" fill="#059669" class="pie-slice" onclick="openMicModal('행특')"/>
+                    <path d="M 100 100 L 158.78 180.90 A 100 100 0 0 1 41.22 180.90 Z" fill="#d97706" class="pie-slice" onclick="openMicModal('자율')"/>
+                    <path d="M 100 100 L 41.22 180.90 A 100 100 0 0 1 4.89 69.10 Z" fill="#db2777" class="pie-slice" onclick="openMicModal('진로')"/>
+                    <path d="M 100 100 L 4.89 69.10 A 100 100 0 0 1 100 0 Z" fill="#7c3aed" class="pie-slice" onclick="openMicModal('동아리')"/>
+                </g>
+                <text x="136.4" y="49.8" class="slice-text">📘 교과</text>
+                <text x="159.0" y="119.2" class="slice-text">🌱 행특</text>
+                <text x="100.0" y="162.0" class="slice-text">🎨 자율</text>
+                <text x="41.0" y="119.2" class="slice-text">🚀 진로</text>
+                <text x="63.6" y="49.8" class="slice-text">🧩 동아리</text>
+            </svg>
+            <div class="absolute w-24 h-24 sm:w-28 sm:h-28 bg-slate-900/95 border-4 border-slate-700/80 rounded-full flex flex-col items-center justify-center shadow-inner pointer-events-none">
+                <i data-lucide="pointer" class="w-6 h-6 text-indigo-400 mb-0.5"></i>
+                <span class="text-[11px] text-slate-300 font-bold">영역 터치</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- 전면 음성 녹음 모달 (스마트 1-버튼 UI) -->
+    <div id="micModal" class="fixed inset-0 bg-slate-950/95 backdrop-blur-2xl z-50 flex flex-col justify-between p-6 transition-all duration-300 transform translate-y-full opacity-0 overflow-y-auto">
+        <!-- 모달 헤더 -->
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <span id="modalCategoryBadge" class="px-3 py-1 bg-indigo-600 text-white rounded-full text-xs font-black shadow-md">
+                    📘 교과 영역
+                </span>
+                <span class="text-xs text-slate-400 font-bold">음성 관찰 기록</span>
+            </div>
+            <button onclick="closeMicModal()" class="w-9 h-9 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center btn-active">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <!-- 녹음 안내 및 마이크 애니메이션 -->
+        <div class="flex-1 flex flex-col items-center justify-center my-3 space-y-4 text-center">
+            <div id="micPulseCircle" class="w-20 h-20 rounded-full bg-indigo-600 text-white flex items-center justify-center shadow-2xl shadow-indigo-500/50 mic-recording cursor-pointer" onclick="toggleSpeech()">
+                <i data-lucide="mic" class="w-8 h-8"></i>
+            </div>
+            <div>
+                <h3 id="micStatusHeading" class="text-lg font-bold text-white tracking-tight">음성 메모를 말씀해 주세요</h3>
+                <p class="text-xs text-indigo-300 mt-0.5 font-semibold">
+                    💡 예: "30101 강해린, 동아리 활동에 적극 참여함"
+                </p>
+            </div>
+            <!-- 실시간 인식 텍스트 박스 -->
+            <div class="w-full max-w-sm space-y-2">
+                <textarea id="rawMemo" rows="3"
+                          placeholder="말씀하시는 내용이 이곳에 글로 적힙니다."
+                          class="w-full p-3.5 rounded-2xl bg-slate-900 border border-slate-800 text-white placeholder-slate-500 text-sm leading-relaxed outline-none focus:border-indigo-500 transition-all resize-none"></textarea>
+                <p id="interimPreview" class="text-[11px] text-indigo-400 italic text-left min-h-[1rem]"></p>
+                <!-- AI 실시간 피드백 카드 (학번/이름 누락 시 경고) -->
+                <div id="aiCoachingCard" class="hidden p-3.5 bg-rose-950/90 border border-rose-500/60 rounded-2xl text-left space-y-1.5 animate-fade-in shadow-xl">
+                    <div class="flex items-center gap-1.5 text-xs font-black text-rose-300">
+                        <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-400"></i>
+                        <span id="coachingTitle">⚠️ 학생 학번 또는 이름 누락됨</span>
+                    </div>
+                    <p id="coachingMsg" class="text-xs font-semibold text-slate-200 leading-relaxed bg-slate-900/90 p-2.5 rounded-xl border border-rose-900/60">
+                        누구에 대한 기록인지 알 수 없습니다. 아래 버튼을 눌러 "30101 강해린" 처럼 학번이나 이름을 말씀해 주세요!
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 단 1개의 스마트 원버튼 -->
+        <div>
+            <button type="button" id="smartActionBtn" onclick="handleSmartAction()" class="w-full py-4 bg-gradient-to-r from-slate-600 to-slate-700 text-white font-bold rounded-2xl shadow-xl flex items-center justify-center gap-2 text-sm transition-all btn-active opacity-60">
+                <i data-lucide="mic" class="w-5 h-5"></i>
+                <span id="smartActionBtnText">🎤 영역 터치 후 음성 녹음 시작...</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 하단 풋터 -->
+    <footer class="text-center py-2 text-[11px] text-slate-500 z-10">
+        <p>📱 선생님을 위한 AI 음성 수업 관찰기 템플릿</p>
+    </footer>
+
+    <script>
+        // 학생 학번/이름 정밀 검사 함수
+        function checkHasStudentInfo(memoText) {
+            if (!memoText || !memoText.trim()) return false;
+
+            // 1. 숫자 학번 감지 (5자리 30101 / 4자리 3101)
+            var yearExclude = /\d{4}(?:년|학년|월|일)/;
+            var has4or5Digit = /(?:^|[\s,.:;!?])\d{4,5}(?=[\s,.:;!?]|$)/.test(memoText) && !yearExclude.test(memoText);
+
+            // 반/번 패턴: '학년' 앞 1~3, '반' 앞 1~10, '번' 앞 1~40
+            var hasGradeClassNum = /[1-3]학년/.test(memoText) || /(?:^|\s)(?:[1-9]|10)반/.test(memoText) || /(?:^|\s)(?:[1-9]|[1-3]\d|40)번/.test(memoText);
+
+            // 2. 학생 명렬 기본 데이터베이스
+            var studentRoster = [
+                '강해린','박지민','김민준','이서윤','최현우','홍길동','이순신','김유신'
+            ];
+            var hasRosterName = studentRoster.some(function(name) { return memoText.indexOf(name) >= 0; });
+
+            return has4or5Digit || hasGradeClassNum || hasRosterName;
+        }
+
+        // 개발용 목 객체
+        if (typeof google === 'undefined' || !google.script || !google.script.run) {
+            window.google = {
+                script: {
+                    run: {
+                        withSuccessHandler: function(cb) { this._success = cb; return this; },
+                        withFailureHandler: function(cb) { this._failure = cb; return this; },
+                        processObservationWithAIExtraction: function(memo, category) {
+                            var self = this;
+                            setTimeout(function() {
+                                if (self._success) {
+                                    self._success({
+                                        success: true,
+                                        category: category,
+                                        hakbun: '30101',
+                                        name: '강해린',
+                                        classNum: 1,
+                                        refinedText: '강해린 학생은 ' + category + ' 활동 중 음성 메모("' + memo + '")를 바탕으로 주도적 태도를 보여줌.',
+                                        timestamp: new Date().toLocaleString('ko-KR')
+                                    });
+                                }
+                            }, 500);
+                        }
+                    }
+                }
+            };
+        }
+
+        lucide.createIcons();
+
+        var recognition = null;
+        var isRecording = false;
+        var currentCategory = '교과';
+        var currentInterim = '';
+        var missingStudentInfo = true;
+        var speechRestartCount = 0;
+        var MAX_SPEECH_RESTARTS = 5;
+        var deferredPWAPrompt = null;
+        var STORAGE_KEY = 'jinhae_obs_pending_v1';
+
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            var SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognitionCtor();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = 'ko-KR';
+
+            recognition.onresult = function(event) {
+                var finalTranscript = '';
+                var newInterim = '';
+                for (var i = event.resultIndex; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) {
+                        finalTranscript += event.results[i][0].transcript;
+                    } else {
+                        newInterim += event.results[i][0].transcript;
+                    }
+                }
+                if (finalTranscript) {
+                    var memoBox = document.getElementById('rawMemo');
+                    memoBox.value = (memoBox.value ? memoBox.value + ' ' : '') + finalTranscript;
+                    updateSmartButtonState();
+                }
+                currentInterim = newInterim;
+                if (currentInterim) {
+                    document.getElementById('interimPreview').innerText = '🔄 인식 중: ' + currentInterim;
+                } else {
+                    document.getElementById('interimPreview').innerText = '';
+                }
+            };
+
+            recognition.onend = function() {
+                if (isRecording) {
+                    speechRestartCount++;
+                    if (speechRestartCount <= MAX_SPEECH_RESTARTS) {
+                        try { recognition.start(); } catch(e){ isRecording = false; updateMicUI(false); }
+                    } else {
+                        isRecording = false;
+                        updateMicUI(false);
+                        speechRestartCount = 0;
+                    }
+                } else {
+                    updateMicUI(false);
+                    flushInterimText();
+                    updateSmartButtonState();
+                    speechRestartCount = 0;
+                }
+            };
+
+            recognition.onerror = function(event) {
+                if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+                    isRecording = false;
+                    updateMicUI(false);
+                    speechRestartCount = MAX_SPEECH_RESTARTS + 1;
+                    return;
+                }
+                isRecording = false;
+                updateMicUI(false);
+            };
+        }
+
+        function flushInterimText() {
+            if (currentInterim) {
+                var memoBox = document.getElementById('rawMemo');
+                var trimmed = currentInterim.trim();
+                if (trimmed) {
+                    memoBox.value = (memoBox.value ? memoBox.value + ' ' : '') + trimmed;
+                }
+                currentInterim = '';
+                document.getElementById('interimPreview').innerText = '';
+                updateSmartButtonState();
+            }
+        }
+
+        function updateSmartButtonState() {
+            var memoText = document.getElementById('rawMemo').value.trim();
+            var btn = document.getElementById('smartActionBtn');
+            var coachingCard = document.getElementById('aiCoachingCard');
+
+            if (!memoText) {
+                missingStudentInfo = true;
+                coachingCard.classList.add('hidden');
+                btn.className = "w-full py-4 bg-gradient-to-r from-slate-600 to-slate-700 text-white font-bold rounded-2xl shadow-xl flex items-center justify-center gap-2 text-sm transition-all btn-active opacity-60";
+                btn.innerHTML = '<i data-lucide="mic" class="w-5 h-5"></i><span id="smartActionBtnText">🎤 영역 터치 후 음성 녹음 시작...</span>';
+                lucide.createIcons();
+                return;
+            }
+
+            var hasInfo = checkHasStudentInfo(memoText);
+
+            if (!hasInfo) {
+                missingStudentInfo = true;
+                coachingCard.classList.remove('hidden');
+                document.getElementById('coachingMsg').innerText = '누구에 대한 관찰 기록인지 알 수 없습니다. 아래 버튼을 눌러 "30101 강해린" 처럼 학번이나 이름을 말씀해 주세요!';
+                btn.className = "w-full py-4 bg-amber-500 hover:bg-amber-600 text-white font-black rounded-2xl shadow-2xl flex items-center justify-center gap-2 text-sm transition-all animate-bounce btn-active";
+                btn.innerHTML = '<i data-lucide="mic" class="w-5 h-5"></i><span id="smartActionBtnText">🎤 "30101 강해린" 학번/이름 추가 말하기</span>';
+                lucide.createIcons();
+            } else {
+                missingStudentInfo = false;
+                coachingCard.classList.add('hidden');
+                btn.className = "w-full py-4 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-black rounded-2xl shadow-2xl flex items-center justify-center gap-2 text-sm transition-all animate-pulse btn-active";
+                btn.innerHTML = '<i data-lucide="send" class="w-5 h-5"></i><span id="smartActionBtnText">✅ 학번확인됨! AI 정돈 & 시트 제출</span>';
+                lucide.createIcons();
+            }
+        }
+
+        window.addEventListener('beforeinstallprompt', function(e) {
+            e.preventDefault();
+            deferredPWAPrompt = e;
+            var banner = document.getElementById('pwaInstallBanner');
+            if (banner) banner.classList.remove('hidden');
+        });
+
+        function installPWA() {
+            if (deferredPWAPrompt) {
+                deferredPWAPrompt.prompt();
+                deferredPWAPrompt.userChoice.then(function(result) {
+                    deferredPWAPrompt = null;
+                    document.getElementById('pwaInstallBanner').classList.add('hidden');
+                });
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', function() {
+            checkPendingBufferUI();
+            var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            if (isIOS && !window.navigator.standalone) {
+                var banner = document.getElementById('pwaInstallBanner');
+                if (banner) banner.classList.remove('hidden');
+            }
+            document.getElementById('rawMemo').addEventListener('input', updateSmartButtonState);
+            document.getElementById('rawMemo').addEventListener('keyup', updateSmartButtonState);
+        });
+
+        window.addEventListener('online', function() {
+            syncPendingBuffer();
+        });
+
+        function openMicModal(category) {
+            currentCategory = category;
+            speechRestartCount = 0;
+            var modal = document.getElementById('micModal');
+            var badge = document.getElementById('modalCategoryBadge');
+            var badges = {
+                '교과': '📘 교과 영역',
+                '행특': '🌱 행특 영역',
+                '자율': '🎨 자율 영역',
+                '진로': '🚀 진로 영역',
+                '동아리': '🧩 동아리 영역'
+            };
+            badge.innerText = badges[category] || category;
+            document.getElementById('rawMemo').value = '';
+            document.getElementById('interimPreview').innerText = '';
+            document.getElementById('aiCoachingCard').classList.add('hidden');
+
+            modal.classList.remove('translate-y-full', 'opacity-0');
+            modal.classList.add('translate-y-0', 'opacity-100');
+            updateSmartButtonState();
+
+            setTimeout(function() {
+                var memoBox = document.getElementById('rawMemo');
+                if (memoBox) memoBox.focus();
+            }, 150);
+
+            setTimeout(function() {
+                try { startSpeech(); } catch(e) {}
+            }, 400);
+        }
+
+        function closeMicModal() {
+            stopSpeech();
+            var modal = document.getElementById('micModal');
+            modal.classList.remove('translate-y-0', 'opacity-100');
+            modal.classList.add('translate-y-full', 'opacity-0');
+        }
+
+        function startSpeech() {
+            if (!recognition) return;
+            try {
+                speechRestartCount = 0;
+                recognition.start();
+                isRecording = true;
+                updateMicUI(true);
+            } catch(e) {
+                isRecording = false;
+                updateMicUI(false);
+            }
+        }
+
+        function stopSpeech() {
+            if (!recognition) return;
+            isRecording = false;
+            recognition.stop();
+            updateMicUI(false);
+            flushInterimText();
+            updateSmartButtonState();
+        }
+
+        function toggleSpeech() {
+            if (isRecording) stopSpeech();
+            else startSpeech();
+        }
+
+        function updateMicUI(recording) {
+            var circle = document.getElementById('micPulseCircle');
+            var heading = document.getElementById('micStatusHeading');
+            if (recording) {
+                circle.classList.add('mic-recording');
+                heading.innerText = '듣고 있습니다... (말이 끝나면 하단 제출 버튼 클릭)';
+            } else {
+                circle.classList.remove('mic-recording');
+                heading.innerText = '음성인식 중지됨 (하단 제출 버튼 클릭)';
+            }
+        }
+
+        function handleSmartAction() {
+            stopSpeech();
+            flushInterimText();
+
+            if (missingStudentInfo) {
+                setTimeout(function() {
+                    startSpeech();
+                    document.getElementById('micStatusHeading').innerText = '학생 학번이나 이름을 말씀하세요 (예: 30101 강해린)';
+                }, 300);
+                return;
+            }
+            handleVoiceSubmit();
+        }
+
+        function handleVoiceSubmit() {
+            stopSpeech();
+            flushInterimText();
+
+            var rawMemo = document.getElementById('rawMemo').value.trim();
+            var btn = document.getElementById('smartActionBtn');
+
+            if (!rawMemo) {
+                alert('음성 메모 내용을 입력해주세요.');
+                return;
+            }
+
+            var hasInfo = checkHasStudentInfo(rawMemo);
+            if (!hasInfo) {
+                updateSmartButtonState();
+                alert('⚠️ [제출 불가] 학생 학번 또는 이름이 누락되었습니다!\n\n입력 내용: "' + rawMemo + '"\n\n하단 버튼을 눌러 학번이나 이름을 말씀해 주세요!');
+                return;
+            }
+
+            if (!navigator.onLine) {
+                saveToLocalStorageBuffer({ rawMemo: rawMemo, category: currentCategory, timestamp: new Date().toLocaleString('ko-KR') });
+                closeMicModal();
+                alert('📶 오프라인 상태입니다. 메모가 임시보관되었습니다. 인터넷 재연결 시 자동 전송됩니다.');
+                checkPendingBufferUI();
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> <span>시트 제출 중...</span>';
+
+            google.script.run
+                .withSuccessHandler(function(response) {
+                    btn.disabled = false;
+                    updateSmartButtonState();
+                    if (response.success) {
+                        closeMicModal();
+                        syncPendingBuffer();
+                    } else {
+                        alert('오류: ' + response.message);
+                    }
+                })
+                .withFailureHandler(function(err) {
+                    btn.disabled = false;
+                    updateSmartButtonState();
+                    saveToLocalStorageBuffer({ rawMemo: rawMemo, category: currentCategory, timestamp: new Date().toLocaleString('ko-KR') });
+                    closeMicModal();
+                    checkPendingBufferUI();
+                    alert('통신 오류로 메모가 안전하게 임시보관되었습니다.');
+                })
+                .processObservationWithAIExtraction(rawMemo, currentCategory);
+        }
+
+        function getPendingBuffer() {
+            try {
+                var data = localStorage.getItem(STORAGE_KEY);
+                return data ? JSON.parse(data) : [];
+            } catch(e) { return []; }
+        }
+
+        function saveToLocalStorageBuffer(item) {
+            var list = getPendingBuffer();
+            list.push(item);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+        }
+
+        function checkPendingBufferUI() {
+            var list = getPendingBuffer();
+            var banner = document.getElementById('offlineBanner');
+            var bannerText = document.getElementById('offlineBannerText');
+            if (list.length > 0) {
+                bannerText.innerText = '미전송 관찰메모 ' + list.length + '건 임시보관 중';
+                banner.classList.remove('hidden');
+            } else {
+                banner.classList.add('hidden');
+            }
+        }
+
+        function syncPendingBuffer() {
+            if (!navigator.onLine) return;
+            var list = getPendingBuffer();
+            if (list.length === 0) return;
+
+            var item = list[0];
+            if (!item._retries) item._retries = 0;
+
+            google.script.run
+                .withSuccessHandler(function(res) {
+                    var currentList = getPendingBuffer();
+                    if (res && res.success) {
+                        currentList.shift();
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(currentList));
+                        checkPendingBufferUI();
+                        if (currentList.length > 0) syncPendingBuffer();
+                    } else {
+                        if (currentList.length > 0) {
+                            if (!currentList[0]._retries) currentList[0]._retries = 0;
+                            currentList[0]._retries++;
+                            if (currentList[0]._retries >= 3) {
+                                currentList.shift();
+                            }
+                            localStorage.setItem(STORAGE_KEY, JSON.stringify(currentList));
+                            checkPendingBufferUI();
+                        }
+                    }
+                })
+                .withFailureHandler(function(err) {
+                    var currentList = getPendingBuffer();
+                    if (currentList.length > 0) {
+                        if (!currentList[0]._retries) currentList[0]._retries = 0;
+                        currentList[0]._retries++;
+                        if (currentList[0]._retries >= 3) {
+                            currentList.shift();
+                        }
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(currentList));
+                        checkPendingBufferUI();
+                    }
+                })
+                .processObservationWithAIExtraction(item.rawMemo, item.category);
+        }
+    </script>
+</body>
+</html>
