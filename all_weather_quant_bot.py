@@ -205,8 +205,8 @@ def get_orderable_cash(token):
         return 64893948.0
     
     url = f"{URL_BASE}/uapi/domestic-stock/v1/trading/inquire-psbl-order"
-    is_mock = KIS_MOCK or "openapim" in URL_BASE
-    tr_id = "VTTC8435R" if is_mock else "TTTC8435R"
+    is_mock = KIS_MOCK or "openapivts" in URL_BASE
+    tr_id = "VTTC8908R" if is_mock else "TTTC8908R"
     
     headers = {
         "content-type": "application/json",
@@ -230,7 +230,7 @@ def get_orderable_cash(token):
             res_data = res.json()
             if res_data.get("rt_cd") == "0":
                 # nst4_dlsl_amt (현금주문가능금액) 반환
-                return float(res_data.get("output", {}).get("nst4_dlsl_amt", 0.0))
+                return float(res_data.get("output", {}).get("ord_psbl_cash", 0.0))
     except Exception as e:
         print(f"⚠️ 국내 주문가능 원화 조회 실패(해외 예수금만 사용): {e}")
     return 0.0
@@ -250,7 +250,7 @@ def get_account_balance_overseas(token):
         return total_cash_usd, mock_holdings
 
     url = f"{URL_BASE}/uapi/overseas-stock/v1/trading/inquire-balance"
-    is_mock = KIS_MOCK or "openapim" in URL_BASE
+    is_mock = KIS_MOCK or "openapivts" in URL_BASE
     tr_id = "VTTS3012R" if is_mock else "TTTS3012R"
     
     headers = {
@@ -371,12 +371,12 @@ def get_current_price_overseas(token, ticker):
     return price
 
 def submit_order_overseas(token, ticker, qty, order_type="BUY", current_price=0.0):
-    is_mock = KIS_MOCK or "openapim" in URL_BASE
+    is_mock = KIS_MOCK or "openapivts" in URL_BASE
     
     if order_type == "BUY":
-        tr_id = "VTTS3001U" if is_mock else "TTTS3001U"
+        tr_id = "VTTT1006U" if is_mock else "TTTT1006U"
     else:
-        tr_id = "VTTS3002U" if is_mock else "TTTS3002U"
+        tr_id = "VTTT1002U" if is_mock else "TTTT1002U"
         
     url = f"{URL_BASE}/uapi/overseas-stock/v1/trading/order"
     
