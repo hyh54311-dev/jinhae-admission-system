@@ -304,7 +304,84 @@ function analyzeObservationFeedback(rawMemo, category) {
   }
 }
 
-// 4. 모바일 5분할 휠 음성 입력 ➔ AI 학번/이름 자동 추출 및 관찰문장 정돈
+// 4. 모바일 5분할 휠 음성 입력 ➔ 0.3초 초고속 학번/이름 파싱 & 날것(Raw) 메모 즉시 저장 (AI 세특 어조 완성과 분리)
+function processObservationWithAIExtraction(rawMemo, category) {
+  try {
+    category = category || '교과';
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var obsSheet = ss.getSheetByName('시간대별기록') || ss.getSheets()[0];
+    
+    // 1초도 지체 없는 학번/이름 정규식 파싱
+    var parsed = parseHakbunAndNameFast(rawMemo);
+    var now = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm');
+
+    // 시간대별 기록 시트에 날것(Raw) 메모를 그대로 0.3초 만에 즉시 저장!
+    obsSheet.appendRow([now, parsed.classNum, category, parsed.hakbun, parsed.name, rawMemo, rawMemo]);
+    
+    // 학생별 모아보기 탭에 즉시 누적
+    updateStudentSummary(parsed.hakbun, parsed.name, category, rawMemo);
+
+    return {
+      success: true,
+      category: category,
+      hakbun: parsed.hakbun,
+      name: parsed.name,
+      classNum: parsed.classNum,
+      refinedText: rawMemo,
+      timestamp: now
+    };
+
+  } catch (error) {
+    return {
+      success: false,
+      message: '오류 발생: ' + error.toString()
+    };
+  }
+}
+
+// ⚡ 0.3초 내장 학번/이름 초고속 파싱 함수 (API 대기시간 0초)
+function parseHakbunAndNameFast(rawMemo) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var studentSheet = ss.getSheetByName('학생명렬');
+  
+  var hakbun = '';
+  var name = '';
+  var classNum = 1;
+
+  // 1. 5자리 학번 패턴 검색 (예: 30101, 30215 등)
+  var hakbunMatch = rawMemo.match(/\b([1-3][0-1][0-9][0-3][0-9])\b/);
+  if (hakbunMatch) {
+    hakbun = hakbunMatch[1];
+    classNum = parseInt(hakbun.substring(1, 3)) || 1;
+  }
+
+  // 2. 학생명렬 시트가 있으면 학생 이름 패턴 자동 매칭
+  if (studentSheet && studentSheet.getLastRow() > 1) {
+    var data = studentSheet.getRange(2, 1, studentSheet.getLastRow() - 1, 4).getValues();
+    for (var i = 0; i < data.length; i++) {
+      var sName = data[i][3] ? data[i][3].toString().trim() : '';
+      if (sName && rawMemo.indexOf(sName) >= 0) {
+        name = sName;
+        if (!hakbun && data[i][2]) {
+          hakbun = data[i][2].toString().trim();
+          classNum = parseInt(data[i][0]) || 1;
+        }
+        break;
+      }
+    }
+  }
+
+  if (!name && !hakbun) name = '미인식';
+
+  return {
+    hakbun: hakbun,
+    name: name,
+    classNum: classNum
+  };
+}
+
+
+// 4-1. 기존 파서
 function processObservationWithAIExtraction(rawMemo, category) {
   try {
     category = category || '교과';

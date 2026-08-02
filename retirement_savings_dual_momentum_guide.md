@@ -1901,6 +1901,11 @@ if __name__ == "__main__":
 ```
 
 #### ⚙️ STEP 3. GitHub Actions 무인 자동 실행 워크플로우 (`.github/workflows/rebalance.yml`)
+
+> [!TIP]
+> **💡 GitHub Actions 무인 스케줄러 60일 자동 비활성화 방지 팁**
+> GitHub 정책상 저장소에 60일 동안 아무런 커밋이 없으면 스케줄러(Cron)가 자동 비활성화(Disable)됩니다. 2달에 한 번씩 README 파일에 간단한 수정을 커밋하시거나, 깃허브 비활성화 경고 이메일을 수신할 때 활성화 버튼(Enable Workflow)을 눌러주시면 평생 무인 가동이 유지됩니다.
+
 > 매달 17일~31일 한국시간 낮 12:30 KST(장 마감 3시간 전 여유 집행)에 서버 없이 무인으로 봇을 깨워 자동 매매를 집행하고 텔레그램 리포트를 발송하는 워크플로우 설정 파일입니다. 저장소 내 `.github/workflows/rebalance.yml`로 저장합니다.
 
 > 💡 [초보자 Q&A] 왜 크론 표현식(`cron: '30 3 17-31 * *'`)에 '17-31일' 범위가 들어가나요?  
@@ -1912,7 +1917,7 @@ name: K-Dual Momentum Quant Bot Auto Rebalance
 
 on:
   schedule:
-    # 매달 17일~31일 한국시간 12:30 (UTC 03:30) 트리거 (17일 이후 첫 영업일 1회만 실행)
+    # 매달 17일~31일 한국시간 12:30 (UTC 03:30) 무인 스케줄러 트리거
     - cron: '30 3 17-31 * *'
   workflow_dispatch:
     inputs:
@@ -1925,9 +1930,15 @@ on:
         required: false
         default: 'false'
 
+# 동시 실행(중복 주문) 방지 락
+concurrency:
+  group: kis-rebalance-bot
+  cancel-in-progress: false
+
 jobs:
   rebalance:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout Repository
@@ -1949,6 +1960,10 @@ jobs:
           KIS_MOMENTUM_APP_SECRET: ${{ secrets.KIS_MOMENTUM_APP_SECRET }}
           KIS_PENSION_CANO: ${{ secrets.KIS_PENSION_CANO }}
           KIS_STOCK_CANO: ${{ secrets.KIS_STOCK_CANO }}
+          KIS_MOCK_APP_KEY: ${{ secrets.KIS_MOCK_APP_KEY }}
+          KIS_MOCK_APP_SECRET: ${{ secrets.KIS_MOCK_APP_SECRET }}
+          KIS_MOCK_CANO1: ${{ secrets.KIS_MOCK_CANO1 }}
+          KIS_MOCK_CANO2: ${{ secrets.KIS_MOCK_CANO2 }}
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           KIS_MOCK: ${{ secrets.KIS_MOCK || 'False' }}

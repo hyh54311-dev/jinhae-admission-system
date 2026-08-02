@@ -19,7 +19,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 if sys.platform == 'win32':
     try:
-        if sys.stdout.encoding.lower() != 'utf-8':
+        if sys.stdout and hasattr(sys.stdout, 'buffer') and getattr(sys.stdout, 'encoding', None) and sys.stdout.encoding.lower() != 'utf-8':
             sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace', line_buffering=True)
     except Exception:
         pass
@@ -121,53 +121,77 @@ def process_message(message_data):
             run_script_in_background("daily_news.py", [], chat_id, "寃쎌젣 ?댁뒪 ?앹꽦")
         elif text.startswith("/admission"):
             run_script_in_background("admission_news.py", ["run_now"], chat_id, "????뺣낫 ?앹꽦")
+            run_script_in_background("admission_news.py", ["run_now"], chat_id, "입시 정보 생성")
         elif text.startswith("/ping"):
             import socket
             hostname = socket.gethostname()
-            send_telegram_message(chat_id, f"??Antigravity ?쒕쾭 ?뺤긽 ?묐룞 以?\n?뱧 ?꾩튂: {hostname}")
+            send_telegram_message(chat_id, f"✅Antigravity 서버 정상 작동 중\n현재 위치: {hostname}")
         else:
             context_data = None
-            schedule_keywords = ["?쇱젙", "?ㅼ?以?, "怨꾪쉷", "萸???, "萸???, "?쎌냽", "湲곗뼲"]
+            schedule_keywords = ["일정", "스케줄", "계획", "약속", "기억"]
             
             offset = 0
-            if "?댁씪" in text: offset = 1
-            elif "紐⑤젅" in text: offset = 2
+            if "내일" in text: offset = 1
+            elif "모레" in text: offset = 2
             
             if any(kw in text for kw in schedule_keywords):
-                send_telegram_message(chat_id, "?뵇 ?ㅼ젣 ?곗씠??罹섎┛?? 濡쒓렇)瑜??뺤씤?섏뿬 ?쇱젙???뚯븙 以묒엯?덈떎...")
+                send_telegram_message(chat_id, "🔍 일정 파악 중입니다...")
                 context_data = unified_schedule.get_unified_briefing(date_offset=offset)
             
             reply = ask_gemini(text, context_data)
             send_telegram_message(chat_id, reply)
 
     except Exception as e:
-        log_message(f"硫붿떆吏 泥섎━ ?ㅻ쪟: {e}")
+        log_message(f"메시지 처리 오류: {e}")
 
 def check_single_instance():
     import socket
-    try:
-        lock_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        lock_socket.bind(('127.0.0.1', 65432))
-        return lock_socket
-    except socket.error:
-        return None
+    import threading
+    import time
+    for _ in range(5):
+        try:
+            lock_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            lock_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            lock_socket.bind(('127.0.0.1', 65432))
+            lock_socket.listen(5)
+
+            def health_server():
+                while True:
+                    try:
+                        conn, _ = lock_socket.accept()
+                        data = conn.recv(1024)
+                        if b"PING" in data:
+                            conn.sendall(b"PONG")
+                        conn.close()
+                    except Exception:
+                        break
+
+            t = threading.Thread(target=health_server, daemon=True)
+            t.start()
+            return lock_socket
+        except socket.error:
+            time.sleep(1)
+    return None
 
 def main():
     import socket
     current_hostname = socket.gethostname()
-    ALLOWED_HOSTNAME = "?⑹슂??026"
     
-    # ?몄뒪?몃꽕?꾩쓽 ?몄퐫??臾몄젣(?⑹슂??026 vs 황2026)瑜?怨좊젮?섏뿬 ?좎뿰?섍쾶 泥댄겕
-    if "2026" not in current_hostname and current_hostname != ALLOWED_HOSTNAME:
+    # 호스트명 체크: 2026, DESKTOP 또는 황2026 포함 허용
+    if "2026" not in current_hostname and "DESKTOP" not in current_hostname:
         return
 
     lock = check_single_instance()
     if not lock:
         return
 
-    log_message(f"?쨼 Antigravity ?붾젅洹몃옩 鍮꾩꽌媛 ?쒖옉?섏뿀?듬땲?? (湲곌린: {current_hostname})")
+    log_message(f"🚀 Antigravity 텔레그램 비서가 시작되었습니다. (기기: {current_hostname})")
     
-    # ?쒖뒪???덉쟾 諛⑹? ?쒖꽦??    stay_awake.start_stay_awake_thread()
+    # 시스템 절전 방지 활성화
+    try:
+        stay_awake.start_stay_awake_thread()
+    except Exception:
+        pass
     
     update_id = None
     

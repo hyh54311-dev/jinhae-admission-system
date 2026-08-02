@@ -5,9 +5,10 @@ import re
 import sys
 import io
 
-# Windows 肄섏넄?먯꽌 UTF-8(?대え吏 ?ы븿) 異쒕젰 吏??if sys.platform == 'win32':
+# Windows 콘솔에서 UTF-8 출력 지원
+if sys.platform == 'win32':
     try:
-        if sys.stdout.encoding.lower() != 'utf-8':
+        if sys.stdout and hasattr(sys.stdout, 'buffer') and sys.stdout.encoding.lower() != 'utf-8':
             sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace', line_buffering=True)
     except Exception:
         pass
@@ -85,7 +86,7 @@ def get_unified_briefing(date_offset=0):
     target_date = datetime.date.today() + datetime.timedelta(days=date_offset)
     date_str = target_date.strftime("%Y-%m-%d")
     
-    briefing = [f"?뱟 {date_str} ?쇱젙 釉뚮━???곗씠??]
+    briefing = [f"📅 {date_str} 일정 브리핑 데이터"]
     
     # 1. 罹섎┛???뺤씤
     events, error = get_calendar_events(target_date)
