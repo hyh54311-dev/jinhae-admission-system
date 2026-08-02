@@ -1257,7 +1257,7 @@ def kis_api_request(method, url, headers, params=None, data=None, max_retries=5,
                     if rt_cd != "0" and msg_cd in ("EGW00215", "EGW00201"):
                         print(f"⚠️ KIS API 빈도 제한/일시 오류 감지 (코드: {msg_cd}, 내용: {res_data.get('msg1')}). {backoff}초 후 재시도합니다. (시도 {attempt+1}/{max_retries})")
                         time.sleep(backoff)
-                        backoff = 2
+                        backoff *= 2
                         continue
                 except Exception:
                     pass
@@ -1265,14 +1265,14 @@ def kis_api_request(method, url, headers, params=None, data=None, max_retries=5,
             elif res.status_code in (429, 500, 502, 503, 504):
                 print(f"⚠️ KIS API HTTP 오류 감지 (상태 코드: {res.status_code}). {backoff}초 후 재시도합니다. (시도 {attempt+1}/{max_retries})")
                 time.sleep(backoff)
-                backoff = 2
+                backoff *= 2
                 continue
             else:
                 return res
         except requests.exceptions.RequestException as e:
             print(f"⚠️ KIS API 네트워크 통신 에러: {e}. {backoff}초 후 재시도합니다. (시도 {attempt+1}/{max_retries})")
             time.sleep(backoff)
-            backoff = 2
+            backoff *= 2
             
     if last_res is not None:
         return last_res
