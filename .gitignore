@@ -35,9 +35,9 @@ dist/
 *.pptx
 
 # Media Assets (Not needed on server)
-*.png
-*.jpg
-*.jpeg
+# *.png
+# *.jpg
+# *.jpeg
 *.ico
 *.svg
 
