@@ -1098,7 +1098,7 @@ Antigravity AI와 대화할 때 "뭐라고 말해야 코드를 잘 짜줄까?" �
 > 제가 실제로 가동 중인 파이썬 소스 코드 전체입니다. 저장소 루트에 `kis_bot_multi.py`로 저장합니다.
 
 ```python
-# -- coding: utf-8 --
+# -*- coding: utf-8 -*-
 """
 K-Dual Momentum Multi-Account Rebalancing Bot
 Supports: Personal Stock Account (01) & Retirement Savings Account (22)
@@ -1599,7 +1599,7 @@ def calculate_momentum_signals(token):
         
     print(f"■ 모멘텀 데이터 분석 결과 (12개월 수익률):")
     for name, ret in returns_12m.items():
-        print(f"    - {name}: {ret100:.2f}%")
+        print(f"    - {name}: {ret*100:.2f}%")
         
     best_asset = max(returns_12m, key=returns_12m.get)
     chosen_symbol = SHORT_SYMBOLS[best_asset]
@@ -1627,8 +1627,8 @@ def calculate_momentum_signals(token):
     if ams_score < 1.0:
         target_weights[TICKER_SAFE] = target_weights.get(TICKER_SAFE, 0.0) + (1.0 - ams_score)
         
-    reason = f"상대 모멘텀 우수 자산: {chosen_name} (12m 수익률: {chosen_ret100:.2f}%), " \
-             f"1·3·5 AMS 스코어: {score}점/3점 (선정 자산 비중: {ams_score100:.1f}% / 안전 자산 비중: {(1-ams_score)100:.1f}%)"
+    reason = f"상대 모멘텀 우수 자산: {chosen_name} (12m 수익률: {chosen_ret*100:.2f}%), " \
+             f"1·3·5 AMS 스코어: {score}점/3점 (선정 자산 비중: {ams_score*100:.1f}% / 안전 자산 비중: {(1-ams_score)*100:.1f}%)"
              
     return target_weights, reason
 
@@ -1702,9 +1702,9 @@ def rebalance_account(token, acc, target_weights):
     
     for ticker, weight in target_weights.items():
         price, tick_size = get_current_price(ticker)
-        price = math.ceil(price / tick_size)  tick_size
+        price = math.ceil(price / tick_size) * tick_size
         prices[ticker] = price
-        target_val = total_asset  weight
+        target_val = total_asset * weight
         target_qtys[ticker] = int(target_val // price)
         
     for ticker, info in holdings.items():
@@ -1742,20 +1742,20 @@ def rebalance_account(token, acc, target_weights):
         if target_qty > curr_qty:
             buy_qty = target_qty - curr_qty
             price = prices[ticker]
-            needed = buy_qty  price
+            needed = buy_qty * price
             buys.append((ticker, buy_qty, price, needed))
             total_buy_needed += needed
 
-    max_buy_fund = cash  0.98
+    max_buy_fund = cash * 0.98
     if total_buy_needed > max_buy_fund and total_buy_needed > 0:
         scale = max_buy_fund / total_buy_needed
-        print(f"⚠️ [수량 축소 조율] 가용금액({max_buy_fund:,}원) < 필요금액({total_buy_needed:,}원). 스케일: {scale100:.1f}%")
+        print(f"⚠️ [수량 축소 조율] 가용금액({max_buy_fund:,}원) < 필요금액({total_buy_needed:,}원). 스케일: {scale*100:.1f}%")
         
         adjusted_buys = []
         for ticker, buy_qty, price, needed in buys:
-            adj_qty = int(buy_qty  scale)
+            adj_qty = int(buy_qty * scale)
             if adj_qty > 0:
-                adjusted_buys.append((ticker, adj_qty, price, adj_qty  price))
+                adjusted_buys.append((ticker, adj_qty, price, adj_qty * price))
         buys = adjusted_buys
 
     buy_results = []
@@ -1763,11 +1763,11 @@ def rebalance_account(token, acc, target_weights):
     
     for ticker, buy_qty, price, amount in buys:
         # [핵심 보완] 실시간 남은 가용 현금 추적하여 2차 매수 수량 동적 재조율
-        if buy_qty  price > current_avail_cash:
+        if buy_qty * price > current_avail_cash:
             adj_qty = int(current_avail_cash // price)
             print(f"⚠️ [실시간 현금 조율] {ticker} 수량 변경: {buy_qty}주 ➔ {adj_qty}주 (가용현금: {current_avail_cash:,}원)")
             buy_qty = adj_qty
-            amount = buy_qty  price
+            amount = buy_qty * price
 
         if buy_qty <= 0:
             buy_results.append(f"⚠️ {ticker} 매수 스킵 (가용 예수금 부족)")
@@ -1789,7 +1789,7 @@ def rebalance_account(token, acc, target_weights):
     status_summary = []
     for ticker, weight in target_weights.items():
         curr_qty = holdings.get(ticker, {}).get("qty", 0)
-        status_summary.append(f"{ticker}(목표비중 {weight100:.0f}%, 현재수량 {curr_qty}주)")
+        status_summary.append(f"{ticker}(목표비중 {weight*100:.0f}%, 현재수량 {curr_qty}주)")
         
     msg = f"🔄 [{name}] 리밸런싱 완료\n- 목표 분할: {', '.join(status_summary)}\n"
     if buy_results:
@@ -1862,7 +1862,7 @@ def main():
         token = get_access_token()
         target_weights, reason = calculate_momentum_signals(token)
         
-        weights_detail = [f"{TICKER_NAMES.get(t, t)} ({t}): {w100:.0f}%" for t, w in target_weights.items()]
+        weights_detail = [f"{TICKER_NAMES.get(t, t)} ({t}): {w*100:.0f}%" for t, w in target_weights.items()]
         summary_msg = f"📈 금월 투자 대상 및 비중 선정:\n- 비중: {', '.join(weights_detail)}\n- 판단 근거: {reason}\n"
         send_telegram(summary_msg)
         
@@ -1912,7 +1912,7 @@ name: K-Dual Momentum Quant Bot Auto Rebalance
 on:
   schedule:
     # 매달 17일~31일 한국시간 12:30 (UTC 03:30) 트리거 (17일 이후 첫 영업일 1회만 실행)
-    - cron: '30 3 17-31  '
+    - cron: '30 3 17-31 * *'
   workflow_dispatch:
     inputs:
       dry_run:
@@ -2085,7 +2085,7 @@ Antigravity를 처음 접하는 독자라도 아래 4단계를 그대로 따라 
   ```python
   # 매 주문 성공 시 남은 현금을 실시간 차감 추적하여 초과 주문 방지
   if buy_success:
-      current_avail_cash -= (actual_buy_qty  current_price)
+      current_avail_cash -= (actual_buy_qty * current_price)
       print(f">> 1차 매수 완료. 남은 가용 현금: {current_avail_cash:,.0f}원")
   ```
 
@@ -2102,8 +2102,8 @@ Antigravity를 처음 접하는 독자라도 아래 4단계를 그대로 따라 
   ```python
   # 💡 [K-듀얼모멘텀 봇] 국내 ETF 시장가 매도 필수 파라미터 규격
   if order_type == "SELL":
-      body_data["ORD_DVSN"] = "01"  # 01: 시장가 매도
-      body_data["ORD_UNPR"] = "0"   # 시장가 매도 시 주문단가 0 고정
+      body["ORD_DVSN"] = "01"  # 01: 시장가 매도
+      body["ORD_UNPR"] = "0"   # 시장가 매도 시 주문단가 0 고정
   ```
 
 ---
@@ -2175,9 +2175,7 @@ Antigravity를 처음 접하는 독자라도 아래 4단계를 그대로 따라 
   ```python
   def send_telegram(msg):
       if len(msg) > 4000:
-          msg = msg[:3900] + "
-
-⚠️ [안내] 전체 메시지 길이가 길어 일부 내용이 자르고 발송되었습니다."
+          msg = msg[:3900] + "\n\n⚠️ [안내] 메시지 길이 초과로 이하 생략"
       # 텔레그램 API 전송 실행
   ```
 
@@ -2195,7 +2193,7 @@ Antigravity를 처음 접하는 독자라도 아래 4단계를 그대로 따라 
   # rebalance.yml 내 12:30 KST 스케줄 수식
   on:
     schedule:
-      - cron: '30 3 17-31  ' # 장 마감 3시간 전 여유 실행
+      - cron: '30 3 17-31 * *' # 장 마감 3시간 전 여유 실행
   ```
 
 ---
