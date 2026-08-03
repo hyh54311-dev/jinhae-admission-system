@@ -152,7 +152,7 @@ function getApiConfig() {
   };
 }
 
-// 2-1. 6대 탭 초기화 함수
+// 2-1. 7대 탭 초기화 함수 (교사 맞춤 템플릿 포함)
 function setupInitialSheets() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   
@@ -165,6 +165,16 @@ function setupInitialSheets() {
   configSheet.getRange('A6:B6').setValues([['AI 모델 선택 (Gemini / Upstage)', 'Gemini (gemini-3.1-flash-lite)']]);
   configSheet.getRange('A7:B7').setValues([['설정 방법', '상단 메뉴 [🪄 AI 세특 대시보드 시스템] ➔ [1. 🔑 API 키 및 2022 교과역량/바이트 보안 설정] 클릭']]);
   
+  var templateSheet = ss.getSheetByName('세특템플릿') || ss.insertSheet('세특템플릿');
+  templateSheet.getRange('A1:B1').setValues([['템플릿 구분 / 강조 항목', '교사 맞춤 작성 지침 / 템플릿 내용']]).setFontWeight('bold').setBackground('#fce7f3');
+  if (templateSheet.getLastRow() <= 1) {
+    templateSheet.getRange('A2:B4').setValues([
+      ['기본 세특 프롬프트 스타일', '2022 개정 교과역량을 구체적 탐구 사례와 함께 서술하고, 문장은 ~함., ~임. 어조로 마무리할 것.'],
+      ['수업 및 세특 강조 사항', '수업 참여 태도, 모둠 내 협력적 의사소통, 자기주도적 문제해결 과정이 잘 드러나도록 작성할 것.'],
+      ['생기부 금지어 수칙', '대회, 수상, 대학명, 기관명, 사교육, 도서 출간 사실 등 생기부 기재 금지어를 절대 포함하지 말 것.']
+    ]);
+  }
+
   var studentSheet = ss.getSheetByName('학생명렬') || ss.insertSheet('학생명렬');
   studentSheet.getRange('A1:D1').setValues([['반', '번호', '학번', '이름']]).setFontWeight('bold').setBackground('#fef3c7');
   if (studentSheet.getLastRow() <= 1) {
@@ -189,7 +199,48 @@ function setupInitialSheets() {
   var summarySheet = ss.getSheetByName('학생별모아보기') || ss.insertSheet('학생별모아보기');
   summarySheet.getRange('A1:D1').setValues([['학번', '이름', '누적건수', '누적관찰내용']]).setFontWeight('bold').setBackground('#e0e7ff');
 
-  SpreadsheetApp.getUi().alert('✅ 2022 개정 교과역량 & 바이트 설정이 포함된 6대 탭 세팅이 성공적으로 완료되었습니다!');
+  SpreadsheetApp.getUi().alert('✅ 교사 맞춤 [세특템플릿]을 포함한 7대 탭 세팅이 성공적으로 완료되었습니다!');
+}
+
+// 💡 교사 맞춤 [세특템플릿] 시트 읽기 유틸리티
+function getTeacherTemplate() {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName('세특템플릿');
+    if (!sheet || sheet.getLastRow() <= 1) {
+      return {
+        hasCustom: false,
+        promptGuidelines: "2022 개정 교과역량을 구체적 탐구 사례와 함께 서술하고, 문장은 '~함.', '~임.' 어조로 마무리할 것."
+      };
+    }
+    
+    var data = sheet.getRange(2, 1, sheet.getLastRow() - 1, 2).getValues();
+    var guidelines = [];
+    for (var i = 0; i < data.length; i++) {
+      var item = data[i][0] ? data[i][0].toString().trim() : '';
+      var content = data[i][1] ? data[i][1].toString().trim() : '';
+      if (item && content) {
+        guidelines.push("• [" + item + "] " + content);
+      }
+    }
+    
+    if (guidelines.length > 0) {
+      return {
+        hasCustom: true,
+        promptGuidelines: guidelines.join("\n")
+      };
+    } else {
+      return {
+        hasCustom: false,
+        promptGuidelines: "2022 개정 교과역량을 구체적 탐구 사례와 함께 서술하고, 문장은 '~함.', '~임.' 어조로 마무리할 것."
+      };
+    }
+  } catch (e) {
+    return {
+      hasCustom: false,
+      promptGuidelines: "2022 개정 교과역량을 구체적 탐구 사례와 함께 서술하고, 문장은 '~함.', '~임.' 어조로 마무리할 것."
+    };
+  }
 }
 
 function getStudentList(classNum) {
@@ -662,77 +713,147 @@ function updateStudentSummary(hakbun, name, category, newRefinedText) {
   }
 }
 
-// 8. 🎯 2022 개정 교육과정 교과역량 & NEIS 목표 바이트 수 반영 전 학생 AI 세특 초안 생성
+// 8. 🎯 교사 맞춤 템플릿 + 5명 30초 휴식(할루시네이션 방지) + 스마트 캐싱(변경 없으면 유지) AI 세특 생성
 function generateAllStudentReports(classNum, customSubject, customCompetency, customBytes) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var summarySheet = ss.getSheetByName('학생별모아보기');
+  var obsSheet = ss.getSheetByName('시간대별기록');
   var reportSheet = ss.getSheetByName('세특초안생성') || ss.insertSheet('세특초안생성');
 
   if (!summarySheet) {
-    return { success: false, message: '[학생별모아보기] 시트가 없습니다. 먼저 [2. 📋 시트 6대 탭 자동 양식 세팅]을 실행해 주세요.' };
+    return { success: false, message: '[학생별모아보기] 시트가 없습니다. 먼저 [2. 📋 시트 7대 탭 자동 양식 세팅]을 실행해 주세요.' };
   }
 
   var config = getApiConfig();
   var subject = customSubject || config.subjectName;
   var competency = customCompetency || config.subjectCompetencies;
   var targetBytes = parseInt(customBytes || config.targetBytes) || 1500;
+  var teacherTemplate = getTeacherTemplate();
 
   var lastRow = summarySheet.getLastRow();
-  if (lastRow <= 1) return { success: false, message: '누적 데이터 없음' };
+  if (lastRow <= 1) return { success: false, message: '누적 관찰 데이터가 없습니다.' };
 
-  var data = summarySheet.getRange(2, 1, lastRow - 1, 4).getValues();
-  var now = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm');
+  var summaryData = summarySheet.getRange(2, 1, lastRow - 1, 4).getValues();
+
+  // 1. 학생별 최신 관찰 타임스탬프 Map 구축 (시간대별기록 탭 기준)
+  var latestObsDateMap = {};
+  if (obsSheet && obsSheet.getLastRow() > 1) {
+    var obsData = obsSheet.getRange(2, 1, obsSheet.getLastRow() - 1, 7).getValues();
+    for (var o = 0; o < obsData.length; o++) {
+      var oHakbun = obsData[o][3] ? obsData[o][3].toString().trim() : '';
+      var oDateStr = obsData[o][0] ? safeString(obsData[o][0]) : '';
+      if (oHakbun && oDateStr) {
+        if (!latestObsDateMap[oHakbun] || oDateStr > latestObsDateMap[oHakbun]) {
+          latestObsDateMap[oHakbun] = oDateStr;
+        }
+      }
+    }
+  }
+
+  // 2. 기존 세특 초안 Map 및 행 위치 구축 (세특초안생성 탭 기준)
+  var existingReportMap = {};
+  if (reportSheet.getLastRow() > 1) {
+    var reportData = reportSheet.getRange(2, 1, reportSheet.getLastRow() - 1, 6).getValues();
+    for (var r = 0; r < reportData.length; r++) {
+      var rHakbun = reportData[r][1] ? reportData[r][1].toString().trim() : '';
+      var rDateStr = reportData[r][3] ? safeString(reportData[r][3]) : '';
+      var rText = reportData[r][5] ? reportData[r][5].toString().trim() : '';
+      if (rHakbun) {
+        existingReportMap[rHakbun] = {
+          rowIndex: r + 2,
+          date: rDateStr,
+          reportText: rText
+        };
+      }
+    }
+  }
 
   var systemPrompt = 
-    "당신은 대한민국 고등학교 " + subject + " 교과 담당 교사입니다.
-" +
-    "2022 개정 교육과정에 입각하여, 학생의 교과 핵심역량([" + competency + "])이 명확히 드러나도록 생활기록부 세부능력 및 특기사항(세특)을 작성하십시오.
-
-" +
-    "[작성 지시 수칙]
-" +
-    "1. 문장은 반드시 '~함.', '~를 보여줌.', '~임.' 형태의 개조식 종결어 어조로 마무리하십시오.
-" +
-    "2. 2022 개정 교육과정 교과 핵심역량(" + competency + ")이 구체적 탐구 사례와 함께 서술되게 하십시오.
-" +
-    "3. 분량 조건: 나이스(NEIS) 입력 기준 **약 " + targetBytes + " Bytes 내외 (한글 기준 약 " + Math.floor(targetBytes/3) + "자)**에 맞추어 단락을 구성하십시오.
-" +
-    "4. 불필요한 서론/결론 인사말이나 마크다운 기호(**, #)는 절대 사용하지 마십시오.";
+    "당신은 대한민국 고등학교 " + subject + " 교과 담당 교사입니다.\n" +
+    "2022 개정 교육과정에 입각하여, 학생의 교과 핵심역량([" + competency + "])이 명확히 드러나도록 생활기록부 세부능력 및 특기사항(세특)을 작성하십시오.\n\n" +
+    "[작성 기본 수칙]\n" +
+    "1. 문장은 반드시 '~함.', '~를 보여줌.', '~임.' 형태의 개조식 종결어 어조로 마무리하십시오.\n" +
+    "2. 2022 개정 교육과정 교과 핵심역량(" + competency + ")이 구체적 탐구 사례와 함께 서술되게 하십시오.\n" +
+    "3. 분량 조건: 나이스(NEIS) 입력 기준 약 " + targetBytes + " Bytes 내외 (한글 기준 약 " + Math.floor(targetBytes/3) + "자)에 맞추어 단락을 구성하십시오.\n" +
+    "4. 불필요한 서론/결론 인사말이나 마크다운 기호(**, #)는 절대 사용하지 마십시오.\n" +
+    "5. 생기부 기재 금지어(대회, 수상, 대학명, 사교육, 기관명 등)를 절대 사용하지 마십시오.\n\n" +
+    "[교사 지정 맞춤 템플릿/작성 스타일 지침]\n" +
+    teacherTemplate.promptGuidelines;
 
   var generatedCount = 0;
-  for (var i = 0; i < data.length; i++) {
-    var hakbun = data[i][0].toString().trim();
-    var name = data[i][1].toString().trim();
-    var accumLogs = data[i][3];
+  var retainedCount = 0;
+  var now = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm');
+
+  for (var i = 0; i < summaryData.length; i++) {
+    var hakbun = summaryData[i][0].toString().trim();
+    var name = summaryData[i][1].toString().trim();
+    var accumLogs = summaryData[i][3] ? summaryData[i][3].toString().trim() : '';
     var cNum = parseInt(hakbun.substring(1, 3)) || 1;
 
     if (classNum && classNum !== 'all' && cNum !== parseInt(classNum)) continue;
-    if (!accumLogs || accumLogs.toString().trim() === '') continue;
+    if (!accumLogs) continue;
 
-    var userPrompt = "담당 과목: [" + subject + "]
-학생 학번/이름: " + hakbun + " " + name + "
-목표 분량: " + targetBytes + " Bytes
-누적 관찰 기록:
-" + accumLogs;
+    var latestObsDate = latestObsDateMap[hakbun] || '';
+    var existing = existingReportMap[hakbun];
+
+    // 💡 스마트 캐싱/차분 검증: 기존 세특이 있고, 세특 생성일시가 최신 관찰일시 이후이면 기존 세특 유지
+    if (existing && existing.reportText && !existing.reportText.startsWith('생성 실패') && existing.date >= latestObsDate) {
+      retainedCount++;
+      continue; // 새로운 관찰 데이터가 없으므로 이전 세특 100% 유지!
+    }
+
+    // 💡 5명 신규 생성 시마다 AI 과열 및 할루시네이션 완벽 방지를 위한 30초 대기
+    if (generatedCount > 0 && generatedCount % 5 === 0) {
+      Logger.log("5명 생성 완료: AI 과열 및 할루시네이션 방지를 위해 30초간 휴식 대기 중...");
+      Utilities.sleep(30000); // 30초 휴식
+    } else if (generatedCount > 0) {
+      Utilities.sleep(1500); // 1.5초 기본 휴식
+    }
+
+    var userPrompt = "담당 과목: [" + subject + "]\n" +
+      "학생 학번/이름: " + hakbun + " " + name + "\n" +
+      "목표 분량: " + targetBytes + " Bytes\n" +
+      "누적 관찰 기록:\n" + accumLogs;
+
     var finalReport = "";
-
     try {
       if (config.selectedAI.toUpperCase().indexOf('GEMINI') >= 0) {
         finalReport = callGeminiAPI(config.geminiKey, systemPrompt, userPrompt);
       } else {
         finalReport = callUpstageSolarAPI(config.upstageKey, systemPrompt, userPrompt);
       }
+
       // 마크다운 기호 제거
       finalReport = finalReport.replace(/\*\*/g, '').replace(/^[\*\-]\s+/gm, '');
       var byteSize = getByteLength(finalReport);
-      reportSheet.appendRow([cNum, hakbun, name, now, byteSize + ' / ' + targetBytes + ' B', finalReport]);
+      var byteInfoStr = byteSize + ' / ' + targetBytes + ' B';
+
+      if (existing && existing.rowIndex > 1) {
+        // 기존 행 덮어쓰기 (신규 데이터가 추가되었을 때만 업데이트)
+        reportSheet.getRange(existing.rowIndex, 1, 1, 6).setValues([[cNum, hakbun, name, now, byteInfoStr, finalReport]]);
+      } else {
+        // 신규 행 추가
+        reportSheet.appendRow([cNum, hakbun, name, now, byteInfoStr, finalReport]);
+        existingReportMap[hakbun] = { rowIndex: reportSheet.getLastRow(), date: now, reportText: finalReport };
+      }
       generatedCount++;
     } catch (err) {
-      reportSheet.appendRow([cNum, hakbun, name, now, 'ERROR', '생성 실패: ' + err.toString()]);
+      if (existing && existing.rowIndex > 1) {
+        reportSheet.getRange(existing.rowIndex, 4, 1, 3).setValues([[now, 'ERROR', '생성 실패: ' + err.toString()]]);
+      } else {
+        reportSheet.appendRow([cNum, hakbun, name, now, 'ERROR', '생성 실패: ' + err.toString()]);
+      }
     }
   }
 
-  return { success: true, count: generatedCount, targetBytes: targetBytes, subject: subject };
+  return {
+    success: true,
+    count: generatedCount,
+    retainedCount: retainedCount,
+    targetBytes: targetBytes,
+    subject: subject,
+    message: '신규/갱신 생성: ' + generatedCount + '명, 변경 없음(기존 세특 유지): ' + retainedCount + '명'
+  };
 }
 
 function getByteLength(str) {
