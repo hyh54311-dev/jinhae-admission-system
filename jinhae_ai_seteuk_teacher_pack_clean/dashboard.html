@@ -79,18 +79,25 @@
                     <i data-lucide="sliders" class="w-3.5 h-3.5"></i> AI 세특 생성 컨트롤:
                 </span>
                 
-                <!-- 과목 선택 (과목 변경 시 역량 자동 세팅) -->
+                <!-- 생성 대상 영역/과목 선택 (5대 영역 1:1 완벽 연동) -->
                 <div class="flex items-center gap-1 bg-indigo-900/80 px-2.5 py-1 rounded-xl border border-indigo-700/60">
-                    <span class="text-indigo-300 font-bold">과목:</span>
-                    <select id="selSubject" onchange="onSubjectChange(this.value)" class="bg-indigo-950 text-white font-bold outline-none rounded px-1.5 py-0.5">
-                        <option value="국어">국어</option>
-                        <option value="수학">수학</option>
-                        <option value="영어">영어</option>
-                        <option value="정보">정보</option>
-                        <option value="통합사회">통합사회</option>
-                        <option value="통합과학">통합과학</option>
-                        <option value="행특">행특</option>
-                        <option value="자율/진로">자율/진로</option>
+                    <span class="text-indigo-300 font-bold">생성 영역:</span>
+                    <select id="selSubject" onchange="onSubjectChange(this.value)" class="bg-indigo-950 text-white font-bold outline-none rounded px-1.5 py-0.5 text-xs">
+                        <optgroup label="📘 교과 세특 영역">
+                            <option value="교과">교과 (전체)</option>
+                            <option value="국어" selected>국어</option>
+                            <option value="수학">수학</option>
+                            <option value="영어">영어</option>
+                            <option value="정보">정보</option>
+                            <option value="통합사회">통합사회</option>
+                            <option value="통합과학">통합과학</option>
+                        </optgroup>
+                        <optgroup label="🎨 창체 & 행특 영역">
+                            <option value="동아리">동아리 (동아리 활동)</option>
+                            <option value="자율">자율 (자율 활동)</option>
+                            <option value="진로">진로 (진로 활동)</option>
+                            <option value="행특">행특 (행동특성 및 종합의견)</option>
+                        </optgroup>
                     </select>
                 </div>
 
@@ -300,14 +307,17 @@
 
         function onSubjectChange(subj) {
             const compMap = {
+                '교과': '비판적·창의적 사고 역량, 지식정보처리 역량',
                 '국어': '비판적·창의적 사고 역량, 지식정보처리 역량',
                 '수학': '추론 역량, 문제 해결 역량, 의사소통 역량',
                 '영어': '언어 역량, 자기관리 역량, 공동체 역량',
                 '정보': '컴퓨팅 사고력, 협력적 문제해결 역량, 디지털 소통 역량',
                 '통합사회': '비판적 사고력, 정보 활용 역량, 공동체 역량',
                 '통합과학': '과학적 탐구 능력, 과학적 문제 해결력',
-                '행특': '자율적 관리 역량, 공동체·대인관계 역량',
-                '자율/진로': '진로 개발 역량, 자기주도 탐구 역량'
+                '동아리': '창의적 문제해결력, 모둠 협력 및 프로젝트 기획 역량',
+                '자율': '자기주도적 학업 태도, 문제 해결 과정 주도 역량',
+                '진로': '진로 탐구 의지, 자기 주도적 전공 관련 탐구 역량',
+                '행특': '자율적 관리 역량, 공동체·대인관계 역량, 나눔과 배려'
             };
             if (compMap[subj]) {
                 document.getElementById('txtCompetency').value = compMap[subj];
