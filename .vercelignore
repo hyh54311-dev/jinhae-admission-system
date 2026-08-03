@@ -1,0 +1,40 @@
+# Ignore heavy directories, scratch files, and document assets for Vercel Serverless Function bundling
+scratch/
+temp/
+temp_unzip/
+temp_jinhae_bot/
+domain_sites_analysis/
+upstage_obs_recorder/
+vacation_plan_system/
+jinhae_ai_seteuk_system/
+jinhae_ai_seteuk_teacher_pack/
+github_actions_all_weather_bot/
+github_actions_k_momentum_bot/
+github_actions_quant_bot/
+한국투자증권_API_자료/
+.agents/
+.github/
+.google_messages_session/
+__pycache__/
+
+# Document & Media files
+*.pdf
+*.png
+*.jpg
+*.jpeg
+*.svg
+*.ico
+*.exe
+*.hwp
+*.pptx
+*.xlsx
+*.docx
+*.zip
+*.log
+*.spec
+*.csv
+
+# Build & Dependency Outputs
+node_modules/
+build/
+dist/
