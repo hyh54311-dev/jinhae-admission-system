@@ -62,30 +62,73 @@
                 </div>
             </div>
 
-            <!-- 반 선택 메인 탭 (전체, 1반~10반) -->
+            <!-- 반 선택 메인 탭 (동적 생성 연동) -->
             <div class="flex items-center gap-1 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 scrollbar-none" id="classTabGroup">
                 <button onclick="selectClass('all')" data-class="all" class="class-tab-btn tab-btn-active px-3.5 py-2 rounded-xl text-xs font-bold bg-indigo-800 text-indigo-100 hover:bg-indigo-700 transition-all">
                     전체
                 </button>
-                <script>
-                    for(let i=1; i<=10; i++){
-                        document.write(`<button onclick="selectClass(${i})" data-class="${i}" class="class-tab-btn px-3 py-2 rounded-xl text-xs font-bold bg-indigo-800/60 text-indigo-100 hover:bg-indigo-700 transition-all">${i}반</button>`);
-                    }
-                </script>
             </div>
         </div>
     </header>
 
+    <!-- 2022 교과역량 & 바이트 설정 컨트롤 바 -->
+    <section class="bg-indigo-950/90 text-white border-b border-indigo-800 px-4 py-2.5 z-20">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-3 text-xs">
+            <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto">
+                <span class="font-black text-indigo-300 flex items-center gap-1">
+                    <i data-lucide="sliders" class="w-3.5 h-3.5"></i> AI 세특 생성 컨트롤:
+                </span>
+                
+                <!-- 과목 선택 -->
+                <div class="flex items-center gap-1 bg-indigo-900/80 px-2.5 py-1 rounded-xl border border-indigo-700/60">
+                    <span class="text-indigo-300 font-bold">과목:</span>
+                    <select id="selSubject" class="bg-indigo-950 text-white font-bold outline-none rounded px-1.5 py-0.5">
+                        <option value="국어">국어</option>
+                        <option value="수학">수학</option>
+                        <option value="영어">영어</option>
+                        <option value="정보">정보</option>
+                        <option value="통합사회">통합사회</option>
+                        <option value="통합과학">통합과학</option>
+                        <option value="행특">행특</option>
+                        <option value="자율/진로">자율/진로</option>
+                    </select>
+                </div>
+
+                <!-- 2022 교과역량 입력 -->
+                <div class="flex items-center gap-1 bg-indigo-900/80 px-2.5 py-1 rounded-xl border border-indigo-700/60 flex-1 min-w-[200px]">
+                    <span class="text-indigo-300 font-bold">2022 교과역량:</span>
+                    <input type="text" id="txtCompetency" value="비판적 사고력, 지식정보처리 역량" placeholder="강조할 핵심역량 입력" class="bg-transparent text-white font-medium outline-none w-full text-xs">
+                </div>
+
+                <!-- NEIS 바이트 선택 -->
+                <div class="flex items-center gap-1 bg-indigo-900/80 px-2.5 py-1 rounded-xl border border-indigo-700/60">
+                    <span class="text-indigo-300 font-bold">목표 바이트:</span>
+                    <select id="selTargetBytes" class="bg-indigo-950 text-white font-bold outline-none rounded px-1.5 py-0.5">
+                        <option value="500">500 Bytes (소감/단기)</option>
+                        <option value="750">750 Bytes (1학기 분량)</option>
+                        <option value="1000">1000 Bytes (풍부형)</option>
+                        <option value="1500" selected>1500 Bytes (1년 풀세특)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 현재 적용 상태 안내 -->
+            <div id="activeConfigNotice" class="text-[11px] text-indigo-300/80 font-medium">
+                ⚙️ [세특템플릿] 시트 지침 자동 연동 중
+            </div>
+        </div>
+    </section>
+
     <!-- 하단 3개 메인 서브탭 바 -->
-    <div class="bg-white border-b border-slate-200 sticky top-[68px] z-20 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 flex items-center gap-6 text-sm font-semibold text-slate-500">
-            <button onclick="switchSubTab('timeline')" id="subtab-timeline" class="subtab-btn subtab-btn-active py-3.5 flex items-center gap-2">
+    <div class="bg-white border-b border-slate-200 sticky top-0 z-15 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 flex items-center gap-6 text-sm font-semibold text-slate-500 overflow-x-auto">
+            <button onclick="switchSubTab('timeline')" id="subtab-timeline" class="subtab-btn subtab-btn-active py-3.5 flex items-center gap-2 whitespace-nowrap">
                 <i data-lucide="clock" class="w-4 h-4"></i> 1. 반별 모아보기 (시간순)
             </button>
-            <button onclick="switchSubTab('student')" id="subtab-student" class="subtab-btn py-3.5 flex items-center gap-2">
+            <button onclick="switchSubTab('student')" id="subtab-student" class="subtab-btn py-3.5 flex items-center gap-2 whitespace-nowrap">
                 <i data-lucide="users" class="w-4 h-4"></i> 2. 학생별 모아보기 (검색/필터)
             </button>
-            <button onclick="switchSubTab('report')" id="subtab-report" class="subtab-btn py-3.5 flex items-center gap-2">
+            <button onclick="switchSubTab('report')" id="subtab-report" class="subtab-btn py-3.5 flex items-center gap-2 whitespace-nowrap">
                 <i data-lucide="file-check" class="w-4 h-4"></i> 3. AI 최종 세특 생성 & NEIS CSV
             </button>
         </div>
@@ -98,231 +141,269 @@
         <section id="view-timeline" class="space-y-4">
             <div class="flex items-center justify-between">
                 <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
-                    <span class="w-2 h-5 bg-indigo-600 rounded-full"></span>
-                    <span id="timelineTitle">전체 반 관찰 기록 타임라인</span>
+                    <i data-lucide="history" class="w-5 h-5 text-indigo-600"></i>
+                    <span>실시간 수업 및 활동 관찰 타임라인</span>
                 </h2>
-                <span id="obsCountBadge" class="px-2.5 py-1 bg-slate-100 border border-slate-200 text-slate-600 rounded-lg text-xs font-bold">
-                    총 0건
-                </span>
+                <button onclick="fetchDashboardData()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl flex items-center gap-1.5 transition-all">
+                    <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> 새로고침
+                </button>
             </div>
-
-            <!-- 타임라인 목록 -->
-            <div class="space-y-3" id="timelineContainer">
-                <div class="text-center py-12 text-slate-400 text-sm">데이터를 불러오는 중입니다...</div>
+            
+            <div id="timelineContainer" class="space-y-3">
+                <div class="text-center py-12 text-slate-400 text-sm bg-white rounded-2xl border border-slate-200 flex items-center justify-center gap-2">
+                    <i data-lucide="loader-2" class="w-5 h-5 animate-spin text-indigo-500"></i> 데이터 로딩 중입니다...
+                </div>
             </div>
         </section>
 
-
-        <!-- 📌 2. 학생별 모아보기 (시간순 & 실시간 검색 필수) -->
-        <section id="view-student" class="space-y-4 hidden">
-            <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+        <!-- 📌 2. 학생별 모아보기 (검색/필터) -->
+        <section id="view-student" class="hidden space-y-4">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
                 <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
-                    <span class="w-2 h-5 bg-indigo-600 rounded-full"></span>
-                    <span id="studentSectionTitle">전체 학생별 관찰 & 응답</span>
+                    <i data-lucide="users" class="w-5 h-5 text-indigo-600"></i>
+                    <span>학생별 누적 기록 및 응답 모아보기</span>
                 </h2>
-                
-                <!-- 🔍 학생 이름/학번 필수 검색창 -->
-                <div class="relative w-full sm:w-72">
-                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-3"></i>
-                    <input type="text" id="studentSearchInput" onkeyup="filterStudentCards()" placeholder="학생 이름 또는 학번 검색..." 
-                           class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-indigo-500">
+                <div class="relative w-full sm:w-64">
+                    <i data-lucide="search" class="w-4 h-4 absolute left-3 top-3 text-slate-400"></i>
+                    <input type="text" id="studentSearchInput" onkeyup="filterStudentCards()" placeholder="이름 또는 학번 검색..." class="w-full pl-9 pr-4 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-indigo-500 transition-all">
                 </div>
             </div>
 
-            <!-- 학생 카드 그리드 -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="studentCardContainer">
-                <div class="text-center py-12 text-slate-400 text-sm col-span-full">데이터를 불러오는 중입니다...</div>
+            <div id="studentContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             </div>
         </section>
 
-
-        <!-- 📌 3. AI 최종 세특 초안 자동 생성 & NEIS CSV 다운로드 -->
-        <section id="view-report" class="space-y-4 hidden">
-            <div class="bg-gradient-to-r from-indigo-900 via-indigo-800 to-purple-900 text-white p-6 rounded-3xl shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                <div>
-                    <span class="px-3 py-1 bg-white/20 text-indigo-100 rounded-full text-xs font-bold">Multi-AI 엔진 연동</span>
-                    <h2 class="text-xl font-black mt-1" id="reportSectionTitle">NEIS 세특/행특 초안 자동 완성</h2>
-                    <p class="text-xs text-indigo-200 mt-1">누적된 관찰 메모를 바탕으로 NEIS 글자수(1500Byte) 맞춤 초안을 생성합니다.</p>
+        <!-- 📌 3. AI 최종 세특 생성 & NEIS CSV 다운로드 -->
+        <section id="view-report" class="hidden space-y-4">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-gradient-to-r from-indigo-900 to-purple-900 text-white p-5 rounded-2xl shadow-md">
+                <div class="space-y-1">
+                    <h2 class="text-base font-black flex items-center gap-2">
+                        <i data-lucide="sparkles" class="w-5 h-5 text-indigo-300"></i>
+                        <span>2022 개정 교과역량 AI 세특/행특 초안 자동 완성</span>
+                    </h2>
+                    <p class="text-xs text-indigo-200">
+                        [세특템플릿] 시트 지침 연동 • 5명 작성 후 15초 대기(할루시네이션 방지) • 변경 없는 학생 기존 세특 100% 유지
+                    </p>
                 </div>
                 
-                <div class="flex flex-wrap items-center gap-2">
-                    <!-- AI 일괄 생성 버튼 -->
-                    <button onclick="triggerGenerateReports()" class="px-5 py-3 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white font-bold rounded-2xl shadow-md text-sm flex items-center gap-2 btn-active">
-                        <i data-lucide="sparkles" class="w-4 h-4"></i> AI 초안 생성
+                <div class="flex items-center gap-2">
+                    <button onclick="triggerGenerateReports()" class="px-4 py-2.5 bg-indigo-500 hover:bg-indigo-400 text-white text-xs font-black rounded-xl shadow-lg flex items-center gap-2 transition-all">
+                        <i data-lucide="wand-2" class="w-4 h-4"></i> AI 초안 전체 생성
                     </button>
-                    <!-- 📥 NEIS CSV 파일 다운로드 버튼 -->
-                    <button onclick="downloadNeisCsv()" class="px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-2xl shadow-md text-sm flex items-center gap-2 btn-active">
+                    <button onclick="downloadNeisCsv()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black rounded-xl shadow-lg flex items-center gap-2 transition-all">
                         <i data-lucide="download" class="w-4 h-4"></i> NEIS CSV 다운로드
                     </button>
                 </div>
             </div>
 
-            <!-- 완성된 세특 목록 -->
-            <div class="space-y-4" id="reportContainer">
-                <div class="text-center py-12 text-slate-400 text-sm bg-white rounded-2xl border border-slate-200">생성된 세특 초안이 없습니다. 위 [AI 초안 생성] 버튼을 클릭하세요.</div>
+            <div id="reportContainer" class="space-y-3">
             </div>
         </section>
 
     </main>
 
+    <!-- 구글 시트 라이브 뷰 링크 -->
+    <div class="fixed bottom-4 right-4 z-40">
+        <a href="https://docs.google.com/spreadsheets" target="_blank" class="px-4 py-2.5 bg-slate-900 text-white text-xs font-bold rounded-2xl shadow-2xl border border-slate-700 flex items-center gap-2 hover:bg-slate-800 transition-all">
+            <i data-lucide="table" class="w-4 h-4 text-emerald-400"></i> 구글 시트 원본 열기
+        </a>
+    </div>
+
     <script>
-        // 개발용 목 객체 (미리보기 지원)
+        let currentClass = 'all';
+        let currentSubTab = 'timeline';
+        let rawDashboardData = { observations: [], responses: [], reports: [], config: {} };
+        let studentList = [];
+
+        // HTML 이스케이프 보안 유틸리티 (XSS 예방)
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.toString()
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // 개발 및 샌드박스 목 객체
         if (typeof google === 'undefined' || !google.script || !google.script.run) {
             window.google = {
                 script: {
                     run: {
                         withSuccessHandler: function(cb) { this._success = cb; return this; },
                         withFailureHandler: function(cb) { this._failure = cb; return this; },
-                        getDashboardFullData: function(cNum) {
-                            const self = this;
-                            setTimeout(() => {
-                                const allStudents = [
-                                    { classNum: 1, number: 1, hakbun: '30101', name: '강해린', display: '30101 강해린' },
-                                    { classNum: 1, number: 2, hakbun: '30102', name: '박지민', display: '30102 박지민' },
-                                    { classNum: 1, number: 3, hakbun: '30103', name: '김민준', display: '30103 김민준' },
-                                    { classNum: 2, number: 1, hakbun: '30201', name: '이서윤', display: '30201 이서윤' },
-                                    { classNum: 2, number: 2, hakbun: '30202', name: '최현우', display: '30202 최현우' }
-                                ];
-                                const filteredStudents = (!cNum || cNum === 'all') ? allStudents : allStudents.filter(s => s.classNum == cNum);
-
-                                const allObs = [
-                                    { date: '2026-07-30 14:10', classNum: 1, category: '교과', hakbun: '30101', name: '강해린', rawMemo: '발표 시 논리적 근거 명확히 제시함', refinedText: '강해린 학생은 국어 수업 시간 발표 시 논리적 근거를 바탕으로 자신의 의견을 청중에게 명확히 전달하는 역량을 보여줌.' },
-                                    { date: '2026-07-30 15:20', classNum: 1, category: '행특', hakbun: '30102', name: '박지민', rawMemo: '청소 시간 묵묵히 쓰레기 분리수거 도움', refinedText: '박지민 학생은 학급 활동 시 솔선수범하여 학급 환경 정돈에 기여하고 배려심이 깊음.' }
-                                ];
-                                const allResp = [
-                                    { date: '2026-07-30 10:00', classNum: 1, hakbun: '30101', name: '강해린', content: '자율교육과정 탐구보고서 제출 완료 (주제: 현대시 소리상징)', type: '탐구보고서' }
-                                ];
-                                const allRep = [
-                                    { classNum: 1, hakbun: '30101', name: '강해린', date: '2026-07-30 16:30', bytes: '1240 Bytes', reportText: '강해린(30101) 학생은 국어 교과 수업에 매우 적극적으로 참여하여 학업 성취도가 뛰어나며...' }
-                                ];
-
+                        getDashboardFullData: function(c) {
+                            var self = this;
+                            setTimeout(function() {
                                 if (self._success) {
                                     self._success({
                                         success: true,
-                                        students: filteredStudents,
-                                        observations: (!cNum || cNum === 'all') ? allObs : allObs.filter(o => o.classNum == cNum),
-                                        responses: (!cNum || cNum === 'all') ? allResp : allResp.filter(r => r.classNum == cNum),
-                                        reports: (!cNum || cNum === 'all') ? allRep : allRep.filter(r => r.classNum == cNum)
+                                        config: { subjectName: '국어', subjectCompetencies: '비판적 사고력, 지식정보처리 역량', targetBytes: '1500' },
+                                        students: [{ classNum: 1, number: 1, hakbun: '30101', name: '강해린' }],
+                                        observations: [{ date: '2026-08-03 09:30', classNum: 1, category: '교과', hakbun: '30101', name: '강해린', rawMemo: '소설 오발탄 발표 잘함', refinedText: '소설을 시로 변용하는 활동에서 독창적 아이디어로 발표를 이끎.' }],
+                                        responses: [],
+                                        reports: []
                                     });
                                 }
-                            }, 200);
+                            }, 500);
                         },
-                        generateAllStudentReports: function(cNum) {
-                            const self = this;
-                            setTimeout(() => {
-                                if (self._success) self._success({ success: true, count: 1 });
-                            }, 600);
+                        getAvailableGradesAndClasses: function() {
+                            var self = this;
+                            setTimeout(function() {
+                                if (self._success) {
+                                    self._success({ success: true, grades: [1, 2, 3], classesByGrade: { 3: [1, 2, 3, 4, 5] } });
+                                }
+                            }, 300);
+                        },
+                        generateAllStudentReports: function(cNum, subj, comp, bytes) {
+                            var self = this;
+                            setTimeout(function() {
+                                if (self._success) {
+                                    self._success({ success: true, count: 1, retainedCount: 0, targetBytes: bytes, subject: subj });
+                                }
+                            }, 800);
                         }
                     }
                 }
             };
         }
 
-        lucide.createIcons();
-
-        let currentClass = 'all';
-        let currentSubTab = 'timeline';
-        let rawDashboardData = { observations: [], responses: [], reports: [] };
-        let studentList = [];
-
         window.addEventListener('DOMContentLoaded', () => {
             fetchDashboardData();
-        loadGradeAndClassConfig();
+            loadGradeAndClassConfig();
         });
 
-        function selectClass(cNum) {
-            currentClass = cNum;
-            document.querySelectorAll('.class-tab-btn').forEach(btn => {
-                if (btn.getAttribute('data-class') == cNum) {
-                    btn.classList.add('tab-btn-active');
-                } else {
-                    btn.classList.remove('tab-btn-active');
-                }
-            });
-
-            const titleText = (currentClass === 'all') ? '전체 반' : `${currentClass}반`;
-            document.getElementById('timelineTitle').innerText = `${titleText} 관찰 기록 타임라인`;
-            document.getElementById('studentSectionTitle').innerText = `${titleText} 학생별 관찰 & 응답`;
-            document.getElementById('reportSectionTitle').innerText = `[${titleText}] NEIS 세특/행특 초안 자동 완성`;
-
-            fetchDashboardData();
-        loadGradeAndClassConfig();
+        // 1. 학생명렬 기준 학년 및 반 동적 추출 렌더링 (loadGradeAndClassConfig 명확 구현)
+        function loadGradeAndClassConfig() {
+            google.script.run
+                .withSuccessHandler(function(res) {
+                    if (res && res.success) {
+                        renderDynamicClassTabs(res.classesByGrade);
+                    }
+                })
+                .withFailureHandler(function(err) {
+                    console.log('반 동적 로드 실패: ', err);
+                })
+                .getAvailableGradesAndClasses();
         }
 
-        function switchSubTab(tabName) {
-            currentSubTab = tabName;
-            ['timeline', 'student', 'report'].forEach(t => {
-                const btn = document.getElementById(`subtab-${t}`);
-                const view = document.getElementById(`view-${t}`);
-                if (t === tabName) {
-                    btn.classList.add('subtab-btn-active');
-                    view.classList.remove('hidden');
-                } else {
-                    btn.classList.remove('subtab-btn-active');
-                    view.classList.add('hidden');
+        function renderDynamicClassTabs(classesByGrade) {
+            const container = document.getElementById('classTabGroup');
+            if (!container) return;
+
+            let html = `
+                <button onclick="selectClass('all')" data-class="all" class="class-tab-btn ${currentClass === 'all' ? 'tab-btn-active' : ''} px-3.5 py-2 rounded-xl text-xs font-bold bg-indigo-800 text-indigo-100 hover:bg-indigo-700 transition-all">
+                    전체
+                </button>
+            `;
+
+            const allClasses = new Set();
+            for (let g in classesByGrade) {
+                if (Array.isArray(classesByGrade[g])) {
+                    classesByGrade[g].forEach(c => allClasses.add(c));
                 }
+            }
+
+            const sortedClasses = Array.from(allClasses).sort((a, b) => a - b);
+            const classesToRender = sortedClasses.length > 0 ? sortedClasses : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+            classesToRender.forEach(cNum => {
+                const active = (currentClass == cNum) ? 'tab-btn-active' : 'bg-indigo-800/60 text-indigo-100 hover:bg-indigo-700';
+                html += `<button onclick="selectClass(${cNum})" data-class="${cNum}" class="class-tab-btn px-3 py-2 rounded-xl text-xs font-bold transition-all ${active}">${cNum}반</button>`;
             });
+
+            container.innerHTML = html;
         }
 
         function fetchDashboardData() {
             google.script.run
-                .withSuccessHandler(function(data) {
+                .withSuccessHandler(data => {
                     if (data && data.success) {
                         studentList = data.students || [];
                         rawDashboardData = data;
+
+                        // 백엔드 config 데이터 바인딩
+                        if (data.config) {
+                            const subjEl = document.getElementById('selSubject');
+                            const compEl = document.getElementById('txtCompetency');
+                            const bytesEl = document.getElementById('selTargetBytes');
+
+                            if (subjEl && data.config.subjectName) subjEl.value = data.config.subjectName;
+                            if (compEl && data.config.subjectCompetencies) compEl.value = data.config.subjectCompetencies;
+                            if (bytesEl && data.config.targetBytes) bytesEl.value = data.config.targetBytes;
+                        }
+
                         renderTimeline();
                         renderStudentCards();
                         renderReports();
                     } else {
-                        var msg = (data && data.message) ? data.message : '데이터를 가져오지 못했습니다.';
-                        document.getElementById('timelineContainer').innerHTML = '<div class="text-center py-12 text-slate-500 text-sm bg-white rounded-2xl border border-slate-200 p-6">' + msg + '</div>';
+                        alert('데이터 조회 실패: ' + (data ? data.message : '알 수 없는 오류'));
                     }
                 })
-                .withFailureHandler(function(err) {
-                    var errMsg = err ? (err.message || err.toString()) : '구글 서버 연결 실패';
-                    document.getElementById('timelineContainer').innerHTML = '<div class="text-center py-12 text-rose-500 font-bold text-sm bg-white rounded-2xl border border-rose-200 p-6">⚠️ 로딩 실패: ' + errMsg + '<br><span class="text-xs text-slate-400 font-normal mt-2 block">구글 시트 상단 메뉴 [1. 🔑 API 키 및 보안 설정] 또는 [2. 📋 시트 6대 탭 양식 세팅]을 한 번 실행해 주세요.</span></div>';
+                .withFailureHandler(err => {
+                    alert('서버 통신 에러: ' + (err.message || err));
                 })
                 .getDashboardFullData(currentClass);
         }
 
+        function selectClass(cNum) {
+            currentClass = cNum;
+            document.querySelectorAll('.class-tab-btn').forEach(btn => {
+                btn.classList.remove('tab-btn-active');
+                if (btn.getAttribute('data-class') == cNum) {
+                    btn.classList.add('tab-btn-active');
+                }
+            });
+            fetchDashboardData();
+        }
+
+        function switchSubTab(tabName) {
+            currentSubTab = tabName;
+            document.querySelectorAll('.subtab-btn').forEach(btn => btn.classList.remove('subtab-btn-active'));
+            document.getElementById(`subtab-${tabName}`).classList.add('subtab-btn-active');
+
+            document.getElementById('view-timeline').classList.add('hidden');
+            document.getElementById('view-student').classList.add('hidden');
+            document.getElementById('view-report').classList.add('hidden');
+
+            document.getElementById(`view-${tabName}`).classList.remove('hidden');
+            lucide.createIcons();
+        }
+
         function renderTimeline() {
             const container = document.getElementById('timelineContainer');
-            const countBadge = document.getElementById('obsCountBadge');
-            const list = (rawDashboardData.observations || []).filter(item => {
-                return (currentClass === 'all' || item.classNum == currentClass);
+            const list = (rawDashboardData.observations || []).filter(o => {
+                return (currentClass === 'all' || o.classNum == currentClass);
             });
-            
-            countBadge.innerText = `총 ${list.length}건`;
 
             if (list.length === 0) {
                 const className = (currentClass === 'all') ? '전체 반' : `${currentClass}반`;
-                container.innerHTML = `<div class="text-center py-12 text-slate-400 text-sm bg-white rounded-2xl border border-slate-200">${className}에 등록된 관찰 메모가 없습니다.</div>`;
+                container.innerHTML = `<div class="text-center py-12 text-slate-400 text-sm bg-white rounded-2xl border border-slate-200">[${className}] 수집된 실시간 관찰 기록이 없습니다. 스마트폰 앱으로 첫 음성 관찰을 기록해보세요!</div>`;
                 return;
             }
 
             let html = '';
-            list.forEach(item => {
-                const catColors = {
-                    '교과': 'bg-blue-100 text-blue-800 border-blue-200',
-                    '행특': 'bg-emerald-100 text-emerald-800 border-emerald-200',
-                    '자율': 'bg-amber-100 text-amber-800 border-amber-200',
-                    '진로': 'bg-pink-100 text-pink-800 border-pink-200',
-                    '동아리': 'bg-purple-100 text-purple-800 border-purple-200'
-                };
-                const color = catColors[item.category] || 'bg-slate-100 text-slate-800 border-slate-200';
-
+            list.slice().reverse().forEach(item => {
                 html += `
-                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3">
-                        <div class="space-y-1">
-                            <div class="flex items-center gap-2">
-                                <span class="px-2.5 py-0.5 rounded-full text-xs font-black border ${color}">
-                                    ${item.category}
-                                </span>
-                                <span class="font-bold text-slate-800 text-sm">${item.classNum}반 ${item.hakbun} ${item.name}</span>
-                                <span class="text-xs text-slate-400 font-mono">${item.date}</span>
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3 transition-all hover:border-indigo-200">
+                        <div class="flex items-start gap-3">
+                            <div class="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-xs shrink-0">
+                                ${escapeHtml(item.category)}
                             </div>
-                            <p class="text-sm font-semibold text-slate-700 bg-slate-50 p-2.5 rounded-xl border border-slate-100">${item.refinedText}</p>
-                            <p class="text-xs text-slate-400">🎙️ 녹음 원본: "${item.rawMemo}"</p>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xs font-bold px-2 py-0.5 bg-slate-100 text-slate-700 rounded-md">${escapeHtml(item.classNum)}반</span>
+                                    <h3 class="text-sm font-black text-slate-800">${escapeHtml(item.name)} (${escapeHtml(item.hakbun)})</h3>
+                                    <span class="text-[11px] font-medium text-slate-400">${escapeHtml(item.date)}</span>
+                                </div>
+                                <p class="text-xs font-semibold text-slate-700 leading-relaxed bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                                    ${escapeHtml(item.refinedText)}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="text-right text-[11px] text-slate-400 italic shrink-0">
+                            1차 음성: "${escapeHtml(item.rawMemo)}"
                         </div>
                     </div>
                 `;
@@ -331,15 +412,16 @@
         }
 
         function renderStudentCards() {
-            const container = document.getElementById('studentCardContainer');
+            const container = document.getElementById('studentContainer');
             const obs = (rawDashboardData.observations || []).filter(o => currentClass === 'all' || o.classNum == currentClass);
             const resp = (rawDashboardData.responses || []).filter(r => currentClass === 'all' || r.classNum == currentClass);
 
             const studentMap = {};
-
-            studentList.forEach(s => {
-                const key = `${s.hakbun}_${s.name}`;
-                studentMap[key] = { hakbun: s.hakbun, name: s.name, classNum: s.classNum, obsList: [], respList: [] };
+            (studentList || []).forEach(s => {
+                if (currentClass === 'all' || s.classNum == currentClass) {
+                    const key = `${s.hakbun}_${s.name}`;
+                    studentMap[key] = { hakbun: s.hakbun, name: s.name, classNum: s.classNum, obsList: [], respList: [] };
+                }
             });
 
             obs.forEach(o => {
@@ -365,11 +447,11 @@
             keys.forEach(k => {
                 const s = studentMap[k];
                 html += `
-                    <div class="student-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3" data-search="${s.hakbun} ${s.name}">
+                    <div class="student-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3" data-search="${escapeHtml(s.hakbun)} ${escapeHtml(s.name)}">
                         <div class="flex items-center justify-between border-b border-slate-100 pb-2">
                             <div>
-                                <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md">${s.classNum}반</span>
-                                <h3 class="text-base font-black text-slate-800 inline ml-1">${s.name} (${s.hakbun})</h3>
+                                <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md">${escapeHtml(s.classNum)}반</span>
+                                <h3 class="text-base font-black text-slate-800 inline ml-1">${escapeHtml(s.name)} (${escapeHtml(s.hakbun)})</h3>
                             </div>
                             <span class="text-xs font-bold text-slate-400">누적 ${s.obsList.length}건</span>
                         </div>
@@ -378,7 +460,7 @@
                             <span class="font-bold text-slate-500">📝 관찰 기록</span>
                             ${s.obsList.length > 0 ? s.obsList.map(o => `
                                 <div class="bg-slate-50 p-2 rounded-xl border border-slate-100">
-                                    <span class="font-bold text-indigo-600">[${o.category}]</span> ${o.refinedText}
+                                    <span class="font-bold text-indigo-600">[${escapeHtml(o.category)}]</span> ${escapeHtml(o.refinedText)}
                                 </div>
                             `).join('') : '<div class="text-slate-400 italic text-[11px]">기록된 관찰 메모가 없습니다.</div>'}
                         </div>
@@ -388,7 +470,7 @@
                                 <span class="font-bold text-amber-600">📥 학생 제출 응답</span>
                                 ${s.respList.map(r => `
                                     <div class="bg-amber-50/60 p-2 rounded-xl border border-amber-100 text-slate-700">
-                                        <span class="font-bold text-amber-700">[${r.type}]</span> ${r.content}
+                                        <span class="font-bold text-amber-700">[${escapeHtml(r.type)}]</span> ${escapeHtml(r.content)}
                                     </div>
                                 `).join('')}
                             </div>
@@ -421,7 +503,7 @@
 
             if (list.length === 0) {
                 const className = (currentClass === 'all') ? '전체 반' : `${currentClass}반`;
-                container.innerHTML = `<div class="text-center py-12 text-slate-400 text-sm bg-white rounded-2xl border border-slate-200">[${className}] 생성된 세특 초안이 없습니다. 위 [AI 초안 생성] 버튼을 클릭하세요.</div>`;
+                container.innerHTML = `<div class="text-center py-12 text-slate-400 text-sm bg-white rounded-2xl border border-slate-200">[${className}] 생성된 세특 초안이 없습니다. 위 [AI 초안 전체 생성] 버튼을 클릭하세요.</div>`;
                 return;
             }
 
@@ -431,19 +513,19 @@
                     <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-2">
-                                <span class="px-2.5 py-1 bg-purple-100 text-purple-800 rounded-lg text-xs font-bold">${r.classNum}반</span>
-                                <h3 class="text-base font-black text-slate-800">${r.name} (${r.hakbun})</h3>
+                                <span class="px-2.5 py-1 bg-purple-100 text-purple-800 rounded-lg text-xs font-bold">${escapeHtml(r.classNum)}반</span>
+                                <h3 class="text-base font-black text-slate-800">${escapeHtml(r.name)} (${escapeHtml(r.hakbun)})</h3>
                             </div>
-                            <span class="text-xs font-mono font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg border border-indigo-100">${r.bytes}</span>
+                            <span class="text-xs font-mono font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg border border-indigo-100">${escapeHtml(r.bytes)}</span>
                         </div>
-                        <p class="text-sm font-semibold text-slate-800 leading-relaxed bg-purple-50/40 p-4 rounded-xl border border-purple-100">${r.reportText}</p>
+                        <p class="text-sm font-semibold text-slate-800 leading-relaxed bg-purple-50/40 p-4 rounded-xl border border-purple-100">${escapeHtml(r.reportText)}</p>
                     </div>
                 `;
             });
             container.innerHTML = html;
         }
 
-                function triggerGenerateReports() {
+        function triggerGenerateReports() {
             const className = (currentClass === 'all') ? '전체 반' : `${currentClass}반`;
             const subjectEl = document.getElementById('selSubject');
             const compEl = document.getElementById('txtCompetency');
@@ -456,7 +538,7 @@
             if (!confirm(`[${className}] 학생들의 AI 세특 초안 생성을 시작할까요?
 
 • 📋 교사 맞춤 템플릿: [세특템플릿] 시트 지침 자동 연동
-• ⏱️ 할루시네이션 방지: 5명 작성 후 30초간 AI 대기/휴식
+• ⏱️ 할루시네이션 방지: 5명 작성 후 15초간 AI 대기/휴식
 • 🛡️ 스마트 데이터 유지: 신규 기록이 추가된 학생만 갱신 (변경 없는 학생은 기존 세특 100% 유지)
 
 • 담당 과목: [${subject}]
