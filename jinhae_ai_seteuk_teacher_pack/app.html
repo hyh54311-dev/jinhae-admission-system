@@ -91,6 +91,14 @@
         <p class="text-xs text-slate-400 mt-1">현장의 생생한 관찰 기록을 휠 터치 0.3초 만에 라이브로 담습니다.</p>
     </header>
 
+    <!-- Web Speech API 미지원 브라우저 폴백 배너 -->
+    <div id="unsupportedSpeechBanner" class="hidden my-1 p-3 bg-amber-600/90 border border-amber-400/40 rounded-2xl flex items-center justify-between text-white text-xs font-bold shadow-lg z-20">
+        <span class="flex items-center gap-1.5">
+            <i data-lucide="alert-circle" class="w-4 h-4 text-amber-200"></i>
+            <span>현재 브라우저는 음성 입력을 지원하지 않습니다. (텍스트 직접 입력 가능)</span>
+        </span>
+    </div>
+
     <!-- PWA 앱 1초 설치 배너 -->
     <div id="pwaInstallBanner" class="hidden my-1 p-3 bg-gradient-to-r from-indigo-600 to-purple-600 border border-indigo-400/40 rounded-2xl flex items-center justify-between text-white text-xs font-bold shadow-lg z-20">
         <span class="flex items-center gap-1.5">
@@ -102,51 +110,81 @@
         </button>
     </div>
 
-    <!-- 오프라인 알림 배너 -->
-    <div id="offlineBanner" class="hidden my-1 p-3 bg-amber-500/20 border border-amber-400/40 rounded-2xl flex items-center justify-between text-amber-200 text-xs font-bold z-10 animate-pulse">
-        <span class="flex items-center gap-1.5">
-            <i data-lucide="wifi-off" class="w-4 h-4 text-amber-400"></i>
-            <span id="offlineBannerText">미전송 메모 1건 임시보관 중</span>
-        </span>
-        <button type="button" onclick="syncPendingBuffer()" class="px-2.5 py-1 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-[11px] font-bold">
-            재전송
-        </button>
+    <!-- 오프라인 상태 및 임시보관 갯수 알림 바 -->
+    <div id="offlineBanner" class="hidden my-1 p-2.5 bg-rose-600/90 border border-rose-400/40 rounded-2xl text-center text-white text-xs font-bold shadow-md z-20 animate-fade-in">
+        <span id="offlineBannerText">📶 오프라인 상태 - 관찰 메모 임시보관 중</span>
     </div>
 
-    <!-- 중앙 5분할 원형 휠 -->
-    <main class="flex-1 flex flex-col items-center justify-center relative my-4 z-10">
-        <div class="w-80 h-80 relative flex items-center justify-center drop-shadow-2xl">
-            <svg viewBox="0 0 200 200" class="w-full h-full">
-                <g stroke="#0f172a" stroke-width="2.5" stroke-linejoin="round">
-                    <path d="M 100 100 L 100 0 A 100 100 0 0 1 195.11 69.10 Z" fill="#2563eb" class="pie-slice" onclick="openMicModal('교과')"/>
-                    <path d="M 100 100 L 195.11 69.10 A 100 100 0 0 1 158.78 180.90 Z" fill="#059669" class="pie-slice" onclick="openMicModal('행특')"/>
-                    <path d="M 100 100 L 158.78 180.90 A 100 100 0 0 1 41.22 180.90 Z" fill="#d97706" class="pie-slice" onclick="openMicModal('자율')"/>
-                    <path d="M 100 100 L 41.22 180.90 A 100 100 0 0 1 4.89 69.10 Z" fill="#db2777" class="pie-slice" onclick="openMicModal('진로')"/>
-                    <path d="M 100 100 L 4.89 69.10 A 100 100 0 0 1 100 0 Z" fill="#7c3aed" class="pie-slice" onclick="openMicModal('동아리')"/>
-                </g>
-                <text x="136.4" y="49.8" class="slice-text">📘 교과</text>
-                <text x="159.0" y="119.2" class="slice-text">🌱 행특</text>
-                <text x="100.0" y="162.0" class="slice-text">🎨 자율</text>
-                <text x="41.0" y="119.2" class="slice-text">🚀 진로</text>
-                <text x="63.6" y="49.8" class="slice-text">🧩 동아리</text>
+    <!-- 중앙 5분할 원형 휠 (SVG Pie Wheel) -->
+    <main class="flex-1 flex flex-col items-center justify-center relative my-2 z-10">
+        <div class="relative w-72 h-72 flex items-center justify-center">
+            
+            <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-2xl">
+                <defs>
+                    <linearGradient id="grad-gyokwa" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#4f46e5" />
+                        <stop offset="100%" stop-color="#3730a3" />
+                    </linearGradient>
+                    <linearGradient id="grad-haengteuk" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#10b981" />
+                        <stop offset="100%" stop-color="#047857" />
+                    </linearGradient>
+                    <linearGradient id="grad-jayul" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#f59e0b" />
+                        <stop offset="100%" stop-color="#b45309" />
+                    </linearGradient>
+                    <linearGradient id="grad-[#진로]" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#8b5cf6" />
+                        <stop offset="100%" stop-color="#6d28d9" />
+                    </linearGradient>
+                    <linearGradient id="grad-jinro" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#06b6d4" />
+                        <stop offset="100%" stop-color="#0e7490" />
+                    </linearGradient>
+                    <linearGradient id="grad-donga-ri" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#ec4899" />
+                        <stop offset="100%" stop-color="#be185d" />
+                    </linearGradient>
+                </defs>
+
+                <!-- 1 조각: 교과 (0deg ~ 72deg) -->
+                <path d="M 100 100 L 100 5 A 95 95 0 0 1 190.35 70.64 Z" fill="url(#grad-gyokwa)" stroke="#1e1b4b" stroke-width="2.5" class="pie-slice" onclick="openMicModal('교과')" />
+                <!-- 2 조각: 행특 (72deg ~ 144deg) -->
+                <path d="M 100 100 L 190.35 70.64 A 95 95 0 0 1 155.84 176.86 Z" fill="url(#grad-haengteuk)" stroke="#1e1b4b" stroke-width="2.5" class="pie-slice" onclick="openMicModal('행특')" />
+                <!-- 3 조각: 자율 (144deg ~ 216deg) -->
+                <path d="M 100 100 L 155.84 176.86 A 95 95 0 0 1 44.16 176.86 Z" fill="url(#grad-jayul)" stroke="#1e1b4b" stroke-width="2.5" class="pie-slice" onclick="openMicModal('자율')" />
+                <!-- 4 조각: 진로 (216deg ~ 288deg) -->
+                <path d="M 100 100 L 44.16 176.86 A 95 95 0 0 1 9.65 70.64 Z" fill="url(#grad-jinro)" stroke="#1e1b4b" stroke-width="2.5" class="pie-slice" onclick="openMicModal('진로')" />
+                <!-- 5 조각: 동아리 (288deg ~ 360deg) -->
+                <path d="M 100 100 L 9.65 70.64 A 95 95 0 0 1 100 5 Z" fill="url(#grad-donga-ri)" stroke="#1e1b4b" stroke-width="2.5" class="pie-slice" onclick="openMicModal('동아리')" />
+
+                <!-- 조각 텍스트 라벨 -->
+                <text x="135" y="45" class="slice-text">📘 교과</text>
+                <text x="155" y="118" class="slice-text">🌱 행특</text>
+                <text x="100" y="158" class="slice-text">🎨 자율</text>
+                <text x="45" y="118" class="slice-text">🚀 진로</text>
+                <text x="65" y="45" class="slice-text">🧩 동아리</text>
             </svg>
-            <div class="absolute w-24 h-24 sm:w-28 sm:h-28 bg-slate-900/95 border-4 border-slate-700/80 rounded-full flex flex-col items-center justify-center shadow-inner pointer-events-none">
-                <i data-lucide="pointer" class="w-6 h-6 text-indigo-400 mb-0.5"></i>
-                <span class="text-[11px] text-slate-300 font-bold">영역 터치</span>
+
+            <!-- 휠 중앙 메인 탭 마이크 버튼 -->
+            <div class="absolute w-24 h-24 rounded-full bg-slate-900 border-4 border-indigo-500/80 shadow-2xl flex flex-col items-center justify-center text-white pointer-events-none">
+                <i data-lucide="mic" class="w-8 h-8 text-indigo-400"></i>
+                <span class="text-[10px] font-black text-slate-300 mt-0.5">터치 녹음</span>
             </div>
         </div>
+        <p class="text-xs font-semibold text-indigo-200/80 mt-3 text-center">
+            원하는 영역 휠 조각을 터치하면 마이크가 오토포커스됩니다.
+        </p>
     </main>
 
-    <!-- 전면 음성 녹음 모달 (스마트 1-버튼 UI) -->
-    <div id="micModal" class="fixed inset-0 bg-slate-950/95 backdrop-blur-2xl z-50 flex flex-col justify-between p-6 transition-all duration-300 transform translate-y-full opacity-0 overflow-y-auto">
-        <!-- 모달 헤더 -->
-        <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <span id="modalCategoryBadge" class="px-3 py-1 bg-indigo-600 text-white rounded-full text-xs font-black shadow-md">
-                    📘 교과 영역
-                </span>
-                <span class="text-xs text-slate-400 font-bold">음성 관찰 기록</span>
-            </div>
+    <!-- 모달: 음성 입력 & AI 관찰 코칭 바텀 시트 -->
+    <div id="micModal" class="fixed inset-x-0 bottom-0 max-w-md mx-auto bg-slate-950 border-t border-indigo-500/40 rounded-t-3xl p-5 shadow-2xl transform translate-y-full opacity-0 transition-all duration-300 z-50 flex flex-col min-h-[420px]">
+        
+        <!-- 모달 상단 헤더 -->
+        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+            <span id="modalCategoryBadge" class="px-3 py-1 bg-indigo-600 text-white font-black text-xs rounded-full">
+                📘 교과 영역
+            </span>
             <button onclick="closeMicModal()" class="w-9 h-9 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center btn-active">
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
@@ -169,14 +207,15 @@
                           placeholder="말씀하시는 내용이 이곳에 글로 적힙니다."
                           class="w-full p-3.5 rounded-2xl bg-slate-900 border border-slate-800 text-white placeholder-slate-500 text-sm leading-relaxed outline-none focus:border-indigo-500 transition-all resize-none"></textarea>
                 <p id="interimPreview" class="text-[11px] text-indigo-400 italic text-left min-h-[1rem]"></p>
-                <!-- AI 실시간 피드백 카드 (학번/이름 누락 시 경고) -->
-                <div id="aiCoachingCard" class="hidden p-3.5 bg-rose-950/90 border border-rose-500/60 rounded-2xl text-left space-y-1.5 animate-fade-in shadow-xl">
-                    <div class="flex items-center gap-1.5 text-xs font-black text-rose-300">
-                        <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-400"></i>
-                        <span id="coachingTitle">⚠️ 학생 학번 또는 이름 누락됨</span>
+                
+                <!-- AI 실시간 피드백 및 코칭 팝업 카드 -->
+                <div id="aiCoachingCard" class="hidden p-3.5 bg-indigo-950/90 border border-indigo-500/60 rounded-2xl text-left space-y-1.5 animate-fade-in shadow-xl">
+                    <div class="flex items-center gap-1.5 text-xs font-black text-indigo-300">
+                        <i data-lucide="sparkles" class="w-4 h-4 text-indigo-400"></i>
+                        <span id="coachingTitle">💡 AI 관찰 코칭</span>
                     </div>
-                    <p id="coachingMsg" class="text-xs font-semibold text-slate-200 leading-relaxed bg-slate-900/90 p-2.5 rounded-xl border border-rose-900/60">
-                        누구에 대한 기록인지 알 수 없습니다. 아래 버튼을 눌러 "30101 강해린" 처럼 학번이나 이름을 말씀해 주세요!
+                    <p id="coachingMsg" class="text-xs font-semibold text-slate-200 leading-relaxed bg-slate-900/90 p-2.5 rounded-xl border border-indigo-900/60">
+                        학생 학번과 이름을 포함하여 구체적 관찰 내용을 덧붙여보세요!
                     </p>
                 </div>
             </div>
@@ -193,28 +232,34 @@
 
     <!-- 하단 풋터 -->
     <footer class="text-center py-2 text-[11px] text-slate-500 z-10">
-        <p>📱 선생님을 위한 AI 음성 수업 관찰기 템플릿</p>
+        <p>📱 선생님을 위한 모바일 생생세특 관찰 시스템</p>
     </footer>
 
     <script>
-        // 학생 학번/이름 정밀 검사 함수
+        var currentCategory = '교과';
+        var isRecording = false;
+        var speechRestartCount = 0;
+        var MAX_SPEECH_RESTARTS = 5;
+        var STORAGE_KEY = 'jinhae_observation_pending_buffer';
+        var isSyncing = false; // 오프라인 동기화 큐 중복 방지 Race Condition 플래그
+
+        // 동적 학생 명단 데이터베이스 (getStudentList 연동)
+        var studentRoster = ['강해린','박지민','김민준','이서윤','최현우'];
+
+        // 학생 학번/이름 정밀 검사 함수 (동적 명단 연동 및 오탐 방지)
         function checkHasStudentInfo(memoText) {
             if (!memoText || !memoText.trim()) return false;
 
-            // 1. 숫자 학번 감지 (5자리 30101 / 4자리 3101)
+            // 1. 학번 숫자 패턴 감지 (5자리 30101 / 4자리 3101 등)
             var yearExclude = /\d{4}(?:년|학년|월|일)/;
             var has4or5Digit = /(?:^|[\s,.:;!?])\d{4,5}(?=[\s,.:;!?]|$)/.test(memoText) && !yearExclude.test(memoText);
 
-            // 반/번 패턴: '학년' 앞 1~3, '반' 앞 1~10, '번' 앞 1~40
-            var hasGradeClassNum = /[1-3]학년/.test(memoText) || /(?:^|\s)(?:[1-9]|10)반/.test(memoText) || /(?:^|\s)(?:[1-9]|[1-3]\d|40)번/.test(memoText);
+            // 2. 실제 시트 기반 학생 명렬 이름 동적 검색
+            var hasRosterName = studentRoster.some(function(name) { 
+                return name && memoText.indexOf(name) >= 0; 
+            });
 
-            // 2. 학생 명렬 기본 데이터베이스
-            var studentRoster = [
-                '강해린','박지민','김민준','이서윤','최현우','홍길동','이순신','김유신'
-            ];
-            var hasRosterName = studentRoster.some(function(name) { return memoText.indexOf(name) >= 0; });
-
-            return has4or5Digit || hasGradeClassNum || hasRosterName;
+            return has4or5Digit || hasRosterName;
         }
 
         // 개발용 목 객체
@@ -224,6 +269,25 @@
                     run: {
                         withSuccessHandler: function(cb) { this._success = cb; return this; },
                         withFailureHandler: function(cb) { this._failure = cb; return this; },
+                        getStudentList: function(c) {
+                            var self = this;
+                            setTimeout(function() {
+                                if (self._success) cb([{ name: '강해린', hakbun: '30101' }, { name: '박지민', hakbun: '30102' }]);
+                            }, 300);
+                        },
+                        analyzeObservationFeedback: function(memo, cat) {
+                            var self = this;
+                            setTimeout(function() {
+                                if (self._success) {
+                                    self._success({
+                                        success: true,
+                                        hasStudentInfo: checkHasStudentInfo(memo),
+                                        feedbackTitle: '💡 2022 교과역량 보강 코칭',
+                                        feedbackMsg: '사용한 자료나 탐구 주제를 덧붙이시면 2022 교과역량이 돋보이는 세특이 완성됩니다!'
+                                    });
+                                }
+                            }, 400);
+                        },
                         processObservationFast: function(memo, category) {
                             var self = this;
                             setTimeout(function() {
@@ -234,11 +298,11 @@
                                         hakbun: '30101',
                                         name: '강해린',
                                         classNum: 1,
-                                        refinedText: '강해린 학생은 ' + category + ' 활동 중 음성 메모("' + memo + '")를 바탕으로 주도적 태도를 보여줌.',
+                                        refinedText: memo,
                                         timestamp: new Date().toLocaleString('ko-KR')
                                     });
                                 }
-                            }, 500);
+                            }, 300);
                         }
                     }
                 }
@@ -248,17 +312,9 @@
         lucide.createIcons();
 
         var recognition = null;
-        var isRecording = false;
-        var currentCategory = '교과';
-        var currentInterim = '';
-        var missingStudentInfo = true;
-        var speechRestartCount = 0;
-        var MAX_SPEECH_RESTARTS = 5;
-        var deferredPWAPrompt = null;
-        var STORAGE_KEY = 'jinhae_obs_pending_v1';
+        var SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-            var SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (SpeechRecognitionCtor) {
             recognition = new SpeechRecognitionCtor();
             recognition.continuous = true;
             recognition.interimResults = true;
@@ -266,133 +322,101 @@
 
             recognition.onresult = function(event) {
                 var finalTranscript = '';
-                var newInterim = '';
+                var interimTranscript = '';
+
                 for (var i = event.resultIndex; i < event.results.length; ++i) {
                     if (event.results[i].isFinal) {
                         finalTranscript += event.results[i][0].transcript;
                     } else {
-                        newInterim += event.results[i][0].transcript;
+                        interimTranscript += event.results[i][0].transcript;
                     }
                 }
+
                 if (finalTranscript) {
-                    var memoBox = document.getElementById('rawMemo');
-                    memoBox.value = (memoBox.value ? memoBox.value + ' ' : '') + finalTranscript;
+                    var box = document.getElementById('rawMemo');
+                    box.value = (box.value ? box.value + ' ' : '') + finalTranscript.trim();
                     updateSmartButtonState();
+                    triggerAICoachingFeedback(); // AI 관찰 코칭 트리거
                 }
-                currentInterim = newInterim;
-                if (currentInterim) {
-                    document.getElementById('interimPreview').innerText = '🔄 인식 중: ' + currentInterim;
-                } else {
-                    document.getElementById('interimPreview').innerText = '';
-                }
+                document.getElementById('interimPreview').innerText = interimTranscript ? '🎙️ ' + interimTranscript : '';
             };
 
             recognition.onend = function() {
                 if (isRecording) {
                     speechRestartCount++;
                     if (speechRestartCount <= MAX_SPEECH_RESTARTS) {
-                        try { recognition.start(); } catch(e){ isRecording = false; updateMicUI(false); }
+                        try { recognition.start(); } catch(e){}
                     } else {
                         isRecording = false;
                         updateMicUI(false);
                         speechRestartCount = 0;
+                        document.getElementById('micStatusHeading').innerText = '⚠️ 음성인식이 일시 중지되었습니다 (다시 터치)';
                     }
                 } else {
                     updateMicUI(false);
-                    flushInterimText();
-                    updateSmartButtonState();
-                    speechRestartCount = 0;
                 }
             };
-
-            recognition.onerror = function(event) {
-                if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+            
+            recognition.onerror = function(e) {
+                if (e.error !== 'no-speech') {
                     isRecording = false;
                     updateMicUI(false);
-                    speechRestartCount = MAX_SPEECH_RESTARTS + 1;
-                    return;
                 }
-                isRecording = false;
-                updateMicUI(false);
             };
-        }
-
-        function flushInterimText() {
-            if (currentInterim) {
-                var memoBox = document.getElementById('rawMemo');
-                var trimmed = currentInterim.trim();
-                if (trimmed) {
-                    memoBox.value = (memoBox.value ? memoBox.value + ' ' : '') + trimmed;
-                }
-                currentInterim = '';
-                document.getElementById('interimPreview').innerText = '';
-                updateSmartButtonState();
-            }
-        }
-
-        function updateSmartButtonState() {
-            var memoText = document.getElementById('rawMemo').value.trim();
-            var btn = document.getElementById('smartActionBtn');
-            var coachingCard = document.getElementById('aiCoachingCard');
-
-            if (!memoText) {
-                missingStudentInfo = true;
-                coachingCard.classList.add('hidden');
-                btn.className = "w-full py-4 bg-gradient-to-r from-slate-600 to-slate-700 text-white font-bold rounded-2xl shadow-xl flex items-center justify-center gap-2 text-sm transition-all btn-active opacity-60";
-                btn.innerHTML = '<i data-lucide="mic" class="w-5 h-5"></i><span id="smartActionBtnText">🎤 영역 터치 후 음성 녹음 시작...</span>';
-                lucide.createIcons();
-                return;
-            }
-
-            var hasInfo = checkHasStudentInfo(memoText);
-
-            if (!hasInfo) {
-                missingStudentInfo = true;
-                coachingCard.classList.remove('hidden');
-                document.getElementById('coachingMsg').innerText = '누구에 대한 관찰 기록인지 알 수 없습니다. 아래 버튼을 눌러 "30101 강해린" 처럼 학번이나 이름을 말씀해 주세요!';
-                btn.className = "w-full py-4 bg-amber-500 hover:bg-amber-600 text-white font-black rounded-2xl shadow-2xl flex items-center justify-center gap-2 text-sm transition-all animate-bounce btn-active";
-                btn.innerHTML = '<i data-lucide="mic" class="w-5 h-5"></i><span id="smartActionBtnText">🎤 "30101 강해린" 학번/이름 추가 말하기</span>';
-                lucide.createIcons();
-            } else {
-                missingStudentInfo = false;
-                coachingCard.classList.add('hidden');
-                btn.className = "w-full py-4 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-black rounded-2xl shadow-2xl flex items-center justify-center gap-2 text-sm transition-all animate-pulse btn-active";
-                btn.innerHTML = '<i data-lucide="send" class="w-5 h-5"></i><span id="smartActionBtnText">✅ 학번확인됨! AI 정돈 & 시트 제출</span>';
-                lucide.createIcons();
-            }
-        }
-
-        window.addEventListener('beforeinstallprompt', function(e) {
-            e.preventDefault();
-            deferredPWAPrompt = e;
-            var banner = document.getElementById('pwaInstallBanner');
-            if (banner) banner.classList.remove('hidden');
-        });
-
-        function installPWA() {
-            if (deferredPWAPrompt) {
-                deferredPWAPrompt.prompt();
-                deferredPWAPrompt.userChoice.then(function(result) {
-                    deferredPWAPrompt = null;
-                    document.getElementById('pwaInstallBanner').classList.add('hidden');
-                });
-            }
+        } else {
+            // Web Speech API 미지원 디바이스 안내
+            document.getElementById('unsupportedSpeechBanner').classList.remove('hidden');
         }
 
         window.addEventListener('DOMContentLoaded', function() {
             checkPendingBufferUI();
+            loadStudentRosterFromServer(); // 서버로부터 실제 학생명단 동적 로드
+            
             var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
             if (isIOS && !window.navigator.standalone) {
                 var banner = document.getElementById('pwaInstallBanner');
                 if (banner) banner.classList.remove('hidden');
             }
-            document.getElementById('rawMemo').addEventListener('input', updateSmartButtonState);
-            document.getElementById('rawMemo').addEventListener('keyup', updateSmartButtonState);
+            document.getElementById('rawMemo').addEventListener('input', function() {
+                updateSmartButtonState();
+                triggerAICoachingFeedback();
+            });
         });
 
         window.addEventListener('online', function() {
             syncPendingBuffer();
         });
+
+        // 실제 학생명단 시트 동적 수신
+        function loadStudentRosterFromServer() {
+            google.script.run
+                .withSuccessHandler(function(list) {
+                    if (Array.isArray(list) && list.length > 0) {
+                        studentRoster = list.map(function(s) { return s.name; }).filter(Boolean);
+                    }
+                })
+                .getStudentList('all');
+        }
+
+        // AI 코칭 피드백 실시간 연동 (analyzeObservationFeedback)
+        function triggerAICoachingFeedback() {
+            var rawMemo = document.getElementById('rawMemo').value.trim();
+            if (rawMemo.length < 5) return;
+
+            google.script.run
+                .withSuccessHandler(function(res) {
+                    if (res && res.success) {
+                        var card = document.getElementById('aiCoachingCard');
+                        var title = document.getElementById('coachingTitle');
+                        var msg = document.getElementById('coachingMsg');
+
+                        if (title) title.innerText = res.feedbackTitle || '💡 AI 관찰 코칭';
+                        if (msg) msg.innerText = res.feedbackMsg || '추가 내용을 덧붙여보세요!';
+                        if (card) card.classList.remove('hidden');
+                    }
+                })
+                .analyzeObservationFeedback(rawMemo, currentCategory);
+        }
 
         function openMicModal(category) {
             currentCategory = category;
@@ -448,34 +472,75 @@
         function stopSpeech() {
             if (!recognition) return;
             isRecording = false;
-            recognition.stop();
+            try { recognition.stop(); } catch(e) {}
             updateMicUI(false);
-            flushInterimText();
-            updateSmartButtonState();
         }
 
         function toggleSpeech() {
-            if (isRecording) stopSpeech();
-            else startSpeech();
+            if (!recognition) {
+                alert('현재 환경은 음성 인식을 지원하지 않습니다. 텍스트로 직접 입력해주세요.');
+                return;
+            }
+            if (isRecording) {
+                stopSpeech();
+            } else {
+                startSpeech();
+            }
         }
 
         function updateMicUI(recording) {
-            var circle = document.getElementById('micPulseCircle');
+            var pulse = document.getElementById('micPulseCircle');
             var heading = document.getElementById('micStatusHeading');
+
             if (recording) {
-                circle.classList.add('mic-recording');
-                heading.innerText = '듣고 있습니다... (말이 끝나면 하단 제출 버튼 클릭)';
+                pulse.classList.add('mic-recording');
+                heading.innerText = '듣고 있습니다... 말씀하세요';
             } else {
-                circle.classList.remove('mic-recording');
-                heading.innerText = '음성인식 중지됨 (하단 제출 버튼 클릭)';
+                pulse.classList.remove('mic-recording');
+                heading.innerText = '마이크 터치하여 말씀하세요';
+            }
+        }
+
+        function flushInterimText() {
+            var interim = document.getElementById('interimPreview').innerText.replace('🎙️ ', '').trim();
+            if (interim) {
+                var box = document.getElementById('rawMemo');
+                box.value = (box.value ? box.value + ' ' : '') + interim;
+                document.getElementById('interimPreview').innerText = '';
+            }
+        }
+
+        function updateSmartButtonState() {
+            flushInterimText();
+            var rawMemo = document.getElementById('rawMemo').value.trim();
+            var hasInfo = checkHasStudentInfo(rawMemo);
+
+            var btn = document.getElementById('smartActionBtn');
+            var btnText = document.getElementById('smartActionBtnText');
+
+            if (!rawMemo) {
+                btn.className = 'w-full py-4 bg-gradient-to-r from-slate-700 to-slate-800 text-slate-400 font-bold rounded-2xl shadow-md flex items-center justify-center gap-2 text-sm cursor-not-allowed opacity-60';
+                btnText.innerText = '🎤 말씀하시거나 글로 입력해 주세요...';
+            } else if (!hasInfo) {
+                btn.className = 'w-full py-4 bg-gradient-to-r from-amber-600 to-orange-600 text-white font-black rounded-2xl shadow-xl flex items-center justify-center gap-2 text-sm transition-all btn-active animate-pulse';
+                btnText.innerText = '⚠️ 학생 학번/이름 추가 말씀하세요 (터치)';
+            } else {
+                btn.className = 'w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-black rounded-2xl shadow-2xl flex items-center justify-center gap-2 text-sm transition-all btn-active';
+                btnText.innerText = '⚡ 0.3초 시트 즉시 저장하기';
             }
         }
 
         function handleSmartAction() {
-            stopSpeech();
-            flushInterimText();
+            var rawMemo = document.getElementById('rawMemo').value.trim();
+            var hasInfo = checkHasStudentInfo(rawMemo);
 
-            if (missingStudentInfo) {
+            if (!rawMemo) {
+                if (!isRecording) startSpeech();
+                return;
+            }
+
+            if (!hasInfo) {
+                stopSpeech();
                 setTimeout(function() {
                     startSpeech();
                     document.getElementById('micStatusHeading').innerText = '학생 학번이나 이름을 말씀하세요 (예: 30101 강해린)';
@@ -513,7 +578,7 @@
             }
 
             btn.disabled = true;
-            btn.innerHTML = '<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> <span>시트 제출 중...</span>';
+            btn.innerHTML = '<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> <span>0.3초 시트 저장 중...</span>';
 
             google.script.run
                 .withSuccessHandler(function(response) {
@@ -555,55 +620,59 @@
             var banner = document.getElementById('offlineBanner');
             var bannerText = document.getElementById('offlineBannerText');
             if (list.length > 0) {
-                bannerText.innerText = '미전송 관찰메모 ' + list.length + '건 임시보관 중';
+                bannerText.innerText = '미전송 관찰메모 ' + list.length + '건 임시보관 중 (자동 동기화)';
                 banner.classList.remove('hidden');
             } else {
                 banner.classList.add('hidden');
             }
         }
 
+        // 오프라인 동기화 큐 중복 전송 방지 (isSyncing race condition 플래그 반영)
         function syncPendingBuffer() {
-            if (!navigator.onLine) return;
+            if (isSyncing || !navigator.onLine) return;
             var list = getPendingBuffer();
             if (list.length === 0) return;
 
+            isSyncing = true;
             var item = list[0];
-            if (!item._retries) item._retries = 0;
 
             google.script.run
                 .withSuccessHandler(function(res) {
-                    var currentList = getPendingBuffer();
+                    isSyncing = false;
                     if (res && res.success) {
-                        currentList.shift();
-                        localStorage.setItem(STORAGE_KEY, JSON.stringify(currentList));
+                        var current = getPendingBuffer();
+                        current.shift();
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(current));
                         checkPendingBufferUI();
-                        if (currentList.length > 0) syncPendingBuffer();
-                    } else {
-                        if (currentList.length > 0) {
-                            if (!currentList[0]._retries) currentList[0]._retries = 0;
-                            currentList[0]._retries++;
-                            if (currentList[0]._retries >= 3) {
-                                currentList.shift();
-                            }
-                            localStorage.setItem(STORAGE_KEY, JSON.stringify(currentList));
-                            checkPendingBufferUI();
+                        if (current.length > 0) {
+                            setTimeout(syncPendingBuffer, 300);
                         }
                     }
                 })
-                .withFailureHandler(function(err) {
-                    var currentList = getPendingBuffer();
-                    if (currentList.length > 0) {
-                        if (!currentList[0]._retries) currentList[0]._retries = 0;
-                        currentList[0]._retries++;
-                        if (currentList[0]._retries >= 3) {
-                            currentList.shift();
-                        }
-                        localStorage.setItem(STORAGE_KEY, JSON.stringify(currentList));
-                        checkPendingBufferUI();
-                    }
+                .withFailureHandler(function() {
+                    isSyncing = false;
                 })
-                .processObservationWithAIExtraction(item.rawMemo, item.category);
+                .processObservationFast(item.rawMemo, item.category);
         }
+
+        function installPWA() {
+            if (window.deferredPWAInstallPrompt) {
+                window.deferredPWAInstallPrompt.prompt();
+                window.deferredPWAInstallPrompt.userChoice.then(function(choiceResult) {
+                    if (choiceResult.outcome === 'accepted') {
+                        document.getElementById('pwaInstallBanner').classList.add('hidden');
+                    }
+                });
+            } else {
+                alert('스마트폰 브라우저 메뉴에서 [홈 화면에 추가]를 눌러 앱으로 설치할 수 있습니다!');
+            }
+        }
+
+        window.addEventListener('beforeinstallprompt', function(e) {
+            e.preventDefault();
+            window.deferredPWAInstallPrompt = e;
+            document.getElementById('pwaInstallBanner').classList.remove('hidden');
+        });
     </script>
 </body>
 </html>
