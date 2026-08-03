@@ -632,18 +632,29 @@ function buildSeteukPrompt(studentName, subject, competency, bytesTarget, obsTex
     '4. 특정 지역명(진해 등)은 \'우리 지역\'으로, 학교 고유 명칭(장복제 등)은 \'교내 행사\'로 변경할 것\n' +
     '5. 학생의 실제 관찰 내용만을 기반으로 작성하고, 관찰되지 않은 내용을 임의로 추가하지 말 것\n' +
     '6. 결과물은 세특 본문만 출력할 것 (제목, 구분선, 마크다운, 부가 설명 등 절대 불포함)\n' +
-    '7. 반드시 ' + charTarget + '자 이내로 작성할 것';
+    '7. 반드시 ' + charTarget + '자 이내로 작성하고, 마지막 문장은 중간에 끊기지 않고 완전하게 마무리할 것';
 }
 
-// 바이트 초과 시 자동 트리밍 유틸리티
+// 바이트 초과 시 자동 트리밍 유틸리티 (문장 중간 끊김 완벽 방지)
 function trimToBytes(text, maxBytes) {
   if (!text) return '';
   var bytes = Utilities.newBlob(text).getBytes().length;
-  while (bytes > maxBytes && text.length > 0) {
-    text = text.substring(0, text.length - 1);
-    bytes = Utilities.newBlob(text).getBytes().length;
+  if (bytes <= maxBytes) return text;
+
+  // 1단계: 마침표(.) 기준으로 완결된 문장까지만 남기기
+  var trimmed = text;
+  while (bytes > maxBytes && trimmed.length > 0) {
+    var lastDotIndex = trimmed.lastIndexOf('.');
+    if (lastDotIndex > 0) {
+      trimmed = trimmed.substring(0, lastDotIndex + 1).trim();
+      bytes = Utilities.newBlob(trimmed).getBytes().length;
+    } else {
+      // 마침표가 없으면 1글자씩 자름
+      trimmed = trimmed.substring(0, trimmed.length - 1);
+      bytes = Utilities.newBlob(trimmed).getBytes().length;
+    }
   }
-  return text;
+  return trimmed || text.substring(0, Math.floor(maxBytes / 3));
 }
 
 // AI 실패/미설정 시 fallback 세특 템플릿 (관찰 기록 기반 정제)
