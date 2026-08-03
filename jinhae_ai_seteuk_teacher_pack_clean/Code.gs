@@ -300,6 +300,14 @@ function analyzeObservationFeedback(rawMemo, category) {
   };
 }
 
+function formatAnyDate(val) {
+  if (!val) return '';
+  if (val instanceof Date) {
+    return Utilities.formatDate(val, 'Asia/Seoul', 'yyyy-MM-dd HH:mm');
+  }
+  return val.toString();
+}
+
 function getDashboardFullData(classNum) {
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -317,13 +325,13 @@ function getDashboardFullData(classNum) {
         var c = obsData[i][1];
         if (classNum === 'all' || c == classNum) {
           observations.push({
-            date: obsData[i][0],
-            classNum: c,
-            category: obsData[i][2],
-            hakbun: obsData[i][3],
-            name: obsData[i][4],
-            rawMemo: obsData[i][5],
-            refinedText: obsData[i][6]
+            date: formatAnyDate(obsData[i][0]),
+            classNum: obsData[i][1] ? obsData[i][1].toString() : '',
+            category: obsData[i][2] ? obsData[i][2].toString() : '',
+            hakbun: obsData[i][3] ? obsData[i][3].toString() : '',
+            name: obsData[i][4] ? obsData[i][4].toString() : '',
+            rawMemo: obsData[i][5] ? obsData[i][5].toString() : '',
+            refinedText: obsData[i][6] ? obsData[i][6].toString() : ''
           });
         }
       }
@@ -336,12 +344,12 @@ function getDashboardFullData(classNum) {
         var c2 = respData[j][1];
         if (classNum === 'all' || c2 == classNum) {
           responses.push({
-            date: respData[j][0],
-            classNum: c2,
-            hakbun: respData[j][2],
-            name: respData[j][3],
-            content: respData[j][4],
-            type: respData[j][5]
+            date: formatAnyDate(respData[j][0]),
+            classNum: respData[j][1] ? respData[j][1].toString() : '',
+            hakbun: respData[j][2] ? respData[j][2].toString() : '',
+            name: respData[j][3] ? respData[j][3].toString() : '',
+            content: respData[j][4] ? respData[j][4].toString() : '',
+            type: respData[j][5] ? respData[j][5].toString() : ''
           });
         }
       }
@@ -354,12 +362,12 @@ function getDashboardFullData(classNum) {
         var c3 = repData[k][0];
         if (classNum === 'all' || c3 == classNum) {
           reports.push({
-            classNum: c3,
-            hakbun: repData[k][1],
-            name: repData[k][2],
-            date: repData[k][3],
-            bytes: repData[k][4],
-            reportText: repData[k][5]
+            classNum: repData[k][0] ? repData[k][0].toString() : '',
+            hakbun: repData[k][1] ? repData[k][1].toString() : '',
+            name: repData[k][2] ? repData[k][2].toString() : '',
+            date: formatAnyDate(repData[k][3]),
+            bytes: repData[k][4] ? repData[k][4].toString() : '',
+            reportText: repData[k][5] ? repData[k][5].toString() : ''
           });
         }
       }
