@@ -144,6 +144,23 @@ function getApiConfig() {
   };
 }
 
+// 🛡️ sheet.html 웹 에디터 전용 API 키 및 2022 교과역량/바이트 보안 저장 헬퍼
+function setApiKeysViaWeb(upstageKey, geminiKey, selectedAI, subject, competency, bytes) {
+  try {
+    var props = PropertiesService.getScriptProperties();
+    if (upstageKey) props.setProperty('UPSTAGE_API_KEY', upstageKey);
+    if (geminiKey) props.setProperty('GEMINI_API_KEY', geminiKey);
+    if (selectedAI) props.setProperty('SELECTED_AI', selectedAI);
+    if (subject) props.setProperty('SUBJECT_NAME', subject);
+    if (competency) props.setProperty('SUBJECT_COMPETENCIES', competency);
+    if (bytes) props.setProperty('TARGET_BYTES', bytes.toString());
+
+    return { success: true, message: 'PropertiesService 암호화 금고에 안전하게 저장되었습니다.' };
+  } catch (e) {
+    return { success: false, message: '저장 실패: ' + e.toString() };
+  }
+}
+
 // 2-1. 7대 탭 초기화 함수 (교사 맞춤 [세특템플릿] 시트 추가)
 function setupInitialSheets() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
