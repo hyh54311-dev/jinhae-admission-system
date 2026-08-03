@@ -166,9 +166,7 @@ function setupInitialSheets() {
     studentSheet.appendRow([2, 2, '30202', '최현우']);
   }
 
-  SpreadsheetApp.getUi().alert('✅ 7대 탭 양식이 진짜 구글 시트에 1초 만에 자동 세팅되었습니다!
-
-[학생명렬] 탭에 선생님 반 학생 명단을 엑셀에서 Ctrl+V로 편하게 붙여넣으세요.');
+  SpreadsheetApp.getUi().alert('✅ 7대 탭 양식이 진짜 구글 시트에 1초 만에 자동 세팅되었습니다!\n\n[학생명렬] 탭에 선생님 반 학생 명단을 엑셀에서 Ctrl+V로 편하게 붙여넣으세요.');
 }
 
 function getAvailableGradesAndClasses() {
