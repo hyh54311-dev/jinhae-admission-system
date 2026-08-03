@@ -284,9 +284,17 @@
             };
         }
 
+        function syncConfigToSheet() {
+            var subj = document.getElementById('selSubject').value;
+            var comp = document.getElementById('txtCompetency').value;
+            var bytes = document.getElementById('selTargetBytes').value;
+            google.script.run.saveDashboardConfig(subj, comp, bytes);
+        }
+
         function applyCompetencyPreset(val) {
             if (val) {
                 document.getElementById('txtCompetency').value = val;
+                syncConfigToSheet();
             }
         }
 
@@ -304,12 +312,18 @@
             if (compMap[subj]) {
                 document.getElementById('txtCompetency').value = compMap[subj];
             }
+            syncConfigToSheet();
         }
 
         window.addEventListener('DOMContentLoaded', () => {
             fetchDashboardData();
             loadGradeAndClassConfig();
             loadSpreadsheetUrl();
+
+            var compEl = document.getElementById('txtCompetency');
+            var bytesEl = document.getElementById('selTargetBytes');
+            if (compEl) compEl.addEventListener('change', syncConfigToSheet);
+            if (bytesEl) bytesEl.addEventListener('change', syncConfigToSheet);
         });
 
         // 실제 스프레드시트 URL 동적 바인딩

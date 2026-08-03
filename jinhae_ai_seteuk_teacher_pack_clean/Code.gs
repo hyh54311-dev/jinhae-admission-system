@@ -42,9 +42,33 @@ function getApiConfig() {
     geminiKey: props.getProperty('GEMINI_API_KEY') || '',
     selectedAI: props.getProperty('SELECTED_AI') || 'Gemini',
     subjectName: props.getProperty('SUBJECT_NAME') || '국어',
-    subjectCompetencies: props.getProperty('SUBJECT_COMPETENCIES') || '비판적 사고력, 지식정보처리 역량, 공동체·인성 역량',
+    subjectCompetencies: props.getProperty('SUBJECT_COMPETENCIES') || '비판적·창의적 사고 역량, 지식정보처리 역량',
     targetBytes: props.getProperty('TARGET_BYTES') || '900'
   };
+}
+
+function saveDashboardConfig(subject, competency, targetBytes) {
+  try {
+    var props = PropertiesService.getScriptProperties();
+    if (subject) props.setProperty('SUBJECT_NAME', subject);
+    if (competency) props.setProperty('SUBJECT_COMPETENCIES', competency);
+    if (targetBytes) props.setProperty('TARGET_BYTES', targetBytes.toString());
+
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName('API설정');
+    if (sheet) {
+      var data = sheet.getDataRange().getValues();
+      for (var i = 1; i < data.length; i++) {
+        var key = data[i][0] ? data[i][0].toString() : '';
+        if (key.indexOf('담당 교과명') >= 0 && subject) sheet.getRange(i + 1, 2).setValue(subject);
+        if (key.indexOf('2022 개정 교과역량') >= 0 && competency) sheet.getRange(i + 1, 2).setValue(competency);
+        if (key.indexOf('NEIS 세특 목표 바이트') >= 0 && targetBytes) sheet.getRange(i + 1, 2).setValue(targetBytes);
+      }
+    }
+    return { success: true };
+  } catch (e) {
+    return { success: false, message: e.toString() };
+  }
 }
 
 function setApiKeysPrompt() {
