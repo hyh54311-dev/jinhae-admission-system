@@ -2,7 +2,7 @@
  * [2022 개정 교육과정 교과역량 & NEIS 바이트 선택형 AI 세특 대시보드 패키지]
  * 
  * 저자: 황요한 교사 (진해고등학교)
- * 템플릿 버전: v2.0 (2022 개정교육과정 교과역량 반영 & 선생님별 NEIS 바이트 선택권 완벽 지원)
+ * 브랜드명: 모바일 생생세특 (Live Seteuk) v2.0
  * 백엔드: Google Apps Script + Upstage Solar / Google Gemini AI Multi-Switcher
  * 보안: PropertiesService (구글 서버 암호화 금고) 기반 API Key 안전 관리
  */
@@ -11,7 +11,7 @@
 function doGet(e) {
   var view = (e && e.parameter && e.parameter.view) ? e.parameter.view.toLowerCase() : 'app';
   var fileName = (view === 'dashboard') ? 'dashboard' : 'app';
-  var title = (view === 'dashboard') ? '교사용 관찰기 기록 & AI 세특 완성 대시보드' : 'AI 음성 수업 관찰기 (5분할 휠)';
+  var title = (view === 'dashboard') ? '모바일 생생세특 (Live Seteuk) PC 대시보드' : '모바일 생생세특 (Live Seteuk) - 생생 관찰기';
   
   var htmlOutput;
   try {
@@ -30,12 +30,12 @@ function doGet(e) {
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 
-// 2. 구글 시트 상단 메뉴 생성
+// 2. 구글 시트 상단 메뉴 생성 (7대 탭 양식 세팅으로 통일)
 function onOpen() {
   var ui = SpreadsheetApp.getUi();
   ui.createMenu('🪄 AI 세특 대시보드 시스템')
     .addItem('1. 🔑 API 키 및 2022 교과역량/바이트 보안 설정', 'setApiKeysPrompt')
-    .addItem('2. 📋 시트 6대 탭 자동 양식 세팅', 'setupInitialSheets')
+    .addItem('2. 📋 시트 7대 탭 자동 양식 세팅', 'setupInitialSheets')
     .addItem('3. 🪄 전 학생 누적 기록 ➔ 세특 초안 전체 자동 생성', 'generateAllStudentReportsFromMenu')
     .addToUi();
 }
@@ -43,13 +43,13 @@ function onOpen() {
 function generateAllStudentReportsFromMenu() {
   var result = generateAllStudentReports('all');
   if (result && result.success) {
-    SpreadsheetApp.getUi().alert('🎉 ' + result.count + '명 학생의 AI 세특 초안이 생성되었습니다!');
+    SpreadsheetApp.getUi().alert('🎉 AI 세특 작업 완료!\n\n• 신규/갱신 생성: ' + result.count + '명\n• 기존 유지 (변경 없음): ' + (result.retainedCount || 0) + '명\n• 목표 바이트: ' + result.targetBytes + ' Bytes');
   } else {
     SpreadsheetApp.getUi().alert('오류: ' + (result ? result.message : '알 수 없는 오류'));
   }
 }
 
-// 🛡️ PropertiesService 암호화 보안 금고 API Key 및 2022 개정 교과역량/바이트 설정 대화상자
+// 🛡️ PropertiesService 암호화 보안 금고 API Key 및 2022 개정 교과역량/바이트 설정 대화상자 (\n 이스케이프 교정)
 function setApiKeysPrompt() {
   var ui = SpreadsheetApp.getUi();
   var props = PropertiesService.getScriptProperties();
@@ -64,8 +64,7 @@ function setApiKeysPrompt() {
   // 1. Upstage Key 입력
   var resp1 = ui.prompt(
     '🔑 [보안 설정 1/6] Upstage API Key',
-    'Upstage Solar API 키를 입력하세요.
-(현재 등록 상태: ' + (currentUpstage ? '✅ 등록됨' : '❌ 미등록') + ')',
+    'Upstage Solar API 키를 입력하세요.\n(현재 등록 상태: ' + (currentUpstage ? '✅ 등록됨' : '❌ 미등록') + ')',
     ui.ButtonSet.OK_CANCEL
   );
   if (resp1.getSelectedButton() !== ui.Button.OK) return;
@@ -75,8 +74,7 @@ function setApiKeysPrompt() {
   // 2. Gemini Key 입력
   var resp2 = ui.prompt(
     '🔑 [보안 설정 2/6] Google Gemini API Key (추천)',
-    'Google Gemini API 키를 입력하세요.
-(현재 등록 상태: ' + (currentGemini ? '✅ 등록됨' : '❌ 미등록') + ')',
+    'Google Gemini API 키를 입력하세요.\n(현재 등록 상태: ' + (currentGemini ? '✅ 등록됨' : '❌ 미등록') + ')',
     ui.ButtonSet.OK_CANCEL
   );
   if (resp2.getSelectedButton() !== ui.Button.OK) return;
@@ -86,8 +84,7 @@ function setApiKeysPrompt() {
   // 3. AI 모델 선택 (Gemini vs Upstage)
   var resp3 = ui.prompt(
     '🤖 [보안 설정 3/6] AI 엔진 선택',
-    '사용할 AI 엔진을 입력하세요. [ Gemini ] 또는 [ Upstage ]
-(현재 설정: ' + currentSelectedAI + ')',
+    '사용할 AI 엔진을 입력하세요. [ Gemini ] 또는 [ Upstage ]\n(현재 설정: ' + currentSelectedAI + ')',
     ui.ButtonSet.OK_CANCEL
   );
   if (resp3.getSelectedButton() !== ui.Button.OK) return;
@@ -97,8 +94,7 @@ function setApiKeysPrompt() {
   // 4. 과목명 설정 (2022 개정교육과정 연계)
   var resp4 = ui.prompt(
     '📚 [교과 설정 4/6] 담당 과목명',
-    '담당 과목을 입력하세요 (예: 국어, 수학, 영어, 정보, 통합사회, 통합과학, 행특 등)
-(현재 과목: ' + currentSubject + ')',
+    '담당 과목을 입력하세요 (예: 국어, 수학, 영어, 정보, 통합사회, 통합과학, 행특 등)\n(현재 과목: ' + currentSubject + ')',
     ui.ButtonSet.OK_CANCEL
   );
   if (resp4.getSelectedButton() !== ui.Button.OK) return;
@@ -108,9 +104,7 @@ function setApiKeysPrompt() {
   // 5. 2022 개정교육과정 핵심역량 지정
   var resp5 = ui.prompt(
     '🎯 [교과 설정 5/6] 2022 개정교육과정 핵심역량',
-    '세특 생성 시 강조할 교과 핵심역량을 입력하세요.
-(예: 컴퓨팅 사고력, 협력적 문제해결력, 지식정보처리, 비판적 사고력 등)
-(현재 설정: ' + currentCompetencies + ')',
+    '세특 생성 시 강조할 교과 핵심역량을 입력하세요.\n(예: 컴퓨팅 사고력, 협력적 문제해결력, 지식정보처리, 비판적 사고력 등)\n(현재 설정: ' + currentCompetencies + ')',
     ui.ButtonSet.OK_CANCEL
   );
   if (resp5.getSelectedButton() !== ui.Button.OK) return;
@@ -120,9 +114,7 @@ function setApiKeysPrompt() {
   // 6. NEIS 바이트 목표 선택 (500B / 750B / 1000B / 1500B)
   var resp6 = ui.prompt(
     '📏 [바이트 설정 6/6] NEIS 목표 바이트(Byte) 수',
-    '선생님이 원하시는 세특 목표 바이트 수를 입력하세요.
-[ 500 ] (수업소감형), [ 750 ] (1학기 분량), [ 1000 ], [ 1500 ] (1년 풀세특)
-(현재 설정: ' + currentTargetBytes + ' Bytes)',
+    '선생님이 원하시는 세특 목표 바이트 수를 입력하세요.\n[ 500 ] (수업소감형), [ 750 ] (1학기 분량), [ 1000 ], [ 1500 ] (1년 풀세특)\n(현재 설정: ' + currentTargetBytes + ' Bytes)',
     ui.ButtonSet.OK_CANCEL
   );
   if (resp6.getSelectedButton() === ui.Button.OK && resp6.getResponseText().trim()) {
@@ -152,7 +144,7 @@ function getApiConfig() {
   };
 }
 
-// 2-1. 7대 탭 초기화 함수 (교사 맞춤 템플릿 포함)
+// 2-1. 7대 탭 초기화 함수 (교사 맞춤 [세특템플릿] 시트 추가)
 function setupInitialSheets() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   
@@ -162,7 +154,7 @@ function setupInitialSheets() {
   configSheet.getRange('A3:B3').setValues([['담당 교과명', '국어 / 정보 / 공통']]);
   configSheet.getRange('A4:B4').setValues([['2022 개정교육과정 핵심역량', '비판적 사고력, 지식정보처리 역량, 컴퓨팅 사고력']]);
   configSheet.getRange('A5:B5').setValues([['NEIS 세특 목표 바이트', '1500 Bytes (선택권: 500B, 750B, 1000B, 1500B)']]);
-  configSheet.getRange('A6:B6').setValues([['AI 모델 선택 (Gemini / Upstage)', 'Gemini (gemini-3.1-flash-lite)']]);
+  configSheet.getRange('A6:B6').setValues([['AI 모델 선택 (Gemini / Upstage)', 'Gemini (gemini-1.5-flash)']]);
   configSheet.getRange('A7:B7').setValues([['설정 방법', '상단 메뉴 [🪄 AI 세특 대시보드 시스템] ➔ [1. 🔑 API 키 및 2022 교과역량/바이트 보안 설정] 클릭']]);
   
   var templateSheet = ss.getSheetByName('세특템플릿') || ss.insertSheet('세특템플릿');
@@ -289,39 +281,23 @@ function analyzeObservationFeedback(rawMemo, category) {
     var config = getApiConfig();
 
     var sysPrompt = 
-      "당신은 교사의 학교생활기록부/세특 관찰 기록 작성을 돕는 AI 코치입니다.
-" +
-      "교사가 1차로 입력한 음성 메모를 분석하여 아래 JSON 항목으로만 응답하십시오:
-" +
-      "1. hasStudentInfo: boolean (음성에 학번이나 학생 이름이 포함되어 있는지 여부)
-" +
-      "2. extractedName: string (추출된 학생 이름, 없으면 "")
-" +
-      "3. extractedHakbun: string (추출된 학번, 없으면 "")
-" +
-      "4. feedbackTitle: string (한 줄 요약 피드백, 예: "⚠️ 학생 이름 누락됨" 또는 "💡 2022 개정 교과역량 연계 추천")
-" +
-      "5. feedbackMsg: string (교사에게 2022 개정 교육과정 역량 관점에서 친절하게 제안하는 1~2문장의 코칭 팁)
-
-" +
-      "반드시 JSON 형식으로만 응답하십시오:
-" +
-      "{
-" +
-      '  "hasStudentInfo": true,
-' +
-      '  "extractedName": "강해린",
-' +
-      '  "extractedHakbun": "30101",
-' +
-      '  "feedbackTitle": "💡 구체적 사례 및 교과역량 보강 추천",
-' +
-      '  "feedbackMsg": "사용한 자료나 탐구 주제를 덧붙이시면 2022 개정 교과역량이 돋보이는 감동적인 세특이 완성됩니다!"
-' +
+      "당신은 교사의 학교생활기록부/세특 관찰 기록 작성을 돕는 AI 코치입니다.\n" +
+      "교사가 1차로 입력한 음성 메모를 분석하여 아래 JSON 항목으로만 응답하십시오:\n" +
+      "1. hasStudentInfo: boolean (음성에 학번이나 학생 이름이 포함되어 있는지 여부)\n" +
+      "2. extractedName: string (추출된 학생 이름, 없으면 \"\")\n" +
+      "3. extractedHakbun: string (추출된 학번, 없으면 \"\")\n" +
+      "4. feedbackTitle: string (한 줄 요약 피드백, 예: \"⚠️ 학생 이름 누락됨\" 또는 \"💡 2022 개정 교과역량 연계 추천\")\n" +
+      "5. feedbackMsg: string (교사에게 2022 개정 교육과정 역량 관점에서 친절하게 제안하는 1~2문장의 코칭 팁)\n\n" +
+      "반드시 JSON 형식으로만 응답하십시오:\n" +
+      "{\n" +
+      '  "hasStudentInfo": true,\n' +
+      '  "extractedName": "강해린",\n' +
+      '  "extractedHakbun": "30101",\n' +
+      '  "feedbackTitle": "💡 구체적 사례 및 교과역량 보강 추천",\n' +
+      '  "feedbackMsg": "사용한 자료나 탐구 주제를 덧붙이시면 2022 개정 교과역량이 돋보이는 감동적인 세특이 완성됩니다!"\n' +
       "}";
 
-    var userPrompt = "관찰 영역: [" + category + "]
-1차 음성 메모: " + rawMemo;
+    var userPrompt = "관찰 영역: [" + category + "]\n1차 음성 메모: " + rawMemo;
     var aiResponseText = "";
 
     if (config.selectedAI.toUpperCase().indexOf('GEMINI') >= 0) {
@@ -355,14 +331,14 @@ function analyzeObservationFeedback(rawMemo, category) {
   }
 }
 
-// 4. 모바일 5분할 휠 음성 입력 ➔ 0.3초 초고속 학번/이름 파싱 & 날것(Raw) 메모 즉시 저장 (AI 세특 어조 완성과 분리)
-function processObservationWithAIExtraction(rawMemo, category) {
+// ⚡ 4. 0.3초 초고속 모바일 파싱 & 즉시 저장 (메인 호출 함수명: processObservationFast)
+function processObservationFast(rawMemo, category) {
   try {
     category = category || '교과';
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var obsSheet = ss.getSheetByName('시간대별기록') || ss.getSheets()[0];
     
-    // 1초도 지체 없는 학번/이름 정규식 파싱
+    // 안전한 학번/이름 및 학생명렬 A열 반 매핑 파싱
     var parsed = parseHakbunAndNameFast(rawMemo);
     var now = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm');
 
@@ -390,7 +366,7 @@ function processObservationWithAIExtraction(rawMemo, category) {
   }
 }
 
-// ⚡ 0.3초 내장 학번/이름 초고속 파싱 함수 (API 대기시간 0초)
+// ⚡ 0.3초 내장 학번/이름 초고속 파싱 함수 (학생명렬 시트 A열 반 매핑 최우선 적용)
 function parseHakbunAndNameFast(rawMemo) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var studentSheet = ss.getSheetByName('학생명렬');
@@ -399,30 +375,41 @@ function parseHakbunAndNameFast(rawMemo) {
   var name = '';
   var classNum = 1;
 
-  // 1. 5자리 학번 패턴 검색 (예: 30101, 30215 등)
-  var hakbunMatch = rawMemo.match(/\b([1-3][0-1][0-9][0-3][0-9])\b/);
+  // 1. 유연한 학번 패턴 검색 (예: 30101, 32045, 10101 등 4~5자리 숫자)
+  var hakbunMatch = rawMemo.match(/\b([1-3]?\d{4})\b/) || rawMemo.match(/\b(\d{4,5})\b/);
   if (hakbunMatch) {
     hakbun = hakbunMatch[1];
-    classNum = parseInt(hakbun.substring(1, 3)) || 1;
   }
 
-  // 2. 학생명렬 시트가 있으면 학생 이름 패턴 자동 매칭
+  // 2. 학생명렬 시트에서 이름 및 A열 반(class) 매핑 최우선 조회
   if (studentSheet && studentSheet.getLastRow() > 1) {
     var data = studentSheet.getRange(2, 1, studentSheet.getLastRow() - 1, 4).getValues();
     for (var i = 0; i < data.length; i++) {
+      var sClass = parseInt(data[i][0]) || 1;
+      var sHakbun = data[i][2] ? data[i][2].toString().trim() : '';
       var sName = data[i][3] ? data[i][3].toString().trim() : '';
+
+      // 이름으로 매칭
       if (sName && rawMemo.indexOf(sName) >= 0) {
         name = sName;
-        if (!hakbun && data[i][2]) {
-          hakbun = data[i][2].toString().trim();
-          classNum = parseInt(data[i][0]) || 1;
-        }
+        classNum = sClass; // A열 반 번호 적용
+        if (!hakbun && sHakbun) hakbun = sHakbun;
+        break;
+      }
+      // 학번으로 매칭
+      if (hakbun && sHakbun && sHakbun === hakbun) {
+        name = sName;
+        classNum = sClass; // A열 반 번호 적용
         break;
       }
     }
   }
 
-  if (!name && !hakbun) name = '미인식';
+  // 매핑 실패 시 fallback
+  if (!hakbun && !name) name = '미인식';
+  if (hakbun && classNum === 1 && hakbun.length >= 5) {
+    classNum = parseInt(hakbun.substring(1, 3)) || 1;
+  }
 
   return {
     hakbun: hakbun,
@@ -431,9 +418,8 @@ function parseHakbunAndNameFast(rawMemo) {
   };
 }
 
-
-// 4-1. 기존 파서
-function processObservationWithAIExtraction(rawMemo, category) {
+// 🤖 4-1. AI 기반 관찰 파서 & 문장 정돈 (함수명 명확 분리: processObservationWithAI)
+function processObservationWithAI(rawMemo, category) {
   try {
     category = category || '교과';
     var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -442,36 +428,27 @@ function processObservationWithAIExtraction(rawMemo, category) {
     var config = getApiConfig();
 
     var sysPrompt = 
-      "당신은 대한민국 학교의 교사 보조 AI입니다.
-" +
-      "교사가 녹음한 음성 텍스트에서 [학번 또는 반/번호/이름]을 추출하고, 관찰 내용을 관찰 문장어조('~함.', '~를 보여줌.')로 정돈하십시오.
-" +
-      "반드시 아래 JSON 형식으로만 응답하십시오 (다른 설명 금지):
-" +
-      "{
-" +
-      '  "hakbun": "추출된 학번 (예: 30101 또는 미상상 시 미입력)",
-' +
-      '  "name": "추출된 학생 이름 (예: 강해린)",
-' +
-      '  "classNum": 추출된 반 숫자 (예: 1),
-' +
-      '  "refinedText": "생기부 어조로 정돈된 관찰 문장 1~2개"
-' +
+      "당신은 대한민국 학교의 교사 보조 AI입니다.\n" +
+      "교사가 녹음한 음성 텍스트에서 [학번 또는 반/번호/이름]을 추출하고, 관찰 내용을 관찰 문장어조('~함.', '~를 보여줌.')로 정돈하십시오.\n" +
+      "반드시 아래 JSON 형식으로만 응답하십시오 (다른 설명 금지):\n" +
+      "{\n" +
+      '  "hakbun": "추출된 학번 (예: 30101 또는 미인식 시 빈문자열)",\n' +
+      '  "name": "추출된 학생 이름 (예: 강해린)",\n' +
+      '  "classNum": 추출된 반 숫자 (예: 1),\n' +
+      '  "refinedText": "생기부 어조로 정돈된 관찰 문장 1~2개"\n' +
       "}";
 
-    var userPrompt = "관찰 영역: [" + category + "]
-녹음 음성 텍스트: " + rawMemo;
+    var userPrompt = "관찰 영역: [" + category + "]\n녹음 음성 텍스트: " + rawMemo;
     var aiResponseText = "";
 
     if (config.selectedAI.toUpperCase().indexOf('GEMINI') >= 0) {
       if (!config.geminiKey) {
-        throw new Error('Gemini API Key가 등록되지 않았습니다. 구글 시트 메뉴 [1. 🔑 API 키 및 2022 교과역량/바이트 보안 설정]에서 키를 등록해주세요.');
+        throw new Error('Gemini API Key가 등록되지 않았습니다. 구글 시트 메뉴 [1. 🔑 API 키 보안 설정]에서 키를 등록해주세요.');
       }
       aiResponseText = callGeminiAPI(config.geminiKey, sysPrompt, userPrompt);
     } else {
       if (!config.upstageKey) {
-        throw new Error('Upstage API Key가 등록되지 않았습니다. 구글 시트 메뉴 [1. 🔑 API 키 및 2022 교과역량/바이트 보안 설정]에서 키를 등록해주세요.');
+        throw new Error('Upstage API Key가 등록되지 않았습니다. 구글 시트 메뉴 [1. 🔑 API 키 보안 설정]에서 키를 등록해주세요.');
       }
       aiResponseText = callUpstageSolarAPI(config.upstageKey, sysPrompt, userPrompt);
     }
@@ -520,11 +497,11 @@ function parseAIJsonResponse(responseText, rawMemo) {
   }
 }
 
-// 5. Upstage API 호출
+// 5. Upstage API 호출 (공식 유효 상용 모델 ID: solar-pro 적용)
 function callUpstageSolarAPI(apiKey, systemPrompt, userPrompt) {
   var url = 'https://api.upstage.ai/v1/chat/completions';
   var payload = {
-    "model": "solar-pro3",
+    "model": "solar-pro",
     "messages": [
       { "role": "system", "content": systemPrompt },
       { "role": "user", "content": userPrompt }
@@ -547,9 +524,9 @@ function callUpstageSolarAPI(apiKey, systemPrompt, userPrompt) {
   }
 }
 
-// 5-1. Gemini API 호출 (gemini-3.1-flash-lite 적용)
+// 5-1. Gemini API 호출 (공식 표준 상용 모델 ID: gemini-1.5-flash 적용)
 function callGeminiAPI(apiKey, systemPrompt, userPrompt) {
-  var url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=' + apiKey;
+  var url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' + apiKey;
   var payload = {
     "systemInstruction": { "parts": [{ "text": systemPrompt }] },
     "contents": [{ "parts": [{ "text": userPrompt }] }],
@@ -705,15 +682,14 @@ function updateStudentSummary(hakbun, name, category, newRefinedText) {
   if (foundRow > 1) {
     var count = summarySheet.getRange(foundRow, 3).getValue() + 1;
     var prevContent = summarySheet.getRange(foundRow, 4).getValue().toString().trim();
-    var updatedContent = prevContent ? (prevContent + "
-" + formattedEntry) : formattedEntry;
+    var updatedContent = prevContent ? (prevContent + "\n" + formattedEntry) : formattedEntry;
     summarySheet.getRange(foundRow, 3, 1, 2).setValues([[count, updatedContent]]);
   } else {
     summarySheet.appendRow([hakbun, name, 1, formattedEntry]);
   }
 }
 
-// 8. 🎯 교사 맞춤 템플릿 + 5명 30초 휴식(할루시네이션 방지) + 스마트 캐싱(변경 없으면 유지) AI 세특 생성
+// 8. 🎯 교사 맞춤 템플릿 + 5명 15초 휴식(GAS 6분 시간제한 및 할루시네이션 방지) + 스마트 캐싱(변경 없으면 유지) AI 세특 생성
 function generateAllStudentReports(classNum, customSubject, customCompetency, customBytes) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var summarySheet = ss.getSheetByName('학생별모아보기');
@@ -802,12 +778,12 @@ function generateAllStudentReports(classNum, customSubject, customCompetency, cu
       continue; // 새로운 관찰 데이터가 없으므로 이전 세특 100% 유지!
     }
 
-    // 💡 5명 신규 생성 시마다 AI 과열 및 할루시네이션 완벽 방지를 위한 30초 대기
+    // 💡 5명 신규 생성 시마다 15초 대기 (Rate Limit 차단 및 GAS 6분 타임아웃 안심 세이프가드)
     if (generatedCount > 0 && generatedCount % 5 === 0) {
-      Logger.log("5명 생성 완료: AI 과열 및 할루시네이션 방지를 위해 30초간 휴식 대기 중...");
-      Utilities.sleep(30000); // 30초 휴식
+      Logger.log("5명 생성 완료: AI 휴식 및 Rate Limit 방지를 위해 15초간 대기 중...");
+      Utilities.sleep(15000); // 15초 휴식
     } else if (generatedCount > 0) {
-      Utilities.sleep(1500); // 1.5초 기본 휴식
+      Utilities.sleep(1000); // 1초 기본 휴식
     }
 
     var userPrompt = "담당 과목: [" + subject + "]\n" +
@@ -860,7 +836,6 @@ function getByteLength(str) {
   if (!str) return 0;
   return Utilities.newBlob(str).getBytes().length;
 }
-
 
 // 6-2. [학생명렬] 시트 기반 실제 존재하는 학년과 반 동적 추출 유틸리티
 function getAvailableGradesAndClasses() {

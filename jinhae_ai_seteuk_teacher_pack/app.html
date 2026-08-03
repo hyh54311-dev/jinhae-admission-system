@@ -224,7 +224,7 @@
                     run: {
                         withSuccessHandler: function(cb) { this._success = cb; return this; },
                         withFailureHandler: function(cb) { this._failure = cb; return this; },
-                        processObservationWithAIExtraction: function(memo, category) {
+                        processObservationFast: function(memo, category) {
                             var self = this;
                             setTimeout(function() {
                                 if (self._success) {
@@ -534,7 +534,7 @@
                     checkPendingBufferUI();
                     alert('통신 오류로 메모가 안전하게 임시보관되었습니다.');
                 })
-                .processObservationWithAIExtraction(rawMemo, currentCategory);
+                .processObservationFast(rawMemo, currentCategory);
         }
 
         function getPendingBuffer() {
