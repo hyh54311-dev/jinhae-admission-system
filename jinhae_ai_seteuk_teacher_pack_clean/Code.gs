@@ -422,6 +422,32 @@ function generateAllStudentReportsMenu() {
   }
 }
 
+// 영역(카테고리)과 대상 과목 간의 정확한 필터링 매칭 함수
+function isCategoryMatch(obsCategory, targetSubject) {
+  if (!targetSubject) return true;
+  var cat = (obsCategory || '기타').trim();
+  var subj = targetSubject.trim();
+
+  if (subj === '동아리') {
+    return cat.indexOf('동아리') >= 0;
+  }
+  if (subj === '행특' || subj === '행동특성') {
+    return cat.indexOf('행특') >= 0 || cat.indexOf('행동') >= 0;
+  }
+  if (subj === '자율/진로' || subj === '자율' || subj === '진로') {
+    return cat.indexOf('자율') >= 0 || cat.indexOf('진로') >= 0;
+  }
+
+  // 교과 세특 (국어, 수학, 영어, 정보, 통합사회, 통합과학 등)
+  // '동아리', '행특', '자율', '진로' 카테고리는 교과 세특 생성 시 엄격히 제외
+  if (cat.indexOf('동아리') >= 0 || cat.indexOf('행특') >= 0 || cat.indexOf('행동') >= 0 || cat.indexOf('자율') >= 0 || cat.indexOf('진로') >= 0) {
+    return false;
+  }
+
+  // 대상 교과명(예: 국어)과 동일하거나, 범용 '교과' 카테고리인 경우만 허용
+  return (cat === subj || cat === '교과' || cat.indexOf(subj) >= 0);
+}
+
 function generateAllStudentReports(classNum, customSubject, customCompetency, customBytes) {
   try {
     var config = getApiConfig();
@@ -468,11 +494,13 @@ function generateAllStudentReports(classNum, customSubject, customCompetency, cu
         Utilities.sleep(15000);
       }
 
-      // 해당 학생의 관찰 기록 필터링
+      // 해당 학생 및 선택된 과목/영역 카테고리와 일치하는 관찰 기록만 필터링
       var sHakbun = s.hakbun ? s.hakbun.toString() : '';
       var sName = s.name ? s.name.toString() : '';
       var studentObs = allObs.filter(function(o) {
-        return (sHakbun && o.hakbun === sHakbun) || (sName && o.name === sName);
+        var matchStudent = (sHakbun && o.hakbun === sHakbun) || (sName && o.name === sName);
+        var matchCategory = isCategoryMatch(o.category, subject);
+        return matchStudent && matchCategory;
       });
 
       // 관찰 기록이 없는 학생은 기존 세특 유지 (스킵)
