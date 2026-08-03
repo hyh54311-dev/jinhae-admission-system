@@ -425,27 +425,38 @@ function generateAllStudentReportsMenu() {
 // 영역(카테고리)과 대상 과목 간의 정확한 필터링 매칭 함수
 function isCategoryMatch(obsCategory, targetSubject) {
   if (!targetSubject) return true;
-  var cat = (obsCategory || '기타').trim();
+  var cat = (obsCategory || '교과').trim();
   var subj = targetSubject.trim();
 
-  if (subj === '동아리') {
+  // 1. 동아리
+  if (subj === '동아리' || subj.indexOf('동아리') >= 0) {
     return cat.indexOf('동아리') >= 0;
   }
-  if (subj === '행특' || subj === '행동특성') {
+  // 2. 행특 (행동특성)
+  if (subj === '행특' || subj.indexOf('행특') >= 0 || subj.indexOf('행동') >= 0) {
     return cat.indexOf('행특') >= 0 || cat.indexOf('행동') >= 0;
   }
-  if (subj === '자율/진로' || subj === '자율' || subj === '진로') {
+  // 3. 자율
+  if (subj === '자율' || subj.indexOf('자율') >= 0) {
+    return cat.indexOf('자율') >= 0;
+  }
+  // 4. 진로
+  if (subj === '진로' || subj.indexOf('진로') >= 0) {
+    return cat.indexOf('진로') >= 0;
+  }
+  // 5. 자율/진로 (통합)
+  if (subj === '자율/진로') {
     return cat.indexOf('자율') >= 0 || cat.indexOf('진로') >= 0;
   }
 
-  // 교과 세특 (국어, 수학, 영어, 정보, 통합사회, 통합과학 등)
+  // 6. 교과 세특 (화법과 작문, 독서, 미적분, 정보, 교과 등 세부 과목명)
   // '동아리', '행특', '자율', '진로' 카테고리는 교과 세특 생성 시 엄격히 제외
   if (cat.indexOf('동아리') >= 0 || cat.indexOf('행특') >= 0 || cat.indexOf('행동') >= 0 || cat.indexOf('자율') >= 0 || cat.indexOf('진로') >= 0) {
     return false;
   }
 
-  // 대상 교과명(예: 국어)과 동일하거나, 범용 '교과' 카테고리인 경우만 허용
-  return (cat === subj || cat === '교과' || cat.indexOf(subj) >= 0);
+  // 동아리/행특/자율/진로가 아닌 모든 교과 관찰 메모는 교과 세특 생성을 위해 허용
+  return true;
 }
 
 function generateAllStudentReports(classNum, customSubject, customCompetency, customBytes) {

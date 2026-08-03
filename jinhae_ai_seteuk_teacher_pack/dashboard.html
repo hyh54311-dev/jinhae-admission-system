@@ -79,26 +79,22 @@
                     <i data-lucide="sliders" class="w-3.5 h-3.5"></i> AI 세특 생성 컨트롤:
                 </span>
                 
-                <!-- 생성 대상 영역/과목 선택 (5대 영역 1:1 완벽 연동) -->
+                <!-- 1. 생성 영역 선택 (교과 / 동아리 / 자율 / 진로 / 행특) -->
                 <div class="flex items-center gap-1 bg-indigo-900/80 px-2.5 py-1 rounded-xl border border-indigo-700/60">
-                    <span class="text-indigo-300 font-bold">생성 영역:</span>
-                    <select id="selSubject" onchange="onSubjectChange(this.value)" class="bg-indigo-950 text-white font-bold outline-none rounded px-1.5 py-0.5 text-xs">
-                        <optgroup label="📘 교과 세특 영역">
-                            <option value="교과">교과 (전체)</option>
-                            <option value="국어" selected>국어</option>
-                            <option value="수학">수학</option>
-                            <option value="영어">영어</option>
-                            <option value="정보">정보</option>
-                            <option value="통합사회">통합사회</option>
-                            <option value="통합과학">통합과학</option>
-                        </optgroup>
-                        <optgroup label="🎨 창체 & 행특 영역">
-                            <option value="동아리">동아리 (동아리 활동)</option>
-                            <option value="자율">자율 (자율 활동)</option>
-                            <option value="진로">진로 (진로 활동)</option>
-                            <option value="행특">행특 (행동특성 및 종합의견)</option>
-                        </optgroup>
+                    <span class="text-indigo-300 font-bold shrink-0">생성 영역:</span>
+                    <select id="selDomain" onchange="onDomainChange(this.value)" class="bg-indigo-950 text-white font-bold outline-none rounded px-1.5 py-0.5 text-xs">
+                        <option value="교과" selected>📘 교과 세특 (시트 지정 과목)</option>
+                        <option value="동아리">🎨 동아리 (동아리 활동)</option>
+                        <option value="자율">🕊️ 자율 (자율 활동)</option>
+                        <option value="진로">🚀 진로 (진로 활동)</option>
+                        <option value="행특">🌟 행특 (행동특성 및 종합의견)</option>
                     </select>
+                </div>
+
+                <!-- 2. 세부 과목명 직접 수정/입력 -->
+                <div id="subjectContainer" class="flex items-center gap-1 bg-indigo-900/80 px-2.5 py-1 rounded-xl border border-indigo-700/60">
+                    <span class="text-indigo-300 font-bold shrink-0">세부 과목명:</span>
+                    <input type="text" id="txtSubjectName" value="국어" placeholder="예: 화법과 작문, 독서, 미적분" class="bg-transparent text-white font-bold outline-none w-28 text-xs">
                 </div>
 
                 <!-- 2022 교과역량 선택 및 자유 편집 -->
@@ -292,10 +288,23 @@
         }
 
         function syncConfigToSheet() {
-            var subj = document.getElementById('selSubject').value;
+            var domain = document.getElementById('selDomain').value;
+            var subjName = document.getElementById('txtSubjectName').value;
             var comp = document.getElementById('txtCompetency').value;
             var bytes = document.getElementById('selTargetBytes').value;
-            google.script.run.saveDashboardConfig(subj, comp, bytes);
+
+            var targetSubject = (domain === '교과') ? (subjName || '교과') : domain;
+            google.script.run.saveDashboardConfig(targetSubject, comp, bytes);
+        }
+
+        function onDomainChange(val) {
+            var container = document.getElementById('subjectContainer');
+            if (val === '교과') {
+                if (container) container.classList.remove('hidden');
+            } else {
+                if (container) container.classList.add('hidden');
+            }
+            onSubjectChange(val);
         }
 
         function applyCompetencyPreset(val) {
@@ -330,8 +339,10 @@
             loadGradeAndClassConfig();
             loadSpreadsheetUrl();
 
+            var subjNameEl = document.getElementById('txtSubjectName');
             var compEl = document.getElementById('txtCompetency');
             var bytesEl = document.getElementById('selTargetBytes');
+            if (subjNameEl) subjNameEl.addEventListener('change', syncConfigToSheet);
             if (compEl) compEl.addEventListener('change', syncConfigToSheet);
             if (bytesEl) bytesEl.addEventListener('change', syncConfigToSheet);
         });
@@ -399,13 +410,23 @@
 
                         // 백엔드 config 데이터 바인딩
                         if (data.config) {
-                            const subjEl = document.getElementById('selSubject');
+                            const domainEl = document.getElementById('selDomain');
+                            const subjNameEl = document.getElementById('txtSubjectName');
                             const compEl = document.getElementById('txtCompetency');
                             const bytesEl = document.getElementById('selTargetBytes');
 
-                            if (subjEl && data.config.subjectName) subjEl.value = data.config.subjectName;
+                            if (data.config.subjectName) {
+                                var sName = data.config.subjectName;
+                                if (['동아리', '자율', '진로', '행특'].indexOf(sName) >= 0) {
+                                    if (domainEl) domainEl.value = sName;
+                                } else {
+                                    if (domainEl) domainEl.value = '교과';
+                                    if (subjNameEl) subjNameEl.value = sName;
+                                }
+                            }
                             if (compEl && data.config.subjectCompetencies) compEl.value = data.config.subjectCompetencies;
                             if (bytesEl && data.config.targetBytes) bytesEl.value = data.config.targetBytes;
+                            onDomainChange(domainEl ? domainEl.value : '교과');
                         }
 
                         renderTimeline();
