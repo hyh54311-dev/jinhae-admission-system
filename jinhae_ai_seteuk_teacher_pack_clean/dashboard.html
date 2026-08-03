@@ -79,10 +79,10 @@
                     <i data-lucide="sliders" class="w-3.5 h-3.5"></i> AI 세특 생성 컨트롤:
                 </span>
                 
-                <!-- 과목 선택 -->
+                <!-- 과목 선택 (과목 변경 시 역량 자동 세팅) -->
                 <div class="flex items-center gap-1 bg-indigo-900/80 px-2.5 py-1 rounded-xl border border-indigo-700/60">
                     <span class="text-indigo-300 font-bold">과목:</span>
-                    <select id="selSubject" class="bg-indigo-950 text-white font-bold outline-none rounded px-1.5 py-0.5">
+                    <select id="selSubject" onchange="onSubjectChange(this.value)" class="bg-indigo-950 text-white font-bold outline-none rounded px-1.5 py-0.5">
                         <option value="국어">국어</option>
                         <option value="수학">수학</option>
                         <option value="영어">영어</option>
@@ -94,10 +94,20 @@
                     </select>
                 </div>
 
-                <!-- 2022 교과역량 입력 -->
-                <div class="flex items-center gap-1 bg-indigo-900/80 px-2.5 py-1 rounded-xl border border-indigo-700/60 flex-1 min-w-[200px]">
-                    <span class="text-indigo-300 font-bold">2022 교과역량:</span>
-                    <input type="text" id="txtCompetency" value="비판적 사고력, 지식정보처리 역량" placeholder="강조할 핵심역량 입력" class="bg-transparent text-white font-medium outline-none w-full text-xs">
+                <!-- 2022 교과역량 선택 및 자유 편집 -->
+                <div class="flex items-center gap-1 bg-indigo-900/80 px-2.5 py-1 rounded-xl border border-indigo-700/60 flex-1 min-w-[280px]">
+                    <span class="text-indigo-300 font-bold shrink-0">2022 교과역량:</span>
+                    <select id="selCompetencyPreset" onchange="applyCompetencyPreset(this.value)" class="bg-indigo-950 text-white font-bold outline-none rounded px-1.5 py-0.5 text-xs border border-indigo-700/60">
+                        <option value="">-- 프리셋 선택 --</option>
+                        <option value="비판적·창의적 사고 역량, 지식정보처리 역량">비판적·창의적 사고 + 지식정보처리</option>
+                        <option value="창의성 역량, 문제 해결 역량">창의성 + 문제 해결 역량</option>
+                        <option value="협력적 소통 역량, 공동체 역량">협력적 소통 + 공동체 역량</option>
+                        <option value="자율적 관리 역량, 진로 개발 역량">자율적 관리 + 진로 개발 역량</option>
+                        <option value="디지털·미디어 소통 역량, 컴퓨팅 사고력">디지털 미디어 + 컴퓨팅 사고력</option>
+                        <option value="추론 역량, 과학적 문제 해결력">추론 역량 + 과학적 탐구력</option>
+                        <option value="심미적 감성 역량, 문화 향유 역량">심미적 감성 + 문화 향유 역량</option>
+                    </select>
+                    <input type="text" id="txtCompetency" value="비판적·창의적 사고 역량, 지식정보처리 역량" placeholder="자유롭게 직접 수정/입력 가능" class="bg-transparent text-white font-medium outline-none w-full text-xs border-l border-indigo-700/60 pl-2">
                 </div>
 
                 <!-- NEIS 바이트 선택 -->
@@ -272,6 +282,28 @@
                     }
                 }
             };
+        }
+
+        function applyCompetencyPreset(val) {
+            if (val) {
+                document.getElementById('txtCompetency').value = val;
+            }
+        }
+
+        function onSubjectChange(subj) {
+            const compMap = {
+                '국어': '비판적·창의적 사고 역량, 지식정보처리 역량',
+                '수학': '추론 역량, 문제 해결 역량, 의사소통 역량',
+                '영어': '언어 역량, 자기관리 역량, 공동체 역량',
+                '정보': '컴퓨팅 사고력, 협력적 문제해결 역량, 디지털 소통 역량',
+                '통합사회': '비판적 사고력, 정보 활용 역량, 공동체 역량',
+                '통합과학': '과학적 탐구 능력, 과학적 문제 해결력',
+                '행특': '자율적 관리 역량, 공동체·대인관계 역량',
+                '자율/진로': '진로 개발 역량, 자기주도 탐구 역량'
+            };
+            if (compMap[subj]) {
+                document.getElementById('txtCompetency').value = compMap[subj];
+            }
         }
 
         window.addEventListener('DOMContentLoaded', () => {
