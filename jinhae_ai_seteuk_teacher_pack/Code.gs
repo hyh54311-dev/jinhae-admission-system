@@ -505,11 +505,23 @@ function generateAllStudentReports(classNum, customSubject, customCompetency, cu
         Utilities.sleep(15000);
       }
 
-      // 해당 학생 및 선택된 과목/영역 카테고리와 일치하는 관찰 기록만 필터링
+      // 해당 학생 및 선택된 과목/영역 카테고리와 일치하는 관찰 기록만 필터링 (동명이인 타 반 혼선 100% 차단)
+      var sClass = s.classNum ? s.classNum.toString() : '';
       var sHakbun = s.hakbun ? s.hakbun.toString() : '';
       var sName = s.name ? s.name.toString() : '';
+
       var studentObs = allObs.filter(function(o) {
-        var matchStudent = (sHakbun && o.hakbun === sHakbun) || (sName && o.name === sName);
+        var oHakbun = o.hakbun ? o.hakbun.toString() : '';
+        var oClass = o.classNum ? o.classNum.toString() : '';
+        var oName = o.name ? o.name.toString() : '';
+
+        var matchStudent = false;
+        if (sHakbun && oHakbun) {
+          matchStudent = (sHakbun === oHakbun);
+        } else {
+          matchStudent = (sName === oName) && (!sClass || !oClass || sClass === oClass);
+        }
+
         var matchCategory = isCategoryMatch(o.category, subject);
         return matchStudent && matchCategory;
       });

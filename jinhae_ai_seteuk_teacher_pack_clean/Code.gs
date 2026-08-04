@@ -422,30 +422,32 @@ function generateAllStudentReportsMenu() {
   }
 }
 
-// 영역(카테고리)과 대상 과목 간의 정확한 필터링 매칭 함수
 function isCategoryMatch(obsCategory, targetSubject) {
   if (!targetSubject) return true;
-  var cat = (obsCategory || '기타').trim();
+  var cat = (obsCategory || '교과').trim();
   var subj = targetSubject.trim();
 
-  if (subj === '동아리') {
+  if (subj === '동아리' || subj.indexOf('동아리') >= 0) {
     return cat.indexOf('동아리') >= 0;
   }
-  if (subj === '행특' || subj === '행동특성') {
+  if (subj === '행특' || subj.indexOf('행특') >= 0 || subj.indexOf('행동') >= 0) {
     return cat.indexOf('행특') >= 0 || cat.indexOf('행동') >= 0;
   }
-  if (subj === '자율/진로' || subj === '자율' || subj === '진로') {
+  if (subj === '자율' || subj.indexOf('자율') >= 0) {
+    return cat.indexOf('자율') >= 0;
+  }
+  if (subj === '진로' || subj.indexOf('진로') >= 0) {
+    return cat.indexOf('진로') >= 0;
+  }
+  if (subj === '자율/진로') {
     return cat.indexOf('자율') >= 0 || cat.indexOf('진로') >= 0;
   }
 
-  // 교과 세특 (국어, 수학, 영어, 정보, 통합사회, 통합과학 등)
-  // '동아리', '행특', '자율', '진로' 카테고리는 교과 세특 생성 시 엄격히 제외
   if (cat.indexOf('동아리') >= 0 || cat.indexOf('행특') >= 0 || cat.indexOf('행동') >= 0 || cat.indexOf('자율') >= 0 || cat.indexOf('진로') >= 0) {
     return false;
   }
 
-  // 대상 교과명(예: 국어)과 동일하거나, 범용 '교과' 카테고리인 경우만 허용
-  return (cat === subj || cat === '교과' || cat.indexOf(subj) >= 0);
+  return true;
 }
 
 function generateAllStudentReports(classNum, customSubject, customCompetency, customBytes) {
@@ -465,10 +467,8 @@ function generateAllStudentReports(classNum, customSubject, customCompetency, cu
       reportSheet = ss.getSheetByName('세특초안생성');
     }
 
-    // 세특템플릿 시트 교사 맞춤 지침 로드
     var templateGuidelines = getTemplateGuidelines();
 
-    // 시간대별기록 전체 로드 (학생별 관찰 기록 매칭용)
     var allObs = [];
     if (obsSheet && obsSheet.getLastRow() > 1) {
       var obsData = obsSheet.getDataRange().getValues();
@@ -489,12 +489,10 @@ function generateAllStudentReports(classNum, customSubject, customCompetency, cu
     for (var i = 0; i < students.length; i++) {
       var s = students[i];
 
-      // 5명 단위로 15초 대기 (AI API 과부하 방지 & 할루시네이션 방지)
       if (count > 0 && count % 5 === 0) {
         Utilities.sleep(15000);
       }
 
-      // 해당 학생 및 선택된 과목/영역 카테고리와 일치하는 관찰 기록만 필터링
       var sHakbun = s.hakbun ? s.hakbun.toString() : '';
       var sName = s.name ? s.name.toString() : '';
       var studentObs = allObs.filter(function(o) {
@@ -503,24 +501,21 @@ function generateAllStudentReports(classNum, customSubject, customCompetency, cu
         return matchStudent && matchCategory;
       });
 
-      // 관찰 기록이 없는 학생은 기존 세특 유지 (스킵)
       if (studentObs.length === 0) {
         retainedCount++;
         continue;
       }
 
       var obsText = studentObs.map(function(o) {
-        return '[' + (o.category || '기타') + '] ' + o.rawMemo;
+        var cleanMemo = o.rawMemo.replace(/([1-9]|10)\s*반\s*([0-3]?\d)\s*번/g, '').trim();
+        return '[' + (o.category || '기타') + '] ' + cleanMemo;
       }).join('\n');
 
-      // AI 프롬프트 구성 및 실제 API 호출
       var prompt = buildSeteukPrompt(sName, subject, competency, bytesTarget, obsText, templateGuidelines);
       var aiResult = callAI(prompt);
 
-      // AI 실패 시 fallback 템플릿 사용
       var reportText = aiResult || buildFallbackReport(sName, subject, competency, studentObs);
 
-      // 바이트 초과 시 자동 트리밍
       reportText = trimToBytes(reportText, bytesTarget);
 
       var timestamp = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm');
