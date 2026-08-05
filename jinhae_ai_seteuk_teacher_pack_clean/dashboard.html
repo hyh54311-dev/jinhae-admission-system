@@ -622,13 +622,19 @@
 
         function triggerGenerateReports() {
             const className = (currentClass === 'all') ? '전체 반' : `${currentClass}반`;
-            const subjectEl = document.getElementById('selSubject');
+
+            // [FIX #2] 원본은 존재하지 않는 id('selSubject')를 참조해서 항상 국어로만
+            // 생성되던 버그가 있었습니다. syncConfigToSheet()와 동일한 방식으로
+            // 실제 선택된 영역(교과/동아리/자율/진로/행특)과 세부 과목명을 읽어옵니다.
+            const domainEl = document.getElementById('selDomain');
+            const subjNameEl = document.getElementById('txtSubjectName');
             const compEl = document.getElementById('txtCompetency');
             const bytesEl = document.getElementById('selTargetBytes');
 
-            const subject = subjectEl ? subjectEl.value : '국어';
+            const domain = domainEl ? domainEl.value : '교과';
+            const subject = (domain === '교과') ? ((subjNameEl && subjNameEl.value) || '교과') : domain;
             const competency = compEl ? compEl.value : '비판적 사고력, 지식정보처리 역량';
-            const bytes = bytesEl ? bytesEl.value : '1500';
+            const bytes = bytesEl ? bytesEl.value : '900';
 
             if (!confirm(`[${className}] 학생들의 AI 세특 초안 생성을 시작할까요?
 
@@ -636,7 +642,7 @@
 • ⏱️ 할루시네이션 방지: 5명 작성 후 15초간 AI 대기/휴식
 • 🛡️ 스마트 데이터 유지: 신규 기록이 추가된 학생만 갱신 (변경 없는 학생은 기존 세특 100% 유지)
 
-• 담당 과목: [${subject}]
+• 생성 영역/과목: [${subject}]
 • 2022 교과역량: [${competency}]
 • 목표 바이트: [${bytes} Bytes]`)) return;
             

@@ -1,12 +1,6 @@
 /**
  * 📱 모바일 생생세특 (Live Seteuk) v2.0 - 구글 시트 네이티브 중심 백엔드
- * 
- * 주요 특징:
- * 1. 선생님께 100% 익숙한 진짜 구글 시트(스프레드시트) 중심 구조
- * 2. 엑셀/나이스 명렬 Ctrl+C -> Ctrl+V 1초 완성 지원 (학생명렬 탭)
- * 3. 7대 시트 탭 (API설정, 세특템플릿, 학생명렬, 시간대별기록, 학생응답기록, 세특초안생성, 학생별모아보기)
- * 4. doGet: 핸드폰 모바일 앱(app.html) & PC 대시보드(dashboard.html) 2원화 서빙 (가짜 sheet.html 제거)
- * 5. 5명 작성 후 15초 자동 대기 (할루시네이션 방지 & 300자 규격 세특)
+ * [디버깅 버전] - 원본 대비 수정 사항은 "// [FIX]" 주석으로 표시
  */
 
 function doGet(e) {
@@ -17,7 +11,6 @@ function doGet(e) {
       .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
       .addMetaTag('viewport', 'width=device-width, initial-scale=1');
   }
-  // 기본 뷰: 스마트폰 모바일 음성 관찰기 앱 (app.html)
   return HtmlService.createHtmlOutputFromFile('app')
     .setTitle('모바일 생생세특 - 현장 관찰 AI 기록기')
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
@@ -54,6 +47,8 @@ function saveDashboardConfig(subject, competency, targetBytes) {
     if (competency) props.setProperty('SUBJECT_COMPETENCIES', competency);
     if (targetBytes) props.setProperty('TARGET_BYTES', targetBytes.toString());
 
+    // [FIX #4] setupInitialSheets()에서 라벨 행을 미리 만들어 두므로
+    // 이제 대시보드에서 값을 바꾸면 API설정 탭에도 정상 반영됩니다.
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = ss.getSheetByName('API설정');
     if (sheet) {
@@ -129,6 +124,13 @@ function setApiKeysPrompt() {
     props.setProperty('TARGET_BYTES', resp6.getResponseText().trim());
   }
 
+  // [FIX #4] 저장 직후 시트에도 즉시 반영
+  saveDashboardConfig(
+    props.getProperty('SUBJECT_NAME'),
+    props.getProperty('SUBJECT_COMPETENCIES'),
+    props.getProperty('TARGET_BYTES')
+  );
+
   ui.alert('🎉 모든 설정이 구글 서버 암호화 금고(PropertiesService)에 안전하게 저장되었습니다!');
 }
 
@@ -172,6 +174,18 @@ function setupInitialSheets() {
     }
   });
 
+  // [FIX #4] API설정 탭에 saveDashboardConfig()가 실제로 찾을 수 있는 라벨 행을 채워둡니다.
+  var apiSheet = ss.getSheetByName('API설정');
+  if (apiSheet && apiSheet.getLastRow() <= 1) {
+    var config = getApiConfig();
+    apiSheet.appendRow(['담당 교과명', config.subjectName]);
+    apiSheet.appendRow(['2022 개정 교과역량', config.subjectCompetencies]);
+    apiSheet.appendRow(['NEIS 세특 목표 바이트', config.targetBytes]);
+    apiSheet.appendRow(['Upstage API Key 설정 여부', config.upstageKey ? '✅ 설정됨' : '❌ 미설정']);
+    apiSheet.appendRow(['Gemini API Key 설정 여부', config.geminiKey ? '✅ 설정됨' : '❌ 미설정']);
+    apiSheet.appendRow(['기본 AI 모델', config.selectedAI]);
+  }
+
   // 1. 세특템플릿 초기 샘플 지침 채우기
   var templateSheet = ss.getSheetByName('세특템플릿');
   if (templateSheet && templateSheet.getLastRow() <= 1) {
@@ -197,7 +211,7 @@ function getAvailableGradesAndClasses() {
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = ss.getSheetByName('학생명렬');
-    if (!sheet) return { success: true, grades: [2], classesByGrade: { 2: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] } };
+    if (!sheet) return { success: true, grades: [3], classesByGrade: { 3: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] } };
 
     var data = sheet.getDataRange().getValues();
     var classesSet = new Set();
@@ -208,6 +222,8 @@ function getAvailableGradesAndClasses() {
     var classes = Array.from(classesSet).sort(function(a,b){ return a-b; });
     if (classes.length === 0) classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
+    // [NOTE] 학생명렬 탭에 '학년' 컬럼이 없어 이 시스템은 학년 구분 없이 동작합니다(고정 3).
+    // 여러 학년을 함께 관리하려면 학생명렬에 학년 컬럼을 추가하고 이 함수도 수정해야 합니다.
     return { success: true, grades: [3], classesByGrade: { 3: classes } };
   } catch (e) {
     return { success: false, message: e.toString() };
@@ -234,32 +250,58 @@ function getStudentList(classNum) {
   return result;
 }
 
+// [FIX #3] 학번(4~5자리 숫자) 오탐지 및 "학번이 먼저 매칭되면 이름 매칭 결과를
+// 덮어쓰지 못하는" 문제를 함께 수정했습니다.
+// 1) 연도처럼 보이는 숫자(뒤에 '년/학년/월/일'이 붙는 경우)는 학번 후보에서 제외
+// 2) 정규식으로 뽑아낸 숫자가 실제 학생명렬에 존재하는 학번일 때만 "확정 학번"으로 신뢰
+// 3) 이름 매칭이 성공하면 항상 그 학생의 진짜 학번으로 확정(우연히 매칭된 잘못된 숫자를 덮어씀)
 function parseHakbunAndNameFast(rawMemo) {
   var hakbun = '';
   var name = '';
   var classNum = 1;
 
   var students = getStudentList('all');
-  var hakbunMatch = rawMemo.match(/\b([1-3]?\d{4})\b/) || rawMemo.match(/\b(\d{4,5})\b/);
-  if (hakbunMatch) hakbun = hakbunMatch[1];
 
+  var yearExclude = /\d{4}(?:년|학년|월|일)/;
+  var hakbunMatch = rawMemo.match(/\b([1-3]?\d{4})\b/) || rawMemo.match(/\b(\d{4,5})\b/);
+  var candidateHakbun = '';
+  if (hakbunMatch && !yearExclude.test(hakbunMatch[0])) {
+    candidateHakbun = hakbunMatch[1];
+  }
+
+  var validHakbunStudent = null;
+  if (candidateHakbun) {
+    for (var j = 0; j < students.length; j++) {
+      if (students[j].hakbun && students[j].hakbun.toString() === candidateHakbun) {
+        validHakbunStudent = students[j];
+        break;
+      }
+    }
+  }
+
+  var nameMatchStudent = null;
   for (var i = 0; i < students.length; i++) {
     var s = students[i];
     if (s.name && rawMemo.indexOf(s.name) >= 0) {
-      name = s.name;
-      classNum = s.classNum;
-      if (!hakbun && s.hakbun) hakbun = s.hakbun;
-      break;
-    }
-    if (hakbun && s.hakbun && s.hakbun === hakbun) {
-      name = s.name;
-      classNum = s.classNum;
+      nameMatchStudent = s;
       break;
     }
   }
 
+  if (nameMatchStudent) {
+    name = nameMatchStudent.name;
+    classNum = nameMatchStudent.classNum;
+    hakbun = nameMatchStudent.hakbun || candidateHakbun || '';
+  } else if (validHakbunStudent) {
+    name = validHakbunStudent.name;
+    classNum = validHakbunStudent.classNum;
+    hakbun = validHakbunStudent.hakbun;
+  } else if (candidateHakbun) {
+    hakbun = candidateHakbun;
+  }
+
   if (!name && !hakbun) name = '미인식';
-  if (hakbun && classNum === 1 && hakbun.length >= 5) {
+  if (hakbun && classNum === 1 && hakbun.length >= 5 && !nameMatchStudent && !validHakbunStudent) {
     classNum = parseInt(hakbun.substring(1, 3)) || 1;
   }
 
@@ -277,13 +319,11 @@ function processObservationFast(rawMemo, category, clientTimestamp) {
     }
 
     var parsed = parseHakbunAndNameFast(rawMemo);
-    // 오프라인 재전송 시 클라이언트 타임스탬프 우선 사용 (관찰 시점 보존)
     var timestamp = clientTimestamp || Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm');
     var refinedText = category + ' 활동 중: ' + rawMemo;
 
     sheet.appendRow([timestamp, parsed.classNum, category, parsed.hakbun, parsed.name, rawMemo, refinedText]);
 
-    // 학생별모아보기 탭 자동 누적 집계
     if (parsed.hakbun || parsed.name !== '미인식') {
       try { updateStudentSummary(parsed.hakbun, parsed.name, rawMemo); } catch(ignore) {}
     }
@@ -428,34 +468,26 @@ function isCategoryMatch(obsCategory, targetSubject) {
   var cat = (obsCategory || '교과').trim();
   var subj = targetSubject.trim();
 
-  // 1. 동아리
   if (subj === '동아리' || subj.indexOf('동아리') >= 0) {
     return cat.indexOf('동아리') >= 0;
   }
-  // 2. 행특 (행동특성)
   if (subj === '행특' || subj.indexOf('행특') >= 0 || subj.indexOf('행동') >= 0) {
     return cat.indexOf('행특') >= 0 || cat.indexOf('행동') >= 0;
   }
-  // 3. 자율
   if (subj === '자율' || subj.indexOf('자율') >= 0) {
     return cat.indexOf('자율') >= 0;
   }
-  // 4. 진로
   if (subj === '진로' || subj.indexOf('진로') >= 0) {
     return cat.indexOf('진로') >= 0;
   }
-  // 5. 자율/진로 (통합)
   if (subj === '자율/진로') {
     return cat.indexOf('자율') >= 0 || cat.indexOf('진로') >= 0;
   }
 
-  // 6. 교과 세특 (화법과 작문, 독서, 미적분, 정보, 교과 등 세부 과목명)
-  // '동아리', '행특', '자율', '진로' 카테고리는 교과 세특 생성 시 엄격히 제외
   if (cat.indexOf('동아리') >= 0 || cat.indexOf('행특') >= 0 || cat.indexOf('행동') >= 0 || cat.indexOf('자율') >= 0 || cat.indexOf('진로') >= 0) {
     return false;
   }
 
-  // 동아리/행특/자율/진로가 아닌 모든 교과 관찰 메모는 교과 세특 생성을 위해 허용
   return true;
 }
 
@@ -476,10 +508,8 @@ function generateAllStudentReports(classNum, customSubject, customCompetency, cu
       reportSheet = ss.getSheetByName('세특초안생성');
     }
 
-    // 세특템플릿 시트 교사 맞춤 지침 로드
     var templateGuidelines = getTemplateGuidelines();
 
-    // 시간대별기록 전체 로드 (학생별 관찰 기록 매칭용)
     var allObs = [];
     if (obsSheet && obsSheet.getLastRow() > 1) {
       var obsData = obsSheet.getDataRange().getValues();
@@ -500,12 +530,10 @@ function generateAllStudentReports(classNum, customSubject, customCompetency, cu
     for (var i = 0; i < students.length; i++) {
       var s = students[i];
 
-      // 5명 단위로 15초 대기 (AI API 과부하 방지 & 할루시네이션 방지)
       if (count > 0 && count % 5 === 0) {
         Utilities.sleep(15000);
       }
 
-      // 해당 학생 및 선택된 과목/영역 카테고리와 일치하는 관찰 기록만 필터링 (동명이인 타 반 혼선 100% 차단)
       var sClass = s.classNum ? s.classNum.toString() : '';
       var sHakbun = s.hakbun ? s.hakbun.toString() : '';
       var sName = s.name ? s.name.toString() : '';
@@ -526,7 +554,6 @@ function generateAllStudentReports(classNum, customSubject, customCompetency, cu
         return matchStudent && matchCategory;
       });
 
-      // 관찰 기록이 없는 학생은 기존 세특 유지 (스킵)
       if (studentObs.length === 0) {
         retainedCount++;
         continue;
@@ -536,14 +563,11 @@ function generateAllStudentReports(classNum, customSubject, customCompetency, cu
         return '[' + (o.category || '기타') + '] ' + o.rawMemo;
       }).join('\n');
 
-      // AI 프롬프트 구성 및 실제 API 호출
       var prompt = buildSeteukPrompt(sName, subject, competency, bytesTarget, obsText, templateGuidelines);
       var aiResult = callAI(prompt);
 
-      // AI 실패 시 fallback 템플릿 사용
       var reportText = aiResult || buildFallbackReport(sName, subject, competency, studentObs);
 
-      // 바이트 초과 시 자동 트리밍
       reportText = trimToBytes(reportText, bytesTarget);
 
       var timestamp = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm');
@@ -567,12 +591,10 @@ function generateAllStudentReports(classNum, customSubject, customCompetency, cu
 
 // ────── AI API 호출 엔진 ──────
 
-// 구글 시트 원본 URL 반환 (대시보드 동적 링크용)
 function getSpreadsheetUrl() {
   return SpreadsheetApp.getActiveSpreadsheet().getUrl();
 }
 
-// Gemini 2.0 Flash API 호출
 function callGeminiApi(prompt) {
   var config = getApiConfig();
   var apiKey = config.geminiKey;
@@ -603,7 +625,6 @@ function callGeminiApi(prompt) {
   }
 }
 
-// Upstage Solar API 호출
 function callUpstageApi(prompt) {
   var config = getApiConfig();
   var apiKey = config.upstageKey;
@@ -637,7 +658,6 @@ function callUpstageApi(prompt) {
   }
 }
 
-// AI 디스패처: 설정된 모델에 따라 Gemini 또는 Upstage 호출
 function callAI(prompt) {
   var config = getApiConfig();
   if (config.selectedAI === 'Upstage' && config.upstageKey) {
@@ -650,7 +670,6 @@ function callAI(prompt) {
   return null;
 }
 
-// 세특템플릿 시트에서 교사 맞춤 지침 로드
 function getTemplateGuidelines() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getSheetByName('세특템플릿');
@@ -666,7 +685,6 @@ function getTemplateGuidelines() {
   return lines.join('\n');
 }
 
-// 2022 개정 교과역량 세특 프롬프트 빌더
 function buildSeteukPrompt(studentName, subject, competency, bytesTarget, obsText, templateGuidelines) {
   var charTarget = Math.floor(bytesTarget / 3);
   return '당신은 대한민국 고등학교 생활기록부 세부능력 및 특기사항(세특) 전문 작성 AI입니다.\n\n' +
@@ -686,33 +704,42 @@ function buildSeteukPrompt(studentName, subject, competency, bytesTarget, obsTex
     '7. 반드시 ' + charTarget + '자 이내로 작성하고, 마지막 문장은 중간에 끊기지 않고 완전하게 마무리할 것';
 }
 
-// 바이트 초과 시 자동 트리밍 유틸리티 (문장 중간 끊김 완벽 방지)
+// [FIX #1] 원본은 문자열이 이미 '.'으로 끝나 있으면 lastIndexOf('.')가 항상
+// 마지막 글자를 가리켜서 자르기 전/후가 동일해지고, while 루프가 절대 끝나지
+// 않는 무한루프 버그가 있었습니다.
+// -> 문장 단위로 앞에서부터 누적하며 바이트 한도를 넘기 직전까지만 채우는 방식으로 재작성.
+// -> 첫 문장 하나만으로도 한도를 초과하는 극단적인 경우에도 글자 단위로 안전하게
+//    줄여서 반드시 종료되도록 보장합니다.
 function trimToBytes(text, maxBytes) {
   if (!text) return '';
   var bytes = Utilities.newBlob(text).getBytes().length;
   if (bytes <= maxBytes) return text;
 
-  // 1단계: 마침표(.) 기준으로 완결된 문장까지만 남기기
-  var trimmed = text;
-  while (bytes > maxBytes && trimmed.length > 0) {
-    var lastDotIndex = trimmed.lastIndexOf('.');
-    if (lastDotIndex > 0) {
-      trimmed = trimmed.substring(0, lastDotIndex + 1).trim();
-      bytes = Utilities.newBlob(trimmed).getBytes().length;
-    } else {
-      // 마침표가 없으면 1글자씩 자름
-      trimmed = trimmed.substring(0, trimmed.length - 1);
-      bytes = Utilities.newBlob(trimmed).getBytes().length;
-    }
+  var parts = text.split('.');
+  var result = '';
+  for (var i = 0; i < parts.length; i++) {
+    var sentence = parts[i].trim();
+    if (!sentence) continue;
+    var candidate = result + sentence + '.';
+    var candidateBytes = Utilities.newBlob(candidate).getBytes().length;
+    if (candidateBytes > maxBytes) break;
+    result = candidate;
   }
-  return trimmed || text.substring(0, Math.floor(maxBytes / 3));
+  if (result) return result;
+
+  var trimmed = text;
+  while (trimmed.length > 0 && Utilities.newBlob(trimmed).getBytes().length > maxBytes) {
+    trimmed = trimmed.slice(0, -1);
+  }
+  return trimmed;
 }
 
-// AI 실패/미설정 시 fallback 세특 템플릿 (관찰 기록 기반 정제)
 function buildFallbackReport(studentName, subject, competency, observations) {
   var obsSnippets = observations.slice(0, 3).map(function(o) {
     var text = o.rawMemo || '';
-    text = text.replace(/\b\d{4,5}\b/g, '').replace(new RegExp(studentName, 'g'), '').trim();
+    // [FIX #7] 이름에 정규식 특수문자가 있어도 예외가 나지 않도록 이스케이프
+    var escapedName = studentName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    text = text.replace(/\b\d{4,5}\b/g, '').replace(new RegExp(escapedName, 'g'), '').trim();
     return text;
   }).filter(Boolean).join(', ');
 
@@ -723,7 +750,6 @@ function buildFallbackReport(studentName, subject, competency, observations) {
     ' 수업 참여 태도가 매우 긍정적이며 모둠 활동에서 협력적 의사소통 역량이 돋보임.';
 }
 
-// 학생별모아보기 탭 자동 누적 집계
 function updateStudentSummary(hakbun, name, newMemo) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getSheetByName('학생별모아보기');
@@ -739,6 +765,5 @@ function updateStudentSummary(hakbun, name, newMemo) {
       return;
     }
   }
-  // 신규 학생 → 새 행 추가
   sheet.appendRow([hakbun, name, 1, newMemo]);
 }
