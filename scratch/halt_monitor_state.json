@@ -18,6 +18,42 @@
     "2026-07-30": [
       "sidecar_kospi",
       "sidecar_kosdaq"
+    ],
+    "2026-08-03": [
+      "news_사이드카",
+      "news_사이드카"
+    ],
+    "2026-08-04": [
+      "news_사이드카",
+      "news_사이드카"
+    ],
+    "2026-08-05": [
+      "news_사이드카"
+    ],
+    "2026-08-06": [
+      "news_사이드카",
+      "news_사이드카"
+    ],
+    "2026-08-10": [
+      "news_사이드카",
+      "news_사이드카"
+    ],
+    "2026-08-12": [
+      "news_사이드카",
+      "news_사이드카"
     ]
-  }
+  },
+  "alerted_links": [
+    "https://www.hankyung.com/article/2026080312406",
+    "https://www.yna.co.kr/view/AKR20260803059400008?input=1195m",
+    "https://www.kyeonggi.com/article/20260804580114",
+    "http://www.inews24.com/view/1991625",
+    "http://www.hansbiz.co.kr/news/articleView.html?idxno=854612",
+    "https://www.newsworks.co.kr/news/articleView.html?idxno=849553",
+    "https://www.ytn.co.kr/_ln/0102_202608061027590100",
+    "https://www.ggilbo.com/news/articleView.html?idxno=1174307",
+    "https://www.ekn.kr/web/view.php?key=20260810026531065",
+    "https://www.joongang.co.kr/article/25452713",
+    "https://www.yna.co.kr/view/AKR20260812080900008?input=1195m"
+  ]
 }

@@ -1,6 +1,6 @@
 /**
- * 2026학년도 자율적 교육과정 '쉬었음 청년 탐구' 프로젝트 - 백엔드 엔진 (안정화 리팩토링 버전)
- * 제작: Antigravity
+ * 2026학년도 자율적 교육과정 '쉬었음 청년 탐구' 프로젝트 - 백엔드 엔진 (소크라틱 AI v2.1/v3.0 완결판)
+ * 제작: Antigravity (Google DeepMind Team)
  */
 
 const CONFIG = {
@@ -9,6 +9,7 @@ const CONFIG = {
   BATCH_SIZE: 5,                        // 배치 생성 시 한 번에 처리할 인원 수
   RESPONSE_SHEET_NAME: "쉬었음_개인_응답",
   GROUP_RESPONSE_SHEET_NAME: "쉬었음_조별_응답", 
+  CHAT_LOG_SHEET_NAME: "소크라틱_대화_로그", // 실시간 대화 로그 적재 시트
   ROSTER_SHEET_NAME: "명렬",            // 학급 명렬 데이터 시트
   
   // 학교 자율적 교육과정 성취 지향점
@@ -123,9 +124,9 @@ function getRoster() {
 }
 
 /**
- * AI 실시간 소크라테스식 피드백 엔진
+ * AI 실시간 소크라테스식 피드백 엔진 v2.1 (Multi-turn & Question Refinement & Quota Control)
  */
-function getSocraticFeedback(topic, content, history) {
+function getSocraticFeedback(topic, content, history, teacherEmail) {
   var lock = LockService.getScriptLock();
   try {
     lock.waitLock(20000);
@@ -136,9 +137,9 @@ function getSocraticFeedback(topic, content, history) {
   try {
     var apiKey = PropertiesService.getScriptProperties().getProperty('GEMINI_API_KEY');
     if (!apiKey) return { success: false, error: "교사용 스프레드시트 메뉴에서 Gemini API 키를 먼저 설정해야 합니다." };
-    if (!content || content.trim().length < 5) return { success: false, error: "의견이나 분석을 최소 5자 이상 작성해 주세요." };
+    if (!content || content.trim().length < 2) return { success: false, error: "의견이나 분석을 입력해 주세요." };
     
-    var feedback = callGeminiFeedbackApi(topic, content, history, apiKey);
+    var feedback = callGeminiFeedbackApi(topic, content, history, apiKey, teacherEmail);
     return { success: true, feedback: feedback };
   } catch (e) {
     return { success: false, error: e.toString() };
@@ -147,11 +148,41 @@ function getSocraticFeedback(topic, content, history) {
   }
 }
 
-function callGeminiFeedbackApi(topic, content, history, apiKey) {
+function callGeminiFeedbackApi(topic, content, history, apiKey, teacherEmail) {
   var url = `https://generativelanguage.googleapis.com/v1beta/models/${CONFIG.FEEDBACK_MODEL}:generateContent?key=${apiKey}`;
   
-  var systemInstructionText = `당신은 고등학교 사회과 교사이자, '쉬었음 청년 현상' 자율 교육과정 프로젝트를 지도하는 소크라테스식 대화 멘토입니다.
-학생들이 세운 가설이나 분석 의견에 대해 스스로 문제를 해결하고 한계점을 인식할 수 있도록 유도하십시오.
+  var systemInstructionText = `당신은 고등학교 사회과 교사이자, '쉬었음 청년 현상' 탐구를 이끄는 유연하고 위트 있는 소크라테스식 대화 멘토 '소크라티'입니다.
+학생이 스스로 문제를 해결하고 구조적 맥락을 파악하며 '질문하는 힘'을 키울 수 있도록 대화를 이끌되, 절대로 정답을 한번에 통째로 제시하지 마십시오.
+
+[첫 턴 오리엔테이션 UX 규칙]
+대화 이력(history)이 없는 최초 1번째 턴 응답 시, 반드시 응답 문장 맨 앞에 다음 환영 멘트를 자연스럽게 포함하십시오:
+"안녕하세요! 저는 여러분의 생각을 넓혀줄 소크라틱 AI 멘토 소크라티입니다. 💡 정답을 바로 알려주는 대신, 질문과 힌트를 통해 여러분 스스로 멋진 답을 찾도록 도울 거예요. 함께 '쉬었음 청년 현상'의 실태부터 차근차근 알아볼까요?"
+
+[4단계 탐구 진행 규칙 (Stage System)]
+학생과의 대화 맥락을 파악하여 탐구를 다음 4단계 순서로 전진시키십시오. 학생이 이미 이전 단계를 대답했다면 절대로 이전 단계 질문을 되묻거나 1단계로 되돌리지 마십시오.
+- Stage 1 [실태 인식]: 쉬었음 청년 현상의 규모, 고학력화, 창원 지역 소멸 등 실태 파악
+- Stage 2 [원인 분석]: 미시적 노동 환경(단기계약, 소기업), 번아웃, 직무 미스매치 등 구조적/개인적 원인 분석
+- Stage 3 [해결 대안]: 청년 개인, 기업, 지역 사회 차원의 구체적인 해결 아이디어 도출
+- Stage 4 [제도 적용]: 국가 정책, 지자체 사업, 제도적 한계 및 실현 가능성 검토
+
+[학생 질문 & 사고 고도화 규칙 (Question Refinement Rule)]
+학생이 단답형이나 모호한 어휘("그냥 그래요", "일자리가 없어요" 등)로 응답하거나 조각난 생각을 말할 때 다음 3단계 디딤돌 스캐폴딩을 적용하십시오:
+1. 모호한 개념 분해: "일자리가 없다" ➔ "임금, 근무 환경, 직무 적성, 지역 중 학생이 말하는 '일자리'는 어디에 가장 가까운가요?"처럼 구체화 유도.
+2. 질문 재구성 리프레이밍: 학생의 조각난 발언을 정교한 탐구 질문 문장으로 다듬어 재제시할 것. (예: "학생이 한 말을 다듬어 보면 '지역 기업의 열악한 환경이 대졸 청년의 눈높이와 부딪히는 것 아닌가?'라는 질문이 되겠네요! 이 시각에 대해 어떻게 생각하나요?")
+3. 가설형 질문 확장: 단순 사실 질문 ➔ "~한 제도가 도입된다면 어떻게 될까?" 형태의 가설 질문으로 확장 유도.
+
+[Socratic 개입 및 힌트 예외 규칙]
+1. 단순 맹목적 비난("요즘 애들은 게으르다" 등) 입력 시, 칭찬/공감 없이 즉시 RAG 팩트(예: 87.7%가 평균 17.8개월을 버틴 노동 유경험자라는 사실)를 반례로 제시하십시오.
+2. 예외 규칙 (핵심): 학생이 "모르겠다", "답을 알려달라", "너무 답답하다", "어려워요" 등 막힘을 호소할 경우, 질문으로만 받아치지 마십시오.
+   👉 이때는 즉시 [구체적인 힌트 1개 + 생각이 용이한 예시 선택지 2개]를 제시하여 학생이 사고를 이어나갈 수 있도록 조력하십시오.
+3. 주제 이탈(Off-topic) 방지: 학생이 수업과 무관한 게임, 사적 질문 등을 하면 "그 부분도 흥미롭지만, 오늘은 쉬었음 청년 현상에 대해 이야기해 볼까요?"라며 즉시 주제로 복귀시키십시오.
+
+[RAG 데이터 인용 및 출력 규칙]
+1. [RAG 딥리서치 팩트 데이터베이스]의 특정 수치(46.7%, 87.7%, 17.8개월, 42.2% 등)는 대화 전체를 통틀어 단 1회만 인용 가능합니다. 동일 수치를 반복 출력하는 것을 엄격히 금지합니다.
+2. 이미 사용한 수치는 수치 없이 문맥적 의미("절반 가까운 대졸 청년들", "대다수의 직장 경험자들")로 패러프레이징하여 표현하십시오.
+3. 예시 질문 지시문("그렇다면 대졸 청년층 비중이...") 문장을 똑같이 복사해서 출력하지 마십시오.
+4. 학생이 한 말을 그대로 받아 적어 "~~라는 통찰이네요!"라고 되묻는 앵무새형 반응을 금지합니다.
+5. 적절한 이모티콘(💡, 🔍, 📝 등)을 사용하되, 3~4줄 내외의 친근한 존댓말로 응답하십시오.
 
 [RAG 딥리서치 팩트 데이터베이스]
 - 청년 고용률: 2026년 상반기 기준 43.8% (25개월 연속 하락세)
@@ -159,20 +190,35 @@ function callGeminiFeedbackApi(topic, content, history, apiKey) {
 - 지역 소멸 (창원시): 2015년 청년 인구 86.6만 명에서 최근 64.6만 명으로 급감. 연간 순유출 2,147명에서 12,092명으로 약 5.6배 급증. 청년 가구 평균 부채 1,806만 원 돌파.
 - 미시적 노동 실태: 쉬었음 청년의 87.7%는 직장 유경험자이나, 42.2%가 소기업/소상공인, 29.5%가 6개월 미만 단기계약 등 열악한 환경으로 인해 평균 근속 17.8개월에 불과함.
 - 소진 원인: 번아웃(27.7%), 심리/정신적 장애(25%). 소진 세부 요인은 진로 불안(38.6%), 직무 과중(16.4%), 회의감(16.1%) 순임.
-- 유민상 5분류 모델: 취준-적극형(일시 휴식), 취준-소극형(탈락 누적으로 포기), 이직-적극형(경력 전환), 이직-소극형(직장 트라우마/소진), 취약형(정신질환/돌봄 고립)
+- 유민상 5분류 모델: 취준-적극형(일시 휴식), 취준-소극형(탈락 누적으로 포기), 이직-적극형(경력 전환), 이직-소극형(직장 트라우마/소진), 취약형(정신질환/돌봄 고립)`;
 
-[Socratic 개입 지침]
-1. 의미 없는 단순 문자나 나태함에 대한 맹목적인 비난이 입력될 경우 ("요즘 애들은 게으르다" 등), 칭찬이나 긍정을 절대 하지 말고 즉각적으로 RAG 통계 팩트(예: 쉬었음 청년 87.7%가 평균 17.8개월을 버틴 노동 유경험자라는 사실)를 반례로 제시하여 구조적 맥락을 상기시키십시오.
-2. 학생에게 정답 정책을 바로 다 알려주지 마십시오. "그렇다면 대졸 청년층 비중이 절반에 가까운 통계(46.7%)는 청년들의 직무 역량이 모자라서일까요, 아니면 일자리 미스매치 때문일까요?" 같은 꼬리 질문(Scaffolding)을 던져 스스로 인과를 발견하게 유도하십시오.
-3. 보기 좋게 이모티콘(🔍, 💡, 📝 등)을 섞어 3~4줄의 간결한 존댓말로 작성하십시오.`;
+  // Build Gemini Multi-turn contents array
+  var contentsArray = [];
+  
+  if (history && Array.isArray(history) && history.length > 0) {
+    for (var i = 0; i < history.length; i++) {
+      var item = history[i];
+      if (typeof item === 'string') {
+        if (item.startsWith("학생:")) {
+          contentsArray.push({ "role": "user", "parts": [{ "text": item.substring(3).trim() }] });
+        } else if (item.startsWith("AI튜터:") || item.startsWith("AI:")) {
+          contentsArray.push({ "role": "model", "parts": [{ "text": item.replace(/^AI(튜터)?:/, "").trim() }] });
+        }
+      }
+    }
+  }
 
-  var historyText = (history && history.length > 0) ? history.join("\n\n") : "이전 대화 없음";
-  var userPrompt = `[학생 탐구 활동 단계]\n${topic}\n\n[이전 대화 이력]\n${historyText}\n\n[학생의 입력 분석/가설]\n"${content}"`;
+  // Append current user turn
+  var currentInputText = `[현재 학생 탐구 단계]: ${topic}\n[학생의 입력 분석/가설]: "${content}"`;
+  contentsArray.push({ "role": "user", "parts": [{ "text": currentInputText }] });
 
   var payload = {
-    "contents": [{ "parts": [{ "text": userPrompt }] }],
+    "contents": contentsArray,
     "systemInstruction": { "parts": [{ "text": systemInstructionText }] },
-    "generationConfig": { "temperature": 0.5, "maxOutputTokens": 4096 }
+    "generationConfig": { 
+      "temperature": 0.78, 
+      "maxOutputTokens": 4096 
+    }
   };
 
   var response = UrlFetchApp.fetch(url, {
@@ -188,6 +234,61 @@ function callGeminiFeedbackApi(topic, content, history, apiKey) {
   }
   var json = JSON.parse(response.getContentText());
   return json.candidates[0].content.parts[0].text.trim();
+}
+
+/**
+ * 부적절 발언(비속어/무성의 도배 2회 연속) 감지 시 교사 이메일 자동 알림
+ */
+function sendAbuseAlertEmail(teacherEmail, ban, num, name, userMsg, recentHistory) {
+  try {
+    if (!teacherEmail) return;
+    
+    var subject = `[소크라틱 챗봇 경고] ${ban}반 ${num}번 ${name} 학생 부적절 발언 감지`;
+    var body = `안녕하세요, 자율교육과정 소크라틱 AI 챗봇 시스템입니다.
+
+아래 학생의 대화에서 부적절한 발언(비속어/도배/주제 이탈)이 2회 연속 감지되어 대화가 잠금 처리되었습니다.
+
+■ 학생 정보: ${ban}반 ${num}번 ${name}
+■ 학생의 입력: "${userMsg}"
+
+■ 최근 대화 이력:
+${recentHistory || "이력 없음"}
+
+확인 후 해당 학생의 수업 지도에 참고해 주시기 바랍니다.`;
+
+    MailApp.sendEmail(teacherEmail, subject, body);
+  } catch (e) {
+    console.error("이메일 발송 에러: " + e.toString());
+  }
+}
+
+/**
+ * 대화 종료 시 실시간 대화 로그 구글 시트에 원본 적재 (세특 추출 파이프라인 연동)
+ */
+function logSocraticChatHistory(data) {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName(CONFIG.CHAT_LOG_SHEET_NAME);
+    
+    if (!sheet) {
+      sheet = ss.insertSheet(CONFIG.CHAT_LOG_SHEET_NAME);
+      sheet.appendRow(["제출일시", "반", "번호", "이름", "최종 도달 Stage", "총 대화 턴수", "전체 대화 이력"]);
+      sheet.getRange("A1:G1").setFontWeight("bold").setBackground("#e0f2fe");
+    }
+    
+    sheet.appendRow([
+      new Date(),
+      data.ban,
+      data.num,
+      data.name,
+      data.finalStage || "Stage 2",
+      data.totalTurns || 0,
+      data.fullHistory || ""
+    ]);
+    return { success: true };
+  } catch (e) {
+    return { success: false, error: e.toString() };
+  }
 }
 
 /**
@@ -270,7 +371,6 @@ function submitReflectionOnly(ban, name, reflectionData) {
     var data = sheet.getRange(2, 1, lastRow - 1, 16).getValues();
     var targetRowIdx = -1;
     
-    // 가장 최근 제출된 반과 이름이 매칭되는 행 추적
     for (var i = data.length - 1; i >= 0; i--) {
       var sBan = parseInt(data[i][1]);
       var sName = data[i][3].toString().trim();
@@ -281,16 +381,14 @@ function submitReflectionOnly(ban, name, reflectionData) {
     }
     
     if (targetRowIdx === -1) {
-      // 1~5차시를 안 쓰고 12차시를 먼저 쓴 경우 새 행 추가
       sheet.appendRow([
         new Date(), ban, "", name,
         "", "", "", "", "", "", "", "", reflectionData,
         "", "", "대기"
       ]);
     } else {
-      // 성찰록 업데이트 및 상태 '대기'로 리셋 (세특 재생성 유도)
-      sheet.getRange(targetRowIdx, 13).setValue(reflectionData); // M열 (성찰 일지)
-      sheet.getRange(targetRowIdx, 16).setValue("대기");       // P열 (상태)
+      sheet.getRange(targetRowIdx, 13).setValue(reflectionData);
+      sheet.getRange(targetRowIdx, 16).setValue("대기");
     }
     
     return { success: true, message: `${name} 학생의 12차시 성찰록이 무사히 저장되었습니다.` };
@@ -798,7 +896,8 @@ function uploadFileToDrive(fileName, base64Data, contentType) {
     
     return {
       success: true,
-      fileUrl: file.getUrl()
+      fileId: file.getId(),
+      url: file.getUrl()
     };
   } catch (e) {
     return { success: false, error: e.toString() };
