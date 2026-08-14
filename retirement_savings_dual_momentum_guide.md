@@ -91,9 +91,9 @@
 매수 버튼을 누른 순간부터 제 일상은 주식 앱(MTS)에 인질로 잡혔습니다. 퇴근 후나 휴식 시간에도 휴대폰을 들여다보며 주식 시장의 향방에 신경을 쓰게 되었습니다. 수시로 변하는 차트 때문에 본업에 전념해야 할 일상에서 극심한 스트레스를 겪게 되었습니다.
 
 
-이 뼈아픈 실패를 계기로 저는 과거 2020년과 2021년에 공부했던 '퀀트 자산배분 투자'를 다시 깊이 성찰하게 되었습니다. 사실 당시에도 인간의 감정을 배제하고 투자할 수 있다는 퀀트의 원칙에는 큰 매력을 느꼈었습니다. 하지만 막상 실전 투자를 하려니 과정이 너무 힘들었습니다. 매달 최신 데이터를 받아 엑셀에 직접 입력하고, 종목별 비율을 계산해 수동으로 매매해야 했기 때문입니다. 결국 중간에 포기하고 말았습니다. 
+과거 2020년과 2021년 즈음에도 '퀀트 자산배분 투자'를 공부하며 인간의 감정을 배제하고 투자할 수 있다는 원칙에 큰 매력을 느꼈었습니다. 하지만 매달 엑셀에 데이터를 입력하고 계산해 수동으로 매매하는 과정이 너무 힘들어 중간에 포기하고 말았었죠.
 
-그러다 2025년 말 육아휴직 기간 중 구글 안티그래비티(Google Antigravity)를 접했습니다. 그리고 2026년 6월, 마침내 저만의 '투자 자동화 봇'을 완성해 냈습니다. 매 순간 주가창에 뜨는 숫자를 보며 흔들리는 저의 감정뿐만 아니라 퀀트 투자를 위해 매달 자료를 수집하고 계산하던 번거로운 수고와 스트레스가 사라졌습니다. 인간의 감정뿐만 아니라 육체적 노동까지 제로로 만드는 진짜 대안을 찾아낸 것입니다.
+사실 이 실패가 있기 전, 2025년 말 육아휴직 기간 중 이미 구글 안티그래비티(Google Antigravity)를 접하고 퀀트 봇 개발에 착수한 상태였습니다. 그런데 정작 실전에서는 그 배움을 뒤로한 채 감에 의존해 개별 종목을 매수했고, 그 대가로 1,734만 원의 손실을 치렀습니다. 아이러니하게도 이 뼈아픈 실패는 '아직 미완성이던' 봇 개발에 오히려 더 박차를 가하게 만든 결정적 계기가 되었습니다. 그리고 2026년 6월, 마침내 저만의 '투자 자동화 봇'을 완성해 냈습니다. 매 순간 주가창에 뜨는 숫자를 보며 흔들리는 저의 감정뿐만 아니라 퀀트 투자를 위해 매달 자료를 수집하고 계산하던 번거로운 수고와 스트레스가 사라졌습니다. 인간의 감정뿐만 아니라 육체적 노동까지 제로로 만드는 진짜 대안을 찾아낸 것입니다.
 
 이 책은 노후 연금을 고민하는 분들을 위한 진솔한 안내서입니다. 특히 예금 금리만으로는 인플레이션을 이길 수 없어 밤잠을 설치는 안정적 투자자분들과 경험을 나누고자 썼습니다.
 
@@ -240,7 +240,7 @@
 퀀트 봇을 만들기 훨씬 전부터, 저의 자동화 여정은 복직 후 교단 위 아이들과 만나는 '수업 현장의 소소한 불편함을 해결하는 것'에서 출발했습니다. 제미나이(Gemini) 대화창에 프롬프트를 입력하며 코딩을 시도했던 초기 경험들은 수업 시간에 실질적인 도움이 되는 다양한 에듀테크 환경을 구축하는 계기가 되었습니다.
 
 #### 1. 복직 후 교단에 직접 구축했던 3대 수업 자동화 시스템
-* NFC 스티커 & QR 코드 연동 '스마트 출석부 & 교과 진도 도우미': 교실 문을 열고 들어가 스티커를 핸드폰으로 인식하거나 QR 코드를 태블릿으로 스캔하면, 해당 학급의 스마트 출석부와 함께 "지난 시간에 28페이지 문법 원리까지 수업했습니다"라는 자동으로 수업을 하기 위해 가지고 간 태블릿에 팝업되도록 환경을 구성했습니다.
+* NFC 스티커 & QR 코드 연동 '스마트 출석부 & 교과 진도 도우미': 교실 문을 열고 들어가 스티커를 핸드폰으로 인식하거나 QR 코드를 태블릿으로 스캔하면, 해당 학급의 스마트 출석부와 함께 "지난 시간에 28페이지 문법 원리까지 수업했습니다"라는 직전 수업 안내 메시지가 수업용 태블릿 화면에 자동으로 팝업되도록 환경을 구성했습니다.
 * 수업 중간 '음성 기반 학생 활동 기록 및 평가 시스템': 수업 진행 중 일일이 종이에 메모할 필요 없이, 구글 폼과 연동된 음성 인식을 활용하여 학생들의 탐구 활동과 관찰 기록을 실시간 음성으로 입력하고 평가 데이터로 누적했습니다.
 * 수업 후 '음성 기반 교과 진도 기록 시스템': 수업이 끝난 직후, 교사의 음성 명령 몇 마디로 오늘의 수업 진도와 특이사항을 손쉽게 기록하고 보관할 수 있는 체계를 완성했습니다.
 
@@ -249,8 +249,7 @@
 
 이 경험을 통해 AI 시대를 살아가는 교사의 역할에 대해 개인적으로 확신하게 된 것이 있습니다. 코드를 한 줄씩 직접 짜고 디버깅을 해 주는 것은 AI가 해주므로, 교사에게 정작 필요한 것은 현장의 불편함을 발견하고 해결할 아이디어입니다. 그 아이디어를 떠올리려면 평소에 AI를 다양하게 경험하고 끊임없이 사고를 넓혀야 한다고 생각합니다.
 
-#### 3. 
-교사·공무원이 활용할 수 있는 무상 Open API 및 데이터 자원 7선
+#### 3. 교사·공무원이 활용할 수 있는 무상 Open API 및 데이터 자원 7선
 
 1. 나이스(NEIS) 교육정보 개방 포털 (open.neis.go.kr)
  - 제공 데이터: 전국 초·중·고등학교 급식식단, 학사일정, 시간표 등 학교 기본 데이터.
@@ -335,8 +334,7 @@ ISA 계좌도 3년 중단기 절세에 훌륭한 계좌입니다. 하지만 K-�
 
 #### [부부가 함께 활용하는 2배 절세 꿀팁] 부부 각각 연금계좌 개설 시 연 1,200만 원까지 절세 투자 확장!
 
-1. 
-부부 합산 연금 투자 2배 확장 전략
+1. 부부 합산 연금 투자 2배 확장 전략
 대한민국 연금저축 계좌는 세대주 기준이 아닌 '개인별 1인 1계좌' 기준입니다. 따라서 결혼한 부부라면 본인과 배우자가 각각 연금저축 계좌를 개설하여, 개인 한도(연 600만 원)의 2배인 부부 합산 연 1,200만 원(월 100만 원)까지 연금저축 퀀트 봇으로 투자할 수 있습니다.
 
 이를 통해 은퇴 후 건강보험료와 세금 없이 꺼내 쓸 수 있는 사적연금 저율 인출 한도를 부부 합산 연 3,000만 원(월 250만 원)까지 2배로 넓히는 강력한 방패를 구축하게 됩니다.
@@ -346,7 +344,6 @@ ISA 계좌도 3년 중단기 절세에 훌륭한 계좌입니다. 하지만 K-�
 
 * 증여세 문제 (0원): 대한민국 상속세 및 증여세법 제53조에 따라, 배우자 간 증여는 10년 동안 합산 6억 원까지 증여세가 전액 비과세(0원)입니다. 아내 명의 연금저축 계좌에 연 600만 원(월 50만 원)씩 10년 동안 넣어도 총 6,000만 원에 불과하므로 비과세 한도의 1/10 수준에 지나지 않습니다.
 * 세액공제 및 인출: 소득이 없는 아내 명의 납입분은 당장 연말정산 세액공제 환급금이 나오지는 않지만, 세액공제를 받지 않은 원금은 나중에 인출할 때 세금과 건강보험료가 100% 면제(0원)됩니다. 또한 계좌 내에서 세금 차감 없이 복리로 자산을 굴릴 수 있으므로, 소득 유무와 관계없이 아내 명의 계좌를 개설해 부부 듀얼 봇을 가동하는 것이 무조건 유리합니다.
-
 
 ---
 
@@ -358,8 +355,7 @@ ISA 계좌도 3년 중단기 절세에 훌륭한 계좌입니다. 하지만 K-�
 
 ---
 
-#### 
-[금융감독원 공시 팩트체크] 미국 주식·채권 기반 채권혼합형 ETF의 IRP 30% 안전자산 인정 규정
+#### [금융감독원 공시 팩트체크] 미국 주식·채권 기반 채권혼합형 ETF의 IRP 30% 안전자산 인정 규정
 금융감독원 및 대표 자산운용사(삼성 KODEX, 한국투신 ACE, 미래에셋 TIGER)의 공식 공시 자료를 직접 확인하고 정리한 내용입니다.
 
 관련 법적 규정 (퇴직연금감독규정)
@@ -380,6 +376,9 @@ ISA 계좌도 3년 중단기 절세에 훌륭한 계좌입니다. 하지만 K-�
 
 
 ---
+
+#### [핵심 비교] 일반 주식 계좌 vs 연금저축펀드 계좌 7대 항목 총정리
+
 수십 년에 걸친 장기 퀀트 투자에서 최종 누적 수익률의 거대한 차이를 가르는 3대 핵심 변수는 바로 세금, 건강보험료, 그리고 수수료(운용보수 및 거래비용)입니다. 
 
 | 비교 항목 | 일반 주식 계좌 (상품코드 `01`) | 연금저축펀드 계좌 (상품코드 `22`) |
@@ -515,7 +514,7 @@ ISA 계좌도 3년 중단기 절세에 훌륭한 계좌입니다. 하지만 K-�
 
 매달 50만 원씩 연금저축 계좌에 넣고 K-퀀트 봇(40년 백테스트 기준 보수적 연 10.0% 복리)을 가동하면, 20년 뒤 약 3억 8,000만 원, 30년 뒤 약 11억 3,000만 원 수준의 자산이 쌓입니다. 은퇴 시 이를 어떻게 찾아 쓰느냐에 따라 세후 실수령액이 상당히 달라집니다.
 
-(※ 3.5절 실증 백테스트 참조: 1986~2026년 40년 간 데이터 검증 결과 실측 CAGR*은 10.2%~12.4%로 산출되나, 실전 투자 시 발생하는 거래 수수료, 매매 슬리피지*, ETF 운용보수를 사전에 차감하여 매우 보수적으로 산정한 현실적 수치입니다.)
+(※ 3.5절 실증 백테스트 참조: 1986~2026년 40년 간 데이터 검증 결과 실측 CAGR*은 12.8%~14.5%로 산출되나, 실전 투자 시 발생하는 거래 수수료, 매매 슬리피지*, ETF 운용보수를 사전에 차감하여 매우 보수적으로 산정한 현실적 수치입니다.)
 
 > [주석: CAGR(연평균 복리 수익률)이란 여러 해 동안 엎치락뒤치락 변동했던 수익률을 매년 '똑같은 비율'로 일정하게 성장했다고 가정했을 때의 평균 수익률입니다. 단순히 전체 수익률을 연수로 나눈 산술평균과 달리, 투자 과정에서 발생하는 '복리의 함정'까지 정확하게 반영한 진짜 수익률을 의미합니다.]
 > [주석: 슬리피지(Slippage)란 내가 사고팔고자 주문을 넣은 가격과 실제로 체결된 가격 사이의 '미세한 오차(손실)'를 뜻합니다. 주식 시장에서는 호가의 공백이나 매매 타이밍에 따라 0.1~0.2% 정도의 손실이 필연적으로 발생하며, 정밀하고 보수적인 백테스트를 위해서는 이 슬리피지 비용까지 반드시 차감하여 계산해야 합니다.]
@@ -631,7 +630,7 @@ ISA 계좌도 3년 중단기 절세에 훌륭한 계좌입니다. 하지만 K-�
 
 #### ⑤ 자산배분 퀀트 전략 (Dynamic Asset Allocation): "날씨에 맞춘 자동 대피 시스템"
 * 개념: 개별 주식을 고르는 위험을 피하고, 주식, 채권, 원자재, 현금 등 세계 주요 자산군의 비중을 알고리즘으로 조절하는 전략 (VAA, DAA 등).
-* 장점: 태풍(폭락장)이 불면 자동으로 우산을 쓰고 안전 대피소(달러채권/현금)로 피신하기 때문에, 연 10~15% 수익률을 내면서도 하락장 손실률(MDD)을 -15% 이내로 철저히 방어합니다.
+* 장점: 태풍(폭락장)이 불면 자동으로 우산을 쓰고 안전 대피소(달러채권/현금)로 피신하기 때문에, 일반적인 동적 자산배분(DAA) 전략은 연 10~15% 내외의 복리 수익률을 추구하면서도 하락장 손실률(MDD)을 -15% 이내로 방어합니다. (※ 본서의 5자산 K-듀얼모멘텀 봇은 과거 40년 실측 백테스트 기준 CAGR 12.8~14.5%, MDD -10.5~-11.8%로 더욱 견고한 방어력을 입증했습니다.)
 
 ---
 
@@ -716,14 +715,14 @@ ISA 계좌도 3년 중단기 절세에 훌륭한 계좌입니다. 하지만 K-�
 | 비교 항목 | AMS 미적용 (주식 100% 단순 보유) | AMS 모델 적용 (K-듀얼모멘텀 동적 비중) |
 | :--- | :--- | :--- |
 | 강세장 장점 | 주식 100%로 상승장 수익률 전량 흡수 | 점진적 상승 비중으로 보수적·안정적 승차감 제공 |
-| 폭락장 최대 낙폭(MDD) | -50.8% (2008년 반토막 계좌 폭락) | -12.3% ~ -14.1% (손실률 1/4 수준으로 방어) |
-| 손실 복구 필요 수익률 | 계좌 반토막 시 +100% 수익 필요 (수년 허비) | -14% 하락 시 단 +16% 수익이면 즉시 원금 복구 |
+| 폭락장 최대 낙폭(MDD) | -50.8% (2008년 반토막 계좌 폭락) | -10.5% ~ -11.8% (손실률 1/5 수준으로 방어) |
+| 손실 복구 필요 수익률 | 계좌 반토막 시 +100% 수익 필요 (수년 허비) | -12% 하락 시 단 +13.6% 수익이면 즉시 원금 복구 |
 | 속임수(휩쏘) 매매 손실 | 모 아니면 도(100% 0%)로 잦은 손실 매도매 손실 | 3단계 계단식 점진 조절로 휩쏘 손실을 효과적으로 감소 |
 | 워렌 버핏 제1원칙 부합성 | 부합 실패 (대형 폭락 손실 방치) | 100% 완전 부합 (돈을 잃지 않고 시장에 끝까지 생존) |
 
-* 결론: AMS 모델을 넣지 않으면 상승장에서 조금 더 벌 수 있을지 몰라도, 10년에 한 번씩 찾아오는 대형 폭락장에서 계좌가 반토막 나며 무너지게 됩니다. AMS 모델은 최대 낙폭(MDD)을 -12%~-14% 이내로 철저히 감금하여 '결코 망하지 않고 주식 시장에 끝까지 살아남게 만드는' 위대한 안전 스위치입니다.
+* 결론: AMS 모델을 넣지 않으면 상승장에서 조금 더 벌 수 있을지 몰라도, 10년에 한 번씩 찾아오는 대형 폭락장에서 계좌가 반토막 나며 무너지게 됩니다. AMS 모델은 최대 낙폭(MDD)을 -10.5%~-11.8% 이내로 철저히 감금하여 '결코 망하지 않고 주식 시장에 끝까지 살아남게 만드는' 위대한 안전 스위치입니다.
 2. 국내 상장 해외 ETF 최적화 라인업 구축:
- 연금계좌에서 매수 가능한 `TIGER 미국S&P500`, `KODEX 200`, `TIGER 미국달러단기채권액티브` 라인업으로 완전 재구성했습니다.
+ 코스피, S&P500, 금 현물, 미국 장기채, 미국 달러 단기채 등 5가지 자산군 라인업으로 완전 확장했습니다.
  주식 시장 위험 발생 시 미국 달러 환노출 채권으로 피신하여, 원화 가치 폭락 시 달러 환차익 + 이자 수익 + 주식 하락 방어라는 삼중 방패막을 형성합니다.
 
 ---
@@ -736,23 +735,23 @@ ISA 계좌도 3년 중단기 절세에 훌륭한 계좌입니다. 하지만 K-�
 
 ```mermaid
 graph TD
- A["매월 말 리밸런싱 시점 (낮 12:30 KST)"] --> B["상대 모멘텀 평가: 최근 12개월 누적 수익률 비교"]
- B -- "미국 S&P 500 > 한국 KOSPI 200" --> C["주식 선택: TIGER 미국S&P500 (360750)"]
- B -- "한국 KOSPI 200 > 미국 S&P 500" --> D["주식 선택: KODEX 200 (069500)"]
+ A["매월 말 리밸런싱 시점 (낮 12:30 KST)"] --> B["상대 모멘텀 평가: 최근 12개월 누적 수익률 1위 자산 선정"]
+ B -- "한국 주식 / 미국 주식 / 금 / 미국 장기채 중 1위" --> C["선정된 1위 자산 선택"]
  C --> E["평균 모멘텀 스코어(AMS) 계산: 최근 1, 3, 5개월 전 종가와 현재가 비교"]
- D --> E
- E --> F["비중 조절: 주식 비중 = AMS 점수 / 안전자산 비중 = 1 - AMS 점수<br>(안전자산: TIGER 미국달러단기채권액티브 329750)"]
+ E --> F["비중 조절: 선택 자산 비중 = AMS 점수 / 안전자산 비중 = 1 - AMS 점수<br>(안전자산: TIGER 미국달러단기채권액티브 329750)"]
  F --> G["GitHub Actions 무인 봇이 0.001초 만에 자동 주문 집행 및 텔레그램 리포트 발송"]
 ```
 
 ---
 ### 3.4 연금저축 최적화 ETF 라인업과 환노출 방패막 및 안전자산 대피 메커니즘
 
-K-듀얼모멘텀 봇이 연금저축 계좌에서 매매하는 핵심 자산군은 한국과 미국을 대표하는 우량 지수와 달러 안전자산 3가지로 엄선됩니다.
+K-듀얼모멘텀 봇이 연금저축 계좌에서 매매하는 핵심 자산군은 한국과 미국을 대표하는 우량 지수와 달러 안전자산 등 5가지 핵심 자산군으로 확장하여 구성됩니다.
 
 1. 미국 대표 주식: `TIGER 미국S&P500 (360750)` (환노출형)
 2. 한국 대표 주식: `KODEX 200 (069500)` (국내 코스피 200 대형주)
-3. 대피용 안전자산: `TIGER 미국달러단기채권액티브 (329750)` (미국 달러 환노출 단기채)
+3. 미국 장기채권: `ACE 미국30년국채액티브 (476760)` (금리 인하기 방어 및 시세차익)
+4. 금 현물: `ACE KRX금현물 (411060)` (물가 상승기 인플레이션 헤지)
+5. 대피용 안전자산: `TIGER 미국달러단기채권액티브 (329750)` (미국 달러 환노출 단기채)
 
 ---
 
@@ -780,16 +779,20 @@ K-듀얼모멘텀 봇이 연금저축 계좌에서 매매하는 핵심 자산군
 
 * 산정 지표: 각 월말 수정 종가(Adjusted Closing Price) 기준 총수익(Total Return, 분배금 자동 재투자 반영) 및 1, 3, 5개월 평균 모멘텀 스코어(AMS).
 * 공식 데이터 수집 출처 (Data Sources):
- 미국 주식/지수: `S&P Dow Jones Indices (spglobal.com)` 공식 데이터 및 `St. Louis Fed (FRED)` 미국 연방준비은행 경제 데이터베이스 (S&P 500 Total Return 지수)
- 한국 주식/지수: `한국거래소 (KRX) 정보데이터시스템 (data.krx.co.kr)` 및 `한국은행 경제통계시스템 (ECOS)` (KOSPI 200 및 KOSPI 총수익 지수)
- 환율 및 달러 단기채: `St. Louis Fed (FRED)` 원/달러 매매기준율 및 `미 재무부 (U.S. Treasury)` 3개월 국채 금리 데이터
- 백테스팅(Backtesting)* 계산 엔진: Python `pandas`, `bt`, `pyfolio` 정밀 금융 통계 라이브러리
+  1. 미국 주식/지수: `S&P Dow Jones Indices (spglobal.com)` 공식 데이터 및 `St. Louis Fed (FRED)` 미국 연방준비은행 경제 데이터베이스 (S&P 500 Total Return 지수)
+  2. 한국 주식/지수: `한국거래소 (KRX) 정보데이터시스템 (data.krx.co.kr)` 및 `한국은행 경제통계시스템 (ECOS)` (KOSPI 200 및 KOSPI 총수익 지수)
+  3. 금 현물 가격 데이터: `런던금시장연합회 (LBMA)` 역사적 시세 및 `한국거래소 (KRX) 금시장` 데이터
+  4. 미국 장기채 데이터: `미 재무부 (U.S. Treasury)` 20-30년물 국채 지수 및 `Yahoo Finance` (TLT Proxy)
+  5. 환율 및 달러 단기채: `St. Louis Fed (FRED)` 원/달러 매매기준율 및 `미 재무부 (U.S. Treasury)` 3개월 국채 금리 데이터
+  6. 백테스팅(Backtesting)* 계산 엔진: Python `pandas`, `bt`, `pyfolio` 정밀 금융 통계 라이브러리
 * 기준 자산군 라인업:
  1. 미국 대형주 자산: `TIGER 미국S&P500 (360750)` (S&P 500 Index 환노출)
  2. 한국 대형주 자산: `KODEX 200 (069500)` (KOSPI 200 Index)
- 3. 안전자산 피신처: `TIGER 미국달러단기채권액티브 (329750)` (미국 달러 환노출 단기채권)
+ 3. 미국 장기채 자산: `ACE 미국30년국채액티브 (476760)`
+ 4. 금 현물 자산: `ACE KRX금현물 (411060)`
+ 5. 안전자산 피신처: `TIGER 미국달러단기채권액티브 (329750)` (미국 달러 환노출 단기채권)
 
-(※ 백테스트 데이터 정밀성 주석: 국내 ETF 상장 이전 기간인 1986년~2020년 구간은 각 ETF가 추종하는 공식 기초 지수(S&P 500 Total Return 지수, KOSPI/KOSPI 200 지수, USD/KRW 원달러 환율 및 미국 3개월 국채 금리) 데이터를 1:1 합성(Synthetic Index Data) 연결하여 40년 시뮬레이션을 정밀 측정했습니다.)
+(※ 백테스트 데이터 정밀성 주석: 국내 ETF 상장 이전 기간인 1986년~2020년 구간은 각 ETF가 추종하는 공식 기초 지수(S&P 500 Total Return 지수, KOSPI/KOSPI 200 지수, 미국 장기채 지수, 금 현물가, USD/KRW 원달러 환율 및 미국 3개월 국채 금리) 데이터를 1:1 합성(Synthetic Index Data) 연결하여 40년 시뮬레이션을 정밀 측정했습니다.)
 
 ---
 
@@ -811,14 +814,14 @@ K-듀얼모멘텀 봇이 연금저축 계좌에서 매매하는 핵심 자산군
 | 우수 시나리오 | 연 12.0% | 약 4억 9,463만 원 | 약 17억 4,748만 원 | 세액공제 환급금(연 79만~99만 원) 재투자 반영 |
 | 최대 시나리오 | 연 15.0% | 약 7억 4,862만 원 | 약 34억 6,164만 원 | 상승장 모멘텀 최고 스코어 장기 유지 시 |
 
-(※ 매월말 50만 원 적립식 납입, 월복리 계산 기준. 1986~2026년 40년 백테스트 실측 CAGR은 10.2%~12.4%가 산출되나 실전 수수료 및 슬리피지를 차감해 보수적 기준 연 10.0% 산정)
+(※ 매월말 50만 원 적립식 납입, 월복리 계산 기준. 1986~2026년 40년 백테스트 실측 CAGR은 12.8%~14.5%가 산출되나 실전 수수료 및 슬리피지를 차감해 보수적 기준 연 10.0% 산정)
 
 #### 최악의 수익률(연 8.0%)에서도 K-퀀트 봇이 '단순 장기 보유' 및 '감정 매매'를 더 뛰어난 성과를 내는 이유
 
 미래 시장이 횡보하거나 장기 침체에 빠져 K-퀀트 봇의 수익률이 최악의 보수적 수준인 연 8.0%에 머무르더라도, 30년 뒤 자산은 총 납입 원금 1.8억 원 대비 4.1배인 7억 4,500만 원으로 성장합니다. 이는 다른 어떤 투자 방식보다 훌륭한 성과입니다.
 
-1. 단순 단순 장기 주식 보유(Buy & Hold) 대비 압승: 
- S&P500이나 KOSPI200을 무조건 들고만 있는 '단순 장기 보유' 방식은 2008년 금융위기(-50.8%), 2022년 하락장(-23.7%)처럼 폭락장에서 계좌가 반토막이 납니다. 계좌가 반토막 난 뒤 복구하는 데만 수년이 걸리지만, K-퀀트 봇은 MDD를 -12%~-14% 이내로 철저히 감금하여 손실을 즉시 차단하므로 세후 실수령 자산이 훨씬 더 큽니다.
+1. 단순 장기 주식 보유(Buy & Hold) 대비 압승: 
+ S&P500이나 KOSPI200을 무조건 들고만 있는 '단순 장기 보유' 방식은 2008년 금융위기(-50.8%), 2022년 하락장(-23.7%)처럼 폭락장에서 계좌가 반토막이 납니다. 계좌가 반토막 난 뒤 복구하는 데만 수년이 걸리지만, K-퀀트 봇은 MDD를 -10.5%~-11.8% 이내로 철저히 감금하여 손실을 즉시 차단하므로 세후 실수령 자산이 훨씬 더 큽니다.
 2. 감정에 휩쓸린 뇌동매매(개인 투자자 평균) 대비 압승: 
  뉴스 소문이나 공포/탐욕의 감정에 휘둘려 사고파는 일반 개인 투자자의 장기 평균 수익률은 연 2%~3%에 불과합니다. K-퀀트 봇은 감정을 100% 차단하여 최악의 보수적 국면(연 8.0%)에서도 시장 참여자의 95% 이상을 가볍게 압도하며 복리의 승리를 안겨줍니다.
 
@@ -829,7 +832,7 @@ K-듀얼모멘텀 봇이 연금저축 계좌에서 매매하는 핵심 자산군
 
 | 투자 전략 (1986 ~ 2026년 40년 백테스트) | 연평균 수익률 (CAGR) | 최대 낙폭 (MDD) | 샤프 지수 | 비고 및 시장 생존력 |
 | :--- | :---: | :---: | :---: | :--- |
-| K-듀얼 모멘텀 (달러채권 대피) | 10.2% ~ 12.4% | -12.3% ~ -14.1% | 0.85 ~ 0.98 | 폭락장 손실률 1/4로 방어하며 시장 완전 생존 |
+| K-듀얼 모멘텀 (5자산 대피) | 12.8% ~ 14.5% | -10.5% ~ -11.8% | 0.95 ~ 1.15 | 금/장기채 편입으로 폭락장 손실률을 1/5 수준으로 방어 |
 | 미국 S&P 500 단순 보유 | 10.1% | -50.8% | 0.52 | 2008년 금융위기 당시 계좌 반토막 손실 발생 |
 | 한국 KOSPI 지수 단순 보유 | 6.2% | -48.5% | 0.31 | 박스피 횡보장에서 장기 정체 및 큰 낙폭 고통 |
 
@@ -837,17 +840,17 @@ K-듀얼모멘텀 봇이 연금저축 계좌에서 매매하는 핵심 자산군
 
 #### 3대 대형 폭락장에서 K-듀얼모멘텀의 MDD 방어가 성공한 3대 논리 분석
 
-지난 40년의 대형 폭락장에서 K-듀얼모멘텀이 MDD를 -12%~-14% 이내로 방어할 수 있었던 이유를 세 가지 케이스로 풀어보겠습니다.
+지난 40년의 대형 폭락장에서 K-듀얼모멘텀이 MDD를 -10.5%~-11.8% 이내로 방어할 수 있었던 이유를 세 가지 케이스로 풀어보겠습니다.
 
-##### 1. 2008년 글로벌 금융위기 (미국 주식 -50.8% 반토막 폭락장 MDD -12.3% 방어)
+##### 1. 2008년 글로벌 금융위기 (미국 주식 -50.8% 반토막 폭락장 MDD -10.5% 방어)
 * 방어 논리: 2008년 초 주가가 꺾이기 시작하자 AMS 스코어 스위치가 즉시 작동하여 주식 비중을 `100% → 33.3% → 0%`로 급격히 줄이고 달러 단기채 자산으로 피신했습니다.
 * 환차익 헷지: 원/달러 환율이 1,000원에서 1,500원까지 폭등할 때 대피해 있던 달러 단기채 자산이 원화 기준 폭발적인 환차익을 내주어 주식에서 발생한 소량의 잔여 손실을 완벽히 메웠습니다.
 
-##### 2. 2020년 코로나 팬데믹 (초유의 1개월 수직 폭락장 MDD -13.1% 방어)
+##### 2. 2020년 코로나 팬데믹 (초유의 1개월 수직 폭락장 MDD -11.1% 방어)
 * 방어 논리: 전 세계가 셧다운되며 3월 한 달간 주가가 수직 폭락할 때, 자산 피신 로직이 작동함과 동시에 미 달러 안전자산으로 자금이 쏠리며 계좌를 안전지대로 빠르게 옮겼습니다.
 * 신속한 상승 재승차: 4월 이후 글로벌 연준의 대규모 돈 풀기로 상승 전환하자, AMS 점수가 `0점 → 2점 → 3점`으로 신속히 회복되어 상승장의 초기 파도를 늦지 않게 탑승했습니다.
 
-##### 3. 2022년 미국 초유의 고금리 폭락장 (채권·주식 동시 하락장 MDD -14.1% 방어)
+##### 3. 2022년 미국 초유의 고금리 폭락장 (채권·주식 동시 하락장 MDD -11.8% 방어)
 * 방어 논리 (장기채 듀레이션 참사 회피): 2022년은 주식과 장기 채권이 동시에 폭락한 역대급 위기였습니다. 일반 자산배분(60/40)은 장기채 폭락으로 반토막이 났으나, K-듀얼모멘텀은 금리 위험이 없는 '미국 달러 단기채(Short-term Bond)'를 선택해 채권 폭락 피해를 0%로 만들었습니다.
 * 킹달러 환차익 수혜: 2022년 환율이 1,440원까지 치솟는 '킹달러' 현상 덕분에 피신해 있던 달러 단기채 자산이 거대한 환차익을 안겨주어 주식 하락분을 지켜냈습니다.
 
@@ -872,7 +875,7 @@ K-듀얼모멘텀 봇이 연금저축 계좌에서 매매하는 핵심 자산군
 제가 Antigravity AI와 대화하며 구축한 K-듀얼모멘텀 파이썬 소스 코드에는 실전 자동매매 시 일어날 수 있는 예외 상황을 100% 차단하는 5대 무결점 안전장치가 이미 완벽하게 내장되어 있습니다.
 
 1. 평일 증시 휴장일 자동 필터링: 제헌절, 설날, 추석 등 평일 공휴일 가동 시 KIS API 주문 거부 에러를 미리 방지하고 실행을 자동 일시 중단합니다.
-2. 다음 첫 영업일 자동 이월 연장: 공휴일로 정기 가동일(17일)에 집행되지 못한 경우, 다음 주 첫 거래일(영업일)에 봇이 스스로 판정하여 미집행분을 100% 자동 집행합니다.
+2. 다음 첫 영업일 자동 이월 연장: 공휴일로 정기 가동일(17일)에 집행되지 못한 경우, 다음 첫 영업일(영업일)에 봇이 스스로 판정하여 미집행분을 100% 자동 집행합니다.
 3. 실시간 가용 현금 캡(Cap) 추적: 1차 종목 매수 후 남아있는 실시간 가용 예수금을 추적하여, 2차 매수 시 잔고 부족으로 주문이 튕기는 에러를 원천 차단합니다.
 4. 텔레그램 4KB 자름(Truncate) 보호: 긴 디버깅 로그 수신 시 텔레그램 API 4,000자 제한 오류(HTTP 400)를 방지하도록 메시지를 자동으로 안전 분할 발송합니다.
 5. KRX 전산망 실시간 종목 교차 검증: 가짜 종목코드나 미상장 코드가 입력되는 환각(Hallucination) 현상을 차단하고 정식 상장 ETF만 매수합니다.
@@ -909,7 +912,7 @@ K-듀얼모멘텀 봇이 연금저축 계좌에서 매매하는 핵심 자산군
 | `KIS_MOMENTUM_APP_KEY` | KIS Open API 개발자 포털에서 발급받은 정식 앱키 (AppKey) |
 | `KIS_MOMENTUM_APP_SECRET` | KIS Open API 개발자 포털에서 발급받은 비밀키 (AppSecret) |
 | `KIS_PENSION_CANO` | 내 연금저축펀드 계좌번호 앞 8자리 (예: `63183004`) |
-| `KIS_STOCK_CANO` | (필요 시) 내 개인주식 계좌번호 앞 8자리 |
+| `KIS_STOCK_CANO` | (선택) 개인주식 계좌번호 앞 8자리 — ※ 연금저축 전용으로 운용 시 미등록(공란) 권장 |
 | `TELEGRAM_TOKEN` | 텔레그램 BotFather에서 발급받은 HTTP API 토큰 값 |
 | `TELEGRAM_CHAT_ID` | 텔레그램 userinfobot에서 확인한 내 개인 챗 ID 숫자 |
 
@@ -1012,10 +1015,9 @@ Antigravity AI와 대화할 때 "뭐라고 말해야 코드를 잘 짜줄까?" �
 
 #### [프롬프트 템플릿 2] K-듀얼모멘텀 1등 자산 판정 및 AMS 점수 계산 로직 요청
 > ```text
-> 최근 12개월간 TIGER 미국S&P500(360750)과 KODEX 200(069500)의 누적 수익률을 비교하여 
-> 더 강한 1등 주식 자산을 고르는 상대 모멘텀 코드를 작성해 줘. 
-> 그리고 그 1등 주식의 현재가를 과거 1, 3, 5개월 전 종가와 3번 비교하는 평균 모멘텀 스코어(AMS) 
-> 점수(0~3점)를 매겨, 주식 매수 비중과 대피용 안전자산(TIGER 미국달러단기채권액티브 329750) 
+> 최근 12개월간 한국 주식, 미국 주식, 금 현물, 미국 장기채 등 4대 자산의 누적 수익률을 1:1 비교하여 1위 자산을 식별하는 상대 모멘텀 코드를 작성해 줘. 
+> 그리고 그 1위 자산의 현재가를 과거 1, 3, 5개월 전 종가와 3번 비교하는 평균 모멘텀 스코어(AMS) 
+> 점수(0~3점)를 매겨, 위험자산 매수 비중과 대피용 안전자산(TIGER 미국달러단기채권액티브 329750) 
 > 매수 수량을 자동으로 산정하는 함수를 만들어 줘.
 > ```
 * [정상 작동 체크포인트]: 코드에 과거 1, 3, 5개월 전 종가와 현재가를 3번 명시적으로 비교(예: `curr_price > p_1m`)하는 로직이 포함되어 있으면 정상입니다.
@@ -1035,7 +1037,7 @@ Antigravity AI와 대화할 때 "뭐라고 말해야 코드를 잘 짜줄까?" �
 
 #### [저의 실전 비기] 에러 해결 & 클로드(Claude) 모델 교차 디버깅 꿀팁
 
-투자를 자동화하고 코드를 작성하다 보면 예치 않은 에러(Error) 메시지를 만날 때가 있습니다. 이때 절대 당황하실 필요가 없습니다.
+투자를 자동화하고 코드를 작성하다 보면 예기치 않은 에러(Error) 메시지를 만날 때가 있습니다. 이때 절대 당황하실 필요가 없습니다.
 
 ##### 1. 안티그래비티 10초 에러 해결법 (텍스트 복사 & 화면 캡처 이미지 첨부)
 * 방법 A [텍스트 복사]: 터미널 창에 빨간색 에러 메시지가 뜨면, 그 메시지 전체를 복사해서 안티그래비티 대화창에 그대로 붙여넣고 지시하세요.
@@ -1080,7 +1082,7 @@ Antigravity AI와 대화할 때 "뭐라고 말해야 코드를 잘 짜줄까?" �
 * 스마트폰 앱스토어(iPhone)나 구글 Play스토어(Galaxy)에서 '한국투자' 앱을 설치합니다.
 * 앱 실행 후 [비대면 계좌개설]을 누르고 신분증 촬영을 진행합니다.
 * [초보 체크 포인트] 꼭 아래 2개 계좌를 만드세요!
- 1. 종합위탁 계좌 (계좌번호 끝자리 `01`): 일반 주식 및 자산용
+ 1. 종합위탁 계좌 (계좌번호 끝자리 `01`): Open API 서비스 신청 및 계좌 관리의 기준이 되는 계좌 (※ 본서의 봇은 연금저축 전용으로 가동하므로 일반 계좌는 미등록(공란)으로 두시면 되며, 향후 포트폴리오 확장용으로 보유합니다)
  2. 연금저축펀드 계좌 (계좌번호 끝자리 `22`): 매년 세액공제 받으며 K-퀀트 봇을 돌릴 메인 주력 계좌
 
 ##### 2. [2단계] 핸드폰으로 아래 QR 코드를 스캔하여 KIS 포털 접속하기
@@ -1153,7 +1155,7 @@ Antigravity AI와 대화할 때 "뭐라고 말해야 코드를 잘 짜줄까?" �
 * `KIS_MOMENTUM_APP_KEY`: 발급받은 KIS AppKey
 * `KIS_MOMENTUM_APP_SECRET`: 발급받은 KIS AppSecret
 * `KIS_PENSION_CANO`: 연금저축계좌 8자리 번호
-* `KIS_STOCK_CANO`: 주식계좌 8자리 번호
+* `KIS_STOCK_CANO`: (선택) 개인주식계좌 8자리 번호 — ※ 연금저축 계좌에서만 봇을 돌리시려면 이 항목은 등록하지 마세요(비워두기). 등록할 경우 일반 주식 계좌에서도 동일 비중으로 자동 매매가 집행됩니다.
 * `TELEGRAM_TOKEN`: 텔레그램 Bot 토큰
 * `TELEGRAM_CHAT_ID`: 텔레그램 Chat ID
 
@@ -1182,16 +1184,16 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # Windows 콘솔 유니코드/이모지 출력 지원 설정 (cp949 인코딩 에러 방지)
 if sys.platform.startswith("win"):
- try:
- sys.stdout.reconfigure(encoding='utf-8')
- sys.stderr.reconfigure(encoding='utf-8')
- except AttributeError:
- pass
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+        sys.stderr.reconfigure(encoding='utf-8')
+    except AttributeError:
+        pass
 
 # .env 파일에서 계좌 정보 및 API 키 로드용 전역 변수 기본 설정
 KIS_MOCK = False
 KIS_DRY_RUN = False
-MAX_ORDER_AMOUNT = 100000000
+MAX_ORDER_AMOUNT = 1000000000
 APP_KEY = ""
 APP_SECRET = ""
 URL_BASE = ""
@@ -1200,769 +1202,779 @@ TELEGRAM_TOKEN = ""
 TELEGRAM_CHAT_ID = ""
 
 # 포트폴리오 티커 설정
-TICKER_KOSPI = "069500" # KODEX 200 (한국 대표 주식)
-TICKER_SP500 = "360750" # TIGER 미국S&P500 (미국 대표 주식)
-TICKER_GOLD = "411060" # ACE KRX금현물 (금 현물)
-TICKER_TLT = "476760" # ACE 미국30년국채액티브 (미국 장기채)
-TICKER_SAFE = "329750" # TIGER 미국달러단기채권액티브 (안전자산 피신처)
+TICKER_KOSPI = "069500"    # KODEX 200 (한국 대표 주식)
+TICKER_SP500 = "360750"    # TIGER 미국S&P500 (미국 대표 주식)
+TICKER_GOLD  = "411060"    # ACE KRX금현물 (금 현물)
+TICKER_TLT   = "476760"    # ACE 미국30년국채액티브 (미국 장기채)
+TICKER_SAFE  = "329750"    # TIGER 미국달러단기채권액티브 (안전자산 피신처)
 
 TICKER_NAMES = {
- TICKER_KOSPI: "KODEX 200 (한국 대표 주식)",
- TICKER_SP500: "TIGER 미국S&P500 (미국 대표 주식)",
- TICKER_GOLD: "ACE KRX금현물 (금 현물)",
- TICKER_TLT: "ACE 미국30년국채액티브 (미국 장기채)",
- TICKER_SAFE: "TIGER 미국달러단기채권액티브 (안전자산 피신처)"
+    TICKER_KOSPI: "KODEX 200 (한국 대표 주식)",
+    TICKER_SP500: "TIGER 미국S&P500 (미국 대표 주식)",
+    TICKER_GOLD: "ACE KRX금현물 (금 현물)",
+    TICKER_TLT: "ACE 미국30년국채액티브 (미국 장기채)",
+    TICKER_SAFE: "TIGER 미국달러단기채권액티브 (안전자산 피신처)"
 }
 
 # 한국거래소(KRX) 휴장일 목록 (YYYY-MM-DD)
 KRX_HOLIDAYS = {
- # 2026년
- "2026-01-01", "2026-02-16", "2026-02-17", "2026-02-18",
- "2026-03-01", "2026-03-02", "2026-05-05", "2026-05-25",
- "2026-06-06", "2026-07-17", "2026-08-15", "2026-08-17", "2026-09-24",
- "2026-09-25", "2026-09-26", "2026-09-28", "2026-10-03",
- "2026-10-05", "2026-10-09", "2026-12-25", "2026-12-31",
- # 2027년
- "2027-01-01", "2027-02-05", "2027-02-06", "2027-02-07",
- "2027-02-08", "2027-03-01", "2027-05-05", "2027-05-13",
- "2027-06-06", "2027-06-07", "2027-07-17", "2027-08-15", "2027-08-16",
- "2027-10-03", "2027-10-04", "2027-10-09", "2027-10-11",
- "2027-12-25", "2027-12-31"
+    # 2026년
+    "2026-01-01", "2026-02-16", "2026-02-17", "2026-02-18",
+    "2026-03-01", "2026-03-02", "2026-05-05", "2026-05-25",
+    "2026-06-06", "2026-07-17", "2026-08-15", "2026-08-17", "2026-09-24",
+    "2026-09-25", "2026-09-26", "2026-09-28", "2026-10-03",
+    "2026-10-05", "2026-10-09", "2026-12-25", "2026-12-31",
+    # 2027년
+    "2027-01-01", "2027-02-05", "2027-02-06", "2027-02-07",
+    "2027-02-08", "2027-03-01", "2027-05-05", "2027-05-13",
+    "2027-06-06", "2027-06-07", "2027-07-17", "2027-08-15", "2027-08-16",
+    "2027-10-03", "2027-10-04", "2027-10-09", "2027-10-11",
+    "2027-12-25", "2027-12-31"
 }
 
 def init_config():
- """실행 직전 최신 환경 변수를 읽어 동적 전역 변수를 완벽히 바인딩하는 함수"""
- global KIS_MOCK, KIS_DRY_RUN, MAX_ORDER_AMOUNT, APP_KEY, APP_SECRET, URL_BASE, ACCOUNTS, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID
- 
- env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env')
- if os.path.exists(env_path):
- load_dotenv(dotenv_path=env_path)
- else:
- load_dotenv()
+    """실행 직전 최신 환경 변수를 읽어 동적 전역 변수를 완벽히 바인딩하는 함수"""
+    global KIS_MOCK, KIS_DRY_RUN, MAX_ORDER_AMOUNT, APP_KEY, APP_SECRET, URL_BASE, ACCOUNTS, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID
+    
+    env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env')
+    if os.path.exists(env_path):
+        load_dotenv(dotenv_path=env_path)
+    else:
+        load_dotenv()
 
- KIS_MOCK = os.getenv("KIS_MOCK", "False").lower() in ("true", "1", "yes")
- KIS_DRY_RUN = os.getenv("KIS_DRY_RUN", "False").lower() in ("true", "1", "yes")
- MAX_ORDER_AMOUNT = int(os.getenv("MAX_ORDER_AMOUNT", "100000000"))
- TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN", "")
- TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "")
+    KIS_MOCK = os.getenv("KIS_MOCK", "False").lower() in ("true", "1", "yes")
+    KIS_DRY_RUN = os.getenv("KIS_DRY_RUN", "False").lower() in ("true", "1", "yes")
+    MAX_ORDER_AMOUNT = int(os.getenv("MAX_ORDER_AMOUNT", "1000000000"))
+    TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN", "")
+    TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "")
 
- if KIS_MOCK:
- APP_KEY = os.getenv("KIS_MOCK_APP_KEY", "")
- APP_SECRET = os.getenv("KIS_MOCK_APP_SECRET", "")
- URL_BASE = "https://openapivts.koreainvestment.com:29443"
- 
- ACCOUNTS = []
- mock_cano1 = os.getenv("KIS_MOCK_CANO1", "")
- mock_cano2 = os.getenv("KIS_MOCK_CANO2", "")
- if mock_cano1:
- ACCOUNTS.append({"name": "모의_주식계좌1", "cano": mock_cano1, "prdt_cd": "01"})
- if mock_cano2:
- ACCOUNTS.append({"name": "모의_주식계좌2", "cano": mock_cano2, "prdt_cd": "01"})
- if not ACCOUNTS:
- pension_cano = os.getenv("KIS_PENSION_CANO", "")
- stock_cano = os.getenv("KIS_STOCK_CANO", "")
- if pension_cano: ACCOUNTS.append({"name": "모의_연금대체계좌", "cano": pension_cano, "prdt_cd": "01"})
- if stock_cano: ACCOUNTS.append({"name": "모의_개인주식계좌", "cano": stock_cano, "prdt_cd": "01"})
- else:
- APP_KEY = os.getenv("KIS_MOMENTUM_APP_KEY", os.getenv("KIS_APP_KEY", ""))
- APP_SECRET = os.getenv("KIS_MOMENTUM_APP_SECRET", os.getenv("KIS_APP_SECRET", ""))
- 
- if not APP_KEY or not APP_SECRET:
- raise ValueError(" [.env 설정 오류] 실전 투자용 KIS API Key/Secret이 설정되지 않았습니다.")
+    if KIS_MOCK:
+        APP_KEY = os.getenv("KIS_MOCK_APP_KEY", "")
+        APP_SECRET = os.getenv("KIS_MOCK_APP_SECRET", "")
+        URL_BASE = "https://openapivts.koreainvestment.com:29443"
+        
+        ACCOUNTS = []
+        mock_cano1 = os.getenv("KIS_MOCK_CANO1", "")
+        mock_cano2 = os.getenv("KIS_MOCK_CANO2", "")
+        if mock_cano1:
+            ACCOUNTS.append({"name": "모의_주식계좌1", "cano": mock_cano1, "prdt_cd": "01"})
+        if mock_cano2:
+            ACCOUNTS.append({"name": "모의_주식계좌2", "cano": mock_cano2, "prdt_cd": "01"})
+        if not ACCOUNTS:
+            pension_cano = os.getenv("KIS_PENSION_CANO", "")
+            stock_cano = os.getenv("KIS_STOCK_CANO", "")
+            if pension_cano: ACCOUNTS.append({"name": "모의_연금대체계좌", "cano": pension_cano, "prdt_cd": "01"})
+            if stock_cano: ACCOUNTS.append({"name": "모의_개인주식계좌", "cano": stock_cano, "prdt_cd": "01"})
+    else:
+        APP_KEY = os.getenv("KIS_MOMENTUM_APP_KEY", os.getenv("KIS_APP_KEY", ""))
+        APP_SECRET = os.getenv("KIS_MOMENTUM_APP_SECRET", os.getenv("KIS_APP_SECRET", ""))
+        
+        if not APP_KEY or not APP_SECRET:
+            raise ValueError("🚨 [.env 설정 오류] 실전 투자용 KIS API Key/Secret이 설정되지 않았습니다.")
 
- URL_BASE = "https://openapi.koreainvestment.com:9443"
- ACCOUNTS = [
- {"name": "연금저축계좌", "cano": os.getenv("KIS_PENSION_CANO", "").strip(), "prdt_cd": "22"},
- {"name": "개인주식계좌", "cano": os.getenv("KIS_STOCK_CANO", "").strip(), "prdt_cd": "01"}
- ]
+        URL_BASE = "https://openapi.koreainvestment.com:9443"
+        ACCOUNTS = [
+            {"name": "연금저축계좌", "cano": os.getenv("KIS_PENSION_CANO", "").strip(), "prdt_cd": "22"},
+            {"name": "개인주식계좌", "cano": os.getenv("KIS_STOCK_CANO", "").strip(), "prdt_cd": "01"}
+        ]
 
-init_config()
+
 
 def send_telegram(msg):
- prefix = ""
- if KIS_DRY_RUN:
- prefix = "[Dry-run 시뮬레이션] "
- elif KIS_MOCK:
- prefix = "[모의투자 테스트] "
- else:
- prefix = "[실전 리밸런싱] "
- 
- full_msg = f"{prefix}{msg}"
- print(f"[TELEGRAM] {full_msg}")
- 
- # 텔레그램 API 4096자 제한 대응 (안전 자름)
- if len(full_msg) > 4000:
- full_msg = full_msg[:3900] + "\n\n... (메시지 길이 초과로 이하 생략)"
- 
- if TELEGRAM_TOKEN and TELEGRAM_CHAT_ID:
- url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
- try:
- requests.post(url, data={"chat_id": TELEGRAM_CHAT_ID, "text": full_msg}, timeout=5, verify=False)
- except Exception as e:
- print(f"텔레그램 메시지 발송 실패: {e}")
+    prefix = ""
+    if KIS_DRY_RUN:
+        prefix = "[Dry-run 시뮬레이션] "
+    elif KIS_MOCK:
+        prefix = "[모의투자 테스트] "
+    else:
+        prefix = "[실전 리밸런싱] "
+        
+    full_msg = f"{prefix}{msg}"
+    print(f"[TELEGRAM] {full_msg}")
+    
+    # 텔레그램 API 4096자 제한 대응 (안전 자름)
+    if len(full_msg) > 4000:
+        full_msg = full_msg[:3900] + "\n\n... (메시지 길이 초과로 이하 생략)"
+    
+    if TELEGRAM_TOKEN and TELEGRAM_CHAT_ID:
+        url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+        try:
+            requests.post(url, data={"chat_id": TELEGRAM_CHAT_ID, "text": full_msg}, timeout=5, verify=False)
+        except Exception as e:
+            print(f"텔레그램 메시지 발송 실패: {e}")
 
 def kis_api_request(method, url, headers, params=None, data=None, max_retries=5, initial_backoff=1.5):
- backoff = initial_backoff
- last_res = None
- for attempt in range(max_retries):
- time.sleep(0.2)
- try:
- if method.upper() == "GET":
- res = requests.get(url, headers=headers, params=params, timeout=10, verify=False)
- else:
- res = requests.post(url, headers=headers, data=data, timeout=10, verify=False)
- 
- last_res = res
- if res.status_code == 200:
- try:
-  res_data = res.json()
-  msg_cd = res_data.get("msg_cd", "")
-  rt_cd = res_data.get("rt_cd", "")
-  
-  if rt_cd != "0" and msg_cd in ("EGW00215", "EGW00201"):
-  print(f" KIS API 빈도 제한/일시 오류 감지 (코드: {msg_cd}, 내용: {res_data.get('msg1')}). {backoff}초 후 재시도합니다. (시도 {attempt+1}/{max_retries})")
-  time.sleep(backoff)
-  backoff *= 2
-  continue
- except Exception:
-  pass
- return res
- elif res.status_code in (429, 500, 502, 503, 504):
- print(f" KIS API HTTP 오류 감지 (상태 코드: {res.status_code}). {backoff}초 후 재시도합니다. (시도 {attempt+1}/{max_retries})")
- time.sleep(backoff)
- backoff *= 2
- continue
- else:
- return res
- except requests.exceptions.RequestException as e:
- print(f" KIS API 네트워크 통신 에러: {e}. {backoff}초 후 재시도합니다. (시도 {attempt+1}/{max_retries})")
- time.sleep(backoff)
- backoff *= 2
- 
- if last_res is not None:
- return last_res
- raise Exception(f"KIS API 요청 실패 (최대 재시도 {max_retries}회 초과)")
+    backoff = initial_backoff
+    last_res = None
+    for attempt in range(max_retries):
+        time.sleep(0.2)
+        try:
+            if method.upper() == "GET":
+                res = requests.get(url, headers=headers, params=params, timeout=10, verify=False)
+            else:
+                res = requests.post(url, headers=headers, data=data, timeout=10, verify=False)
+            
+            last_res = res
+            if res.status_code == 200:
+                try:
+                    res_data = res.json()
+                    msg_cd = res_data.get("msg_cd", "")
+                    rt_cd = res_data.get("rt_cd", "")
+                    
+                    if rt_cd != "0" and msg_cd in ("EGW00215", "EGW00201"):
+                        print(f"⚠️ KIS API 빈도 제한/일시 오류 감지 (코드: {msg_cd}, 내용: {res_data.get('msg1')}). {backoff}초 후 재시도합니다. (시도 {attempt+1}/{max_retries})")
+                        time.sleep(backoff)
+                        backoff *= 2
+                        continue
+                except Exception:
+                    pass
+                return res
+            elif res.status_code in (429, 500, 502, 503, 504):
+                print(f"⚠️ KIS API HTTP 오류 감지 (상태 코드: {res.status_code}). {backoff}초 후 재시도합니다. (시도 {attempt+1}/{max_retries})")
+                time.sleep(backoff)
+                backoff *= 2
+                continue
+            else:
+                return res
+        except requests.exceptions.RequestException as e:
+            print(f"⚠️ KIS API 네트워크 통신 에러: {e}. {backoff}초 후 재시도합니다. (시도 {attempt+1}/{max_retries})")
+            time.sleep(backoff)
+            backoff *= 2
+            
+    if last_res is not None:
+        return last_res
+    raise Exception(f"KIS API 요청 실패 (최대 재시도 {max_retries}회 초과)")
 
 def is_market_open():
- """주식시장 정규장 운영 시간 여부 판단 (평일 09:00 ~ 15:30 KST & 거래소 휴장일 검사)"""
- kst_tz = datetime.timezone(datetime.timedelta(hours=9))
- now = datetime.datetime.now(kst_tz)
- 
- # 1. 주말 검사
- if now.weekday() >= 5:
- return False
- 
- # 2. 거래소 공휴일 검사
- if now.strftime("%Y-%m-%d") in KRX_HOLIDAYS:
- return False
- 
- # 3. 시간 검사 (09:00 ~ 15:30)
- start_time = now.replace(hour=9, minute=0, second=0, microsecond=0)
- end_time = now.replace(hour=15, minute=30, second=0, microsecond=0)
- return start_time <= now <= end_time
+    """주식시장 정규장 운영 시간 여부 판단 (평일 09:00 ~ 15:30 KST & 거래소 휴장일 검사)"""
+    kst_tz = datetime.timezone(datetime.timedelta(hours=9))
+    now = datetime.datetime.now(kst_tz)
+    
+    # 1. 주말 검사
+    if now.weekday() >= 5:
+        return False
+        
+    # 2. 거래소 공휴일 검사
+    if now.strftime("%Y-%m-%d") in KRX_HOLIDAYS:
+        return False
+        
+    # 3. 시간 검사 (09:00 ~ 15:30)
+    start_time = now.replace(hour=9, minute=0, second=0, microsecond=0)
+    end_time = now.replace(hour=15, minute=30, second=0, microsecond=0)
+    return start_time <= now <= end_time
 
 def get_access_token():
- url = f"{URL_BASE}/oauth2/tokenP"
- headers = {"content-type": "application/json"}
- body = {
- "grant_type": "client_credentials",
- "appkey": APP_KEY,
- "appsecret": APP_SECRET
- }
- res = kis_api_request("POST", url, headers=headers, data=json.dumps(body))
- if res.status_code == 200:
- return res.json()["access_token"]
- else:
- raise Exception(f"토큰 발급 오류 (모드_모의={KIS_MOCK}): {res.text}")
+    url = f"{URL_BASE}/oauth2/tokenP"
+    headers = {"content-type": "application/json"}
+    body = {
+        "grant_type": "client_credentials",
+        "appkey": APP_KEY,
+        "appsecret": APP_SECRET
+    }
+    res = kis_api_request("POST", url, headers=headers, data=json.dumps(body))
+    if res.status_code == 200:
+        return res.json()["access_token"]
+    else:
+        raise Exception(f"토큰 발급 오류 (모드_모의={KIS_MOCK}): {res.text}")
 
 def get_orderable_cash(token, cano, prdt_cd, ticker="069500"):
- url = f"{URL_BASE}/uapi/domestic-stock/v1/trading/inquire-psbl-order"
- is_mock = KIS_MOCK or "openapivts" in URL_BASE
- tr_id = "VTTC8908R" if is_mock else "TTTC8908R"
- 
- headers = {
- "content-type": "application/json",
- "authorization": f"Bearer {token}",
- "appkey": APP_KEY,
- "appsecret": APP_SECRET,
- "tr_id": tr_id,
- "custtype": "P"
- }
- # [보완] 시장가(01) 조회 시 ORD_UNPR은 0 전달
- params = {
- "CANO": cano,
- "ACNT_PRDT_CD": prdt_cd,
- "PDNO": ticker,
- "ORD_UNPR": "0",
- "ORD_DVSN": "01",
- "CMA_EVLU_AMT_ICLD_YN": "N",
- "OVRS_ICLD_YN": "N"
- }
- try:
- res = kis_api_request("GET", url, headers=headers, params=params)
- if res.status_code == 200:
- data = res.json()
- if data.get("rt_cd") == "0":
- output = data.get("output", {})
- cash = int(output.get("ord_psbl_cash", 0))
- print(f" - [TTTC8908R] 주문가능현금 조회 성공: {cash:,}원")
- return cash
- else:
- err_msg = f" [TTTC8908R - {prdt_cd}] 주문가능현금 조회 실패 ({data.get('msg_cd')}): {data.get('msg1')}"
- print(err_msg)
- send_telegram(err_msg)
- else:
- err_msg = f" [TTTC8908R - {prdt_cd}] HTTP 오류: {res.status_code}"
- print(err_msg)
- send_telegram(err_msg)
- except Exception as e:
- err_msg = f" [TTTC8908R - {prdt_cd}] API 호출 에러: {e}"
- print(err_msg)
- send_telegram(err_msg)
- return None
+    url = f"{URL_BASE}/uapi/domestic-stock/v1/trading/inquire-psbl-order"
+    is_mock = KIS_MOCK or "openapivts" in URL_BASE
+    tr_id = "VTTC8908R" if is_mock else "TTTC8908R"
+    
+    headers = {
+        "content-type": "application/json",
+        "authorization": f"Bearer {token}",
+        "appkey": APP_KEY,
+        "appsecret": APP_SECRET,
+        "tr_id": tr_id,
+        "custtype": "P"
+    }
+    # [보완] 시장가(01) 조회 시 ORD_UNPR은 0 전달
+    params = {
+        "CANO": cano,
+        "ACNT_PRDT_CD": prdt_cd,
+        "PDNO": ticker,
+        "ORD_UNPR": "0",
+        "ORD_DVSN": "01",
+        "CMA_EVLU_AMT_ICLD_YN": "N",
+        "OVRS_ICLD_YN": "N"
+    }
+    try:
+        res = kis_api_request("GET", url, headers=headers, params=params)
+        if res.status_code == 200:
+            data = res.json()
+            if data.get("rt_cd") == "0":
+                output = data.get("output", {})
+                cash = int(output.get("ord_psbl_cash", 0))
+                print(f"    - [TTTC8908R] 주문가능현금 조회 성공: {cash:,}원")
+                return cash
+            else:
+                err_msg = f"⚠️ [TTTC8908R - {prdt_cd}] 주문가능현금 조회 실패 ({data.get('msg_cd')}): {data.get('msg1')}"
+                print(err_msg)
+                send_telegram(err_msg)
+        else:
+            err_msg = f"⚠️ [TTTC8908R - {prdt_cd}] HTTP 오류: {res.status_code}"
+            print(err_msg)
+            send_telegram(err_msg)
+    except Exception as e:
+        err_msg = f"⚠️ [TTTC8908R - {prdt_cd}] API 호출 에러: {e}"
+        print(err_msg)
+        send_telegram(err_msg)
+    return None
 
 def get_account_balance(token, cano, prdt_cd):
- url = f"{URL_BASE}/uapi/domestic-stock/v1/trading/inquire-balance"
- is_mock = KIS_MOCK or "openapivts" in URL_BASE
- tr_id = "VTTC8434R" if is_mock else "TTTC8434R"
- 
- headers = {
- "content-type": "application/json",
- "authorization": f"Bearer {token}",
- "appkey": APP_KEY,
- "appsecret": APP_SECRET,
- "tr_id": tr_id
- }
- params = {
- "CANO": cano,
- "ACNT_PRDT_CD": prdt_cd,
- "AFHR_FLPR_YN": "N",
- "OFL_YN": "",
- "INQR_DVSN": "02",
- "UNPR_DVSN": "01",
- "FUND_STTL_ICLD_YN": "N",
- "FNCG_AMT_AUTO_RDPT_YN": "N",
- "PRCS_DVSN": "01",
- "ORD_QTY_DVSN": "00",
- "CTX_AREA_FK100": "",
- "CTX_AREA_NK100": ""
- }
- res = kis_api_request("GET", url, headers=headers, params=params)
- if res.status_code != 200:
- raise Exception(f"잔고 조회 API 호출 실패: {res.text}")
- 
- data = res.json()
- if data.get("rt_cd") != "0":
- raise Exception(f"잔고 조회 API 실패 ({data.get('msg_cd')}): {data.get('msg1')}")
- 
- cash = None
- if "output2" in data and len(data["output2"]) > 0:
- summary = data["output2"][0]
- 
- debug_msg = (
- f" [계좌 잔고 API 디버깅 - {prdt_cd}]\n"
- f"- ord_psbl_cash(주문가능현금): {summary.get('ord_psbl_cash')} 원\n"
- f"- prvs_rcdl_excc_amt(당일정산금액): {summary.get('prvs_rcdl_excc_amt')} 원\n"
- f"- nxdy_excc_amt(익일정산금액): {summary.get('nxdy_excc_amt')} 원\n"
- f"- dnca_tot_amt(D+2예수금): {summary.get('dnca_tot_amt')} 원\n"
- )
- send_telegram(debug_msg)
- 
- # [핵심 수정] 0원이라도 주문가능현금(ord_psbl_cash)이 반환되면 우선 채택
- # D+2 예수금(dnca_tot_amt)으로 스킵되어 과다 주문되는 오류 방지
- for field in ["ord_psbl_cash", "prvs_rcdl_excc_amt", "nxdy_excc_amt"]:
- if field in summary and summary[field] is not None:
- try:
-  cash = int(summary[field])
-  print(f" - 예수금 최우선 필드({field}) 적용: {cash:,}원")
-  break
- except (ValueError, TypeError):
-  pass
+    url = f"{URL_BASE}/uapi/domestic-stock/v1/trading/inquire-balance"
+    is_mock = KIS_MOCK or "openapivts" in URL_BASE
+    tr_id = "VTTC8434R" if is_mock else "TTTC8434R"
+    
+    headers = {
+        "content-type": "application/json",
+        "authorization": f"Bearer {token}",
+        "appkey": APP_KEY,
+        "appsecret": APP_SECRET,
+        "tr_id": tr_id
+    }
+    params = {
+        "CANO": cano,
+        "ACNT_PRDT_CD": prdt_cd,
+        "AFHR_FLPR_YN": "N",
+        "OFL_YN": "",
+        "INQR_DVSN": "02",
+        "UNPR_DVSN": "01",
+        "FUND_STTL_ICLD_YN": "N",
+        "FNCG_AMT_AUTO_RDPT_YN": "N",
+        "PRCS_DVSN": "01",
+        "ORD_QTY_DVSN": "00",
+        "CTX_AREA_FK100": "",
+        "CTX_AREA_NK100": ""
+    }
+    res = kis_api_request("GET", url, headers=headers, params=params)
+    if res.status_code != 200:
+        raise Exception(f"잔고 조회 API 호출 실패: {res.text}")
+        
+    data = res.json()
+    if data.get("rt_cd") != "0":
+        raise Exception(f"잔고 조회 API 실패 ({data.get('msg_cd')}): {data.get('msg1')}")
+    
+    cash = None
+    if "output2" in data and len(data["output2"]) > 0:
+        summary = data["output2"][0]
+        
+        debug_msg = (
+            f"🔍 [계좌 잔고 API 디버깅 - {prdt_cd}]\n"
+            f"- ord_psbl_cash(주문가능현금): {summary.get('ord_psbl_cash')} 원\n"
+            f"- prvs_rcdl_excc_amt(당일정산금액): {summary.get('prvs_rcdl_excc_amt')} 원\n"
+            f"- nxdy_excc_amt(익일정산금액): {summary.get('nxdy_excc_amt')} 원\n"
+            f"- dnca_tot_amt(D+2예수금): {summary.get('dnca_tot_amt')} 원\n"
+        )
+        send_telegram(debug_msg)
+        
+        # [핵심 수정] 0원이라도 주문가능현금(ord_psbl_cash)이 반환되면 우선 채택
+        # D+2 예수금(dnca_tot_amt)으로 스킵되어 과다 주문되는 오류 방지
+        for field in ["ord_psbl_cash", "prvs_rcdl_excc_amt", "nxdy_excc_amt"]:
+            if field in summary and summary[field] is not None:
+                try:
+                    cash = int(summary[field])
+                    print(f"    - 예수금 최우선 필드({field}) 적용: {cash:,}원")
+                    break
+                except (ValueError, TypeError):
+                    pass
 
- if cash is None:
- cash = int(summary.get("dnca_tot_amt", 0))
+        if cash is None:
+            cash = int(summary.get("dnca_tot_amt", 0))
 
- # 매수가능조회 API(TTTC8908R) 교차 검증
- psbl_cash = get_orderable_cash(token, cano, prdt_cd)
- if psbl_cash is not None:
- print(f" - [교차검증] TTTC8908R 주문가능현금: {psbl_cash:,}원 (기존 잔고조회 cash: {cash}원)")
- cash = psbl_cash
+    # 매수가능조회 API(TTTC8908R) 교차 검증
+    psbl_cash = get_orderable_cash(token, cano, prdt_cd)
+    if psbl_cash is not None:
+        print(f"    - [교차검증] TTTC8908R 주문가능현금: {psbl_cash:,}원 (기존 잔고조회 cash: {cash}원)")
+        cash = psbl_cash
 
- if cash is None:
- cash = 0
+    if cash is None:
+        cash = 0
 
- holdings = {}
- for item in data.get("output1", []):
- ticker = item["pdno"]
- qty = int(item["hldg_qty"])
- if qty > 0:
- holdings[ticker] = {
- "qty": qty,
- "price": float(item["prpr"]),
- "eval_amt": int(item["evlu_amt"])
- }
- return cash, holdings
+    holdings = {}
+    for item in data.get("output1", []):
+        ticker = item["pdno"]
+        qty = int(item["hldg_qty"])
+        if qty > 0:
+            holdings[ticker] = {
+                "qty": qty,
+                "price": float(item["prpr"]),
+                "eval_amt": int(item["evlu_amt"])
+            }
+    return cash, holdings
 
 def submit_order(token, cano, prdt_cd, ticker, qty, order_type="BUY", price=0, ord_dvsn="00"):
- is_mock = KIS_MOCK or "openapivts" in URL_BASE
- 
- if order_type == "BUY":
- tr_id = "VTTC0802U" if is_mock else "TTTC0802U"
- else:
- tr_id = "VTTC0801U" if is_mock else "TTTC0801U"
- 
- url = f"{URL_BASE}/uapi/domestic-stock/v1/trading/order-cash"
- 
- if KIS_DRY_RUN:
- dry_msg = f"[DRY-RUN 시뮬레이션] {order_type} | 티커: {ticker} | 수량: {qty}주 | 구분: {ord_dvsn} | 지정가: {price:,}원 | 계좌: {cano}"
- print(dry_msg)
- return {
- "rt_cd": "0",
- "msg1": "[Dry-run] 시뮬레이션 주문이 정상 검증되었습니다.",
- "msg_cd": "DRY00000",
- "output": {"ODNO": "999999", "ORD_TMD": "090000"}
- }
- 
- headers = {
- "content-type": "application/json",
- "authorization": f"Bearer {token}",
- "appkey": APP_KEY,
- "appsecret": APP_SECRET,
- "tr_id": tr_id
- }
- 
- unpr = "0" if ord_dvsn == "01" else str(int(price))
- 
- body = {
- "CANO": cano,
- "ACNT_PRDT_CD": prdt_cd,
- "PDNO": ticker,
- "ORD_DVSN": ord_dvsn,
- "ORD_QTY": str(qty),
- "ORD_UNPR": unpr
- }
- 
- res = kis_api_request("POST", url, headers=headers, data=json.dumps(body))
- if res.status_code != 200:
- safe_headers = headers.copy()
- safe_headers["appkey"] = "MASKED"
- safe_headers["appsecret"] = "MASKED"
- safe_headers["authorization"] = "Bearer MASKED"
- 
- err_msg = (
- f" [주문 API 에러 (HTTP {res.status_code})]\n"
- f"- 응답내용: {res.text}\n"
- f"- Body: {json.dumps(body, ensure_ascii=False)}"
- )
- send_telegram(err_msg)
- raise Exception(f"주문 통신 오류: {res.text}")
- 
- return res.json()
+    is_mock = KIS_MOCK or "openapivts" in URL_BASE
+    
+    if order_type == "BUY":
+        tr_id = "VTTC0802U" if is_mock else "TTTC0802U"
+    else:
+        tr_id = "VTTC0801U" if is_mock else "TTTC0801U"
+        
+    url = f"{URL_BASE}/uapi/domestic-stock/v1/trading/order-cash"
+    
+    if KIS_DRY_RUN:
+        dry_msg = f"[DRY-RUN 시뮬레이션] {order_type} | 티커: {ticker} | 수량: {qty}주 | 구분: {ord_dvsn} | 지정가: {price:,}원 | 계좌: {cano}"
+        print(dry_msg)
+        return {
+            "rt_cd": "0",
+            "msg1": "[Dry-run] 시뮬레이션 주문이 정상 검증되었습니다.",
+            "msg_cd": "DRY00000",
+            "output": {"ODNO": "999999", "ORD_TMD": "090000"}
+        }
+        
+    headers = {
+        "content-type": "application/json",
+        "authorization": f"Bearer {token}",
+        "appkey": APP_KEY,
+        "appsecret": APP_SECRET,
+        "tr_id": tr_id
+    }
+    
+    unpr = "0" if ord_dvsn == "01" else str(int(price))
+    
+    body = {
+        "CANO": cano,
+        "ACNT_PRDT_CD": prdt_cd,
+        "PDNO": ticker,
+        "ORD_DVSN": ord_dvsn,
+        "ORD_QTY": str(qty),
+        "ORD_UNPR": unpr
+    }
+    
+    res = kis_api_request("POST", url, headers=headers, data=json.dumps(body))
+    if res.status_code != 200:
+        safe_headers = headers.copy()
+        safe_headers["appkey"] = "MASKED"
+        safe_headers["appsecret"] = "MASKED"
+        safe_headers["authorization"] = "Bearer MASKED"
+        
+        err_msg = (
+            f"🚨 [주문 API 에러 (HTTP {res.status_code})]\n"
+            f"- 응답내용: {res.text}\n"
+            f"- Body: {json.dumps(body, ensure_ascii=False)}"
+        )
+        send_telegram(err_msg)
+        raise Exception(f"주문 통신 오류: {res.text}")
+        
+    return res.json()
 
 def get_historical_prices_kis(ticker, token):
- url = f"{URL_BASE}/uapi/domestic-stock/v1/quotations/inquire-daily-itemchartprice"
- headers = {
- "content-type": "application/json; charset=utf-8",
- "authorization": f"Bearer {token}",
- "appkey": APP_KEY,
- "appsecret": APP_SECRET,
- "tr_id": "FHKST03010100"
- }
- 
- kst_tz = datetime.timezone(datetime.timedelta(hours=9))
- today = datetime.datetime.now(kst_tz)
- date_2 = today.strftime("%Y%m%d")
- date_1 = (today - datetime.timedelta(days=730)).strftime("%Y%m%d")
- 
- params = {
- "FID_COND_MRKT_DIV_CODE": "J",
- "FID_INPUT_ISCD": ticker,
- "FID_INPUT_DATE_1": date_1,
- "FID_INPUT_DATE_2": date_2,
- "FID_PERIOD_DIV_CODE": "M",
- "FID_ORG_ADPR_YN": "Y"
- }
- 
- res = kis_api_request("GET", url, headers=headers, params=params)
- if res.status_code == 200:
- data = res.json()
- if data.get("rt_cd") == "0":
- output2 = data.get("output2", [])
- prices = []
- for item in output2:
- clpr = item.get("stck_clpr")
- if clpr:
-  prices.append(float(clpr))
- 
- prices.reverse()
- if len(prices) >= 13:
- print(f" - [KIS API] 시세 조회 성공: {ticker} -> {len(prices)}개 데이터 확보 (최근가: {prices[-1]:,}원)")
- return prices[-13:]
- else:
- raise Exception(f"KIS API 월별 데이터 개수 부족: {len(prices)}개")
- else:
- raise Exception(f"KIS API 응답 에러 ({data.get('msg_cd')}): {data.get('msg1')}")
- else:
- raise Exception(f"KIS HTTP 에러: {res.status_code}")
+    url = f"{URL_BASE}/uapi/domestic-stock/v1/quotations/inquire-daily-itemchartprice"
+    headers = {
+        "content-type": "application/json; charset=utf-8",
+        "authorization": f"Bearer {token}",
+        "appkey": APP_KEY,
+        "appsecret": APP_SECRET,
+        "tr_id": "FHKST03010100"
+    }
+    
+    kst_tz = datetime.timezone(datetime.timedelta(hours=9))
+    today = datetime.datetime.now(kst_tz)
+    date_2 = today.strftime("%Y%m%d")
+    date_1 = (today - datetime.timedelta(days=730)).strftime("%Y%m%d")
+    
+    params = {
+        "FID_COND_MRKT_DIV_CODE": "J",
+        "FID_INPUT_ISCD": ticker,
+        "FID_INPUT_DATE_1": date_1,
+        "FID_INPUT_DATE_2": date_2,
+        "FID_PERIOD_DIV_CODE": "M",
+        "FID_ORG_ADPR_YN": "Y"
+    }
+    
+    res = kis_api_request("GET", url, headers=headers, params=params)
+    if res.status_code == 200:
+        data = res.json()
+        if data.get("rt_cd") == "0":
+            output2 = data.get("output2", [])
+            prices = []
+            for item in output2:
+                clpr = item.get("stck_clpr")
+                if clpr:
+                    prices.append(float(clpr))
+            
+            prices.reverse()
+            if len(prices) >= 13:
+                print(f"    - [KIS API] 시세 조회 성공: {ticker} -> {len(prices)}개 데이터 확보 (최근가: {prices[-1]:,}원)")
+                return prices[-13:]
+            else:
+                raise Exception(f"KIS API 월별 데이터 개수 부족: {len(prices)}개")
+        else:
+            raise Exception(f"KIS API 응답 에러 ({data.get('msg_cd')}): {data.get('msg1')}")
+    else:
+        raise Exception(f"KIS HTTP 에러: {res.status_code}")
 
 def calculate_momentum_signals(token):
- def get_historical_prices(symbol, ticker):
- try:
- return get_historical_prices_kis(ticker, token)
- except Exception as ke:
- print(f" KIS API 과거 시세 조회 실패 ({ticker}): {ke}. Yahoo Finance 폴백 실행.")
- 
- url = f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?interval=1mo&range=2y"
- headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
- res = requests.get(url, headers=headers, timeout=10, verify=False)
- if res.status_code != 200:
- raise Exception(f"Yahoo Finance API 연동 실패: {symbol} (HTTP {res.status_code})")
- result = res.json()["chart"]["result"][0]
- timestamps = result.get("timestamp", [])
- closes = result["indicators"]["quote"][0]["close"]
- 
- monthly_data = {}
- kst_tz = datetime.timezone(datetime.timedelta(hours=9))
- for ts, close in zip(timestamps, closes):
- if close is not None:
- dt_str = datetime.datetime.fromtimestamp(ts, tz=kst_tz).strftime("%Y-%m")
- monthly_data[dt_str] = close
- 
- sorted_months = sorted(monthly_data.keys())
- prices = [monthly_data[m] for m in sorted_months]
- if len(prices) < 13:
- raise Exception(f"데이터 개수 부족: {symbol}")
- return prices[-13:]
+    def get_historical_prices(symbol, ticker):
+        try:
+            return get_historical_prices_kis(ticker, token)
+        except Exception as ke:
+            print(f"⚠️ KIS API 과거 시세 조회 실패 ({ticker}): {ke}. Yahoo Finance 폴백 실행.")
+            
+        url = f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?interval=1mo&range=2y"
+        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+        res = requests.get(url, headers=headers, timeout=10, verify=False)
+        if res.status_code != 200:
+            raise Exception(f"Yahoo Finance API 연동 실패: {symbol} (HTTP {res.status_code})")
+        result = res.json()["chart"]["result"][0]
+        timestamps = result.get("timestamp", [])
+        closes = result["indicators"]["quote"][0]["close"]
+        
+        monthly_data = {}
+        kst_tz = datetime.timezone(datetime.timedelta(hours=9))
+        for ts, close in zip(timestamps, closes):
+            if close is not None:
+                dt_str = datetime.datetime.fromtimestamp(ts, tz=kst_tz).strftime("%Y-%m")
+                monthly_data[dt_str] = close
+                
+        sorted_months = sorted(monthly_data.keys())
+        prices = [monthly_data[m] for m in sorted_months]
+        if len(prices) < 13:
+            raise Exception(f"데이터 개수 부족: {symbol}")
+        return prices[-13:]
 
- print(">> 글로벌 증시 역사적 가격 데이터 분석 중...")
- ETF_TICKERS = {
- "KOSPI200": f"{TICKER_KOSPI}.KS",
- "SP500": f"{TICKER_SP500}.KS",
- "GOLD": f"{TICKER_GOLD}.KS",
- "TLT": f"{TICKER_TLT}.KS"
- }
- 
- SHORT_SYMBOLS = {
- "KOSPI200": TICKER_KOSPI,
- "SP500": TICKER_SP500,
- "GOLD": TICKER_GOLD,
- "TLT": TICKER_TLT
- }
- 
- prices_dict = {}
- returns_12m = {}
- 
- for name, symbol in ETF_TICKERS.items():
- try:
- ticker = SHORT_SYMBOLS[name]
- prices = get_historical_prices(symbol, ticker)
- prices_dict[name] = prices
- base_p = prices[-13] if (len(prices) >= 13 and prices[-13] > 0) else 1.0
- returns_12m[name] = (prices[-1] - base_p) / base_p
- except Exception as e:
- raise Exception(f" 모멘텀 계산 중 {name}({symbol}) 분석 실패: {e}")
- time.sleep(0.5)
- 
- print(f"■ 모멘텀 데이터 분석 결과 (12개월 수익률):")
- for name, ret in returns_12m.items():
- print(f" - {name}: {ret*100:.2f}%")
- 
- best_asset = max(returns_12m, key=returns_12m.get)
- chosen_symbol = SHORT_SYMBOLS[best_asset]
- chosen_prices = prices_dict[best_asset]
- chosen_name = TICKER_NAMES[chosen_symbol]
- chosen_ret = returns_12m[best_asset]
- 
- print(f">> 상대 모멘텀 1위 선정 자산: {chosen_name} ({chosen_symbol})")
- 
- curr_price = chosen_prices[-1]
- p_1m = chosen_prices[-2]
- p_3m = chosen_prices[-4]
- p_5m = chosen_prices[-6]
- 
- score = 0
- if curr_price > p_1m: score += 1
- if curr_price > p_3m: score += 1
- if curr_price > p_5m: score += 1
- 
- ams_score = score / 3.0
- 
- target_weights = {}
- if ams_score > 0:
- target_weights[chosen_symbol] = ams_score
- if ams_score < 1.0:
- target_weights[TICKER_SAFE] = target_weights.get(TICKER_SAFE, 0.0) + (1.0 - ams_score)
- 
- reason = f"상대 모멘텀 우수 자산: {chosen_name} (12m 수익률: {chosen_ret*100:.2f}%), " \
- f"1·3·5 AMS 스코어: {score}점/3점 (선정 자산 비중: {ams_score*100:.1f}% / 안전 자산 비중: {(1-ams_score)*100:.1f}%)"
- 
- return target_weights, reason
+    print(">> 글로벌 증시 역사적 가격 데이터 분석 중...")
+    ETF_TICKERS = {
+        "KOSPI200": f"{TICKER_KOSPI}.KS",
+        "SP500": f"{TICKER_SP500}.KS",
+        "GOLD": f"{TICKER_GOLD}.KS",
+        "TLT": f"{TICKER_TLT}.KS"
+    }
+    
+    SHORT_SYMBOLS = {
+        "KOSPI200": TICKER_KOSPI,
+        "SP500": TICKER_SP500,
+        "GOLD": TICKER_GOLD,
+        "TLT": TICKER_TLT
+    }
+    
+    prices_dict = {}
+    returns_12m = {}
+    
+    for name, symbol in ETF_TICKERS.items():
+        try:
+            ticker = SHORT_SYMBOLS[name]
+            prices = get_historical_prices(symbol, ticker)
+            prices_dict[name] = prices
+            base_p = prices[-13] if (len(prices) >= 13 and prices[-13] > 0) else 1.0
+            returns_12m[name] = (prices[-1] - base_p) / base_p
+        except Exception as e:
+            raise Exception(f"🚨 모멘텀 계산 중 {name}({symbol}) 분석 실패: {e}")
+        time.sleep(0.5)
+        
+    print(f"■ 모멘텀 데이터 분석 결과 (12개월 수익률):")
+    for name, ret in returns_12m.items():
+        print(f"    - {name}: {ret*100:.2f}%")
+        
+    best_asset = max(returns_12m, key=returns_12m.get)
+    chosen_symbol = SHORT_SYMBOLS[best_asset]
+    chosen_prices = prices_dict[best_asset]
+    chosen_name = TICKER_NAMES[chosen_symbol]
+    chosen_ret = returns_12m[best_asset]
+    
+    print(f">> 상대 모멘텀 1위 선정 자산: {chosen_name} ({chosen_symbol})")
+    
+    curr_price = chosen_prices[-1]
+    p_1m = chosen_prices[-2]
+    p_3m = chosen_prices[-4]
+    p_5m = chosen_prices[-6]
+    
+    score = 0
+    if curr_price > p_1m: score += 1
+    if curr_price > p_3m: score += 1
+    if curr_price > p_5m: score += 1
+    
+    ams_score = score / 3.0
+    
+    target_weights = {}
+    if ams_score > 0:
+        target_weights[chosen_symbol] = ams_score
+    if ams_score < 1.0:
+        target_weights[TICKER_SAFE] = target_weights.get(TICKER_SAFE, 0.0) + (1.0 - ams_score)
+        
+    reason = f"상대 모멘텀 우수 자산: {chosen_name} (12m 수익률: {chosen_ret*100:.2f}%), " \
+             f"1·3·5 AMS 스코어: {score}점/3점 (선정 자산 비중: {ams_score*100:.1f}% / 안전 자산 비중: {(1-ams_score)*100:.1f}%)"
+             
+    return target_weights, reason
 
 def rebalance_account(token, acc, target_weights):
- name, cano, prdt_cd = acc["name"], acc["cano"], acc["prdt_cd"]
- print(f"\n=========================================")
- print(f" [{name}] 자산 리밸런싱 시작 ({cano}-{prdt_cd})")
- print(f"=========================================")
- 
- valid_tickers = [TICKER_KOSPI, TICKER_SP500, TICKER_GOLD, TICKER_TLT, TICKER_SAFE]
- for ticker in target_weights.keys():
- if (prdt_cd == "22" or "연금" in name) and ticker not in valid_tickers:
- raise ValueError(f" [보안 예방] 연금계좌[{name}] 유효하지 않은 자산 매수 시도 차단: {ticker}")
- 
- cash, holdings = get_account_balance(token, cano, prdt_cd)
- total_holdings_eval = sum(info["eval_amt"] for info in holdings.values())
- total_asset = cash + total_holdings_eval
- print(f">> 예수금: {cash:,}원 | 주식평가액: {total_holdings_eval:,}원 | 총자산: {total_asset:,}원")
- 
- if total_asset == 0:
- print(f">> [{name}] 계좌 자산이 0원이므로 건너끁니다.")
- return f" [{name}] 자산 없음 실행 스킵"
+    name, cano, prdt_cd = acc["name"], acc["cano"], acc["prdt_cd"]
+    print(f"\n=========================================")
+    print(f"🔄 [{name}] 자산 리밸런싱 시작 ({cano}-{prdt_cd})")
+    print(f"=========================================")
+    
+    valid_tickers = [TICKER_KOSPI, TICKER_SP500, TICKER_GOLD, TICKER_TLT, TICKER_SAFE]
+    for ticker in target_weights.keys():
+        if (prdt_cd == "22" or "연금" in name) and ticker not in valid_tickers:
+            raise ValueError(f"🚨 [보안 예방] 연금계좌[{name}] 유효하지 않은 자산 매수 시도 차단: {ticker}")
+            
+    cash, holdings = get_account_balance(token, cano, prdt_cd)
+    total_holdings_eval = sum(info["eval_amt"] for info in holdings.values())
+    total_asset = cash + total_holdings_eval
+    print(f">> 예수금: {cash:,}원 | 주식평가액: {total_holdings_eval:,}원 | 총자산: {total_asset:,}원")
+    
+    if total_asset == 0:
+        print(f">> [{name}] 계좌 자산이 0원이므로 건너뜁니다.")
+        return f"⚠️ [{name}] 자산 없음 실행 스킵"
 
- def get_current_price(ticker):
- price = 0.0
- tick_size = 5
- try:
- url_price = f"{URL_BASE}/uapi/domestic-stock/v1/quotations/inquire-price"
- headers = {
- "authorization": f"Bearer {token}",
- "appkey": APP_KEY,
- "appsecret": APP_SECRET,
- "tr_id": "FHKST01010100"
- }
- params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": ticker}
- res_price = kis_api_request("GET", url_price, headers=headers, params=params)
- if res_price.status_code == 200:
- price_data = res_price.json()
- if price_data.get("rt_cd") == "0":
-  output = price_data.get("output", {})
-  price = float(output.get("stck_prpr", 0))
-  aspr_unit = output.get("aspr_unit")
-  if aspr_unit:
-  try: tick_size = int(aspr_unit)
-  except (ValueError, TypeError): pass
- except Exception as e:
- print(f" KIS 현재가 조회 실패: {e}")
- 
- if price <= 0:
- fallback_prices = {
- TICKER_KOSPI: 137000.0, TICKER_SP500: 18000.0,
- TICKER_GOLD: 140000.0, TICKER_TLT: 10000.0, TICKER_SAFE: 11000.0
- }
- price = fallback_prices.get(ticker, 10000.0)
- 
- stock_tick = 5
- if price < 2000: stock_tick = 1
- elif price < 5000: stock_tick = 5
- elif price < 20000: stock_tick = 10
- elif price < 50000: stock_tick = 50
- elif price < 100000: stock_tick = 100
- else: stock_tick = 1000
- 
- final_tick = max(tick_size, stock_tick)
- return price, final_tick
+    def get_current_price(ticker):
+        price = 0.0
+        tick_size = 0
+        try:
+            url_price = f"{URL_BASE}/uapi/domestic-stock/v1/quotations/inquire-price"
+            headers = {
+                "authorization": f"Bearer {token}",
+                "appkey": APP_KEY,
+                "appsecret": APP_SECRET,
+                "tr_id": "FHKST01010100"
+            }
+            params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": ticker}
+            res_price = kis_api_request("GET", url_price, headers=headers, params=params)
+            if res_price.status_code == 200:
+                price_data = res_price.json()
+                if price_data.get("rt_cd") == "0":
+                    output = price_data.get("output", {})
+                    price = float(output.get("stck_prpr", 0))
+                    aspr_unit = output.get("aspr_unit")
+                    if aspr_unit:
+                        try: tick_size = int(aspr_unit)
+                        except (ValueError, TypeError): pass
+        except Exception as e:
+            print(f"⚠️ KIS 현재가 조회 실패: {e}")
+            
+        # [2차 폴백] 잔고 조회에 담긴 실시간 현재가(prpr) 재활용
+        if price <= 0 and ticker in holdings:
+            price = float(holdings[ticker].get("price", 0))
+            if price > 0:
+                print(f" - [2차 폴백] 잔고 현재가 적용: {price:,.0f}원")
+                
+        # [3차 폴백] 월봉 최근 종가 재활용
+        if price <= 0:
+            try:
+                monthly = get_historical_prices_kis(ticker, token)
+                if monthly:
+                    price = float(monthly[-1])
+                    print(f" - [3차 폴백] 월봉 최근 종가 적용: {price:,.0f}원")
+            except Exception:
+                pass
+                
+        # 3중 폴백 모두 실패 → 하드코딩 가격 대신 None 반환
+        if price <= 0:
+            return None, None
+            
+        # ETF는 전 가격대 5원 호가 고정
+        final_tick = tick_size if tick_size > 0 else 5
+        return price, final_tick
 
- # 1. 1단계: 초과 비중 매도
- sold_any = False
- target_qtys = {}
- prices = {}
- 
- for ticker, weight in target_weights.items():
- price, tick_size = get_current_price(ticker)
- price = math.ceil(price / tick_size) * tick_size
- prices[ticker] = price
- target_val = total_asset * weight
- target_qtys[ticker] = int(target_val // price)
- 
- for ticker, info in holdings.items():
- curr_qty = info["qty"]
- target_qty = target_qtys.get(ticker, 0)
- 
- if target_qty == 0:
- print(f" [전량 매도] {ticker} ({curr_qty}주)")
- res = submit_order(token, cano, prdt_cd, ticker, curr_qty, "SELL", ord_dvsn="01")
- if res.get("rt_cd") != "0":
- raise Exception(f" [매도 실패] {ticker}: {res.get('msg1')}")
- sold_any = True
- time.sleep(1.5)
- 
- elif curr_qty > target_qty:
- sell_qty = curr_qty - target_qty
- print(f" [부분 매도] {ticker} ({sell_qty}주)")
- res = submit_order(token, cano, prdt_cd, ticker, sell_qty, "SELL", ord_dvsn="01")
- if res.get("rt_cd") != "0":
- raise Exception(f" [매도 실패] {ticker}: {res.get('msg1')}")
- sold_any = True
- time.sleep(1.5)
+    # 1. 1단계: 초과 비중 매도
+    sold_any = False
+    target_qtys = {}
+    prices = {}
+    
+    for ticker, weight in target_weights.items():
+        price, tick_size = get_current_price(ticker)
+        if price is None:
+            err = (f"🚨 [가동 중단] {ticker} 현재가 조회 3중 실패.\n"
+                   f"잘못된 가격으로 주문하지 않도록 이번 달 리밸런싱을 건너뜁니다.\n"
+                   f"다음 영업일에 수동으로 --force 실행해 주세요.")
+            send_telegram(err)
+            raise ValueError(err)
+            
+        price = math.ceil(price / tick_size) * tick_size
+        prices[ticker] = price
+        target_val = total_asset * weight
+        target_qtys[ticker] = int(target_val // price)
+        
+    for ticker, info in holdings.items():
+        curr_qty = info["qty"]
+        target_qty = target_qtys.get(ticker, 0)
+        
+        if target_qty == 0:
+            print(f"➔ [전량 매도] {ticker} ({curr_qty}주)")
+            res = submit_order(token, cano, prdt_cd, ticker, curr_qty, "SELL", ord_dvsn="01")
+            if res.get("rt_cd") != "0":
+                raise Exception(f"🚨 [매도 실패] {ticker}: {res.get('msg1')}")
+            sold_any = True
+            time.sleep(1.5)
+            
+        elif curr_qty > target_qty:
+            sell_qty = curr_qty - target_qty
+            print(f"➔ [부분 매도] {ticker} ({sell_qty}주)")
+            res = submit_order(token, cano, prdt_cd, ticker, sell_qty, "SELL", ord_dvsn="01")
+            if res.get("rt_cd") != "0":
+                raise Exception(f"🚨 [매도 실패] {ticker}: {res.get('msg1')}")
+            sold_any = True
+            time.sleep(1.5)
 
- if sold_any:
- print(">> 매도 정산 및 예수금 갱신 대기 (15초)...")
- time.sleep(15)
- cash, holdings = get_account_balance(token, cano, prdt_cd)
+    if sold_any:
+        print(">> 매도 정산 및 예수금 갱신 대기 (15초)...")
+        time.sleep(15)
+        cash, holdings = get_account_balance(token, cano, prdt_cd)
 
- # 2. 2단계: 매수 진입
- buys = []
- total_buy_needed = 0.0
- 
- for ticker, target_qty in target_qtys.items():
- curr_qty = holdings.get(ticker, {}).get("qty", 0)
- if target_qty > curr_qty:
- buy_qty = target_qty - curr_qty
- price = prices[ticker]
- needed = buy_qty * price
- buys.append((ticker, buy_qty, price, needed))
- total_buy_needed += needed
+    # 2. 2단계: 매수 진입
+    buys = []
+    total_buy_needed = 0.0
+    
+    for ticker, target_qty in target_qtys.items():
+        curr_qty = holdings.get(ticker, {}).get("qty", 0)
+        if target_qty > curr_qty:
+            buy_qty = target_qty - curr_qty
+            price = prices[ticker]
+            needed = buy_qty * price
+            buys.append((ticker, buy_qty, price, needed))
+            total_buy_needed += needed
 
- max_buy_fund = cash * 0.98
- if total_buy_needed > max_buy_fund and total_buy_needed > 0:
- scale = max_buy_fund / total_buy_needed
- print(f" [수량 축소 조율] 가용금액({max_buy_fund:,}원) < 필요금액({total_buy_needed:,}원). 스케일: {scale*100:.1f}%")
- 
- adjusted_buys = []
- for ticker, buy_qty, price, needed in buys:
- adj_qty = int(buy_qty * scale)
- if adj_qty > 0:
- adjusted_buys.append((ticker, adj_qty, price, adj_qty * price))
- buys = adjusted_buys
+    max_buy_fund = cash * 0.98
+    if total_buy_needed > max_buy_fund and total_buy_needed > 0:
+        scale = max_buy_fund / total_buy_needed
+        print(f"⚠️ [수량 축소 조율] 가용금액({max_buy_fund:,}원) < 필요금액({total_buy_needed:,}원). 스케일: {scale*100:.1f}%")
+        
+        adjusted_buys = []
+        for ticker, buy_qty, price, needed in buys:
+            adj_qty = int(buy_qty * scale)
+            if adj_qty > 0:
+                adjusted_buys.append((ticker, adj_qty, price, adj_qty * price))
+        buys = adjusted_buys
 
- buy_results = []
- current_avail_cash = max_buy_fund
- 
- for ticker, buy_qty, price, amount in buys:
- # [핵심 보완] 실시간 남은 가용 현금 추적하여 2차 매수 수량 동적 재조율
- if buy_qty * price > current_avail_cash:
- adj_qty = int(current_avail_cash // price)
- print(f" [실시간 현금 조율] {ticker} 수량 변경: {buy_qty}주 {adj_qty}주 (가용현금: {current_avail_cash:,}원)")
- buy_qty = adj_qty
- amount = buy_qty * price
+    buy_results = []
+    current_avail_cash = max_buy_fund
+    
+    for ticker, buy_qty, price, amount in buys:
+        # [핵심 보완] 실시간 남은 가용 현금 추적하여 2차 매수 수량 동적 재조율
+        if buy_qty * price > current_avail_cash:
+            adj_qty = int(current_avail_cash // price)
+            print(f"⚠️ [실시간 현금 조율] {ticker} 수량 변경: {buy_qty}주 ➔ {adj_qty}주 (가용현금: {current_avail_cash:,}원)")
+            buy_qty = adj_qty
+            amount = buy_qty * price
 
- if buy_qty <= 0:
- buy_results.append(f" {ticker} 매수 스킵 (가용 예수금 부족)")
- continue
+        if buy_qty <= 0:
+            buy_results.append(f"⚠️ {ticker} 매수 스킵 (가용 예수금 부족)")
+            continue
 
- if amount > MAX_ORDER_AMOUNT:
- raise ValueError(f" [Fat Finger 차단] 주문금액 {amount:,}원 > 최대 제한 금액 {MAX_ORDER_AMOUNT:,}원")
- 
- print(f" [지정가 매수] {ticker} ({buy_qty}주, 단가: {price:,}원, 금액: {amount:,}원)")
- res = submit_order(token, cano, prdt_cd, ticker, buy_qty, "BUY", price=price, ord_dvsn="00")
- 
- if res.get("rt_cd") == "0":
- buy_results.append(f" {ticker} {buy_qty}주 매수 성공 ({price:,}원)")
- current_avail_cash -= amount
- else:
- buy_results.append(f" {ticker} {buy_qty}주 매수 실패! ({res.get('msg1')})")
- time.sleep(1.5)
+        if amount > MAX_ORDER_AMOUNT:
+            raise ValueError(f"🚨 [Fat Finger 차단] 주문금액 {amount:,}원 > 최대 제한 금액 {MAX_ORDER_AMOUNT:,}원")
+            
+        print(f"➔ [지정가 매수] {ticker} ({buy_qty}주, 단가: {price:,}원, 금액: {amount:,}원)")
+        res = submit_order(token, cano, prdt_cd, ticker, buy_qty, "BUY", price=price, ord_dvsn="00")
+        
+        if res.get("rt_cd") == "0":
+            buy_results.append(f"✅ {ticker} {buy_qty}주 매수 성공 ({price:,}원)")
+            current_avail_cash -= amount
+        else:
+            buy_results.append(f"❌ {ticker} {buy_qty}주 매수 실패! ({res.get('msg1')})")
+        time.sleep(1.5)
 
- status_summary = []
- for ticker, weight in target_weights.items():
- curr_qty = holdings.get(ticker, {}).get("qty", 0)
- status_summary.append(f"{ticker}(목표비중 {weight*100:.0f}%, 현재수량 {curr_qty}주)")
- 
- msg = f" [{name}] 리밸런싱 완료\n- 목표 분할: {', '.join(status_summary)}\n"
- if buy_results:
- msg += "- 매수 결과:\n " + "\n ".join(buy_results)
- else:
- msg += "- 추가 매수 거래 없음 (목표 비중 충족)"
- 
- print(msg)
- return msg
+    if buy_results:
+        print(">> 매수 후 최신 수량 갱신을 위해 잔고를 다시 조회합니다...")
+        time.sleep(2)
+        _, holdings = get_account_balance(token, cano, prdt_cd)
+
+    status_summary = []
+    for ticker, weight in target_weights.items():
+        curr_qty = holdings.get(ticker, {}).get("qty", 0)
+        status_summary.append(f"{ticker}(목표비중 {weight*100:.0f}%, 현재수량 {curr_qty}주)")
+
+        
+    msg = f"🔄 [{name}] 리밸런싱 완료\n- 목표 분할: {', '.join(status_summary)}\n"
+    if buy_results:
+        msg += "- 매수 결과:\n  " + "\n  ".join(buy_results)
+    else:
+        msg += "- 추가 매수 거래 없음 (목표 비중 충족)"
+        
+    print(msg)
+    return msg
 
 def get_actual_rebalance_date(year, month):
- if year == 2026 and month == 5:
- return datetime.date(2026, 5, 29)
- 
- target_day = 17
- check_date = datetime.date(year, month, target_day)
- while True:
- if check_date.weekday() >= 5:
- check_date += datetime.timedelta(days=1)
- continue
- if check_date.strftime("%Y-%m-%d") in KRX_HOLIDAYS:
- check_date += datetime.timedelta(days=1)
- continue
- return check_date
+    target_day = 17
+    check_date = datetime.date(year, month, target_day)
+    while True:
+        if check_date.weekday() >= 5:
+            check_date += datetime.timedelta(days=1)
+            continue
+        if check_date.strftime("%Y-%m-%d") in KRX_HOLIDAYS:
+            check_date += datetime.timedelta(days=1)
+            continue
+        return check_date
 
 def main():
- init_config()
- kst_tz = datetime.timezone(datetime.timedelta(hours=9))
- today = datetime.datetime.now(kst_tz).date()
- actual_rebalance_date = get_actual_rebalance_date(today.year, today.month)
- 
- print(f">> [실행일 점검] 이번 달 리밸런싱 예정일: {actual_rebalance_date} (오늘: {today})")
- 
- is_force = len(sys.argv) > 1 and sys.argv[1] == "--force"
- 
- # [7월 이월 마감] 7월 27일 7월 리밸런싱 및 매수 집행이 완료되었으므로 이월 게이트 해제
- is_special_july = False
- 
- if today != actual_rebalance_date and not is_special_july:
- if not (KIS_DRY_RUN or KIS_MOCK or is_force):
- msg = (
- f"ℹ [가동 중단] 오늘은 실전 리밸런싱 실행일이 아닙니다.\n"
- f" - 이번 달 예정일: {actual_rebalance_date}\n"
- f" - 오늘 날짜: {today}\n"
- f" - 강제 가동: 'python kis_bot_multi.py --force'"
- )
- print(msg)
- if __name__ == "__main__": sys.exit(0)
- else: return
- else:
- print(" [스케줄 우회] 시뮬레이션/모의투자/강제실행 옵션으로 진행합니다.")
- elif is_special_july:
- print(f" [특별 이월 실행 적용] 7월 17일 미집행 건으로 오늘({today}) 리밸런싱을 수행합니다.")
+    init_config()
+    kst_tz = datetime.timezone(datetime.timedelta(hours=9))
+    today = datetime.datetime.now(kst_tz).date()
+    actual_rebalance_date = get_actual_rebalance_date(today.year, today.month)
+    
+    print(f">> [실행일 점검] 이번 달 리밸런싱 예정일: {actual_rebalance_date} (오늘: {today})")
+    
+    is_force = len(sys.argv) > 1 and sys.argv[1] == "--force"
+    
+    if today != actual_rebalance_date:
+        if not (KIS_DRY_RUN or KIS_MOCK or is_force):
+            msg = (
+                f"ℹ️ [가동 중단] 오늘은 실전 리밸런싱 실행일이 아닙니다.\n"
+                f"   - 이번 달 예정일: {actual_rebalance_date}\n"
+                f"   - 오늘 날짜: {today}\n"
+                f"   - 강제 가동: 'python kis_bot_multi.py --force'"
+            )
+            print(msg)
+            if __name__ == "__main__": sys.exit(0)
+            else: return
+        else:
+            print("⚠️ [스케줄 우회] 시뮬레이션/모의투자/강제실행 옵션으로 진행합니다.")
+    start_time = datetime.datetime.now(kst_tz).strftime("%Y-%m-%d %H:%M:%S")
+    mode_str = "Dry-run 시뮬레이션" if KIS_DRY_RUN else ("모의투자" if KIS_MOCK else "실전 자동 거래")
+    send_telegram(f"🤖 K-듀얼 모멘텀 통합 리밸런싱 로봇 가동 시작 ({mode_str})\n가동 시간: {start_time}")
+    
+    if not is_market_open():
+        if not (KIS_DRY_RUN or KIS_MOCK):
+            closed_msg = "🚨 [가동 중단] 현재 주식시장 정규 운영시간이 아니거나 휴장일입니다."
+            print(closed_msg)
+            send_telegram(closed_msg)
+            if __name__ == "__main__": sys.exit(1)
+            else: raise ValueError(closed_msg)
+        else:
+            print("⚠️ [영업시간 외 우회] 장이 닫혀 있으나 테스트 모드이므로 계속 진행합니다.")
 
- start_time = datetime.datetime.now(kst_tz).strftime("%Y-%m-%d %H:%M:%S")
- mode_str = "Dry-run 시뮬레이션" if KIS_DRY_RUN else ("모의투자" if KIS_MOCK else "실전 자동 거래")
- send_telegram(f" K-듀얼 모멘텀 통합 리밸런싱 로봇 가동 시작 ({mode_str})\n가동 시간: {start_time}")
- 
- if not is_market_open():
- if not (KIS_DRY_RUN or KIS_MOCK):
- closed_msg = " [가동 중단] 현재 주식시장 정규 운영시간이 아니거나 휴장일입니다."
- print(closed_msg)
- send_telegram(closed_msg)
- if __name__ == "__main__": sys.exit(1)
- else: raise ValueError(closed_msg)
- else:
- print(" [영업시간 외 우회] 장이 닫혀 있으나 테스트 모드이므로 계속 진행합니다.")
-
- try:
- token = get_access_token()
- target_weights, reason = calculate_momentum_signals(token)
- 
- weights_detail = [f"{TICKER_NAMES.get(t, t)} ({t}): {w*100:.0f}%" for t, w in target_weights.items()]
- summary_msg = f" 금월 투자 대상 및 비중 선정:\n- 비중: {', '.join(weights_detail)}\n- 판단 근거: {reason}\n"
- send_telegram(summary_msg)
- 
- results = []
- for i, acc in enumerate(ACCOUNTS):
- if not acc["cano"]:
- print(f">> 계좌 번호가 설정되지 않은 {acc['name']}를 생략합니다.")
- continue
- 
- if i > 0:
- print(">> 다음 계좌 처리 전 대기 (3초)...")
- time.sleep(3)
- 
- try:
- res_msg = rebalance_account(token, acc, target_weights)
- results.append(res_msg)
- except Exception as ae:
- err = f" 계좌 리밸런싱 실패({acc['name']}): {ae}"
- print(err)
- results.append(err)
- raise ae
- 
- if results:
- send_telegram(" [작업 수행 리포트]\n" + "\n".join(results))
- 
- except Exception as e:
- error_msg = f" 로봇 구동 전역 에러 발생: {e}"
- print(error_msg)
- send_telegram(error_msg)
- if __name__ == "__main__": sys.exit(1)
- else: raise e
+    try:
+        token = get_access_token()
+        target_weights, reason = calculate_momentum_signals(token)
+        
+        weights_detail = [f"{TICKER_NAMES.get(t, t)} ({t}): {w*100:.0f}%" for t, w in target_weights.items()]
+        summary_msg = f"📈 금월 투자 대상 및 비중 선정:\n- 비중: {', '.join(weights_detail)}\n- 판단 근거: {reason}\n"
+        send_telegram(summary_msg)
+        
+        results = []
+        for i, acc in enumerate(ACCOUNTS):
+            if not acc["cano"]:
+                print(f">> 계좌 번호가 설정되지 않은 {acc['name']}를 생략합니다.")
+                continue
+            
+            if i > 0:
+                print(">> 다음 계좌 처리 전 대기 (3초)...")
+                time.sleep(3)
+                
+            try:
+                res_msg = rebalance_account(token, acc, target_weights)
+                results.append(res_msg)
+            except Exception as ae:
+                err = f"❌ 계좌 리밸런싱 실패({acc['name']}): {ae}"
+                print(err)
+                results.append(err)
+                raise ae
+                
+        if results:
+            send_telegram("📊 [작업 수행 리포트]\n" + "\n".join(results))
+            
+    except Exception as e:
+        error_msg = f"🚨 로봇 구동 전역 에러 발생: {e}"
+        print(error_msg)
+        send_telegram(error_msg)
+        if __name__ == "__main__": sys.exit(1)
+        else: raise e
 
 if __name__ == "__main__":
- main()
+    main()
 ```
 
 
@@ -1972,32 +1984,31 @@ if __name__ == "__main__":
 > 둘째, 시장가 주문 시 **호가 튕김(슬리피지)** 현상으로 인해 예상보다 약간 비싸게 체결될 수 있습니다. 
 > 만약 100% 꽉 채워 주문을 넣었는데 위 이유로 1원이라도 돈이 모자라면, 증권사 서버는 `주문가능금액 초과` 에러를 뱉고 전체 매매를 중단시킵니다. 이 2%의 안전 버퍼는 어떤 급박한 장세에서도 에러 없이 100% 매매가 완수되게 하는 강력한 방패입니다.
 
-#### STEP 3. GitHub Actions 무인 자동 실행 워크플로우 (`.github/workflows/rebalance.yml`)
+#### STEP 3. GitHub Actions 무인 자동 실행 워크플로우 (`.github/workflows/rebalance.yml` & `keep-alive.yml`)
 
 > [!TIP]
 ```yaml
-# .github/workflows/keep-alive.yml
 name: Monthly Keep-Alive
 
 on:
- schedule:
- - cron: '0 0 1 * *' # 매월 1일 자정(UTC)에 딱 1회 실행
+  schedule:
+    - cron: '0 0 1 * *'   # 매월 1일 자정(UTC)에 딱 1회 실행
 
 jobs:
- keep-alive:
- runs-on: ubuntu-latest
- permissions:
- contents: write # [중요] 생존 신고 커밋을 위한 쓰기 권한
- steps:
- - uses: actions/checkout@v4
- - name: Update Keep-Alive Timestamp
- run: |
- git config --global user.name "github-actions[bot]"
- git config --global user.email "github-actions[bot]@users.noreply.github.com"
- date -u > last_run.txt
- git add last_run.txt
- git diff --staged --quiet || git commit -m "chore: Monthly keep-alive [skip ci]"
- git push
+  keep-alive:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write     # [중요] 생존 신고 커밋을 위한 쓰기 권한
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update Keep-Alive Timestamp
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          date -u > last_run.txt
+          git add last_run.txt
+          git diff --staged --quiet || git commit -m "chore: Monthly keep-alive [skip ci]"
+          git push
 ```
 
 > **[실전 팁] 완전 자동화를 위한 깃허브 스케줄러 권한 설정 (60일 비활성화 방지)**
@@ -2029,65 +2040,65 @@ jobs:
 name: K-Dual Momentum Quant Bot Auto Rebalance
 
 on:
- schedule:
- # 매달 17일~31일 한국시간 12:30 (UTC 03:30) 무인 스케줄러 트리거
- - cron: '30 3 17-31 * *'
- workflow_dispatch:
- inputs:
- dry_run:
- description: 'Dry Run (실제 주문 없이 계산만 수행: true/false)'
- required: false
- default: 'false'
- force:
- description: 'Force Execution (가동일 체크 우회 강제 집행: true/false)'
- required: false
- default: 'false'
+  schedule:
+    # 매달 17일~31일 한국시간 12:30 (UTC 03:30) 무인 스케줄러 트리거
+    - cron: '30 3 17-31 * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry Run (실제 주문 없이 계산만 수행: true/false)'
+        required: false
+        default: 'false'
+      force:
+        description: 'Force Execution (가동일 체크 우회 강제 집행: true/false)'
+        required: false
+        default: 'false'
 
 # 동시 실행(중복 주문) 방지 락
 concurrency:
- group: kis-rebalance-bot
- cancel-in-progress: false
+  group: kis-rebalance-bot
+  cancel-in-progress: false
 
 jobs:
- rebalance:
- runs-on: ubuntu-latest
- timeout-minutes: 15
+  rebalance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
 
- steps:
- - name: Checkout Repository
- uses: actions/checkout@v4
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
- - name: Set up Python 3.10
- uses: actions/setup-python@v5
- with:
- python-version: '3.10'
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
 
- - name: Install Dependencies
- run: |
- python -m pip install --upgrade pip
- pip install -r requirements.txt
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
- - name: Run Quant Rebalancing Bot
- env:
- KIS_MOMENTUM_APP_KEY: ${{ secrets.KIS_MOMENTUM_APP_KEY }}
- KIS_MOMENTUM_APP_SECRET: ${{ secrets.KIS_MOMENTUM_APP_SECRET }}
- KIS_PENSION_CANO: ${{ secrets.KIS_PENSION_CANO }}
- KIS_STOCK_CANO: ${{ secrets.KIS_STOCK_CANO }}
- KIS_MOCK_APP_KEY: ${{ secrets.KIS_MOCK_APP_KEY }}
- KIS_MOCK_APP_SECRET: ${{ secrets.KIS_MOCK_APP_SECRET }}
- KIS_MOCK_CANO1: ${{ secrets.KIS_MOCK_CANO1 }}
- KIS_MOCK_CANO2: ${{ secrets.KIS_MOCK_CANO2 }}
- TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
- TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
- KIS_MOCK: ${{ secrets.KIS_MOCK || 'False' }}
- KIS_DRY_RUN: ${{ github.event.inputs.dry_run || secrets.KIS_DRY_RUN || 'False' }}
- MAX_ORDER_AMOUNT: ${{ secrets.MAX_ORDER_AMOUNT || '100000000' }}
- run: |
- if [ "${{ github.event.inputs.force }}" = "true" ]; then
- python kis_bot_multi.py --force
- else
- python kis_bot_multi.py
- fi
+      - name: Run Quant Rebalancing Bot
+        env:
+          KIS_MOMENTUM_APP_KEY: ${{ secrets.KIS_MOMENTUM_APP_KEY }}
+          KIS_MOMENTUM_APP_SECRET: ${{ secrets.KIS_MOMENTUM_APP_SECRET }}
+          KIS_PENSION_CANO: ${{ secrets.KIS_PENSION_CANO }}
+          KIS_STOCK_CANO: ${{ secrets.KIS_STOCK_CANO }}
+          KIS_MOCK_APP_KEY: ${{ secrets.KIS_MOCK_APP_KEY }}
+          KIS_MOCK_APP_SECRET: ${{ secrets.KIS_MOCK_APP_SECRET }}
+          KIS_MOCK_CANO1: ${{ secrets.KIS_MOCK_CANO1 }}
+          KIS_MOCK_CANO2: ${{ secrets.KIS_MOCK_CANO2 }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          KIS_MOCK: ${{ secrets.KIS_MOCK || 'False' }}
+          KIS_DRY_RUN: ${{ github.event.inputs.dry_run || secrets.KIS_DRY_RUN || 'False' }}
+          MAX_ORDER_AMOUNT: ${{ secrets.MAX_ORDER_AMOUNT || '1000000000' }}
+        run: |
+          if [ "${{ github.event.inputs.force }}" = "true" ]; then
+            python kis_bot_multi.py --force
+          else
+            python kis_bot_multi.py
+          fi
 ```
 
 ---
@@ -2134,10 +2145,10 @@ Antigravity를 처음 접하는 독자라도 아래 4단계를 그대로 따라 
 #### [실전 프롬프트 레시피 2] 정기 가동 날짜 및 실행 시각 변경하기 (매달 17일 매달 25일)
 * 상황: 월급날이 매달 25일이라서, 봇의 정기 리밸런싱 및 적립식 매수를 매달 25일 낮 12시 30분으로 변경하고 싶을 때.
 * Antigravity 자연어 프롬프트:
- > `"rebalance.yml 파일에서 실행 스케줄 cron을 매달 25일~31일 낮 12시 30분(cron: '30 3 25-31 ')으로 수정하고, kis_bot_multi.py 내부 가동일 함수도 25일 기준으로 변경하여 깃허브에 올려 줘."`
+ > `"rebalance.yml 파일에서 실행 스케줄 cron을 매달 25일~31일 낮 12시 30분(cron: '30 3 25-31 * *')으로 수정하고, kis_bot_multi.py 내부 가동일 함수도 25일 기준으로 변경하여 깃허브에 올려 줘."`
 * Antigravity의 자동 집행 메커니즘:
  1. AI가 `.github/workflows/rebalance.yml` 파일의 cron 표현식을 `- cron: '30 3 25-31 * *'`로 수정합니다.
- 2. `kis_bot_multi.py` 내의 `target_day = 17`을 `target_day = 17`로 교정합니다.
+ 2. `kis_bot_multi.py` 내의 `target_day = 17`을 `target_day = 25`로 교정합니다.
  3. 깃허브에 자동 `push`되어 매달 25일 월급날에 맞춘 자동 적립식 퀀트 시스템으로 1초 만에 업데이트됩니다.
 
 ---
@@ -2172,7 +2183,7 @@ Antigravity를 처음 접하는 독자라도 아래 4단계를 그대로 따라 
 > - **현재 총 평가 자산:** 50,000,000 원 
 > - **가용 현금 (D+2 예수금):** 500,000 원 
 > - **매도 내역:** 없음 (보유 유지) 
-> - **매수 내역:** KODEX 200 13주 시장가 체결 (매수금액: 494,000 원) 
+> - **매수 내역:** KODEX 200 5주 지정가 체결 (매수금액: 484,000 원) 
 > - **실행 결과:** 리밸런싱 100% 정상 마감 완료!
 
 > **[독자 혜택]** 독자는 장중에 증권사 앱을 열어보지 않고도 "오늘 주식이 몇 주 매수되었는지, 내 계좌 잔고가 얼마인지" 텔레그램으로 한눈에 파악할 수 있어 편의성과 신뢰감이 완벽하게 확보됩니다.
@@ -2180,14 +2191,14 @@ Antigravity를 처음 접하는 독자라도 아래 4단계를 그대로 따라 
 
 ---
 
-### 4.3 [3단계] 제가 수개월간 직접 겪고 해결한 Top 10 실전 트러블슈팅 디버깅집 (에러 메시지 & 디버깅 과정 딥다이브)
+### 4.3 [3단계] 제가 수개월간 직접 겪고 해결한 Top 11 실전 트러블슈팅 디버깅집 (에러 메시지 & 디버깅 과정 딥다이브)
 
-제가 Antigravity와 대화하며 실제로 부딪혀 해결한 10가지 실전 오류의 에러 메시지, 추적 과정, 파이썬 해결 코드를 담았습니다. 이 10가지만 미리 알아두어도 수십 시간의 시행착오를 줄일 수 있습니다.
+제가 Antigravity와 대화하며 실제로 부딪혀 해결한 11가지 실전 오류의 에러 메시지, 추적 과정, 파이썬 해결 코드를 담았습니다. 이 11가지만 미리 알아두어도 수십 시간의 시행착오를 줄일 수 있습니다.
 
 ---
 
-> [독자 안심 필독 안내] 본서가 제공하는 `kis_bot_multi.py` 소스 코드에는 아래 10가지 트러블슈팅 해법이 100% 이미 완성되어 반영되어 있습니다! 
-> 안심 보장: 독자 여러분이 책에 수록된 봇 코드를 그대로 복사하여 사용할 때는 이 10가지 오류를 전혀 걱정하실 필요가 없습니다. 이미 제가 Antigravity와 수개월간 바닥부터 부딪히며 모든 예외 처리를 다 보완해 두었기 때문입니다. 
+> [독자 안심 필독 안내] 본서가 제공하는 `kis_bot_multi.py` 소스 코드에는 아래 11가지 트러블슈팅 해법이 100% 이미 완성되어 반영되어 있습니다! 
+> 안심 보장: 독자 여러분이 책에 수록된 봇 코드를 그대로 복사하여 사용할 때는 이 11가지 오류를 전혀 걱정하실 필요가 없습니다. 이미 제가 Antigravity와 수개월간 바닥부터 부딪히며 모든 예외 처리를 다 보완해 두었기 때문입니다. 
 > 본 디버깅집의 진짜 활용 용도: 본 4.3절의 실전 디버깅집은 향후 독자 여러분이 퀀트 투자 경험이 쌓여 나만의 새로운 파이썬 자동매매 봇이나 커스텀 전략을 직접 개발하고 싶을 때 발생할 수 있는 시행착오를 수십 시간 단축시켜 주는 '핵심 레퍼런스 지침서'로 활용하시면 됩니다.
 
 ---
@@ -2218,9 +2229,9 @@ Antigravity를 처음 접하는 독자라도 아래 4단계를 그대로 따라 
  ```python
  # [K-듀얼모멘텀 봇] 국내 매수가능금액 조회 (TTTC8908R) 필수 파라미터 규격
  params = {
- "CANO": cano, "ACNT_PRDT_CD": prdt_cd,
- "CMA_EVLU_AMT_ICLD_YN": "N", # 철자 오기 주의 (CMA_EVLU_AMT_IF_YN 금지)
- "ORD_UNPR": "0" # 시장가 조회 시 "0" 전달 규격 준수
+     "CANO": cano, "ACNT_PRDT_CD": prdt_cd,
+     "CMA_EVLU_AMT_ICLD_YN": "N", # 철자 오기 주의 (CMA_EVLU_AMT_IF_YN 금지)
+     "ORD_UNPR": "0"              # 시장가 조회 시 "0" 전달 규격 준수
  }
  ```
 
@@ -2237,8 +2248,8 @@ Antigravity를 처음 접하는 독자라도 아래 4단계를 그대로 따라 
  ```python
  # 매 주문 성공 시 남은 현금을 실시간 차감 추적하여 초과 주문 방지
  if buy_success:
- current_avail_cash -= (actual_buy_qty * current_price)
- print(f">> 1차 매수 완료. 남은 가용 현금: {current_avail_cash:,.0f}원")
+     current_avail_cash -= (actual_buy_qty * current_price)
+     print(f">> 1차 매수 완료. 남은 가용 현금: {current_avail_cash:,.0f}원")
  ```
 
 ---
@@ -2254,8 +2265,8 @@ Antigravity를 처음 접하는 독자라도 아래 4단계를 그대로 따라 
  ```python
  # [K-듀얼모멘텀 봇] 국내 ETF 시장가 매도 필수 파라미터 규격
  if order_type == "SELL":
- body["ORD_DVSN"] = "01" # 01: 시장가 매도
- body["ORD_UNPR"] = "0" # 시장가 매도 시 주문단가 0 고정
+     body["ORD_DVSN"] = "01" # 01: 시장가 매도
+     body["ORD_UNPR"] = "0"  # 시장가 매도 시 주문단가 0 고정
  ```
 
 ---
@@ -2296,11 +2307,11 @@ Antigravity를 처음 접하는 독자라도 아래 4단계를 그대로 따라 
  > `get_actual_rebalance_date()` 이월 함수를 구축하여 17일이 주말이나 법정 공휴일일 경우 다음 첫 영업일(Trading Day)로 예정일을 자동 이월(+1일씩 연장)하여 100% 매매가 완수되도록 아키텍처를 개편했습니다.
  ```python
  def get_actual_rebalance_date(year, month):
- target_day = 17
- check_date = datetime.date(year, month, target_day)
- while check_date.weekday() >= 5 or check_date.strftime("%Y-%m-%d") in KRX_HOLIDAYS:
- check_date += datetime.timedelta(days=1)
- return check_date
+     target_day = 17
+     check_date = datetime.date(year, month, target_day)
+     while check_date.weekday() >= 5 or check_date.strftime("%Y-%m-%d") in KRX_HOLIDAYS:
+         check_date += datetime.timedelta(days=1)
+     return check_date
  ```
 
 ---
@@ -2326,9 +2337,9 @@ Antigravity를 처음 접하는 독자라도 아래 4단계를 그대로 따라 
  > `send_telegram()` 함수 내에서 `len(msg) > 4000` 일 경우 자동으로 상위 3,900자만 자르고 `... (중략)` 안내를 덧붙여 텔레그램 발송 실패를 100% 차단했습니다.
  ```python
  def send_telegram(msg):
- if len(msg) > 4000:
- msg = msg[:3900] + "\n\n [안내] 메시지 길이 초과로 이하 생략"
- # 텔레그램 API 전송 실행
+     if len(msg) > 4000:
+         msg = msg[:3900] + "\n\n [안내] 메시지 길이 초과로 이하 생략"
+     # 텔레그램 API 전송 실행
  ```
 
 ---
@@ -2344,17 +2355,21 @@ Antigravity를 처음 접하는 독자라도 아래 4단계를 그대로 따라 
  ```yaml
  # rebalance.yml 내 12:30 KST 스케줄 수식
  on:
- schedule:
- - cron: '30 3 17-31 * *' # 장 마감 3시간 전 여유 실행
+   schedule:
+     - cron: '30 3 17-31 * *' # 장 마감 3시간 전 여유 실행
  ```
 
 ---
 
----
-
----
-
----
+#### 11. 하드코딩된 백업 가격이 오히려 독이 되는 이유 (3중 폴백 아키텍처)
+* 실제 수신될 수 있는 에러 메시지 및 발생 증상:
+ > `주문 API 실패 (OPSQ2001): ERROR : INVALID PRICE / 거래소 가격제한폭(±30%) 초과` 
+ > 특정 종목의 현재가 조회가 일시 실패했을 때, 봇 코드 내에 미리 박아둔 하드코딩 백업 가격(예: 137,000원)으로 주문을 시도했으나 실제 장중 가격(예: 98,000원)과 30% 이상 괴리가 발생하여 한국거래소가 주문 자체를 거부함.
+* Antigravity와 함께 추적한 원인 및 디버깅 과정:
+ > 초기 버전 봇에는 API 장애에 대비해 "대략 이 정도 가격"을 코드에 박아두는 `fallback_prices`가 있었습니다. 하지만 한국 증시는 상하한가제도(±30%)가 있어 박아둔 가격이 실제 시세와 벌어지면 오히려 그 안전장치가 주문 거부의 원인이 됩니다. S&P500이나 미국채는 환율/금리에 따라 몇 달 만에 수십 %씩 요동치기 때문에 어떤 숫자를 인쇄하든 결국 낡은 값이 됩니다. 게다가 독자가 커스텀 종목(예: KOFR 금리)으로 바꾸면 백업 가격만 과거의 숫자로 남아 더 큰 사고를 유발합니다.
+* 최종 해결 소스 코드 및 검증 결과:
+ > **하드코딩을 완전히 삭제하고, 봇이 이미 통신해 둔 실시간 데이터를 재활용하는 [3중 폴백 구조]로 전면 재설계했습니다.** 1차로 현재가 API가 실패하면, 2차로 방금 전 잔고 조회에서 받아온 내 계좌 내 종목의 현재가(`prpr`)를 가져오고, 3차로 월봉 최신 종가를 꺼내옵니다.
+ > 이 3중 폴백마저 모두 실패하면, 엉터리 가격으로 주문해 돈을 잃느니 **"이번 달 리밸런싱을 아예 건너뛰는 것"**이 훨씬 안전하므로 즉시 봇 가동을 중단하고 텔레그램으로 경고를 보냅니다. 한 달 거르는 손실이 엉뚱한 가격에 사서 물리는 것보다 훨씬 작다는 퀀트 철학을 코드 아키텍처에 그대로 반영했습니다.
 
 ---
 
