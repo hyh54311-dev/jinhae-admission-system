@@ -173,13 +173,13 @@
      - **스케줄:** 매달 17일~31일 한국시간 12:30 KST (`cron: '30 3 17-31 * *'`) (장 마감 3시간 전 여유 실행)
      - **연동 계좌:** 연금저축펀드계좌 (`CANO: 63183004`, `prdt_cd: 22`) & 개인주식계좌 (`CANO: 63183004`, `prdt_cd: 01`)
      - **안전자산 교체 코드:** `329750` (`TIGER 미국달러단기채권액티브`)
-     - **GitHub Secrets (6개):** `KIS_MOMENTUM_APP_KEY`, `KIS_MOMENTUM_APP_SECRET`, `KIS_PENSION_CANO` (`63183004`), `KIS_STOCK_CANO` (`63183004`), `TELEGRAM_TOKEN` (`8407908239:AAHgWACsaJ9y4JMkxI0iC4Kyhs4RNbxpdaY`), `TELEGRAM_CHAT_ID` (`8518409134`)
+     - **GitHub Secrets (6개):** `KIS_MOMENTUM_APP_KEY`, `KIS_MOMENTUM_APP_SECRET`, `KIS_PENSION_CANO` (`63183004`), `KIS_STOCK_CANO` (`63183004`), `TELEGRAM_TOKEN` (`8407908239:AAHO81Ld-mmtJ-V5opl5vXI3bXgICiDrNgc`), `TELEGRAM_CHAT_ID` (`8518409134`)
   2. **올웨더 자산배분 봇**:
      - **GitHub 저장소:** `https://github.com/hyh54311-dev/jinhae-all-weather-bot`
      - **스케줄:** 매달 25일~31일 한국시간 23:00 KST (`cron: '0 14 25-31 * *'`)
      - **연동 계좌:** 올웨더 전용 해외주식 서브계좌 (`CANO: 72394127`, `prdt_cd: 01`)
      - **포트폴리오 비중:** VOO 30%, TLT 40%, IEF 15%, GLD 7.5%, PDBC 7.5%
-     - **GitHub Secrets (5개):** `KIS_APP_KEY`, `KIS_APP_SECRET`, `KIS_ALL_WEATHER_CANO` (`72394127`), `TELEGRAM_TOKEN` (`8407908239:AAHgWACsaJ9y4JMkxI0iC4Kyhs4RNbxpdaY`), `TELEGRAM_CHAT_ID` (`8518409134`)
+     - **GitHub Secrets (5개):** `KIS_APP_KEY`, `KIS_APP_SECRET`, `KIS_ALL_WEATHER_CANO` (`72394127`), `TELEGRAM_TOKEN` (`8407908239:AAHO81Ld-mmtJ-V5opl5vXI3bXgICiDrNgc`), `TELEGRAM_CHAT_ID` (`8518409134`)
 - **GCP 인프라 조치 상태**:
   - GCP Cloud Scheduler (`k-momentum-rebalance-schedule`, `all-weather-daily-job`) **Paused (일시 중지 완료)**. 중복 매매 위험 0%.
 
@@ -205,19 +205,26 @@
   5. **Google AI Studio & NotebookLM 바이브코딩 튜토리얼**: AI Studio `[Get Code]` 1초 Apps Script 변환 및 라이브 배포 교안 (`00_3부_노트북LM과바이브코딩_정리.md`).
   6. **AI 프렌즈 학급 경영 아이디어 발산 보드**: 학생 페르소나 프로필 및 문제 상황 해결 마인드맵 웹앱 (`AI프렌즈_아이디어발산보드.html`).
 
-## 27. 범용 소크라틱 AI 챗봇 엔진 v3.0 표준 규칙 & 자동 불러오기 스킬 (2026-08-06)
-- **개요:** 소크라틱 AI 챗봇이 탑재된 교육용 웹앱 개발 요청 시, 즉시 표준 스킬 `socratic-ai-engine`을 자동 로드하여 7대 아키텍처 규칙 및 프롬프트를 100% 적용함.
-- **7대 핵심 표준 아키텍처**:
-  1. **과목/상황별 동적 RAG 스위처**: 특정 주제에 고정되지 않고, 교사가 구글 시트 탭(예: `소크라틱_문학`, `소크라틱_음운론`, `소크라틱_경제뉴스`, `소크라틱_입학상담` 등)을 추가/선택하면 코드 변경 없이 지식 데이터베이스와 힌트가 1초 만에 스위칭됨.
-  2. **Gemini Multi-turn API 구조**: 이전 대화 이력을 `{ role: "user" / "model", parts: [...] }` 멀티턴 배열로 전달 (`temperature: 0.78`).
-  3. **4단계 탐구 진행 상태 엔진 (Stage System)**: `[Stage 1: 실태] ➔ [Stage 2: 원인] ➔ [Stage 3: 대안] ➔ [Stage 4: 제도]` 순으로 전진. 이미 지난 단계 질문은 재출력 금지.
-  4. **질문 고도화 메커니즘 (Question Refinement)**: 학생의 모호한 단어 개념 분해 ➔ 질문 문장 재구성 리프레이밍 ➔ 가설형 질문 확장 3단계 디딤돌 스캐폴딩.
-  5. **힌트 및 스캐폴딩 예외 허용**: 학생이 "모르겠다/답 알려달라/답답하다" 호소 시 `[구체적 힌트 1개 + 예시 선택지 2개]` 즉시 제공.
-  6. **RAG 통계 쿼터제 & 예시 문구 클로닝 방지**: 동일 수치는 세션당 최대 1회 사용. 예시 질문 지시문 복제 출력 엄격 금지.
-  7. **첫 턴 UX & 교사 이메일 알림**: 첫 턴에 '소크라티' 환영 오리엔테이션 출력. 부적절 발언 2회 연속 감지 시 `MailApp.sendEmail`로 교사에게 즉시 자동 발송 및 대화창 일시 잠금.
-- **스킬 위치**: Workspace Skill (`.agents/skills/socratic-ai-engine/SKILL.md`) & Global Skill (`C:/Users/요한T/.gemini/config/skills/socratic-ai-engine/SKILL.md`).
+## 27. 범용 소크라틱 AI 챗봇 엔진 v3.2 (State-Hardened + Care-Aware) 표준 규칙 (2026-08-15)
+- **개요:** 소크라틱 AI 챗봇이 탑재된 교육용 웹앱 개발 요청 시, `.agents/rules/socratic-ai-engine.md` 및 `.agents/skills/build_socratic_webapp.md`를 우선 참조하여 10대 핵심 아키텍처 규칙과 `references/backend_v32.js` 표준 백엔드를 100% 적용함.
+- **10대 핵심 표준 아키텍처**:
+  1. **위기 신호 3등급 분리 라우팅 (Care-Aware)**: 자살/자해 등 위기 신호는 비속어 필터에서 완전 분리. 잠금 없이 돌봄 응답 + 상담 창구 안내 + 교사 긴급 알림 + `유의신호_검토로그` 적재.
+  2. **Stage 단조 증가 클램프**: `Math.min(4, Math.max(1, Math.max(prevStage, reportedStage)))`로 역행 원천 차단. 예외/차단 분기에서도 이전 Stage 완벽 유지.
+  3. **RAG 수치 토큰 동적 추출**: 시트에서 수치·단위를 정규식으로 자동 추출(`extractFactTokens`). 하드코딩 제거로 과목 전환 100% 호환.
+  4. **citedStats 서버 누적 & 1회 재생성**: 모델 자기보고를 텍스트 스캔으로 교차 검증. 재인용 감지 시 강화 지시로 1회만 재생성.
+  5. **구조화된 JSON 스키마**: `responseSchema`로 `{ stage, citedStats, isHintMode, feedback }` 출력 강제.
+  6. **장기 대화 컨텍스트 압축**: 12턴 초과 시 3항목(도달 결론, 다룬 논점, 미답변 지점) 요약 브리핑 생성 및 최근 6턴 원문 유지.
+  7. **비속어 연속 카운터 & 영속 잠금 플래그**: 학생 발화(role: user)만 검사. 연속 2회 시 잠금 + 교사 1회성 알림 + 스프레드시트 잠금 해제 UI 제공.
+  8. **대시보드 보안 인증 & 토큰 분리**: `Session.getActiveUser().getEmail()` 화이트리스트 검사 + 별도 배포 또는 접근 토큰(`?view=teacher&key=`) 병행.
+  9. **드라이브 공유 범위 제한**: `DOMAIN_WITH_LINK`로 학교 도메인 내 제한 (개인 계정은 `PRIVATE` 폴백).
+  10. **회귀 테스트 하니스 (`references/eval_harness.js`)**: 9대 assertion(`no_repeat_stat`, `no_stage_regression`, `must_hint`, `must_care` 등)으로 자동 검증.
+- **규칙 및 참조 파일 위치**:
+  * 규칙: `.agents/rules/socratic-ai-engine.md`
+  * 스킬: `.agents/skills/build_socratic_webapp.md` & `.agents/skills/socratic-ai-engine/SKILL.md`
+  * 참조 구현체: `references/backend_v32.js` & `references/eval_harness.js` & `references/migration_v31_to_v32.md`
+  * 글로벌 스킬: `C:/Users/요한T/.gemini/config/skills/socratic-ai-engine/SKILL.md`
 
-## 28. [해커톤 대상 목표] 소크라티스 X (Socratis X) 마스터 청사진 및 보완 마일스톤 관리 (2026-08-06)
+## 28. [해커톤 대상 목표] 소크라티스 X (Socratis X) 마스터 청사진 및 보완 마일스톤 관리 (2026-08-15)
 - **개요:** 대한민국 교사 에듀테크 해커톤 & Google Gemini API Competition 대상(Grand Prize) 수상을 목표로 하는 소크라티스 X 프로젝트 청사진을 저장 및 관리함.
 - **청사진 위치**: [`socratic_ai_hackathon_blueprint.md`](file:///G:/%EB%8B%A4%EB%A5%B8%20%EC%BB%B4%ED%93%A8%ED%84%B0/%EB%82%B4%20%EC%BB%B4%ED%93%A8%ED%84%B0/%EC%A7%84%ED%95%B4%EA%B3%A0%EB%93%B1%ED%95%99%EA%B5%90/2026%ED%95%99%EB%85%84%EB%8F%84/antigravity_folder/socratic_ai_hackathon_blueprint.md).
 - **향후 4대 보완 마일스톤**:
@@ -225,6 +232,7 @@
   2. **Phase 2 (대시보드)**: 교사용 '학생 사고 발달 지수(Scaffolding Index)' Chart.js 관제 시각화.
   3. **Phase 3 (보이스 AI)**: Web Speech API & Gemini Audio 기반 음성 소크라틱 튜터 모드 확장.
   4. **Phase 4 (해커톤 패키징)**: Public Repo, GIF 데모, 아키텍처 다이어그램 및 해커톤 출품서 완성.
+
 
 ## 29. 진해고등학교 3학년 자율교육과정 세특 기재 및 정리 구글 시트 주소 (2026-08-06)
 - **개요:** 진해고등학교 3학년 전체 학생의 세부능력 및 특기사항(세특)을 기재할 최종 입력 시트 및 자율교육과정 세특 내용 정리 원본 시트 정보입니다.

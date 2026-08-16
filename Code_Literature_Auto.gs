@@ -18,7 +18,7 @@ const CONFIG = {
   RESPONSE_SHEET_NAME: "탐구보고서_응답", // 분석 대상 시트 이름
   
   // 텔레그램 연동 정보 (선택 사항: 미기입 시 토스트 공지만 작동)
-  TELEGRAM_TOKEN: "8407908239:AAHgWACsaJ9y4JMkxI0iC4Kyhs4RNbxpdaY",
+  TELEGRAM_TOKEN: "8407908239:AAHO81Ld-mmtJ-V5opl5vXI3bXgICiDrNgc",
   TELEGRAM_CHAT_ID: "8518409134",
   
   // 나이스 세특 규격 (750바이트, 250자 내외 목표)
