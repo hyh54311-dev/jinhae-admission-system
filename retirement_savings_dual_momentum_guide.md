@@ -918,7 +918,7 @@ Antigravity AI와 대화할 때 "뭐라고 말해야 코드를 잘 짜줄까?" �
 > ```text
 > 매월 정기 가동일 낮 12:30 KST에 봇이 가동되었을 때, 1등 선정 종목과 매수 체결 결과를 
 > 내 스마트폰 텔레그램으로 브리핑 리포트를 보내주는 send_telegram() 함수를 작성해 줘. 
-> 그리고 이 코드가 내 컴퓨터를 꺼두어도 깃허브 무인 서버에서 평생 무료로 자동 가동되도록 
+> 그리고 이 코드가 내 컴퓨터를 꺼두어도 깃허브 무인 서버에서 100% 무료로 자동 가동되도록 
 > .github/workflows/rebalance.yml 스케줄러 파일도 함께 만들어 줘.
 > ```
 * [정상 작동 체크포인트]: 코드에 `requests.post()` 텔레그램 발송 구문과 `.github/workflows/rebalance.yml` 파일 생성 안내가 포함되어 있으면 정상입니다.
@@ -1004,8 +1004,8 @@ flowchart TD
 
 #### [서버 비용 0원] GCP/AWS 대신 GitHub Actions를 권하는 3대 이유
 
-1. 신용카드 등록 없는 평생 100% 무료: 
- AWS나 GCP 클라우드는 신용카드를 등록해야 하고 유료 전환 위험이 있지만, GitHub Actions는 공개 및 개인 저장소에 서버리스 가동 시간을 평생 무료로 제공합니다.
+1. 신용카드 등록 없는 100% 무료 기본 제공: 
+ AWS나 GCP 클라우드는 신용카드를 등록해야 하고 유료 전환 위험이 있지만, GitHub Actions는 개인 저장소에 매월 2,000분의 서버리스 가동 시간을 무료로 넉넉하게 제공합니다.
 2. 내 컴퓨터가 꺼져 있어도 24시간 무인 가동: 
  스마트폰이나 내 컴퓨터를 꺼두어도 깃허브의 무인 서포터 서버가 매달 정해진 날짜에 알아서 깨어나 파이썬 봇을 돌립니다.
 3. git push 명령어 한 번으로 배포 완료: 
@@ -1380,7 +1380,14 @@ def kis_headers(token, tr_id, is_post=False):
 
 _holiday_cache = {}  # 휴장일 API 1일 1회 호출 보장용 캐시
 
+_cached_token = None
+
 def get_access_token():
+    """KIS OAuth 2.0 접근 토큰 발급 및 세션 내 캐싱 (EGW00133 1분당 1회 빈도제한 자동 방어)"""
+    global _cached_token
+    if _cached_token:
+        return _cached_token
+        
     url = f"{URL_BASE}/oauth2/tokenP"
     headers = {"content-type": "application/json"}
     body = {
@@ -1390,8 +1397,21 @@ def get_access_token():
     }
     res = kis_api_request("POST", url, headers=headers, data=json.dumps(body))
     if res.status_code == 200:
-        return res.json()["access_token"]
+        _cached_token = res.json()["access_token"]
+        return _cached_token
     else:
+        # EGW00133 (1분당 1회 제한) 발생 시 65초 대기 후 1회 자동 재시도
+        try:
+            err_data = res.json()
+            if err_data.get("error_code") == "EGW00133":
+                print("⏳ KIS 접근토큰 발급 빈도 제한(EGW00133, 1분당 1회) 감지. 65초 대기 후 자동 재시도합니다...")
+                time.sleep(65)
+                res_retry = kis_api_request("POST", url, headers=headers, data=json.dumps(body))
+                if res_retry.status_code == 200:
+                    _cached_token = res_retry.json()["access_token"]
+                    return _cached_token
+        except Exception:
+            pass
         raise Exception(f"토큰 발급 오류 (모드_모의={KIS_MOCK}): {res.text}")
 
 def get_orderable_cash(token, cano, prdt_cd, ticker="069500"):
@@ -2030,7 +2050,8 @@ def main():
             print("⚠️ [영업시간 외 우회] 장이 닫혀 있으나 테스트 모드이므로 계속 진행합니다.")
 
     try:
-        token = get_access_token()
+        if not token:
+            token = get_access_token()
         target_weights, reason = calculate_momentum_signals(token)
         
         weights_detail = [f"{TICKER_NAMES.get(t, t)} ({t}): {w*100:.0f}%" for t, w in target_weights.items()]
@@ -2425,10 +2446,10 @@ Antigravity를 처음 접하는 독자라도 아래 4단계를 그대로 따라 
  이제 오른쪽/하단의 채팅창에 아래의 '자연어 프롬프트 레시피'를 한글로 입력하기만 하면 됩니다.
 
 > [100% 무료 사용 팩트 체크] 유료 결제(Pro) 없이 무료 계정으로 100% 실행 가능합니다! 
-> Google Antigravity는 유료 결제를 하지 않은 일반 구글 무료 계정(Free Tier)만으로도 소스 코드 자동 수정, 깃허브 연동, `git push` 집행 기능이 정상적으로 작동합니다. 한 달에 한두 번 종목을 고치거나 스케줄을 변경하는 작업은 무료 한도의 1%도 소모하지 않으므로, 과금 걱정 없이 평생 100% 무료로 안심하고 사용하세요!
+> Google Antigravity는 유료 결제를 하지 않은 일반 구글 무료 계정(Free Tier)만으로도 소스 코드 자동 수정, 깃허브 연동, `git push` 집행 기능이 정상적으로 작동합니다. 한 달에 한두 번 종목을 고치거나 스케줄을 변경하는 작업은 무료 한도의 1%도 소모하지 않으므로, 과금 걱정 없이 100% 무료로 안심하고 사용하세요!
 
 ##### [저의 신중한 안내] 구글 안티그래비티 무상 제공량 및 향후 정책 안내
-* 2026년 현시점 팩트: 현재 안티그래비티는 구글 계정만 있으면 신용카드 등록 없이도 일일 기본 무상 제공량(Gemini Flash 모델 일 1,000회 내외, Pro 모델 일 50회 내외)을 넉넉하게 제공해 드립니다. 나만의 연금저축 퀀트 봇(`kis_bot_multi.py`)의 ETF 종목을 교체하거나 스케줄을 변경하는 작업에는 하루 1~2회 대화로도 충분하므로 현시점에서는 추가 비용 없이 평생 100% 무료로 활용할 수 있습니다.
+* 2026년 현시점 팩트: 현재 안티그래비티는 구글 계정만 있으면 신용카드 등록 없이도 일일 기본 무상 제공량(Gemini Flash 모델 일 1,000회 내외, Pro 모델 일 50회 내외)을 넉넉하게 제공해 드립니다. 나만의 연금저축 퀀트 봇(`kis_bot_multi.py`)의 ETF 종목을 교체하거나 스케줄을 변경하는 작업에는 하루 1~2회 대화로도 충분하므로 현시점에서는 추가 비용 없이 100% 무료로 활용할 수 있습니다.
 * 향후 정책 변동 가능성 안내: 다만, 빅테크 기업의 AI 서비스 및 클라우드 무료 제공 정책은 향후 구글의 운영 방침이나 라이선스 규정 개정에 따라 무료 이용 한도가 변경되거나 서비스 조건이 달라질 수 있습니다. 독자 여러분께서는 책을 읽고 실행하시는 시점의 구글 안티그래비티 공식 서비스 약관을 함께 확인해 주시기 바랍니다.
 
 ---
