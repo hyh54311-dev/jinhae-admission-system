@@ -43,7 +43,7 @@
     * STEP 1. GitHub 저장소 복사 & Secrets 보안 키 등록
     * STEP 2. 완성형 자동화 투자 AI 봇 소스 코드 전체 (`kis_bot_multi.py`)
     * STEP 3. GitHub Actions 무인 자동 실행 워크플로우
-  * 4.4 [실습 2단계] 제가 수개월간 직접 겪고 해결한 Top 12 실전 트러블슈팅 디버깅집 (에러 메시지 & 디버깅 과정 딥다이브)
+  * 4.4 [실습 2단계] 제가 수개월간 직접 겪고 해결한 Top 13 실전 트러블슈팅 디버깅집 (에러 메시지 & 디버깅 과정 딥다이브)
   * 4.5 [실습 3단계] Google Antigravity로 내 스타일대로 주무르는 커스텀 패치 (자연어 `git push` 1초 완성 가이드)
   * 4.6 봇을 켠 다음: 월별 운영 체크리스트
 
@@ -1230,6 +1230,7 @@ if sys.platform.startswith("win"):
 # .env 파일에서 계좌 정보 및 API 키 로드용 전역 변수 기본 설정
 KIS_MOCK = False
 KIS_DRY_RUN = False
+DEBUG_MODE = False
 MAX_ORDER_AMOUNT = 1000000000
 APP_KEY = ""
 APP_SECRET = ""
@@ -1271,7 +1272,7 @@ KRX_HOLIDAYS = {
 
 def init_config():
     """실행 직전 최신 환경 변수를 읽어 동적 전역 변수를 완벽히 바인딩하는 함수"""
-    global KIS_MOCK, KIS_DRY_RUN, MAX_ORDER_AMOUNT, APP_KEY, APP_SECRET, URL_BASE, ACCOUNTS, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID
+    global KIS_MOCK, KIS_DRY_RUN, DEBUG_MODE, MAX_ORDER_AMOUNT, APP_KEY, APP_SECRET, URL_BASE, ACCOUNTS, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID
     
     env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env')
     if os.path.exists(env_path):
@@ -1281,6 +1282,7 @@ def init_config():
 
     KIS_MOCK = os.getenv("KIS_MOCK", "False").lower() in ("true", "1", "yes")
     KIS_DRY_RUN = os.getenv("KIS_DRY_RUN", "False").lower() in ("true", "1", "yes")
+    DEBUG_MODE = os.getenv("DEBUG_MODE", "False").lower() in ("true", "1", "yes", "y")
     MAX_ORDER_AMOUNT = int(os.getenv("MAX_ORDER_AMOUNT", "1000000000"))
     TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN", "")
     TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "")
@@ -1534,16 +1536,18 @@ def get_account_balance(token, cano, prdt_cd):
         
         debug_msg = (
             f"🔍 [계좌 잔고 API 디버깅 - {prdt_cd}]\n"
-            f"- ord_psbl_cash(주문가능현금): {summary.get('ord_psbl_cash')} 원\n"
             f"- prvs_rcdl_excc_amt(당일정산금액): {summary.get('prvs_rcdl_excc_amt')} 원\n"
             f"- nxdy_excc_amt(익일정산금액): {summary.get('nxdy_excc_amt')} 원\n"
             f"- dnca_tot_amt(D+2예수금): {summary.get('dnca_tot_amt')} 원\n"
         )
-        send_telegram(debug_msg)
+        if DEBUG_MODE:
+            send_telegram(debug_msg)
+        print(debug_msg)
         
         # [핵심 수정] 0원이라도 주문가능현금(ord_psbl_cash)이 반환되면 우선 채택
         # D+2 예수금(dnca_tot_amt)으로 스킵되어 과다 주문되는 오류 방지
-        for field in ["ord_psbl_cash", "prvs_rcdl_excc_amt", "nxdy_excc_amt"]:
+        # [보완] TTTC8434R 잔고조회에서는 당일정산금액(prvs_rcdl_excc_amt)을 최우선 기준으로 채택
+        for field in ["prvs_rcdl_excc_amt", "nxdy_excc_amt"]:
             if field in summary and summary[field] is not None:
                 try:
                     cash = int(summary[field])
@@ -1869,15 +1873,18 @@ def rebalance_account(token, acc, target_weights):
             send_telegram(err)
             raise ValueError(err)
         
+    sell_results = []
     for ticker, info in holdings.items():
         curr_qty = info["qty"]
         target_qty = target_qtys.get(ticker, 0)
+        t_name = TICKER_NAMES.get(ticker, ticker)
         
         if target_qty == 0:
             print(f"➔ [전량 매도] {ticker} ({curr_qty}주)")
             res = submit_order(token, cano, prdt_cd, ticker, curr_qty, "SELL", ord_dvsn="01")
             if res.get("rt_cd") != "0":
                 raise Exception(f"🚨 [매도 실패] {ticker}: {res.get('msg1')}")
+            sell_results.append(f"전량 매도: {t_name} {curr_qty}주")
             sold_any = True
             time.sleep(1.5)
             
@@ -1887,6 +1894,7 @@ def rebalance_account(token, acc, target_weights):
             res = submit_order(token, cano, prdt_cd, ticker, sell_qty, "SELL", ord_dvsn="01")
             if res.get("rt_cd") != "0":
                 raise Exception(f"🚨 [매도 실패] {ticker}: {res.get('msg1')}")
+            sell_results.append(f"부분 매도: {t_name} {sell_qty}주 (잔여 {target_qty}주)")
             sold_any = True
             time.sleep(1.5)
 
@@ -1955,19 +1963,26 @@ def rebalance_account(token, acc, target_weights):
         time.sleep(2)
         _, holdings = get_account_balance(token, cano, prdt_cd)
 
-    status_summary = []
-    for ticker, weight in target_weights.items():
-        curr_qty = holdings.get(ticker, {}).get("qty", 0)
-        status_summary.append(f"{ticker}(목표비중 {weight*100:.0f}%, 현재수량 {curr_qty}주)")
-
+    # 최종 계좌 평가액 및 보유 현황 재조회
+    final_cash, final_holdings = get_account_balance(token, cano, prdt_cd)
+    final_total_eval = sum(info["eval_amt"] for info in final_holdings.values())
+    final_total_asset = final_cash + final_total_eval
+    
+    holding_details = []
+    for ticker, info in final_holdings.items():
+        t_short = TICKER_NAMES.get(ticker, ticker).split()[0]
+        holding_details.append(f"{t_short} {info['qty']}주({info['eval_amt']:,}원)")
         
-    msg = f"🔄 [{name}] 리밸런싱 완료\n- 목표 분할: {', '.join(status_summary)}\n"
-    if buy_results:
-        msg += "- 매수 결과:\n  " + "\n  ".join(buy_results)
-    else:
-        msg += "- 추가 매수 거래 없음 (목표 비중 충족)"
-        
-    print(msg)
+    msg_lines = [
+        f"✅ [{name}] 자산 리밸런싱 완료",
+        f"📊 계좌 자산: 총 {final_total_asset:,}원 (주식평가 {final_total_eval:,}원 | 예수금 {final_cash:,}원)",
+        f"📉 매도: {', '.join(sell_results) if sell_results else '없음 (보유 비중 유지)'}",
+        f"📈 매수: {', '.join(buy_results) if buy_results else '없음 (목표 비중 충족)'}",
+        f"📦 최종 보유: {', '.join(holding_details) if holding_details else '보유 주식 없음'}",
+        f"🏁 리밸런싱 정상 마감 완료!"
+    ]
+    msg = "\n".join(msg_lines)
+    print("\n" + msg)
     return msg
 
 def fetch_holiday_calendar_kis(base_date, token):
@@ -2124,12 +2139,7 @@ if __name__ == "__main__":
     main()
 ```
 
-
-> ** [실전 팁] 주문 거부 에러를 막는 2% '안전 버퍼(Buffer)'의 비밀**
-> 봇은 주식을 살 때 내 계좌에 있는 현금의 100%를 꽉 채워 사지 않고, 항상 **98%만 매수 한도**로 잡습니다(`cash * 0.98`). 그 이유는 무엇일까요?
-> 첫째, 매수 시 발생하는 **증권사 수수료와 세금**을 낼 현금이 필요합니다.
-> 둘째, 시장가 주문 시 **호가 튕김(슬리피지)** 현상으로 인해 예상보다 약간 비싸게 체결될 수 있습니다. 
-> 만약 100% 꽉 채워 주문을 넣었는데 위 이유로 1원이라도 돈이 모자라면, 증권사 서버는 `주문가능금액 초과` 에러를 뱉고 전체 매매를 중단시킵니다. 이 2%의 안전 버퍼는 어떤 급박한 장세에서도 에러 없이 매매가 안정적으로 완수되게 하는 방패입니다.
+---
 
 #### STEP 3. GitHub Actions 무인 자동 실행 워크플로우 (`.github/workflows/rebalance.yml` & `keep-alive.yml`)
 
@@ -2250,7 +2260,7 @@ jobs:
 
 ---
 
-### 4.4 [실습 2단계] 제가 수개월간 직접 겪고 해결한 Top 12 실전 트러블슈팅 디버깅집 (에러 메시지 & 디버깅 과정 딥다이브)
+### 4.4 [실습 2단계] 제가 수개월간 직접 겪고 해결한 Top 13 실전 트러블슈팅 디버깅집 (에러 메시지 & 디버깅 과정 딥다이브)
 
 
 > 이 절은 처음부터 통째로 읽는 곳이 아닙니다. **에러가 났을 때 펼치는 곳**입니다.
@@ -2272,15 +2282,16 @@ jobs:
 | 실행 시각이 들쭉날쭉함 | Actions 큐 대기 지연 (Queue Delay) | **#10** |
 | 주문 가격이 터무니없이 이상함 | 하드코딩 백업 가격 오동작 | **#11** |
 | 봇 시작 직후 토큰 발급 에러 발생 | 토큰 중복 호출 및 워크플로 중복 등록 (`EGW00133`) | **#12** |
+| 잔고 조회에서 `ord_psbl_cash`가 None이거나 예수금 차감 오류 | 잔고조회(TTTC8434R) vs 매수가능조회(TTTC8908R) 및 당일정산 우선 | **#13** |
 
 ---
 
 
-제가 Antigravity와 대화하며 실제로 부딪혀 해결한 12가지 실전 오류의 에러 메시지, 추적 과정, 파이썬 해결 코드를 담았습니다. 이 12가지만 미리 알아두어도 수십 시간의 시행착오를 줄일 수 있습니다.
+제가 Antigravity와 대화하며 실제로 부딪혀 해결한 13가지 실전 오류의 에러 메시지, 추적 과정, 파이썬 해결 코드를 담았습니다. 이 13가지만 미리 알아두어도 수십 시간의 시행착오를 줄일 수 있습니다.
 
 ---
 
-> [독자 필독 안내] 본서가 제공하는 `kis_bot_multi.py` 소스 코드에는 아래 12가지 트러블슈팅 해법이 이미 반영되어 있습니다.
+> [독자 필독 안내] 본서가 제공하는 `kis_bot_multi.py` 소스 코드에는 아래 13가지 트러블슈팅 해법이 이미 반영되어 있습니다.
 > 제가 수개월간 직접 부딪히며 해결한 예외 처리들이므로, 같은 오류를 다시 겪으실 가능성은 낮습니다. 다만 실행 환경과 증권사 API 정책은 계속 변하므로 새로운 문제가 발생할 수 있습니다. 그때는 이 절의 디버깅 방법론을 참고하시고, 저장소 이슈로 알려주시면 확인하겠습니다.
 > 본 디버깅집의 활용 용도: 본 4.4절의 실전 디버깅집은 향후 독자 여러분이 퀀트 투자 경험이 쌓여 나만의 새로운 파이썬 자동매매 봇이나 커스텀 전략을 직접 개발하고 싶을 때 발생할 수 있는 시행착오를 단축시켜 주는 '핵심 레퍼런스 지침서'로 활용하시면 됩니다.
 
@@ -2468,6 +2479,20 @@ jobs:
   > **첫째, 토큰 재사용 가드 적용:** 이미 상단에서 발급받은 토큰 변수가 존재할 경우 재발급하지 않고 그대로 재사용(`if not token: token = get_access_token()`)하도록 수정했습니다.
   > **둘째, 65초 대기 1회 자동 재시도 방어:** 혹시라도 외부 요인으로 `EGW00133`을 만났을 때 에러로 죽지 않고 65초간 자동 대기한 뒤 1회 재시도하도록 `get_access_token()`을 보강했습니다.
   > **셋째, 워크플로 파일 단일화:** `.github/workflows/` 디렉터리 내에 리밸런싱 실행 파일이 오직 하나(`rebalance.yml`)만 남도록 구버전 파일을 완전히 삭제 정리했습니다.
+
+---
+
+#### 13. 잔고 조회(TTTC8434R)에서 `ord_psbl_cash`가 `None`으로 나오거나 D+2 예수금 오인에 따른 주문 거부
+* 실제 수신될 수 있는 에러 메시지 및 발생 증상:
+  > 잔고 조회 디버깅 로그에서 `ord_psbl_cash(주문가능현금): None`이 찍히거나, 1차 종목 매수 후 2차 종목 매수 시 `🚨 주문가능금액을 초과했습니다` 에러와 함께 매수가 실패하는 현상.
+* Antigravity와 함께 추적한 원인 및 디버깅 과정:
+  > 1. **[API 필드 구조의 차이]** `ord_psbl_cash` 필드는 잔고조회(`TTTC8434R`)의 응답(`output2`)에는 존재하지 않고, **매수가능조회(`TTTC8908R`)** 전용 필드입니다. 따라서 잔고조회 결과에서 이 키를 찾으면 항상 `None`이 반환됩니다.
+  > 2. **[D+2 예수금 오인의 위험]** 잔고조회(`TTTC8434R`)의 `dnca_tot_amt`(D+2 예수금)는 당일 결제 미정산금이 차감되지 않은 금액입니다. 만약 1차 매수 직후 잔고를 재조회했을 때 `dnca_tot_amt`를 기준으로 2차 매수 수량을 계산하면, 방금 매수한 1차 결제 대금이 아직 빠져나가지 않아 실제 내 계좌의 남은 당일 가용 현금보다 더 큰 금액으로 주문을 넣게 되어 증권사 서버로부터 거부당합니다.
+* 최종 해결 소스 코드 및 검증 결과:
+  > **첫째, 당일정산금액(`prvs_rcdl_excc_amt`)을 최우선 기준으로 채택:** 잔고조회에서는 당일 체결분이 즉시 차감 반영되는 `prvs_rcdl_excc_amt`를 1순위 예수금으로 잡고, `TTTC8908R` 매수가능조회 API와 교차 검증하도록 보강했습니다.
+  > **둘째, 주문 루프 내 동적 잔여 현금 차감(`current_avail_cash -= amount`):** 매수 주문이 1건 체결될 때마다 파이썬 내부에서 남은 가용 현금을 실시간으로 차감 추적하여, 2차 매수 수량이 계좌에 실제로 남아있는 현금 한도 내로 자동 조절되도록 안전 캡을 씌웠습니다.
+  > **셋째, 디버깅 로그 분리(`DEBUG_MODE`):** 복잡한 잔고 필드 디버깅 메시지는 일반 알림에서 제거하고, 환경변수 `DEBUG_MODE=Y` 설정 시에만 출력되도록 분리하여 독자의 알림창을 깔끔하게 유지했습니다.
+
 
 
 ---
