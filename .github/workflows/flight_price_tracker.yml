@@ -23,6 +23,6 @@ jobs:
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN || '8407908239:AAHO81Ld-mmtJ-V5opl5vXI3bXgICiDrNgc' }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID || '8518409134' }}
-          NOTIFY_ALWAYS: 'true'
+          NOTIFY_ALWAYS: 'false' # 기존 예매가(473,700원)보다 더 싼 특가 발견 시에만 텔레그램 발송
         run: |
           python flight_tracker_bot.py

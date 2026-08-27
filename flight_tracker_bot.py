@@ -47,8 +47,8 @@ FREE_CANCEL_DEADLINE = datetime.date(2026, 11, 25)
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN", "8407908239:AAHO81Ld-mmtJ-V5opl5vXI3bXgICiDrNgc")
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "8518409134")
 
-# 알림 모드: True면 매일 상태 보고(하트비트) 발송, False면 더 싼 표 발견 시에만 발송
-NOTIFY_ALWAYS = os.environ.get("NOTIFY_ALWAYS", "true").lower() == "true"
+# 알림 모드: True면 매일 상태 보고 발송, False면 기존 예매가(473,700원)보다 더 싼 표 발견 시에만 발송
+NOTIFY_ALWAYS = os.environ.get("NOTIFY_ALWAYS", "false").lower() == "true"
 
 
 def send_telegram_message(message: str) -> bool:
