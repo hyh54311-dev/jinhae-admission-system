@@ -2,9 +2,9 @@ name: ✈️ Taiwan Flight Price Tracker Bot
 
 on:
   schedule:
-    # 매일 한국시간 08:30 (UTC 23:30), 18:30 (UTC 09:30) 자동 실행
+    # 매일 아침 08:30 KST (UTC 23:30) & 오후 16:30 KST (UTC 07:30) 자동 실행
     - cron: '30 23 * * *'
-    - cron: '30 9 * * *'
+    - cron: '30 7 * * *'
   workflow_dispatch: # GitHub Actions 탭에서 수동 1클릭 즉시 실행 지원
 
 jobs:
