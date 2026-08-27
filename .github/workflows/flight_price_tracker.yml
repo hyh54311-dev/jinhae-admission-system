@@ -1,11 +1,11 @@
-name: ✈️ Taiwan Flight Price Tracker Bot
+name: ✈️ Taiwan Flight Price Tracker Bot (Playwright Engine)
 
 on:
   schedule:
-    # 매일 아침 08:30 KST (UTC 23:30) & 오후 16:30 KST (UTC 07:30)
+    # 매일 아침 08:30 KST (UTC 23:30) & 오후 16:30 KST (UTC 07:30) 자동 가동
     - cron: '30 23 * * *'
     - cron: '30 7 * * *'
-  workflow_dispatch: # GitHub Actions 탭에서 수동 1클릭 실행
+  workflow_dispatch: # GitHub Actions 탭에서 수동 1클릭 즉시 실행 지원
 
 jobs:
   track-flight-prices:
@@ -17,13 +17,17 @@ jobs:
       - name: 🐍 Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.11'
+          cache: 'pip'
 
-      - name: 🚀 Run Flight Price Tracker Bot
+      - name: 📦 Install Playwright and dependencies
+        run: |
+          pip install playwright
+          playwright install --with-deps chromium
+
+      - name: 🚀 Run Flight Price Tracker Bot (Playwright Live Scraper)
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN || '8407908239:AAHO81Ld-mmtJ-V5opl5vXI3bXgICiDrNgc' }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID || '8518409134' }}
-          AMADEUS_API_KEY: ${{ secrets.AMADEUS_API_KEY }}
-          AMADEUS_API_SECRET: ${{ secrets.AMADEUS_API_SECRET }}
         run: |
           python flight_tracker_bot.py

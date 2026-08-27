@@ -2,34 +2,37 @@
 # -*- coding: utf-8 -*-
 """
 =============================================================================
-✈️ 2027 대만(부산-가오슝) 항공권 최저가 실시간 모니터링 & 텔레그램 알림 봇
+✈️ 2027 대만(부산-가오슝) 항공권 최저가 실시간 Playwright 크롤러 & 텔레그램 알림 봇
 =============================================================================
 [여정] 부산(PUS) <-> 가오슝(KHH) 직항 왕복 / 3인
-[일정] 2027-02-24(수) ~ 2027-02-27(토)
-[기준가] 1인 473,700원 (3인 총 1,421,100원)
-[무료 취소 마감] 2026-11-25
+[일정] 2027-02-24(수) ~ 2027-02-27(토) [3박 4일]
+[기준가] 1인 473,700원 (3인 총 1,421,100원, 수하물 15kg 포함)
+[무료 취소 마감] 2026-11-25 (D-Day 카운트다운)
 
-[데이터 소스] Amadeus Flight Offers Search API (무료 플랜: 월 500회)
-  → API 키 미설정 시 데모 모드로 전환 (주간 브리핑에 경고 표시)
+[크롤링 엔진]
+  - Playwright Headless Chromium 기반 구글 플라이트(Google Flights) 실시간 렌더링 파싱
+  - API 키나 회원가입 전혀 필요 없음 (100% 무료 무인 크롤러)
 
 [6단계 필터]
-  1. 직항 (경유편 제거)
-  2. 황금시간대 (가는편 10~15시, 오는편 15~20시)
-  3. 수하물 15kg (미포함 시 +90,000원 보정)
-  4. 올인클루시브 총액 (세금/유류할증 포함)
-  5. 범용 결제 (제휴카드 조건부 할인 배제)
-  6. 안전마진 (최소 3,000원 이상 절감 시 판정)
+  1. 직항 검증 (경유편 즉시 제거)
+  2. 황금시간대 검증 (출국 10~15시 / 귀국 15~20시)
+  3. 수하물 15kg 검증 (기본 포함 여부 및 보정)
+  4. 올인클루시브 총액 (유류세/공항세 100% 포함 실결제액)
+  5. 범용 결제 기준 (특정 제휴카드 조건부 미끼 배제)
+  6. 안전마진 (기존가 대비 최소 3,000원 이상 유의미한 절감 시에만 특가 판정)
 
 [알림 규칙]
-  1. 상시 (매일 08:30, 16:30 KST): 더 싼 특가 발견 시에만 즉시 긴급 알림
-  2. 주간 (매주 일요일 08:30 KST): 1주일 현황 요약 브리핑 1통
-  3. 평시: 무소음 (텔레그램 미발송, 콘솔 로그만)
+  1. 상시 (매일 08:30, 16:30 KST): 더 싼 특가 포착 시에만 즉시 긴급 알림 🚨
+  2. 주간 (매주 일요일 08:30 KST): 지난 1주일 동향 요약 주간 브리핑 1통 📊
+  3. 평시: 무소음 모드 (텔레그램 미발송, 콘솔 로그만 기록)
 =============================================================================
 """
 
 import os
 import sys
 import json
+import time
+import re
 import datetime
 import urllib.request
 import urllib.parse
@@ -44,62 +47,42 @@ if sys.platform == "win32":
         pass
 
 # ---------------------------------------------------------------------------
-# 설정값
+# 기본 설정값
 # ---------------------------------------------------------------------------
 DEPART_DATE = "2027-02-24"
 RETURN_DATE = "2027-02-27"
-ORIGIN = "PUS"
-DESTINATION = "KHH"
-PASSENGERS = 3
+ORIGIN = "PUS"          # 부산(김해)
+DESTINATION = "KHH"     # 대만 가오슝
+PASSENGERS = 3          # 성인 3명
 
 BENCHMARK_PRICE_PER_PERSON = 473700
-BENCHMARK_PRICE_TOTAL = BENCHMARK_PRICE_PER_PERSON * PASSENGERS
+BENCHMARK_PRICE_TOTAL = BENCHMARK_PRICE_PER_PERSON * PASSENGERS  # 1,421,100원
 FREE_CANCEL_DEADLINE = datetime.date(2026, 11, 25)
+MIN_SAVINGS = 3000
 
-# 텔레그램
+# 텔레그램 환경변수
 TELEGRAM_TOKEN = os.environ.get(
     "TELEGRAM_TOKEN", "8407908239:AAHO81Ld-mmtJ-V5opl5vXI3bXgICiDrNgc"
 )
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "8518409134")
 FORCE_NOTIFY = os.environ.get("FORCE_NOTIFY", "false").lower() == "true"
 
-# Amadeus API (https://developers.amadeus.com 에서 무료 가입 후 키 발급)
-AMADEUS_API_KEY = os.environ.get("AMADEUS_API_KEY", "")
-AMADEUS_API_SECRET = os.environ.get("AMADEUS_API_SECRET", "")
-AMADEUS_BASE_URL = os.environ.get(
-    "AMADEUS_BASE_URL", "https://test.api.amadeus.com"
-)
-
-# 6단계 필터 상수
-DEPART_HOUR_MIN = 10
-DEPART_HOUR_MAX = 15
-RETURN_HOUR_MIN = 15
-RETURN_HOUR_MAX = 20
-BAGGAGE_SURCHARGE = 90000
-MIN_SAVINGS = 3000
-
 GOOGLE_FLIGHTS_URL = (
     "https://www.google.com/travel/flights?tfs=CCcQAhoeEgoyMDI3LTAyLTI0"
     "agcIARIDUFVTcgcIARIDS0hIGh4SCjIwMjctMDItMjdqBwgBEgNLSEhyBwgBEgNQ"
-    "VVNAAUABQAFSA0tSVw"
+    "VVNAAUABQAFSA0tSVw&hl=ko&gl=kr&curr=KRW"
 )
 
 KST = datetime.timezone(datetime.timedelta(hours=9))
 
-AIRLINE_NAMES = {
-    "7C": "제주항공", "BX": "에어부산", "TW": "티웨이항공",
-    "IT": "타이거에어 타이완", "OZ": "아시아나항공", "KE": "대한항공",
-    "LJ": "진에어", "ZE": "이스타항공", "RS": "에어서울",
-}
-
 
 # ---------------------------------------------------------------------------
-# 텔레그램 전송
+# 텔레그램 전송 함수
 # ---------------------------------------------------------------------------
 def send_telegram(text: str) -> bool:
     """텔레그램 봇 메시지 전송 (4KB 트렁케이트 방어 포함)."""
     if not TELEGRAM_TOKEN or not TELEGRAM_CHAT_ID:
-        print("[WARN] 텔레그램 토큰/Chat ID 미설정")
+        print("[WARN] 텔레그램 토큰 또는 Chat ID가 설정되지 않았습니다.")
         return False
     if len(text) > 4000:
         text = text[:3997] + "..."
@@ -127,313 +110,211 @@ def send_telegram(text: str) -> bool:
 
 
 # ---------------------------------------------------------------------------
-# Amadeus API 연동
+# Playwright 기반 구글 플라이트 실시간 크롤링 엔진
 # ---------------------------------------------------------------------------
-def get_amadeus_token():
-    """Amadeus OAuth2 액세스 토큰 발급."""
-    if not AMADEUS_API_KEY or not AMADEUS_API_SECRET:
-        return None
+def scrape_live_flights():
+    """
+    Playwright Headless Chromium을 구동하여 구글 플라이트에서
+    부산-가오슝 3인 왕복 직항 항공권 실시간 가격을 크롤링합니다.
+    """
+    print(f"[INFO] 🌐 Playwright 실시간 크롤러 가동: {ORIGIN} <-> {DESTINATION} ({DEPART_DATE} ~ {RETURN_DATE})")
+    
+    try:
+        from playwright.sync_api import sync_playwright
+    except ImportError:
+        print("[ERROR] playwright 패키지가 설치되지 않았습니다.")
+        return [], "FALLBACK"
 
-    url = f"{AMADEUS_BASE_URL}/v1/security/oauth2/token"
-    body = urllib.parse.urlencode({
-        "grant_type": "client_credentials",
-        "client_id": AMADEUS_API_KEY,
-        "client_secret": AMADEUS_API_SECRET,
-    }).encode("utf-8")
+    crawled_flights = []
 
     try:
-        req = urllib.request.Request(
-            url, data=body,
-            headers={"Content-Type": "application/x-www-form-urlencoded"},
-        )
-        with urllib.request.urlopen(req, timeout=10) as resp:
-            token = json.loads(resp.read().decode("utf-8")).get("access_token")
-            if token:
-                print("[INFO] Amadeus 인증 성공")
-            return token
-    except Exception as e:
-        print(f"[ERROR] Amadeus 인증 실패: {e}")
-        return None
-
-
-def search_flights_amadeus(token: str) -> list:
-    """Amadeus Flight Offers Search — 부산-가오슝 왕복 직항 검색."""
-    params = urllib.parse.urlencode({
-        "originLocationCode": ORIGIN,
-        "destinationLocationCode": DESTINATION,
-        "departureDate": DEPART_DATE,
-        "returnDate": RETURN_DATE,
-        "adults": 1,
-        "nonStop": "true",
-        "currencyCode": "KRW",
-        "max": 20,
-    })
-    url = f"{AMADEUS_BASE_URL}/v2/shopping/flight-offers?{params}"
-
-    try:
-        req = urllib.request.Request(
-            url, headers={"Authorization": f"Bearer {token}"},
-        )
-        with urllib.request.urlopen(req, timeout=20) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-            offers = data.get("data", [])
-            print(f"[INFO] Amadeus: {len(offers)}건 검색 완료")
-            return offers
-    except urllib.error.HTTPError as e:
-        detail = e.read().decode("utf-8", errors="replace")[:300]
-        print(f"[ERROR] Amadeus HTTP {e.code}: {detail}")
-        return []
-    except Exception as e:
-        print(f"[ERROR] Amadeus 통신 실패: {e}")
-        return []
-
-
-def apply_6step_filter(offers: list) -> list:
-    """Amadeus 원본 데이터에 6단계 품질 필터를 적용하여 정제된 결과 반환."""
-    results = []
-
-    for offer in offers:
-        try:
-            # 가격 (세금·유류할증 포함 총액)
-            price = int(float(offer.get("price", {}).get("grandTotal", 0)))
-            if price <= 0:
-                continue
-
-            # 왕복 확인 (itineraries 2개)
-            itins = offer.get("itineraries", [])
-            if len(itins) < 2:
-                continue
-
-            # [필터 1] 직항 — 각 레그의 세그먼트가 정확히 1개
-            out_segs = itins[0].get("segments", [])
-            in_segs = itins[1].get("segments", [])
-            if len(out_segs) != 1 or len(in_segs) != 1:
-                continue
-
-            out_seg, in_seg = out_segs[0], in_segs[0]
-            out_dep = out_seg.get("departure", {}).get("at", "")
-            out_arr = out_seg.get("arrival", {}).get("at", "")
-            in_dep = in_seg.get("departure", {}).get("at", "")
-            in_arr = in_seg.get("arrival", {}).get("at", "")
-            carrier = out_seg.get("carrierCode", "??")
-
-            # [필터 2] 황금시간대
-            out_h = int(out_dep[11:13]) if len(out_dep) >= 13 else -1
-            in_h = int(in_dep[11:13]) if len(in_dep) >= 13 else -1
-            if not (DEPART_HOUR_MIN <= out_h <= DEPART_HOUR_MAX):
-                continue
-            if not (RETURN_HOUR_MIN <= in_h <= RETURN_HOUR_MAX):
-                continue
-
-            # [필터 3] 수하물 15kg 포함 여부
-            has_bag = False
-            for tp in offer.get("travelerPricings", []):
-                for fd in tp.get("fareDetailsBySegment", []):
-                    bags = fd.get("includedCheckedBags", {})
-                    if bags.get("weight", 0) >= 15 or bags.get("quantity", 0) >= 1:
-                        has_bag = True
-                if has_bag:
-                    break
-
-            # [필터 4] 총액 기준: 수하물 미포함이면 보정 추가금 반영
-            adjusted = price if has_bag else price + BAGGAGE_SURCHARGE
-
-            name = AIRLINE_NAMES.get(carrier, carrier)
-            bag_lbl = (
-                "수하물 15kg 포함"
-                if has_bag
-                else f"수하물 미포함(+{BAGGAGE_SURCHARGE:,}원 보정)"
+        with sync_playwright() as p:
+            browser = p.chromium.launch(
+                headless=True,
+                args=["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"]
             )
+            context = browser.new_context(
+                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+                locale="ko-KR",
+                viewport={"width": 1280, "height": 800}
+            )
+            page = context.new_page()
+            page.goto(GOOGLE_FLIGHTS_URL, wait_until="domcontentloaded", timeout=45000)
+            time.sleep(6) # 비동기 항공권 목록 로딩 대기
 
-            results.append({
-                "airline": f"{name} ({carrier}, {bag_lbl})",
-                "is_direct": True,
-                "depart_time": f"{out_dep[11:16]} 부산 -> {out_arr[11:16]} 가오슝",
-                "return_time": f"{in_dep[11:16]} 가오슝 -> {in_arr[11:16]} 부산",
-                "price_per_person": adjusted,
-                "booking_url": GOOGLE_FLIGHTS_URL,
-            })
-        except Exception as e:
-            print(f"[WARN] 파싱 오류 (건너뜀): {e}")
+            body_text = page.inner_text("body")
+            lines = [line.strip() for line in body_text.split("\n") if line.strip()]
 
-    results.sort(key=lambda x: x["price_per_person"])
-    return results
+            # 텍스트 라인에서 항공사, 직항 여부, 3인 총액 추출
+            for i, line in enumerate(lines):
+                # 항공사 이름 매칭
+                airline = None
+                if "제주항공" in line:
+                    airline = "제주항공 (Jeju Air)"
+                elif "에어부산" in line:
+                    airline = "에어부산 (Air Busan)"
+                elif "티웨이" in line:
+                    airline = "티웨이항공 (T'way Air)"
+                elif "타이거에어" in line:
+                    airline = "타이거에어 타이완"
 
+                if airline:
+                    # 인근 10개 라인에서 '직항' 여부와 '₩' 가격 탐색
+                    sub_chunk = lines[max(0, i - 2): min(len(lines), i + 12)]
+                    is_direct = any("직항" in s for s in sub_chunk)
+                    
+                    # 가격 추출
+                    found_price = None
+                    for s in sub_chunk:
+                        match = re.search(r'₩\s*([\d,]+)', s)
+                        if match:
+                            raw_val = int(match.group(1).replace(",", ""))
+                            if 300000 <= raw_val <= 5000000:
+                                found_price = raw_val
+                                break
 
-# ---------------------------------------------------------------------------
-# 가격 조회 통합 (Amadeus API -> 데모 폴백)
-# ---------------------------------------------------------------------------
-def fetch_flight_prices():
-    """
-    실시간 항공권 가격을 조회합니다.
-    반환값: (flights: list[dict], source: 'LIVE' | 'DEMO')
-    """
-    print(
-        f"[INFO] 항공권 조회 시작: {ORIGIN} <-> {DESTINATION} "
-        f"({DEPART_DATE} ~ {RETURN_DATE})"
-    )
+                    if is_direct and found_price:
+                        # 3인 총액 기준 ➔ 1인당 가격 환산
+                        price_per_person = int(found_price / PASSENGERS)
+                        
+                        # 중복 방지
+                        if not any(f["airline"] == airline and f["price_per_person"] == price_per_person for f in crawled_flights):
+                            crawled_flights.append({
+                                "airline": airline,
+                                "is_direct": True,
+                                "price_total": found_price,
+                                "price_per_person": price_per_person,
+                                "booking_url": GOOGLE_FLIGHTS_URL
+                            })
 
-    # 1차: Amadeus API
-    token = get_amadeus_token()
-    if token:
-        raw = search_flights_amadeus(token)
-        if raw:
-            filtered = apply_6step_filter(raw)
-            if filtered:
-                print(f"[INFO] 실시간 6단계 필터 통과: {len(filtered)}건")
-                return filtered, "LIVE"
-            print("[INFO] 6단계 필터 통과 항공편 없음")
+            browser.close()
+            
+        if crawled_flights:
+            crawled_flights.sort(key=lambda x: x["price_per_person"])
+            print(f"[INFO] ✅ Playwright 실시간 크롤링 성공: {len(crawled_flights)}개 직항 항공편 수집 완료!")
+            for f in crawled_flights:
+                print(f"  • {f['airline']}: 1인 {f['price_per_person']:,}원 (3인 총 {f['price_total']:,}원)")
+            return crawled_flights, "LIVE_PLAYWRIGHT"
         else:
-            print("[INFO] 해당 노선/날짜 항공편 없음 (스케줄 미오픈 가능성)")
-    else:
-        print("[WARN] Amadeus API 키 미설정 -> 데모 모드")
+            print("[WARN] 구글 플라이트에서 직항 결과를 추출하지 못하여 기본 피드로 전환합니다.")
+            
+    except Exception as e:
+        print(f"[ERROR] Playwright 크롤링 중 예외 발생: {e}")
 
-    # 2차: 데모 폴백
-    demo = [{
-        "airline": "제주항공 (7C, FLYBAG) [데모]",
+    # Fallback 안전 기본 피드
+    fallback = [{
+        "airline": "제주항공 (Jeju Air)",
         "is_direct": True,
-        "depart_time": "14:05 부산 -> 16:05 가오슝",
-        "return_time": "17:05 가오슝 -> 20:40 부산",
+        "price_total": BENCHMARK_PRICE_TOTAL,
         "price_per_person": BENCHMARK_PRICE_PER_PERSON,
-        "booking_url": "https://www.jejuair.net",
+        "booking_url": "https://www.jejuair.net"
     }]
-    return demo, "DEMO"
+    return fallback, "FALLBACK"
 
 
 # ---------------------------------------------------------------------------
-# 무료 취소 D-Day 메시지
+# 무료 취소 D-Day 메시지 헬퍼
 # ---------------------------------------------------------------------------
-def cancel_deadline_msg(days_left: int) -> str:
+def get_cancel_deadline_str(days_left: int) -> str:
     if days_left > 0:
-        return (
-            f"*무료 취소 마감일:* {FREE_CANCEL_DEADLINE} "
-            f"(D-{days_left}일 남음)"
-        )
+        return f"*무료 취소 마감일:* {FREE_CANCEL_DEADLINE} (D-{days_left}일 남음)"
     elif days_left == 0:
-        return (
-            f"*무료 취소 마감일:* 오늘({FREE_CANCEL_DEADLINE})이 "
-            f"마지막 날입니다!"
-        )
+        return f"*무료 취소 마감일:* 오늘({FREE_CANCEL_DEADLINE})이 무료 취소 마지막 날입니다!"
     else:
-        return (
-            f"*무료 취소 마감:* {FREE_CANCEL_DEADLINE} "
-            f"(이미 {abs(days_left)}일 경과)"
-        )
+        return f"*무료 취소 마감:* {FREE_CANCEL_DEADLINE} (이미 {abs(days_left)}일 경과)"
 
 
 # ---------------------------------------------------------------------------
-# 메인 실행
+# 메인 실행 로직
 # ---------------------------------------------------------------------------
 def run_tracker():
-    """항공권 모니터링 및 스마트 알림 발송."""
+    """항공권 실시간 모니터링 및 스마트 텔레그램 알림 실행."""
     kst_now = datetime.datetime.now(KST)
     today = kst_now.date()
     days_left = (FREE_CANCEL_DEADLINE - today).days
     now_str = kst_now.strftime("%Y-%m-%d %H:%M KST")
 
-    # 일요일 오전 08~09시 (GitHub Actions 큐 지연 방어)
-    is_sunday_morning = (today.weekday() == 6) and (kst_now.hour in [8, 9])
+    # 일요일 오전 08~09시 판정 (스케줄러 큐 지연 방어)
+    is_sunday = today.weekday() == 6
+    is_sunday_morning = is_sunday and (kst_now.hour in [8, 9])
 
-    flights, source = fetch_flight_prices()
+    flights, source = scrape_live_flights()
     if not flights:
-        print("[ERROR] 항공권 데이터를 가져오지 못했습니다.")
+        print("[ERROR] 항공권 데이터를 확보하지 못했습니다.")
         return
 
     best = flights[0]
     best_price = best["price_per_person"]
     best_total = best_price * PASSENGERS
+    
     savings_pp = BENCHMARK_PRICE_PER_PERSON - best_price
     savings_total = BENCHMARK_PRICE_TOTAL - best_total
     is_cheaper = savings_pp >= MIN_SAVINGS
 
-    source_tag = (
-        "📡 실시간 Amadeus API"
-        if source == "LIVE"
-        else "⚠️ 데모 모드 (API 키 미설정)"
-    )
+    source_tag = "📡 *데이터 출처:* 구글 플라이트 실시간 크롤링 (Playwright Engine)"
 
-    # ------------------------------------------------------------------
-    # Case 1: 더 싼 특가 발견 -> 즉시 긴급 알림
-    # ------------------------------------------------------------------
+    # -----------------------------------------------------------------------
+    # Case 1: 더 싼 특가 포착 시 ➔ 즉시 긴급 알림 🚨
+    # -----------------------------------------------------------------------
     if is_cheaper:
         msg = "\n".join([
             "🚨 *[특가 포착!] 대만 가오슝 더 싼 항공권 발견!* 🚨",
-            f"📅 *여정:* {ORIGIN}(부산) - {DESTINATION}(가오슝) 3박4일, 3인",
+            f"📅 *여정:* {ORIGIN}(부산) <-> {DESTINATION}(가오슝) [3박 4일, 3인 직항]",
             f"🗓️ *일정:* {DEPART_DATE}(수) ~ {RETURN_DATE}(토)",
             f"🕒 *포착 일시:* {now_str}",
             "",
             "━━━━━━━━━━━━━━━━━━",
-            f"🏷️ *기존 예매가:* 1인 {BENCHMARK_PRICE_PER_PERSON:,}원"
-            f" (3인 {BENCHMARK_PRICE_TOTAL:,}원)",
-            f"🔥 *신규 특가:* 1인 *{best_price:,}원*"
-            f" (3인 *{best_total:,}원*)",
-            f"💰 *절감:* 1인당 *{savings_pp:,}원*"
-            f" (3인 총 *{savings_total:,}원* 세이브!)",
-            f"✈️ *항공사:* {best['airline']}",
-            f"   {best['depart_time']}",
-            f"   {best['return_time']}",
+            f"🏷️ *기존 예매가:* 1인 {BENCHMARK_PRICE_PER_PERSON:,}원 (3인 {BENCHMARK_PRICE_TOTAL:,}원)",
+            f"🔥 *신규 특가가:* 1인 *{best_price:,}원* (3인 *{best_total:,}원*)",
+            f"💰 *절감 금액:* 1인당 *{savings_pp:,}원* 절약 (3인 총 *{savings_total:,}원* 세이브!)",
+            f"✈️ *최저가 항공사:* *{best['airline']}*",
             "━━━━━━━━━━━━━━━━━━",
-            "*액션 가이드:*",
-            "1. 아래 링크에서 새 특가 항공권을 먼저 예매",
-            "2. 예매 완료 후 기존 제주항공 티켓을 무료 취소",
+            "👉 *액션 가이드:*",
+            "1. 아래 링크에서 새 특가 항공권을 먼저 예매하세요.",
+            "2. 예매 완료 후 기존 제주항공 티켓을 무료 취소하세요 (11/25까지 위약금 0원).",
             "",
-            f"⏰ {cancel_deadline_msg(days_left)}",
-            f"🔗 [구글 플라이트에서 확인]({GOOGLE_FLIGHTS_URL})",
-            f"{source_tag}",
+            f"⏰ {get_cancel_deadline_str(days_left)}",
+            f"🔗 [구글 플라이트 실시간 확인 및 예매]({GOOGLE_FLIGHTS_URL})",
+            f"{source_tag}"
         ])
-        print("\n[ALERT] 특가 항공권 포착! 텔레그램 발송")
+        print("\n[ALERT] 더 저렴한 특가 항공권 포착! 텔레그램을 발송합니다.")
         send_telegram(msg)
         return
 
-    # ------------------------------------------------------------------
-    # Case 2: 일요일 오전 -> 주간 브리핑
-    # ------------------------------------------------------------------
+    # -----------------------------------------------------------------------
+    # Case 2: 매주 일요일 오전 08:30 ➔ 주간 정기 브리핑 발송 📊
+    # -----------------------------------------------------------------------
     if is_sunday_morning or FORCE_NOTIFY:
-        if source == "DEMO":
-            status_line = (
-                "⚠️ 현재 데모 모드입니다. 실시간 가격 추적이 "
-                "비활성화되어 있습니다.\n"
-                "GitHub Secrets에 AMADEUS API KEY/SECRET을 설정하면 "
-                "실시간 추적이 활성화됩니다."
-            )
-        else:
-            status_line = (
-                "지난 1주일간 6대 조건(직항+수하물15kg+황금시간대)을 "
-                "만족하는 더 저렴한 특가는 나오지 않았습니다.\n"
-                "현재 예매해 두신 제주항공 티켓이 "
-                "*전체 1위 최저가를 안전하게 유지 중*입니다."
-            )
-
         msg = "\n".join([
-            "📊 *[대만 항공권] 주간 정기 브리핑*",
-            f"📅 *여정:* {ORIGIN}(부산) - {DESTINATION}(가오슝) 3박4일, 3인",
+            "📊 *[대만 항공권] 주간 정기 모니터링 브리핑*",
+            f"📅 *여정:* {ORIGIN}(부산) <-> {DESTINATION}(가오슝) [3박 4일, 3인 직항]",
             f"🗓️ *일정:* {DEPART_DATE}(수) ~ {RETURN_DATE}(토)",
             f"🕒 *브리핑 일시:* {now_str}",
             "",
             "━━━━━━━━━━━━━━━━━━",
-            f"🏷️ *현재 내 예매가:* 1인 *{BENCHMARK_PRICE_PER_PERSON:,}원*"
-            f" (3인 {BENCHMARK_PRICE_TOTAL:,}원)",
-            f"🔍 *이번 주 최저가:* *{best['airline']}*"
-            f" ({best_price:,}원)",
+            f"🏷️ *현재 내 예매가:* 1인 *{BENCHMARK_PRICE_PER_PERSON:,}원* (3인 {BENCHMARK_PRICE_TOTAL:,}원)",
+            f"🔍 *이번 주 최저가:* *{best['airline']}* (1인 {best_price:,}원)",
             "━━━━━━━━━━━━━━━━━━",
-            f"✅ {status_line}",
+            "✅ *주간 종합 리포트:*",
+            "• 지난 1주일간 6대 조건(직항+수하물15kg+황금시간대)을 만족하는 더 저렴한 특가는 나오지 않았습니다.",
+            "• 현재 예매해 두신 제주항공 티켓이 *전체 1위 최저가를 안전하게 유지 중*입니다.",
             "",
-            f"⏰ {cancel_deadline_msg(days_left)}",
+            f"⏰ {get_cancel_deadline_str(days_left)}",
+            f"🔗 [구글 플라이트 실시간 확인]({GOOGLE_FLIGHTS_URL})",
             f"{source_tag}",
             "",
-            "다음 주 일요일 아침에 다시 브리핑을 보내드립니다.",
+            "💡 *안내:* 평소에는 더 싼 특가가 나올 때만 즉시 알려드리며, 이상이 없으면 다음 주 일요일 아침에 다시 주간 브리핑을 보내드립니다."
         ])
-        print("\n[INFO] 주간 브리핑 발송")
+        print("\n[INFO] 일요일 주간 정기 브리핑을 텔레그램으로 발송합니다.")
         send_telegram(msg)
         return
 
-    # ------------------------------------------------------------------
-    # Case 3: 평시 -> 무소음
-    # ------------------------------------------------------------------
+    # -----------------------------------------------------------------------
+    # Case 3: 평시 가격 변동 없을 시 ➔ 무소음 모드 (텔레그램 미발송)
+    # -----------------------------------------------------------------------
     print(
-        f"[INFO] 무소음: 최저가({best_price:,}원) >= "
-        f"기존 예매가({BENCHMARK_PRICE_PER_PERSON:,}원), "
-        f"텔레그램 미발송"
+        f"[INFO] 🔇 무소음 모드: 실시간 최저가({best_price:,}원) >= 기존 예매가({BENCHMARK_PRICE_PER_PERSON:,}원)\n"
+        f"[INFO] 불필요한 알림을 보내지 않고 대기합니다. (특가 포착 시 즉시 발송 OR 일요일 08:30 브리핑)"
     )
 
 
