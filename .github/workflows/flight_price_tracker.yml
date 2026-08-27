@@ -1,0 +1,28 @@
+name: ✈️ Taiwan Flight Price Tracker Bot
+
+on:
+  schedule:
+    # 매일 한국시간 08:30 (UTC 23:30), 18:30 (UTC 09:30) 자동 실행
+    - cron: '30 23 * * *'
+    - cron: '30 9 * * *'
+  workflow_dispatch: # GitHub Actions 탭에서 수동 1클릭 즉시 실행 지원
+
+jobs:
+  track-flight-prices:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Check out repository
+        uses: actions/checkout@v4
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: 🚀 Run Flight Price Tracker Bot
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN || '8407908239:AAHO81Ld-mmtJ-V5opl5vXI3bXgICiDrNgc' }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID || '8518409134' }}
+          NOTIFY_ALWAYS: 'true'
+        run: |
+          python flight_tracker_bot.py
