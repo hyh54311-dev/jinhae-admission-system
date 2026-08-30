@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 =============================================================================
-✈️ 2027 대만(부산-가오슝) 항공권 최저가 실시간 모니터링 & 텔레그램 알림 봇 v3.2
+✈️ 2027 대만(부산-가오슝) 항공권 최저가 실시간 모니터링 & 텔레그램 알림 봇 v3.3
 =============================================================================
 [여정 정보]
   - 출발지 / 도착지: 김해국제공항(PUS) ↔ 가오슝국제공항(KHH)
@@ -40,6 +40,7 @@ import argparse
 import urllib.request
 import urllib.parse
 import urllib.error
+from collections import Counter
 
 # Windows 콘솔 UTF-8 출력 보정
 if sys.platform == "win32":
@@ -709,13 +710,13 @@ def run_tracker(dry_run: bool = False, force_notify: bool = False, dump_cards_fi
     is_sunday = today.weekday() == 6
     is_sunday_briefing = is_sunday and (kst_now.hour < 14)
 
-    # 2. 카드는 찾았으나 조건 맞는 항공편이 0건인 경우 (Issue ⑥ 완전 해결)
+    # 2. 카드는 찾았으나 조건 맞는 항공편이 0건인 경우
     if not flights and total_cards > 0:
         print(f"[INFO] 카드 {total_cards}개 발견되었으나 직항/황금시간대 조건 만족 항공편 없음 (정상 대기)")
         state["consecutive_failures"] = 0
         save_state(state, dry_run=dry_run)
 
-        # 0건이어도 일요일 브리핑 또는 강제 발송 시 누락 없이 브리핑 발송
+        # 0건이어도 일요일 브리핑 또는 강제 발송 시 누락 없이 브리핑 발송 (주간 최저가 비교 및 상위 탈락사유 요약 노출)
         if is_sunday_briefing or force_notify:
             stats = get_weekly_stats(state)
             if stats:
@@ -728,6 +729,24 @@ def run_tracker(dry_run: bool = False, force_notify: bool = False, dump_cards_fi
             else:
                 stats_block = "📈 <b>최근 7일간 실측 통계:</b> 최근 관측 데이터 없음"
 
+            # 탈락 사유 상위 요약 추출
+            rejection_summary_str = ""
+            if rejections:
+                counts = Counter(rejections)
+                top_reasons = [f"{reason.split('(')[0].strip()} {cnt}건" for reason, cnt in counts.most_common(2)]
+                rejection_summary_str = f" (주요 제외: {', '.join(top_reasons)})"
+
+            if stats and stats["min"] < BENCHMARK_PRICE_PER_PERSON:
+                report_summary = "\n".join([
+                    f"• 이번 주 관측 중 한때 1인 {stats['min']:,}원의 특가가 포착된 적이 있으나, 현재 시점에는 조건을 만족하는 유효 직항이 마감/소진되었습니다.",
+                    f"• 현재 확보해 두신 제주항공 티켓({BENCHMARK_PRICE_PER_PERSON:,}원)을 안전하게 유지하시는 것이 좋습니다.",
+                ])
+            else:
+                report_summary = "\n".join([
+                    "• 이번 주는 직항 및 황금시간대(10~15시) 조건을 만족하는 유효 항공편이 확인되지 않았습니다.",
+                    f"• 기존에 확보하신 제주항공 티켓({BENCHMARK_PRICE_PER_PERSON:,}원)이 유일한 최적 대안입니다.",
+                ])
+
             briefing_text = "\n".join([
                 "📊 <b>[대만 항공권] 주간 정기 모니터링 브리핑</b>",
                 f"📅 <b>여정:</b> {ORIGIN}(부산) ↔ {DESTINATION}(가오슝) [3박 4일, 3인 직항]",
@@ -736,14 +755,13 @@ def run_tracker(dry_run: bool = False, force_notify: bool = False, dump_cards_fi
                 "",
                 "━━━━━━━━━━━━━━━━━━",
                 f"🏷️ <b>현재 내 예매가:</b> 1인 <b>{BENCHMARK_PRICE_PER_PERSON:,}원</b> (3인 {BENCHMARK_PRICE_TOTAL:,}원)",
-                f"🔍 <b>현재 실시간 최저가:</b> 조건 만족 편 없음 (총 {total_cards}개 중 직항/시간대 미달로 0건 통과)",
+                f"🔍 <b>현재 실시간 최저가:</b> 조건 만족 편 없음 (총 {total_cards}개 중 0건 통과){html.escape(rejection_summary_str)}",
                 "━━━━━━━━━━━━━━━━━━",
                 "",
                 f"{stats_block}",
                 "",
                 "✅ <b>주간 종합 리포트:</b>",
-                f"• 이번 주는 직항 및 황금시간대(10~15시) 조건을 만족하는 유효 항공편이 확인되지 않았습니다.",
-                f"• 기존에 확보하신 제주항공 티켓({BENCHMARK_PRICE_PER_PERSON:,}원)이 유일한 최적 대안입니다.",
+                f"{report_summary}",
                 "",
                 f"⏰ {get_deadline_msg(days_left)}",
                 f'🔗 <a href="{html.escape(search_url)}">구글 플라이트 실시간 확인</a>',
@@ -1140,7 +1158,7 @@ def run_self_tests() -> bool:
 # CLI 엔트리포인트
 # ---------------------------------------------------------------------------
 def main():
-    parser = argparse.ArgumentParser(description="✈️ Taiwan Flight Price Tracker Bot v3.2")
+    parser = argparse.ArgumentParser(description="✈️ Taiwan Flight Price Tracker Bot v3.3")
     parser.add_argument("--self-test", action="store_true", help="단위 테스트 스위트 실행 (네트워크/텔레그램 미사용)")
     parser.add_argument("--dry-run", action="store_true", help="크롤링 및 판정 수행 (텔레그램 및 state.json 쓰기 안 함)")
     parser.add_argument("--force", action="store_true", help="변동 없어도 주간 브리핑 강제 발송")
