@@ -5,11 +5,28 @@ on:
     # 매일 아침 08:30 KST (UTC 23:30) & 오후 16:30 KST (UTC 07:30) 자동 가동
     - cron: '30 23 * * *'
     - cron: '30 7 * * *'
-  workflow_dispatch: # GitHub Actions 탭에서 수동 1클릭 즉시 실행 지원
+  workflow_dispatch:
+    inputs:
+      force_notify:
+        description: '주간 브리핑 강제 발송 여부'
+        required: false
+        default: false
+        type: boolean
+
+# 동시 실행 충돌 방지
+concurrency:
+  group: flight-price-tracker
+  cancel-in-progress: false
+
+# state.json 커밋을 위한 권한 설정
+permissions:
+  contents: write
 
 jobs:
   track-flight-prices:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+
     steps:
       - name: 📥 Check out repository
         uses: actions/checkout@v4
@@ -27,7 +44,16 @@ jobs:
 
       - name: 🚀 Run Flight Price Tracker Bot (Playwright Live Scraper)
         env:
-          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN || '8407908239:AAHO81Ld-mmtJ-V5opl5vXI3bXgICiDrNgc' }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID || '8518409134' }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          FORCE_NOTIFY: ${{ inputs.force_notify || 'false' }}
         run: |
           python flight_tracker_bot.py
+
+      - name: 💾 Commit and push updated state.json
+        if: always()
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git add state.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(bot): update flight tracker state.json [skip ci]" && git push)
