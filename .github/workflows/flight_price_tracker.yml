@@ -39,7 +39,7 @@ jobs:
 
       - name: 📦 Install Playwright and dependencies
         run: |
-          pip install playwright
+          pip install -r requirements.txt
           playwright install --with-deps chromium
 
       - name: 🚀 Run Flight Price Tracker Bot (Playwright Live Scraper)
@@ -56,4 +56,4 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git add state.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(bot): update flight tracker state.json [skip ci]" && git push)
+          git diff --quiet && git diff --staged --quiet || (git pull --rebase origin ${{ github.ref_name }} && git commit -m "chore(bot): update flight tracker state.json" && git push origin ${{ github.ref_name }})

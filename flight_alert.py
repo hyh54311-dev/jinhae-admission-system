@@ -19,20 +19,14 @@ if sys.platform == "win32":
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 LOG_FILE = os.path.join(BASE_DIR, "flight_alert_history.log")
 
-# ===== 환경변수 기반 설정 (하드코딩 시크릿 제거 완료) =====
-EMAIL_ADDRESS = os.environ.get("EMAIL_ADDRESS", "").strip()
-EMAIL_APP_PASSWORD = os.environ.get("EMAIL_APP_PASSWORD", "").strip()
-TO_EMAIL = os.environ.get("TO_EMAIL", "").strip()
-
-# 구글 항공권 검색 URL (오키나와행)
+# ===== 환경변수 기반 설정 =====
 URL = os.environ.get(
     "FLIGHT_ALERT_URL",
     "https://www.google.com/travel/flights?q=Flights%20to%20OKA%20from%20PUS%20on%202026-09-24%20through%202026-09-27%20with%202%20adults%201%20child%20nonstop"
 )
-
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN", "").strip()
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
-# ========================================================
+# ============================
 
 def log_message(message):
     timestamp = time.strftime('%Y-%m-%d %H:%M:%S')
@@ -55,7 +49,7 @@ def send_telegram_alert():
         data = urllib.parse.urlencode({'chat_id': TELEGRAM_CHAT_ID, 'text': text}).encode('utf-8')
         req = urllib.request.Request(telegram_url, data=data)
         
-        # 표준 보안 TLS 컨텍스트 사용 (CERT_NONE 등 비활성화 금지)
+        # 표준 보안 TLS 컨텍스트 사용
         ctx = ssl.create_default_context()
         urllib.request.urlopen(req, context=ctx, timeout=10)
         log_message("텔레그램 항공권 알림 전송 완료!")

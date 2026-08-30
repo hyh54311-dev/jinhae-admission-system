@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 =============================================================================
-✈️ 2027 대만(부산-가오슝) 항공권 최저가 실시간 모니터링 & 텔레그램 알림 봇 v3.0
+✈️ 2027 대만(부산-가오슝) 항공권 최저가 실시간 모니터링 & 텔레그램 알림 봇 v3.1
 =============================================================================
 [여정 정보]
   - 출발지 / 도착지: 김해국제공항(PUS) ↔ 가오슝국제공항(KHH)
@@ -14,16 +14,17 @@
 [동작 원칙 (최우선 수칙)]
   - "틀린 알림을 보내는 것이 알림을 안 보내는 것보다 훨씬 나쁘다."
   - 판정에 확신이 없거나 모호하면 후보에서 제외하고 로그만 남김.
+  - Fail-Closed: 출발시각, 직항 여부, 가격 중 하나라도 식별 불가 시 제외.
   - 가짜 Fallback 피드 완전 배제: 실패는 실패로 기록하고 2회 연속 실패 시 장애 알림 발송.
 
 [실시간 파싱 & 검증 엔진]
   - TFS Protobuf URL 동적 생성 (상수 기반 실시간 인코딩)
   - Playwright Headless Chromium 개별 카드 격리 파싱 (`ul li` 카드 단위)
-  - 직항 엄격 검증 ("직항" 존재 AND "경유" 부재)
-  - 황금시간대 검증 (가는 편 10:00 ~ 15:59 출발)
-  - 가격 해석 엔진 (1인당/총액 구분, 모호한 금액대 자동 배제)
+  - 직항 엄격 검증 ("직항" 존재 AND "경유" 부재, "경유 없음" 오탐 방어)
+  - 황금시간대 검증 (가는 편 10:00 ~ 15:59 출발, 소요시간 오인 및 AM/PM 교차 오염 방어)
+  - 가격 해석 엔진 (카드 및 전역 페이지 단서 우선, 모호한 금액대 자동 배제)
   - HTML 서식 및 오류 복구 (HTML 이스케이프, 400 에러 시 평문 재시도)
-  - 상태 보존 (`state.json`): 중복 알림 방지 및 7일간 실측치 통계 기반 주간 브리핑
+  - 상태 보존 (`state.json`): 7일 만료/반등 래칫 리셋, 실측 통계 기반 동적 주간 브리핑
 =============================================================================
 """
 
@@ -71,13 +72,6 @@ TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN", "").strip()
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
 
 KST = datetime.timezone(datetime.timedelta(hours=9))
-
-# 예비 후보 URL (동적 생성이 실패했을 때의 예비용)
-FALLBACK_GOOGLE_FLIGHTS_URL = (
-    "https://www.google.com/travel/flights?tfs=CCcQAhoeEgoyMDI3LTAyLTI0"
-    "agcIARIDUFVTcgcIARIDS0hIGh4SCjIwMjctMDItMjdqBwgBEgNLSEhyBwgBEgNQ"
-    "VVNAAUABQAFSA0tSVw&hl=ko&gl=kr&curr=KRW"
-)
 
 
 # ---------------------------------------------------------------------------
@@ -196,47 +190,47 @@ def decode_google_flights_tfs(tfs_str: str) -> dict:
 
 def get_search_url() -> str:
     """현재 상수를 반영한 구글 플라이트 실시간 검색 URL 생성."""
-    try:
-        tfs = generate_google_flights_tfs(ORIGIN, DESTINATION, DEPART_DATE, RETURN_DATE, PASSENGERS, "KRW")
-        return f"https://www.google.com/travel/flights?tfs={tfs}&hl=ko&gl=kr&curr=KRW"
-    except Exception as e:
-        print(f"[WARN] TFS Protobuf 생성 실패, 예비 URL 사용: {e}")
-        return FALLBACK_GOOGLE_FLIGHTS_URL
+    tfs = generate_google_flights_tfs(ORIGIN, DESTINATION, DEPART_DATE, RETURN_DATE, PASSENGERS, "KRW")
+    return f"https://www.google.com/travel/flights?tfs={tfs}&hl=ko&gl=kr&curr=KRW"
 
 
 # ---------------------------------------------------------------------------
-# 개별 카드 파싱 & 가격 해석 엔진 (A-1, A-2, B-3, C-2)
+# 개별 카드 파싱 & 가격 해석 엔진 (A-1, A-2, S-3, S-4, H-5~H-9)
 # ---------------------------------------------------------------------------
 def interpret_price(raw_price: int, card_text: str, global_page_text: str = "") -> tuple:
     """
-    화면 표시 원본 금액과 텍스트 단서를 바탕으로 1인당 요금을 판정합니다.
+    화면 표시 원본 금액과 텍스트 단서를 바탕으로 1인당 요금을 판정합니다. (H-9, S-4 개선)
     반환값: (price_per_person: int | None, reason: str)
     """
-    has_per_person_explicit = bool(re.search(r"(1인당|인당|per passenger|/\s*인)", card_text, re.IGNORECASE))
-    has_total_explicit = bool(re.search(r"(총\s*요금|총액|전체\s*요금|합계|total)", card_text, re.IGNORECASE))
+    combined = (card_text + " " + global_page_text).lower()
 
-    # 규칙 1: 1인당 요금 명시 & 총액 문구 부재
-    if has_per_person_explicit and not has_total_explicit:
+    has_per_person = bool(re.search(r"(1인당|인당\s*요금|인당|per\s*passenger|/\s*인|per\s*person)", combined, re.IGNORECASE))
+    has_total = bool(re.search(r"(총\s*요금|총액|전체\s*요금|합계|total|성인\s*\d+명\s*총|성인\s*\d+명의\s*필수\s*세금)", combined, re.IGNORECASE))
+
+    # 규칙 1: 1인당 명시 & 총액 부재
+    if has_per_person and not has_total:
         return (raw_price, "1인당 명시 요금")
 
-    # 규칙 2: 총 요금 명시
-    if has_total_explicit:
-        return (round(raw_price / PASSENGERS), f"총 요금 명시 (3인 총액 ÷ {PASSENGERS})")
+    # 규칙 2: 총액 명시 & 1인당 부재
+    if has_total and not has_per_person:
+        return (round(raw_price / PASSENGERS), f"총 요금 명시 ({PASSENGERS}인 총액 ÷ {PASSENGERS})")
 
-    # 규칙 3: 금액대 기반 휴리스틱
-    # 100만원 이상: 부산-가오슝 노선 3인 총액으로 확실
+    # 규칙 2.5: 카드/페이지에 둘 다 등장하는 경우
+    if has_per_person and has_total:
+        if re.search(r"(1인당|per\s*passenger|/\s*인)", card_text, re.IGNORECASE):
+            return (raw_price, "카드 1인당 명시 요금")
+        if re.search(r"(총\s*요금|총액|total)", card_text, re.IGNORECASE):
+            return (round(raw_price / PASSENGERS), f"카드 총 요금 명시 ({PASSENGERS}인 총액 ÷ {PASSENGERS})")
+        return (round(raw_price / PASSENGERS), f"페이지 총액 컨텍스트 ({PASSENGERS}인 총액 ÷ {PASSENGERS})")
+
+    # 규칙 3: 단서 없음 (휴리스틱)
     if raw_price >= 1000000:
         pp = round(raw_price / PASSENGERS)
         if 120000 <= pp <= 1500000:
-            return (pp, f"금액대 판정 (100만원 이상 ➔ 3인 총액 ÷ {PASSENGERS})")
+            return (pp, f"금액대 판정 (100만원 이상 ➔ {PASSENGERS}인 총액 ÷ {PASSENGERS})")
 
-    # 35만원 미만: 3인 총액이면 1인당 11만원 미만이 되므로 1인당 특가로 판정
     if 50000 <= raw_price < 350000:
         return (raw_price, "금액대 판정 (35만원 미만 ➔ 1인당 요금)")
-
-    # 규칙 4: 35만 ~ 100만 구간 모호성 해소 (페이지 전역 단서 확인)
-    if "성인 3명의 필수 세금과 수수료가 포함됩니다" in global_page_text or "3인 총" in global_page_text:
-        return (round(raw_price / PASSENGERS), f"전체 페이지 컨텍스트 판정 (성인 {PASSENGERS}명 총액 ÷ {PASSENGERS})")
 
     # 단서가 없어 모호한 경우 ➔ 안전하게 판정 불가 반환
     return (None, "1인당/총액 구분 모호")
@@ -247,9 +241,10 @@ def parse_card_text(card_text: str, global_page_text: str = "") -> dict:
     단일 항공편 카드의 텍스트만 읽어 검증 및 파싱을 수행합니다.
     조건에 미달하거나 모호하면 ValueError 예외를 발생시켜 제외합니다.
     """
-    # [A-1 검증] 직항 여부 엄격 판정
-    has_direct = bool(re.search(r"(직항|Nonstop|non-stop)", card_text, re.IGNORECASE))
-    has_stop = bool(re.search(r"(\d+회\s*경유|\d+\s*stop|경유)", card_text, re.IGNORECASE))
+    # [H-5 검증] '경유 없음', '0회 경유' 사전 마스킹 후 직항/경유 엄격 판정
+    clean_text = re.sub(r"(경유\s*없음|경유지\s*없음|0회\s*경유|0\s*stops?|no\s*stops?)", "[DIRECT_CONFIRMED]", card_text, flags=re.IGNORECASE)
+    has_direct = bool(re.search(r"(직항|Nonstop|non-stop|\[DIRECT_CONFIRMED\])", clean_text, re.IGNORECASE))
+    has_stop = bool(re.search(r"(\d+회\s*경유|\d+\s*stops?|경유)", clean_text, re.IGNORECASE))
 
     if has_stop:
         raise ValueError("경유편 포함으로 제외 (1회 이상 경유 확인)")
@@ -282,47 +277,76 @@ def parse_card_text(card_text: str, global_page_text: str = "") -> dict:
         else:
             airline = "기타 항공사"
 
-    # [C-2 검증] 황금시간대 (가는 편 10:00 ~ 15:59 출발)
-    time_match = re.search(r"(오전|오후)?\s*(\d{1,2}):(\d{2})\s*(?:AM|PM)?", card_text, re.IGNORECASE)
-    if time_match:
-        ampm, h_str, m_str = time_match.groups()
-        hour = int(h_str)
-        if ampm == "오후" and hour < 12:
-            hour += 12
-        elif ampm == "오전" and hour == 12:
-            hour = 0
-        elif not ampm:
-            if "PM" in card_text.upper() and hour < 12:
-                hour += 12
-            elif "AM" in card_text.upper() and hour == 12:
-                hour = 0
+    # [S-3, H-7, H-8 검증] 출발시각 파싱 & 황금시간대(10:00 ~ 15:59)
+    time_match = None
 
-        if not (10 <= hour <= 15):
-            raise ValueError(f"황금시간대(10~15시) 이탈로 제외 (출발시각: {h_str}:{m_str})")
+    # 범위 패턴 (출발시각 - 도착시각) 우선 탐색
+    range_match = re.search(
+        r"(?:(?:(오전|오후)\s*)?(\d{1,2}):(\d{2})\s*(AM|PM)?)\s*[-~–]\s*(?:(?:(오전|오후)\s*)?(\d{1,2}):(\d{2})\s*(AM|PM)?)",
+        card_text,
+        re.IGNORECASE,
+    )
+    if range_match:
+        time_match = (range_match.group(1), range_match.group(2), range_match.group(3), range_match.group(4))
+    else:
+        # 단일 한국어 포맷 (오전/오후 HH:MM)
+        kr_match = re.search(r"(오전|오후)\s*(\d{1,2}):(\d{2})", card_text)
+        if kr_match:
+            time_match = (kr_match.group(1), kr_match.group(2), kr_match.group(3), None)
+        else:
+            # 단일 영문 포맷 (HH:MM AM/PM)
+            en_match = re.search(r"(\d{1,2}):(\d{2})\s*(AM|PM)", card_text, re.IGNORECASE)
+            if en_match:
+                time_match = (None, en_match.group(1), en_match.group(2), en_match.group(3))
+            else:
+                # 소요시간(소요/시간/분)이 뒤따르지 않는 단순 24시제 포맷
+                raw_match = re.search(r"(\d{1,2}):(\d{2})(?!\s*(?:소요|시간|분|h|m|hours|mins))", card_text)
+                if raw_match:
+                    time_match = (None, raw_match.group(1), raw_match.group(2), None)
 
-    # [A-2, B-3 가격 추출] 하한선 5만원 이상 탐색
+    # [S-3 Fail-Closed] 출발 시각을 못 찾으면 무조건 제외
+    if not time_match:
+        raise ValueError("출발 시각을 식별할 수 없어 황금시간대 검증 불가로 제외")
+
+    ampm_kr, h_str, m_str, ampm_en = time_match
+    hour = int(h_str)
+
+    if ampm_kr == "오후" and hour < 12:
+        hour += 12
+    elif ampm_kr == "오전" and hour == 12:
+        hour = 0
+    elif ampm_en and ampm_en.upper() == "PM" and hour < 12:
+        hour += 12
+    elif ampm_en and ampm_en.upper() == "AM" and hour == 12:
+        hour = 0
+
+    if not (10 <= hour <= 15):
+        raise ValueError(f"황금시간대(10~15시) 이탈로 제외 (출발시각: {h_str}:{m_str})")
+
+    # [H-6 가격 후보군 추출] 다중 가격 중 이코노미 최저가 선택
     price_matches = re.findall(r"₩\s*([\d,]+)|([\d,]+)\s*원", card_text)
-    raw_price = None
+    candidate_prices = []
     for m in price_matches:
         val_str = (m[0] or m[1]).replace(",", "")
         val = int(val_str)
         if 50000 <= val <= 10000000:
-            raw_price = val
-            break
+            candidate_prices.append(val)
 
-    if not raw_price:
+    if not candidate_prices:
         raise ValueError("유효한 가격 정보를 찾을 수 없어 제외")
 
+    chosen_price = min(candidate_prices)
+
     # 가격 해석
-    price_per_person, price_reason = interpret_price(raw_price, card_text, global_page_text)
+    price_per_person, price_reason = interpret_price(chosen_price, card_text, global_page_text)
     if price_per_person is None:
-        raise ValueError(f"가격 판정 모호함으로 제외 ({price_reason}, 원본: {raw_price:,}원)")
+        raise ValueError(f"가격 판정 모호함으로 제외 ({price_reason}, 원본: {chosen_price:,}원)")
 
     return {
         "airline": airline,
         "is_direct": True,
-        "raw_price": raw_price,
-        "raw_price_str": f"{raw_price:,}원",
+        "raw_price": chosen_price,
+        "raw_price_str": f"{chosen_price:,}원",
         "price_per_person": price_per_person,
         "price_total": price_per_person * PASSENGERS,
         "price_reason": price_reason,
@@ -330,21 +354,23 @@ def parse_card_text(card_text: str, global_page_text: str = "") -> dict:
 
 
 # ---------------------------------------------------------------------------
-# Playwright 실시간 크롤링 엔진 (A-1, B-1, B-4)
+# Playwright 실시간 크롤링 엔진 (M-10, M-11, M-14, M-15, M-20)
 # ---------------------------------------------------------------------------
-def scrape_live_flights(url: str) -> list:
+def scrape_live_flights(url: str) -> tuple:
     """
     Playwright를 구동하여 개별 카드 단위로 구글 플라이트 실시간 데이터를 파싱합니다.
-    실패 시 가짜 fallback 없이 예외를 발생시킵니다.
+    반환값: (crawled_flights: list, total_cards_count: int, rejection_logs: list)
     """
-    print(f"[INFO] 🌐 구글 플라이트 실시간 크롤링 시작: {ORIGIN} ↔ {DESTINATION}")
-    
+    print(f"[INFO] 🌐 구글 플라이트 실시간 크롤링 시작: {ORIGIN} ↔ {DESTINATION} ({DEPART_DATE} ~ {RETURN_DATE})")
+
     try:
         from playwright.sync_api import sync_playwright
     except ImportError:
         raise RuntimeError("Playwright 패키지가 설치되지 않았습니다.")
 
     crawled_flights = []
+    rejection_logs = []
+    total_cards_count = 0
 
     with sync_playwright() as p:
         browser = p.chromium.launch(
@@ -362,8 +388,10 @@ def scrape_live_flights(url: str) -> list:
         try:
             page.goto(url, wait_until="domcontentloaded", timeout=45000)
 
-            # [B-4 동의창 처리]
-            consent_buttons = page.query_selector_all("button:has-text('모두 수락'), button:has-text('모두 동의'), button:has-text('Accept all'), button:has-text('동의')")
+            # [M-20 동의창 처리] '동의하지 않음'은 피하고 '동의/수락'만 클릭
+            consent_buttons = page.query_selector_all(
+                "button:has-text('모두 수락'), button:has-text('모두 동의'), button:has-text('Accept all'), button:has-text('I agree')"
+            )
             for btn in consent_buttons:
                 try:
                     if btn.is_visible():
@@ -373,65 +401,63 @@ def scrape_live_flights(url: str) -> list:
                 except Exception:
                     pass
 
-            # [B-4 동적 대기] 본문에 가격 기호(₩ or 원)가 렌더링될 때까지 대기
+            # [M-15 동적 대기] 본문에 유효한 가격 정규식 패턴이 렌더링될 때까지 대기
             try:
                 page.wait_for_function(
-                    "() => document.body && (document.body.innerText.includes('₩') || document.body.innerText.includes('원'))",
+                    "() => /₩\\s*[\\d,]{4,}|[\\d,]{2,}\\s*000\\s*원/.test(document.body.innerText)",
                     timeout=20000
                 )
             except Exception:
                 body_snippet = page.inner_text("body")[:300].replace("\n", " ")
                 raise RuntimeError(f"가격 렌더링 타임아웃 (화면 텍스트 요약: {body_snippet})")
 
-            # [B-1 검증 가드] 본문에 출발지(부산/PUS)와 도착지(가오슝/KHH)가 존재하는지 확인
+            # [M-14 검증 가드] 출발지(부산/PUS), 도착지(가오슝/KHH), 날짜(2027-02-24 / 2월 24일) 확인
             body_text = page.inner_text("body")
             has_origin = ("부산" in body_text) or ("PUS" in body_text)
             has_dest = ("가오슝" in body_text) or ("KHH" in body_text)
-            if not (has_origin and has_dest):
-                raise RuntimeError("검색 조건 미적용: 출발지(부산/PUS) 또는 도착지(가오슝/KHH)가 페이지에 확인되지 않음")
+            has_date = (DEPART_DATE in body_text) or ("2027. 2. 24" in body_text) or ("2월 24일" in body_text) or ("Feb 24" in body_text)
 
-            # [A-1 개별 카드 격리 쿼리]
+            if not (has_origin and has_dest and has_date):
+                raise RuntimeError("검색 조건 미적용: 출발지/도착지/날짜가 페이지 본문에서 확인되지 않음")
+
+            # 개별 카드 격리 쿼리
             cards = page.query_selector_all("ul[role='list'] > li, li.pIav2d, div[role='listitem']")
             if len(cards) < 2:
                 cards = page.query_selector_all("ul.RLLof > li, ul li")
 
-            print(f"[INFO] 발견된 카드 후보 요소: {len(cards)}개")
+            total_cards_count = len(cards)
+            print(f"[INFO] 발견된 카드 후보 요소: {total_cards_count}개")
 
             for card in cards:
                 try:
                     card_text = card.inner_text().strip()
-                    # 유효하지 않은 컨테이너/빈 카드 제외
                     if len(card_text) > 2000 or len(card_text) < 10:
                         continue
                     if not ("₩" in card_text or "원" in card_text):
                         continue
 
-                    # 개별 카드 파싱
                     parsed = parse_card_text(card_text, body_text)
-                    
+
                     # 중복 방지
                     if not any(f["airline"] == parsed["airline"] and f["price_per_person"] == parsed["price_per_person"] for f in crawled_flights):
                         crawled_flights.append(parsed)
                         print(f"  • [통과] {parsed['airline']}: 1인 {parsed['price_per_person']:,}원 (원본: {parsed['raw_price_str']}, 사유: {parsed['price_reason']})")
                 except ValueError as ve:
-                    # 탈락 사유 디버그 로그
-                    # print(f"  • [탈락] {ve}")
-                    pass
+                    rejection_logs.append(str(ve))
+                    print(f"  • [카드 제외] {ve}")
                 except Exception as ce:
-                    pass
+                    rejection_logs.append(f"파싱 에러: {ce}")
+                    print(f"  • [카드 파싱 에러] {ce}")
 
         finally:
             browser.close()
 
-    if not crawled_flights:
-        raise RuntimeError("유효한 직항 항공편을 찾지 못했습니다 (모든 카드가 직항/황금시간대/가격조건에서 제외됨)")
-
     crawled_flights.sort(key=lambda x: x["price_per_person"])
-    return crawled_flights
+    return crawled_flights, total_cards_count, rejection_logs
 
 
 # ---------------------------------------------------------------------------
-# 상태 저장소 관리 (B-2)
+# 상태 저장소 관리 (B-2, S-2, M-18)
 # ---------------------------------------------------------------------------
 def load_state() -> dict:
     """state.json을 안전하게 로드합니다."""
@@ -441,6 +467,7 @@ def load_state() -> dict:
         "consecutive_failures": 0,
         "last_outage_alert_ts": None,
         "last_alert_price_pp": BENCHMARK_PRICE_PER_PERSON,
+        "last_alert_ts": None,
         "history": [],
     }
     if not os.path.exists(STATE_FILE):
@@ -449,7 +476,6 @@ def load_state() -> dict:
     try:
         with open(STATE_FILE, "r", encoding="utf-8") as f:
             data = json.load(f)
-            # 필드 무결성 보장
             for k, v in default_state.items():
                 data.setdefault(k, v)
             return data
@@ -457,15 +483,17 @@ def load_state() -> dict:
         print(f"[WARN] state.json 로드 실패, 초기화: {e}")
         return default_state
 
-def save_state(state: dict):
-    """state.json을 저장합니다."""
+def save_state(state: dict, dry_run: bool = False):
+    """state.json을 저장합니다 (dry_run일 때는 파일 쓰기 금지)."""
+    if dry_run:
+        return
     try:
         with open(STATE_FILE, "w", encoding="utf-8") as f:
             json.dump(state, f, ensure_ascii=False, indent=2)
     except Exception as e:
         print(f"[ERROR] state.json 저장 실패: {e}")
 
-def record_observation(state: dict, best_flight: dict):
+def record_observation(state: dict, best_flight: dict, dry_run: bool = False):
     """관측 성공 이력 기록 및 연속 실패 카운트 리셋."""
     now_iso = datetime.datetime.now(KST).isoformat()
     state["last_updated"] = now_iso
@@ -479,19 +507,15 @@ def record_observation(state: dict, best_flight: dict):
         "price_reason": best_flight["price_reason"],
     })
 
-    # 30일 이전 오래된 이력 정리
     cutoff = (datetime.datetime.now(KST) - datetime.timedelta(days=30)).isoformat()
     state["history"] = [h for h in state["history"] if h.get("ts", "") >= cutoff]
+    save_state(state, dry_run=dry_run)
 
-def record_failure(state: dict, error_msg: str) -> bool:
-    """
-    실패 기록 및 2회 연속 실패 시 장애 알림 발송 필요 여부 반환.
-    반환값: should_alert (True이면 장애 알림 필요)
-    """
+def record_failure(state: dict, error_msg: str, dry_run: bool = False) -> bool:
+    """실패 기록 및 2회 연속 실패 시 장애 알림 필요 여부 판정."""
     state["consecutive_failures"] = state.get("consecutive_failures", 0) + 1
-    state["last_updated"] = datetime.datetime.now(KST).isoformat()
-
     now = datetime.datetime.now(KST)
+    state["last_updated"] = now.isoformat()
     should_alert = False
 
     if state["consecutive_failures"] >= 2:
@@ -501,15 +525,15 @@ def record_failure(state: dict, error_msg: str) -> bool:
         else:
             try:
                 last_alert_dt = datetime.datetime.fromisoformat(last_alert_str)
-                # 하루 1회로 제한
                 if (now - last_alert_dt).total_seconds() >= 86400:
                     should_alert = True
             except Exception:
                 should_alert = True
 
-    if should_alert:
+    if should_alert and not dry_run:
         state["last_outage_alert_ts"] = now.isoformat()
 
+    save_state(state, dry_run=dry_run)
     return should_alert
 
 def get_weekly_stats(state: dict) -> dict:
@@ -537,10 +561,7 @@ def get_weekly_stats(state: dict) -> dict:
 # 텔레그램 발송 엔진 (C-1)
 # ---------------------------------------------------------------------------
 def send_telegram(text: str, dry_run: bool = False) -> bool:
-    """
-    HTML 모드로 텔레그램 메시지를 발송합니다.
-    줄 단위 안전 자르기 및 HTTP 400 에러 시 평문 재시도를 수행합니다.
-    """
+    """HTML 모드로 텔레그램 메시지를 안전하게 발송합니다."""
     if dry_run:
         print("\n[DRY-RUN 텔레그램 출력]")
         print(text)
@@ -550,7 +571,6 @@ def send_telegram(text: str, dry_run: bool = False) -> bool:
         print("[WARN] 텔레그램 토큰 또는 Chat ID 미설정")
         return False
 
-    # 4000자 초과 시 줄 단위 안전 트렁케이트
     if len(text) > 4000:
         lines = text.split("\n")
         truncated = []
@@ -578,7 +598,6 @@ def send_telegram(text: str, dry_run: bool = False) -> bool:
             err_body = he.read().decode("utf-8", errors="replace")
             print(f"[ERROR] 텔레그램 HTTP {he.code}: {err_body}")
             if he.code == 400 and payload_dict.get("parse_mode") == "HTML":
-                # 태그 제거 후 평문으로 1회 재시도
                 print("[INFO] HTML 서식 제거 후 평문으로 1회 재시도합니다.")
                 plain_text = re.sub(r"<[^>]+>", "", payload_dict["text"])
                 return _post({"chat_id": TELEGRAM_CHAT_ID, "text": plain_text, "disable_web_page_preview": True})
@@ -599,7 +618,7 @@ def send_telegram(text: str, dry_run: bool = False) -> bool:
 
 
 # ---------------------------------------------------------------------------
-# 메시지 서식 헬퍼 (C-2, C-3)
+# 메시지 서식 헬퍼
 # ---------------------------------------------------------------------------
 def get_deadline_msg(days_left: int) -> str:
     if days_left > 0:
@@ -616,7 +635,6 @@ def get_cancellation_guide(days_left: int) -> str:
         return "새 특가로 절감되는 금액과 기존 티켓 취소 위약금을 반드시 비교한 후 변경을 결정하세요."
 
 def mask_error_reason(err_str: str) -> str:
-    """긴 Call log나 URL을 제거하고 첫 줄 핵심 사유만 마스킹 처리."""
     first_line = err_str.strip().split("\n")[0]
     first_line = re.sub(r"https?://[^\s]+", "[URL_MASKED]", first_line)
     first_line = re.sub(r"Call log:.*", "", first_line)
@@ -624,7 +642,7 @@ def mask_error_reason(err_str: str) -> str:
 
 
 # ---------------------------------------------------------------------------
-# 메인 실행 로직
+# 메인 실행 로직 (S-1, S-2, M-10, M-12, M-18)
 # ---------------------------------------------------------------------------
 def run_tracker(dry_run: bool = False, force_notify: bool = False):
     kst_now = datetime.datetime.now(KST)
@@ -635,14 +653,13 @@ def run_tracker(dry_run: bool = False, force_notify: bool = False):
     state = load_state()
     search_url = get_search_url()
 
-    # 1. 크롤링 실행
+    # 1. 크롤링 실행 (M-10)
     try:
-        flights = scrape_live_flights(search_url)
+        flights, total_cards, rejections = scrape_live_flights(search_url)
     except Exception as e:
         error_msg = str(e)
-        print(f"[ERROR] 크롤링 실패: {error_msg}")
-        should_alert = record_failure(state, error_msg)
-        save_state(state)
+        print(f"[ERROR] 크롤링 실패 (장애 발생): {error_msg}")
+        should_alert = record_failure(state, error_msg, dry_run=dry_run)
 
         if should_alert:
             masked_reason = mask_error_reason(error_msg)
@@ -656,25 +673,52 @@ def run_tracker(dry_run: bool = False, force_notify: bool = False):
                 "🔍 깃허브 액션 로그 또는 구글 플라이트 페이지 구조 변경 여부를 점검해 주세요.",
             ])
             send_telegram(outage_text, dry_run=dry_run)
+
+        # M-12: 크롤링 고장 시 액션 워크플로가 감지할 수 있도록 비정상 종료
+        if not dry_run:
+            sys.exit(1)
         return
 
-    # 크롤링 성공 시 상태 기록
-    best = flights[0]
-    record_observation(state, best)
-    save_state(state)
+    # 카드는 찾았으나 조건 맞는 항공편이 0건인 경우 (정상 관측 결과)
+    if not flights and total_cards > 0:
+        print(f"[INFO] 카드 {total_cards}개 발견되었으나 직항/황금시간대 조건 만족 항공편 없음 (정상 대기)")
+        state["consecutive_failures"] = 0
+        save_state(state, dry_run=dry_run)
+        return
 
+    best = flights[0]
     best_price = best["price_per_person"]
     best_total = best["price_total"]
+
+    record_observation(state, best, dry_run=dry_run)
+
+    # [S-2 개선] last_alert_price_pp 만료(7일) 및 반등 리셋
     last_alert_price = state.get("last_alert_price_pp", BENCHMARK_PRICE_PER_PERSON)
+    last_alert_ts_str = state.get("last_alert_ts")
+
+    if last_alert_ts_str:
+        try:
+            last_alert_dt = datetime.datetime.fromisoformat(last_alert_ts_str)
+            # 7일 경과 시 래칫 만료 ➔ 기준가로 복원
+            if (kst_now - last_alert_dt).total_seconds() > 7 * 86400:
+                last_alert_price = BENCHMARK_PRICE_PER_PERSON
+        except Exception:
+            last_alert_price = BENCHMARK_PRICE_PER_PERSON
+
+    # 최저가가 기준가 이상으로 반등한 경우 래칫 리셋
+    if best_price >= BENCHMARK_PRICE_PER_PERSON:
+        state["last_alert_price_pp"] = BENCHMARK_PRICE_PER_PERSON
+        state["last_alert_ts"] = None
+        last_alert_price = BENCHMARK_PRICE_PER_PERSON
+        save_state(state, dry_run=dry_run)
 
     savings_pp = BENCHMARK_PRICE_PER_PERSON - best_price
     savings_total = BENCHMARK_PRICE_TOTAL - best_total
     savings_vs_last_alert = last_alert_price - best_price
 
-    # [B-2 중복 알림 방어] 기존 예매가보다 싸고 AND 직전 알림가보다 MIN_SAVINGS 이상 더 저렴할 때만
+    # 새 특가 판정
     is_new_deal = (savings_pp >= MIN_SAVINGS) and (savings_vs_last_alert >= MIN_SAVINGS)
 
-    # 일요일 낮 14시 이전 1차 가동 여부 판정
     is_sunday = today.weekday() == 6
     is_sunday_briefing = is_sunday and (kst_now.hour < 14)
 
@@ -693,7 +737,7 @@ def run_tracker(dry_run: bool = False, force_notify: bool = False):
             f"🔥 <b>신규 특가가:</b> 1인 <b>{best_price:,}원</b> (3인 <b>{best_total:,}원</b>)",
             f"💰 <b>절감 금액:</b> 1인당 <b>{savings_pp:,}원</b> 절약 (3인 총 <b>{savings_total:,}원</b> 세이브!)",
             f"✈️ <b>최저가 항공사:</b> <b>{html.escape(best['airline'])}</b>",
-            f"📊 <b>가격 판정 근거:</b> {html.escape(best['price_reason'])} (화면 표시: {best['raw_price_str']})",
+            f"📊 <b>가격 판정 근거:</b> {html.escape(best['price_reason'])} (화면 표시: {html.escape(best['raw_price_str'])})",
             "━━━━━━━━━━━━━━━━━━",
             "",
             "👉 <b>액션 가이드:</b>",
@@ -707,11 +751,12 @@ def run_tracker(dry_run: bool = False, force_notify: bool = False):
         print("\n[ALERT] 새로운 유효 특가 포착! 텔레그램 발송")
         send_telegram(deal_text, dry_run=dry_run)
         state["last_alert_price_pp"] = best_price
-        save_state(state)
+        state["last_alert_ts"] = kst_now.isoformat()
+        save_state(state, dry_run=dry_run)
         return
 
     # -----------------------------------------------------------------------
-    # Case 2: 일요일 오전/낮 또는 강제 발송 시 ➔ 주간 정기 브리핑 📊
+    # Case 2: 일요일 정기 브리핑 또는 강제 발송 (S-1 동적 생성 리포트) 📊
     # -----------------------------------------------------------------------
     if is_sunday_briefing or force_notify:
         stats = get_weekly_stats(state)
@@ -724,6 +769,18 @@ def run_tracker(dry_run: bool = False, force_notify: bool = False):
             ])
         else:
             stats_block = "📈 <b>최근 7일간 실측 통계:</b> 최근 관측 데이터 없음"
+
+        # [S-1 수정] 실측 비교 기반 동적 주간 종합 리포트 문구 생성
+        if best_price < BENCHMARK_PRICE_PER_PERSON:
+            report_summary = "\n".join([
+                f"• 현재 실시간 최저가(1인 {best_price:,}원, {html.escape(best['airline'])})는 기존 예매가({BENCHMARK_PRICE_PER_PERSON:,}원)보다 {BENCHMARK_PRICE_PER_PERSON - best_price:,}원 저렴한 상태를 유지하고 있습니다.",
+                "• 직전 알림가와 동일/유사 범위 내에 있어 추가 긴급 알림 없이 정기 주간 리포트로 현황을 보고합니다.",
+            ])
+        else:
+            report_summary = "\n".join([
+                f"• 지난 1주일간 기존 예매가({BENCHMARK_PRICE_PER_PERSON:,}원)보다 저렴한 신규 특가는 나오지 않았습니다.",
+                "• 현재 예매해 두신 제주항공 티켓이 최저가를 안전하게 유지 중입니다.",
+            ])
 
         briefing_text = "\n".join([
             "📊 <b>[대만 항공권] 주간 정기 모니터링 브리핑</b>",
@@ -739,8 +796,7 @@ def run_tracker(dry_run: bool = False, force_notify: bool = False):
             f"{stats_block}",
             "",
             "✅ <b>주간 종합 리포트:</b>",
-            f"• 지난 1주일간 기존 예매가({BENCHMARK_PRICE_PER_PERSON:,}원)보다 저렴한 유효 직항 특가는 나오지 않았습니다.",
-            "• 현재 예매해 두신 제주항공 티켓이 최저가를 안전하게 유지 중입니다.",
+            f"{report_summary}",
             "",
             f"⏰ {get_deadline_msg(days_left)}",
             f'🔗 <a href="{html.escape(search_url)}">구글 플라이트 실시간 확인</a>',
@@ -762,12 +818,12 @@ def run_tracker(dry_run: bool = False, force_notify: bool = False):
 
 
 # ---------------------------------------------------------------------------
-# 자체 검증 스위트 (--self-test) (F)
+# 자체 검증 스위트 (--self-test) (16대 테스트 전수 검증)
 # ---------------------------------------------------------------------------
 def run_self_tests() -> bool:
-    """네트워크 없이 9대 수용 기준을 전수 검증합니다."""
+    """네트워크 없이 16대 수용 기준 및 적대적 입력 케이스([A]~[G])를 전수 검증합니다."""
     print("==================================================")
-    print("🧪 [Self-Test] 항공권 봇 단위 테스트 스위트 실행")
+    print("🧪 [Self-Test] 항공권 봇 단위 테스트 스위트 (16 Tests)")
     print("==================================================")
     all_passed = True
 
@@ -781,7 +837,7 @@ def run_self_tests() -> bool:
         if "경유" in str(e):
             print("✅ [Test 1 PASSED] 1회 경유 카드 정상 제외됨")
         else:
-            print(f"❌ [Test 1 FAILED] 예상치 못한 예외: {e}")
+            print(f"❌ [Test 1 FAILED] 예외 사유 불일치: {e}")
             all_passed = False
 
     # 2. 직항 카드 2건만 통과한다
@@ -875,9 +931,86 @@ def run_self_tests() -> bool:
         print(f"❌ [Test 9 FAILED] HTML 이스케이프 실패: {e}")
         all_passed = False
 
+    # 10 [Case A]. 출발 시각 없는 직항 카드 -> Fail-Closed 제외 (S-3)
+    f_a = "제주항공\n직항\n총 요금 ₩1,200,000"
+    try:
+        parse_card_text(f_a)
+        print("❌ [Test 10 FAILED] 출발 시각 없는 카드가 통과됨 (Fail-Open 버그)")
+        all_passed = False
+    except ValueError as e:
+        if "시각" in str(e):
+            print("✅ [Test 10 PASSED] [Case A] 출발 시각 없는 직항 카드 Fail-Closed 정상 제외됨")
+        else:
+            print(f"❌ [Test 10 FAILED] 예외 사유 불일치: {e}")
+            all_passed = False
+
+    # 11 [Case B]. '직항 / 경유 없음' 카드 -> 정상 통과 (H-5)
+    f_b = "제주항공\n오후 2:05 - 오후 4:05\n직항 / 경유 없음\n총 요금 ₩1,421,100"
+    try:
+        r_b = parse_card_text(f_b)
+        assert r_b["is_direct"] and r_b["price_per_person"] == 473700
+        print("✅ [Test 11 PASSED] [Case B] '직항 / 경유 없음' 카드 오탐 없이 정상 통과")
+    except Exception as e:
+        print(f"❌ [Test 11 FAILED] [Case B] '경유 없음' 오탐 발생: {e}")
+        all_passed = False
+
+    # 12 [Case C]. '1인당' 문구 없는 ₩1,200,000 + 페이지에 1인당 명시 있을 때 -> 1,200,000원으로 정확 판정 (S-4, H-9)
+    f_c = "대한항공\n오후 2:05 - 오후 4:05\n직항\n₩1,200,000"
+    page_c = "표시된 가격은 1인당 요금입니다."
+    try:
+        r_c = parse_card_text(f_c, global_page_text=page_c)
+        assert r_c["price_per_person"] == 1200000, f"Expected 1200000, got {r_c['price_per_person']}"
+        assert "1인당 명시 요금" in r_c["price_reason"]
+        print("✅ [Test 12 PASSED] [Case C] 페이지 1인당 단서 반영하여 1인당 1,200,000원 정확 판정")
+    except Exception as e:
+        print(f"❌ [Test 12 FAILED] [Case C] 1인당 전역 단서 해석 실패: {e}")
+        all_passed = False
+
+    # 13 [Case D]. 페이지 하단 "성인 3명 총 요금" + 카드에 단서 없는 ₩1,421,100 -> 473,700원 계산 (H-9)
+    f_d = "제주항공\n오후 2:05 - 오후 4:05\n직항\n₩1,421,100"
+    page_d = "성인 3명의 필수 세금과 수수료가 포함됩니다."
+    try:
+        r_d = parse_card_text(f_d, global_page_text=page_d)
+        assert r_d["price_per_person"] == 473700
+        print("✅ [Test 13 PASSED] [Case D] 페이지 전역 총액 단서 기반 473,700원 정확 계산")
+    except Exception as e:
+        print(f"❌ [Test 13 FAILED] [Case D] 전역 총액 단서 해석 실패: {e}")
+        all_passed = False
+
+    # 14 [Case E]. "비즈니스 ₩3,900,000 / 일반석 ₩1,200,000" 다중 가격 -> 이코노미 최저가 선택 (H-6)
+    f_e = "에어부산\n오전 11:30 - 오후 1:30\n직항\n비즈니스 ₩3,900,000 / 일반석 ₩1,537,500\n총 요금"
+    try:
+        r_e = parse_card_text(f_e)
+        assert r_e["raw_price"] == 1537500
+        assert r_e["price_per_person"] == 512500
+        print("✅ [Test 14 PASSED] [Case E] 다중 가격 카드에서 이코노미 최저가(1,537,500원) 정상 선택")
+    except Exception as e:
+        print(f"❌ [Test 14 FAILED] [Case E] 다중 가격 최저가 선택 실패: {e}")
+        all_passed = False
+
+    # 15 [Case F]. "2:30 소요 / 오전 11:00 - 오후 1:30" -> 출발시각 오전 11:00으로 정확 파싱 (H-7)
+    f_f = "에어부산\n2:30 소요\n오전 11:00 - 오후 1:30\n직항\n총 요금 ₩1,537,500"
+    try:
+        r_f = parse_card_text(f_f)
+        assert r_f["price_per_person"] == 512500
+        print("✅ [Test 15 PASSED] [Case F] '2:30 소요' 건너뛰고 출발시각(오전 11:00) 정확 파싱")
+    except Exception as e:
+        print(f"❌ [Test 15 FAILED] [Case F] 소요시간 오인 발생: {e}")
+        all_passed = False
+
+    # 16 [Case G]. "11:00 AM - 1:00 PM" 영문 표기 -> 출발시각 11시(오전)로 정확 파싱 (H-8)
+    f_g = "Jeju Air\n11:00 AM - 1:00 PM\nNonstop\nTotal ₩1,421,100"
+    try:
+        r_g = parse_card_text(f_g)
+        assert r_g["price_per_person"] == 473700
+        print("✅ [Test 16 PASSED] [Case G] '11:00 AM - 1:00 PM' 출발시각 11:00 AM 정확 파싱")
+    except Exception as e:
+        print(f"❌ [Test 16 FAILED] [Case G] AM/PM 교차 오염 발생: {e}")
+        all_passed = False
+
     print("==================================================")
     if all_passed:
-        print("🎉 [결과] 9개 자체 검증 테스트 전원 통과! (100% SUCCESS)")
+        print("🎉 [결과] 16개 자체 검증 테스트 전원 통과! (100% SUCCESS)")
     else:
         print("❌ [결과] 일부 자체 검증 테스트 실패")
     print("==================================================")
@@ -888,9 +1021,9 @@ def run_self_tests() -> bool:
 # CLI 엔트리포인트
 # ---------------------------------------------------------------------------
 def main():
-    parser = argparse.ArgumentParser(description="✈️ Taiwan Flight Price Tracker Bot v3.0")
+    parser = argparse.ArgumentParser(description="✈️ Taiwan Flight Price Tracker Bot v3.1")
     parser.add_argument("--self-test", action="store_true", help="단위 테스트 스위트 실행 (네트워크/텔레그램 미사용)")
-    parser.add_argument("--dry-run", action="store_true", help="크롤링 및 판정 수행 (텔레그램 실제 발송 안 함)")
+    parser.add_argument("--dry-run", action="store_true", help="크롤링 및 판정 수행 (텔레그램 및 state.json 쓰기 안 함)")
     parser.add_argument("--force", action="store_true", help="변동 없어도 주간 브리핑 강제 발송")
     args = parser.parse_args()
 
