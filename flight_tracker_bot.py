@@ -234,9 +234,9 @@ def run_tracker():
     days_left = (FREE_CANCEL_DEADLINE - today).days
     now_str = kst_now.strftime("%Y-%m-%d %H:%M KST")
 
-    # 일요일 오전 08~09시 판정 (스케줄러 큐 지연 방어)
+    # 일요일 오전/낮 1차 가동 판정 (GitHub Actions 글로벌 큐 지연 방어: 14시 이전 가동 시 주간 브리핑 100% 발송)
     is_sunday = today.weekday() == 6
-    is_sunday_morning = is_sunday and (kst_now.hour in [8, 9])
+    is_sunday_morning = is_sunday and (kst_now.hour < 14)
 
     flights, source = scrape_live_flights()
     if not flights:
