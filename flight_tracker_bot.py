@@ -318,7 +318,7 @@ def parse_card_text(card_text: str, global_page_text: str = "") -> dict:
 
     # [회귀 ② 방어 및 정밀 가격 파싱]
     price_matches = re.finditer(
-        r"(?:(수수료|세금|추가|할인|좌석지정)\s*)?₩\s*([\d,]+)|(?:(수수료|세금|추가|할인|좌석지정)\s*)?([\d,]+)\s*원",
+        r"(?:(수수료|세금|추가|할인|좌석지정)\s*)?(?:₩|KRW)\s*([\d,]+)|(?:(수수료|세금|추가|할인|좌석지정)\s*)?([\d,]+)\s*(?:원|KRW)",
         card_text,
     )
     candidate_prices = []
@@ -407,23 +407,32 @@ def scrape_live_flights(url: str, dump_cards_file: str = None) -> tuple:
             page.goto(url, wait_until="domcontentloaded", timeout=45000)
 
             # [M-20 동의창 처리] '동의하지 않음'은 피하고 '동의/수락'만 클릭
-            consent_buttons = page.query_selector_all(
-                "button:has-text('모두 수락'), button:has-text('모두 동의'), button:has-text('Accept all'), button:has-text('I agree')"
-            )
-            for btn in consent_buttons:
+            consent_selectors = [
+                "button:has-text('모두 수락')",
+                "button:has-text('모두 동의')",
+                "button:has-text('Accept all')",
+                "button:has-text('I agree')",
+                "button:has-text('Alle akzeptieren')",
+                "button:has-text('Tout accepter')",
+                "button:has-text('Accept')",
+                "button[aria-label*='Accept']",
+                "form[action*='consent'] button",
+            ]
+            for sel in consent_selectors:
                 try:
-                    if btn.is_visible():
-                        btn.click()
-                        time.sleep(1)
-                        break
+                    for btn in page.query_selector_all(sel):
+                        if btn.is_visible():
+                            btn.click()
+                            time.sleep(1.5)
+                            break
                 except Exception:
                     pass
 
             # [M-15 동적 대기] 본문에 유효한 가격 정규식 패턴이 렌더링될 때까지 대기
             try:
                 page.wait_for_function(
-                    "() => /₩\\s*[\\d,]{4,}|[\\d,]{2,}\\s*000\\s*원/.test(document.body.innerText)",
-                    timeout=20000
+                    "() => /₩\\s*[\\d,]{4,}|[\\d,]{2,}\\s*000\\s*원|KRW\\s*[\\d,]{4,}/.test(document.body.innerText)",
+                    timeout=30000
                 )
             except Exception:
                 body_snippet = page.inner_text("body")[:300].replace("\n", " ")
@@ -462,7 +471,7 @@ def scrape_live_flights(url: str, dump_cards_file: str = None) -> tuple:
                     card_text = card.inner_text().strip()
                     if len(card_text) > 2000 or len(card_text) < 10:
                         continue
-                    if not ("₩" in card_text or "원" in card_text):
+                    if not ("₩" in card_text or "원" in card_text or "KRW" in card_text):
                         continue
 
                     parsed = parse_card_text(card_text, body_text)
