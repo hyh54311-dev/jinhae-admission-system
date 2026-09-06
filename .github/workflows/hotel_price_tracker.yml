@@ -1,0 +1,63 @@
+﻿name: 🏨 Yeosu Hotel Soo Price & Cancellation Tracker Bot (Playwright Engine)
+
+on:
+  schedule:
+    # 매일 아침 08:30 KST (UTC 23:30) & 오후 16:30 KST (UTC 07:30) 자동 가동 (대만 항공권 봇과 동일)
+    - cron: '30 23 * * *'
+    - cron: '30 7 * * *'
+  workflow_dispatch:
+    inputs:
+      force_notify:
+        description: '실시간 점검 브리핑 강제 발송 여부'
+        required: false
+        default: false
+        type: boolean
+
+# 동시 실행 충돌 방지
+concurrency:
+  group: hotel-price-tracker
+  cancel-in-progress: false
+
+# hotel_state.json 커밋을 위한 권한 설정
+permissions:
+  contents: write
+
+jobs:
+  track-hotel-rooms:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: 📥 Check out repository
+        uses: actions/checkout@v4
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 📦 Install Playwright and dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install --with-deps chromium
+
+      - name: 🚀 Run Hotel Soo Tracker Bot (Playwright Live Scraper)
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          FORCE_NOTIFY: ${{ inputs.force_notify || 'false' }}
+        run: |
+          python hotel_tracker_bot.py
+
+      - name: 💾 Commit and push updated hotel_state.json
+        if: always()
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git add hotel_state.json
+          git diff --staged --quiet || {
+            git commit -m "chore(bot): update hotel tracker state [skip ci]"
+            git pull --rebase origin ${{ github.ref_name }}
+            git push origin ${{ github.ref_name }}
+          }

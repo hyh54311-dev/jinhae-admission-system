@@ -1,0 +1,32 @@
+{
+  "hotel": "여수 더 호텔 수 (The Hotel Soo)",
+  "check_in": "2026-10-03",
+  "check_out": "2026-10-05",
+  "target_room": "프리미엄 온돌 (브릿지뷰, 79㎡)",
+  "status": "TARGET_AVAILABLE",
+  "last_checked_kst": "2026-09-06T23:29:32.052751+09:00",
+  "last_alert_kst": "2026-09-06T23:29:07.281039+09:00",
+  "consecutive_failures": 0,
+  "history": [
+    {
+      "timestamp": "2026-09-06T23:28:36.704323+09:00",
+      "status": "TARGET_AVAILABLE",
+      "other_rooms_count": 1
+    },
+    {
+      "timestamp": "2026-09-06T23:28:51.927890+09:00",
+      "status": "TARGET_AVAILABLE",
+      "other_rooms_count": 1
+    },
+    {
+      "timestamp": "2026-09-06T23:29:07.281039+09:00",
+      "status": "TARGET_AVAILABLE",
+      "other_rooms_count": 1
+    },
+    {
+      "timestamp": "2026-09-06T23:29:32.052751+09:00",
+      "status": "TARGET_AVAILABLE",
+      "other_rooms_count": 1
+    }
+  ]
+}
