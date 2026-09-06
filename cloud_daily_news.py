@@ -1,5 +1,6 @@
 import os
 import sys
+import io
 import json
 import datetime
 import argparse
@@ -7,6 +8,14 @@ import time
 import re
 import requests
 from dotenv import load_dotenv
+
+# Windows 콘솔 UTF-8 강제 설정 (이모지 및 한글 깨짐 방지)
+if sys.platform == 'win32':
+    try:
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+        sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
 
 load_dotenv()
 
@@ -42,7 +51,7 @@ MACRO_SYSTEM_INSTRUCTION = (
 
 def log_message(message):
     timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    print(f"[{timestamp}] {message}")
+    print(f"[{timestamp}] {message}", flush=True)
 
 def get_week_range(dt):
     """현재 날짜가 속한 주의 월요일부터 일요일까지 날짜 범위를 반환"""
@@ -134,9 +143,9 @@ def sanitize_macro_report(text):
 def send_telegram_message(text, test_mode=False):
     if test_mode:
         log_message("[TEST MODE] 텔레그램 실제 전송을 생략하고 표준 출력(stdout)에 리포트를 덤프합니다.")
-        print("\n" + "="*50 + " [TELEGRAM MESSAGE PREVIEW] " + "="*50)
-        print(text)
-        print("="*126 + "\n")
+        print("\n" + "="*50 + " [TELEGRAM MESSAGE PREVIEW] " + "="*50, flush=True)
+        print(text, flush=True)
+        print("="*126 + "\n", flush=True)
         return
 
     if not TELEGRAM_TOKEN or not TELEGRAM_CHAT_ID:
