@@ -79,6 +79,13 @@ KST = datetime.timezone(datetime.timedelta(hours=9))
 
 
 # ---------------------------------------------------------------------------
+# 감시 봇 활성화 / 일시 정지 제어 플래그
+# ---------------------------------------------------------------------------
+# 동행 가족의 2026-10-03 ~ 10-05 프리미엄 온돌 예약 완료로 일시 정지 (2026-09-06)
+IS_PAUSED = True
+PAUSE_REASON = "동행 가족의 프리미엄 온돌 객실 예약 완료로 모니터링이 일시 정지되었습니다."
+
+# ---------------------------------------------------------------------------
 # 상태 보존 및 래칫 엔진 (hotel_state.json)
 # ---------------------------------------------------------------------------
 def load_state() -> dict:
@@ -377,6 +384,12 @@ def build_status_briefing(crawl_res: dict, state: dict) -> str:
 def run_bot(force_notify: bool = False, dry_run: bool = False):
     now_kst = datetime.datetime.now(KST).isoformat()
     state = load_state()
+
+    if IS_PAUSED and not force_notify:
+        print(f"⏸️ [PAUSED] {PAUSE_REASON}")
+        print("  - 현재 동행 가족의 예약이 완료되어 정기 모니터링이 일시 정지된 상태입니다.")
+        print("  - 강제 실행이 필요할 경우 --force 옵션 또는 GitHub Actions의 force_notify 입력을 사용하십시오.")
+        return
 
     print("=" * 70)
     print(f"🏨 여수 더 호텔 수 취소표 감지 봇 가동 시작: {now_kst}")

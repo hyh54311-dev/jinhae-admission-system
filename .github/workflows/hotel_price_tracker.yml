@@ -1,10 +1,11 @@
-﻿name: 🏨 Yeosu Hotel Soo Price & Cancellation Tracker Bot (Playwright Engine)
+name: 🏨 Yeosu Hotel Soo Price & Cancellation Tracker Bot (Playwright Engine)
 
 on:
-  schedule:
-    # 매일 아침 08:30 KST (UTC 23:30) & 오후 16:30 KST (UTC 07:30) 자동 가동 (대만 항공권 봇과 동일)
-    - cron: '30 23 * * *'
-    - cron: '30 7 * * *'
+  # schedule:
+  #   # [일시 정지] 동행 가족 예약 완료 (2026-09-06)
+  #   # 매일 아침 08:30 KST (UTC 23:30) & 오후 16:30 KST (UTC 07:30) 자동 가동 (대만 항공권 봇과 동일)
+  #   - cron: '30 23 * * *'
+  #   - cron: '30 7 * * *'
   workflow_dispatch:
     inputs:
       force_notify:
