@@ -1,12 +1,9 @@
-name: Weekend Economic News Automation
+name: Weekend Economic News Automation (DISABLED)
 
 on:
-  schedule:
-    # 08:30 KST (UTC+9) -> 23:30 (Previous day) UTC
-    # Saturday 08:30 KST = Friday 23:30 UTC
-    # Sunday 08:30 KST = Saturday 23:30 UTC
-    - cron: '30 23 * * 5,6'
-  workflow_dispatch: # 수동 실행 버튼 추가
+  # schedule:
+  #   - cron: '30 23 * * 5,6' # [중지됨] 로컬 총괄-하위 에이전트 오케스트레이션 체계로 전환
+  workflow_dispatch: # 수동 테스트용 보존 (자동 실행 비활성화)
 
 jobs:
   run-news-script:
