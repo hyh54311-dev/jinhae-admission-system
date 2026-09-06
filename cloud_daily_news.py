@@ -7,7 +7,6 @@ import argparse
 import time
 import re
 import requests
-from dotenv import load_dotenv
 
 # Windows 콘솔 UTF-8 강제 설정 (이모지 및 한글 깨짐 방지)
 if sys.platform == 'win32':
@@ -17,7 +16,11 @@ if sys.platform == 'win32':
     except Exception:
         pass
 
-load_dotenv()
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 
 # ----------------- 환경 변수 설정 (GitHub Secrets 및 .env) ----------------- #
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
