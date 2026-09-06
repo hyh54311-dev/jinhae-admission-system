@@ -31,6 +31,11 @@ import argparse
 import urllib.request
 import urllib.parse
 import urllib.error
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 from playwright.sync_api import sync_playwright
 
 # Windows 콘솔 UTF-8 출력 보정

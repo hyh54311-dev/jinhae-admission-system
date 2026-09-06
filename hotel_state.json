@@ -4,8 +4,8 @@
   "check_out": "2026-10-05",
   "target_room": "프리미엄 온돌 (브릿지뷰, 79㎡)",
   "status": "TARGET_AVAILABLE",
-  "last_checked_kst": "2026-09-06T23:33:33.970035+09:00",
-  "last_alert_kst": "2026-09-06T23:33:33.970035+09:00",
+  "last_checked_kst": "2026-09-06T23:34:34.601172+09:00",
+  "last_alert_kst": "2026-09-06T23:34:34.601172+09:00",
   "consecutive_failures": 0,
   "history": [
     {
@@ -45,6 +45,16 @@
     },
     {
       "timestamp": "2026-09-06T23:33:33.970035+09:00",
+      "status": "TARGET_AVAILABLE",
+      "other_rooms_count": 1
+    },
+    {
+      "timestamp": "2026-09-06T23:34:15.002208+09:00",
+      "status": "TARGET_AVAILABLE",
+      "other_rooms_count": 1
+    },
+    {
+      "timestamp": "2026-09-06T23:34:34.601172+09:00",
       "status": "TARGET_AVAILABLE",
       "other_rooms_count": 1
     }
