@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "last_updated": null,
+  "consecutive_failures": 0,
+  "consecutive_zero_deals": 0,
+  "last_outage_alert_ts": null,
+  "last_1p_reference_price": 521000,
+  "last_1p_reference_ts": "2026-09-08T18:40:00+09:00",
+  "itineraries": {
+    "2027-01-12_2027-01-15": {
+      "label": "1순위: 1/12(화)~1/15(금)",
+      "depart": "2027-01-12",
+      "return": "2027-01-15",
+      "last_alert_price_total": null,
+      "last_alert_ts": null,
+      "last_best_total": null,
+      "last_airline": null
+    },
+    "2027-01-26_2027-01-29": {
+      "label": "2순위: 1/26(화)~1/29(금)",
+      "depart": "2027-01-26",
+      "return": "2027-01-29",
+      "last_alert_price_total": null,
+      "last_alert_ts": null,
+      "last_best_total": null,
+      "last_airline": null
+    }
+  },
+  "history": []
+}

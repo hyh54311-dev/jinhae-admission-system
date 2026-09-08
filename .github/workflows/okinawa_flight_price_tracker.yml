@@ -1,0 +1,111 @@
+name: ✈️ Okinawa Flight Price Tracker Bot (Playwright Engine)
+
+on:
+  # N-8: 클로드 2차 권장 - 1주일 시범 운영 기간 동안 cron을 주석 처리하고 수동(workflow_dispatch)으로만 운용
+  # schedule:
+  #   - cron: '30 23 * * *'  # 08:30 KST
+  #   - cron: '30 7 * * *'   # 16:30 KST
+  workflow_dispatch:
+    inputs:
+      force_notify:
+        description: '주간 브리핑 강제 발송 여부'
+        required: false
+        default: false
+        type: boolean
+
+# 동시 실행 충돌 방지
+concurrency:
+  group: okinawa-flight-price-tracker
+  cancel-in-progress: false
+
+# okinawa_state.json 커밋을 위한 쓰기 권한 설정
+permissions:
+  contents: write
+
+jobs:
+  track-okinawa-flight-prices:
+    runs-on: ubuntu-latest
+    # N-7: 타임아웃 20분으로 상향
+    timeout-minutes: 20
+
+    # 러너 전체 컨테이너 타임존 KST 고정
+    env:
+      TZ: Asia/Seoul
+
+    steps:
+      - name: 📥 Check out repository (fetch-depth 0 for safe rebase)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      # N-7: Playwright 브라우저 캐싱
+      - name: 🗄️ Cache Playwright Browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-browsers-${{ runner.os }}-${{ hashFiles('requirements.txt') }}
+
+      - name: 📦 Install Playwright and dependencies
+        run: |
+          pip install -r requirements.txt
+          if [ "${{ steps.playwright-cache.outputs.cache-hit }}" != "true" ]; then
+            playwright install --with-deps chromium
+          else
+            playwright install-deps chromium
+          fi
+
+      - name: 🧪 Run Self-Tests Before Tracking
+        env:
+          TZ: Asia/Seoul
+          BENCHMARK_PRICE_TOTAL: ${{ secrets.BENCHMARK_PRICE_TOTAL }}
+        run: |
+          python okinawa_flight_tracker_bot.py --self-test
+
+      - name: 🚀 Run Okinawa Flight Price Tracker Bot (Playwright Live Scraper)
+        env:
+          TZ: Asia/Seoul
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          BENCHMARK_PRICE_TOTAL: ${{ secrets.BENCHMARK_PRICE_TOTAL }}
+          MEGA_DEAL_PRICE_TOTAL: ${{ secrets.MEGA_DEAL_PRICE_TOTAL }}
+          MIN_SAVINGS_TOTAL: ${{ secrets.MIN_SAVINGS_TOTAL }}
+          FORCE_NOTIFY: ${{ inputs.force_notify || 'false' }}
+        run: |
+          if [ "${{ inputs.force_notify }}" = "true" ]; then
+            python okinawa_flight_tracker_bot.py --force-notify
+          else
+            python okinawa_flight_tracker_bot.py
+          fi
+
+      # N-9: 안전한 커밋 및 rebase autostash 루프
+      - name: 💾 Commit and push updated okinawa_state.json
+        if: always()
+        run: |
+          [ -f okinawa_state.json ] || exit 0
+          python -c "import json; json.load(open('okinawa_state.json'))"
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git add okinawa_state.json
+          if ! git diff --staged --quiet; then
+            git commit -m "chore(bot): update okinawa flight tracker state"
+            for i in 1 2 3; do
+              git pull --rebase --autostash origin ${{ github.ref_name }} && \
+              git push origin ${{ github.ref_name }} && exit 0
+              sleep 5
+            done
+            exit 1
+          fi
+
+      - name: 🚨 Notify failure to Telegram
+        if: failure()
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
+            -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" \
+            -d text="⚠️ [비상] 오키나와 항공권 감시 봇 실행 실패 (GitHub Actions Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
