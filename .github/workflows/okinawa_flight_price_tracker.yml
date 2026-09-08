@@ -1,10 +1,10 @@
 name: ✈️ Okinawa Flight Price Tracker Bot (Playwright Engine)
 
 on:
-  # N-8: 클로드 2차 권장 - 1주일 시범 운영 기간 동안 cron을 주석 처리하고 수동(workflow_dispatch)으로만 운용
-  # schedule:
-  #   - cron: '30 23 * * *'  # 08:30 KST
-  #   - cron: '30 7 * * *'   # 16:30 KST
+  schedule:
+    # 매일 2회 정기 자동 감시: KST 08:30 / 16:30 (UTC 23:30 / 07:30)
+    - cron: '30 23 * * *'  # 08:30 KST
+    - cron: '30 7 * * *'   # 16:30 KST
   workflow_dispatch:
     inputs:
       force_notify:
