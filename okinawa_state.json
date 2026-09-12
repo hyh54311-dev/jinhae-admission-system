@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "last_updated": "2026-09-11T21:34:18.003475+09:00",
+  "last_updated": "2026-09-12T11:56:16.770863+09:00",
   "consecutive_failures": 0,
   "consecutive_zero_deals": 0,
   "last_outage_alert_ts": null,
-  "last_1p_reference_price": 521100,
-  "last_1p_reference_ts": "2026-09-11T21:34:24.692788+09:00",
+  "last_1p_reference_price": 521500,
+  "last_1p_reference_ts": "2026-09-12T11:56:23.313803+09:00",
   "itineraries": {
     "2027-01-12_2027-01-15": {
       "label": "1순위: 1/12(화)~1/15(금)",
@@ -13,7 +13,7 @@
       "return": "2027-01-15",
       "last_alert_price_total": null,
       "last_alert_ts": null,
-      "last_best_total": 1498700,
+      "last_best_total": 1499900,
       "last_airline": "진에어"
     },
     "2027-01-26_2027-01-29": {
@@ -22,7 +22,7 @@
       "return": "2027-01-29",
       "last_alert_price_total": null,
       "last_alert_ts": null,
-      "last_best_total": 1498700,
+      "last_best_total": 1499900,
       "last_airline": "진에어"
     }
   },
@@ -121,6 +121,22 @@
       "depart": "2027-01-26",
       "return": "2027-01-29",
       "price_total": 1498700,
+      "airline": "진에어"
+    },
+    {
+      "ts": "2026-09-12T11:56:16.770863+09:00",
+      "itinerary_key": "2027-01-12_2027-01-15",
+      "depart": "2027-01-12",
+      "return": "2027-01-15",
+      "price_total": 1499900,
+      "airline": "진에어"
+    },
+    {
+      "ts": "2026-09-12T11:56:16.770863+09:00",
+      "itinerary_key": "2027-01-26_2027-01-29",
+      "depart": "2027-01-26",
+      "return": "2027-01-29",
+      "price_total": 1499900,
       "airline": "진에어"
     }
   ]
