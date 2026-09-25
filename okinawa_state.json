@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "last_updated": "2026-09-24T22:09:43.742771+09:00",
+  "last_updated": "2026-09-25T12:14:45.152143+09:00",
   "consecutive_failures": 0,
-  "consecutive_zero_deals": 0,
+  "consecutive_zero_deals": 1,
   "last_outage_alert_ts": null,
-  "last_1p_reference_price": 522200,
-  "last_1p_reference_ts": "2026-09-24T22:09:51.487198+09:00",
+  "last_1p_reference_price": 522400,
+  "last_1p_reference_ts": "2026-09-25T12:14:51.801565+09:00",
   "itineraries": {
     "2027-01-12_2027-01-15": {
       "label": "1순위: 1/12(화)~1/15(금)",
