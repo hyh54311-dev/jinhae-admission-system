@@ -29,7 +29,7 @@ if not token:
 print("Retrieved token successfully.")
 
 repo = "hyh54311-dev/jinhae-bot2"
-files_to_update = ["index.html", "app.js", "api/index.py"]
+files_to_update = ["api/knowledge.txt", "api/index.py"]
 local_base = r"D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder\jinhae-bot\jinhae-bot-main"
 
 for file_path in files_to_update:
@@ -58,7 +58,7 @@ for file_path in files_to_update:
         
     # Update file via PUT
     put_data = json.dumps({
-        "message": f"feat: apply security hardening v3.7 (XSS sanitization, 300-char input limit, prompt injection hard guardrails) on {file_path}",
+        "message": f"feat: add advanced course offerings guide v3.8 on {file_path}",
         "content": content_b64,
         "sha": sha,
         "branch": "main"
