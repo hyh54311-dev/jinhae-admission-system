@@ -1580,6 +1580,29 @@ def is_market_open_today(token: str) -> bool:
     return now_kst().weekday() < 5
 
 
+def get_last_business_day_of_month(year: int, month: int) -> dt.date:
+    """
+    당월의 마지막 영업일(주말 및 KRX 연말 휴장일 제외)을 반환합니다.
+    - 토/일요일 및 매년 12월 31일(연말 납회일/증시 휴장일)을 안전하게 제외하여,
+      월말 결산 생존 점검 보고서가 매월 마지막 날 1회만 정밀 발송되도록 보장합니다.
+    """
+    krx_year_end_holidays = {"2026-12-31", "2027-12-31", "2028-12-31", "2029-12-31", "2030-12-31"}
+    if month == 12:
+        next_month = dt.date(year + 1, 1, 1)
+    else:
+        next_month = dt.date(year, month + 1, 1)
+    last_d = next_month - dt.timedelta(days=1)
+
+    while True:
+        if last_d.weekday() >= 5:
+            last_d -= dt.timedelta(days=1)
+            continue
+        if last_d.strftime("%Y-%m-%d") in krx_year_end_holidays:
+            last_d -= dt.timedelta(days=1)
+            continue
+        return last_d
+
+
 # ──────────────────────────────────────────────────────────────────────────────
 # 3. [Q3-1] get_orderable_cash — 매수 가용현금 정밀 산출 (우선순위 채택)
 # ──────────────────────────────────────────────────────────────────────────────
@@ -2390,7 +2413,9 @@ def main():
     now = now_kst()
     is_force = len(sys.argv) > 1 and "--force" in sys.argv
     is_check_only = len(sys.argv) > 1 and "--check-only" in sys.argv
-    is_manual = is_force or any(k in sys.argv for k in ["--force", "--check-only"]) or os.getenv("GITHUB_EVENT_NAME") == "workflow_dispatch"
+    event_name = os.getenv("GITHUB_EVENT_NAME", "")
+    is_scheduled = (event_name == "schedule")
+    is_manual = is_force or (event_name == "workflow_dispatch") or (not event_name and any(k in sys.argv for k in ["--force", "--check-only"]))
     mode_str = "DRY-RUN 시뮬레이션" if KIS_DRY_RUN else ("모의투자" if KIS_MOCK else "실전 계좌")
 
     print(f"🚀 K-듀얼모멘텀 봇 기동 — {now:%Y-%m-%d %H:%M:%S} KST ({mode_str})")
@@ -2409,15 +2434,26 @@ def main():
 
     # ── [월말 점검 모드 (--check-only)] ──
     # 매월 25~31일 결산 생존 및 완료 점검 (데드맨 스위치 & 침묵 감지 보증)
+    # 매월 마지막 영업일에 1회 정밀 발송 (월말 1회 발송 원칙)
     # 신호 계산이나 거래창 게이트 실패에 죽지 않도록 최상단에서 독립 실행
     if is_check_only:
-        is_manual_check = is_manual
-        if now.weekday() >= 5 and not is_manual_check:
+        # workflow_dispatch(수동 트리거)이거나 로컬 수동 테스트인 경우 날짜 게이트 우회
+        is_manual_check = (event_name == "workflow_dispatch") or (not event_name and is_manual)
+        last_bday = get_last_business_day_of_month(now.year, now.month)
+
+        if now.weekday() >= 5 and not is_force:
             print(f"🗓️ {now:%Y-%m-%d}은 주말이므로 월말 점검 리포트를 발송하지 않고 평일까지 대기합니다.")
             _RUN_COMPLETED = True
             return
 
-        print(f"📅 [월말 결산 점검] {now:%Y-%m-%d %H:%M} KST — 전 계좌 생존 및 완료 상태 종합 검증")
+        if not is_manual_check:
+            # 당월 마지막 영업일이 아니면 무소음 대기 (매월 마지막 날 1회 발송 원칙)
+            if now.date() != last_bday:
+                print(f"ℹ️ [월말 점검 대기] 오늘({now:%Y-%m-%d})은 당월 마지막 영업일({last_bday:%Y-%m-%d})이 아닙니다. 말일에 1회 발송합니다.")
+                _RUN_COMPLETED = True
+                return
+
+        print(f"📅 [월말 결산 점검] {now:%Y-%m-%d %H:%M} KST — 전 계좌 생존 및 완료 상태 종합 검증 (당월 마지막 영업일: {last_bday})")
 
         # 신호 계산 실패가 생존 보고를 차단하지 않도록 격리 (실패 시에도 현금비중 단독 점검)
         try:
@@ -2679,8 +2715,8 @@ on:
     - cron: '17 2 17-31 * *'    # 2발: UTC 02:17 = KST 11:17 (점심 전 파도)
     - cron: '47 3 17-31 * *'    # 3발: UTC 03:47 = KST 12:47 (점심시간 파도)
     # [4발: 월말 결산 생존 점검 (데드맨 스위치 & 침묵 감지 보증)]
-    # 매월 25~31일 14:00 KST에 평일마다 실행되어 생존 및 완료 보고서 발송 (크론 누락 대비 평일 다중 점검, 2027-02 공백 차단)
-    - cron: '0 5 25-31 * *'     # 4발: UTC 05:00 = KST 14:00 (월말 점검)
+    # 매월 25~31일 14:00 KST에 크론이 가동되어 당월 '마지막 영업일'을 자동 판정 후 정확히 1회만 발송
+    - cron: '0 5 25-31 * *'     # 4발: UTC 05:00 = KST 14:00 (매월 마지막 영업일 1회 정밀 발송)
   workflow_dispatch:
     inputs:
       dry_run:
@@ -3205,9 +3241,9 @@ Antigravity를 처음 접하는 독자라도 아래 4단계를 그대로 따라 
 * **매월 18일 ~ 24일 (무소음 기간):**
   - [ ] **텔레그램 알림이 단 1통도 오지 않는 것이 정상입니다!** (이전 거래일 완료 판정으로 무소음 스킵 작동).
   - 만약 17일에 휴장일이나 통신 장애로 매매를 못 끝낸 경우에만 18일 이후 장중에 매일 알림과 함께 재시도합니다.
-* **매월 25일 ~ 31일 평일 14:00 (월말 결산 생존 점검):**
-  - [ ] **평일 매일 14:00에 `📅 [K-모멘텀] 월말 결산 생존 점검` 리포트가 옵니다.**
-  - 이 리포트는 한 달간 봇이 죽지 않고 살아있음을 증명하는 '데드맨 스위치(Dead Man Switch)'이자 생존 신고입니다.
+* **매월 마지막 영업일 14:00 (월말 결산 생존 점검):**
+  - [ ] **당월 마지막 영업일 14:00에 `📅 [K-모멘텀] 월말 결산 생존 점검` 리포트가 딱 1회 옵니다.**
+  - 25~31일 중 마지막 영업일이 아닌 날에는 무소음으로 대기하며, 말일에 단 1통만 발송되어 한 달간 봇이 정상 대기 중임을 확인하는 '데드맨 스위치(Dead Man Switch)' 역할을 합니다.
 
 #### 📅 분기 1회 — 3개월마다, 5분
 
