@@ -17,6 +17,8 @@ if sys.stdout.encoding != 'utf-8':
 
 # Force local proxy bypass for test if needed
 os.environ["KIS_VERIFY_SSL"] = "0"
+os.environ["TELEGRAM_TOKEN"] = ""
+os.environ["TELEGRAM_CHAT_ID"] = ""
 
 # Add repo to sys.path
 repo_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "jinhae-k-momentum-bot"))
@@ -24,6 +26,8 @@ if repo_dir not in sys.path:
     sys.path.insert(0, repo_dir)
 
 import kis_bot_multi
+kis_bot_multi.TELEGRAM_TOKEN = ""
+kis_bot_multi.TELEGRAM_CHAT_ID = ""
 
 KST = ZoneInfo("Asia/Seoul")
 
