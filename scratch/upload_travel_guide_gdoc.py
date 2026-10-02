@@ -39,6 +39,7 @@ def main():
     <!DOCTYPE html>
     <html>
     <head>
+        <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>2026 여수·순천 2박 3일 힐링 가족여행 가이드</title>
         <style>
@@ -154,7 +155,7 @@ def main():
         'name': doc_title,
         'mimeType': 'application/vnd.google-apps.document'
     }
-    media = MediaFileUpload(temp_html_path, mimetype='text/html', resumable=True)
+    media = MediaFileUpload(temp_html_path, mimetype='text/html; charset=utf-8', resumable=True)
 
     print("Google Docs 문서 업로드 중...")
     file = drive_service.files().create(body=file_metadata, media_body=media, fields='id, webViewLink').execute()
