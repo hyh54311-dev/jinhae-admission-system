@@ -1,10 +1,11 @@
 name: ✈️ Okinawa Flight Price Tracker Bot (Playwright Engine)
 
+# [일시 정지] 2026-10-02 가족 여행 보류로 인한 자동 크론 일시 정지 (필요 시 수동 실행 가능)
+# on:
+#   schedule:
+#     - cron: '0 0 * * *'   # 09:00 KST
+#     - cron: '0 8 * * *'   # 17:00 KST
 on:
-  schedule:
-    # 매일 2회 정기 자동 감시: KST 09:00 / 17:00 (UTC 00:00 / 08:00)
-    - cron: '0 0 * * *'   # 09:00 KST
-    - cron: '0 8 * * *'   # 17:00 KST
   workflow_dispatch:
     inputs:
       force_notify:
