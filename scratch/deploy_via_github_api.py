@@ -58,7 +58,7 @@ for file_path in files_to_update:
         
     # Update file via PUT
     put_data = json.dumps({
-        "message": f"feat: add advanced course offerings guide v3.8 on {file_path}",
+        "message": f"feat: add second foreign language guidance v3.9 on {file_path}",
         "content": content_b64,
         "sha": sha,
         "branch": "main"
