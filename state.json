@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "last_updated": "2026-10-06T12:16:46.506944+09:00",
-  "consecutive_failures": 0,
+  "last_updated": "2026-10-06T23:22:16.355740+09:00",
+  "consecutive_failures": 1,
   "last_outage_alert_ts": null,
   "last_alert_price_pp": 473700,
   "last_alert_ts": null,
