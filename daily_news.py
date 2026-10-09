@@ -1,3 +1,9 @@
+try:
+    import truststore
+    truststore.inject_into_ssl()
+except Exception:
+    pass
+
 import os
 import sys
 import io
@@ -119,8 +125,6 @@ def send_telegram_alert(file_name, file_path, is_weekend=False, doc_link=None, s
     text = f"📝 [{prefix} 생성 완료]\n\n오늘의 리포트({file_name})가 구글 드라이브에 저장되었습니다.{summary_text}{link_text}\n태블릿이나 휴대폰의 구글 문서 앱으로 편리하게 확인하실 수 있습니다."
     
     ctx = ssl.create_default_context()
-    ctx.check_hostname = False
-    ctx.verify_mode = ssl.CERT_NONE
 
     for token in tokens:
         try:

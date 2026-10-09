@@ -1,3 +1,9 @@
+try:
+    import truststore
+    truststore.inject_into_ssl()
+except Exception:
+    pass
+
 import os
 import sys
 import subprocess
@@ -10,11 +16,12 @@ import threading
 from datetime import datetime, timedelta, timezone
 
 
-# Windows 肄섏넄?먯꽌 UTF-8(?대え吏 ?ы븿) 異쒕젰 吏??if sys.platform == 'win32' and sys.stdout.encoding.lower() != 'utf-8':
+# Windows console UTF-8
+if sys.platform == 'win32' and sys.stdout.encoding.lower() != 'utf-8':
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
 
 def log_message(message):
-    timestamp = time.strftime('%Y-%m-%d %H:%M:%S')
+    today_str = now.strftime("%m월 %d일")
     print(f"[{timestamp}] [NotebookLM] {message}")
 
 def send_telegram_notification(text):
@@ -34,9 +41,6 @@ def send_telegram_notification(text):
         req = urllib.request.Request(telegram_url, data=data)
         
         ctx = ssl.create_default_context()
-        ctx.check_hostname = False
-        ctx.verify_mode = ssl.CERT_NONE
-        
         urllib.request.urlopen(req, context=ctx)
         return True
     except Exception as e:
@@ -67,8 +71,8 @@ def verify_audio_and_notify(notebook_id, file_path, tg_prefix, instructions=None
         artifacts = data.get("artifacts", [])
         audio_found = False
         
-        # Audio ??낆씠硫?status媛 completed??寃?寃??        for art in artifacts:
-            # type_id媛 audio?대ŉ status媛 completed??寃?寃??            if art.get("type_id") == "audio" and art.get("status") == "completed":
+        for art in artifacts:
+            if art.get("type_id") == "audio" and art.get("status") == "completed":
                 audio_found = True
                 break
         
@@ -92,7 +96,7 @@ def submit_to_notebooklm(file_path, title=None, instructions=None, tg_prefix="[N
     ?앹꽦??留덊겕?ㅼ슫 ?뚯씪??NotebookLM ?꾩슜 ?명듃遺곸뿉 ?낅줈?쒗븯怨??ㅻ뵒??釉뚮━?묒쓣 ?몃━嫄고빀?덈떎.
     """
     now = datetime.now()
-    today_str = now.strftime("%m??%d??)
+    today_str = now.strftime("%m월 %d일")
     # ?쒕ぉ??二쇱뼱吏吏 ?딆쑝硫?湲곕낯 寃쎌젣 ?댁뒪 ?쒕ぉ ?ъ슜
     notebook_title = title if title else f"?닿렐湲?20遺?寃쎌젣 ?댁뒪({today_str})"
     
@@ -192,7 +196,8 @@ def cleanup_old_notebooks(days_ago=7):
     env["PYTHONIOENCODING"] = "utf8"
     env["PYTHONUTF8"] = "1"
     
-    # 1. ?명듃遺?紐⑸줉 媛?몄삤湲?    try:
+    # 1. notebook list
+    try:
         result = subprocess.run([
             sys.executable, "run_nlm_patched.py", "notebook", "list", "--json"
         ], capture_output=True, text=True, encoding='utf-8', env=env)

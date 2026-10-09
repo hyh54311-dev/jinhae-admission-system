@@ -6,16 +6,19 @@ import subprocess
 import threading
 import io
 import requests
-import urllib3
 import re
 from datetime import datetime
 import unified_schedule
 import stay_awake
 from dotenv import load_dotenv
 
-load_dotenv()
+try:
+    import truststore
+    truststore.inject_into_ssl()
+except Exception:
+    pass
 
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+load_dotenv()
 
 if sys.platform == 'win32':
     try:
@@ -47,7 +50,7 @@ def send_telegram_message(chat_id, text):
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     payload = {"chat_id": chat_id, "text": text}
     try:
-        requests.post(url, json=payload, timeout=10, verify=False)
+        requests.post(url, json=payload, timeout=10)
     except Exception as e:
         log_message(f"?붾젅洹몃옩 諛쒖넚 ?ㅻ쪟: {e}")
 
@@ -82,7 +85,7 @@ def ask_gemini(user_message, context_data=None):
         }
     }
     try:
-        response = requests.post(url, json=payload, headers={"Content-Type": "application/json"}, timeout=30, verify=False)
+        response = requests.post(url, json=payload, headers={"Content-Type": "application/json"}, timeout=30)
         response.raise_for_status()
         json_data = response.json()
         candidates = json_data.get("candidates", [])
@@ -202,7 +205,7 @@ def main():
             params["offset"] = update_id
             
         try:
-            response = requests.get(url, params=params, timeout=70, verify=False)
+            response = requests.get(url, params=params, timeout=70)
             if response.status_code == 200:
                 data = response.json()
                 if data.get("ok"):

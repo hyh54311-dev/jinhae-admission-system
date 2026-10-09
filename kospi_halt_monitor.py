@@ -4,13 +4,15 @@ import sys
 import json
 import re
 import requests
-import urllib3
 from datetime import datetime
 from dotenv import load_dotenv
 from bs4 import BeautifulSoup
 
-# Disable insecure warnings
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+try:
+    import truststore
+    truststore.inject_into_ssl()
+except Exception:
+    pass
 
 # Ensure UTF-8 output on Windows
 if sys.platform.startswith('win'):
@@ -35,7 +37,7 @@ def send_telegram(msg):
     if TELEGRAM_TOKEN and TELEGRAM_CHAT_ID:
         url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
         try:
-            requests.post(url, data={"chat_id": TELEGRAM_CHAT_ID, "text": msg}, verify=False, timeout=10)
+            requests.post(url, data={"chat_id": TELEGRAM_CHAT_ID, "text": msg}, timeout=10)
         except Exception as e:
             print(f"텔레그램 발송 실패: {e}")
 
@@ -50,7 +52,7 @@ def get_market_indices():
     for name, symbol in indices.items():
         url = f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?interval=1m&range=1d"
         try:
-            res = requests.get(url, headers=headers, verify=False, timeout=10)
+            res = requests.get(url, headers=headers, timeout=10)
             if res.status_code == 200:
                 data = res.json()
                 meta = data["chart"]["result"][0]["meta"]
@@ -74,7 +76,7 @@ def check_news_for_halt(keyword):
     articles = []
     
     try:
-        res = requests.get(url, headers=headers, verify=False, timeout=10)
+        res = requests.get(url, headers=headers, timeout=10)
         res.encoding = 'utf-8'
         if res.status_code != 200:
             return []
@@ -254,12 +256,17 @@ def main():
                     state["alerted_links"].append(link)
                     state["alerted_dates"][today_str].append(f"news_{event_type}")
                     
+    is_dry_run = "--dry-run" in sys.argv
+
     # 4. Send telegram alert if any
     if alerts:
-        for alert in alerts:
-            send_telegram(alert)
-        save_state(state)
-        print(f"알림 발송 완료: {len(alerts)}건")
+        if not is_dry_run:
+            for alert in alerts:
+                send_telegram(alert)
+            save_state(state)
+            print(f"알림 발송 완료: {len(alerts)}건")
+        else:
+            print(f"[DRY-RUN] 알림 발송 및 상태 저장을 건너뜁니다 (감지 {len(alerts)}건)")
     else:
         print("특이사항이 없으므로 알림을 보내지 않고 종료합니다.")
 

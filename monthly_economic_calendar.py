@@ -10,12 +10,15 @@ import sys
 import json
 import re
 import requests
-import urllib3
 from datetime import datetime
 from dotenv import load_dotenv
 import argparse
 
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+try:
+    import truststore
+    truststore.inject_into_ssl()
+except Exception:
+    pass
 
 if sys.platform.startswith('win'):
     try:
@@ -42,7 +45,7 @@ def send_telegram(msg):
             "parse_mode": "HTML"
         }
         try:
-            res = requests.post(url, json=payload, verify=False, timeout=15)
+            res = requests.post(url, json=payload, timeout=15)
             if res.status_code != 200:
                 print(f"텔레그램 발송 실패: {res.status_code} - {res.text}")
         except Exception as e:
@@ -52,7 +55,7 @@ def fetch_search_results(query):
     url = f"https://html.duckduckgo.com/html/?q={requests.utils.quote(query)}"
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
     try:
-        res = requests.get(url, headers=headers, verify=False, timeout=15)
+        res = requests.get(url, headers=headers, timeout=15)
         if res.status_code != 200:
             return "Search failed"
         

@@ -10,12 +10,15 @@ import os
 import sys
 import json
 import requests
-import urllib3
 import pandas as pd
 from datetime import datetime
 from dotenv import load_dotenv
 
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+try:
+    import truststore
+    truststore.inject_into_ssl()
+except Exception:
+    pass
 
 if sys.platform.startswith('win'):
     sys.stdout.reconfigure(encoding='utf-8')
@@ -32,7 +35,7 @@ def send_telegram(msg):
     if TELEGRAM_TOKEN and TELEGRAM_CHAT_ID:
         url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
         try:
-            requests.post(url, data={"chat_id": TELEGRAM_CHAT_ID, "text": msg}, verify=False, timeout=10)
+            requests.post(url, data={"chat_id": TELEGRAM_CHAT_ID, "text": msg}, timeout=10)
         except Exception as e:
             print(f"텔레그램 발송 실패: {e}")
 
@@ -40,7 +43,7 @@ def fetch_kospi_data():
     # Fetch past 90 days of KOSPI daily data
     url = "https://query1.finance.yahoo.com/v8/finance/chart/^KS11?interval=1d&range=90d"
     headers = {"User-Agent": "Mozilla/5.0"}
-    res = requests.get(url, headers=headers, verify=False, timeout=15)
+    res = requests.get(url, headers=headers, timeout=15)
     if res.status_code != 200:
         raise Exception(f"KOSPI 데이터 수신 실패: {res.text}")
     
@@ -226,18 +229,44 @@ def main():
             state["notified_both_date"] = None
             state["last_pivot_low_date"] = pivot_low_date
             
+        is_dry_run = "--dry-run" in sys.argv
+        
+        # [날짜 방어벽 - Claude 4차 판정 2.1 항목 반영]
+        # 양쪽 모두 date 객체로 엄격 비교
+        today_obj = datetime.now().date()
+        latest_date_obj = pd.to_datetime(df.iloc[-1]["Date"]).date()
+        if latest_date_obj != today_obj:
+            is_weekend = today_obj.weekday() >= 5
+            is_holiday = today_obj.strftime("%Y-%m-%d") in {
+                "2026-01-01", "2026-02-16", "2026-02-17", "2026-02-18",
+                "2026-03-01", "2026-03-02", "2026-05-01", "2026-05-05",
+                "2026-05-24", "2026-05-25", "2026-06-06", "2026-07-17",
+                "2026-08-15", "2026-08-17", "2026-09-24", "2026-09-25",
+                "2026-09-26", "2026-10-03", "2026-10-05", "2026-10-09",
+                "2026-12-25", "2026-12-31"
+            }
+            if is_weekend or is_holiday:
+                print(f">> [휴장일 건너뜀] 오늘({today_obj})은 증시 휴장일입니다 (데이터 최신일: {latest_date_obj}). 분석 및 저장을 건너뜁니다.")
+                return
+            err_msg = f"⚠️ [데이터 미갱신 경고] 오늘({today_obj})은 정규 거래일인데 최신 데이터 일자({latest_date_obj})가 갱신되지 않았습니다."
+            print(err_msg)
+            raise RuntimeError(err_msg)
+
         # 알림 조건 판단
         both_detected = db_ok and ftd_ok
         
         # 두 신호가 동시에 만족되었을 때만 알림 발송
-        if both_detected:
+        if both_detected and not is_dry_run:
             if state.get("notified_both_date") != today_date:
                 msg = f"🔥 [KOSPI 강력 반등 신호 감지]\n오늘({today_date}) 코스피 반등 신호 2개가 모두 충족되었습니다!\n\n1. {db_reason}\n2. {ftd_reason}\n\n시스템 진입 여부를 검토하십시오."
                 send_telegram(msg)
                 state["notified_both_date"] = today_date
                 
-        save_state(state)
-        print("분석 및 상태 저장 완료.")
+        if not is_dry_run:
+            save_state(state)
+            print("분석 및 상태 저장 완료.")
+        else:
+            print("[DRY-RUN] 상태 파일 저장을 건너뜁니다.")
         
     except Exception as e:
         err_msg = f"🚨 KOSPI 반등 신호 감지 봇 실행 실패: {e}"

@@ -12,13 +12,16 @@ import os
 import sys
 import json
 import requests
-import urllib3
 import pandas as pd
 import numpy as np
 from datetime import datetime
 from dotenv import load_dotenv
 
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+try:
+    import truststore
+    truststore.inject_into_ssl()
+except Exception:
+    pass
 
 if sys.platform.startswith('win'):
     sys.stdout.reconfigure(encoding='utf-8')
@@ -36,7 +39,7 @@ def send_telegram(msg):
     if TELEGRAM_TOKEN and TELEGRAM_CHAT_ID:
         url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
         try:
-            requests.post(url, data={"chat_id": TELEGRAM_CHAT_ID, "text": msg}, verify=False, timeout=10)
+            requests.post(url, data={"chat_id": TELEGRAM_CHAT_ID, "text": msg}, timeout=10)
         except Exception as e:
             print(f"텔레그램 발송 실패: {e}")
 
@@ -44,7 +47,7 @@ def fetch_kospi_data():
     # Fetch past 250 trading days of KOSPI daily data (approx. 1 year)
     url = "https://query1.finance.yahoo.com/v8/finance/chart/^KS11?interval=1d&range=360d"
     headers = {"User-Agent": "Mozilla/5.0"}
-    res = requests.get(url, headers=headers, verify=False, timeout=15)
+    res = requests.get(url, headers=headers, timeout=15)
     if res.status_code != 200:
         raise Exception(f"KOSPI 데이터 수신 실패: {res.text}")
     
@@ -156,6 +159,27 @@ def main():
         all_satisfied = cond_dd and cond_ma and cond_rsi
         print(f"조건 만족 여부 -> 낙폭: {cond_dd}, 60일선하회: {cond_ma}, RSI과매도: {cond_rsi} | 최종 결과: {all_satisfied}")
         
+        # [휴장일 및 dry-run 방어 - Claude 4차 판정 2.1 항목 반영]
+        is_dry_run = "--dry-run" in sys.argv
+        today_obj = datetime.now().date()
+        latest_date_obj = pd.to_datetime(df.iloc[-1]["Date"]).date()
+        if latest_date_obj != today_obj:
+            is_weekend = today_obj.weekday() >= 5
+            is_holiday = today_obj.strftime("%Y-%m-%d") in {
+                "2026-01-01", "2026-02-16", "2026-02-17", "2026-02-18",
+                "2026-03-01", "2026-03-02", "2026-05-01", "2026-05-05",
+                "2026-05-24", "2026-05-25", "2026-06-06", "2026-07-17",
+                "2026-08-15", "2026-08-17", "2026-09-24", "2026-09-25",
+                "2026-09-26", "2026-10-03", "2026-10-05", "2026-10-09",
+                "2026-12-25", "2026-12-31"
+            }
+            if is_weekend or is_holiday:
+                print(f">> [휴장일 건너뜀] 오늘({today_obj})은 증시 휴장일입니다 (데이터 최신일: {latest_date_obj}). 분석 및 저장을 건너뜁니다.")
+                return
+            err_msg = f"⚠️ [데이터 미갱신 경고] 오늘({today_obj})은 정규 거래일인데 최신 데이터 일자({latest_date_obj})가 갱신되지 않았습니다."
+            print(err_msg)
+            raise RuntimeError(err_msg)
+
         if all_satisfied:
             state = load_state()
             if state.get("last_notified_date") != today_date:
@@ -167,9 +191,12 @@ def main():
                     f"3. 14일 RSI 지표: {today_rsi:.2f} (과매도권 진입)\n\n"
                     f"중기 조정 매수 진입 시점을 검토하십시오."
                 )
-                send_telegram(msg)
-                state["last_notified_date"] = today_date
-                save_state(state)
+                if not is_dry_run:
+                    send_telegram(msg)
+                    state["last_notified_date"] = today_date
+                    save_state(state)
+                else:
+                    print("[DRY-RUN] 알림 발송 및 상태 저장을 건너뜁니다.")
         else:
             print("모든 조건이 충족되지 않아 알림을 보내지 않았습니다.")
             

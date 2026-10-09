@@ -1,3 +1,9 @@
+try:
+    import truststore
+    truststore.inject_into_ssl()
+except Exception:
+    pass
+
 import os
 import re
 import sys
@@ -72,11 +78,10 @@ def send_telegram_message(text):
     chat_id = "8518409134"
     if not token or not chat_id:
         return
-    import requests, urllib3
-    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+    import requests
     url = f"https://api.telegram.org/bot{token}/sendMessage"
     try:
-        requests.post(url, json={"chat_id": chat_id, "text": text}, verify=False)
+        requests.post(url, json={"chat_id": chat_id, "text": text})
     except Exception as e:
         print(f"⚠️ 텔레그램 발송 실패: {e}")
 

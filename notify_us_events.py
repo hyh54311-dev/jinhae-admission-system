@@ -8,13 +8,16 @@ import os
 import sys
 import argparse
 import requests
-import urllib3
 import re
 import subprocess
 from datetime import datetime
 from dotenv import load_dotenv
 
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+try:
+    import truststore
+    truststore.inject_into_ssl()
+except Exception:
+    pass
 
 if sys.platform.startswith('win'):
     sys.stdout.reconfigure(encoding='utf-8')
@@ -29,7 +32,7 @@ def send_telegram(msg):
     if TELEGRAM_TOKEN and TELEGRAM_CHAT_ID:
         url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
         try:
-            requests.post(url, data={"chat_id": TELEGRAM_CHAT_ID, "text": msg}, verify=False, timeout=10)
+            requests.post(url, data={"chat_id": TELEGRAM_CHAT_ID, "text": msg}, timeout=10)
         except Exception as e:
             print(f"텔레그램 발송 실패: {e}")
 
@@ -70,7 +73,7 @@ def translate_via_gemini(news_text, event_type):
 def fetch_latest_news(query):
     url = f"https://html.duckduckgo.com/html/?q={requests.utils.quote(query)}"
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
-    res = requests.get(url, headers=headers, verify=False, timeout=15)
+    res = requests.get(url, headers=headers, timeout=15)
     if res.status_code != 200:
         raise Exception(f"News fetch failed: status {res.status_code}")
         

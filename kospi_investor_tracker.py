@@ -7,15 +7,17 @@ import os
 import sys
 import re
 import requests
-import urllib3
 import pandas as pd
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 from bs4 import BeautifulSoup
 import html
 
-# Disable insecure request warnings (for verify=False)
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+try:
+    import truststore
+    truststore.inject_into_ssl()
+except Exception:
+    pass
 
 # Ensure UTF-8 console output on Windows
 if sys.platform.startswith('win'):
@@ -52,7 +54,7 @@ def send_telegram(msg):
             "parse_mode": "HTML"
         }
         try:
-            res = requests.post(url, json=payload, verify=False, timeout=15)
+            res = requests.post(url, json=payload, timeout=15)
             if res.status_code != 200:
                 print(f"텔레그램 전송 실패: {res.status_code} - {res.text}")
         except Exception as e:
@@ -67,7 +69,7 @@ def fetch_html_via_gas(target_url):
     # We call our GAS Web App proxy passing the target Naver URL
     params = {"url": target_url}
     try:
-        res = requests.get(GAS_PROXY_URL, params=params, verify=False, timeout=20)
+        res = requests.get(GAS_PROXY_URL, params=params, timeout=20)
         res.raise_for_status()
         text = res.text
         if text.startswith("Error:") or text.startswith("{" + '"error"'):
@@ -93,7 +95,7 @@ def get_kospi_index_data():
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
             "Referer": "https://finance.naver.com/"
         }
-        res = requests.get(url, headers=headers, verify=False, timeout=15)
+        res = requests.get(url, headers=headers, timeout=15)
         res.raise_for_status()
         html_content = res.content.decode('euc-kr', errors='replace')
         
@@ -158,7 +160,7 @@ def get_kospi_investor_data_from_kis():
         "appkey": kis_key,
         "appsecret": kis_secret
     }
-    auth_res = requests.post(auth_url, headers=auth_headers, json=auth_body, verify=False, timeout=10)
+    auth_res = requests.post(auth_url, headers=auth_headers, json=auth_body, timeout=10)
     auth_res.raise_for_status()
     token = auth_res.json()["access_token"]
     
@@ -185,7 +187,7 @@ def get_kospi_investor_data_from_kis():
     import ssl
     
     req = urllib.request.Request(url, headers=headers, method="GET")
-    context = ssl._create_unverified_context()
+    context = ssl.create_default_context()
     try:
         with urllib.request.urlopen(req, context=context, timeout=15) as response:
             res_body = response.read().decode("utf-8")
@@ -242,11 +244,11 @@ def get_kospi_investor_data_from_daum_direct():
     session = requests.Session()
     try:
         # Dummy call to domestic/investors page to receive session cookies
-        session.get("https://finance.daum.net/domestic/investors", headers=headers, verify=False, timeout=10)
+        session.get("https://finance.daum.net/domestic/investors", headers=headers, timeout=10)
     except Exception:
         pass
     
-    res = session.get(url, headers=headers, verify=False, timeout=15)
+    res = session.get(url, headers=headers, timeout=15)
     res.raise_for_status()
     json_data = res.json()
     
@@ -331,7 +333,7 @@ def get_kospi_investor_data_from_naver_direct():
     
     for page in range(1, 25):
         url = f"https://finance.naver.com/sise/investorDealTrendDay.nhn?sosok=0&page={page}"
-        res = requests.get(url, headers=headers, verify=False, timeout=15)
+        res = requests.get(url, headers=headers, timeout=15)
         res.raise_for_status()
         html_content = res.content.decode('euc-kr', errors='replace')
         

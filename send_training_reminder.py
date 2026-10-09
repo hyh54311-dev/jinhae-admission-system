@@ -1,3 +1,9 @@
+try:
+    import truststore
+    truststore.inject_into_ssl()
+except Exception:
+    pass
+
 import os
 import sys
 import requests
@@ -43,7 +49,7 @@ def send_telegram():
         "text": reminder_text
     }
     try:
-        r = requests.post(url, json=payload, timeout=10, verify=False)
+        r = requests.post(url, json=payload, timeout=10)
         if r.status_code == 200:
             print("Telegram message sent successfully.")
         else:

@@ -2,8 +2,11 @@ import os
 import json
 import time
 import requests
-import urllib3
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+try:
+    import truststore
+    truststore.inject_into_ssl()
+except Exception:
+    pass
 import smtplib
 from datetime import datetime, timedelta
 import schedule
@@ -161,7 +164,7 @@ def send_to_webhook(data):
             
         # Expected Payload: { "month": "?レ옄", "name": "?ν븰湲덈챸", "provider": "吏湲됱쿂", "budget": "湲덉븸", ...}
         payload = {k: v for k, v in data.items() if k != "warning"}
-        response = requests.post(GOOGLE_SHEET_WEBHOOK_URL, json=payload, headers={'Content-Type': 'application/json'}, verify=False)
+        response = requests.post(GOOGLE_SHEET_WEBHOOK_URL, json=payload, headers={'Content-Type': 'application/json'})
         response.raise_for_status()
         return True
     except Exception as e:
@@ -175,21 +178,21 @@ def format_and_send_telegram(results):
         
     results.sort(key=lambda x: (x.get('deadline') or '9999-12-31'))
 
-    body = f"?럳 [?ν븰湲?怨듦퀬 遺꾩꽍 釉뚮━??\n?덈줈 泥섎━???ν븰湲??댁슜?낅땲?? (留덇컧 ?꾨컯 ??\n\n"
+    body = f"📢 [장학금 공고 분석 브리핑]\n새로 처리된 장학금 내역입니다. (마감 임박 순)\n\n"
     
     for res in results:
-        body += f"?뱦 {res.get('name', '?ν븰湲덈챸 誘몄긽')} ({res.get('type', '')})\n"
-        body += f" - 吏湲됱쿂: {res.get('provider', '')}\n"
-        body += f" - ?덉궛/?몄썝: {res.get('budget', '')} / {res.get('count', '')}\n"
-        body += f" - ?좊컻 湲곗?: {res.get('criteria', '')}\n"
-        body += f" - 留덇컧?? {res.get('deadline', '')}\n"
+        body += f"📌 {res.get('name', '장학금명 미상')} ({res.get('type', '')})\n"
+        body += f" - 지급처: {res.get('provider', '')}\n"
+        body += f" - 예산/인원: {res.get('budget', '')} / {res.get('count', '')}\n"
+        body += f" - 선발 기준: {res.get('criteria', '')}\n"
+        body += f" - 마감일: {res.get('deadline', '')}\n"
         if res.get('promoDeadline'):
-            body += f" - ?좑툘 ?띾낫 留덇컧?? {res.get('promoDeadline')}\n"
+            body += f" - ⚠️ 홍보 마감일: {res.get('promoDeadline')}\n"
         if res.get('warning'):
-            body += f" - ?슚 ?쒖뒪??寃쎄퀬: {res.get('warning')}\n"
+            body += f" - 💡 시스템 경고: {res.get('warning')}\n"
         body += "\n"
         
-    body += "???ν븰湲?珥앷큵 援ш? ?쒗듃 湲곕줉(?숆린?? ?꾨즺"
+    body += "✅ 장학금 총괄 구글 시트 기록(동기화) 완료"
     
     try:
         import urllib.request
@@ -204,13 +207,10 @@ def format_and_send_telegram(results):
         req = urllib.request.Request(telegram_url, data=data)
         
         ctx = ssl.create_default_context()
-        ctx.check_hostname = False
-        ctx.verify_mode = ssl.CERT_NONE
-        
         urllib.request.urlopen(req, context=ctx)
-        log_message("???붾젅洹몃옩 ?ν븰湲?釉뚮━???꾩넚 ?꾨즺!")
+        log_message("텔레그램 장학금 브리핑 전송 완료!")
     except Exception as e:
-        log_message(f"?좑툘 ?붾젅洹몃옩 ?꾩넚 ?ㅽ뙣: {e}")
+        log_message(f"텔레그램 전송 실패: {e}")
 
 def process_scholarships():
     """Main job routine to process documents from Drive."""

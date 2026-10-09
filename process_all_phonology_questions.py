@@ -20,8 +20,12 @@ if sys.stdout.encoding != 'utf-8':
     except AttributeError:
         sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-# 경상남도교육청 학내망 SSL 인증서 우회 설정
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+# Windows OS 신뢰 인증서 저장소(경상남도교육청 Root CA) 자동 연동
+try:
+    import truststore
+    truststore.inject_into_ssl()
+except Exception:
+    pass
 
 # 구글 API 설정
 TOKEN_FILE = 'token.json'
@@ -204,8 +208,7 @@ def extract_phonology_questions_via_gemini(question_text, commentary_text, api_k
 
     for attempt in range(retries):
         try:
-            # verify=False 로 교육청 방화벽 우회
-            response = requests.post(url, headers=headers, json=payload, timeout=50, verify=False)
+            response = requests.post(url, headers=headers, json=payload, timeout=50)
             if response.status_code == 429:
                 sleep_time = (attempt + 1) * 10
                 print(f"[!] API Rate Limit 도달. {sleep_time}초 대기 후 재시도 합니다...")
@@ -590,8 +593,7 @@ def send_telegram_message(message):
         "text": message
     }
     try:
-        # verify=False 로 교육청 SSL 인증서 간섭 우회
-        response = requests.post(url, json=payload, timeout=20, verify=False)
+        response = requests.post(url, json=payload, timeout=20)
         if response.status_code == 200:
             print("[+] 텔레그램 알림 메시지가 성공적으로 발송되었습니다.")
             return True
