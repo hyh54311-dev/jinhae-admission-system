@@ -1,25 +1,11 @@
 {
   "version": 1,
-  "last_updated": "2026-10-15T21:46:06.572517+09:00",
+  "last_updated": "2026-10-16T10:36:26.645041+09:00",
   "consecutive_failures": 0,
   "last_outage_alert_ts": null,
   "last_alert_price_pp": 473700,
   "last_alert_ts": null,
   "history": [
-    {
-      "ts": "2026-09-15T21:47:20.548586+09:00",
-      "price_pp": 523730,
-      "airline": "에어부산 (Air Busan)",
-      "raw_price": 1571190,
-      "price_reason": "페이지 총 요금 명시 (3인 총액 ÷ 3)"
-    },
-    {
-      "ts": "2026-09-16T10:34:59.609887+09:00",
-      "price_pp": 523923,
-      "airline": "에어부산 (Air Busan)",
-      "raw_price": 1571769,
-      "price_reason": "페이지 총 요금 명시 (3인 총액 ÷ 3)"
-    },
     {
       "ts": "2026-09-16T21:42:35.934901+09:00",
       "price_pp": 524400,
@@ -410,6 +396,13 @@
       "price_pp": 536937,
       "airline": "에어부산 (Air Busan)",
       "raw_price": 1610811,
+      "price_reason": "페이지 총 요금 명시 (3인 총액 ÷ 3)"
+    },
+    {
+      "ts": "2026-10-16T10:36:26.645041+09:00",
+      "price_pp": 537474,
+      "airline": "에어부산 (Air Busan)",
+      "raw_price": 1612422,
       "price_reason": "페이지 총 요금 명시 (3인 총액 ÷ 3)"
     }
   ]
