@@ -374,9 +374,10 @@ def parse_card_text(card_text: str, global_page_text: str = "") -> dict:
 # ---------------------------------------------------------------------------
 # Playwright 실시간 크롤링 엔진 (M-10, M-11, M-14, M-15, M-20)
 # ---------------------------------------------------------------------------
-def scrape_live_flights(url: str, dump_cards_file: str = None) -> tuple:
+def scrape_live_flights(url: str, dump_cards_file: str = None, max_retries: int = 3) -> tuple:
     """
     Playwright를 구동하여 개별 카드 단위로 구글 플라이트 실시간 데이터를 파싱합니다.
+    해외 클라우드 IP의 일시적 네트워크 순단/동의창 리다이렉트 지연을 방어하기 위해 최대 max_retries회 재시도합니다.
     반환값: (crawled_flights: list, total_cards_count: int, rejection_logs: list)
     """
     print(f"[INFO] 🌐 구글 플라이트 실시간 크롤링 시작: {ORIGIN} ↔ {DESTINATION} ({DEPART_DATE} ~ {RETURN_DATE})")
@@ -386,112 +387,145 @@ def scrape_live_flights(url: str, dump_cards_file: str = None) -> tuple:
     except ImportError:
         raise RuntimeError("Playwright 패키지가 설치되지 않았습니다.")
 
-    crawled_flights = []
-    rejection_logs = []
-    total_cards_count = 0
+    last_error = None
 
-    with sync_playwright() as p:
-        browser = p.chromium.launch(
-            headless=True,
-            args=["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"]
-        )
-        context = browser.new_context(
-            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
-            locale="ko-KR",
-            timezone_id="Asia/Seoul",
-            viewport={"width": 1280, "height": 800}
-        )
-        page = context.new_page()
+    for attempt in range(1, max_retries + 1):
+        crawled_flights = []
+        rejection_logs = []
+        total_cards_count = 0
 
         try:
-            page.goto(url, wait_until="domcontentloaded", timeout=45000)
-
-            # [M-20 동의창 처리] '동의하지 않음'은 피하고 '동의/수락'만 클릭
-            consent_selectors = [
-                "button:has-text('모두 수락')",
-                "button:has-text('모두 동의')",
-                "button:has-text('Accept all')",
-                "button:has-text('I agree')",
-                "button:has-text('Alle akzeptieren')",
-                "button:has-text('Tout accepter')",
-                "button:has-text('Accept')",
-                "button[aria-label*='Accept']",
-                "form[action*='consent'] button",
-            ]
-            for sel in consent_selectors:
-                try:
-                    for btn in page.query_selector_all(sel):
-                        if btn.is_visible():
-                            btn.click()
-                            time.sleep(1.5)
-                            break
-                except Exception:
-                    pass
-
-            # [M-15 동적 대기] 본문에 유효한 가격 정규식 패턴이 렌더링될 때까지 대기
-            try:
-                page.wait_for_function(
-                    "() => /₩\\s*[\\d,]{4,}|[\\d,]{2,}\\s*000\\s*원|KRW\\s*[\\d,]{4,}/.test(document.body.innerText)",
-                    timeout=30000
+            with sync_playwright() as p:
+                browser = p.chromium.launch(
+                    headless=True,
+                    args=["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"]
                 )
-            except Exception:
-                body_snippet = page.inner_text("body")[:300].replace("\n", " ")
-                raise RuntimeError(f"가격 렌더링 타임아웃 (화면 텍스트 요약: {body_snippet})")
+                context = browser.new_context(
+                    user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+                    locale="ko-KR",
+                    timezone_id="Asia/Seoul",
+                    viewport={"width": 1280, "height": 800}
+                )
+                # [해외 IP 동의창 사전 우회] Google 공식 SOCS 동의 쿠키 사전 주입
+                context.add_cookies([
+                    {
+                        "name": "SOCS",
+                        "value": "CAISHAgBEhJnd3NfMjAyMzA4MTAtMF9SQzIaAmtvIAEaBgiAo_CmBg",
+                        "domain": ".google.com",
+                        "path": "/",
+                    }
+                ])
+                page = context.new_page()
 
-            # [M-14 검증 가드] 출발지(부산/PUS), 도착지(가오슝/KHH), 날짜(2027-02-24 / 2월 24일) 확인
-            body_text = page.inner_text("body")
-            has_origin = ("부산" in body_text) or ("PUS" in body_text)
-            has_dest = ("가오슝" in body_text) or ("KHH" in body_text)
-            has_date = (DEPART_DATE in body_text) or ("2027. 2. 24" in body_text) or ("2월 24일" in body_text) or ("Feb 24" in body_text)
-
-            if not (has_origin and has_dest and has_date):
-                raise RuntimeError("검색 조건 미적용: 출발지/도착지/날짜가 페이지 본문에서 확인되지 않음")
-
-            # 개별 카드 격리 쿼리
-            cards = page.query_selector_all("ul[role='list'] > li, li.pIav2d, div[role='listitem']")
-            if len(cards) < 2:
-                cards = page.query_selector_all("ul.RLLof > li, ul li")
-
-            total_cards_count = len(cards)
-            print(f"[INFO] 발견된 카드 후보 요소: {total_cards_count}개")
-
-            # M-19: 실물 덤프 옵션 처리
-            if dump_cards_file:
-                dump_data = {
-                    "url": url,
-                    "body_text": body_text,
-                    "cards": [c.inner_text().strip() for c in cards]
-                }
-                with open(dump_cards_file, "w", encoding="utf-8") as f:
-                    json.dump(dump_data, f, ensure_ascii=False, indent=2)
-                print(f"[INFO] 💾 실물 카드 덤프 저장 완료: {dump_cards_file}")
-
-            for card in cards:
                 try:
-                    card_text = card.inner_text().strip()
-                    if len(card_text) > 2000 or len(card_text) < 10:
-                        continue
-                    if not ("₩" in card_text or "원" in card_text or "KRW" in card_text):
-                        continue
+                    page.goto(url, wait_until="domcontentloaded", timeout=45000)
+                    page.wait_for_timeout(1000)
 
-                    parsed = parse_card_text(card_text, body_text)
+                    # [M-20 동의창 처리] '동의하지 않음'은 피하고 '동의/수락'만 클릭 (클릭 시 외부 루프까지 즉시 탈출)
+                    consent_selectors = [
+                        "button:has-text('모두 수락')",
+                        "button:has-text('모두 동의')",
+                        "button:has-text('Accept all')",
+                        "button:has-text('I agree')",
+                        "button:has-text('Alle akzeptieren')",
+                        "button:has-text('Tout accepter')",
+                        "button:has-text('Accept')",
+                        "button[aria-label*='Accept']",
+                        "form[action*='consent'] button",
+                    ]
+                    consent_clicked = False
+                    for sel in consent_selectors:
+                        if consent_clicked:
+                            break
+                        try:
+                            for btn in page.query_selector_all(sel):
+                                if btn.is_visible():
+                                    btn.click()
+                                    consent_clicked = True
+                                    page.wait_for_timeout(2000)
+                                    break
+                        except Exception:
+                            pass
 
-                    # 중복 방지
-                    if not any(f["airline"] == parsed["airline"] and f["price_per_person"] == parsed["price_per_person"] for f in crawled_flights):
-                        crawled_flights.append(parsed)
-                        print(f"  • [통과] {parsed['airline']}: 1인 {parsed['price_per_person']:,}원 (원본: {parsed['raw_price_str']}, 사유: {parsed['price_reason']})")
-                except ValueError as ve:
-                    rejection_logs.append(str(ve))
-                    print(f"  • [카드 제외] {ve}")
-                except Exception as ce:
-                    rejection_logs.append(f"파싱 에러: {ce}")
-                    print(f"  • [카드 파싱 에러] {ce}")
+                    # [M-15 동적 대기] document.body Null 참조 방어 및 유효 가격 정규식 렌더링 대기
+                    try:
+                        page.wait_for_function(
+                            "() => Boolean(document.body && document.body.innerText && /₩\\s*[\\d,]{4,}|[\\d,]{2,}\\s*000\\s*원|KRW\\s*[\\d,]{4,}/.test(document.body.innerText))",
+                            timeout=35000
+                        )
+                    except Exception:
+                        try:
+                            body_snippet = page.inner_text("body")[:300].replace("\n", " ")
+                        except Exception:
+                            body_snippet = "body 텍스트 추출 불가"
+                        raise RuntimeError(f"가격 렌더링 타임아웃 (화면 텍스트 요약: {body_snippet})")
 
-        finally:
-            browser.close()
+                    # [M-14 검증 가드] 출발지(부산/PUS), 도착지(가오슝/KHH), 날짜(2027-02-24 / 2월 24일) 확인
+                    body_text = page.inner_text("body")
+                    has_origin = ("부산" in body_text) or ("PUS" in body_text)
+                    has_dest = ("가오슝" in body_text) or ("KHH" in body_text)
+                    has_date = (DEPART_DATE in body_text) or ("2027. 2. 24" in body_text) or ("2월 24일" in body_text) or ("Feb 24" in body_text)
 
-    crawled_flights.sort(key=lambda x: x["price_per_person"])
-    return crawled_flights, total_cards_count, rejection_logs
+                    if not (has_origin and has_dest and has_date):
+                        raise RuntimeError("검색 조건 미적용: 출발지/도착지/날짜가 페이지 본문에서 확인되지 않음")
+
+                    # 개별 카드 격리 쿼리
+                    cards = page.query_selector_all("ul[role='list'] > li, li.pIav2d, div[role='listitem']")
+                    if len(cards) < 2:
+                        cards = page.query_selector_all("ul.RLLof > li, ul li")
+
+                    total_cards_count = len(cards)
+                    if total_cards_count == 0:
+                        raise RuntimeError("항공권 카드 DOM 요소가 0개 발견됨 (렌더링 미완료)")
+
+                    print(f"[INFO] 발견된 카드 후보 요소: {total_cards_count}개 (시도 {attempt}/{max_retries})")
+
+                    # M-19: 실물 덤프 옵션 처리
+                    if dump_cards_file:
+                        dump_data = {
+                            "url": url,
+                            "body_text": body_text,
+                            "cards": [c.inner_text().strip() for c in cards]
+                        }
+                        with open(dump_cards_file, "w", encoding="utf-8") as f:
+                            json.dump(dump_data, f, ensure_ascii=False, indent=2)
+                        print(f"[INFO] 💾 실물 카드 덤프 저장 완료: {dump_cards_file}")
+
+                    for card in cards:
+                        try:
+                            card_text = card.inner_text().strip()
+                            if len(card_text) > 2000 or len(card_text) < 10:
+                                continue
+                            if not ("₩" in card_text or "원" in card_text or "KRW" in card_text):
+                                continue
+
+                            parsed = parse_card_text(card_text, body_text)
+
+                            # 중복 방지
+                            if not any(f["airline"] == parsed["airline"] and f["price_per_person"] == parsed["price_per_person"] for f in crawled_flights):
+                                crawled_flights.append(parsed)
+                                print(f"  • [통과] {parsed['airline']}: 1인 {parsed['price_per_person']:,}원 (원본: {parsed['raw_price_str']}, 사유: {parsed['price_reason']})")
+                        except ValueError as ve:
+                            rejection_logs.append(str(ve))
+                            print(f"  • [카드 제외] {ve}")
+                        except Exception as ce:
+                            rejection_logs.append(f"파싱 에러: {ce}")
+                            print(f"  • [카드 파싱 에러] {ce}")
+
+                finally:
+                    browser.close()
+
+            crawled_flights.sort(key=lambda x: x["price_per_person"])
+            return crawled_flights, total_cards_count, rejection_logs
+
+        except Exception as e:
+            last_error = e
+            if attempt < max_retries:
+                wait_sec = attempt * 3
+                print(f"[WARN] 크롤링 {attempt}차 시도 지연 ({e}) ➔ {wait_sec}초 후 재시도합니다...")
+                time.sleep(wait_sec)
+            else:
+                raise last_error
 
 
 # ---------------------------------------------------------------------------
@@ -506,6 +540,7 @@ def load_state() -> dict:
         "last_outage_alert_ts": None,
         "last_alert_price_pp": BENCHMARK_PRICE_PER_PERSON,
         "last_alert_ts": None,
+        "last_briefing_date": None,
         "history": [],
     }
     if not os.path.exists(STATE_FILE):
@@ -717,7 +752,7 @@ def run_tracker(dry_run: bool = False, force_notify: bool = False, dump_cards_fi
         return
 
     is_sunday = today.weekday() == 6
-    is_sunday_briefing = is_sunday and (kst_now.hour < 14)
+    is_sunday_briefing = is_sunday and (state.get("last_briefing_date") != today.isoformat())
 
     # 2. 카드는 찾았으나 조건 맞는 항공편이 0건인 경우
     if not flights and total_cards > 0:
@@ -778,7 +813,9 @@ def run_tracker(dry_run: bool = False, force_notify: bool = False, dump_cards_fi
                 "⚠️ <i>[주의] 수하물 15kg 및 귀국편 세부 규정은 예매 전 항공사 사이트에서 직접 확인 필요</i>",
             ])
             print("\n[INFO] 일요일 0건 정기 브리핑 발송")
-            send_telegram(briefing_text, dry_run=dry_run)
+            if send_telegram(briefing_text, dry_run=dry_run) and not dry_run:
+                state["last_briefing_date"] = today.isoformat()
+                save_state(state, dry_run=dry_run)
         return
 
     best = flights[0]
@@ -901,7 +938,9 @@ def run_tracker(dry_run: bool = False, force_notify: bool = False, dump_cards_fi
             "⚠️ <i>[주의] 수하물 15kg 및 귀국편 세부 규정은 예매 전 항공사 사이트에서 직접 확인 필요</i>",
         ])
         print("\n[INFO] 일요일 주간 정기 브리핑 발송")
-        send_telegram(briefing_text, dry_run=dry_run)
+        if send_telegram(briefing_text, dry_run=dry_run) and not dry_run:
+            state["last_briefing_date"] = today.isoformat()
+            save_state(state, dry_run=dry_run)
         return
 
     # -----------------------------------------------------------------------
