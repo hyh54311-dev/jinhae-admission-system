@@ -1,0 +1,3818 @@
+<!DOCTYPE html>
+<html lang="ko" class="font-large">
+<head>
+  <meta charset="UTF-8">
+  <!-- 확대 금지(user-scalable=no) 제거: 저시력 학부모 접근성(WCAG 1.4.4) 확보 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0F274A">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="author" content="2026학년도 입학업무담당자">
+  <meta name="copyright" content="Copyright ⓒ 2026-2027 2026학년도 입학업무담당자. All Rights Reserved.">
+  <meta name="framework" content="Autonomous School Admission Web Engine v4.2 (2026학년도 입학업무담당자)">
+    <link rel="canonical" href="https://jinhae-intro.vercel.app">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <title>진해고등학교 2027 신입생 입학안내 | 83년 전통 기숙형 자율학교</title>
+  <meta name="description" content="경남 창원시 진해구 83년 전통 기숙형 자율학교 진해고등학교 2027학년도 신입생 입학안내. 원서접수 12.10.~12.14., 전형료 없음, 기숙사(동백관·송학관 153명) 입사 자가진단, 24시간 AI 입학상담.">
+
+  <!-- Open Graph (카카오톡·SNS 공유 미리보기) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="진해고등학교 입학안내">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:title" content="진해고등학교 2027 신입생 입학안내 (기숙형 자율학교)">
+  <meta property="og:description" content="83년 전통 · 학년당 300명 · 기숙사 153명(동백관·송학관) · 전형료 없음. 기숙사 입사 자가진단과 24시간 AI 입학상담을 지금 바로 이용해 보세요.">
+  <meta property="og:image" content="https://jinhae-bot2.vercel.app/static/og-banner.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://jinhae-intro.vercel.app">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://jinhae-bot2.vercel.app">
+  <!-- Pretendard 가변 다이내믹 서브셋: 정적 전체 폰트 대비 초기 전송량 대폭 감소 -->
+  <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <!-- 프로토타입용 Tailwind Play CDN (운영 배포 시 빌드된 CSS로 교체 권장) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide 아이콘: @latest 대신 버전 고정 (이름 변경으로 인한 아이콘 깨짐 방지) -->
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Pretendard Variable"', 'Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              navy: '#0F274A',
+              blue: '#1D4ED8',
+              sky: '#3B82F6',
+              light: '#EFF6FF',
+              accent: '#E11D48',
+              gold: '#D97706'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root { --app-vh: 1vh; }
+    html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+    body {
+      font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+      -webkit-tap-highlight-color: transparent;
+      padding-bottom: calc(92px + env(safe-area-inset-bottom));
+    }
+    .tabular { font-variant-numeric: tabular-nums; }
+    .pt-safe { padding-top: env(safe-area-inset-top); }
+    .pb-safe { padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
+    section[id] { scroll-margin-top: 72px; }
+
+    /* ---------- 카드 (토스 스타일 미니멀) ---------- */
+    .card {
+      background: #fff;
+      border: 1px solid rgba(226, 232, 240, .9);
+      border-radius: 1.5rem;
+      box-shadow: 0 10px 30px -12px rgba(15, 39, 74, .12);
+    }
+
+    /* ---------- 상단 라이브 점 ---------- */
+    .pulse-dot { position: relative; }
+    .pulse-dot::after {
+      content: ''; position: absolute; inset: -4px; border-radius: 9999px;
+      background: currentColor; opacity: .35; animation: ping 1.8s cubic-bezier(0, 0, .2, 1) infinite;
+    }
+    @keyframes ping { 75%, 100% { transform: scale(1.9); opacity: 0; } }
+
+    /* ---------- 히어로 주/야간 앰비언트 ---------- */
+    .hero { position: relative; overflow: hidden; background: linear-gradient(135deg, #0A192F 0%, #0F274A 50%, #1E3A8A 100%); }
+    .hero::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(165deg, #020617 0%, #0B1530 55%, #1E1B4B 100%);
+      opacity: 0; transition: opacity 1.2s ease;
+    }
+    .is-night .hero::before { opacity: 1; }
+    .stars { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 1.2s ease; }
+    .is-night .stars { opacity: 1; }
+    .stars > span {
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(1.4px 1.4px at 8% 22%, #fff 50%, transparent 52%),
+        radial-gradient(1.2px 1.2px at 18% 68%, #fff 50%, transparent 52%),
+        radial-gradient(1.6px 1.6px at 31% 14%, #fff 50%, transparent 52%),
+        radial-gradient(1.1px 1.1px at 44% 48%, #fff 50%, transparent 52%),
+        radial-gradient(1.5px 1.5px at 57% 9%, #fff 50%, transparent 52%),
+        radial-gradient(1.2px 1.2px at 66% 78%, #fff 50%, transparent 52%),
+        radial-gradient(1.7px 1.7px at 78% 30%, #fff 50%, transparent 52%),
+        radial-gradient(1.1px 1.1px at 88% 62%, #fff 50%, transparent 52%),
+        radial-gradient(1.4px 1.4px at 94% 12%, #fff 50%, transparent 52%),
+        radial-gradient(1.2px 1.2px at 24% 92%, #fff 50%, transparent 52%);
+      animation: twinkle 5s ease-in-out infinite alternate;
+    }
+    .stars > span:nth-child(2) { transform: translate(37%, 21%) scale(.9); animation-delay: -2.5s; opacity: .6; }
+    @keyframes twinkle { from { opacity: .35; } to { opacity: .95; } }
+    .orb { position: absolute; border-radius: 9999px; filter: blur(60px); pointer-events: none; will-change: transform; animation: float 16s ease-in-out infinite alternate; transition: background-color 1.2s ease; }
+    .orb-a { width: 18rem; height: 18rem; right: -5rem; bottom: -7rem; background-color: rgba(59, 130, 246, .30); }
+    .orb-b { width: 13rem; height: 13rem; left: -4rem; top: -4rem; background-color: rgba(251, 191, 36, .16); animation-duration: 21s; }
+    .is-night .orb-a { background-color: rgba(99, 102, 241, .28); }
+    .is-night .orb-b { background-color: rgba(129, 140, 248, .18); }
+    @keyframes float { from { transform: translate3d(0, 0, 0) scale(1); } to { transform: translate3d(-26px, -18px, 0) scale(1.08); } }
+
+    /* ---------- 3단계 진행 바 ---------- */
+    .journey-fill { transition: width .8s cubic-bezier(.22, 1, .36, 1); }
+    .step-dot { transition: all .3s ease; }
+
+    /* ---------- 자가진단 결과 ---------- */
+    .result-enter { animation: rise .45s cubic-bezier(.22, 1, .36, 1); }
+    @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    .gauge-marker { transition: left .6s cubic-bezier(.22, 1, .36, 1); }
+    .shake { animation: shake .35s ease; }
+    @keyframes shake { 20%, 60% { transform: translateX(-4px); } 40%, 80% { transform: translateX(4px); } }
+
+    /* ---------- 5등급제 도트 그리드 ---------- */
+    .dot-grid { display: grid; gap: 2px; }
+    .dot-grid > i { display: block; aspect-ratio: 1 / 1; border-radius: 9999px; }
+    .weight-bar { transition: width .45s cubic-bezier(.22, 1, .36, 1); }
+    input[type="range"].range { -webkit-appearance: none; appearance: none; height: 6px; border-radius: 9999px; background: #E2E8F0; outline: none; }
+    input[type="range"].range::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; border-radius: 9999px; background: #1D4ED8; border: 3px solid #fff; box-shadow: 0 2px 8px rgba(29, 78, 216, .45); cursor: pointer; }
+    input[type="range"].range::-moz-range-thumb { width: 22px; height: 22px; border-radius: 9999px; background: #1D4ED8; border: 3px solid #fff; box-shadow: 0 2px 8px rgba(29, 78, 216, .45); cursor: pointer; }
+
+    /* ---------- 탭 ---------- */
+    .tab-scroll { scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+    .tab-scroll::-webkit-scrollbar { display: none; }
+
+    /* ---------- FAQ 아코디언 (높이 애니메이션) ---------- */
+    .faq-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s ease; }
+    .faq-panel > div { overflow: hidden; }
+    .faq-item.is-open .faq-panel { grid-template-rows: 1fr; }
+    .faq-chevron { transition: transform .3s ease; }
+    .faq-item.is-open .faq-chevron { transform: rotate(180deg); }
+
+    /* ---------- 챗봇 모달 (iOS Safari 뷰포트 대응 바텀시트) ---------- */
+    .modal {
+      position: fixed; inset: 0; z-index: 60;
+      display: flex; align-items: flex-end; justify-content: center;
+      background: rgba(2, 6, 23, .6);
+      -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+      opacity: 0; visibility: hidden;
+      transition: opacity .25s ease, visibility 0s linear .25s;
+      overscroll-behavior: contain;
+    }
+    .modal.is-open { opacity: 1; visibility: visible; transition: opacity .25s ease; }
+    .sheet {
+      width: 100%;
+      height: calc(var(--app-vh) * 92);
+      max-height: calc(var(--app-vh) * 100 - env(safe-area-inset-top) - 8px);
+      background: #fff;
+      border-radius: 1.25rem 1.25rem 0 0;
+      display: flex; flex-direction: column; overflow: hidden;
+      transform: translateY(100%);
+      transition: transform .34s cubic-bezier(.22, 1, .36, 1);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    @supports (height: 100dvh) {
+      .sheet { height: 92dvh; max-height: calc(100dvh - env(safe-area-inset-top) - 8px); }
+    }
+    .modal.is-open .sheet { transform: translateY(0); }
+    @media (min-width: 640px) {
+      .modal { align-items: center; padding: 1rem; }
+      .sheet { max-width: 32rem; height: min(680px, calc(var(--app-vh) * 90)); border-radius: 1.25rem; transform: translateY(16px) scale(.98); padding-bottom: 0; }
+      @supports (height: 100dvh) { .sheet { height: min(680px, 90dvh); } }
+      .modal.is-open .sheet { transform: none; }
+    }
+
+    /* ---------- 토스트 ---------- */
+    .toast {
+      position: fixed; left: 50%; z-index: 70;
+      bottom: calc(96px + env(safe-area-inset-bottom));
+      transform: translate(-50%, 12px); opacity: 0; pointer-events: none;
+      transition: opacity .25s ease, transform .25s ease;
+    }
+    .toast.is-show { opacity: 1; transform: translate(-50%, 0); }
+
+    :focus-visible { outline: 3px solid #3B82F6; outline-offset: 2px; border-radius: 6px; }
+
+    /* Motion accessibility: keep smooth animation interactive */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+  
+    /* ===== [NEW] 3D Parallax & Scroll Motion Styles ===== */
+    .parallax-wrapper {
+      position: relative;
+      overflow: hidden;
+      perspective: 1000px;
+    }
+    .parallax-bg {
+      position: absolute;
+      inset: -20px;
+      background-size: cover;
+      background-position: center;
+      will-change: transform;
+      transition: transform 0.1s ease-out;
+      pointer-events: none;
+    }
+        /* ===== [양방향 스크롤 리빌 & 언리빌] Apple / Toss 스타일 ===== */
+    /* ===== [애플/토스 스타일 양방향 스크롤 리빌 & 언리빌 엔진] ===== */
+    /* JS 미동작/로드 전 기본 상태: 100% 정상 가시성 유지 (Zero-Void Fail-Safe) */
+    .reveal-on-scroll,
+    .reveal-item {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ===== [애플/토스 스타일 4초 순차 스크롤 리빌 엔진 v3.0] ===== */
+    /* JS 미동작 시: 100% 정상 가시성 보장 (Zero-Void Fail-Safe) */
+    .reveal-on-scroll,
+    .reveal-item,
+    .reveal-child {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* JS 엔진 활성화 시: 스크롤 진입 전 대기 상태 (역방향 트랜지션 방지 및 엄격한 0 유지) */
+    html.js-reveal .reveal-on-scroll:not(.is-visible) {
+      opacity: 0;
+      transform: translateY(36px) scale(0.985);
+      transition: none;
+    }
+    html.js-reveal .reveal-on-scroll:not(.is-visible) .reveal-child {
+      opacity: 0 !important;
+      transform: translateY(26px) !important;
+      transition: none !important;
+    }
+
+    /* 스크롤 진입(is-visible) 시: 카드는 부드럽게 안착되고, 내부 상자들과 글자들은 4초 동안 순차 등장! */
+    html.js-reveal .reveal-on-scroll.is-visible {
+      opacity: 1 !important;
+      transform: translateY(0) scale(1) !important;
+      transition: opacity 1.20s cubic-bezier(0.16, 1, 0.3, 1), transform 1.20s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    html.js-reveal .reveal-on-scroll.is-visible .reveal-child {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+      transition-property: opacity, transform !important;
+      transition-duration: 1.15s !important;
+      transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
+    /* 내부 요소 순차 시차(Stagger Delay) 유틸리티 */
+    .reveal-delay-1 { transition-delay: 0.07s !important; }
+    .reveal-delay-2 { transition-delay: 0.14s !important; }
+    .reveal-delay-3 { transition-delay: 0.21s !important; }
+    .reveal-delay-4 { transition-delay: 0.28s !important; }
+    .reveal-delay-5 { transition-delay: 0.35s !important; }
+
+    /* [Full Interactivity Ensured: Scroll Reveal Active] */
+    /* 3D Tilt Card Interaction */
+    .tilt-card {
+      transform-style: preserve-3d;
+      transition: transform 0.25s cubic-bezier(0.2, 0, 0.2, 1), box-shadow 0.25s ease;
+      will-change: transform;
+    }
+    .tilt-card:hover {
+      box-shadow: 0 20px 35px -10px rgba(15, 39, 74, 0.15), 0 1px 3px rgba(15, 39, 74, 0.08);
+    }
+    /* Floating Sakura Blossom Petals */
+    .petal {
+      position: absolute;
+      background: linear-gradient(135deg, rgba(255, 192, 203, 0.85), rgba(255, 240, 245, 0.4));
+      border-radius: 15px 1px 15px 1px;
+      pointer-events: none;
+      z-index: 15;
+      animation: floatPetal 12s linear infinite;
+    }
+    @keyframes floatPetal {
+      0% {
+        transform: translate(0, -10px) rotate(0deg) scale(0.8);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.8;
+      }
+      90% {
+        opacity: 0.7;
+      }
+      100% {
+        transform: translate(80px, 450px) rotate(360deg) scale(1.1);
+        opacity: 0;
+      }
+    }
+    /* Ambient Glow on Hero */
+    .hero-glow {
+      position: absolute;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.25) 0%, rgba(29, 78, 216, 0.08) 50%, transparent 70%);
+      border-radius: 50%;
+      filter: blur(40px);
+      pointer-events: none;
+      will-change: transform;
+    }
+
+      /* ===== [NEW] Aerial Photo Hero Styles ===== */
+    .hero-aerial-container {
+      position: absolute;
+      inset: -35px;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .hero-aerial-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('assets/images/jinhae-aerial-hero.webp');
+      background-size: cover;
+      background-position: center 30%;
+      will-change: transform;
+      transform: translate3d(0, 0, 0) scale(1.03);
+      filter: saturate(1.1) brightness(0.9);
+      transition: transform 0.12s ease-out;
+    }
+    .hero-aerial-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, 
+        rgba(10, 25, 47, 0.68) 0%, 
+        rgba(15, 39, 74, 0.78) 40%, 
+        rgba(15, 39, 74, 0.92) 80%, 
+        #0F274A 100%
+      );
+      pointer-events: none;
+    }
+
+
+    /* ===== [NEW] 학부모 친화형 고가독성 유동 타이포그래피 (Fluid Typography) ===== */
+    html {
+      font-size: 16px;
+      -webkit-text-size-adjust: 100%;
+      scroll-behavior: smooth;
+    }
+    html.font-large {
+      font-size: 17.5px;
+    }
+    html.font-xlarge {
+      font-size: 19px;
+    }
+
+    /* 글자 크기 조절 플로팅 컨트롤러 */
+    .font-size-ctrl-btn {
+      transition: all 0.2s ease;
+    }
+    .font-size-ctrl-btn.active {
+      background-color: #0F274A;
+      color: #FFFFFF;
+      font-weight: 800;
+    }
+
+
+    /* 프리미엄 카드 스타일 고도화 */
+    .card {
+      background: rgba(255, 255, 255, 0.98);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 1.25rem;
+      box-shadow: 0 10px 25px -5px rgba(15, 39, 74, 0.05), 0 8px 10px -6px rgba(15, 39, 74, 0.02);
+      transition: transform 0.25s ease-out, box-shadow 0.25s ease-out, border-color 0.25s ease-out;
+    }
+    .card:hover {
+      border-color: rgba(191, 219, 254, 0.9);
+      box-shadow: 0 20px 35px -10px rgba(15, 39, 74, 0.09), 0 10px 15px -5px rgba(15, 39, 74, 0.04);
+    }
+
+
+    /* ===== [NEW] 진해고등학교 공식 교표 배경 워터마크 스타일 ===== */
+    .crest-watermark-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5; /* 히어로 배경(1) 위, 본문 텍스트(10) 아래에 위치하여 선명한 개화와 탁월한 가독성 동시 확보 */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .crest-watermark-img {
+      width: 38vw;
+      max-width: 320px; /* [요청 반영] 기존 640px의 정확히 절반 크기 (Half Size) */
+      aspect-ratio: 1 / 1;
+      object-fit: contain;
+      opacity: 0.06; /* 작아진 크기에 맞추어 은은하고 선명하게 조율된 황금비율 투명도 */
+      filter: contrast(1.18) saturate(1.08);
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: high-quality;
+      image-rendering: crisp-edges;
+      user-select: none;
+      transform: translate3d(0, 0, 0);
+      will-change: transform;
+      transition: opacity 0.3s ease;
+    }
+    body.is-night .crest-watermark-img {
+      opacity: 0.035;
+      filter: brightness(1.5) grayscale(0.5);
+    }
+
+      /* ===== [NEW] 진해고 공식 교표 워터마크 오프닝 & 각 요소 순차 등장 시퀀스 (2초 뒤 2초에 걸쳐 천천히 등장) ===== */
+    @keyframes crestWatermarkBloom {
+      0% {
+        opacity: 0;
+        transform: scale(0.68);
+        filter: drop-shadow(0 0 60px rgba(245, 158, 11, 0.65)) drop-shadow(0 0 30px rgba(15, 39, 74, 0.85)) contrast(1.25);
+      }
+      12% {
+        /* 첫 1.1초: 교표가 화면 중앙에서 장엄하고 또렷하게 개화 */
+        opacity: 0.45;
+        transform: scale(1.06);
+        filter: drop-shadow(0 0 45px rgba(245, 158, 11, 0.5)) drop-shadow(0 0 22px rgba(15, 39, 74, 0.7)) contrast(1.2);
+      }
+      44% {
+        /* 정확히 4.0초 시점까지 화면 중앙에서 단독으로 위엄 있게 머물며 방문자를 정중하게 환영 */
+        opacity: 0.40;
+        transform: scale(1.02);
+        filter: drop-shadow(0 0 35px rgba(245, 158, 11, 0.4)) contrast(1.15);
+      }
+      65% {
+        /* 4.0초 이후 본문 요소들이 등장함에 따라 서서히 배경으로 전환 (~5.8s) */
+        opacity: 0.20;
+        transform: scale(1.0);
+        filter: drop-shadow(0 0 16px rgba(245, 158, 11, 0.2)) contrast(1.1);
+      }
+      85% {
+        /* 7.6초 시점: 4대 핵심 지표 카드가 안착되며 배경으로 자연스럽게 녹아듦 */
+        opacity: 0.08;
+        transform: scale(1.0);
+        filter: drop-shadow(0 0 5px rgba(245, 158, 11, 0.1)) contrast(1.05);
+      }
+      100% {
+        /* 9.0초: 상시 배경 워터마크로 완벽하고 품격 있게 안착 */
+        opacity: 0.048;
+        transform: scale(1.0);
+        filter: grayscale(0.15) contrast(1.1);
+      }
+    }
+
+    @keyframes introSlideDown {
+      0% {
+        opacity: 0;
+        transform: translateY(-100%);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes introFadeSlideDown {
+      0% {
+        opacity: 0;
+        transform: translateY(-18px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes introFadeSlideUp {
+      0% {
+        opacity: 0;
+        transform: translateY(32px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes introPopIn {
+      0% {
+        opacity: 0;
+        transform: translateY(24px) scale(0.95);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .crest-watermark-img.crest-intro-active {
+      animation: crestWatermarkBloom 2.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+      will-change: transform, opacity, filter;
+    }
+
+    /* 오프닝 시퀀스: 기본 상태(Zero-Void Fail-Safe) */
+    .intro-cascade {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* 오프닝 가동 중(intro-running): 첫 화면 즉각적이고 부드러운 안착 (0.0s ~ 1.8s) 후 스크롤 대기 */
+    html.intro-running .intro-header {
+      opacity: 0;
+      transform: translateY(-100%);
+      animation: introSlideDown 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+      will-change: transform, opacity;
+    }
+    html.intro-running .intro-fontsizer {
+      opacity: 0;
+      transform: translateY(-18px);
+      animation: introFadeSlideDown 0.80s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+      will-change: transform, opacity;
+    }
+
+    html.intro-running .intro-journey {
+      opacity: 0;
+      transform: translateY(24px);
+      animation: introFadeSlideUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.55s both;
+      will-change: transform, opacity;
+    }
+    html.intro-running .intro-hero-badge {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: introFadeSlideUp 0.80s cubic-bezier(0.16, 1, 0.3, 1) 0.75s both;
+      will-change: transform, opacity;
+    }
+    html.intro-running .intro-hero-title {
+      opacity: 0;
+      transform: translateY(28px);
+      animation: introFadeSlideUp 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.95s both;
+      will-change: transform, opacity;
+    }
+    html.intro-running .intro-hero-desc {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: introFadeSlideUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 1.15s both;
+      will-change: transform, opacity;
+    }
+    html.intro-running .intro-hero-cta {
+      opacity: 0;
+      transform: translateY(20px) scale(0.96);
+      animation: introPopIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) 1.35s both;
+      will-change: transform, opacity;
+    }
+    html.intro-running .intro-hero-stat-card {
+      opacity: 0;
+      transform: translateY(20px) scale(0.96);
+      will-change: transform, opacity;
+    }
+    html.intro-running .intro-hero-stat-1 {
+      animation: introPopIn 0.80s cubic-bezier(0.16, 1, 0.3, 1) 1.50s both;
+    }
+    html.intro-running .intro-hero-stat-2 {
+      animation: introPopIn 0.80s cubic-bezier(0.16, 1, 0.3, 1) 1.60s both;
+    }
+    html.intro-running .intro-hero-stat-3 {
+      animation: introPopIn 0.80s cubic-bezier(0.16, 1, 0.3, 1) 1.70s both;
+    }
+    html.intro-running .intro-hero-stat-4 {
+      animation: introPopIn 0.80s cubic-bezier(0.16, 1, 0.3, 1) 1.80s both;
+    }
+
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased">
+  <!-- [NEW] 화면 전체 은은한 벚꽃 흩날림 캔버스 (진해 벚꽃 감성) -->
+  <canvas id="sakura-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-30" aria-hidden="true"></canvas>
+
+  <!-- [NEW] 진해고등학교 공식 교표(Crest) 은은한 배경 워터마크 (절반 크기 & 초고화질 HD) -->
+  <div id="school-crest-watermark" class="crest-watermark-bg" aria-hidden="true">
+    <picture>
+      <source srcset="assets/images/jinhae-crest-hd.webp" type="image/webp">
+      <img src="assets/images/jinhae-crest-hd.png" alt="진해고등학교 공식 교표 워터마크" class="crest-watermark-img" loading="eager" decoding="async">
+    </picture>
+  </div>
+
+
+
+  <noscript>
+    <div class="bg-amber-100 text-amber-900 text-sm text-center p-3">
+      자가진단·카운트다운 기능은 자바스크립트가 필요합니다. 입학 문의: 교무실 055-546-2260
+    </div>
+  </noscript>
+
+  <!-- ① 상단 라이브 D-Day 바 (전형 단계 자동 전환) -->
+  <header class="pt-safe sticky top-0 z-40 bg-brand-navy/95 backdrop-blur text-white shadow-md intro-cascade intro-header">
+    <div class="max-w-4xl mx-auto px-4 py-2.5 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <img src="assets/images/jinhae-crest.webp" alt="진해고 교표" class="w-6 h-6 sm:w-7 sm:h-7 object-contain flex-shrink-0 drop-shadow">
+        <span id="live-dot" class="pulse-dot inline-block w-2 h-2 rounded-full bg-emerald-400 text-emerald-400 flex-shrink-0" aria-hidden="true"></span>
+        <div class="min-w-0 leading-tight">
+          <p class="text-sm sm:text-base font-bold truncate">2027학년도 신입생 모집</p>
+          <p id="phase-label" class="text-xs sm:text-sm text-slate-300 truncate">일정 확인 중</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+        <span id="dday-tag" class="bg-amber-300 text-brand-navy px-2 py-0.5 rounded-md text-xs sm:text-sm font-extrabold tabular">D-–</span>
+        <span id="countdown-timer" class="font-mono tabular font-bold text-amber-200 text-xs sm:text-sm" aria-hidden="true">--:--:--</span>
+      </div>
+    </div>
+  </header>
+  <!-- 원클릭 글자 크기 조절 바 (라벨 제거, 깔끔한 중앙 버튼 배열) -->
+  <div class="bg-slate-100/95 border-b border-slate-200/90 px-4 py-1.5 sticky top-[49px] z-30 backdrop-blur-md shadow-xs intro-cascade intro-fontsizer">
+    <div class="max-w-4xl mx-auto flex items-center justify-center text-xs sm:text-sm">
+      <div class="inline-flex items-center gap-1 bg-white p-1 rounded-xl border border-slate-300/80 shadow-sm" role="group" aria-label="글자 크기 선택">
+        <button type="button" class="font-size-ctrl-btn px-3 py-1 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-100 transition" data-fsize="normal" aria-pressed="false">
+          보통
+        </button>
+        <button type="button" class="font-size-ctrl-btn active px-3 py-1 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-100 transition" data-fsize="large" aria-pressed="true">
+          크게 +15%
+        </button>
+        <button type="button" class="font-size-ctrl-btn px-3 py-1 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-100 transition" data-fsize="xlarge" aria-pressed="false">
+          아주크게 +30%
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- ② 3단계 입학 여정 바 -->
+  <nav aria-label="입학 전형 일정" class="bg-white border-b border-slate-200/80 px-4 pt-4 pb-3.5 intro-cascade intro-journey">
+    <div class="max-w-4xl mx-auto">
+      <ol id="journey" class="relative flex items-start justify-between text-center">
+        <li aria-hidden="true" class="absolute top-4 left-[16.666%] right-[16.666%] h-1 rounded-full bg-slate-200 -translate-y-1/2">
+          <span id="journey-fill" class="journey-fill block h-full rounded-full bg-brand-blue" style="width:0%"></span>
+        </li>
+        <li class="journey-step relative z-10 flex flex-col items-center flex-1 px-1" data-step="0">
+          <span class="step-dot w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">1</span>
+          <span class="step-label text-xs sm:text-sm font-extrabold mt-1.5">원서 접수</span>
+          <span class="text-xs sm:text-xs sm:text-sm text-slate-500 font-medium tabular leading-tight mt-0.5">12.10.(목) 10:00<br class="sm:hidden"> ~ 12.14.(월) 14:00</span>
+          <span class="step-chip hidden mt-1 text-xs font-bold px-1.5 py-0.5 rounded-full"></span>
+        </li>
+        <li class="journey-step relative z-10 flex flex-col items-center flex-1 px-1" data-step="1">
+          <span class="step-dot w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">2</span>
+          <span class="step-label text-xs sm:text-sm font-extrabold mt-1.5">합격자 발표</span>
+          <span class="text-xs sm:text-xs sm:text-sm text-slate-500 font-medium tabular leading-tight mt-0.5">12.30.(수) 10:00</span>
+          <span class="step-chip hidden mt-1 text-xs font-bold px-1.5 py-0.5 rounded-full"></span>
+        </li>
+        <li class="journey-step relative z-10 flex flex-col items-center flex-1 px-1" data-step="2">
+          <span class="step-dot w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">3</span>
+          <span class="step-label text-xs sm:text-sm font-extrabold mt-1.5">등록 확인서 제출</span>
+          <span class="text-xs sm:text-xs sm:text-sm text-slate-500 font-medium tabular leading-tight mt-0.5">2027. 1. 4.(월)<br class="sm:hidden"> 16:30까지</span>
+          <span class="step-chip hidden mt-1 text-xs font-bold px-1.5 py-0.5 rounded-full"></span>
+        </li>
+      </ol>
+      <div class="flex flex-wrap justify-center gap-1.5 mt-3">
+        <span class="inline-flex items-center gap-1 text-xs sm:text-sm font-semibold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-full">
+          <i data-lucide="circle-check" class="w-3.5 h-3.5"></i> 전형료 없음
+        </span>
+        <span class="inline-flex items-center gap-1 text-xs sm:text-sm font-semibold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-full">
+          <i data-lucide="circle-check" class="w-3.5 h-3.5"></i> 배치고사·예비소집 없음
+        </span>
+        <span class="inline-flex items-center gap-1 text-xs sm:text-sm font-semibold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-full">
+          <i data-lucide="circle-check" class="w-3.5 h-3.5"></i> 중학교 내신 100% 선발
+        </span>
+      </div>
+      <p class="text-center text-xs sm:text-sm text-slate-500 mt-2">고입전형지원 온라인시스템 접수 · 접수 기간 중 경쟁률 매일 10시·16시 학교 누리집 공개</p>
+    </div>
+  </nav>
+
+  <!-- ③ 히어로 (주/야간 앰비언트) -->
+  <section class="hero text-white pt-9 pb-16 px-4">
+    <div class="stars" aria-hidden="true"><span></span><span></span></div>
+    <div class="orb orb-a" aria-hidden="true"></div>
+    <div class="orb orb-b" aria-hidden="true"></div>
+    <!-- [NEW] Official Jinhae High School Drone Aerial Photo & Overlay -->
+    <div class="hero-aerial-container">
+      <div id="hero-aerial-bg" class="hero-aerial-bg"></div>
+      <div class="hero-aerial-overlay"></div>
+    </div>
+    <div id="hero-parallax-layer" class="absolute inset-0 bg-transparent pointer-events-none will-change-transform"></div>
+    <div id="hero-glow-orb" class="hero-glow -top-20 -left-20"></div>
+    <div id="petals-container" class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true"></div>
+
+
+    <div class="max-w-4xl mx-auto relative z-10 text-center">
+      <div class="flex flex-wrap items-center justify-center gap-2 mb-5 intro-cascade intro-hero-badge">
+        <span class="inline-flex items-center gap-1.5 bg-white/10 border border-white/15 px-3 py-1 rounded-full text-xs sm:text-sm font-medium text-blue-100">
+          <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span>
+          진해고 공식 드론 항공 전경 · 창원시 진해구 기숙형 자율학교
+        </span>
+        <button id="ambient-toggle" type="button" class="inline-flex items-center gap-1.5 bg-white/10 hover:bg-white/20 border border-white/15 px-3 py-1 rounded-full text-xs sm:text-sm font-medium text-blue-100 transition-colors" aria-label="주간·야간 분위기 전환">
+          <span id="ambient-icon"><i data-lucide="sun" class="w-3.5 h-3.5"></i></span>
+          <span id="ambient-text">지금 진해고는…</span>
+        </button>
+      </div>
+
+      <h1 class="text-[26px] leading-[1.35] sm:text-4xl sm:leading-tight font-extrabold tracking-tight mb-4 intro-cascade intro-hero-title">
+        스스로 공부하는 힘을 기르는<br>
+        <span class="text-amber-300">83년 전통, 진해고등학교</span>
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-300 max-w-xl mx-auto mb-7 leading-relaxed intro-cascade intro-hero-desc">
+        학년당 300명·10학급의 탄탄한 내신 모수,<br class="sm:hidden">
+        153명 수용 기숙사(동백관·송학관)와<br>
+        평일 하루 4.5시간+(연장 시 최대 6.5시간) 자기주도학습으로 3년을 설계합니다.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2.5 max-w-md sm:max-w-none mx-auto mb-8 intro-cascade intro-hero-cta">
+        <a href="#diag" class="inline-flex items-center justify-center gap-2 bg-amber-300 hover:bg-amber-200 text-brand-navy font-extrabold py-3.5 px-5 rounded-2xl shadow-lg shadow-amber-500/20 transition-colors text-[15px]">
+          <i data-lucide="calculator" class="w-4 h-4"></i> 기숙사 입사 가능성 30초 진단
+        </a>
+        <button type="button" data-chat="" class="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold py-3.5 px-5 rounded-2xl transition-colors text-[15px]">
+          <i data-lucide="bot" class="w-4 h-4 text-amber-300"></i> AI에게 바로 묻기
+        </button>
+        <button type="button" id="open-brochure-btn" onclick="openBrochureModal()" class="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 hover:border-amber-300/60 text-white font-bold py-3.5 px-5 rounded-2xl transition-all text-[15px] shadow-md group">
+          <i data-lucide="book-open" class="w-4 h-4 text-amber-300 group-hover:scale-110 transition-transform"></i> 2027 입학 브로슈어
+        </button>
+      </div>
+
+      <dl class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 max-w-3xl mx-auto">
+        <div class="bg-white/[.07] border border-white/10 rounded-2xl p-3.5 intro-cascade intro-hero-stat-card intro-hero-stat-1">
+          <dt class="sr-only">역사</dt>
+          <dd class="text-amber-300 font-black text-2xl sm:text-3xl tabular">83년</dd>
+          <dd class="text-xs sm:text-sm text-slate-300 mt-0.5">전통과 동문 네트워크</dd>
+        </div>
+        <div class="bg-white/[.07] border border-white/10 rounded-2xl p-3.5 intro-cascade intro-hero-stat-card intro-hero-stat-2">
+          <dt class="sr-only">기숙사 정원</dt>
+          <dd class="text-amber-300 font-black text-2xl sm:text-3xl tabular">153명</dd>
+          <dd class="text-xs sm:text-sm text-slate-300 mt-0.5">동백관·송학관 기숙사</dd>
+        </div>
+        <div class="bg-white/[.07] border border-white/10 rounded-2xl p-3.5 intro-cascade intro-hero-stat-card intro-hero-stat-3">
+          <dt class="sr-only">학년 정원</dt>
+          <dd class="text-amber-300 font-black text-2xl sm:text-3xl tabular">300명</dd>
+          <dd class="text-xs sm:text-sm text-slate-300 mt-0.5">10학급 탄탄한 내신 모수</dd>
+        </div>
+        <div class="bg-white/[.07] border border-white/10 rounded-2xl p-3.5 intro-cascade intro-hero-stat-card intro-hero-stat-4">
+          <dt class="sr-only">장학금</dt>
+          <dd class="text-amber-300 font-black text-2xl sm:text-3xl tabular">연 9,000만 원</dd>
+          <dd class="text-xs sm:text-sm text-slate-300 mt-0.5">규모의 장학 혜택</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <main class="max-w-4xl mx-auto px-4 -mt-8 pb-32 space-y-6 sm:space-y-8 relative z-20">
+
+    <!-- WIDGET 1. 기숙사 입사 자가진단 -->
+    <section id="diag" class="card p-5 sm:p-7 reveal-on-scroll tilt-card" aria-labelledby="diag-title">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <p class="text-xs font-bold text-brand-blue">기숙사 입사 자가진단</p>
+          <h2 id="diag-title" class="text-[19px] sm:text-2xl font-extrabold text-slate-900 mt-1 leading-snug">
+            우리 아이, 기숙사에<br class="sm:hidden"> 들어갈 수 있을까요?
+          </h2>
+        </div>
+        <span class="flex-shrink-0 bg-amber-100 text-amber-800 text-xs sm:text-sm font-bold px-2.5 py-1 rounded-full">신입생 기준</span>
+      </div>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 mb-5 leading-relaxed">
+        출신 중학교 지역과 중학교 내신 석차백분율만 입력하면, <strong class="text-slate-800">관내 우선(5%) · 작년 관내 합격선(약 16%) 및 관외 우선(30%)</strong> 기준에 비추어 바로 알려 드려요.
+        <span class="text-slate-400">입력값은 저장·전송되지 않습니다.</span>
+      </p>
+
+      <form id="dorm-diag-form" class="space-y-4 reveal-item" novalidate>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="school-region" class="block text-sm sm:text-base font-bold text-slate-700 mb-1.5">① 출신 중학교 위치</label>
+            <select id="school-region" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-3 text-base focus:ring-2 focus:ring-brand-blue focus:border-brand-blue focus:outline-none">
+              <option value="in">진해 관내 (용원·웅동·웅천 제외)</option>
+              <option value="far">진해 원거리 (용원·웅동·웅천)</option>
+              <option value="out">진해 외 경남 (창원·마산·김해·장유 등)</option>
+            </select>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1.5">※ 용원·웅동·웅천은 원거리 통학으로 인정되어 관외 기준(30%)이 적용됩니다.</p>
+          </div>
+
+          <div>
+            <label for="percentile-input" class="block text-sm sm:text-base font-bold text-slate-700 mb-1.5">② 중학교 내신 석차백분율</label>
+            <div class="relative">
+              <input type="text" id="percentile-input" inputmode="decimal" autocomplete="off" enterkeyhint="done"
+                placeholder="예: 15.4" aria-describedby="percentile-help percentile-error"
+                class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-3.5 pr-12 py-3 text-base tabular focus:ring-2 focus:ring-brand-blue focus:border-brand-blue focus:outline-none">
+              <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-400 pointer-events-none">%</span>
+            </div>
+            <p id="percentile-help" class="text-xs sm:text-sm text-slate-500 mt-1.5">상위 몇 %인지 입력 (0.01 ~ 100, 숫자가 작을수록 상위권)</p>
+            <p id="percentile-error" class="hidden text-xs sm:text-sm font-semibold text-rose-600 mt-1.5" role="alert"></p>
+          </div>
+        </div>
+
+        <label for="multichild-check" class="flex items-start gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer">
+          <input type="checkbox" id="multichild-check" class="mt-0.5 w-5 h-5 rounded border-slate-300 text-brand-blue focus:ring-brand-blue flex-shrink-0">
+          <span class="text-sm sm:text-base text-slate-700 leading-snug">
+            <strong>다자녀 가구의 셋째(이상) 자녀</strong>예요
+            <span class="block text-xs sm:text-sm text-slate-500 mt-0.5">기숙사 우선입사 대상 (사회적배려대상자 해당 시 교무실 별도 문의)</span>
+          </span>
+        </label>
+
+        <button type="submit" class="w-full bg-brand-blue hover:bg-blue-800 active:scale-[.99] text-white font-bold py-3.5 px-4 rounded-2xl shadow-md shadow-blue-600/20 transition flex items-center justify-center gap-2 text-[15px] sm:text-base">
+          <i data-lucide="sparkles" class="w-4 h-4"></i>
+          입사 가능성 진단하기
+        </button>
+      </form>
+
+      <div id="dorm-result-box" class="hidden" aria-live="polite"></div>
+    </section>
+
+    <!-- WIDGET 2. 2028 대입 5등급제: 한 명의 무게 -->
+    <section class="card p-5 sm:p-7 reveal-on-scroll tilt-card" aria-labelledby="grade-title">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <p class="text-xs font-bold text-emerald-600">2028 대입 · 고교 내신 5등급제</p>
+          <h2 id="grade-title" class="text-[19px] sm:text-2xl font-extrabold text-slate-900 mt-1 leading-snug">
+            석차 1등의 무게,<br class="sm:hidden"> 300명과 100명은 다릅니다
+          </h2>
+        </div>
+        <span class="flex-shrink-0 bg-emerald-100 text-emerald-800 text-xs sm:text-sm font-bold px-2.5 py-1 rounded-full">내신 완충망</span>
+      </div>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 mb-5 leading-relaxed">
+        5등급제에서는 <strong class="text-slate-800">1등급 상위 10%, 2등급까지 누적 34%</strong>입니다. 학년 인원이 많을수록 석차 한 칸이 백분율에 주는 충격이 작고, 등급 경계가 촘촘해져 <strong class="text-slate-800">한 번의 시험 결과에 덜 흔들립니다.</strong>
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+        <!-- 진해고 300명 -->
+        <div class="rounded-2xl p-4 border-2 border-brand-blue/30 bg-gradient-to-br from-blue-50 to-indigo-50/40">
+          <div class="flex items-center justify-between">
+            <span class="text-sm sm:text-base font-extrabold text-brand-blue">진해고 · 학년 300명</span>
+            <span class="text-xs font-bold text-white bg-brand-blue px-2 py-0.5 rounded-md">우리 학교</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-500 mt-2">석차 1등 = 백분율</p>
+          <p class="text-3xl sm:text-4xl font-extrabold text-slate-900 tabular tracking-tight">0.33<span class="text-lg">%p</span></p>
+          <div id="dots-300" class="dot-grid mt-3" style="grid-template-columns:repeat(25,minmax(0,1fr))" role="img" aria-label="300명 중 1등급 30명, 2등급까지 누적 102명"></div>
+          <dl class="mt-3 grid grid-cols-2 gap-2 text-center">
+            <div class="bg-white rounded-xl py-2"><dt class="text-xs text-slate-500">1등급 인원</dt><dd class="text-base font-extrabold text-amber-600 tabular">30명</dd></div>
+            <div class="bg-white rounded-xl py-2"><dt class="text-xs text-slate-500">2등급까지 누적</dt><dd class="text-base font-extrabold text-brand-blue tabular">102명</dd></div>
+          </dl>
+        </div>
+
+        <!-- 소규모 100명 -->
+        <div class="rounded-2xl p-4 border border-slate-200 bg-slate-50">
+          <div class="flex items-center justify-between">
+            <span class="text-sm sm:text-base font-extrabold text-slate-600">학년 100명 규모 학교</span>
+            <span class="text-xs font-bold text-slate-500 bg-slate-200 px-2 py-0.5 rounded-md">비교 예시</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-500 mt-2">석차 1등 = 백분율</p>
+          <p class="text-3xl sm:text-4xl font-extrabold text-slate-500 tabular tracking-tight">1.00<span class="text-lg">%p</span></p>
+          <div id="dots-100" class="dot-grid mt-3" style="grid-template-columns:repeat(10,minmax(0,1fr)); gap:4px" role="img" aria-label="100명 중 1등급 10명, 2등급까지 누적 34명"></div>
+          <dl class="mt-3 grid grid-cols-2 gap-2 text-center">
+            <div class="bg-white rounded-xl py-2"><dt class="text-xs text-slate-500">1등급 인원</dt><dd class="text-base font-extrabold text-slate-600 tabular">10명</dd></div>
+            <div class="bg-white rounded-xl py-2"><dt class="text-xs text-slate-500">2등급까지 누적</dt><dd class="text-base font-extrabold text-slate-600 tabular">34명</dd></div>
+          </dl>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-center gap-4 mt-3 text-xs sm:text-sm text-slate-500">
+        <span class="inline-flex items-center gap-1"><i class="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block"></i>1등급(10%)</span>
+        <span class="inline-flex items-center gap-1"><i class="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block"></i>2등급(누적 34%)</span>
+        <span class="inline-flex items-center gap-1"><i class="w-2.5 h-2.5 rounded-full bg-slate-300 inline-block"></i>3~5등급</span>
+      </div>
+
+      <!-- 인터랙티브 시뮬레이터 -->
+      <div class="mt-5 rounded-2xl border border-slate-200 p-4">
+        <label for="rank-slider" class="flex items-center justify-between text-sm sm:text-base font-bold text-slate-800">
+          <span>석차가 <span id="rank-n" class="text-brand-blue tabular">1</span>등 밀린다면?</span>
+          <span class="text-xs sm:text-sm font-medium text-slate-400">슬라이더를 움직여 보세요</span>
+        </label>
+        <input id="rank-slider" type="range" min="1" max="10" value="1" step="1" class="range w-full mt-4">
+        <div class="mt-4 space-y-2.5">
+          <div>
+            <div class="flex justify-between text-xs sm:text-sm mb-1"><span class="font-bold text-brand-blue">진해고 300명</span><span id="w-300" class="font-extrabold tabular text-slate-900">+0.33%p</span></div>
+            <div class="h-2.5 bg-slate-100 rounded-full overflow-hidden"><div id="bar-300" class="weight-bar h-full bg-brand-blue rounded-full" style="width:3.3%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs sm:text-sm mb-1"><span class="font-bold text-slate-500">100명 규모</span><span id="w-100" class="font-extrabold tabular text-rose-600">+1.00%p</span></div>
+            <div class="h-2.5 bg-slate-100 rounded-full overflow-hidden"><div id="bar-100" class="weight-bar h-full bg-rose-400 rounded-full" style="width:10%"></div></div>
+          </div>
+        </div>
+        <p class="text-xs sm:text-sm text-slate-500 mt-3 leading-relaxed">※ 석차 n등 변동 시 석차백분율 변화(n ÷ 학년 인원). 실제 등급은 원점수 분포·동점자 처리 기준에 따라 달라질 수 있습니다.</p>
+      </div>
+
+      <div class="mt-4 bg-emerald-50 border border-emerald-200/80 rounded-2xl p-4 flex items-start gap-3">
+        <i data-lucide="book-open" class="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5"></i>
+        <p class="text-sm sm:text-base text-slate-700 leading-relaxed">
+          <strong class="text-emerald-900">심화 선택과목, 수요 기반 정규 개설</strong><br>
+          고급 물리학·고급 화학·고급 생명과학·고급 지구과학, 심화수학Ⅰ·Ⅱ, 인공지능 수학 등 의약학·이공계 진학에 필요한 과목을 학생 수강 수요를 반영해 정규 교육과정에서 개설·운영합니다.
+        </p>
+      </div>
+    </section>
+
+        <!-- WIDGET 3. 기숙사생의 하루 & 시설 -->
+    <section class="card p-5 sm:p-7 reveal-on-scroll tilt-card" aria-labelledby="life-title">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <p class="text-xs font-bold text-indigo-600">기숙사 라이프</p>
+          <h2 id="life-title" class="text-[19px] sm:text-2xl font-extrabold text-slate-900 mt-1 leading-snug">
+            기숙사생의 평일 하루,<br class="sm:hidden"> 매일 몰입 자습 4.5시간+
+          </h2>
+        </div>
+        <span class="flex-shrink-0 bg-indigo-100 text-indigo-800 text-xs sm:text-sm font-bold px-2.5 py-1 rounded-full">관리되는 3년</span>
+      </div>
+
+      <!-- [NEW] 학교 생활 & 기숙사 영상 멀티 쇼케이스 (16:9 와이드 + 9:16 모바일 숏폼 릴스) -->
+      <div class="mt-5 rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 shadow-xl">
+        <!-- 상단 영상 포맷 전환 탭 바 -->
+        <div class="px-3 pt-3 pb-2.5 bg-slate-950/80 border-b border-slate-800/80 flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-1.5 bg-slate-900 p-1 rounded-xl border border-slate-800">
+            <button type="button" id="tab-video-wide" class="video-format-btn active px-3 py-1.5 rounded-lg text-xs font-bold text-white bg-blue-600 transition flex items-center gap-1.5">
+              <i data-lucide="tv" class="w-3.5 h-3.5"></i>
+              <span>16:9 와이드 풀영상 (3편)</span>
+            </button>
+            <button type="button" id="tab-video-reels" class="video-format-btn px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-1.5">
+              <i data-lucide="smartphone" class="w-3.5 h-3.5 text-rose-400"></i>
+              <span>9:16 숏폼 릴스 (4편)</span>
+              <span class="bg-rose-500 text-white text-xs px-1.5 py-0.2 rounded-full font-extrabold animate-pulse">HOT</span>
+            </button>
+          </div>
+          <span class="text-xs sm:text-sm text-slate-400 hidden sm:inline-flex items-center gap-1">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
+            스마트폰 세로 화면 최적화 지원
+          </span>
+        </div>
+
+        <!-- 패널 1: 16:9 와이드 풀영상 갤러리 -->
+        <div id="panel-video-wide" class="p-3 sm:p-4 space-y-3">
+          <div class="relative aspect-video w-full bg-slate-950 rounded-xl overflow-hidden flex items-center justify-center group shadow-inner">
+            <div id="dorm-video-container" class="w-full h-full relative">
+              <!-- 썸네일 커버 & 재생 오버레이 -->
+              <div id="dorm-video-poster" class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/50 to-slate-950/30 flex flex-col items-center justify-center p-4 cursor-pointer text-center z-10 transition-all hover:bg-slate-950/60" onclick="playDormVideo()">
+                <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-red-600/90 hover:bg-red-600 text-white flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
+                  <i data-lucide="play" class="w-8 h-8 sm:w-10 sm:h-10 fill-current translate-x-0.5"></i>
+                </div>
+                <p id="wide-video-title" class="text-white font-extrabold text-sm sm:text-base mt-3 drop-shadow flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                  🎥 2027 기숙사(동백관 · 송학관) 룸투어 & 하루 일과
+                </p>
+                <p class="text-xs sm:text-sm text-slate-300 mt-1">
+                  화면을 탭하시면 쾌적한 호실 내부와 정독실 하루 일과 영상을 바로 시청하실 수 있습니다
+                </p>
+              </div>
+              <!-- 실제 비디오 / iframe 영역 -->
+              <div id="dorm-video-player" class="w-full h-full flex items-center justify-center text-slate-400"></div>
+            </div>
+          </div>
+
+          <!-- 와이드 영상 3편 셀렉터 목록 -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
+            <button type="button" class="wide-item-btn active text-left p-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-blue-500/80 transition group" onclick="switchWideVideo(0)">
+              <div class="flex items-center justify-between text-xs sm:text-sm text-blue-400 font-bold mb-1">
+                <span>[대표 영상 1]</span>
+                <span class="tabular">2분 30초</span>
+              </div>
+              <p class="text-xs font-bold text-white group-hover:text-blue-300 transition truncate">기숙사 룸투어 & 일과 풀영상</p>
+              <p class="text-xs text-slate-400 mt-0.5 truncate">동백관 3인실 · 송학관 2인실 · 정독실</p>
+            </button>
+            <button type="button" class="wide-item-btn text-left p-2.5 rounded-xl bg-slate-950/60 hover:bg-slate-800 border border-slate-800 transition group" onclick="switchWideVideo(1)">
+              <div class="flex items-center justify-between text-xs sm:text-sm text-slate-400 font-bold mb-1">
+                <span>[캠퍼스 영상 2]</span>
+                <span class="tabular">1분 45초</span>
+              </div>
+              <p class="text-xs font-bold text-slate-200 group-hover:text-white transition truncate">83년 전통 교정 & 드론 항공뷰</p>
+              <p class="text-xs text-slate-400 mt-0.5 truncate">군항제 벚꽃 성지와 최신 학습관</p>
+            </button>
+            <button type="button" class="wide-item-btn text-left p-2.5 rounded-xl bg-slate-950/60 hover:bg-slate-800 border border-slate-800 transition group" onclick="switchWideVideo(2)">
+              <div class="flex items-center justify-between text-xs sm:text-sm text-slate-400 font-bold mb-1">
+                <span>[설명회 영상 3]</span>
+                <span class="tabular">3분 10초</span>
+              </div>
+              <p class="text-xs font-bold text-slate-200 group-hover:text-white transition truncate">2027 신입생 입학설명회 요약</p>
+              <p class="text-xs text-slate-400 mt-0.5 truncate">내신 5등급제 대비 & 기숙사 지원 전략</p>
+            </button>
+          </div>
+        </div>
+
+        <!-- 패널 2: 9:16 모바일 숏폼 릴스(Reels) 쇼케이스 (스마트폰 세로 영상) -->
+        <div id="panel-video-reels" class="p-3 sm:p-4 hidden">
+          <div class="mb-3 flex items-center justify-between">
+            <p class="text-xs text-slate-300 font-medium">
+              📱 터치하시면 <strong class="text-white">모바일 전체화면 릴스 플레이어</strong>로 감상하실 수 있습니다.
+            </p>
+            <span class="text-xs bg-rose-500/20 text-rose-300 border border-rose-500/30 px-2 py-0.5 rounded-full font-bold">인기 릴스 4선</span>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            <!-- 릴스 카드 1 -->
+            <div class="reels-card group reveal-item relative aspect-[9/16] bg-slate-950 rounded-xl overflow-hidden border border-slate-800 shadow-md cursor-pointer hover:border-rose-500/70 transition-all hover:scale-[1.02]" onclick="openReelsModal(0)">
+              <div class="absolute inset-0 bg-cover bg-center transition-transform group-hover:scale-105" style="background-image: url('assets/images/jinhae-aerial-hero.webp'); filter: brightness(0.75);"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent"></div>
+              <span class="absolute top-2 left-2 bg-rose-600/90 text-white text-xs font-extrabold px-1.5 py-0.5 rounded shadow">15s</span>
+              <div class="absolute inset-0 flex items-center justify-center opacity-85 group-hover:opacity-100 group-hover:scale-110 transition">
+                <div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-lg">
+                  <i data-lucide="play" class="w-5 h-5 fill-current translate-x-0.5"></i>
+                </div>
+              </div>
+              <div class="absolute bottom-0 left-0 right-0 p-2.5 text-white">
+                <span class="text-xs text-rose-300 font-extrabold uppercase">Dorm Tour</span>
+                <p class="text-xs font-bold leading-tight mt-0.5 group-hover:text-amber-300 transition line-clamp-2">15초 컷 기숙사 룸투어 (동백관 3인실 솔직 후기)</p>
+                <p class="text-xs text-slate-300 mt-1 truncate">#기숙사 #진해고 #룸투어</p>
+              </div>
+            </div>
+
+            <!-- 릴스 카드 2 -->
+            <div class="reels-card group reveal-item relative aspect-[9/16] bg-slate-950 rounded-xl overflow-hidden border border-slate-800 shadow-md cursor-pointer hover:border-rose-500/70 transition-all hover:scale-[1.02]" onclick="openReelsModal(1)">
+              <div class="absolute inset-0 bg-cover bg-center transition-transform group-hover:scale-105" style="background-image: url('assets/images/cardnews/card_06_selfstudy.png'); filter: brightness(0.75);"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent"></div>
+              <span class="absolute top-2 left-2 bg-indigo-600/90 text-white text-xs font-extrabold px-1.5 py-0.5 rounded shadow">28s</span>
+              <div class="absolute inset-0 flex items-center justify-center opacity-85 group-hover:opacity-100 group-hover:scale-110 transition">
+                <div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-lg">
+                  <i data-lucide="play" class="w-5 h-5 fill-current translate-x-0.5"></i>
+                </div>
+              </div>
+              <div class="absolute bottom-0 left-0 right-0 p-2.5 text-white">
+                <span class="text-xs text-indigo-300 font-extrabold uppercase">Daily Study</span>
+                <p class="text-xs font-bold leading-tight mt-0.5 group-hover:text-amber-300 transition line-clamp-2">밤 11:30까지 순공 4.5시간! 정독실 야자 브이로그</p>
+                <p class="text-xs text-slate-300 mt-1 truncate">#순공시간 #자기주도학습</p>
+              </div>
+            </div>
+
+            <!-- 릴스 카드 3 -->
+            <div class="reels-card group reveal-item relative aspect-[9/16] bg-slate-950 rounded-xl overflow-hidden border border-slate-800 shadow-md cursor-pointer hover:border-rose-500/70 transition-all hover:scale-[1.02]" onclick="openReelsModal(2)">
+              <div class="absolute inset-0 bg-cover bg-center transition-transform group-hover:scale-105" style="background-image: url('assets/images/cardnews/card_03_dorm_care.png'); filter: brightness(0.75);"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent"></div>
+              <span class="absolute top-2 left-2 bg-emerald-600/90 text-white text-xs font-extrabold px-1.5 py-0.5 rounded shadow">22s</span>
+              <div class="absolute inset-0 flex items-center justify-center opacity-85 group-hover:opacity-100 group-hover:scale-110 transition">
+                <div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-lg">
+                  <i data-lucide="play" class="w-5 h-5 fill-current translate-x-0.5"></i>
+                </div>
+              </div>
+              <div class="absolute bottom-0 left-0 right-0 p-2.5 text-white">
+                <span class="text-xs text-emerald-300 font-extrabold uppercase">Meals 3-Course</span>
+                <p class="text-xs font-bold leading-tight mt-0.5 group-hover:text-amber-300 transition line-clamp-2">아침·점심·저녁 3식 풀코스! 진해고 급식 모음</p>
+                <p class="text-xs text-slate-300 mt-1 truncate">#급식레전드 #직영3식</p>
+              </div>
+            </div>
+
+            <!-- 릴스 카드 4 -->
+            <div class="reels-card group reveal-item relative aspect-[9/16] bg-slate-950 rounded-xl overflow-hidden border border-slate-800 shadow-md cursor-pointer hover:border-rose-500/70 transition-all hover:scale-[1.02]" onclick="openReelsModal(3)">
+              <div class="absolute inset-0 bg-cover bg-center transition-transform group-hover:scale-105" style="background-image: url('assets/images/jinhae-aerial-hero.webp'); filter: brightness(0.75);"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent"></div>
+              <span class="absolute top-2 left-2 bg-pink-600/90 text-white text-xs font-extrabold px-1.5 py-0.5 rounded shadow">18s</span>
+              <div class="absolute inset-0 flex items-center justify-center opacity-85 group-hover:opacity-100 group-hover:scale-110 transition">
+                <div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-lg">
+                  <i data-lucide="play" class="w-5 h-5 fill-current translate-x-0.5"></i>
+                </div>
+              </div>
+              <div class="absolute bottom-0 left-0 right-0 p-2.5 text-white">
+                <span class="text-xs text-pink-300 font-extrabold uppercase">Cherry Blossom</span>
+                <p class="text-xs font-bold leading-tight mt-0.5 group-hover:text-amber-300 transition line-clamp-2">봄이면 벚꽃 성지가 되는 진해고 벚꽃길 드론뷰</p>
+                <p class="text-xs text-slate-300 mt-1 truncate">#진해벚꽃 #교정산책</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="px-4 py-2 bg-slate-950 text-slate-400 text-xs flex items-center justify-between border-t border-slate-800/80">
+          <span class="flex items-center gap-1.5 text-slate-300">
+            <i data-lucide="clapperboard" class="w-3.5 h-3.5 text-amber-400"></i>
+            진해고 공식 유튜브 · 인스타그램 릴스 연동 지원
+          </span>
+          <span class="text-xs text-slate-500">신규 영상 순차 업데이트 예정</span>
+        </div>
+      </div>
+
+      <ol class="mt-5 relative border-l-2 border-slate-100 ml-2 space-y-4" id="routine">
+        <li class="pl-5 relative" data-slot="wake">
+          <span class="routine-dot absolute -left-[7px] top-1.5 w-3 h-3 rounded-full bg-slate-300 ring-4 ring-white"></span>
+          <p class="text-xs sm:text-sm font-bold text-slate-500 tabular">06:30</p>
+          <p class="text-sm sm:text-base text-slate-800"><strong>기상 · 아침 점호 · 조식</strong></p>
+        </li>
+        <li class="pl-5 relative reveal-item" data-slot="class">
+          <span class="routine-dot absolute -left-[7px] top-1.5 w-3 h-3 rounded-full bg-slate-300 ring-4 ring-white"></span>
+          <p class="text-xs sm:text-sm font-bold text-slate-500">주간</p>
+          <p class="text-sm sm:text-base text-slate-800"><strong>정규 교과 수업 · 진로 탐구 활동</strong></p>
+        </li>
+        <li class="pl-5 relative reveal-item" data-slot="study1">
+          <span class="routine-dot absolute -left-[7px] top-1.5 w-3 h-3 rounded-full bg-brand-blue ring-4 ring-white"></span>
+          <p class="text-xs sm:text-sm font-bold text-brand-blue tabular">18:30 ~ 21:00 <span class="ml-1 bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded text-xs">자습 2.5시간</span></p>
+          <p class="text-sm sm:text-base text-slate-800"><strong>1차 야간 자율학습 (학년 교실)</strong></p>
+        </li>
+        <li class="pl-5 relative reveal-item" data-slot="break">
+          <span class="routine-dot absolute -left-[7px] top-1.5 w-3 h-3 rounded-full bg-slate-300 ring-4 ring-white"></span>
+          <p class="text-xs sm:text-sm font-bold text-slate-500 tabular">21:00 ~ 21:30</p>
+          <p class="text-sm sm:text-base text-slate-800"><strong>휴식 · 이동 · 전자기기(휴대전화) 사용</strong></p>
+        </li>
+        <li class="pl-5 relative reveal-item" data-slot="study2">
+          <span class="routine-dot absolute -left-[7px] top-1.5 w-3 h-3 rounded-full bg-indigo-600 ring-4 ring-white"></span>
+          <p class="text-xs sm:text-sm font-bold text-indigo-600 tabular">21:30 ~ 23:30 <span class="ml-1 bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded text-xs">자습 2시간</span></p>
+          <p class="text-sm sm:text-base text-slate-800"><strong>2차 심야 자습 (기숙사 개인 지정 정독실)</strong></p>
+        </li>
+        <li class="pl-5 relative reveal-item" data-slot="sleep">
+          <span class="routine-dot absolute -left-[7px] top-1.5 w-3 h-3 rounded-full bg-slate-300 ring-4 ring-white"></span>
+          <p class="text-xs sm:text-sm font-bold text-slate-500 tabular">23:30</p>
+          <p class="text-sm sm:text-base text-slate-800"><strong>점호 · 소등</strong> <span class="text-slate-500 text-sm sm:text-base">(희망자 연장 자습: 1·2학년 01:00 / 3학년 01:30까지)</span></p>
+        </li>
+      </ol>
+
+      <div class="mt-6 pt-5 border-t border-slate-100">
+        <div class="tab-scroll flex gap-2 overflow-x-auto -mx-1 px-1 pb-1" role="tablist" aria-label="기숙사 시설 안내">
+          <button type="button" role="tab" class="dorm-tab-btn whitespace-nowrap px-3.5 py-2 rounded-full text-sm sm:text-base font-bold transition-colors" data-index="0">동백관 · 3인실</button>
+          <button type="button" role="tab" class="dorm-tab-btn whitespace-nowrap px-3.5 py-2 rounded-full text-sm sm:text-base font-bold transition-colors" data-index="1">송학관 · 2인실</button>
+          <button type="button" role="tab" class="dorm-tab-btn whitespace-nowrap px-3.5 py-2 rounded-full text-sm sm:text-base font-bold transition-colors" data-index="2">정독실</button>
+          <button type="button" role="tab" class="dorm-tab-btn whitespace-nowrap px-3.5 py-2 rounded-full text-sm sm:text-base font-bold transition-colors" data-index="3">비용 · 급식</button>
+        </div>
+        <div id="dorm-tab-content" role="tabpanel" class="mt-3 p-4 rounded-2xl bg-slate-50 border border-slate-200 text-sm sm:text-base text-slate-700 leading-relaxed" tabindex="0"></div>
+      </div>
+    </section>
+
+    <!-- WIDGET 4. 진학 성과 & 장학 -->
+    <section class="card p-5 sm:p-7 reveal-on-scroll tilt-card" aria-labelledby="result-title">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <p class="text-xs font-bold text-amber-600">진학 성과 · 장학</p>
+          <h2 id="result-title" class="text-[19px] sm:text-2xl font-extrabold text-slate-900 mt-1 leading-snug">숫자로 보는 2026학년도 대입</h2>
+        </div>
+        <span class="flex-shrink-0 bg-amber-100 text-amber-800 text-xs sm:text-sm font-bold px-2.5 py-1 rounded-full">학교 집계</span>
+      </div>
+
+      <div class="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-2.5 stagger-group">
+        <div class="bg-slate-50 rounded-2xl p-3.5 reveal-item">
+          <p class="text-xs sm:text-sm font-bold text-slate-500">서울대</p>
+          <p class="text-3xl sm:text-4xl font-black text-brand-navy mt-1 tabular">1<span class="text-sm font-bold ml-0.5">명</span></p>
+          <p class="text-xs sm:text-sm text-slate-400 mt-0.5">합격</p>
+        </div>
+        <div class="bg-slate-50 rounded-2xl p-3.5 reveal-item">
+          <p class="text-xs sm:text-sm font-bold text-slate-500">의약학 계열</p>
+          <p class="text-3xl sm:text-4xl font-black text-brand-blue mt-1 tabular">4<span class="text-sm font-bold ml-0.5">명</span></p>
+          <p class="text-xs sm:text-sm text-slate-400 mt-0.5">의예 3 · 치·한·약 1</p>
+        </div>
+        <div class="bg-slate-50 rounded-2xl p-3.5 reveal-item">
+          <p class="text-xs sm:text-sm font-bold text-slate-500">사관학교</p>
+          <p class="text-3xl sm:text-4xl font-black text-emerald-700 mt-1 tabular">7<span class="text-sm font-bold ml-0.5">명</span></p>
+          <p class="text-xs sm:text-sm text-slate-400 mt-0.5">해사 6 · 육사 1</p>
+        </div>
+        <div class="bg-slate-50 rounded-2xl p-3.5">
+          <p class="text-xs sm:text-sm font-bold text-slate-500">연세대 · 고려대</p>
+          <p class="text-3xl sm:text-4xl font-black text-indigo-700 mt-1 tabular">4<span class="text-sm font-bold ml-0.5">명</span></p>
+          <p class="text-xs sm:text-sm text-slate-400 mt-0.5">연세 2 · 고려 2</p>
+        </div>
+      </div>
+      <p class="text-xs sm:text-sm text-slate-500 mt-3">※ 2026학년도 대입 결과, 학교 자체 집계 기준(중복 합격 및 재수/N수생 포함). 세부 진학 결과는 아래 공식 발표 자료를 참조하세요.</p>
+
+      <!-- [NEW] 대입 실적표 공식 PPT 발표자료 팝업 버튼 -->
+      <div class="mt-4">
+        <button type="button" id="open-results-modal" class="w-full inline-flex items-center justify-center gap-2 bg-brand-navy hover:bg-slate-800 active:scale-[.99] text-white font-extrabold py-3.5 px-5 rounded-2xl shadow-md transition text-xs sm:text-sm">
+          <i data-lucide="table" class="w-4 h-4 text-amber-300"></i>
+          <span>전년도 대입 결과표 상세 보기 (입학설명회 공식 PPT 자료)</span>
+        </button>
+      </div>
+
+      <div class="mt-4 p-4 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-start gap-3">
+        <div class="w-10 h-10 rounded-full bg-amber-200 text-amber-900 flex items-center justify-center font-extrabold text-lg flex-shrink-0" aria-hidden="true">₩</div>
+        <div>
+          <p class="text-sm sm:text-base font-extrabold text-slate-900">연간 약 9,000만 원 규모 장학 혜택</p>
+          <p class="text-xs sm:text-sm text-slate-600 mt-0.5 leading-relaxed">총동창회 장학금, 애향삼품 장학금, 창원한마음병원 장학금, 안주환 장학금 등. 입학 장학은 중학교 내신(석차백분율) 기준으로 적용됩니다.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- WIDGET 4-B. [NEW] 학부모 대상 입학홍보 카드뉴스 7장 기획물 쇼케이스 -->
+        <!-- WIDGET 4-B. [NEW] 학부모를 위한 입학홍보 카드뉴스 5편 기획 시리즈 -->
+    <section id="cardnews" class="card p-5 sm:p-7 reveal-on-scroll tilt-card" aria-labelledby="cardnews-title">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <p class="text-xs font-bold text-rose-600">학부모를 위한 핵심 요약 기획안내 (1편 ~ 5편)</p>
+          <h2 id="cardnews-title" class="text-[19px] sm:text-2xl font-extrabold text-slate-900 mt-1 leading-snug">
+            입학홍보 카드뉴스 기획 시리즈
+          </h2>
+        </div>
+        <span class="flex-shrink-0 bg-rose-100 text-rose-800 text-xs sm:text-sm font-bold px-2.5 py-1 rounded-full">학부모 필독</span>
+      </div>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-2 mb-4 leading-relaxed">
+        진해고의 5대 핵심 강점을 엄선한 카드뉴스 시리즈입니다. 원하시는 편을 선택하여 미리보기를 확인하시고, <strong>[카드뉴스 크게 보기]</strong>를 누르면 고화질 팝업창에서 <strong>모바일 스와이프(좌우 넘김) 또는 화살표</strong>로 전편 슬라이드를 넘겨보실 수 있습니다.
+      </p>
+
+      <!-- 5편 에피소드 탭 셀렉터 -->
+      <div class="tab-scroll flex gap-1.5 overflow-x-auto -mx-1 px-1 pb-2" role="tablist" aria-label="카드뉴스 5편 목록">
+        <button type="button" class="cardnews-tab-btn active whitespace-nowrap px-3.5 py-2 rounded-xl text-xs font-bold bg-brand-navy text-white transition shadow-sm" data-ep-idx="0">
+          제1편. 2028 5등급제 모수 (7장)
+        </button>
+        <button type="button" class="cardnews-tab-btn whitespace-nowrap px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 transition" data-ep-idx="1">
+          제2편. 153명 기숙사 케어
+        </button>
+        <button type="button" class="cardnews-tab-btn whitespace-nowrap px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 transition" data-ep-idx="2">
+          제3편. 연 9,000만 장학·복지 (5장)
+        </button>
+        <button type="button" class="cardnews-tab-btn whitespace-nowrap px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 transition" data-ep-idx="3">
+          제4편. 숫자로 증명하는 대입실적 (5장)
+        </button>
+        <button type="button" class="cardnews-tab-btn whitespace-nowrap px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 transition" data-ep-idx="4">
+          제5편. 300명 모수 & 45개 동아리 (6장)
+        </button>
+      </div>
+
+      <!-- 인터랙티브 카드뉴스 뷰어 박스 -->
+      <div class="mt-2 rounded-2xl bg-slate-50 border border-slate-200 p-4 sm:p-5">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+          <!-- 카드뉴스 이미지 미리보기 & 클릭 팝업 영역 -->
+          <div class="md:col-span-5 flex flex-col items-center">
+            <div id="cardnews-inline-stage" class="relative w-full max-w-[320px] aspect-square bg-slate-50 rounded-2xl overflow-hidden shadow-md border border-slate-200 group cursor-pointer select-none" onclick="openCardnewsModalCurrent()" title="클릭하여 카드뉴스 크게 보기">
+              <img id="cardnews-viewer-img" src="assets/images/cardnews/card_ep1_01.png" alt="진해고 입학홍보 카드뉴스 제1편" class="w-full h-full object-contain bg-white transition-transform group-hover:scale-102 duration-300" loading="lazy">
+              
+              <!-- 호버 시 크게 보기 오버레이 -->
+              <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <span class="inline-flex items-center gap-1.5 bg-white/95 text-slate-900 font-extrabold text-xs px-3.5 py-2 rounded-full shadow-lg">
+                  <i data-lucide="zoom-in" class="w-4 h-4 text-brand-blue"></i>
+                  크게 보기 (팝업)
+                </span>
+              </div>
+
+              <!-- 우측 상단 슬라이드 정보 배지 -->
+              <span id="cardnews-img-counter" class="absolute top-2.5 right-2.5 z-10 bg-slate-900/80 text-white text-[11px] font-extrabold px-2.5 py-1 rounded-full shadow-md tabular backdrop-blur-xs">
+                총 7장 슬라이드
+              </span>
+
+              <!-- 하단 힌트 배지 -->
+              <div class="absolute bottom-2.5 left-1/2 -translate-x-1/2 z-10 inline-flex items-center gap-1 bg-slate-900/80 text-white font-bold text-[11px] px-3 py-1.5 rounded-full shadow-md backdrop-blur-xs pointer-events-none whitespace-nowrap">
+                <i data-lucide="maximize-2" class="w-3 h-3 text-rose-300"></i>
+                <span>터치하여 크게 보기</span>
+              </div>
+            </div>
+            <span class="text-xs text-slate-500 mt-2 flex items-center gap-1 text-center">
+              <i data-lucide="hand" class="w-3.5 h-3.5 text-brand-blue"></i>
+              이미지를 누르면 고화질 팝업창에서 한 장씩 넘겨보실 수 있습니다
+            </span>
+          </div>
+
+          <!-- 카드뉴스 텍스트 안내 & 주요 포인트 -->
+          <div class="md:col-span-7 flex flex-col justify-between h-full space-y-4">
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <span id="cardnews-badge" class="bg-rose-100 text-rose-800 text-xs sm:text-sm font-extrabold px-2.5 py-0.5 rounded-md">제1편 핵심 분석</span>
+                <span id="cardnews-indicator" class="text-xs text-slate-500 font-bold tabular">제 1 편 / 총 5 편</span>
+              </div>
+              <h3 id="cardnews-title-text" class="text-base sm:text-lg font-extrabold text-slate-900 leading-snug">
+                2028 대입 개편 5등급제와 300명 대단지 일반고의 압도적 시너지
+              </h3>
+              <p id="cardnews-desc-text" class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+                2028학년도 5등급제 개편 시 1등급 비율이 상위 10%로 확대됩니다. 학생 수가 적은 소규모 학교는 1등급이 10명에 불과해 1명만 밀려도 1.00%p가 흔들리지만, 진해고는 10학급 300명 정원으로 1등급이 무려 30명까지 확보되어 내신 안정성이 3배 이상 뛰어납니다.
+              </p>
+            </div>
+
+            <!-- 핵심 포인트 3가지 블록 -->
+            <div id="cardnews-points" class="space-y-1.5 bg-white p-3.5 rounded-xl border border-slate-200/80 text-xs text-slate-700">
+              <p class="flex items-start gap-1.5">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5"></i>
+                <span><strong>1등급 30명 확보:</strong> 300명 모수로 1명의 변동 폭이 단 0.33%p에 불과</span>
+              </p>
+              <p class="flex items-start gap-1.5">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5"></i>
+                <span><strong>다양한 선택과목 개설:</strong> 학생 수가 많아 소인수 심화 과목도 폐강 없이 안전 개설</span>
+              </p>
+              <p class="flex items-start gap-1.5">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5"></i>
+                <span><strong>수능 최저 충족 최적:</strong> 면학 분위기가 잡힌 정독실과 연계하여 수능 최저 충족률 극대화</span>
+              </p>
+            </div>
+
+            <!-- 하단 편 이동 및 팝업 크게 보기 버튼 -->
+            <div class="flex items-center justify-between pt-1 gap-2 flex-wrap sm:flex-nowrap">
+              <div class="flex gap-2">
+                <button type="button" id="cardnews-prev-btn" class="px-3 py-1.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 active:scale-95 text-xs font-bold text-slate-700 transition flex items-center gap-1 shadow-2xs" onclick="stepCardnewsEpisode(-1)">
+                  <i data-lucide="chevron-left" class="w-4 h-4"></i> 이전 편
+                </button>
+                <button type="button" id="cardnews-next-btn" class="px-3 py-1.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 active:scale-95 text-xs font-bold text-slate-700 transition flex items-center gap-1 shadow-2xs" onclick="stepCardnewsEpisode(1)">
+                  다음 편 <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </button>
+              </div>
+
+              <button type="button" class="inline-flex items-center gap-1.5 bg-rose-600 hover:bg-rose-700 active:scale-95 text-white font-extrabold text-xs px-4 py-2 rounded-xl shadow transition" onclick="openCardnewsModalCurrent()">
+                <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i> 카드뉴스 크게 보기
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WIDGET 5. 학부모 FAQ -->
+    <section class="card p-5 sm:p-7 reveal-on-scroll tilt-card" aria-labelledby="faq-title">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <p class="text-xs font-bold text-brand-blue">24시간 AI 챗봇 누적 데이터 분석</p>
+          <h2 id="faq-title" class="text-[19px] sm:text-2xl font-extrabold text-slate-900 mt-1 leading-snug">
+            챗봇 실제 빈출 상담 질문 TOP 10
+          </h2>
+        </div>
+        <span class="flex-shrink-0 bg-blue-100 text-blue-800 text-xs sm:text-sm font-bold px-2.5 py-1 rounded-full">메인 퀵버튼 외 최다 질문</span>
+      </div>
+      <p class="text-xs sm:text-sm text-slate-600 mt-2 mb-2 leading-relaxed">
+        챗봇 첫 화면의 4대 기본 질문(전형일정, 선발기준, 장학금, 입시결과)을 제외하고, <strong>학부모와 중3 학생들이 실제로 챗봇에 가장 많이 질문한 10대 핵심 궁금증</strong>의 공식 답변입니다.
+      </p>
+      <div id="faq-list" class="mt-3 divide-y divide-slate-100"></div>
+      <button type="button" data-chat="" class="mt-4 w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-sm sm:text-base transition-colors">
+        <i data-lucide="bot" class="w-4 h-4 text-brand-blue"></i> 다른 궁금증은 AI 상담에게 물어보세요
+      </button>
+    </section>
+
+    <!-- 학교 정보 · 고지 및 개발자 저작권 귀속 -->
+    <section class="text-center text-xs sm:text-sm text-slate-500 leading-relaxed pt-2 pb-10">
+      <p class="font-bold text-slate-700 text-sm sm:text-base">진해고등학교</p>
+      <p>경상남도 창원시 진해구 여좌로 100</p>
+      <p>교무실(입학 상담) <a href="tel:0555462260" class="underline underline-offset-2">055-546-2260</a> · 행정실 <a href="tel:0555462361" class="underline underline-offset-2">055-546-2361</a></p>
+      <p><a href="https://jinhae-h.gne.go.kr" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2">학교 누리집 바로가기</a></p>
+      <p class="mt-2 text-slate-400">본 페이지는 2027학년도 신입생 입학전형 안내 기준이며, 세부 사항은 학교 누리집 공지가 우선합니다.</p>
+
+      <!-- 독점 개발자 개인 저작권 및 템플릿 도용 방지 법적 고지 -->
+      <div class="mt-5 pt-4 border-t border-slate-200/80 max-w-xl mx-auto text-[11px] sm:text-xs text-slate-400 leading-normal space-y-1.5 px-3">
+        <p class="font-bold text-slate-600">
+          System Architecture & Framework Copyright ⓒ 2026-2027 2026학년도 입학업무담당자. All Rights Reserved.
+        </p>
+        <p class="text-slate-500">
+          본 입학홍보 시스템의 UI/UX 디자인, 기숙사 입사 자가진단 계산 알고리즘, 반응형 웹 아키텍처 및 소스 코드의 지식재산권은 <strong>2026학년도 입학업무담당자</strong>에게 독점 귀속됩니다.
+        </p>
+        <p class="text-slate-400 text-[10px] sm:text-[11px]">
+          저작권자의 사전 서면 허가 없는 타 학교·사설 업체의 프레임워크 무단 복제, 템플릿 도용, 소스 재배포를 일절 금합니다. (입학 공시 정보 및 학교 데이터 ⓒ 진해고등학교)
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- 하단 고정 액션 바 -->
+  <div class="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-slate-200 pt-2.5 pb-safe px-3 shadow-[0_-8px_24px_-12px_rgba(15,39,74,.18)]">
+    <div class="max-w-4xl mx-auto flex items-stretch gap-2">
+      <button type="button" data-chat="" class="flex-1 min-h-[48px] bg-brand-navy hover:bg-slate-800 active:scale-[.99] text-white font-bold px-3 rounded-2xl shadow-md transition flex items-center justify-center gap-1.5 text-sm sm:text-base sm:text-[15px]">
+        <i data-lucide="bot" class="w-[18px] h-[18px] text-amber-300"></i>
+        24시간 AI 입학상담
+      </button>
+      <button type="button" id="share-btn" class="min-h-[48px] bg-amber-300 hover:bg-amber-400 text-amber-950 font-bold px-3.5 rounded-2xl transition flex items-center justify-center gap-1 text-sm sm:text-base" aria-label="입학안내 페이지 공유하기">
+        <i data-lucide="share-2" class="w-4 h-4"></i>
+        <span>공유</span>
+      </button>
+      <a href="tel:0555462260" class="min-h-[48px] bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-3.5 rounded-2xl transition flex items-center justify-center gap-1 text-sm sm:text-base" aria-label="교무실 입학 상담 전화 055-546-2260">
+        <i data-lucide="phone-call" class="w-4 h-4 text-brand-blue"></i>
+        <span>전화</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- AI 챗봇 모달 (바텀시트) -->
+  <div id="chatbot-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="chat-title" aria-hidden="true" inert>
+    <div class="sheet shadow-2xl">
+      <div class="sm:hidden flex justify-center pt-2 pb-1 bg-brand-navy" aria-hidden="true"><span class="w-10 h-1 rounded-full bg-white/30"></span></div>
+      <div class="bg-brand-navy text-white px-4 py-3 flex items-center justify-between gap-2 flex-shrink-0">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center font-extrabold text-xs flex-shrink-0">AI</div>
+          <div class="min-w-0">
+            <p id="chat-title" class="font-bold text-sm sm:text-base flex items-center gap-1.5 truncate">
+              진해고 24시간 입학상담
+              <span class="bg-emerald-500 text-white text-xs px-1.5 py-px rounded-full font-mono">LIVE</span>
+            </p>
+            <p class="text-xs sm:text-sm text-slate-300 truncate">기숙사 규정 · 입학 전형 · 장학 혜택</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-1 flex-shrink-0">
+          <a href="https://jinhae-bot2.vercel.app/" target="_blank" rel="noopener noreferrer" class="p-2 text-slate-300 hover:text-white rounded-full hover:bg-white/10" aria-label="챗봇 새 창으로 열기">
+            <i data-lucide="external-link" class="w-[18px] h-[18px]"></i>
+          </a>
+          <button type="button" id="chat-close" class="p-2 text-slate-300 hover:text-white rounded-full hover:bg-white/10" aria-label="상담 창 닫기">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+
+              <!-- 개인정보 보호 안내 바 -->
+        <p class="flex-shrink-0 bg-amber-50 border-b border-amber-200 px-4 py-1.5 text-[11px] sm:text-xs text-amber-900 flex items-center gap-1.5">
+          <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-amber-600 flex-shrink-0"></i>
+          <span>학생 실명·연락처·주민번호 등 개인정보는 입력하지 마세요. (상담 내역은 진학 참고용입니다)</span>
+        </p>
+        <div id="chat-suggest" class="hidden flex-shrink-0 bg-blue-50 border-b border-blue-100 px-4 py-2.5 flex items-center gap-2">
+        <span class="text-xs sm:text-sm font-bold text-blue-700 flex-shrink-0">추천 질문</span>
+        <span id="chat-suggest-text" class="text-xs sm:text-sm text-slate-700 truncate flex-1"></span>
+        <button type="button" id="chat-suggest-copy" class="flex-shrink-0 inline-flex items-center gap-1 text-xs sm:text-sm font-bold text-white bg-brand-blue px-2.5 py-1 rounded-full">
+          <i data-lucide="copy" class="w-3 h-3"></i> 복사
+        </button>
+      </div>
+
+      <div class="flex-1 min-h-0 relative bg-slate-50">
+        <div id="chat-loader" class="absolute inset-0 flex flex-col items-center justify-center gap-3 text-slate-500 text-sm sm:text-base">
+          <i data-lucide="loader-circle" class="w-7 h-7 animate-spin text-brand-blue"></i>
+          <span>AI 상담 선생님을 연결하고 있어요…</span>
+          <a id="chat-fallback" href="https://jinhae-bot2.vercel.app/" target="_blank" rel="noopener noreferrer" class="hidden text-brand-blue font-bold underline underline-offset-2">연결이 느리면 새 창에서 열기</a>
+        </div>
+        <iframe id="chatbot-iframe" data-src="https://jinhae-bot2.vercel.app/" title="진해고 AI 입학상담 챗봇" class="absolute inset-0 w-full h-full border-0 opacity-0 transition-opacity duration-300" allow="clipboard-write" referrerpolicy="strict-origin-when-cross-origin" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast bg-slate-900/95 text-white text-sm sm:text-base font-semibold px-4 py-2.5 rounded-full shadow-lg max-w-[90vw] text-center" role="status" aria-live="polite"></div>
+
+  <script>
+  (function () {
+    'use strict';
+
+    var refreshIcons = function () { if (window.lucide) window.lucide.createIcons(); };
+    var $ = function (id) { return document.getElementById(id); };
+    var HOUR = 3600 * 1000, DAY = 24 * HOUR, KST = 9 * HOUR;
+    var pad = function (n) { return String(n).padStart(2, '0'); };
+
+    /* ---------- 공통: iOS 구형 Safari용 뷰포트 높이 보정 ---------- */
+    function setAppVh() {
+      var h = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+      document.documentElement.style.setProperty('--app-vh', (h * 0.01) + 'px');
+    }
+    setAppVh();
+    window.addEventListener('resize', setAppVh);
+    if (window.visualViewport) window.visualViewport.addEventListener('resize', setAppVh);
+
+    /* ---------- 공통: 토스트 & 클립보드 ---------- */
+    var toastTimer;
+    function toast(msg) {
+      var el = $('toast');
+      el.textContent = msg;
+      el.classList.add('is-show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () { el.classList.remove('is-show'); }, 2600);
+    }
+    function copyText(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(text).then(function () { return true; }, function () { return legacyCopy(text); });
+      }
+      return Promise.resolve(legacyCopy(text));
+    }
+    function legacyCopy(text) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;font-size:16px;';
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, text.length);
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      document.body.removeChild(ta);
+      return ok;
+    }
+
+    /* ---------- 1. 전형 단계 자동 전환 D-Day ---------- */
+    var T = {
+      open: Date.parse('2026-12-10T10:00:00+09:00'),
+      close: Date.parse('2026-12-14T14:00:00+09:00'),
+      announce: Date.parse('2026-12-30T10:00:00+09:00'),
+      register: Date.parse('2027-01-04T16:30:00+09:00')
+    };
+
+    function getPhase(now) {
+      if (now < T.open) return { step: 0, target: T.open, label: '원서 접수 시작까지', chip: '접수 예정', live: false };
+      if (now < T.close) return { step: 0, target: T.close, label: '원서 접수 마감까지 · 지금 접수 중', chip: '접수 중', live: true };
+      if (now < T.announce) return { step: 1, target: T.announce, label: '합격자 발표까지', chip: '발표 예정', live: false };
+      if (now < T.register) return { step: 2, target: T.register, label: '등록 확인서 제출 마감까지', chip: '제출 기간', live: true };
+      return { step: 3, target: null, label: '2027학년도 신입생 모집이 마감되었습니다', chip: '', live: false };
+    }
+
+    // KST 달력 기준 D-Day (시간 차이 기준 floor 사용 시 '내일인데 D-0' 오류 방지)
+    function kstDayIndex(ms) { return Math.floor((ms + KST) / DAY); }
+
+    var lastStep = -1;
+    function renderJourney(phase) {
+      if (phase.step === lastStep) return;
+      lastStep = phase.step;
+      var steps = document.querySelectorAll('.journey-step');
+      steps.forEach(function (li, i) {
+        var dot = li.querySelector('.step-dot');
+        var label = li.querySelector('.step-label');
+        var chip = li.querySelector('.step-chip');
+        var base = 'step-dot w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ';
+        if (i < phase.step) {
+          dot.className = base + 'bg-brand-blue text-white shadow-md';
+          dot.innerHTML = '<i data-lucide="check" class="w-4 h-4"></i>';
+          label.className = 'step-label text-xs font-bold mt-1.5 text-slate-500';
+          chip.className = 'step-chip hidden';
+          li.removeAttribute('aria-current');
+        } else if (i === phase.step) {
+          dot.className = base + 'bg-brand-blue text-white ring-4 ring-blue-100 shadow-lg shadow-blue-600/30';
+          dot.textContent = String(i + 1);
+          label.className = 'step-label text-xs font-extrabold mt-1.5 text-brand-navy';
+          chip.textContent = phase.chip;
+          chip.className = 'step-chip mt-1 text-xs font-bold px-1.5 py-0.5 rounded-full ' + (phase.live ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-800');
+          li.setAttribute('aria-current', 'step');
+        } else {
+          dot.className = base + 'bg-white border-2 border-slate-200 text-slate-400';
+          dot.textContent = String(i + 1);
+          label.className = 'step-label text-xs font-semibold mt-1.5 text-slate-600';
+          chip.className = 'step-chip hidden';
+          li.removeAttribute('aria-current');
+        }
+      });
+      $('journey-fill').style.width = Math.min(phase.step, 2) * 50 + '%';
+      $('live-dot').className = 'pulse-dot inline-block w-2 h-2 rounded-full flex-shrink-0 ' +
+        (phase.live ? 'bg-emerald-400 text-emerald-400' : (phase.target ? 'bg-amber-300 text-amber-300' : 'bg-slate-400 text-slate-400'));
+      refreshIcons();
+    }
+
+    function updateCountdown() {
+      var now = Date.now();
+      var phase = getPhase(now);
+      renderJourney(phase);
+      $('phase-label').textContent = phase.label;
+
+      if (!phase.target) {
+        $('dday-tag').textContent = '모집 종료';
+        $('countdown-timer').textContent = '';
+        return;
+      }
+      var diff = phase.target - now;
+      var dd = kstDayIndex(phase.target) - kstDayIndex(now);
+      $('dday-tag').textContent = dd > 0 ? 'D-' + dd : 'D-Day';
+
+      var d = Math.floor(diff / DAY);
+      var h = Math.floor((diff % DAY) / HOUR);
+      var m = Math.floor((diff % HOUR) / 60000);
+      var s = Math.floor((diff % 60000) / 1000);
+      $('countdown-timer').textContent = (d > 0 ? d + '일 ' : '') + pad(h) + ':' + pad(m) + ':' + pad(s);
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+    document.addEventListener('visibilitychange', function () { if (!document.hidden) updateCountdown(); });
+
+    /* ---------- 2. 주/야간 앰비언트 & 지금 기숙사 시간 ---------- */
+    var ambientOverride = null; // null=자동, 'day' | 'night'
+
+    function dormStatus(now) {
+      var k = new Date(now + KST);
+      var day = k.getUTCDay();                       // 0=일 … 6=토 (KST)
+      var m = k.getUTCHours() * 60 + k.getUTCMinutes();
+      var at = function (h, mm) { return h * 60 + (mm || 0); };
+      var slot = null, text;
+
+      if (day === 6 || (day === 5 && m >= at(16, 30)) || (day === 0 && m < at(18, 30))) {
+        text = '주말 귀가 · 가족과 재충전 중';
+      } else if (day === 0) {
+        if (m < at(21)) text = '일요일 저녁 재입사 중 (18:30~21:00)';
+        else if (m < at(23, 30)) { text = '정독실에서 자습 중'; slot = 'study2'; }
+        else { text = '소등 · 휴식 중'; slot = 'sleep'; }
+      } else if (m < at(6, 30)) { text = '숙면 중 · 06:30 기상'; }
+      else if (m < at(8)) { text = '기상 · 아침 점호 · 조식'; slot = 'wake'; }
+      else if (m < at(16, 30)) { text = '정규 수업 중'; slot = 'class'; }
+      else if (m < at(18, 30)) { text = '석식 · 휴식 시간'; }
+      else if (m < at(21))     { text = '1차 교실 야간 자율학습 중'; slot = 'study1'; }
+      else if (m < at(21, 30)) { text = '휴식 · 휴대전화 사용 시간'; slot = 'break'; }
+      else if (m < at(23, 30)) { text = '2차 기숙사 정독실 자습 중'; slot = 'study2'; }
+      else { text = '소등 · 희망자 연장 자습(1·2학년 01:00 / 3학년 01:30)'; slot = 'sleep'; }
+
+      return { text: text, slot: slot, hour: k.getUTCHours(), hm: pad(k.getUTCHours()) + ':' + pad(k.getUTCMinutes()) };
+    }
+
+    function applyAmbient() {
+      var st = dormStatus(Date.now());
+      var autoNight = st.hour >= 19 || st.hour < 6;
+      var night = ambientOverride ? ambientOverride === 'night' : autoNight;
+      document.body.classList.toggle('is-night', night);
+      $('ambient-icon').innerHTML = '<i data-lucide="' + (night ? 'moon' : 'sun') + '" class="w-3.5 h-3.5"></i>';
+      $('ambient-text').textContent = '지금 ' + st.hm + ' · ' + st.text;
+
+      document.querySelectorAll('#routine > li').forEach(function (li) {
+        var on = li.getAttribute('data-slot') === st.slot;
+        li.classList.toggle('bg-blue-50', on);
+        li.classList.toggle('rounded-xl', on);
+        li.classList.toggle('py-2', on);
+        li.classList.toggle('-my-2', on);
+        var badge = li.querySelector('.now-badge');
+        if (on && !badge) {
+          var b = document.createElement('span');
+          b.className = 'now-badge ml-1.5 align-middle text-xs font-extrabold text-white bg-emerald-500 px-1.5 py-0.5 rounded';
+          b.textContent = 'NOW';
+          li.querySelector('p').appendChild(b);
+        } else if (!on && badge) {
+          badge.remove();
+        }
+      });
+      refreshIcons();
+    }
+    $('ambient-toggle').addEventListener('click', function () {
+      var isNight = document.body.classList.contains('is-night');
+      ambientOverride = isNight ? 'day' : 'night';
+      applyAmbient();
+    });
+    applyAmbient();
+    setInterval(applyAmbient, 30000);
+
+    /* ---------- 3. 기숙사 입사 자가진단 ---------- */
+    var REGION = {
+      in:  { name: '진해 관내', priority: 5,  quota: '관내 성적우수자 우선입사(5% 이내)' },
+      far: { name: '진해 원거리(용원·웅동·웅천)', priority: 30, quota: '원거리 통학 우선입사(30% 이내)' },
+      out: { name: '진해 외 경남 지역', priority: 30, quota: '원거리 통학 우선입사(30% 이내)' }
+    };
+    var TONE = {
+      priority: { box: 'bg-emerald-50 border-emerald-200', icon: 'bg-emerald-100 text-emerald-700', badge: 'bg-emerald-600 text-white', name: 'shield-check' },
+      good:     { box: 'bg-blue-50 border-blue-200',       icon: 'bg-blue-100 text-blue-700',       badge: 'bg-blue-600 text-white',    name: 'circle-check-big' },
+      mid:      { box: 'bg-amber-50 border-amber-200',     icon: 'bg-amber-100 text-amber-700',     badge: 'bg-amber-500 text-white',   name: 'info' },
+      hard:     { box: 'bg-rose-50 border-rose-200',       icon: 'bg-rose-100 text-rose-700',       badge: 'bg-rose-600 text-white',    name: 'triangle-alert' }
+    };
+    var GAUGE_MAX = 60;
+
+    function parsePercentile(raw) {
+      var v = String(raw).trim().replace(/,/g, '.').replace(/%/g, '').replace(/\s+/g, '');
+      if (!v) return { error: '석차백분율을 입력해 주세요.' };
+      if (!/^\d{1,3}(\.\d{1,2})?$/.test(v)) return { error: '숫자만 입력해 주세요. (예: 15.4, 소수점 둘째 자리까지)' };
+      var p = Number(v);
+      if (!(p > 0) || p > 100) return { error: '0보다 크고 100 이하인 값을 입력해 주세요.' };
+      return { value: p };
+    }
+
+    function showFieldError(msg) {
+      var input = $('percentile-input'), err = $('percentile-error');
+      if (msg) {
+        err.textContent = msg;
+        err.classList.remove('hidden');
+        input.setAttribute('aria-invalid', 'true');
+        input.classList.add('border-rose-400', 'shake');
+        setTimeout(function () { input.classList.remove('shake'); }, 400);
+        input.focus();
+      } else {
+        err.classList.add('hidden');
+        input.removeAttribute('aria-invalid');
+        input.classList.remove('border-rose-400');
+      }
+    }
+
+    (function(w) {
+  var _S = [
+    "진해 관내", // 0
+    "관내 성적우수자 우선입사(5% 이내)", // 1
+    "진해 원거리(용원·웅동·웅천)", // 2
+    "원거리 통학 우선입사(30% 이내)", // 3
+    "진해 외 경남 지역", // 4
+    "priority", // 5
+    "good", // 6
+    "mid", // 7
+    "hard", // 8
+    "bg-emerald-50 border-emerald-200", // 9
+    "bg-emerald-100 text-emerald-700", // 10
+    "bg-emerald-600 text-white", // 11
+    "shield-check", // 12
+    "bg-blue-50 border-blue-200", // 13
+    "bg-blue-100 text-blue-700", // 14
+    "bg-blue-600 text-white", // 15
+    "circle-check-big", // 16
+    "bg-amber-50 border-amber-200", // 17
+    "bg-amber-100 text-amber-700", // 18
+    "bg-amber-500 text-white", // 19
+    "info", // 20
+    "bg-rose-50 border-rose-200", // 21
+    "bg-rose-100 text-rose-700", // 22
+    "bg-rose-600 text-white", // 23
+    "triangle-alert", // 24
+    "우선입사 대상", // 25
+    "다자녀 가구 셋째(이상) 자녀 우선입사", // 26
+    "다자녀 가구의 셋째(이상) 자녀는 신입생 기숙사 <strong>우선입사 대상</strong>에 해당합니다.", // 27
+    " 입력하신 ", // 28
+    "는 ", // 29
+    " 기준도 함께 충족합니다.", // 30
+    "1학년 2학기부터는 재학생 기준(고교 학기말 성적 + 전국연합학력평가)으로 다시 선발되므로 꾸준한 성적 관리가 권장됩니다.", // 31
+    "in", // 32
+    "우선입사 확실권", // 33
+    "관내 성적우수자 우선입사(5% 이내) 충족", // 34
+    "진해 관내 출신 기준 우선입사선(5% 이내)에 입력하신 <strong>", // 35
+    "</strong>가 들어옵니다. 성적우수자전형 우선입사 대상자로 합격 가능성이 매우 높습니다.", // 36
+    "기숙사 합격자는 2월 초 학교 누리집(홈페이지)에 공지됩니다.", // 37
+    "일반입사 안정권", // 38
+    "작년 커트라인(약 16%) 이내 안정권", // 39
+    "우선입사선(5%)은 초과하지만, <strong>작년 기준 관내 합격선이 약 16%에서 마감</strong>되었으므로 일반전형으로 입사할 가능성이 매우 높습니다. 입력하신 <strong>", // 40
+    "</strong>는 안정권 범위 안쪽입니다.", // 41
+    "체감 합격선은 해마다 지원자 수와 성적 분포에 따라 다소 달라질 수 있습니다.", // 42
+    "경합 · 추가합격 대기권", // 43
+    "작년 컷오프(16%) 경계 및 결원 대기권", // 44
+    "</strong>는 작년 관내 커트라인(약 16%)을 다소 초과하는 경합 구간입니다. 당해 지원자 풀에 따라 정규 선발 또는 결원 발생 시 <strong>충원 입사(대기자 선발)</strong>를 기대해 볼 수 있는 구간이니 입사 신청서를 꼭 제출해 두세요.", // 45
+    "신입생 결원 발생 시 기숙사운영위원회 규정에 따라 대기 순번대로 충원 입사를 진행합니다.", // 46
+    "도전권", // 47
+    "도전권 · 1학년 2학기 재선발 기회", // 48
+    "</strong>는 최근 관내 합격선(작년 약 16%)과 비교할 때 1학기 신입생 일반전형 선발 가능성이 다소 낮을 수 있습니다. 그래도 입사 신청서를 접수해 두면 결원 시 충원 대상이 되며, <strong>1학년 2학기부터는 고교 내신과 전국연합학력평가 성적으로 새롭게 전원 재선발</strong>합니다.", // 49
+    "통학 및 교실 야간 자율학습 참여 등 대안은 교무실(055-546-2260)에서 친절히 안내해 드립니다.", // 50
+    "원거리 우선입사 안정권", // 51
+    " 충족", // 52
+    " 출신 기준 원거리 통학 우선입사선(30% 이내)에 입력하신 <strong>", // 53
+    "</strong>가 들어옵니다. 원거리 우대선발 대상으로 입사 가능성이 매우 높습니다.", // 54
+    "원거리 학생들의 통학 편의를 위해 우선 배정 혜택을 제공하고 있습니다.", // 55
+    "원거리 경합권", // 56
+    "원거리 일반전형 경합권", // 57
+    "원거리 우선입사선(30%)은 다소 벗어나지만, 원거리 통학 여건을 감안한 일반전형 경합 구간입니다. 결원 발생 시 충원 입사를 기대할 수 있으니 신청서를 제출해 두세요.", // 58
+    "결원이 생기면 학기별 충원 입사를 진행합니다.", // 59
+    "</strong>는 원거리 선발 기준선 바깥입니다. 결원 시 충원 대상이 되며, 1학년 2학기부터는 고교 성적 기준으로 다시 선발합니다.", // 60
+    "통학 상담은 교무실(055-546-2260)에서 자세히 안내해 드립니다.", // 61
+    "%" // 62
+  ];
+
+  function _G(i) { return _S[i]; }
+
+  var _R = {
+    "in":  { name: _G(0), priority: 5,  quota: _G(1) },
+    "far": { name: _G(2), priority: 30, quota: _G(3) },
+    "out": { name: _G(4), priority: 30, quota: _G(3) }
+  };
+
+  var _T = {
+    "priority": { box: _G(9),  icon: _G(10), badge: _G(11), name: _G(12) },
+    "good":     { box: _G(13), icon: _G(14), badge: _G(15), name: _G(16) },
+    "mid":      { box: _G(17), icon: _G(18), badge: _G(19), name: _G(20) },
+    "hard":     { box: _G(21), icon: _G(22), badge: _G(23), name: _G(24) }
+  };
+
+  var _M = 60;
+
+  function _diag(rk, p, isM) {
+    var r = _R[rk] || _R["in"];
+    var pt = (Math.round(p * 100) / 100) + _G(62);
+    var mp = p <= r.priority;
+
+    if (isM) {
+      return {
+        tone: _G(5), badge: _G(25), title: _G(26),
+        desc: _G(27) + (mp ? _G(28) + pt + _G(29) + r.quota + _G(30) : ""),
+        note: _G(31)
+      };
+    }
+
+    if (rk === _G(32)) {
+      if (p <= 5) {
+        return { tone: _G(5), badge: _G(33), title: _G(34), desc: _G(35) + pt + _G(36), note: _G(37) };
+      }
+      if (p <= 16) {
+        return { tone: _G(6), badge: _G(38), title: _G(39), desc: _G(40) + pt + _G(41), note: _G(42) };
+      }
+      if (p <= 25) {
+        return { tone: _G(7), badge: _G(43), title: _G(44), desc: _G(28) + pt + _G(45), note: _G(46) };
+      }
+      return { tone: _G(8), badge: _G(47), title: _G(48), desc: _G(28) + pt + _G(49), note: _G(50) };
+    } else {
+      if (p <= 30) {
+        return { tone: _G(5), badge: _G(51), title: r.quota + _G(52), desc: r.name + _G(53) + pt + _G(54), note: _G(55) };
+      }
+      if (p <= 40) {
+        return { tone: _G(7), badge: _G(56), title: _G(57), desc: _G(58), note: _G(59) };
+      }
+      return { tone: _G(8), badge: _G(47), title: _G(48), desc: _G(28) + pt + _G(60), note: _G(61) };
+    }
+  }
+
+  function _gauge(p, prio, rk) {
+    var w = function(a, b) { return ((b - a) / _M * 100).toFixed(2) + "%"; };
+    var l = (Math.min(p, _M) / _M * 100).toFixed(2) + "%";
+    if (rk === _G(32)) {
+      return '<div class="mt-4" aria-hidden="true">' +
+        '<div class="relative h-3 rounded-full overflow-hidden flex">' +
+          '<span class="h-full bg-emerald-400" style="width:' + w(0, 5) + '"></span>' +
+          '<span class="h-full bg-blue-400" style="width:' + w(5, 16) + '"></span>' +
+          '<span class="h-full bg-amber-300" style="width:' + w(16, 25) + '"></span>' +
+          '<span class="h-full bg-rose-300" style="width:' + w(25, _M) + '"></span>' +
+        '</div>' +
+        '<div class="relative h-0">' +
+          '<span class="gauge-marker absolute -top-[18px] -translate-x-1/2 w-1 h-6 rounded-full bg-slate-900 ring-2 ring-white" style="left:0%" data-left="' + l + '"></span>' +
+        '</div>' +
+        '<div class="relative mt-1.5 h-4 text-xs text-slate-500 tabular">' +
+          '<span class="absolute -translate-x-1/2" style="left:' + w(0, 5) + '">5%</span>' +
+          '<span class="absolute -translate-x-1/2" style="left:' + w(0, 16) + '">16%(작년컷)</span>' +
+          '<span class="absolute -translate-x-1/2" style="left:' + w(0, 25) + '">25%</span>' +
+          '<span class="absolute right-0">' + _M + '%+</span>' +
+        '</div>' +
+      '</div>';
+    }
+    return '<div class="mt-4" aria-hidden="true">' +
+      '<div class="relative h-3 rounded-full overflow-hidden flex">' +
+        '<span class="h-full bg-emerald-400" style="width:' + w(0, 30) + '"></span>' +
+        '<span class="h-full bg-amber-300" style="width:' + w(30, 40) + '"></span>' +
+        '<span class="h-full bg-rose-300" style="width:' + w(40, _M) + '"></span>' +
+      '</div>' +
+      '<div class="relative h-0">' +
+        '<span class="gauge-marker absolute -top-[18px] -translate-x-1/2 w-1 h-6 rounded-full bg-slate-900 ring-2 ring-white" style="left:0%" data-left="' + l + '"></span>' +
+      '</div>' +
+      '<div class="relative mt-1.5 h-4 text-xs text-slate-500 tabular">' +
+        '<span class="absolute -translate-x-1/2" style="left:' + w(0, 30) + '">30%</span>' +
+        '<span class="absolute -translate-x-1/2" style="left:' + w(0, 40) + '">40%</span>' +
+        '<span class="absolute right-0">' + _M + '%+</span>' +
+      '</div>' +
+    '</div>';
+  }
+
+  w.__dormEngine = {
+    diagnose: _diag,
+    gauge: _gauge,
+    getRegion: function(k) { return _R[k] || _R["in"]; },
+    getTone: function(k) { return _T[k]; },
+    hasRegion: function(k) { return Object.prototype.hasOwnProperty.call(_R, k); }
+  };
+})(window);
+
+    $('dorm-diag-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var parsed = parsePercentile($('percentile-input').value);
+      if (parsed.error) { showFieldError(parsed.error); return; }
+      showFieldError(null);
+      $('percentile-input').blur(); // 모바일 키보드 닫기
+
+      var region = $('school-region').value;
+      if (!window.__dormEngine.hasRegion(region)) region = 'in';
+      var res = window.__dormEngine.diagnose(region, parsed.value, $('multichild-check').checked);
+      var tone = window.__dormEngine.getTone(res.tone);
+      var box = $('dorm-result-box');
+
+      box.className = 'mt-5 p-4 sm:p-5 rounded-2xl border result-enter ' + tone.box;
+      box.innerHTML = '' +
+        '<div class="flex items-start gap-3">' +
+          '<div class="p-2 rounded-xl flex-shrink-0 ' + tone.icon + '"><i data-lucide="' + tone.name + '" class="w-5 h-5"></i></div>' +
+          '<div class="flex-1 min-w-0">' +
+            '<span class="inline-block px-2.5 py-0.5 rounded-full text-xs sm:text-sm font-extrabold ' + tone.badge + '">' + res.badge + '</span>' +
+            '<p class="font-extrabold text-[15px] sm:text-base text-slate-900 mt-1.5 leading-snug">' + res.title + '</p>' +
+            '<p class="text-sm sm:text-base text-slate-700 mt-1.5 leading-relaxed">' + res.desc + '</p>' +
+            '<p class="text-xs sm:text-sm text-slate-500 mt-2 leading-relaxed">💡 ' + res.note + '</p>' +
+          '</div>' +
+        '</div>' +
+        window.__dormEngine.gauge(parsed.value, window.__dormEngine.getRegion(region).priority, region) +
+        '<div class="mt-4 pt-3 border-t border-slate-900/5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">' +
+          '<span class="text-xs sm:text-sm text-slate-500">※ 참고용 진단이며, 최종 선발은 2027학년도 기숙사 입사 요강과 기숙사운영위원회 사정에 따릅니다. 기숙사 합격자는 2월 초 누리집에 공지됩니다.</span>' +
+          '<button type="button" data-chat="기숙사 신입생 선발 기준과 충원 입사 절차를 자세히 알려줘" class="flex-shrink-0 inline-flex items-center justify-center gap-1 text-sm sm:text-base font-bold text-brand-blue bg-white border border-blue-200 px-3 py-2 rounded-xl hover:bg-blue-50">' +
+            'AI에게 기숙사 규정 묻기 <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>' +
+          '</button>' +
+        '</div>';
+      refreshIcons();
+
+      var marker = box.querySelector('.gauge-marker');
+      requestAnimationFrame(function () { requestAnimationFrame(function () { marker.style.left = marker.getAttribute('data-left'); }); });
+      box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+    $('percentile-input').addEventListener('input', function () {
+      if (!$('percentile-error').classList.contains('hidden')) showFieldError(null);
+    });
+
+    /* ---------- 4. 5등급제 도트 그리드 & 시뮬레이터 ---------- */
+    function renderDots(id, total) {
+      var g1 = Math.round(total * 0.10), g2 = Math.round(total * 0.34);
+      var html = '';
+      for (var i = 0; i < total; i++) {
+        html += '<i class="' + (i < g1 ? 'bg-amber-400' : i < g2 ? 'bg-blue-500' : 'bg-slate-300') + '"></i>';
+      }
+      $(id).innerHTML = html;
+    }
+    renderDots('dots-300', 300);
+    renderDots('dots-100', 100);
+
+    function updateWeight() {
+      var n = Number($('rank-slider').value);
+      var a = n / 300 * 100, b = n / 100 * 100;
+      $('rank-n').textContent = n;
+      $('w-300').textContent = '+' + a.toFixed(2) + '%p';
+      $('w-100').textContent = '+' + b.toFixed(2) + '%p';
+      $('bar-300').style.width = (a / 10 * 100) + '%';
+      $('bar-100').style.width = (b / 10 * 100) + '%';
+    }
+    $('rank-slider').addEventListener('input', updateWeight);
+    updateWeight();
+
+    /* ---------- 5. 기숙사 시설 탭 ---------- */
+    var dormTabData = [
+      {
+        icon: 'building-2',
+        title: '동백관 · 신축 기숙사 (1·2학년 3인 1실, 각 51명 / 3학년 일부)',
+        items: [
+          '1·2학년 전원(각 51명) 및 3학년 일부 학생이 3인 1실로 생활합니다.',
+          '심화실을 쓰는 학생들의 경우 동선을 고려해 지정 호실군 내에서 배정하며, 그 외 일반 호실은 공정하게 무작위 배정합니다.',
+          '침실은 휴식 전용 공간이며, 학습은 교실과 정독실에서 이루어집니다.'
+        ]
+      },
+      {
+        icon: 'house',
+        title: '송학관 · 3학년 면학관 (3학년 2인 1실)',
+        items: [
+          '3학년 학생들이 2인 1실로 생활하며 수험 생활에 집중합니다.',
+          '소등(23:30) 이후에도 희망자는 정독실에서 연장 자습(1·2학년 01:00, 3학년 01:30까지)이 가능합니다.',
+          '3학년(51명)은 정원에 따라 동백관(3인 1실)과 송학관(2인 1실)에 나누어 배정됩니다.'
+        ]
+      },
+      {
+        icon: 'book-open',
+        title: '정독실 · 기숙사생 전용 개인 지정 면학실',
+        items: [
+          '1차 교실 야자(18:30~21:00) 및 휴식 후 21:30부터 기숙사생 전원이 개인 지정석에서 자습합니다.',
+          '휴대전화는 정해진 시간(21:00~21:30)에만 사용 가능하며, 사용 종료 후 전용 보관함에 안전하게 보관합니다.',
+          '인강용 태블릿은 학습실 내에서만 허용되며, 호실·복도 등 학습실 외 공간에서의 전자기기 소지 및 사용은 엄격히 금지됩니다.'
+        ]
+      },
+      {
+        icon: 'utensils',
+        title: '기숙사비 · 급식비 (2026학년도 기준)',
+        items: [
+          '기숙사비(순수 관리비) 월 81,000원, 스쿨뱅킹 자동 납부 (2027학년도 다소 변경될 수 있음)',
+          '조식·석식 1식 6,000원 (수익자 부담)',
+          '중식은 무상급식이 적용됩니다.'
+        ]
+      }
+    ];
+    var tabButtons = Array.prototype.slice.call(document.querySelectorAll('.dorm-tab-btn'));
+
+    function switchDormTab(index, focus) {
+      tabButtons.forEach(function (btn, i) {
+        var on = i === index;
+        btn.setAttribute('aria-selected', on ? 'true' : 'false');
+        btn.setAttribute('tabindex', on ? '0' : '-1');
+        btn.className = 'dorm-tab-btn whitespace-nowrap px-3.5 py-2 rounded-full text-sm sm:text-base font-bold transition-colors ' +
+          (on ? 'bg-brand-navy text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200');
+      });
+      var d = dormTabData[index];
+      $('dorm-tab-content').innerHTML =
+        '<p class="font-extrabold text-slate-900 mb-2 flex items-center gap-1.5"><i data-lucide="' + d.icon + '" class="w-4 h-4 text-brand-blue flex-shrink-0"></i>' + d.title + '</p>' +
+        '<ul class="space-y-1.5">' + d.items.map(function (t) {
+          return '<li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5"></i><span>' + t + '</span></li>';
+        }).join('') + '</ul>';
+      refreshIcons();
+      if (focus) {
+        tabButtons[index].focus();
+        tabButtons[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+    }
+    tabButtons.forEach(function (btn, i) {
+      btn.addEventListener('click', function () { switchDormTab(i, false); });
+      btn.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowRight') { e.preventDefault(); switchDormTab((i + 1) % tabButtons.length, true); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); switchDormTab((i - 1 + tabButtons.length) % tabButtons.length, true); }
+      });
+    });
+    switchDormTab(0, false);
+
+        /* ---------- 6. 챗봇 실제 빈출 상담 질문 TOP 10 (메인 퀵버튼 외) ---------- */
+    var FAQ = [
+      {
+        tag: '합격선',
+        q: '작년(2026학년도) 최종 합격선(커트라인) 석차백분율은 몇 %였나요? 미달이었나요?',
+        a: '중학교 내신 성적(석차백분율) 100%로 선발하며, <strong>작년(2026학년도) 최종 합격선은 석차백분율 85.59%</strong>였습니다. 미달 없이 전원 정상 충원되었으며, 동점자 발생 시 교과성적 → 출결 → 학교활동 순으로 순위를 결정합니다.'
+      },
+      {
+        tag: '호실배정',
+        q: '기숙사 호실 배정은 어떻게 하나요? 성적순으로 방을 나누나요?',
+        a: '1·2학년은 동백관(3인 1실), 3학년은 동백관(3인 1실)과 송학관(2인 1실)에 나누어 배정됩니다. <strong>심화실을 쓰는 학생들의 경우 이동 동선과 학습 효율을 위해 몇 개의 호실을 정해두고 그 안에서 배정</strong>하며, <strong>심화실을 제외한 나머지 일반 호실들은 공정하게 무작위로 배정</strong>됩니다.'
+      },
+      {
+        tag: '야자규정',
+        q: '기숙사생이 아닌 일반 통학생도 야간자율학습(야자)을 강제로 해야 하나요?',
+        a: '<strong>희망자 자율 참여 원칙</strong>입니다. 강제 야자는 일체 운영하지 않으며, 통학생도 본인 희망 시 담당 교사의 지도 아래 학년 교실에서 안심하고 밤 21:00까지 면학에 집중할 수 있습니다.'
+      },
+      {
+        tag: '전자기기',
+        q: '기숙사 자습 시간에 인강용 태블릿PC나 스마트폰 사용이 가능한가요?',
+        a: '휴대전화는 <strong>정해진 시간(21:00~21:30)에만 사용</strong>할 수 있으며, 사용 시간이 끝나면 전용 보관함에 보관해야 합니다. 정독실 내 인강용 태블릿PC 사용은 학습 목적으로 자유롭게 허용되나, <strong>전자기기는 학습실 외 공간(호실·복도)에서의 사용뿐만 아니라 소지 자체가 엄격히 금지</strong>됩니다.'
+      },
+      {
+        tag: '주말귀가',
+        q: '주말(토/일)에도 기숙사에 계속 머물 수 있나요? 외출·외박 규정은 어떤가요?',
+        a: '학생 안전 관리와 기숙사 환경 소독 및 재충전을 위해 <strong>원칙적으로 금요일 하교 후 전원 귀가</strong>하며, 일요일 저녁 18:30~21:00 사이에 재입사합니다. <strong>안전상의 이유로 시험 기간을 포함하여 주말 기숙사 잔류는 일절 불가</strong>합니다.'
+      },
+      {
+        tag: '관외지원',
+        q: '창원 의창·성산, 마산, 김해, 장유 등 진해 밖 지역 학생도 지원 가능한가요?',
+        a: '네, 100% 지원 가능합니다. 진해고는 <strong>경상남도 전역 모집 기숙형 자율학교(비평준화 일반고)</strong>이므로 도내 거주 학생은 누구나 지원할 수 있으며 어떠한 감점이나 불이익도 없습니다. 오히려 관외 원거리 학생은 <strong>기숙사 원거리 우대선발(내신 30% 이내)</strong> 혜택을 받습니다.'
+      },
+      {
+        tag: '복장규정',
+        q: '교복 디자인과 복장 규정은 어떤가요? 편한 생활복 등교가 되나요?',
+        a: '단정한 정장형 동복·하복 착용이 원칙이며, <strong>생활복 등교는 학생 생활 규정에 따라 매주 수요일 및 정기고사(시험) 기간에 한하여 단정하게 착용</strong>할 수 있습니다.'
+      },
+      {
+        tag: '심화학습',
+        q: '상위권 맞춤 심화 프로그램(진해인재스쿨)과 사관학교 대비반은 어떻게 운영되나요?',
+        a: '창원시 교육경비 지원으로 <strong>전액 무상 운영되는 \'진해인재스쿨\'</strong>을 통해 국·영·수 심화 방과후 및 면접·논술 지도를 제공합니다. 또한 해군사관학교·육군사관학교를 지망하는 학생들을 위한 1차 필기시험 특강 및 면접/체력 대비반을 매년 체계적으로 운영하여 압도적인 합격 실적을 이어가고 있습니다.'
+      },
+      {
+        tag: '제2외국어',
+        q: '제2외국어는 일본어 외에 다른 과목도 배울 수 있나요?',
+        a: '2022 개정 교육과정에 맞추어 현재 본교 정규 교육과정에는 <strong>일본어와 일본어 회화</strong>가 개설되어 운영 중입니다. 학생들의 선택 수요가 충분할 경우 공동교육과정 또는 학교 간 개설 연계를 통해 타 과목도 추가 개설될 수 있으므로, 입학 후 교육과정부와 상담하실 수 있습니다.'
+      },
+      {
+        tag: '기숙사환불',
+        q: '기숙사에 살다가 맞지 않으면 중도 퇴사할 수 있나요? 비용 환불은 어떻게 되나요?',
+        a: '기숙사 납부금은 매월 징수함을 원칙으로 하고 있고, 월중 중도 전입(입사) 및 퇴사의 경우에만 일할 계산하여 징수하고 있습니다. 기숙사 퇴사는 <strong>월말을 원칙</strong>으로 하며, <strong>월초 및 중간에 명령 퇴사 및 자진 퇴사할 경우 특별한 사유를 제외하고는 기숙사비와 급식비는 환불되지 않습니다.</strong>'
+      }
+    ];
+
+    $('faq-list').innerHTML = FAQ.map(function (f, i) {
+      return '' +
+        '<div class="faq-item py-1 reveal-item" data-i="' + i + '">' +
+          '<h3>' +
+            '<button type="button" id="faq-q-' + i + '" aria-expanded="false" aria-controls="faq-a-' + i + '" class="w-full flex items-start justify-between gap-3 py-3 text-left">' +
+              '<span class="text-sm sm:text-base sm:text-[15px] font-bold text-slate-800 leading-snug"><span class="text-brand-blue mr-1">Q.</span>' + f.q + '</span>' +
+              '<span class="faq-chevron flex-shrink-0 mt-0.5 text-slate-400"><i data-lucide="chevron-down" class="w-5 h-5"></i></span>' +
+            '</button>' +
+          '</h3>' +
+          '<div id="faq-a-' + i + '" role="region" aria-labelledby="faq-q-' + i + '" class="faq-panel">' +
+            '<div><p class="pb-3 pl-5 text-sm sm:text-base text-slate-600 leading-relaxed">' + f.a + '</p></div>' +
+          '</div>' +
+        '</div>';
+    }).join('');
+    $('faq-list').addEventListener('click', function (e) {
+      var btn = e.target.closest('button[aria-controls]');
+      if (!btn) return;
+      var item = btn.closest('.faq-item');
+      var open = !item.classList.contains('is-open');
+      item.classList.toggle('is-open', open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+
+        /* ---------- 기숙사 홍보 영상 재생 핸들러 ---------- */
+    window.playDormVideo = function () {
+      var poster = document.getElementById('dorm-video-poster');
+      var player = document.getElementById('dorm-video-player');
+      if (poster) poster.classList.add('hidden');
+      
+      // 유튜브 임베드 (기본 반응형 16:9 플레이어 - 학교 유튜브 영상 ID 교체 가능)
+      // 현재는 샘플/안내 영상 연결
+      player.innerHTML = '<iframe class="w-full h-full border-0" src="https://www.youtube-nocookie.com/embed/Ok5PXdmQV-s?autoplay=1&rel=0&modestbranding=1" title="진해고등학교 기숙사 룸투어 영상" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+    };
+
+    /* ---------- 7. AI 챗봇 모달 ---------- */
+    var BOT_ORIGIN = 'https://jinhae-bot2.vercel.app';
+    var modal = $('chatbot-modal'), iframe = $('chatbot-iframe');
+    var isOpen = false, lastFocus = null, savedScrollY = 0, iframeLoaded = false, pendingQuery = '', fallbackTimer;
+
+    function lockScroll() {
+      savedScrollY = window.scrollY || window.pageYOffset;
+      var s = document.body.style;
+      s.position = 'fixed'; s.top = -savedScrollY + 'px'; s.left = '0'; s.right = '0'; s.width = '100%';
+    }
+    function unlockScroll() {
+      var s = document.body.style;
+      s.position = ''; s.top = ''; s.left = ''; s.right = ''; s.width = '';
+      window.scrollTo(0, savedScrollY);
+    }
+
+    function sendPrefill() {
+      // 챗봇 측에 message 리스너가 추가되면 추천 질문이 자동 입력됩니다.
+      if (!pendingQuery || !iframeLoaded || !iframe.contentWindow) return;
+      try { iframe.contentWindow.postMessage({ type: 'JINHAE_PREFILL', text: pendingQuery }, BOT_ORIGIN); } catch (e) { /* noop */ }
+    }
+
+    iframe.addEventListener('load', function () {
+      if (!iframe.getAttribute('src')) return;
+      iframeLoaded = true;
+      clearTimeout(fallbackTimer);
+      $('chat-loader').classList.add('hidden');
+      iframe.classList.remove('opacity-0');
+      sendPrefill();
+    });
+
+    function openChatbot(query) {
+      if (isOpen) return;
+      isOpen = true;
+      lastFocus = document.activeElement;
+      pendingQuery = query || '';
+
+      if (!iframe.getAttribute('src')) {
+        iframe.setAttribute('src', iframe.getAttribute('data-src'));
+        fallbackTimer = setTimeout(function () { $('chat-fallback').classList.remove('hidden'); }, 8000);
+      } else {
+        sendPrefill();
+      }
+
+      var suggest = $('chat-suggest');
+      if (pendingQuery) {
+        $('chat-suggest-text').textContent = pendingQuery;
+        suggest.classList.remove('hidden');
+      } else {
+        suggest.classList.add('hidden');
+      }
+
+      lockScroll();
+      modal.removeAttribute('inert');
+      modal.setAttribute('aria-hidden', 'false');
+      modal.classList.add('is-open');
+      try { history.pushState({ jhChat: true }, ''); } catch (e) { /* noop */ }
+      setTimeout(function () { $('chat-close').focus({ preventScroll: true }); }, 60);
+    }
+
+    function closeChatbot(fromPopState) {
+      if (!isOpen) return;
+      isOpen = false;
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      modal.setAttribute('inert', '');
+      unlockScroll();
+      if (!fromPopState && history.state && history.state.jhChat) history.back();
+      if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+    }
+
+    document.addEventListener('click', function (e) {
+      var t = e.target.closest('[data-chat]');
+      if (t) { e.preventDefault(); openChatbot(t.getAttribute('data-chat')); }
+    });
+    $('chat-close').addEventListener('click', function () { closeChatbot(false); });
+    modal.addEventListener('click', function (e) { if (e.target === modal) closeChatbot(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && isOpen) closeChatbot(false); });
+    window.addEventListener('popstate', function () { if (isOpen) closeChatbot(true); }); // 안드로이드 뒤로가기 = 닫기
+    $('chat-suggest-copy').addEventListener('click', function () {
+      copyText(pendingQuery).then(function (ok) {
+        toast(ok ? '질문을 복사했어요. 입력창에 붙여넣어 주세요.' : '복사에 실패했어요. 질문을 직접 입력해 주세요.');
+      });
+    });
+
+    /* ---------- 8. 공유 (Web Share → 링크 복사 폴백) ---------- */
+    $('share-btn').addEventListener('click', function () {
+      var url = 'https://jinhae-intro.vercel.app';
+      var data = {
+        title: '진해고등학교 2027 신입생 입학안내',
+        text: '83년 전통 기숙형 자율학교 진해고 입학안내 · 기숙사 입사 자가진단 · 24시간 AI 상담',
+        url: url
+      };
+      var fallback = function () {
+        copyText(url).then(function (ok) {
+          toast(ok ? '링크를 복사했어요! 단톡방에 붙여넣어 공유해 주세요.' : '주소창의 링크를 길게 눌러 복사해 주세요.');
+        });
+      };
+      if (navigator.share) {
+        navigator.share(data).catch(function (err) { if (!err || err.name !== 'AbortError') fallback(); });
+      } else {
+        fallback();
+      }
+    });
+
+    refreshIcons();
+
+    /* ===== [NEW] 3D Parallax & Scroll Interaction Engine ===== */
+    (function initParallaxAnd3D() {
+      // prefers-reduced-motion check removed to ensure full interactivity
+      // 1. Scroll-Driven Parallax on Hero Section
+      var heroLayer = document.getElementById('hero-parallax-layer');
+      var heroGlow = document.getElementById('hero-glow-orb');
+      var heroTitle = document.querySelector('.hero h1');
+      var ticking = false;
+
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          window.requestAnimationFrame(function () {
+            var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollY < 900) {
+              var aerialBg = document.getElementById('hero-aerial-bg');
+              if (aerialBg) {
+                aerialBg.style.transform = 'translate3d(0, ' + (scrollY * 0.38) + 'px, 0) scale(' + (1.03 + scrollY * 0.0004) + ')';
+              }
+              if (heroLayer) {
+                heroLayer.style.transform = 'translate3d(0, ' + (scrollY * 0.35) + 'px, 0)';
+              }
+              if (heroGlow) {
+                heroGlow.style.transform = 'translate3d(' + (scrollY * 0.2) + 'px, ' + (scrollY * 0.15) + 'px, 0)';
+              }
+              if (heroTitle) {
+                heroTitle.style.transform = 'translate3d(0, ' + (scrollY * 0.12) + 'px, 0)';
+                heroTitle.style.opacity = Math.max(0, 1 - scrollY / 650);
+              }
+            }
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+
+                /* ===== [오프닝 시퀀스] 교표 워터마크 개화 ➔ 각 요소 순차 등장 엔진 ===== */
+    (function initIntroSequence() {
+      document.documentElement.classList.add('intro-running');
+      window._introStartTime = performance.now();
+      var crest = document.querySelector('.crest-watermark-img');
+      if (crest) {
+        crest.classList.add('crest-intro-active');
+      }
+
+      // 4초 대기 후 4초 동안 순차 등장 완료 후 정리 (상시 안정 모드 전환)
+      var cleanupTimer = setTimeout(function () {
+        document.documentElement.classList.remove('intro-running');
+      }, 2500);
+
+      // 사용자가 로드 직후 바로 스크롤할 경우 지체 없이 즉시 전체 표시
+      window.addEventListener('scroll', function onFirstScroll() {
+        clearTimeout(cleanupTimer);
+        document.documentElement.classList.remove('intro-running');
+        window.removeEventListener('scroll', onFirstScroll);
+      }, { passive: true, once: true });
+    })();
+
+      // 2. [애플/토스 스타일 최고급 양방향 스크롤 리빌 엔진 v2.0]
+      // 스크롤 내리면 요소들이 순차적으로 솟아오르며 등장(Reveal), 스크롤 올리면 반대로 하나씩 우아하게 사라짐(Un-reveal)
+      (function initBidirectionalScrollReveal() {
+        // Full Interactivity: Scroll reveal enabled unconditionally
+
+        // JS 정상 로드 확인 후 부드러운 인터랙션 활성화
+        document.documentElement.classList.add('js-reveal');
+
+        var reveals = document.querySelectorAll('.reveal-on-scroll, .reveal-item');
+        if (!reveals.length) return;
+
+        // [NEW] 4초 동안 표 내부 상자들과 글자들이 각각 순차 등장하도록 지능형 자식 요소 오케스트레이션
+        var cards = document.querySelectorAll('.reveal-on-scroll');
+        cards.forEach(function (card) {
+          // 각 카드/표 내부의 주요 블록들을 순서대로 탐색 (헤더, 타이틀, 설명, 그리드 박스들, 폼 박스들, 타임라인 항목들, 버튼들)
+          var childCandidates = [];
+          
+          // A. 직접 자식 요소들 중 의미 있는 블록 추출
+          var directChildren = card.children;
+          for (var i = 0; i < directChildren.length; i++) {
+            var el = directChildren[i];
+            if (!el.tagName) continue;
+            var tag = el.tagName.toLowerCase();
+            var cls = el.className || '';
+            
+            // 그리드인 경우: 내부의 개별 상자들을 각각의 등장 요소로 분리!
+            if (cls.indexOf('grid') !== -1) {
+              var gridBoxes = el.children;
+              for (var g = 0; g < gridBoxes.length; g++) {
+                if (gridBoxes[g].tagName) childCandidates.push(gridBoxes[g]);
+              }
+            }
+            // 타임라인 ol인 경우: 개별 li 항목들을 각각 분리!
+            else if (tag === 'ol') {
+              var listItems = el.querySelectorAll('li');
+              for (var l = 0; l < listItems.length; l++) childCandidates.push(listItems[l]);
+            }
+            // 폼인 경우: 개별 질문/인풋 박스들을 각각 분리!
+            else if (tag === 'form') {
+              var formBlocks = el.children;
+              for (var f = 0; f < formBlocks.length; f++) {
+                if (formBlocks[f].tagName) childCandidates.push(formBlocks[f]);
+              }
+            }
+            // 일반 블록 (헤더 상자, 문단, 버튼 등)
+            else {
+              childCandidates.push(el);
+            }
+          }
+
+          var totalItems = childCandidates.length;
+          childCandidates.forEach(function (item, idx) {
+            item.classList.add('reveal-child');
+            // 정확히 4초 동안 균등·우아하게 순차 등장 (0초부터 최대 3.0초까지 지연 + 1.15초 트랜지션 = 약 4.15초 완벽 전개)
+            var delay = (idx === 0) ? 0 : (0.20 + (idx * (2.85 / Math.max(1, totalItems - 1))));
+            item.style.transitionDelay = delay.toFixed(2) + 's';
+          });
+        });
+
+        function updateReveals() {
+          var vh = window.innerHeight || document.documentElement.clientHeight;
+          var reveals = document.querySelectorAll('.reveal-on-scroll, .reveal-item');
+          // 하단 진입 기준선: 뷰포트 하단 25px 진입 시 부드러운 솟아오름
+          var enterThreshold = vh - 50;
+          // 하단 이탈 기준선 (히스테리시스 50px 적용): 화면 아래 30px 밖으로 밀려나면 퇴장
+          var exitThreshold = vh + 30;
+
+          reveals.forEach(function (el) {
+            var rect = el.getBoundingClientRect();
+
+            // [양방향 스크롤 판정]
+            // A. 화면 하단에서 뷰포트로 들어올 때 -> 순차 등장 (Fade-in & Slide-up)
+            if (rect.top < enterThreshold && rect.bottom > 20) {
+              el.classList.add('is-visible');
+            }
+            // B. 화면을 위로 스크롤하여 요소가 화면 아래쪽 밖으로 밀려날 때 -> 순차 퇴장 (Fade-out & Slide-down)
+            else if (rect.top >= exitThreshold) {
+              el.classList.remove('is-visible');
+            }
+            // C. 화면 위쪽으로 스크롤되어 나간 요소는 유지 (다시 아래로 스크롤할 때 깜빡임 방지)
+          });
+        }
+
+        // 초기 로드 시: 현재 사용자가 실제로 보고 있는 뷰포트 영역만 판정 (스크롤 대기 상태 유지)
+        function initialReveal() {
+          var vh = window.innerHeight || document.documentElement.clientHeight;
+          var sy = window.pageYOffset || document.documentElement.scrollTop;
+          var reveals = document.querySelectorAll('.reveal-on-scroll, .reveal-item');
+          reveals.forEach(function (el) {
+            var rect = el.getBoundingClientRect();
+            // 첫 진입 시 스크롤 전(sy < 50)이라면 아래쪽 카드들은 스크롤 시 4초 리빌을 보여주기 위해 대기!
+            if (sy < 50) {
+              // 화면 상단 40% 이내에 완전히 들어온 경우에만 표시, 아래 본문 카드들은 스크롤 시 감상하도록 대기
+              if (rect.top < (vh * 0.35) && rect.bottom > 0) {
+                el.classList.add('is-visible');
+              } else {
+                el.classList.remove('is-visible');
+              }
+            } else {
+              if (rect.top < (vh - 40) && rect.bottom > 20) {
+                el.classList.add('is-visible');
+              }
+            }
+          });
+        }
+
+        initialReveal();
+
+        // 60fps rAF 스크롤 리스너
+        var ticking = false;
+        window.addEventListener('scroll', function () {
+          if (!ticking) {
+            window.requestAnimationFrame(function () {
+              updateReveals();
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }, { passive: true });
+
+        window.addEventListener('resize', updateReveals, { passive: true });
+        window.addEventListener('load', initialReveal, { passive: true });
+        setTimeout(initialReveal, 250);
+        setTimeout(initialReveal, 800);
+        setTimeout(initialReveal, 1800);
+      })();
+
+
+      // 3. 3D Card Perspective Tilt Interaction (Toss/Apple Style)
+      var tiltCards = document.querySelectorAll('.tilt-card');
+      tiltCards.forEach(function (card) {
+        card.addEventListener('mousemove', function (e) {
+          if (window.innerWidth < 768) return; // Only on desktop mouse
+          var rect = card.getBoundingClientRect();
+          var x = e.clientX - rect.left;
+          var y = e.clientY - rect.top;
+          var centerX = rect.width / 2;
+          var centerY = rect.height / 2;
+          var rotateX = ((y - centerY) / centerY) * -3.5; // Max 3.5 deg
+          var rotateY = ((x - centerX) / centerX) * 3.5;
+          card.style.transform = 'perspective(1000px) rotateX(' + rotateX.toFixed(2) + 'deg) rotateY(' + rotateY.toFixed(2) + 'deg) scale3d(1.008, 1.008, 1.008)';
+        });
+        card.addEventListener('mouseleave', function () {
+          card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+        });
+      });
+
+      // 4. Floating Blossom Petals Generator (진해 벚꽃 감성)
+      var petalContainer = document.getElementById('petals-container');
+      if (petalContainer) {
+        var petalCount = window.innerWidth < 640 ? 7 : 14;
+        for (var i = 0; i < petalCount; i++) {
+          createPetal(petalContainer, i);
+        }
+      }
+
+      function createPetal(container, index) {
+        var petal = document.createElement('div');
+        petal.className = 'petal';
+        var size = Math.random() * 8 + 8; // 8px ~ 16px
+        petal.style.width = size + 'px';
+        petal.style.height = (size * 1.3) + 'px';
+        petal.style.left = (Math.random() * 95) + '%';
+        petal.style.animationDelay = (Math.random() * 8) + 's';
+        petal.style.animationDuration = (Math.random() * 5 + 9) + 's';
+        container.appendChild(petal);
+      }
+    })();
+
+
+    /* ===== [진해 벚꽃 화면 전체 은은한 흩날림 엔진 (Canvas 60fps)] ===== */
+    (function initFullScreenSakura() {
+      var canvas = document.getElementById('sakura-canvas');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+      var width, height;
+      var petals = [];
+      var maxPetals = window.innerWidth < 640 ? 28 : 45; // 모바일/PC 최적 밀도 (시야 방해 없는 은은한 개수)
+
+      function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+
+      function Petal(initial) {
+        this.reset(initial);
+      }
+
+      Petal.prototype.reset = function (initial) {
+        this.x = Math.random() * (width + 80) - 40;
+        this.y = initial ? Math.random() * height : -25;
+        this.size = Math.random() * 7 + 8; // 8px ~ 15px 섬세하고 작은 꽃잎
+        this.speedX = Math.random() * 0.9 + 0.35; // 온화한 봄바람 (좌->우)
+        this.speedY = Math.random() * 0.8 + 0.55; // 느리고 우아한 하강
+        this.rotation = Math.random() * 360;
+        this.rotSpeed = (Math.random() - 0.5) * 1.2;
+        this.flip = Math.random() * Math.PI;
+        this.flipSpeed = Math.random() * 0.02 + 0.012;
+        this.opacity = Math.random() * 0.35 + 0.35; // 0.35 ~ 0.70 은은한 파스텔 투명도
+        this.swayFactor = Math.random() * 0.012 + 0.006;
+        
+        // 진해 군항제 왕벚나무 핑크 3종 그라데이션 변주
+        var randColor = Math.random();
+        if (randColor < 0.45) {
+          this.color = 'rgba(255, 182, 193, '; // Light Pink
+        } else if (randColor < 0.80) {
+          this.color = 'rgba(255, 205, 218, '; // Soft Blossom Pink
+        } else {
+          this.color = 'rgba(255, 228, 235, '; // Pale Blossom
+        }
+      };
+
+      Petal.prototype.update = function (time) {
+        this.y += this.speedY;
+        this.x += this.speedX + Math.sin(time * 0.0014 + this.y * this.swayFactor) * 0.65;
+        this.rotation += this.rotSpeed;
+        this.flip += this.flipSpeed;
+
+        // 화면 아래나 우측을 벗어나면 위에서 재생성
+        if (this.y > height + 25 || this.x > width + 50) {
+          this.reset(false);
+        }
+      };
+
+      Petal.prototype.draw = function () {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate((this.rotation * Math.PI) / 180);
+        ctx.scale(1, Math.cos(this.flip)); // 3D 회전 텀블링
+
+        // 사실적인 유기적 벚꽃 꽃잎 형태 (베지에 곡선)
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.bezierCurveTo(this.size * 0.75, -this.size * 0.75, this.size * 1.15, this.size * 0.55, 0, this.size * 1.45);
+        ctx.bezierCurveTo(-this.size * 1.15, this.size * 0.55, -this.size * 0.75, -this.size * 0.75, 0, 0);
+
+        ctx.fillStyle = this.color + this.opacity + ')';
+        ctx.shadowColor = 'rgba(255, 182, 193, 0.25)';
+        ctx.shadowBlur = 3;
+        ctx.fill();
+
+        ctx.restore();
+      };
+
+      for (var i = 0; i < maxPetals; i++) {
+        petals.push(new Petal(true));
+      }
+
+      var animationFrameId;
+      function animate(time) {
+        ctx.clearRect(0, 0, width, height);
+        for (var i = 0; i < petals.length; i++) {
+          petals[i].update(time);
+          petals[i].draw();
+        }
+        animationFrameId = requestAnimationFrame(animate);
+      }
+      animationFrameId = requestAnimationFrame(animate);
+
+      // 탭 비활성화 시 배터리 및 CPU 절약을 위해 일시 중지
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) {
+          cancelAnimationFrame(animationFrameId);
+        } else {
+          animationFrameId = requestAnimationFrame(animate);
+        }
+      });
+    })();
+
+
+    /* =========================================================================
+       [NEW] 멀티비디오 · 대입실적표 팝업 · 카드뉴스 5부작 자바스크립트 엔진
+       ========================================================================= */
+
+    // 1. 공통 모달 열기/닫기 엔진 (스크롤 락 & 접근성)
+    window.openModal = function (modalId) {
+      var m = document.getElementById(modalId);
+      if (!m) return;
+      m.classList.remove('hidden');
+      lockScroll();
+      refreshIcons();
+    };
+
+    window.closeModal = function (modalId) {
+      var m = document.getElementById(modalId);
+      if (!m) return;
+      m.classList.add('hidden');
+      unlockScroll();
+      // 비디오 중지
+      if (modalId === 'reels-modal') {
+        var slot = document.getElementById('reels-player-slot');
+        if (slot) slot.innerHTML = '';
+        var poster = document.getElementById('reels-poster');
+        if (poster) poster.classList.remove('hidden');
+      }
+    };
+
+    // ESC 키로 모달 닫기
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        ['admissions-modal', 'reels-modal', 'cardnews-modal', 'brochure-modal'].forEach(function (id) {
+          var el = document.getElementById(id);
+          if (el && !el.classList.contains('hidden')) {
+            closeModal(id);
+          }
+        });
+      }
+    });
+
+    // 백드롭 클릭 시 닫기 (이벤트 위임 방식으로 동적/지연 렌더링 모달 완벽 대응)
+    var MODAL_IDS = ['admissions-modal', 'reels-modal', 'cardnews-modal', 'brochure-modal'];
+    document.addEventListener('click', function (e) {
+      if (e.target && MODAL_IDS.indexOf(e.target.id) !== -1) {
+        closeModal(e.target.id);
+      }
+    });
+
+    // 대입 실적표 팝업 버튼 이벤트
+    var admBtn = document.getElementById('open-results-modal');
+    if (admBtn) {
+      admBtn.addEventListener('click', function () {
+        openModal('admissions-modal');
+      });
+    }
+
+    // 2. 영상 포맷 탭 (16:9 와이드 vs 9:16 릴스) 전환
+    var tabWide = document.getElementById('tab-video-wide');
+    var tabReels = document.getElementById('tab-video-reels');
+    var panelWide = document.getElementById('panel-video-wide');
+    var panelReels = document.getElementById('panel-video-reels');
+
+    if (tabWide && tabReels) {
+      tabWide.addEventListener('click', function () {
+        tabWide.className = 'video-format-btn active px-3 py-1.5 rounded-lg text-xs font-bold text-white bg-blue-600 transition flex items-center gap-1.5';
+        tabReels.className = 'video-format-btn px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-1.5';
+        if (panelWide) panelWide.classList.remove('hidden');
+        if (panelReels) panelReels.classList.add('hidden');
+        refreshIcons();
+      });
+
+      tabReels.addEventListener('click', function () {
+        tabReels.className = 'video-format-btn active px-3 py-1.5 rounded-lg text-xs font-bold text-white bg-rose-600 transition flex items-center gap-1.5';
+        tabWide.className = 'video-format-btn px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-1.5';
+        if (panelReels) panelReels.classList.remove('hidden');
+        if (panelWide) panelWide.classList.add('hidden');
+        refreshIcons();
+      });
+    }
+
+    // 16:9 와이드 영상 목록 데이터 및 전환
+    var wideVideos = [
+      {
+        title: '🎥 2027 기숙사(동백관 · 송학관) 룸투어 & 하루 일과',
+        url: 'https://www.youtube-nocookie.com/embed/Ok5PXdmQV-s?autoplay=1&rel=0&modestbranding=1'
+      },
+      {
+        title: '🎥 83년 전통 교정 & 공식 드론 항공 시네마틱 전경',
+        url: 'https://www.youtube-nocookie.com/embed/Ok5PXdmQV-s?autoplay=1&rel=0&modestbranding=1'
+      },
+      {
+        title: '🎥 2027학년도 신입생 입학설명회 3분 핵심 요약',
+        url: 'https://www.youtube-nocookie.com/embed/Ok5PXdmQV-s?autoplay=1&rel=0&modestbranding=1'
+      }
+    ];
+
+    var currentWideIdx = 0;
+    window.switchWideVideo = function (idx) {
+      currentWideIdx = idx;
+      var buttons = document.querySelectorAll('.wide-item-btn');
+      buttons.forEach(function (btn, i) {
+        if (i === idx) {
+          btn.className = 'wide-item-btn active text-left p-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-blue-500/80 transition group';
+        } else {
+          btn.className = 'wide-item-btn text-left p-2.5 rounded-xl bg-slate-950/60 hover:bg-slate-800 border border-slate-800 transition group';
+        }
+      });
+      var titleEl = document.getElementById('wide-video-title');
+      if (titleEl) titleEl.innerText = wideVideos[idx].title;
+      var player = document.getElementById('dorm-video-player');
+      var poster = document.getElementById('dorm-video-poster');
+      if (poster && poster.classList.contains('hidden')) {
+        playDormVideo();
+      }
+    };
+
+    window.playDormVideo = function () {
+      var poster = document.getElementById('dorm-video-poster');
+      var player = document.getElementById('dorm-video-player');
+      if (poster) poster.classList.add('hidden');
+      if (currentWideIdx === 0) {
+        player.innerHTML = '<iframe class="w-full h-full border-0" src="' + wideVideos[0].url + '" title="진해고 기숙사 룸투어" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+      } else {
+        player.innerHTML = '<div class="p-6 text-center flex flex-col items-center justify-center space-y-3"><div class="w-14 h-14 rounded-full bg-blue-600/20 text-blue-400 flex items-center justify-center"><i data-lucide="film" class="w-7 h-7"></i></div><h4 class="text-white font-extrabold text-base sm:text-lg">' + wideVideos[currentWideIdx].title.replace('🎥 ', '') + '</h4><p class="text-slate-300 text-xs sm:text-sm max-w-md">본 영상은 학교 방송부 및 입학홍보 전담팀에서 편집 진행 중이며, 입학전형 일정에 맞춰 순차 공개될 예정입니다.</p><button type="button" data-chat="" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl shadow mt-2">기숙사 생활 AI 챗봇에게 먼저 물어보기</button></div>';
+        refreshIcons();
+      }
+    };
+
+    window.playDormVideo = function () {
+      var poster = document.getElementById('dorm-video-poster');
+      var player = document.getElementById('dorm-video-player');
+      if (poster) poster.classList.add('hidden');
+      player.innerHTML = '<iframe class="w-full h-full border-0" src="' + wideVideos[currentWideIdx].url + '" title="진해고 영상 플레이어" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+    };
+
+    // 3. 9:16 모바일 숏폼 릴스(Reels) 엔진
+    var reelsData = [
+      {
+        title: '15초 컷 기숙사 룸투어 (동백관 3인실 솔직 후기) 🏠',
+        tags: '#동백관 #3인실 #기숙사 #진해고',
+        bg: 'assets/images/jinhae-aerial-hero.webp',
+        videoUrl: 'https://www.youtube-nocookie.com/embed/Ok5PXdmQV-s?autoplay=1&rel=0'
+      },
+      {
+        title: '밤 11:30까지 순공 5시간! 정독실 야자 브이로그 ✍️',
+        tags: '#순공5시간 #자기주도학습 #지정석정독실',
+        bg: 'assets/images/cardnews/card_06_selfstudy.png',
+        videoUrl: 'https://www.youtube-nocookie.com/embed/Ok5PXdmQV-s?autoplay=1&rel=0'
+      },
+      {
+        title: '아침·점심·저녁 3식 풀코스! 진해고 급식 모음 🍱',
+        tags: '#급식레전드 #영양만점 #3식풀코스',
+        bg: 'assets/images/cardnews/card_03_dorm_care.png',
+        videoUrl: 'https://www.youtube-nocookie.com/embed/Ok5PXdmQV-s?autoplay=1&rel=0'
+      },
+      {
+        title: '봄이면 벚꽃 성지가 되는 진해고 벚꽃길 드론뷰 🌸',
+        tags: '#진해벚꽃 #교정산책 #군항제성지',
+        bg: 'assets/images/jinhae-aerial-hero.webp',
+        videoUrl: 'https://www.youtube-nocookie.com/embed/Ok5PXdmQV-s?autoplay=1&rel=0'
+      }
+    ];
+
+    var currentReelsIdx = 0;
+    window.openReelsModal = function (idx) {
+      currentReelsIdx = idx;
+      var d = reelsData[idx];
+      var titleEl = document.getElementById('reels-modal-title');
+      var tagsEl = document.getElementById('reels-modal-tags');
+      var posterEl = document.getElementById('reels-poster');
+      var slotEl = document.getElementById('reels-player-slot');
+
+      if (titleEl) titleEl.innerText = d.title;
+      if (tagsEl) tagsEl.innerText = d.tags;
+      if (posterEl) {
+        posterEl.style.backgroundImage = 'url("' + d.bg + '")';
+        posterEl.classList.remove('hidden');
+      }
+      if (slotEl) slotEl.innerHTML = '';
+
+      openModal('reels-modal');
+    };
+
+    window.playCurrentReels = function () {
+      var d = reelsData[currentReelsIdx];
+      var posterEl = document.getElementById('reels-poster');
+      var slotEl = document.getElementById('reels-player-slot');
+      if (posterEl) posterEl.classList.add('hidden');
+      if (slotEl) {
+        if (currentReelsIdx === 0) {
+          slotEl.innerHTML = '<iframe class="w-full h-full border-0" src="' + d.videoUrl + '" title="' + d.title + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+        } else {
+          slotEl.innerHTML = '<div class="p-6 text-center flex flex-col items-center justify-center space-y-3"><div class="w-12 h-12 rounded-full bg-rose-600/20 text-rose-400 flex items-center justify-center"><i data-lucide="smartphone" class="w-6 h-6"></i></div><h4 class="text-white font-extrabold text-sm">' + d.title + '</h4><p class="text-slate-300 text-xs leading-relaxed">진해고 공식 9:16 모바일 숏폼 릴스 영상 편집 중입니다.<br>유튜브 쇼츠 & 인스타그램 릴스로 동시 공개됩니다.</p><span class="inline-block bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs px-2.5 py-1 rounded-full font-bold">공식 릴스 채널 등록 예정</span></div>';
+          refreshIcons();
+        }
+      }
+    };
+
+    window.shareCurrentReels = function () {
+      var d = reelsData[currentReelsIdx];
+      if (navigator.share) {
+        navigator.share({
+          title: d.title,
+          text: '진해고 숏폼 릴스: ' + d.title,
+          url: 'https://jinhae-intro.vercel.app'
+        }).catch(function () {});
+      } else {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(window.location.href.split('#')[0]).then(function () {
+            alert('릴스 링크가 클립보드에 복사되었습니다.');
+          }).catch(function () {
+            prompt('아래 링크를 복사해 주세요:', window.location.href.split('#')[0]);
+          });
+        } else {
+          prompt('아래 링크를 복사해 주세요:', window.location.href.split('#')[0]);
+        }
+      }
+    };
+
+        // 4. 학부모 입학홍보 카드뉴스 5편 기획 시리즈 인터랙티브 엔진 (Plan B: 5개 에피소드 & 제1편 7장 풀 슬라이더 지원)
+    var cardnewsEpisodes = [
+      {
+        epId: 1,
+        badge: '제1편 핵심 분석 (총 7장)',
+        tabTitle: '제1편. 2028 5등급제 모수',
+        title: '2028 대입 개편 5등급제와 300명 대단지 일반고의 압도적 시너지',
+        desc: '고교학점제에 강한 기숙형 자율학교 진해고! 9등급제에서 5등급제로의 대변혁 속에서 100명 소규모 학교와 달리 진해고는 남학생 10학급 300명 정원으로 1등급 30명, 2등급 102명까지 확보되는 압도적 내신 안전 쿠션을 갖추고 있습니다.',
+        coverImg: 'assets/images/cardnews/card_ep1_01.png',
+        points: [
+          '<strong>1등급 30명 확보:</strong> 300명 모수로 1등급만 무려 30명! 1명의 변동 폭이 0.33%p에 불과',
+          '<strong>소인수 심화과목 100% 개설:</strong> 단 5명만 신청해도 폐강 없이 전공 심화과목 100% 개설',
+          '<strong>수능 최저 완벽 방어:</strong> 기숙사 동백관·송학관 매일 밤 5시간 10분 집중 자기주도학습'
+        ],
+        slides: [
+          {
+            src: 'assets/images/cardnews/card_ep1_01.png',
+            title: '01/07 · 표지: 기숙형 자율학교 진해고',
+            caption: '“중학교 땐 잘했는데… 고등학교 가면 내신 무너진다면서요?” 판도가 완전히 바뀌었습니다!'
+          },
+          {
+            src: 'assets/images/cardnews/card_ep1_02.png',
+            title: '02/07 · 1등급의 문, 2.5배 확대',
+            caption: '1등급의 문이 ‘2.5배’ 활짝 넓어졌습니다 (상위 4% → 상위 10%, 2등급은 상위 34%까지)'
+          },
+          {
+            src: 'assets/images/cardnews/card_ep1_03.png',
+            title: '03/07 · 300명 중 10%는 무려 30명',
+            caption: '같은 10%라도 300명 중 10%는 무려 30명! 한 번의 실수에도 무너지지 않는 든든한 내신 안전 쿠션'
+          },
+          {
+            src: 'assets/images/cardnews/card_ep1_04.png',
+            title: '04/07 · 대학은 반드시 ‘다른 것’을 봅니다',
+            caption: '1등급이 늘어나면 대학은 ‘진로 심화 선택과목 이수 여부’와 ‘수능 최저학력기준 충족’을 봅니다'
+          },
+          {
+            src: 'assets/images/cardnews/card_ep1_05.png',
+            title: '05/07 · 소인수 심화과목 100% 개설',
+            caption: '“그 과목 우리 학교엔 없어요” 결코 듣지 않을 말! 단 5명이 신청해도 심화과목 100% 개설'
+          },
+          {
+            src: 'assets/images/cardnews/card_ep1_06.png',
+            title: '06/07 · 기숙사 5시간 10분 자습 & 수능최저 방어',
+            caption: '동백관·송학관 스마트폰 유혹 차단 153명 전용 정독실, 하루 5시간 10분 집중 자습으로 수능 방어'
+          },
+          {
+            src: 'assets/images/cardnews/card_ep1_07.png',
+            title: '07/07 · 2028 대입 개편 최고의 기회 & QR',
+            caption: '원서접수: 2026. 12. 10.(목) ~ 12. 14.(월) / 스마트폰 카메라로 QR코드를 비추면 AI 챗봇 연결'
+          }
+        ]
+      },
+      {
+        epId: 2,
+        badge: '제2편 시설 케어',
+        tabTitle: '제2편. 153명 기숙사 케어',
+        title: '153명 수용 기숙사 동백관 · 송학관 & 통학 피로 없는 올인원 라이프',
+        desc: '원거리 학생(김해, 양산, 거제, 부산 등 관외 30% 우선선발)과 관내 우수 학생(5% 우선선발)을 위한 153명 규모의 첨단 기숙사입니다. 쾌적한 3인실(동백관 117명)과 2인실(송학관 36명), 직영 3식 식단과 1인 1지정석 정독실로 3년간 통학 스트레스 제로 환경을 보장합니다.',
+        coverImg: 'assets/images/cardnews/card_03_dorm_care.png',
+        points: [
+          '<strong>153명 대규모 수용:</strong> 동백관 3인실(117명) · 송학관 2인실(36명) 전 호실 에어컨 완비',
+          '<strong>전용 독서실 1인 1지정석:</strong> 개인별 사물함 및 와이파이 인강 환경 제공',
+          '<strong>안심 직영 3식 제공:</strong> 영양사 직영 아침·점심·저녁 균형 잡힌 프리미엄 식단'
+        ],
+        slides: [
+          {
+            src: 'assets/images/cardnews/card_03_dorm_care.png',
+            title: '제2편 대표 · 153명 수용 기숙사 올인원 케어',
+            caption: '쾌적한 3인실·2인실, 직영 3식, 1인 1지정석 정독실 환경'
+          }
+        ]
+      },
+      {
+        epId: 3,
+        badge: '제3편 장학금 & 교육 복지 (총 5장)',
+        tabTitle: '제3편. 연 9,000만 장학·복지 (5장)',
+        title: '진해 1위 장학금! 연간 약 9,000만 원 규모의 맞춤형 장학 & 교육복지',
+        desc: '2024학년도 공식 집행 실적 9,080만 원! 총동창회장학재단, 애향삼품장학회, 창원한마음병원, 안주환 장학금, 진해인재육성장학재단 등 80년 전통의 5대 든든한 후원처와 실질적인 학습·진로 멘토링 프로그램이 학생들의 꿈을 뒷받침합니다.',
+        coverImg: 'assets/images/cardnews/card_ep3_01.png',
+        points: [
+          '<strong>연 9,080만 원 집행 실적:</strong> 입학 성적 우수, 학업 성취, 글로컬 학우상(상품권·장학금), 교육복지 우선지원',
+          '<strong>실질적 학업 비용 지원:</strong> 공립고 무상교육 위에 도서 구입비, 인강 수강료, 대입 원서비까지 든든하게 지원',
+          '<strong>동문 선배 멘토링 네트워크:</strong> 의료계·법조계·학계·공직·대기업 동문 선배의 진로 강연 및 대입 면접 멘토링'
+        ],
+        slides: [
+          {
+            src: 'assets/images/cardnews/card_ep3_01.png',
+            title: '01/05 · 표지: 진해 1위 장학금! (장학금 & 교육 복지)',
+            caption: '창원·진해 지역 고등학교 중 단연 독보적인 장학 혜택, 연간 약 9,000만 원 규모의 맞춤형 장학 프로그램'
+          },
+          {
+            src: 'assets/images/cardnews/card_ep3_02.png',
+            title: '02/05 · 연간 9,080만 원 지급 완료 & 5대 든든한 후원처',
+            caption: '총동창회장학재단, 애향삼품장학회, 창원한마음병원, 안주환 장학금, 진해인재육성장학재단 등 80년 전통 동문 파워'
+          },
+          {
+            src: 'assets/images/cardnews/card_ep3_03.png',
+            title: '03/05 · 성적 우수자부터 모범 학생까지 폭넓은 장학 혜택',
+            caption: '입학 성적 우수 장학금, 재학생 학업 성취 장학금, 글로컬 학우상·모범 장학금(상품권·장학금), 교육복지 우선지원'
+          },
+          {
+            src: 'assets/images/cardnews/card_ep3_04.png',
+            title: '04/05 · 고교 무상교육 위에 실질적인 학업 지원까지',
+            caption: '수업료·입학금·교과서비 전액 면제 + 도서 구입비, 인터넷 강의 수강료, 대입 원서비 및 최신 스마트 교실 환경'
+          },
+          {
+            src: 'assets/images/cardnews/card_ep3_05.png',
+            title: '05/05 · 사회 각계각층 동문 선배들의 멘토링 네트워크',
+            caption: '의료계·법조계·학계·공직·대기업 현직 선배에게 직접 듣는 진로 탐색 강연 및 실전 대입 면접 멘토링'
+          }
+        ]
+      },
+      {
+        epId: 4,
+        badge: '제4편 대입 진학 실적 (총 5장)',
+        tabTitle: '제4편. 숫자로 증명하는 대입실적 (5장)',
+        title: '소문이 아닌 숫자로 증명합니다: 진해고등학교 대입 진학 경쟁력',
+        desc: '서울대, 의약학 계열 4명, 연세대·고려대, 사관학교 7명 등 최상위권 진학부터 성균관대·서강대·한양대 등 수도권 주요 명문대 32명, 부산대·경북대 및 과학기술원 등 국공립대 라인 총 114명 합격까지 수시·정시 투트랙의 압도적 성과를 공개합니다.',
+        coverImg: 'assets/images/cardnews/card_ep4_01.png',
+        points: [
+          '<strong>최상위권 및 수도권 약진:</strong> 서울대·의약학 4명·사관학교 7명·연고대 및 수도권 주요 대학 32명 이상 합격',
+          '<strong>국공립대·과기원 114명 합격:</strong> 부산대·경북대·경상국립대·창원대·부경대 및 과학기술원 등 탄탄한 진학 실적',
+          '<strong>진학 성공 3대 핵심 동력:</strong> 300명 모수의 탄탄한 내신 인프라 + 심야 정독실 수능최저 대비 + 1:1 맞춤형 진학 설계'
+        ],
+        slides: [
+          {
+            src: 'assets/images/cardnews/card_ep4_01.png',
+            title: '01/05 · 표지: 소문이 아닌 숫자로 증명하는 진해고 대입 실적',
+            caption: '합격생들의 땀방울과 공식 데이터로 증명하는 진해고등학교의 진짜 대입 경쟁력'
+          },
+          {
+            src: 'assets/images/cardnews/card_ep4_02.png',
+            title: '02/05 · 최상위권 실적 (서울대 · 의약학 · 연고대 · 사관학교)',
+            caption: '서울대 1명, 의약학 계열 4명, 고려대·연세대, 사관학교 7명 등 최상위권 대학 다수 합격'
+          },
+          {
+            src: 'assets/images/cardnews/card_ep4_03.png',
+            title: '03/05 · 서울·수도권 주요 대학 및 특수목적대 대거 진학',
+            caption: '성균관대, 서강대, 한양대, 중앙대, 경희대, 한국외대, 서울시립대 및 한국교원대·한국해양대 등 맞춤형 진학'
+          },
+          {
+            src: 'assets/images/cardnews/card_ep4_04.png',
+            title: '04/05 · 거점국립대 및 과학기술원 등 국공립 라인 114명 합격',
+            caption: '안정적인 내신 확보와 수능 최저 충족으로 부산대, 경북대, 경상국립대, 창원대 등 국공립 라인 압도적 합격'
+          },
+          {
+            src: 'assets/images/cardnews/card_ep4_05.png',
+            title: '05/05 · 진해고 진학 성공의 3대 핵심 동력',
+            caption: '1. 탄탄한 300명 내신 인프라(1등급 30명) · 2. 심야 자기주도학습 수능최저 대비 · 3. 교무기획부 1:1 맞춤 진학 설계'
+          }
+        ]
+      },
+      {
+        epId: 5,
+        badge: '제5편 교육과정 & 동아리 (총 6장)',
+        tabTitle: '제5편. 300명 모수 & 45개 동아리 (6장)',
+        title: '2027 입학생을 위한 진해고의 강점: 재학생 300명의 힘 & 45개 전공 동아리',
+        desc: '고교학점제와 5등급제 전환 시대에 예비 고1 학생들이 가장 걱정하는 ‘신청 인원 미달 폐강’과 ‘내신 등급 하락’ 문제를 학년당 300명 규모로 완벽히 해결합니다. 나아가 40여 개의 창체·전공 동아리와 글로컬 학술제로 학종에 강한 명품 학생부를 완성합니다.',
+        coverImg: 'assets/images/cardnews/card_ep5_01.png',
+        points: [
+          '<strong>폐강 걱정 없는 과목 개설:</strong> 학생 수가 많아 희망 과목이 다양하게 개설되며 공동교육과정까지 완벽 지원',
+          '<strong>150명 학교 대비 1등급 +15명:</strong> 소규모 학교 대비 1등급 인원이 15명 더 많아 내신 등급 확보에 압도적 유리',
+          '<strong>45개 전공 동아리 & 명품 세특:</strong> 공학·의약보건·인문상경·교육·체육 계열별 동아리와 글로컬 학술제로 개별화 학생부 완성'
+        ],
+        slides: [
+          {
+            src: 'assets/images/cardnews/card_ep5_01.png',
+            title: '01/06 · 표지: 2027 입학생들을 위한 진해고의 장점!',
+            caption: '300명의 학년별 학생 모수와 40여 개의 전공 맞춤형 동아리가 만드는 압도적 경쟁력'
+          },
+          {
+            src: 'assets/images/cardnews/card_ep5_02.png',
+            title: '02/06 · 재학생 300명의 힘: 걱정을 줄이는 많은 수의 학생',
+            caption: '듣고 싶은 과목 폐강 걱정과 5등급제 내신 등급 불안감을 300명 학년 규모로 확실하게 완화합니다'
+          },
+          {
+            src: 'assets/images/cardnews/card_ep5_03.png',
+            title: '03/06 · 앞의 문제점들을 완화할 수 있던 3단계 구체적 근거',
+            caption: 'STEP 1 대부분의 과목 개설 · STEP 2 150명 학교 대비 1등급 인원 15명 추가 확보 · STEP 3 공동교육과정 실시'
+          },
+          {
+            src: 'assets/images/cardnews/card_ep5_04.png',
+            title: '04/06 · 동아리와 함께하는 진로 개발: 다양한 창체 동아리들',
+            caption: '공학·자연(화생방, 리뉴턴), 의약·보건(의생명 탐구반), 인문·상경(창업), 교육(또래상담), 체육·군사 계열 맞춤 운영'
+          },
+          {
+            src: 'assets/images/cardnews/card_ep5_05.png',
+            title: '05/06 · 다양한 활동과 개별화된 진해고만의 명품 학생부',
+            caption: '과목별 세특과 동아리의 유기적 연결 + 매년 실시되는 글로컬 학술제 탐구로 학생부종합전형에서 독보적 강점 발휘'
+          },
+          {
+            src: 'assets/images/cardnews/card_ep5_06.png',
+            title: '06/06 · 여러분의 미래를 인도해 줄 동반자, 진해고등학교',
+            caption: '학생 개개인의 진로와 미래를 함께 열어가는 진해고등학교 (입학 상담 문의: 교무실 055-546-2260)'
+          }
+        ]
+      }
+    ];
+
+    var currentEpIdx = 0;       // 현재 선택된 편 (0 ~ 4)
+    var currentModalSlide = 0;   // 현재 모달에서 보고 있는 슬라이드 인덱스
+
+    // [홈페이지 본문] 에피소드 렌더링 함수
+    function renderCardnewsEpisode(epIdx) {
+      currentEpIdx = (epIdx + cardnewsEpisodes.length) % cardnewsEpisodes.length;
+      var ep = cardnewsEpisodes[currentEpIdx];
+
+      // 1. 상단 5편 탭 버튼 스타일 업데이트
+      var tabs = document.querySelectorAll('.cardnews-tab-btn');
+      tabs.forEach(function (btn, i) {
+        if (i === currentEpIdx) {
+          btn.className = 'cardnews-tab-btn active whitespace-nowrap px-3.5 py-2 rounded-xl text-xs font-bold bg-brand-navy text-white transition shadow-sm';
+        } else {
+          btn.className = 'cardnews-tab-btn whitespace-nowrap px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 transition';
+        }
+      });
+
+      // 2. 인라인 뷰어 DOM 업데이트
+      var imgEl = document.getElementById('cardnews-viewer-img');
+      var imgCounter = document.getElementById('cardnews-img-counter');
+      var badgeEl = document.getElementById('cardnews-badge');
+      var indEl = document.getElementById('cardnews-indicator');
+      var titleEl = document.getElementById('cardnews-title-text');
+      var descEl = document.getElementById('cardnews-desc-text');
+      var pointsEl = document.getElementById('cardnews-points');
+
+      if (imgEl) {
+        imgEl.src = ep.coverImg;
+        imgEl.alt = ep.title;
+      }
+      if (imgCounter) {
+        imgCounter.textContent = ep.slides.length > 1 ? '총 ' + ep.slides.length + '장 슬라이드' : '제' + (currentEpIdx + 1) + '편 대표 카드';
+      }
+      if (badgeEl) badgeEl.textContent = ep.badge;
+      if (indEl) indEl.textContent = '제 ' + (currentEpIdx + 1) + ' 편 / 총 ' + cardnewsEpisodes.length + ' 편';
+      if (titleEl) titleEl.textContent = ep.title;
+      if (descEl) descEl.textContent = ep.desc;
+
+      if (pointsEl) {
+        pointsEl.innerHTML = ep.points.map(function (pt) {
+          return '<p class="flex items-start gap-1.5">' +
+            '<i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5"></i>' +
+            '<span>' + pt + '</span>' +
+          '</p>';
+        }).join('');
+      }
+
+      refreshIcons();
+    }
+
+    // [홈페이지 본문] 이전/다음 편 이동
+    window.stepCardnewsEpisode = function (step) {
+      renderCardnewsEpisode(currentEpIdx + step);
+    };
+
+    // [모달 팝업] 특정 편 및 슬라이드 UI 갱신 함수
+    function updateCardnewsModalUI() {
+      var ep = cardnewsEpisodes[currentEpIdx];
+      var totalSlides = ep.slides.length;
+      if (currentModalSlide >= totalSlides) currentModalSlide = 0;
+      if (currentModalSlide < 0) currentModalSlide = totalSlides - 1;
+
+      var currentSlide = ep.slides[currentModalSlide];
+
+      // 1. 헤더 정보 업데이트
+      var modalBadge = document.getElementById('card-modal-badge');
+      var modalCounter = document.getElementById('card-modal-counter');
+      var modalTitle = document.getElementById('card-modal-title');
+      var modalImg = document.getElementById('card-modal-img');
+      var modalCaption = document.getElementById('card-modal-caption');
+      var modalNotice = document.getElementById('card-modal-notice');
+
+      if (modalBadge) modalBadge.textContent = '제' + (currentEpIdx + 1) + '편 · ' + ep.badge;
+      if (modalCounter) modalCounter.textContent = (currentModalSlide + 1) + ' / ' + totalSlides + ' 장';
+      if (modalTitle) modalTitle.textContent = currentSlide.title || ep.title;
+      if (modalImg) {
+        modalImg.src = currentSlide.src;
+        modalImg.alt = currentSlide.title || ep.title;
+      }
+      if (modalCaption) modalCaption.textContent = currentSlide.caption || ep.title;
+
+      // 2. 후속편 안내 노출 여부
+      if (modalNotice) {
+        if (totalSlides <= 1) {
+          modalNotice.classList.remove('hidden');
+        } else {
+          modalNotice.classList.add('hidden');
+        }
+      }
+
+      // 3. 모달 상단 에피소드 전환 탭 활성화 상태
+      var epBtns = document.querySelectorAll('.modal-ep-btn');
+      epBtns.forEach(function (btn, i) {
+        if (i === currentEpIdx) {
+          btn.className = 'modal-ep-btn px-2.5 py-1 rounded-lg text-xs font-black bg-brand-navy text-white shadow-xs';
+        } else {
+          btn.className = 'modal-ep-btn px-2.5 py-1 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-200';
+        }
+      });
+
+      // 4. 하단 슬라이드 도트 인디케이터
+      var dotsContainer = document.getElementById('card-modal-dots');
+      if (dotsContainer) {
+        if (totalSlides > 1) {
+          dotsContainer.classList.remove('hidden');
+          dotsContainer.innerHTML = '';
+          for (var s = 0; s < totalSlides; s++) {
+            (function (idx) {
+              var dot = document.createElement('button');
+              dot.type = 'button';
+              dot.setAttribute('aria-label', (idx + 1) + '번째 슬라이드로 이동');
+              if (idx === currentModalSlide) {
+                dot.className = 'w-6 h-2 rounded-full bg-brand-navy transition-all duration-200 shadow-2xs';
+              } else {
+                dot.className = 'w-2 h-2 rounded-full bg-slate-300 hover:bg-slate-400 transition-all duration-200';
+              }
+              dot.onclick = function () {
+                currentModalSlide = idx;
+                updateCardnewsModalUI();
+              };
+              dotsContainer.appendChild(dot);
+            })(s);
+          }
+        } else {
+          dotsContainer.classList.add('hidden');
+        }
+      }
+
+      // 5. 이전/다음 버튼 텍스트 스마트 조정
+      var btnPrev = document.getElementById('btn-modal-slide-prev');
+      var btnNext = document.getElementById('btn-modal-slide-next');
+      if (btnPrev && btnNext) {
+        if (totalSlides > 1) {
+          btnPrev.textContent = '← 이전 장';
+          btnNext.textContent = '다음 장 →';
+        } else {
+          btnPrev.textContent = '← 이전 편';
+          btnNext.textContent = '다음 편 →';
+        }
+      }
+
+      refreshIcons();
+    }
+
+    // [모달 팝업] 열기
+    window.openCardnewsModalCurrent = function () {
+      currentModalSlide = 0;
+      updateCardnewsModalUI();
+      openModal('cardnews-modal');
+    };
+
+    // [모달 팝업] 모달 내에서 다른 편으로 전환
+    window.switchModalEpisode = function (epIdx) {
+      renderCardnewsEpisode(epIdx);
+      currentModalSlide = 0;
+      updateCardnewsModalUI();
+    };
+
+    // [모달 팝업] 슬라이드(또는 단일 카드인 경우 편) 이전/다음 넘김
+    window.stepCardnewsModalSlide = function (step) {
+      var ep = cardnewsEpisodes[currentEpIdx];
+      if (ep.slides.length > 1) {
+        // 복수 슬라이드(제1편 7장 등): 슬라이드 간 넘김
+        currentModalSlide = (currentModalSlide + step + ep.slides.length) % ep.slides.length;
+        updateCardnewsModalUI();
+      } else {
+        // 단일 슬라이드(제2~5편): 편 간 넘김
+        renderCardnewsEpisode(currentEpIdx + step);
+        currentModalSlide = 0;
+        updateCardnewsModalUI();
+      }
+    };
+
+    // 기존 호환용 alias
+    window.stepCardnewsModal = window.stepCardnewsModalSlide;
+    window.stepCardnews = window.stepCardnewsEpisode;
+
+    // 모바일 터치 스와이프 & 키보드 방향키 바인딩
+    (function initPlanBCardnewsListeners() {
+      // 1. 탭 버튼 클릭 리스너 바인딩
+      var cardTabs = document.querySelectorAll('.cardnews-tab-btn');
+      cardTabs.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var idx = parseInt(btn.getAttribute('data-ep-idx'), 10);
+          renderCardnewsEpisode(idx);
+        });
+      });
+
+      // 2. 터치 스와이프 범용 헬퍼
+      function bindSwipe(el, onPrev, onNext) {
+        if (!el) return;
+        var startX = 0;
+        var startY = 0;
+        var tracking = false;
+
+        el.addEventListener('touchstart', function (e) {
+          if (!e.touches || e.touches.length !== 1) return;
+          startX = e.touches[0].clientX;
+          startY = e.touches[0].clientY;
+          tracking = true;
+        }, { passive: true });
+
+        el.addEventListener('touchmove', function (e) {
+          if (!tracking || !e.touches || e.touches.length !== 1) return;
+          var dx = e.touches[0].clientX - startX;
+          var dy = e.touches[0].clientY - startY;
+          if (Math.abs(dx) > 15 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+            if (e.cancelable) e.preventDefault();
+          }
+        }, { passive: false });
+
+        el.addEventListener('touchend', function (e) {
+          if (!tracking || !e.changedTouches || !e.changedTouches.length) return;
+          tracking = false;
+          var dx = e.changedTouches[0].clientX - startX;
+          var dy = e.changedTouches[0].clientY - startY;
+          if (Math.abs(dx) >= 35 && Math.abs(dx) > Math.abs(dy)) {
+            if (dx < 0) {
+              onNext();
+            } else {
+              onPrev();
+            }
+          }
+        }, { passive: true });
+      }
+
+      function attachAllSwipes() {
+        var modalStage = document.getElementById('card-modal-stage');
+        var brochureStage = document.getElementById('brochure-slide-container');
+
+        bindSwipe(
+          modalStage,
+          function () { window.stepCardnewsModalSlide(-1); },
+          function () { window.stepCardnewsModalSlide(1); }
+        );
+
+        bindSwipe(
+          brochureStage,
+          function () { if (window.stepBrochurePage) window.stepBrochurePage(-1); },
+          function () { if (window.stepBrochurePage) window.stepBrochurePage(1); }
+        );
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', attachAllSwipes);
+      } else {
+        setTimeout(attachAllSwipes, 0);
+      }
+
+      // 3. 키보드 좌우 화살표로 모달 슬라이드 넘기기
+      document.addEventListener('keydown', function (e) {
+        var cm = document.getElementById('cardnews-modal');
+        if (cm && !cm.classList.contains('hidden')) {
+          if (e.key === 'ArrowLeft') {
+            window.stepCardnewsModalSlide(-1);
+          } else if (e.key === 'ArrowRight') {
+            window.stepCardnewsModalSlide(1);
+          }
+        }
+      });
+    })();
+
+    /* ===== 원클릭 글자 크기 조절 엔진 (localStorage 연동) ===== */
+    (function initFontSizeController() {
+      var buttons = document.querySelectorAll('.font-size-ctrl-btn');
+      if (!buttons.length) return;
+
+      var ALLOWED_SIZES = ['normal', 'large', 'xlarge'];
+      var savedSize = 'large';
+      try {
+        var stored = window.localStorage.getItem('jinhae_font_size');
+        if (ALLOWED_SIZES.indexOf(stored) !== -1) savedSize = stored;
+      } catch (e) { /* 스토리지 접근 제한 환경 예외 방어 */ }
+      applySize(savedSize);
+
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var size = btn.getAttribute('data-fsize');
+          applySize(size);
+          try { window.localStorage.setItem('jinhae_font_size', size); } catch (e) { /* noop */ }
+        });
+      });
+
+      function applySize(size) {
+        document.documentElement.classList.remove('font-large', 'font-xlarge');
+        if (size === 'large') {
+          document.documentElement.classList.add('font-large');
+        } else if (size === 'xlarge') {
+          document.documentElement.classList.add('font-xlarge');
+        }
+
+        buttons.forEach(function (b) {
+          var match = b.getAttribute('data-fsize') === size;
+          b.classList.toggle('active', match);
+          b.setAttribute('aria-pressed', match ? 'true' : 'false');
+        });
+      }
+    })();
+
+      // [NEW] 배경 교표 워터마크 미세 패럴랙스
+      var crestWatermark = document.querySelector('.crest-watermark-img');
+      if (crestWatermark) {
+        window.addEventListener('scroll', function () {
+          var sy = window.pageYOffset || document.documentElement.scrollTop;
+          crestWatermark.style.transform = 'translate3d(0, ' + (sy * 0.04) + 'px, 0)';
+        }, { passive: true });
+      }
+
+
+        // 4. [NEW] 2027학년도 입학 브로슈어 팝업 뷰어 컨트롤러 (16쪽 공식 팸플릿)
+    var currentBrochurePage = 0;
+    var totalBrochurePages = 16;
+    var brochureMode = 'slide'; // 'slide' or 'pdf'
+
+    var brochurePageTitles = [
+      '01쪽 · 표지 (고교학점제에 강한 기숙형 자율학교)',
+      '02쪽 · 2027 입학안내 및 신입생 모집요강 (남 10학급 300명)',
+      '03쪽 · 정원 외 전형 안내 (국가유공자·특례입학 등)',
+      '04쪽 · 원서 접수 및 제출 서류 안내 (타시도 등)',
+      '05쪽 · 기숙사 수용 인원(153명) 및 특별 장학금 제도',
+      '06쪽 · 대입 연계 학력향상 프로그램 (기숙사 심화학습)',
+      '07쪽 · 대입 연계 인성함양 프로그램 (5 Green 클린학교)',
+      '08쪽 · 대입 연계 진로개척 프로그램 (학생 주도 홍보단)',
+      '09쪽 · 2028 대학 입시제도 개편 핵심내용 (5등급제 분석)',
+      '10쪽 · 수시·정시 대입 전형 대비 전략 및 학생부 지원',
+      '11쪽 · 2022 개정 교육과정 교과 편제표 (선택과목 안내)',
+      '12쪽 · 최근 주요 대학 진학 실적 (의예과·수도권·지거국)',
+      '13쪽 · 자기주도 진로학습 및 맞춤상담·장학증서 수여식',
+      '14쪽 · 학생 자치활동 실현 및 장복한울제 축제·체육한마당',
+      '15쪽 · 신입생 오리엔테이션·체험학습·심화 집중수업',
+      '16쪽 · 학교 캠퍼스 안내도 및 오시는 길·행정실 연락처'
+    ];
+
+    window.openBrochureModal = function (pageIndex) {
+      if (typeof pageIndex === 'number' && pageIndex >= 0 && pageIndex < totalBrochurePages) {
+        currentBrochurePage = pageIndex;
+      }
+      openModal('brochure-modal');
+      initBrochureControls();
+      renderBrochurePage();
+    };
+
+    window.switchBrochureMode = function (mode) {
+      brochureMode = mode;
+      var slideContainer = document.getElementById('brochure-slide-container');
+      var pdfContainer = document.getElementById('brochure-pdf-container');
+      var btnSlide = document.getElementById('btn-mode-slide');
+      var btnPdf = document.getElementById('btn-mode-pdf');
+      var slideControlsTop = document.getElementById('slide-controls-top');
+      var slideControlsBottom = document.getElementById('slide-controls-bottom');
+      var pdfFrame = document.getElementById('brochure-pdf-frame');
+
+      if (mode === 'pdf') {
+        if (slideContainer) slideContainer.classList.add('hidden');
+        if (pdfContainer) pdfContainer.classList.remove('hidden');
+        if (btnSlide) {
+          btnSlide.className = 'px-3 py-1 rounded-lg text-xs font-bold transition text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center gap-1.5';
+        }
+        if (btnPdf) {
+          btnPdf.className = 'px-3 py-1 rounded-lg text-xs font-black transition bg-brand-navy text-white shadow-xs flex items-center gap-1.5';
+        }
+        if (slideControlsTop) slideControlsTop.classList.add('opacity-30', 'pointer-events-none');
+        if (slideControlsBottom) slideControlsBottom.classList.add('opacity-30', 'pointer-events-none');
+        if (pdfFrame && (pdfFrame.src === 'about:blank' || !pdfFrame.src.includes('2027_jinhae_admission_brochure.pdf'))) {
+          pdfFrame.src = pdfFrame.getAttribute('data-src') || 'assets/docs/2027_jinhae_admission_brochure.pdf#page=1&view=FitH';
+        }
+      } else {
+        if (slideContainer) slideContainer.classList.remove('hidden');
+        if (pdfContainer) pdfContainer.classList.add('hidden');
+        if (btnSlide) {
+          btnSlide.className = 'px-3 py-1 rounded-lg text-xs font-black transition bg-brand-navy text-white shadow-xs flex items-center gap-1.5';
+        }
+        if (btnPdf) {
+          btnPdf.className = 'px-3 py-1 rounded-lg text-xs font-bold transition text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center gap-1.5';
+        }
+        if (slideControlsTop) slideControlsTop.classList.remove('opacity-30', 'pointer-events-none');
+        if (slideControlsBottom) slideControlsBottom.classList.remove('opacity-30', 'pointer-events-none');
+      }
+      refreshIcons();
+    };
+
+    window.setBrochurePage = function (pageIndex) {
+      if (pageIndex >= 0 && pageIndex < totalBrochurePages) {
+        currentBrochurePage = pageIndex;
+        if (brochureMode !== 'slide') {
+          switchBrochureMode('slide');
+        }
+        renderBrochurePage();
+      }
+    };
+
+    window.stepBrochurePage = function (direction) {
+      var next = currentBrochurePage + direction;
+      if (next >= 0 && next < totalBrochurePages) {
+        currentBrochurePage = next;
+        if (brochureMode !== 'slide') {
+          switchBrochureMode('slide');
+        }
+        renderBrochurePage();
+      }
+    };
+
+    function initBrochureControls() {
+      // 1. 목차 select 채우기 (처음 한 번만)
+      var select = document.getElementById('brochure-section-select');
+      if (select && select.options.length <= 1) {
+        select.innerHTML = '';
+        brochurePageTitles.forEach(function (t, idx) {
+          var opt = document.createElement('option');
+          opt.value = idx;
+          opt.textContent = t;
+          select.appendChild(opt);
+        });
+      }
+
+      // 2. 하단 1~16 칩스 생성 (처음 한 번만)
+      var chips = document.getElementById('brochure-page-chips');
+      if (chips && chips.children.length === 0) {
+        for (var i = 0; i < totalBrochurePages; i++) {
+          (function (pageIdx) {
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'brochure-chip w-6 h-6 rounded-lg text-[11px] font-bold transition flex items-center justify-center ' +
+              (pageIdx === currentBrochurePage ? 'bg-brand-navy text-white shadow-xs' : 'bg-slate-100 text-slate-600 hover:bg-slate-200');
+            btn.textContent = (pageIdx + 1);
+            btn.setAttribute('data-bchip', pageIdx);
+            btn.onclick = function () { setBrochurePage(pageIdx); };
+            chips.appendChild(btn);
+          })(i);
+        }
+      }
+    }
+
+    function renderBrochurePage() {
+      var pad = function (n) { return n < 10 ? '0' + n : '' + n; };
+      var pageNumStr = pad(currentBrochurePage + 1);
+
+      // 1. 이미지 교체 (부드러운 페이드 효과)
+      var img = document.getElementById('brochure-page-img');
+      if (img) {
+        img.src = 'assets/images/brochure/page_' + pageNumStr + '.webp';
+        img.alt = '진해고등학교 입학안내 팸플릿 ' + (currentBrochurePage + 1) + '쪽';
+      }
+
+      // 2. 인디케이터 및 자막 업데이트
+      var indicator = document.getElementById('brochure-page-indicator');
+      if (indicator) {
+        indicator.textContent = '제 ' + (currentBrochurePage + 1) + ' 쪽 / 총 ' + totalBrochurePages + ' 쪽';
+      }
+
+      var subtitle = document.getElementById('brochure-page-subtitle');
+      if (subtitle && brochurePageTitles[currentBrochurePage]) {
+        subtitle.textContent = brochurePageTitles[currentBrochurePage];
+      }
+
+      // 3. 셀렉트 박스 동기화
+      var select = document.getElementById('brochure-section-select');
+      if (select) {
+        select.value = currentBrochurePage;
+      }
+
+      // 4. 하단 칩스 동기화
+      var chips = document.querySelectorAll('.brochure-chip');
+      chips.forEach(function (chip, idx) {
+        if (idx === currentBrochurePage) {
+          chip.className = 'brochure-chip w-6 h-6 rounded-lg text-[11px] font-bold transition flex items-center justify-center bg-brand-navy text-white shadow-xs';
+        } else {
+          chip.className = 'brochure-chip w-6 h-6 rounded-lg text-[11px] font-bold transition flex items-center justify-center bg-slate-100 text-slate-600 hover:bg-slate-200';
+        }
+      });
+
+      // 5. 이전/다음 버튼 활성/비활성화 시각 효과
+      var prevBtn = document.getElementById('btn-bottom-prev');
+      var nextBtn = document.getElementById('btn-bottom-next');
+      var floatPrev = document.getElementById('btn-float-prev');
+      var floatNext = document.getElementById('btn-float-next');
+
+      if (prevBtn) prevBtn.disabled = (currentBrochurePage === 0);
+      if (nextBtn) nextBtn.disabled = (currentBrochurePage === totalBrochurePages - 1);
+      if (floatPrev) floatPrev.style.display = (currentBrochurePage === 0 ? 'none' : 'flex');
+      if (floatNext) floatNext.style.display = (currentBrochurePage === totalBrochurePages - 1 ? 'none' : 'flex');
+
+      refreshIcons();
+    }
+
+    // 키보드 좌우 화살표로 페이지 넘기기 지원
+    document.addEventListener('keydown', function (e) {
+      var modal = document.getElementById('brochure-modal');
+      if (modal && !modal.classList.contains('hidden') && brochureMode === 'slide') {
+        if (e.key === 'ArrowLeft') {
+          stepBrochurePage(-1);
+        } else if (e.key === 'ArrowRight') {
+          stepBrochurePage(1);
+        }
+      }
+    });
+
+  })();
+  
+    /* ========== [보안 & 도용 방지] 도메인 잠금 및 프레임워크 무단 복제 방지 엔진 ========== */
+    (function () {
+      // 1. 도메인 락: 타 학교/타 도메인에서 소스 무단 복제 실행 시 방어
+      var currentHost = window.location.hostname;
+      var isAuthorized = (
+        window.location.protocol === 'file:' ||
+        currentHost === 'localhost' ||
+        currentHost === '127.0.0.1' ||
+        currentHost === 'jinhae-intro.vercel.app' ||
+        currentHost.endsWith('.jinhae-intro.vercel.app') ||
+        currentHost === 'jinhae-h.gne.go.kr' ||
+        currentHost.endsWith('.gne.go.kr')
+      );
+
+      if (!isAuthorized) {
+        document.documentElement.innerHTML = '' +
+          '<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:#0F274A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,sans-serif;padding:24px;text-align:center;">' +
+            '<div style="max-width:480px;background:rgba(255,255,255,0.06);padding:32px 24px;border-radius:24px;border:1px solid rgba(255,255,255,0.15);box-shadow:0 20px 40px rgba(0,0,0,0.4);">' +
+              '<div style="font-size:40px;margin-bottom:12px;">🛡️</div>' +
+              '<h1 style="font-size:20px;font-weight:800;margin-bottom:12px;color:#fcd34d;">무단 복제 및 템플릿 도용 감지</h1>' +
+              '<p style="font-size:14px;line-height:1.6;color:#cbd5e1;margin-bottom:16px;">본 웹 애플리케이션의 인터랙티브 UI 구조, 기숙사 자가진단 엔진 및 시스템 프레임워크는 <strong>2026학년도 입학업무담당자</strong>에게 저작권이 독점 귀속되어 있습니다.</p>' +
+              '<p style="font-size:12px;color:#94a3b8;border-top:1px solid rgba(255,255,255,0.1);padding-top:12px;">사전 서면 승인 없는 타 학교·사설 기관의 템플릿 도용 및 무단 미러링을 금지합니다.<br>정식 라이선스 문의: 교무실(055-546-2260) 입학업무담당자</p>' +
+            '</div>' +
+          '</div>';
+        throw new Error('Unauthorized domain replication detected.');
+      }
+
+      // 2. 우클릭 및 소스 코드 무단 추출 단축키 방어
+      document.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+      });
+
+      document.addEventListener('keydown', function (e) {
+        // F12 (123), Ctrl+U (85), Ctrl+S (83), Ctrl+Shift+I (73), Ctrl+Shift+J (74), Ctrl+Shift+C (67)
+        var k = e.keyCode || e.which;
+        var ctrl = e.ctrlKey || e.metaKey;
+        if (
+          k === 123 ||
+          (ctrl && (k === 85 || k === 83)) ||
+          (ctrl && e.shiftKey && (k === 73 || k === 74 || k === 67))
+        ) {
+          e.preventDefault();
+          e.stopPropagation();
+          return false;
+        }
+      });
+    })();
+</script>
+
+  <!-- ========================================================================= -->
+  <!-- [MODAL 1] 2026학년도 대입 합격 실적표 상세 팝업 (입학설명회 공식 발표 자료) -->
+  <!-- ========================================================================= -->
+  <div id="admissions-modal" class="fixed inset-0 z-[70] hidden bg-slate-950/80 backdrop-blur-sm overflow-y-auto p-4 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="adm-modal-title">
+    <div class="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden my-6 max-h-[90vh] flex flex-col">
+      <!-- 모달 헤더 -->
+      <div class="bg-brand-navy text-white p-5 flex items-start justify-between gap-3 flex-shrink-0">
+        <div>
+          <span class="inline-block bg-amber-400 text-slate-950 text-xs font-extrabold px-2 py-0.5 rounded-full mb-1">입학설명회 공식 발표 자료</span>
+          <h3 id="adm-modal-title" class="text-lg sm:text-xl font-extrabold leading-snug">
+            진해고등학교 2026학년도 대입 합격 실적 상세표
+          </h3>
+          <p class="text-xs text-blue-200 mt-0.5">본교 공식 집계 (2026. 10. 22. 신입생 입학설명회 기준)</p>
+        </div>
+        <button type="button" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition flex-shrink-0" onclick="closeModal('admissions-modal')" aria-label="팝업 닫기">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- 모달 본문 (스크롤 가능) -->
+      <div class="p-5 overflow-y-auto space-y-4 text-slate-800 text-xs sm:text-sm">
+        <!-- 1. 최상위권 서울대 · 의약학 · 사관학교 · 특성화대 (주요 실적 14명) -->
+        <div class="rounded-2xl border border-blue-200 bg-blue-50/60 p-4">
+          <div class="flex items-center justify-between mb-2.5">
+            <h4 class="font-extrabold text-blue-950 flex items-center gap-1.5 text-sm">
+              <i data-lucide="award" class="w-4 h-4 text-amber-500"></i>
+              최상위권 서울대 · 의약학 · 사관학교 · 특성화대
+            </h4>
+            <span class="text-xs sm:text-sm font-bold text-blue-700 bg-blue-100 px-2 py-0.5 rounded-full">주요 실적 14명</span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <div class="bg-white p-2.5 rounded-xl border border-blue-100">
+              <span class="text-xs sm:text-sm text-slate-500 font-bold block">서울대학교</span>
+              <span class="text-base font-extrabold text-brand-navy">1명 합격</span>
+              <span class="text-xs text-slate-400 block mt-0.5">일반전형</span>
+            </div>
+            <div class="bg-white p-2.5 rounded-xl border border-blue-100">
+              <span class="text-xs sm:text-sm text-slate-500 font-bold block">의약학 계열</span>
+              <span class="text-base font-extrabold text-blue-600">4명 합격</span>
+              <span class="text-xs text-slate-400 block mt-0.5">의예 3명 · 치·한·약 1명</span>
+            </div>
+            <div class="bg-white p-2.5 rounded-xl border border-blue-100">
+              <span class="text-xs sm:text-sm text-slate-500 font-bold block">사관학교</span>
+              <span class="text-base font-extrabold text-emerald-700">7명 합격</span>
+              <span class="text-xs text-slate-400 block mt-0.5">해사 6명 · 육사 1명</span>
+            </div>
+            <div class="bg-white p-2.5 rounded-xl border border-blue-100">
+              <span class="text-xs sm:text-sm text-slate-500 font-bold block">이공계 특성화대</span>
+              <span class="text-base font-extrabold text-purple-700">2명 합격</span>
+              <span class="text-xs text-slate-400 block mt-0.5">UNIST · DGIST</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. 수도권 주요 15개 대학 -->
+        <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+          <div class="flex items-center justify-between mb-2.5">
+            <h4 class="font-extrabold text-slate-900 flex items-center gap-1.5 text-sm">
+              <i data-lucide="graduation-cap" class="w-4 h-4 text-indigo-600"></i>
+              수도권 주요 15개 대학 합격 현황
+            </h4>
+            <span class="text-xs sm:text-sm font-bold text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded-full">32명 이상</span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <div class="bg-white p-2.5 rounded-xl border border-slate-200">
+              <span class="text-xs sm:text-sm text-slate-500 font-bold block">연세대 · 고려대</span>
+              <span class="text-sm font-extrabold text-slate-900">4명</span>
+              <span class="text-xs text-slate-400 block">연세 2 · 고려 2</span>
+            </div>
+            <div class="bg-white p-2.5 rounded-xl border border-slate-200">
+              <span class="text-xs sm:text-sm text-slate-500 font-bold block">서강·성균관·한양</span>
+              <span class="text-sm font-extrabold text-slate-900">11명</span>
+              <span class="text-xs text-slate-400 block">서강 3, 성균 4, 한양 4</span>
+            </div>
+            <div class="bg-white p-2.5 rounded-xl border border-slate-200">
+              <span class="text-xs sm:text-sm text-slate-500 font-bold block">중앙·경희·외대·시립</span>
+              <span class="text-sm font-extrabold text-slate-900">6명</span>
+              <span class="text-xs text-slate-400 block">중앙 1, 경희 3, 외대 1, 시립 1</span>
+            </div>
+            <div class="bg-white p-2.5 rounded-xl border border-slate-200">
+              <span class="text-xs sm:text-sm text-slate-500 font-bold block">기타 수도권 주요대</span>
+              <span class="text-sm font-extrabold text-slate-900">11명</span>
+              <span class="text-xs text-slate-400 block">국민 4, 숭실 3, 단국 2 등</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. 거점국립대 및 지역 명문대 -->
+        <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+          <div class="flex items-center justify-between mb-2.5">
+            <h4 class="font-extrabold text-slate-900 flex items-center gap-1.5 text-sm">
+              <i data-lucide="landmark" class="w-4 h-4 text-emerald-600"></i>
+              국가 거점 국립대 및 지역 중심대
+            </h4>
+            <span class="text-xs sm:text-sm font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">86명 이상</span>
+          </div>
+          <div class="grid grid-cols-3 gap-2">
+            <div class="bg-white p-2.5 rounded-xl border border-slate-200 text-center">
+              <span class="text-xs sm:text-sm text-slate-500 font-bold block">부산대학교</span>
+              <span class="text-base font-extrabold text-emerald-700">17명</span>
+            </div>
+            <div class="bg-white p-2.5 rounded-xl border border-slate-200 text-center">
+              <span class="text-xs sm:text-sm text-slate-500 font-bold block">경북대학교</span>
+              <span class="text-base font-extrabold text-emerald-700">12명</span>
+            </div>
+            <div class="bg-white p-2.5 rounded-xl border border-slate-200 text-center">
+              <span class="text-xs sm:text-sm text-slate-500 font-bold block">부경·창원·경상국립</span>
+              <span class="text-base font-extrabold text-emerald-700">57명</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. 집계 기준 안내 및 진학 상담 -->
+        <div class="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-xs sm:text-sm text-amber-950 leading-relaxed space-y-1">
+          <p class="font-bold flex items-center gap-1 text-amber-900">
+            <i data-lucide="info" class="w-3.5 h-3.5"></i> 투명한 집계 기준 안내
+          </p>
+          <p>• 본 통계는 본교 공식 자체 집계(합격증 기준)로, 해당 학년도 재학생 및 졸업생(재수/N수생) 실적이 포함되어 있습니다.</p>
+          <p>• 수시/정시 특성상 1명의 학생이 여러 대학에 합격한 중복 합격 건수가 포함되어 있습니다.</p>
+          <p>• 학생 개인별 내신 등급대별 진학 사례와 2028 개편 대입 맞춤형 학생부 전략은 본교 교무실(055-546-2260)에서 개별 안내를 지원합니다.</p>
+        </div>
+      </div>
+
+      <!-- 모달 푸터 -->
+      <div class="bg-slate-50 p-4 border-t border-slate-200 flex items-center justify-end flex-shrink-0">
+        <button type="button" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs sm:text-sm transition" onclick="closeModal('admissions-modal')">
+          닫기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- [MODAL 2] 9:16 모바일 숏폼 릴스(Reels) 전용 세로 플레이어 모달 -->
+  <!-- ========================================================================= -->
+  <div id="reels-modal" class="fixed inset-0 z-[70] hidden bg-slate-950/90 backdrop-blur-md p-2 sm:p-4 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="reels-modal-title">
+    <div class="relative w-full max-w-[380px] aspect-[9/16] max-h-[92vh] bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-slate-800 flex flex-col">
+      <!-- 릴스 상단 바 -->
+      <div class="absolute top-0 left-0 right-0 z-20 p-3 bg-gradient-to-b from-slate-950/80 to-transparent flex items-center justify-between text-white">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping"></span>
+          <span class="text-xs font-bold tracking-wide">진해고 숏폼 릴스</span>
+        </div>
+        <button type="button" class="w-8 h-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition" onclick="closeModal('reels-modal')" aria-label="릴스 닫기">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- 릴스 비디오 / 화면 영역 -->
+      <div id="reels-video-container" class="relative w-full h-full bg-black flex items-center justify-center">
+        <!-- 릴스 포스터 커버 -->
+        <div id="reels-poster" class="absolute inset-0 bg-cover bg-center flex flex-col items-center justify-center p-6 text-center cursor-pointer" onclick="playCurrentReels()">
+          <div class="w-16 h-16 rounded-full bg-rose-600/90 hover:bg-rose-600 text-white flex items-center justify-center shadow-2xl transition transform hover:scale-110">
+            <i data-lucide="play" class="w-8 h-8 fill-current translate-x-0.5"></i>
+          </div>
+          <p class="text-white text-xs mt-3 bg-black/60 px-3 py-1.5 rounded-full backdrop-blur-sm">탭하여 릴스 영상 재생</p>
+        </div>
+        <div id="reels-player-slot" class="w-full h-full flex items-center justify-center text-slate-400"></div>
+      </div>
+
+      <!-- 릴스 하단 정보 오버레이 -->
+      <div class="absolute bottom-0 left-0 right-0 z-20 p-4 bg-gradient-to-t from-slate-950/95 via-slate-950/70 to-transparent text-white">
+        <h4 id="reels-modal-title" class="text-sm font-extrabold leading-snug drop-shadow line-clamp-2"></h4>
+        <p id="reels-modal-tags" class="text-xs text-rose-300 font-bold mt-1 drop-shadow"></p>
+        <div class="mt-3 flex items-center justify-between text-xs text-slate-300 border-t border-white/10 pt-2.5">
+          <button type="button" class="flex items-center gap-1.5 hover:text-white" onclick="shareCurrentReels()">
+            <i data-lucide="share-2" class="w-4 h-4"></i> 공유하기
+          </button>
+          <span class="text-xs sm:text-sm text-slate-400">진해고 공식 숏폼 채널</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- [MODAL 3] 카드뉴스 고화질 전체화면 확대 모달 (모바일 터치 스와이프 & 양옆 화살표 지원) -->
+    <!-- ========================================================================= -->
+  <!-- [MODAL 3] 카드뉴스 고화질 전체화면 확대 모달 (모바일 스와이프 & 화살표 지원) -->
+  <!-- ========================================================================= -->
+  <div id="cardnews-modal" class="fixed inset-0 z-[70] hidden bg-slate-950/90 backdrop-blur-md p-2 sm:p-5 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="card-modal-title">
+    <div class="relative w-full max-w-xl bg-white rounded-3xl overflow-hidden shadow-2xl border border-slate-200 flex flex-col max-h-[92vh]" style="max-height: 92dvh;">
+      <!-- 카드 모달 상단 헤더 -->
+      <div class="px-4 py-3 sm:p-4 bg-slate-900 text-white flex items-center justify-between gap-3 flex-shrink-0">
+        <div class="min-w-0 flex-1">
+          <div class="flex items-center gap-2">
+            <span id="card-modal-badge" class="bg-rose-500 text-white text-xs font-extrabold px-2.5 py-0.5 rounded-md">제1편 핵심 분석</span>
+            <span id="card-modal-counter" class="text-xs font-extrabold text-amber-300 tabular">1 / 7 장</span>
+          </div>
+          <h4 id="card-modal-title" class="text-xs sm:text-sm font-bold truncate mt-1"></h4>
+        </div>
+        <button type="button" class="w-9 h-9 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center transition flex-shrink-0" onclick="closeModal('cardnews-modal')" aria-label="카드뉴스 닫기">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- 모달 상단 미니 에피소드 전환 탭 바 (1편~5편 빠른 선택) -->
+      <div class="px-3 py-2 bg-slate-100 border-b border-slate-200 flex items-center justify-between gap-1 overflow-x-auto flex-shrink-0">
+        <span class="text-[11px] font-extrabold text-slate-500 whitespace-nowrap mr-1">편 선택:</span>
+        <div class="flex items-center gap-1">
+          <button type="button" class="modal-ep-btn px-2.5 py-1 rounded-lg text-xs font-bold transition" data-mep-idx="0" onclick="switchModalEpisode(0)">제1편 5등급제(7장)</button>
+          <button type="button" class="modal-ep-btn px-2.5 py-1 rounded-lg text-xs font-bold transition" data-mep-idx="1" onclick="switchModalEpisode(1)">제2편 기숙사</button>
+          <button type="button" class="modal-ep-btn px-2.5 py-1 rounded-lg text-xs font-bold transition" data-mep-idx="2" onclick="switchModalEpisode(2)">제3편 장학·복지(5장)</button>
+          <button type="button" class="modal-ep-btn px-2.5 py-1 rounded-lg text-xs font-bold transition" data-mep-idx="3" onclick="switchModalEpisode(3)">제4편 대입실적(5장)</button>
+          <button type="button" class="modal-ep-btn px-2.5 py-1 rounded-lg text-xs font-bold transition" data-mep-idx="4" onclick="switchModalEpisode(4)">제5편 동아리·학생부(6장)</button>
+        </div>
+      </div>
+
+      <!-- 카드 이미지 뷰어 (터치 스와이프 & 좌우 플로팅 버튼 내장) -->
+      <div id="card-modal-stage" class="relative p-2 sm:p-4 bg-slate-950/5 flex-1 min-h-0 flex items-center justify-center select-none overflow-hidden" style="touch-action: pan-y;">
+        <!-- 좌측 이전 장 플로팅 버튼 -->
+        <button type="button" onclick="event.stopPropagation(); stepCardnewsModalSlide(-1);" class="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/70 hover:bg-slate-900 active:scale-95 text-white flex items-center justify-center shadow-lg border border-white/20 backdrop-blur-xs transition" aria-label="이전 장 보기">
+          <i data-lucide="chevron-left" class="w-6 h-6"></i>
+        </button>
+
+        <img id="card-modal-img" src="assets/images/cardnews/card_ep1_01.png" alt="카드뉴스 확대 이미지" class="max-w-full max-h-[60vh] sm:max-h-[66vh] object-contain rounded-xl shadow-md border border-slate-200 transition-opacity duration-150" style="max-height: 60dvh;" draggable="false">
+
+        <!-- 우측 다음 장 플로팅 버튼 -->
+        <button type="button" onclick="event.stopPropagation(); stepCardnewsModalSlide(1);" class="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/70 hover:bg-slate-900 active:scale-95 text-white flex items-center justify-center shadow-lg border border-white/20 backdrop-blur-xs transition" aria-label="다음 장 보기">
+          <i data-lucide="chevron-right" class="w-6 h-6"></i>
+        </button>
+      </div>
+
+      <!-- 하단 인디케이터 & 안내 메시지 -->
+      <div class="px-3 pt-2 pb-1 bg-white flex flex-col items-center gap-1 flex-shrink-0">
+        <!-- 슬라이드 도트 인디케이터 (1편의 경우 7개 도트) -->
+        <div id="card-modal-dots" class="flex items-center justify-center gap-1.5 py-1"></div>
+
+        <!-- 슬라이드 캡션 / 설명글 -->
+        <p id="card-modal-caption" class="text-xs text-slate-700 font-bold text-center truncate max-w-full px-2"></p>
+
+        <!-- 후속편 준비 안내 (단일 카드인 제2편 기숙사 편일 때만 노출) -->
+        <p id="card-modal-notice" class="text-[11px] text-brand-blue font-bold text-center hidden">
+          ※ 제2편(기숙사 동백관·송학관) 상세 슬라이드는 실제 기숙사 촬영 사진 반영 후 업데이트됩니다.
+        </p>
+
+        <!-- 터치 스와이프 안내 문구 -->
+        <p class="text-[11px] text-slate-400 font-medium text-center">
+          👆 화면을 좌우로 밀거나(스와이프) 양옆 화살표를 눌러 넘겨보세요
+        </p>
+      </div>
+
+      <!-- 카드 모달 하단 액션 버튼 바 -->
+      <div class="px-3 py-2.5 sm:p-3 bg-white border-t border-slate-200 flex items-center justify-between gap-2 flex-shrink-0">
+        <div class="flex gap-2">
+          <button type="button" id="btn-modal-slide-prev" class="px-3.5 py-2 rounded-xl border border-slate-300 bg-slate-50 hover:bg-slate-100 active:scale-95 text-xs font-extrabold text-slate-800 transition flex items-center gap-1 shadow-2xs" onclick="stepCardnewsModalSlide(-1)">
+            ← 이전 장
+          </button>
+          <button type="button" id="btn-modal-slide-next" class="px-3.5 py-2 rounded-xl bg-brand-navy hover:bg-slate-800 active:scale-95 text-xs font-extrabold text-white transition flex items-center gap-1 shadow-xs" onclick="stepCardnewsModalSlide(1)">
+            다음 장 →
+          </button>
+        </div>
+        <button type="button" class="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-extrabold transition" onclick="closeModal('cardnews-modal')">
+          닫기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- [MODAL 4] 2027학년도 진해고등학교 신입생 입학안내 팸플릿 (공식 브로슈어 팝업) -->
+  <!-- ========================================================================= -->
+  <div id="brochure-modal" class="fixed inset-0 z-[70] hidden bg-slate-950/90 backdrop-blur-md p-2 sm:p-4 md:p-6 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="brochure-modal-title">
+    <div class="relative w-full max-w-5xl bg-white rounded-3xl overflow-hidden shadow-2xl border border-slate-200 flex flex-col max-h-[96vh]">
+      
+      <!-- 1. 브로슈어 상단 헤더 -->
+      <div class="p-3.5 sm:p-4 bg-brand-navy text-white flex items-center justify-between gap-3 flex-shrink-0">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <img src="assets/images/jinhae-crest-hd.png" alt="진해고 교표" class="w-8 h-8 object-contain drop-shadow flex-shrink-0">
+          <div class="min-w-0">
+            <div class="flex items-center gap-2">
+              <span class="bg-amber-400 text-brand-navy text-[11px] font-black px-2 py-0.5 rounded-full">2027 공식 브로슈어</span>
+              <span id="brochure-page-indicator" class="text-xs text-blue-200 font-bold">제 1 쪽 / 총 16 쪽</span>
+            </div>
+            <h3 id="brochure-modal-title" class="text-sm sm:text-base font-extrabold truncate mt-0.5">2027학년도 진해고등학교 입학안내 팸플릿</h3>
+          </div>
+        </div>
+        
+        <!-- 우측 액션 버튼들 -->
+        <div class="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+          <!-- 새 탭에서 원본 PDF 열기 -->
+          <a href="assets/docs/2027_jinhae_admission_brochure.pdf" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition border border-white/15" title="새 탭에서 원본 PDF 전체화면 열람">
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+            <span>새 탭에서 열기</span>
+          </a>
+          <!-- PDF 다운로드 -->
+          <a href="assets/docs/2027_jinhae_admission_brochure.pdf" download="2027학년도_진해고등학교_신입생_입학안내_팸플릿_공식시안.pdf" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-brand-navy text-xs font-black transition shadow-sm" title="공식 팸플릿 PDF 파일 다운로드 (2.3MB)">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">PDF 다운로드 (2.3MB)</span>
+            <span class="sm:hidden">PDF 다운로드</span>
+          </a>
+          <!-- 닫기 버튼 -->
+          <button type="button" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition ml-1" onclick="closeModal('brochure-modal')" aria-label="브로슈어 닫기">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- 2. 서브 컨트롤 바: 뷰 모드 탭 & 빠른 목차 선택기 -->
+      <div class="bg-slate-100 border-b border-slate-200 px-3 py-2 flex flex-wrap items-center justify-between gap-2 flex-shrink-0">
+        <!-- 뷰 모드 전환 버튼 (슬라이드 뷰 vs PDF 원본 뷰) -->
+        <div class="flex items-center gap-1 bg-white p-0.5 rounded-xl border border-slate-200 shadow-xs">
+          <button type="button" id="btn-mode-slide" onclick="switchBrochureMode('slide')" class="px-3 py-1 rounded-lg text-xs font-black transition bg-brand-navy text-white shadow-xs flex items-center gap-1.5">
+            <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+            <span>16쪽 슬라이드 뷰</span>
+          </button>
+          <button type="button" id="btn-mode-pdf" onclick="switchBrochureMode('pdf')" class="px-3 py-1 rounded-lg text-xs font-bold transition text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center gap-1.5">
+            <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+            <span>PDF 원본 뷰어</span>
+          </button>
+        </div>
+
+        <!-- 슬라이드 뷰 컨트롤 (목차 바로가기 드롭다운) -->
+        <div id="slide-controls-top" class="flex items-center gap-2 flex-grow sm:flex-grow-0 min-w-[220px] justify-end">
+          <div class="relative w-full sm:w-auto">
+            <select id="brochure-section-select" onchange="setBrochurePage(parseInt(this.value))" class="w-full sm:w-80 text-xs font-bold bg-white text-slate-800 border border-slate-300 rounded-xl px-2.5 py-1.5 pr-7 focus:outline-none focus:ring-2 focus:ring-brand-blue/30 cursor-pointer shadow-xs truncate">
+              <option value="0">01쪽 · 표지 (고교학점제에 강한 기숙형 자율학교)</option>
+              <option value="1">02쪽 · 2027 입학안내 및 신입생 모집요강 (남 10학급 300명)</option>
+              <option value="2">03쪽 · 정원 외 전형 안내 (국가유공자·특례입학 등)</option>
+              <option value="3">04쪽 · 원서 접수 및 제출 서류 안내 (타시도 등)</option>
+              <option value="4">05쪽 · 기숙사 수용 인원(153명) 및 특별 장학금 제도</option>
+              <option value="5">06쪽 · 대입 연계 학력향상 프로그램 (기숙사 심화학습)</option>
+              <option value="6">07쪽 · 대입 연계 인성함양 프로그램 (5 Green 클린학교)</option>
+              <option value="7">08쪽 · 대입 연계 진로개척 프로그램 (학생 주도 홍보단)</option>
+              <option value="8">09쪽 · 2028 대학 입시제도 개편 핵심내용 (5등급제 분석)</option>
+              <option value="9">10쪽 · 수시·정시 대입 전형 대비 전략 및 학생부 지원</option>
+              <option value="10">11쪽 · 2022 개정 교육과정 교과 편제표 (선택과목 안내)</option>
+              <option value="11">12쪽 · 최근 주요 대학 진학 실적 (의예과·수도권·지거국)</option>
+              <option value="12">13쪽 · 자기주도 진로학습 및 맞춤상담·장학증서 수여식</option>
+              <option value="13">14쪽 · 학생 자치활동 실현 및 장복한울제 축제·체육한마당</option>
+              <option value="14">15쪽 · 신입생 오리엔테이션·체험학습·심화 집중수업</option>
+              <option value="15">16쪽 · 학교 캠퍼스 안내도 및 오시는 길·행정실 연락처</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. 메인 콘텐츠 뷰포트 영역 -->
+      <div class="relative flex-grow overflow-y-auto bg-slate-900/5 p-2 sm:p-4 flex items-center justify-center min-h-[52vh] max-h-[76vh]" id="brochure-viewport">
+        
+        <!-- [VIEW 1] 슬라이드 이미지 뷰어 -->
+        <div id="brochure-slide-container" class="w-full h-full flex flex-col items-center justify-center">
+          <div class="relative max-w-2xl w-full mx-auto flex items-center justify-center bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200 p-1 sm:p-2">
+            <img id="brochure-page-img" src="assets/images/brochure/page_01.webp" alt="진해고 입학안내 팸플릿 1쪽" class="w-full h-auto max-h-[66vh] object-contain mx-auto select-none rounded-lg transition duration-200" loading="eager">
+            
+            <!-- 슬라이드 좌우 이동 플로팅 버튼 (호버 및 터치용) -->
+            <button type="button" onclick="stepBrochurePage(-1)" id="btn-float-prev" class="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/70 hover:bg-slate-900 text-white backdrop-blur-sm flex items-center justify-center shadow-lg transition active:scale-90" aria-label="이전 페이지">
+              <i data-lucide="chevron-left" class="w-6 h-6"></i>
+            </button>
+            <button type="button" onclick="stepBrochurePage(1)" id="btn-float-next" class="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/70 hover:bg-slate-900 text-white backdrop-blur-sm flex items-center justify-center shadow-lg transition active:scale-90" aria-label="다음 페이지">
+              <i data-lucide="chevron-right" class="w-6 h-6"></i>
+            </button>
+          </div>
+          <div id="brochure-page-subtitle" class="mt-2 text-center text-xs font-bold text-slate-700 truncate max-w-lg px-2">
+            01쪽 · 표지 (고교학점제에 강한 기숙형 자율학교)
+          </div>
+        </div>
+
+        <!-- [VIEW 2] PDF 원본 iframe 뷰어 (기본 hidden) -->
+        <div id="brochure-pdf-container" class="hidden w-full h-full flex flex-col">
+          <div class="p-2 mb-2 bg-blue-50 border border-blue-200 rounded-xl text-blue-900 text-xs flex items-center justify-between">
+            <span class="flex items-center gap-1.5">
+              <i data-lucide="info" class="w-4 h-4 text-brand-blue flex-shrink-0"></i>
+              <span>공식 16쪽 PDF 문서 원본이 내장되어 있습니다. 확대/축소 및 페이지 탐색이 자유롭습니다.</span>
+            </span>
+            <a href="assets/docs/2027_jinhae_admission_brochure.pdf" target="_blank" rel="noopener noreferrer" class="text-brand-blue underline font-bold hover:text-blue-800 ml-2 flex-shrink-0">새 탭 전체화면 열기</a>
+          </div>
+          <iframe id="brochure-pdf-frame" src="about:blank" data-src="assets/docs/2027_jinhae_admission_brochure.pdf#page=1&view=FitH" class="w-full flex-grow rounded-2xl border border-slate-300 bg-white min-h-[62vh]" title="2027학년도 진해고등학교 신입생 입학안내 팸플릿 PDF 원본"></iframe>
+        </div>
+
+      </div>
+
+      <!-- 4. 브로슈어 하단 네비게이션 & 빠른 페이지 칩스 바 -->
+      <div class="bg-white border-t border-slate-200 px-3 py-2.5 flex items-center justify-between gap-2 flex-shrink-0">
+        <!-- 이전/다음 및 칩스 컨트롤 -->
+        <div class="flex items-center gap-1.5" id="slide-controls-bottom">
+          <button type="button" onclick="stepBrochurePage(-1)" id="btn-bottom-prev" class="px-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 active:scale-95 text-xs font-bold text-slate-700 transition flex items-center gap-1">
+            <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
+            <span>이전 쪽</span>
+          </button>
+          
+          <!-- 페이지 빠른 이동 번호 칩스 (가로 스크롤 가능) -->
+          <div class="hidden sm:flex items-center gap-1 max-w-xs md:max-w-md overflow-x-auto scrollbar-none px-1" id="brochure-page-chips">
+            <!-- 1 to 16 buttons dynamically generated -->
+          </div>
+
+          <button type="button" onclick="stepBrochurePage(1)" id="btn-bottom-next" class="px-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 active:scale-95 text-xs font-bold text-slate-700 transition flex items-center gap-1">
+            <span>다음 쪽</span>
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+
+        <!-- 우측 상담 및 닫기 버튼 -->
+        <div class="flex items-center gap-2">
+          <a href="tel:0555462260" class="hidden sm:inline-flex items-center gap-1 text-xs font-bold text-brand-blue hover:underline">
+            <i data-lucide="phone-call" class="w-3.5 h-3.5"></i> 상담 055-546-2260
+          </a>
+          <button type="button" class="px-4 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-bold hover:bg-slate-800 active:scale-95 transition" onclick="closeModal('brochure-modal')">
+            닫기
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+</body>
+</html>
