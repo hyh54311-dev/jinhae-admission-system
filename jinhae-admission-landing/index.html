@@ -898,18 +898,18 @@
         <span class="flex-shrink-0 bg-indigo-100 text-indigo-800 text-xs sm:text-sm font-bold px-2.5 py-1 rounded-full">관리되는 3년</span>
       </div>
 
-      <!-- [NEW] 학교 생활 & 기숙사 영상 멀티 쇼케이스 (16:9 와이드 + 9:16 모바일 숏폼 릴스) -->
+      <!-- [NEW] 학교 생활 & 기숙사 영상 멀티 쇼케이스 (16:9 기숙사 홍보 영상 1편 + 9:16 모바일 숏폼 릴스 2편) -->
       <div class="mt-5 rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 shadow-xl">
         <!-- 상단 영상 포맷 전환 탭 바 -->
         <div class="px-3 pt-3 pb-2.5 bg-slate-950/80 border-b border-slate-800/80 flex items-center justify-between flex-wrap gap-2">
           <div class="flex items-center gap-1.5 bg-slate-900 p-1 rounded-xl border border-slate-800">
             <button type="button" id="tab-video-wide" class="video-format-btn active px-3 py-1.5 rounded-lg text-xs font-bold text-white bg-blue-600 transition flex items-center gap-1.5">
               <i data-lucide="tv" class="w-3.5 h-3.5"></i>
-              <span>16:9 와이드 풀영상 (3편)</span>
+              <span>16:9 기숙사 홍보 영상</span>
             </button>
             <button type="button" id="tab-video-reels" class="video-format-btn px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-1.5">
               <i data-lucide="smartphone" class="w-3.5 h-3.5 text-rose-400"></i>
-              <span>9:16 숏폼 릴스 (4편)</span>
+              <span>9:16 숏폼 릴스 (2편)</span>
               <span class="bg-rose-500 text-white text-xs px-1.5 py-0.2 rounded-full font-extrabold animate-pulse">HOT</span>
             </button>
           </div>
@@ -919,21 +919,21 @@
           </span>
         </div>
 
-        <!-- 패널 1: 16:9 와이드 풀영상 갤러리 -->
-        <div id="panel-video-wide" class="p-3 sm:p-4 space-y-3">
-          <div class="relative aspect-video w-full bg-slate-950 rounded-xl overflow-hidden flex items-center justify-center group shadow-inner">
+        <!-- 패널 1: 16:9 기숙사 홍보 영상 (단일 플레이어 프레임) -->
+        <div id="panel-video-wide" class="p-3 sm:p-4 space-y-2.5">
+          <div class="relative aspect-video w-full bg-slate-950 rounded-xl overflow-hidden flex items-center justify-center group shadow-inner border border-slate-800/80">
             <div id="dorm-video-container" class="w-full h-full relative">
-              <!-- 썸네일 커버 & 재생 오버레이 -->
-              <div id="dorm-video-poster" class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/50 to-slate-950/30 flex flex-col items-center justify-center p-4 cursor-pointer text-center z-10 transition-all hover:bg-slate-950/60" onclick="playDormVideo()">
-                <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-red-600/90 hover:bg-red-600 text-white flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
+              <!-- 유튜브 썸네일 커버 & 재생 오버레이 -->
+              <div id="dorm-video-poster" class="absolute inset-0 bg-cover bg-center flex flex-col items-center justify-center p-4 cursor-pointer text-center z-10 transition-all group" style="background-image: linear-gradient(to top, rgba(2,6,23,0.92), rgba(15,23,42,0.45), rgba(2,6,23,0.35)), url('https://i.ytimg.com/vi/_HX082DAmxE/hqdefault.jpg');" onclick="playDormVideo()">
+                <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-red-600/95 hover:bg-red-600 text-white flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
                   <i data-lucide="play" class="w-8 h-8 sm:w-10 sm:h-10 fill-current translate-x-0.5"></i>
                 </div>
                 <p id="wide-video-title" class="text-white font-extrabold text-sm sm:text-base mt-3 drop-shadow flex items-center gap-1.5">
                   <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                  🎥 2027 기숙사(동백관 · 송학관) 룸투어 & 하루 일과
+                  🎥 진해고등학교 기숙사(동백관 · 송학관) 공식 홍보 영상
                 </p>
-                <p class="text-xs sm:text-sm text-slate-300 mt-1">
-                  화면을 탭하시면 쾌적한 호실 내부와 정독실 하루 일과 영상을 바로 시청하실 수 있습니다
+                <p class="text-xs sm:text-sm text-slate-200 mt-1 drop-shadow">
+                  화면을 탭하시면 쾌적한 기숙사 시설과 하루 일과 영상을 바로 시청하실 수 있습니다
                 </p>
               </div>
               <!-- 실제 비디오 / iframe 영역 -->
@@ -941,59 +941,43 @@
             </div>
           </div>
 
-          <!-- 와이드 영상 3편 셀렉터 목록 -->
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
-            <button type="button" class="wide-item-btn active text-left p-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-blue-500/80 transition group" onclick="switchWideVideo(0)">
-              <div class="flex items-center justify-between text-xs sm:text-sm text-blue-400 font-bold mb-1">
-                <span>[대표 영상 1]</span>
-                <span class="tabular">2분 30초</span>
-              </div>
-              <p class="text-xs font-bold text-white group-hover:text-blue-300 transition truncate">기숙사 룸투어 & 일과 풀영상</p>
-              <p class="text-xs text-slate-400 mt-0.5 truncate">동백관 3인실 · 송학관 2인실 · 정독실</p>
-            </button>
-            <button type="button" class="wide-item-btn text-left p-2.5 rounded-xl bg-slate-950/60 hover:bg-slate-800 border border-slate-800 transition group" onclick="switchWideVideo(1)">
-              <div class="flex items-center justify-between text-xs sm:text-sm text-slate-400 font-bold mb-1">
-                <span>[캠퍼스 영상 2]</span>
-                <span class="tabular">1분 45초</span>
-              </div>
-              <p class="text-xs font-bold text-slate-200 group-hover:text-white transition truncate">83년 전통 교정 & 드론 항공뷰</p>
-              <p class="text-xs text-slate-400 mt-0.5 truncate">군항제 벚꽃 성지와 최신 학습관</p>
-            </button>
-            <button type="button" class="wide-item-btn text-left p-2.5 rounded-xl bg-slate-950/60 hover:bg-slate-800 border border-slate-800 transition group" onclick="switchWideVideo(2)">
-              <div class="flex items-center justify-between text-xs sm:text-sm text-slate-400 font-bold mb-1">
-                <span>[설명회 영상 3]</span>
-                <span class="tabular">3분 10초</span>
-              </div>
-              <p class="text-xs font-bold text-slate-200 group-hover:text-white transition truncate">2027 신입생 입학설명회 요약</p>
-              <p class="text-xs text-slate-400 mt-0.5 truncate">내신 5등급제 대비 & 기숙사 지원 전략</p>
-            </button>
+          <!-- 단일 기숙사 홍보 영상 안내 바 -->
+          <div class="flex items-center justify-between gap-2 px-3 py-2 rounded-xl bg-slate-950/70 border border-slate-800/90 text-xs">
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="bg-blue-600/20 text-blue-400 border border-blue-500/30 font-extrabold px-2 py-0.5 rounded-md whitespace-nowrap">공식 홍보 영상</span>
+              <span class="text-slate-200 font-bold truncate">동백관(3인실) · 송학관(2인실) · 1인 1지정석 정독실 & 직영 3식</span>
+            </div>
+            <a href="https://youtu.be/_HX082DAmxE" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:text-blue-300 font-bold whitespace-nowrap inline-flex items-center gap-1 flex-shrink-0">
+              <span>YouTube에서 보기</span>
+              <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+            </a>
           </div>
         </div>
 
-        <!-- 패널 2: 9:16 모바일 숏폼 릴스(Reels) 쇼케이스 (스마트폰 세로 영상) -->
+        <!-- 패널 2: 9:16 모바일 숏폼 릴스(Reels) 쇼케이스 (2편 프레임) -->
         <div id="panel-video-reels" class="p-3 sm:p-4 hidden">
           <div class="mb-3 flex items-center justify-between">
             <p class="text-xs text-slate-300 font-medium">
               📱 터치하시면 <strong class="text-white">모바일 전체화면 릴스 플레이어</strong>로 감상하실 수 있습니다.
             </p>
-            <span class="text-xs bg-rose-500/20 text-rose-300 border border-rose-500/30 px-2 py-0.5 rounded-full font-bold">인기 릴스 4선</span>
+            <span class="text-xs bg-rose-500/20 text-rose-300 border border-rose-500/30 px-2 py-0.5 rounded-full font-bold">공식 릴스 2편</span>
           </div>
 
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          <div class="grid grid-cols-2 gap-3 max-w-md mx-auto">
             <!-- 릴스 카드 1 -->
             <div class="reels-card group reveal-item relative aspect-[9/16] bg-slate-950 rounded-xl overflow-hidden border border-slate-800 shadow-md cursor-pointer hover:border-rose-500/70 transition-all hover:scale-[1.02]" onclick="openReelsModal(0)">
               <div class="absolute inset-0 bg-cover bg-center transition-transform group-hover:scale-105" style="background-image: url('assets/images/jinhae-aerial-hero.webp'); filter: brightness(0.75);"></div>
               <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent"></div>
-              <span class="absolute top-2 left-2 bg-rose-600/90 text-white text-xs font-extrabold px-1.5 py-0.5 rounded shadow">15s</span>
+              <span class="absolute top-2.5 left-2.5 bg-rose-600/90 text-white text-xs font-extrabold px-2 py-0.5 rounded shadow">릴스 1편</span>
               <div class="absolute inset-0 flex items-center justify-center opacity-85 group-hover:opacity-100 group-hover:scale-110 transition">
-                <div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-lg">
+                <div class="w-11 h-11 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-lg">
                   <i data-lucide="play" class="w-5 h-5 fill-current translate-x-0.5"></i>
                 </div>
               </div>
-              <div class="absolute bottom-0 left-0 right-0 p-2.5 text-white">
-                <span class="text-xs text-rose-300 font-extrabold uppercase">Dorm Tour</span>
-                <p class="text-xs font-bold leading-tight mt-0.5 group-hover:text-amber-300 transition line-clamp-2">15초 컷 기숙사 룸투어 (동백관 3인실 솔직 후기)</p>
-                <p class="text-xs text-slate-300 mt-1 truncate">#기숙사 #진해고 #룸투어</p>
+              <div class="absolute bottom-0 left-0 right-0 p-3 text-white">
+                <span class="text-xs text-rose-300 font-extrabold uppercase">Short-form 01</span>
+                <p class="text-xs sm:text-sm font-bold leading-tight mt-0.5 group-hover:text-amber-300 transition line-clamp-2">진해고 기숙사 & 캠퍼스 라이프 숏폼 1편</p>
+                <p class="text-xs text-slate-300 mt-1 truncate">#진해고 #기숙사 #홍보릴스</p>
               </div>
             </div>
 
@@ -1001,50 +985,16 @@
             <div class="reels-card group reveal-item relative aspect-[9/16] bg-slate-950 rounded-xl overflow-hidden border border-slate-800 shadow-md cursor-pointer hover:border-rose-500/70 transition-all hover:scale-[1.02]" onclick="openReelsModal(1)">
               <div class="absolute inset-0 bg-cover bg-center transition-transform group-hover:scale-105" style="background-image: url('assets/images/cardnews/card_06_selfstudy.png'); filter: brightness(0.75);"></div>
               <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent"></div>
-              <span class="absolute top-2 left-2 bg-indigo-600/90 text-white text-xs font-extrabold px-1.5 py-0.5 rounded shadow">28s</span>
+              <span class="absolute top-2.5 left-2.5 bg-indigo-600/90 text-white text-xs font-extrabold px-2 py-0.5 rounded shadow">릴스 2편</span>
               <div class="absolute inset-0 flex items-center justify-center opacity-85 group-hover:opacity-100 group-hover:scale-110 transition">
-                <div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-lg">
+                <div class="w-11 h-11 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-lg">
                   <i data-lucide="play" class="w-5 h-5 fill-current translate-x-0.5"></i>
                 </div>
               </div>
-              <div class="absolute bottom-0 left-0 right-0 p-2.5 text-white">
-                <span class="text-xs text-indigo-300 font-extrabold uppercase">Daily Study</span>
-                <p class="text-xs font-bold leading-tight mt-0.5 group-hover:text-amber-300 transition line-clamp-2">밤 11:30까지 순공 4.5시간! 정독실 야자 브이로그</p>
-                <p class="text-xs text-slate-300 mt-1 truncate">#순공시간 #자기주도학습</p>
-              </div>
-            </div>
-
-            <!-- 릴스 카드 3 -->
-            <div class="reels-card group reveal-item relative aspect-[9/16] bg-slate-950 rounded-xl overflow-hidden border border-slate-800 shadow-md cursor-pointer hover:border-rose-500/70 transition-all hover:scale-[1.02]" onclick="openReelsModal(2)">
-              <div class="absolute inset-0 bg-cover bg-center transition-transform group-hover:scale-105" style="background-image: url('assets/images/cardnews/card_03_dorm_care.png'); filter: brightness(0.75);"></div>
-              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent"></div>
-              <span class="absolute top-2 left-2 bg-emerald-600/90 text-white text-xs font-extrabold px-1.5 py-0.5 rounded shadow">22s</span>
-              <div class="absolute inset-0 flex items-center justify-center opacity-85 group-hover:opacity-100 group-hover:scale-110 transition">
-                <div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-lg">
-                  <i data-lucide="play" class="w-5 h-5 fill-current translate-x-0.5"></i>
-                </div>
-              </div>
-              <div class="absolute bottom-0 left-0 right-0 p-2.5 text-white">
-                <span class="text-xs text-emerald-300 font-extrabold uppercase">Meals 3-Course</span>
-                <p class="text-xs font-bold leading-tight mt-0.5 group-hover:text-amber-300 transition line-clamp-2">아침·점심·저녁 3식 풀코스! 진해고 급식 모음</p>
-                <p class="text-xs text-slate-300 mt-1 truncate">#급식레전드 #직영3식</p>
-              </div>
-            </div>
-
-            <!-- 릴스 카드 4 -->
-            <div class="reels-card group reveal-item relative aspect-[9/16] bg-slate-950 rounded-xl overflow-hidden border border-slate-800 shadow-md cursor-pointer hover:border-rose-500/70 transition-all hover:scale-[1.02]" onclick="openReelsModal(3)">
-              <div class="absolute inset-0 bg-cover bg-center transition-transform group-hover:scale-105" style="background-image: url('assets/images/jinhae-aerial-hero.webp'); filter: brightness(0.75);"></div>
-              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent"></div>
-              <span class="absolute top-2 left-2 bg-pink-600/90 text-white text-xs font-extrabold px-1.5 py-0.5 rounded shadow">18s</span>
-              <div class="absolute inset-0 flex items-center justify-center opacity-85 group-hover:opacity-100 group-hover:scale-110 transition">
-                <div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-lg">
-                  <i data-lucide="play" class="w-5 h-5 fill-current translate-x-0.5"></i>
-                </div>
-              </div>
-              <div class="absolute bottom-0 left-0 right-0 p-2.5 text-white">
-                <span class="text-xs text-pink-300 font-extrabold uppercase">Cherry Blossom</span>
-                <p class="text-xs font-bold leading-tight mt-0.5 group-hover:text-amber-300 transition line-clamp-2">봄이면 벚꽃 성지가 되는 진해고 벚꽃길 드론뷰</p>
-                <p class="text-xs text-slate-300 mt-1 truncate">#진해벚꽃 #교정산책</p>
+              <div class="absolute bottom-0 left-0 right-0 p-3 text-white">
+                <span class="text-xs text-indigo-300 font-extrabold uppercase">Short-form 02</span>
+                <p class="text-xs sm:text-sm font-bold leading-tight mt-0.5 group-hover:text-amber-300 transition line-clamp-2">진해고 자기주도학습 & 학교생활 숏폼 2편</p>
+                <p class="text-xs text-slate-300 mt-1 truncate">#자기주도학습 #정독실 #릴스</p>
               </div>
             </div>
           </div>
@@ -2517,93 +2467,43 @@
       });
     }
 
-    // 16:9 와이드 영상 목록 데이터 및 전환
+    // 16:9 기숙사 홍보 영상 단일 데이터 및 재생 엔진
     var wideVideos = [
       {
-        title: '🎥 2027 기숙사(동백관 · 송학관) 룸투어 & 하루 일과',
-        url: 'https://www.youtube-nocookie.com/embed/Ok5PXdmQV-s?autoplay=1&rel=0&modestbranding=1'
-      },
-      {
-        title: '🎥 83년 전통 교정 & 공식 드론 항공 시네마틱 전경',
-        url: 'https://www.youtube-nocookie.com/embed/Ok5PXdmQV-s?autoplay=1&rel=0&modestbranding=1'
-      },
-      {
-        title: '🎥 2027학년도 신입생 입학설명회 3분 핵심 요약',
-        url: 'https://www.youtube-nocookie.com/embed/Ok5PXdmQV-s?autoplay=1&rel=0&modestbranding=1'
+        title: '🎥 진해고등학교 기숙사(동백관 · 송학관) 공식 홍보 영상',
+        url: 'https://www.youtube-nocookie.com/embed/_HX082DAmxE?autoplay=1&rel=0&modestbranding=1'
       }
     ];
 
-    var currentWideIdx = 0;
-    window.switchWideVideo = function (idx) {
-      currentWideIdx = idx;
-      var buttons = document.querySelectorAll('.wide-item-btn');
-      buttons.forEach(function (btn, i) {
-        if (i === idx) {
-          btn.className = 'wide-item-btn active text-left p-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-blue-500/80 transition group';
-        } else {
-          btn.className = 'wide-item-btn text-left p-2.5 rounded-xl bg-slate-950/60 hover:bg-slate-800 border border-slate-800 transition group';
-        }
-      });
-      var titleEl = document.getElementById('wide-video-title');
-      if (titleEl) titleEl.innerText = wideVideos[idx].title;
-      var player = document.getElementById('dorm-video-player');
-      var poster = document.getElementById('dorm-video-poster');
-      if (poster && poster.classList.contains('hidden')) {
-        playDormVideo();
-      }
-    };
-
     window.playDormVideo = function () {
       var poster = document.getElementById('dorm-video-poster');
       var player = document.getElementById('dorm-video-player');
       if (poster) poster.classList.add('hidden');
-      if (currentWideIdx === 0) {
-        player.innerHTML = '<iframe class="w-full h-full border-0" src="' + wideVideos[0].url + '" title="진해고 기숙사 룸투어" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
-      } else {
-        player.innerHTML = '<div class="p-6 text-center flex flex-col items-center justify-center space-y-3"><div class="w-14 h-14 rounded-full bg-blue-600/20 text-blue-400 flex items-center justify-center"><i data-lucide="film" class="w-7 h-7"></i></div><h4 class="text-white font-extrabold text-base sm:text-lg">' + wideVideos[currentWideIdx].title.replace('🎥 ', '') + '</h4><p class="text-slate-300 text-xs sm:text-sm max-w-md">본 영상은 학교 방송부 및 입학홍보 전담팀에서 편집 진행 중이며, 입학전형 일정에 맞춰 순차 공개될 예정입니다.</p><button type="button" data-chat="" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl shadow mt-2">기숙사 생활 AI 챗봇에게 먼저 물어보기</button></div>';
-        refreshIcons();
+      if (player) {
+        player.innerHTML = '<iframe class="w-full h-full border-0" src="' + wideVideos[0].url + '" title="진해고등학교 기숙사 홍보 영상" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>';
       }
     };
 
-    window.playDormVideo = function () {
-      var poster = document.getElementById('dorm-video-poster');
-      var player = document.getElementById('dorm-video-player');
-      if (poster) poster.classList.add('hidden');
-      player.innerHTML = '<iframe class="w-full h-full border-0" src="' + wideVideos[currentWideIdx].url + '" title="진해고 영상 플레이어" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
-    };
-
-    // 3. 9:16 모바일 숏폼 릴스(Reels) 엔진
+    // 3. 9:16 모바일 숏폼 릴스(Reels) 2편 엔진 (추후 링크 연동 대기)
     var reelsData = [
       {
-        title: '15초 컷 기숙사 룸투어 (동백관 3인실 솔직 후기) 🏠',
-        tags: '#동백관 #3인실 #기숙사 #진해고',
+        title: '진해고 기숙사 & 캠퍼스 라이프 숏폼 1편 🏠',
+        tags: '#진해고 #기숙사 #동백관 #송학관',
         bg: 'assets/images/jinhae-aerial-hero.webp',
-        videoUrl: 'https://www.youtube-nocookie.com/embed/Ok5PXdmQV-s?autoplay=1&rel=0'
+        videoUrl: ''
       },
       {
-        title: '밤 11:30까지 순공 5시간! 정독실 야자 브이로그 ✍️',
-        tags: '#순공5시간 #자기주도학습 #지정석정독실',
+        title: '진해고 자기주도학습 & 학교생활 숏폼 2편 ✍️',
+        tags: '#자기주도학습 #정독실 #진해고일상',
         bg: 'assets/images/cardnews/card_06_selfstudy.png',
-        videoUrl: 'https://www.youtube-nocookie.com/embed/Ok5PXdmQV-s?autoplay=1&rel=0'
-      },
-      {
-        title: '아침·점심·저녁 3식 풀코스! 진해고 급식 모음 🍱',
-        tags: '#급식레전드 #영양만점 #3식풀코스',
-        bg: 'assets/images/cardnews/card_03_dorm_care.png',
-        videoUrl: 'https://www.youtube-nocookie.com/embed/Ok5PXdmQV-s?autoplay=1&rel=0'
-      },
-      {
-        title: '봄이면 벚꽃 성지가 되는 진해고 벚꽃길 드론뷰 🌸',
-        tags: '#진해벚꽃 #교정산책 #군항제성지',
-        bg: 'assets/images/jinhae-aerial-hero.webp',
-        videoUrl: 'https://www.youtube-nocookie.com/embed/Ok5PXdmQV-s?autoplay=1&rel=0'
+        videoUrl: ''
       }
     ];
 
     var currentReelsIdx = 0;
     window.openReelsModal = function (idx) {
       currentReelsIdx = idx;
-      var d = reelsData[idx];
+      var d = reelsData[idx] || reelsData[0];
       var titleEl = document.getElementById('reels-modal-title');
       var tagsEl = document.getElementById('reels-modal-tags');
       var posterEl = document.getElementById('reels-poster');
@@ -2621,15 +2521,15 @@
     };
 
     window.playCurrentReels = function () {
-      var d = reelsData[currentReelsIdx];
+      var d = reelsData[currentReelsIdx] || reelsData[0];
       var posterEl = document.getElementById('reels-poster');
       var slotEl = document.getElementById('reels-player-slot');
       if (posterEl) posterEl.classList.add('hidden');
       if (slotEl) {
-        if (currentReelsIdx === 0) {
-          slotEl.innerHTML = '<iframe class="w-full h-full border-0" src="' + d.videoUrl + '" title="' + d.title + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+        if (d.videoUrl) {
+          slotEl.innerHTML = '<iframe class="w-full h-full border-0" src="' + d.videoUrl + '" title="' + d.title + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>';
         } else {
-          slotEl.innerHTML = '<div class="p-6 text-center flex flex-col items-center justify-center space-y-3"><div class="w-12 h-12 rounded-full bg-rose-600/20 text-rose-400 flex items-center justify-center"><i data-lucide="smartphone" class="w-6 h-6"></i></div><h4 class="text-white font-extrabold text-sm">' + d.title + '</h4><p class="text-slate-300 text-xs leading-relaxed">진해고 공식 9:16 모바일 숏폼 릴스 영상 편집 중입니다.<br>유튜브 쇼츠 & 인스타그램 릴스로 동시 공개됩니다.</p><span class="inline-block bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs px-2.5 py-1 rounded-full font-bold">공식 릴스 채널 등록 예정</span></div>';
+          slotEl.innerHTML = '<div class="p-6 text-center flex flex-col items-center justify-center space-y-3"><div class="w-12 h-12 rounded-full bg-rose-600/20 text-rose-400 flex items-center justify-center"><i data-lucide="smartphone" class="w-6 h-6"></i></div><h4 class="text-white font-extrabold text-sm">' + d.title + '</h4><p class="text-slate-300 text-xs leading-relaxed">9:16 숏폼 릴스 영상이 곧 업로드됩니다.<br>잠시만 기다려 주세요!</p><span class="inline-block bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs px-2.5 py-1 rounded-full font-bold">영상 링크 연동 예정</span></div>';
           refreshIcons();
         }
       }
