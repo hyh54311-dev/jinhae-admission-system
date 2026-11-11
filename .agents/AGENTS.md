@@ -1,2120 +1,5110 @@
+# Antigravity 시스템 최고 헌장 & 운영 지침
+
+
+
+## [최우선 불변 규칙] Antigravity 안전 작업 4대 원칙 (실행 전 사용자 승인 필수)
+
+1. **강제 되돌리기·덮어쓰기·삭제 금지:** `git reset --hard`, `git checkout -- <파일>`, 파일 강제 덮어쓰기(`Copy-Item -Force`), 파일 삭제는 실행 전에 반드시 사용자에게 명시적으로 확인을 받아야 함.
+
+2. **실계좌 매매 봇 임의 수정 절대 금지:** K-듀얼모멘텀 및 올웨더 자산배분 봇(`kis_bot_multi*`, `all_weather*`, `github_actions_*` 경로)은 별도의 사전 영향도 분석과 사용자의 명시적 요청 없이 어떠한 경우에도 임의 수정·접근하지 않음.
+
+3. **여러 파일 일괄 자동 수정 스크립트 실행 금지:** 정규식이나 배치 스크립트로 다수의 소스 코드를 한꺼번에 일괄 치환·수정하는 행위를 전면 금지하며, 반드시 대상 파일별로 인코딩과 문맥을 검토하여 개별 수정해야 함.
+
+4. **비밀값(토큰·API 키) 하드코딩 및 명령줄 직접 기재 금지:** 텔레그램 봇 토큰, KIS 앱키, Gemini API 키 등 모든 인증 정보는 터미널 명령이나 코드에 직접 하드코딩하지 않으며, 항상 `.env` 파일 또는 환경변수를 통해서만 로드해야 함.
+
+
+
+---
+
+
+
 # All Weather Bot Debugging and Deployment History
 
+
+
 ## 1. Issue: Connection Port & Timeout
+
 - **Symptom:** GCP Cloud Functions triggered connection timeouts when calling the Korea Investment & Securities (KIS) API.
+
 - **Root Cause:** A logic block that removed port `:9443` from the KIS Base URL (`https://openapi.koreainvestment.com:9443`) was present, causing requests to be routed incorrectly through port `443` which got blocked by GCP network security policies or firewall restrictions.
+
 - **Resolution:** Removed the port-stripping logic to preserve the explicit `:9443` port configuration.
 
+
+
 ## 2. Issue: KIS Overseas Balance Query Parameter Errors
+
 - **Symptom:** API calls to `TTTS3012R` (Overseas Balance) failed with error: `해외 잔고 조회 API 실패 (OPSQ2001): ERROR : INPUT_FIELD_NAME TR_CRCY_CD`.
+
 - **Root Cause:** KIS API updated its parameters, requiring `TR_CRCY_CD` (set to `USD`) and context search condition flags to be explicitly passed in the query parameters.
+
 - **Resolution:** Modified `get_account_balance_overseas()` in `all_weather_quant_bot.py` to include `TR_CRCY_CD="USD"`, `CTX_AREA_FK200=""`, and `CTX_AREA_NK200=""` parameters.
+
 - **Follow-up:** Added `SLL_TYPE="00"` to `submit_order_overseas()` for `SELL` orders to align with similar KIS API mandatory parameters.
 
+
+
 ## 3. Issue: Missing Domestic Cash Inquirer Helper
+
 - **Symptom:** NameError occurred during balance queries when trying to invoke `get_orderable_cash()`.
+
 - **Root Cause:** The `get_orderable_cash(token)` domestic cash inquirer helper was referenced but not actually defined/implemented in the script.
+
 - **Resolution:** Implemented `get_orderable_cash(token)` using KIS domestic stock API `TTTC8435R` / `VTTC8435R` (`inquire-psbl-order`) to return domestic cash limits for supporting integrated margins.
 
+
+
 ## 4. Issue: Serverless State and Concurrency
+
 - **Symptom:** Global variable contamination and sys.argv modifications could lead to race conditions in stateless Cloud Functions (Gen 2 concurrent execution).
+
 - **Resolution:** Updated `gcp_deploy_all_weather.sh` to generate a `main.py` wrapper that runs the bot under isolation using `importlib.reload(all_weather_quant_bot)` and mock patches (`unittest.mock.patch.object(sys, 'argv', mock_argv)`).
 
+
+
 ## 5. Issue: OpenAPI Account Enrollment (`INVALID_CHECK_ACNO`)
+
 - **Symptom:** Balance inquiry failed with: `해외 잔고 조회 API 실패 (OPSQ2000): ERROR : INPUT INVALID_CHECK_ACNO`.
+
 - **Root Cause:** The newly created sub-account `72394127` was not enrolled in the OpenAPI service list under KIS, making it invalid for use with the AppKey.
+
 - **Resolution:** Added the account to the OpenAPI enrollment list and updated the workspace configuration `.env` and GCP Cloud Run environment variables with the newly generated KIS AppKey and AppSecret.
 
-## 6. 진해고등학교 현수막 규격 (Banner Sizes)
+
+
+## 6. 진해고등학교 현수막 규격 (Banner Sizes) 및 제작 거래처 정보
+
 - **강당 현수막:** `9m * 0.6m` (가로 9미터, 세로 0.6미터)
+
 - **본관 벽면 현수막:** `1.5m * 10m` (세로형 - 가로 1.5미터, 세로 10미터)
+
 - **정문 게시대 현수막:** `5m * 0.9m` (가로 5미터, 세로 0.9미터)
+
 - **설명:** 진해고등학교 내 주요 위치별 현수막 표준 규격 정보입니다. 관련 작업 시 이 규격을 참조하십시오.
 
+- **제작 전담 거래처 (해양종합광고기획):**
+
+  * **대표자:** 백상용 대표
+
+  * **이메일:** `haeyaung@naver.com`
+
+  * **전화번호:** `055-546-9187`
+
+  * **팩스번호:** `055-547-4800`
+
+  * **사업자등록번호:** `609-02-47179`
+
+  * **주소:** 경남 창원시 진해구 태백로 31 (구 주소: 여좌동 127-32)
+
+
+
 ## 7. 글로컬 학우상 시상 및 장학금 지급 공문 규칙
+
 - **규칙:** '글로컬 학우상 시상 및 장학금 지급' 관련 공문을 작성하거나 관련 안내를 처리할 때, 장학금을 **'상품권'**으로 지급한다는 내용을 반드시 포함해야 합니다.
+
 - **설명:** 이전 공문들에는 이 내용이 누락되어 있었으나, 향후 관련 공문 작성 및 상담 시 이 지급 방식을 명시하여 진행하도록 합니다.
 
+
+
 ## 8. 2026학년도 자율교육과정 탐구보고서 미제출 사유
+
 - **A반 30213 박건:** 현장체험학습으로 결석함
+
 - **A반 30420 이승우:** 결석함
+
 - **B반 30316 문상현:** 도움반으로 활동 안함
+
 - **B반 30908 김재형:** 결석함
+
 - **설명:** 3학년 자율적 교육과정 쉬었음 청년 탐구보고서 미제출자 4명의 공식 결석 및 제외 사유입니다. 향후 나이스 입력 또는 출결 처리 시 참고하십시오.
 
+
+
 ## 9. 진해고등학교 입학 상담 챗봇 v2.0 연간 지속 운영 및 지식 베이스 관리 규칙
+
 - **설명:** 진해고등학교 입학 상담 챗봇(jinhae-bot2) 소스 코드, 지식 베이스 파일 관리, 매년 연속 운영(Next-Year Continuity)을 위한 표준 운영 지침입니다.
+
 - **챗봇 소스 및 DB 위치:**
+
   * 챗봇의 핵심 로직과 지식 베이스: 로컬 `jinhae-bot/jinhae-bot-main`
+
   * 핵심 지식 베이스 파일: `jinhae-bot/jinhae-bot-main/api/knowledge.txt`
+
   * 백엔드 API & 헬스체크: `jinhae-bot/jinhae-bot-main/api/index.py`
+
 - **배포 및 연동 규칙:**
+
   * Vercel 라이브 배포(`https://jinhae-bot2.vercel.app`)는 별도의 깃허브 저장소인 `https://github.com/hyh54311-dev/jinhae-bot2.git`와 연동되어 있습니다. (루트 저장소인 `jinhae-admission-system`과 연동되어 있지 않으므로 루트에서 푸시하면 배포되지 않습니다.)
+
   * 배포 방법: `scratch/deploy_via_github_api.py`를 실행하여 GitHub REST API를 통해 원클릭 자동 배포하거나, `jinhae-bot/jinhae-bot-main` 경로에서 git push를 수행합니다.
+
 - **연도별 지속 운영(Next-Year Continuity) 5대 필수 갱신 체크리스트:**
+
   1. **신입생 모집 전형 일정:** 당해 연도 12월 원서접수 기간, 합격자 발표일, 등록확인서 제출 기한 갱신.
+
   2. **입학설명회 일정:** 당해 연도 10월 설명회 일시(통상 18:30 시작) 및 장소(강당/체육관), 기숙사 견학 안내.
+
   3. **전년도 합격선 및 충원 현황:** 직전 학년도 합격자 커트라인(석차백분율) 및 미달 여부(정상 충원 여부) 갱신.
+
   4. **최신 대입 진학 실적:** 재학생 및 졸업생(재수생/N수생)을 포함한 서울대, 의예과, 수도권 주요대, 거점국립대, 사관학교 최신 실적 갱신.
+
   5. **교내 동아리 현황:** 당해 연도 확정된 창체 동아리(약 40~45개) 및 자율 동아리 목록 동기화.
+
 - **지식 베이스 작성 규칙:**
+
   * 중학교별 신입생 분포 통계를 최신화하거나 추가할 때는 사용자가 대화방에서 축약어로 질문해도 100% 매칭할 수 있도록 중학교 명칭 옆에 괄호로 축약어 별칭을 명시해야 합니다. (예: `진해냉천중학교 (냉천중): 53명`, `진해남중학교 (진해남중): 51명` 등)
+
   * 신입생 예비소집일, 배치고사 등 미실시 항목은 학생/학부모의 불안감을 덜 수 있도록 순화된 문장으로 안내합니다.
+
   * **제2외국어 과목 문의 응대 규칙:** 현재 정규 교육과정에서는 **일본어(일본어Ⅰ·Ⅱ)**만 개설되어 운영되고 있으나, 학생들의 선택 수요가 있을 경우 다른 과목의 제2외국어도 개설될 수 있음을 안내하고, 정확한 확인을 위해서는 **교무실(055-546-2260) 교육과정부**와 통화하도록 안내합니다.
 
+
+
 ## 10. 생활기록부 세특 기재 금지 및 명칭 치환 규칙
+
 - **지역명 및 특정 지명:** '진해' 등 특정 지역명, 구체적 지명은 **'우리 지역'**으로 변경.
+
 - **기업명 및 특정 기관명:** 특정 기업명/브랜드명/기관명은 '관련 기업', '주요 기업', '관련 기관' 등으로 일반화하여 작성.
+
 - **학교 식별 정보 및 고유 명칭:** '장복', '장복제' 등 학교 식별 가능 고유 명칭은 **'축제'**, **'교내 행사'**로 변경.
+
 - **대회 관련 표현 금지:** '대회' 단어 절대 금지 → **'활동'**, **'프로그램'**, **'탐구'** 등으로 변경.
 
+
+
 ## 11. 1학기 생활기록부 세특 기재 지침 및 유의사항 (공식 안내)
+
 - **작성 시한 및 용량:** 1학기 세특은 개학 이전 작성을 원칙으로 함. 1학년 공통과목은 1500바이트를 한 학기에 모두 쓰지 않고 1, 2학기 나눠서 작성.
+
 - **기재 금지 사항:** 공인어학시험, 모의고사 성적, 논문 발표 사실, 도서 출간 사실(ISBN 미부여 학급문고는 가능), 장학생/장학금, 자격증, 특정 대학명, 사기업 상호명/기관명(삼성전자, UN, 유네스코, 유튜브 등), 강사명(직접 들은 수업 강사 제외), 재학 고등학교 알 수 있는 정보.
+
 - **기재 가능 사항:** 
+
   * 교육관련기관 기관명(학교장 결재 후 참여한 행사 한정).
+
   * 랜드마크, 지역명(경남, 영남루 등), 유적지명, 관광지명, 프로그램명(파이썬 등), 63빌딩 등.
+
   * 도서 제목 및 저자명은 영문/기관명 제한 없이 있는 그대로 표기 가능 (예: '기적의 서울대 쌍둥이 공부법(여호원 외 1명)', 'EBS 다큐 프라임 자본주의(EBS 자본주의 제작팀)').
+
 - **언어 표기:** 비전공자도 알 수 있는 널리 쓰이는 용어(SNS, AI, PPT 등) 외에는 가급적 한글로 기재.
 
+
+
 ## 12. 1학기 국어 교과부장 세특 공통 문구 및 대상 학생 목록
+
 - **공통 삽입 문구:** `국어 교과부장으로서 수업이 원활하게 진행되도록 돕고, 급우들의 참여를 유도하며 협력적인 학습 분위기를 이끎.` (약 143 Bytes)
+
 - **대상 학생 목록:**
+
   * 1반 정은준
+
   * 2반 박준제
+
   * 3반 박지호
+
   * 4반 유지훈
+
   * 5반 신근찬
+
   * 6반 정지운
+
   * 7반 이시형
+
   * 8반 한현욱
+
   * 9반 김태준
+
   * 10반 정원호
+
 - **비고:** 해당 10명 학생의 문학 세특을 작성할 때 위 공통 문구의 용량(바이트)을 사전에 차감/고려하여 전체 세특이 500자(NEIS 바이트 기준)를 초과하지 않도록 안배함.
 
+
+
 ## 13. K-듀얼 모멘텀 봇 공휴일/휴장일 이월 미비 트러블슈팅 및 배포 이력 (2026-07-20)
+
 - **증상:** 2026년 7월 20일(월) 리밸런싱 알림 미수신 및 봇 자동 가동 중단.
+
 - **원인 분석:**
+
   1. 2026년 7월 17일(금)은 복원된 법정 공휴일(제헌절)로 **KRX 증시 휴장일**이었음. 17일 트리거 시 KIS API 현재가 조회(0원) 및 주문 통신 에러(`IGW00014: 주문 금액을 확인해주세요`)로 리밸런싱 실패.
+
   2. Cloud Scheduler는 매일 15:15에 정상 트리거되었으나, `kis_bot_multi.py` 날짜 비교 로직이 단순 `today == actual_rebalance_date` 형태로 되어 있어 18일~20일 실행 시 "오늘은 17일이 아님"으로 간주하고 즉시 중단(Exit)됨. (미집행 시 다음 첫 영업일로 자동 이월되는 처리 미비)
+
 - **해결 방안 및 반영 코드:**
+
   1. `get_actual_rebalance_date()` 함수에서 매월 17일 기준 공휴일(2026 제헌절 포함) 및 주말(토/일)일 경우 다음 첫 영업일(Trading Day)로 예정일을 자동 이월(+1일씩 연장)하도록 검증.
+
   2. 7월 17일 미집행분 처리를 위해 **2026년 7월 21일(화)** 일회성 예외 강제 가동 로직(`is_special_july_21 = (today == datetime.date(2026, 7, 21))`)을 `kis_bot_multi.py`에 추가.
+
   3. 로컬 `kis_bot_multi.py` 수정 완료 후 GCP Cloud Run (`k-momentum-rebalancer`) 서비스 세부정보 소스 탭에 성공적으로 재배포(빌드/버전 생성 완료)함.
 
+
+
 ## 14. GCP 서버리스 수동 배포 괴리 해결 및 주간 이월 예외 확장 (2026-07-22)
+
 - **증상:** 2026년 7월 21일(화) 15시 15분 스케줄러 트리거 시 "오늘은 실전 리밸런싱 실행일이 아닙니다 (예정일: 2026-07-17)" 로그가 출력되며 리밸런싱 미집행.
+
 - **원인 분석:**
+
   1. GCP Cloud Run 실행 로그 분석 결과, 서버에서 구 버전 코드(`krx_holidays`에 `2026-07-17` 미포함 및 `is_special_july` 미적용)가 호출되고 있었음.
+
   2. 로컬 프로젝트 저장소(`jinhae-admission-system`)가 GCP Cloud Run 자동 빌드 트리거(Auto-Deploy)와 연동되어 있지 않아, `git push`만으로는 GCP 라이브 펑션 코드가 변경되지 않는 구조적 이유 때문이었음.
+
 - **해결 방안 및 최종 배포:**
+
   1. `kis_bot_multi.py` 내 일회성 예외 실행 조건을 `is_special_july = (datetime.date(2026, 7, 21) <= today <= datetime.date(2026, 7, 25))`로 수정하여 7월 22일(수)~25일 기간 중 가동 시 7월 미집행분이 정상 집행되도록 확장.
+
   2. 최신 전체 소스 코드를 GCP Cloud Run 콘솔 소스 탭에 수동으로 덮어쓴 뒤 [배포 (DEPLOY)]를 실행하여 오전 06:44 자로 최신 라이브 버전 반영 완료함.
 
+
+
 ## 15. Cloud Run 버전(Revision) 이력 기반 퀀트 봇 디버깅 패턴 분류 (2026-07-23)
+
 - **개요:** GCP Cloud Run 콘솔의 배포 리비전 이력(`00001`~`00020-v46`)을 분석하여 퀀트 자동매매 개발/운용 시 발생하는 오류 유형과 진화 과정을 4가지 핵심 집필 목차로 체계화함.
+
 - **4대 커리큘럼 아키텍처:**
+
   1. **네트워크/인프라 (Rev 01~05):** 서버리스 파이프라인 형성, KIS 포트 `:9443` 유지 및 IP 차단 회피 백오프.
+
   2. **API/계좌 파라미터 (Rev 06~10):** KIS 잔고/주문 TR_ID(`TTTC8434R`, `TTTC8908R`) 매핑 및 예수금 교차 검증.
+
   3. **데이터/티커 검증 (Rev 11~15):** 가짜 종목코드(`304580`) 환각 분석 및 KRX 공시 데이터 기준 실시간 교차 검증.
+
   4. **날짜/이월/CI-CD (Rev 16~20):** 제헌절 증시 휴장일 이월 알고리즘, 주간 예외 범위 확장, GCP 수동 배포 괴리 해결.
 
+
+
 ## 16. 올웨더 자산배분 봇 스케줄 개편 (매달 25일 적립 / 1월 2일 연간 리밸런싱) (2026-07-23)
+
 - **개편 배경:** 기존 매일 밤 가동되던 방식을 효율화하여 **매달 1회 (25일 기준)** 적립식 매수를 집행하도록 변경.
+
 - **날짜 이월 알고리즘 적용:**
+
   1. **월별 가동일 (`get_actual_monthly_run_date`):** 매달 25일을 기본 가동일로 하되, 25일이 주말(토/일)이거나 증시 공휴일인 경우 **다음 첫 영업일(Trading Day)**로 자동 이월.
+
   2. **연간 정기 리밸런싱일 (`get_actual_annual_rebalance_date`):** 매년 1월 2일을 기본 리밸런싱일로 하되, 주말/공휴일 시 **다음 첫 영업일**로 자동 이월.
+
   3. **클라우드 스케줄러:** 매달 25일~31일 밤 23:00 KST(`0 23 25-31 * *`) 트리거 후 내부 Python 실행 게이트로 판정하여 집행.
 
+
+
 ## 17. 안전자산 종목코드 환각(`304580`) 규명 및 KRX 공식 데이터 교차 검증 (2026-07-23)
+
 - **증상:** K-듀얼모멘텀 매매 시 주문 거부 또는 유효하지 않은 종목코드 에러 발생.
+
 - **원인 분석:**
+
   1. 초기 스크립트 작성 시 안전자산(`TICKER_SAFE`) 종목코드로 미상장 무효 코드인 `304580`이 잘못 입력되어 있었음.
+
   2. 표기 명칭은 `KODEX 미국달러단기채권`으로 되어 있었으나, 실제 해당 자산군의 정식 상장 ETF는 `TIGER 미국달러단기채권액티브`(`329750`)였음.
+
 - **해결 방안 및 최종 반영:**
+
   1. 한국거래소(KRX) 상장 공시 전산망 및 각 자산운용사(삼성 KODEX, 미래에셋 TIGER, 한투 ACE) 데이터베이스를 바탕으로 5대 ETF 티커 전수 실시간 교차 검증 수행.
+
   2. `TICKER_SAFE` 종목코드를 KRX 정식 상장 코드인 **`329750` (`TIGER 미국달러단기채권액티브`)**로 완벽히 교체 및 소스 싱크 동기화 완료.
 
+
+
 ## 18. KIS API 매수가능조회 파라미터 오기(`CMA_EVLU_AMT_ICLD_YN`) 및 전일 결제 미정산 예수금 초과 에러 해결 (2026-07-23)
+
 - **증상:** 2026년 7월 23일 15:15 정기 리밸런싱 중 1차 종목(`069500`) 1주 매수 성공 후, 2차 종목(`329750`) 34주 매수 시 "주문가능금액을 초과 했습니다" 오류로 매수 실패.
+
 - **원인 분석:**
+
   1. `get_orderable_cash()` (TR_ID: `TTTC8908R`) 파라미터 중 `CMA_EVLU_AMT_IF_YN`으로 오기되어 있어 KIS API 통신 실패 (`OPSQ2001: ERROR : INPUT_FIELD_NAME CMA_EVLU_AMT_ICLD_YN`).
+
   2. 매수가능조회 API 실패로 잔고조회(`TTTC8434R`)의 D+2 예수금(`dnca_tot_amt`: 627,902원)이 그대로 예수금으로 산정됨.
+
   3. 그러나 전일 매수 결제 미정산금(`bfdy_buy_amt`: 108,965원)이 D+2 예수금에서 차감되지 않아, 실제 당일 매수 가능금액(518,933원)보다 큰 금액(582,640원)으로 주문 수량이 산정되는 문제 발생.
+
 - **해결 방안 및 반영 코드:**
+
   1. `TTTC8908R` 파라미터 명칭을 `CMA_EVLU_AMT_ICLD_YN`으로 교정하여 매수가능금액 조회가 에러 없이 정확한 실시간 주문가능현금을 반환하도록 수정.
+
   2. `get_account_balance()`의 예수금 fallback 우선순위에 `prvs_rcdl_excc_amt` 및 `nxdy_excc_amt`를 추가하여 API 교차검증 실패 시에도 미정산 차감액을 안전 반영.
+
   3. `rebalance_account()` 매수 주문 루프 내에서 매 주문 직전 남은 가용 예수금을 실시간 차감 추적하고, 필요 시 수량을 안전 범위 내로 자동 조절하는 동적 캡(Cap) 로직 추가.
 
+
+
 ## 19. 퀀트 봇 5대 잠재 예외(Edge Cases) 허점 차단 및 최종 안전 아키텍처 수립 (2026-07-23)
+
   3. **[예수금 0원 최우선 인정]** `ord_psbl_cash`가 0원 반환 시 `val > 0` 조건으로 스킵하지 않고 0원 인정 ➔ D+2 예수금 오인에 따른 과다 주문 방지.
+
   4. **[동적 실시간 잔여 현금 캡]** 매 주문 성공 시 `current_avail_cash -= amount` 실시간 차감 ➔ 1차 매수 후 남아있는 현금 범위 내로 2차 매수 수량 동적 자동 조율.
+
   5. **[텔레그램 4KB 트렁케이트]** `len(full_msg) > 4000` 트렁케이트 ➔ 긴 잔고 디버깅 로그 수신 시 텔레그램 HTTP 400 API 실패 예방.
 
+
+
 ## 22. 황요한 저자 실화 기반 퀀트 자산배분 도서 원고 집필 및 에듀테크 연계 체계 수립 (2026-07-25)
+
 - **개요:** 현직 경남 고등학교 교사 황요한 저자의 실전 경험과 에듀테크 웹앱 연계 서사를 담은 정식 종이책(ISBN 등록) 원고 (`retirement_savings_dual_momentum_guide.md`) 완성.
+
 - **핵심 서사 및 기술 구성:**
+
   1. **실제 손실 실화:** 2026년 4월 21일 바이오주 51주(8,098만 원) 매수(생물보안법, 4/5/6공장, 제미나이 딥리서치 수행) ➔ 삼성전자 급등장 속 6월 8일 전량 매도(-1,734만 원 손실, -21.4%) ➔ 상대적 박탈감 및 수업/22개월 아기 육아의 고통 ➔ 과거 인베스팅닷컴 엑셀 수동 퀀트 한계 극복 ➔ 2025년 말 육아휴직 중 Google Antigravity 접함 ➔ 2026년 6월 파이썬 봇 완성(감정/노동 0).
+
   2. **실제 교직 에듀테크 웹앱 결실 (1.4~1.5절):**
+
      - 진해고 입학 상담 AI 챗봇 v2.0 (`jinhae-bot2.vercel.app`)
+
      - 교수-평가-기록(교수평기) 및 세특 자동화 웹앱 (`script.google.com`)
+
      - 리로스쿨 (`jinhaeh.riroschool.kr`) & 경남 EVPN (`evpn.gne.go.kr`) 학사 서포터
+
      - 나이스(NEIS) Open API, 커리어넷 API 연동 및 교사 사고 확장 프레임워크.
+
   3. **초보 교사 눈높이 퀀트 심화 (3.1~3.2절):** 성적 루브릭 평가 비유, 5대 퀀트 전략(밸류, 퀄리티, 모멘텀, 마법공식/소형주, 동적자산배분 VAA/DAA), 4대 지표(CAGR, MDD, 샤프지수, 리밸런싱).
+
   4. **텔레그램 실시간 알림 엔진 & GCP 무료 배포 스케줄러:** 매달 17~25일 15시 15분 KST 자동 트리거 및 7월 27일(월) 가동 준비 마감.
 
+
+
 ## 23. 원고 Section 1.3, 1.4, 1.5 서사 완벽 개편 및 깃허브 실시간 푸시 동기화 마감 (2026-07-28)
+
 - **개요:** 저자 실화(육아휴직, 주식/부동산/경매 독서, 소크라틱 AI 튜터 개발, NFC/음성 에듀테크, 7대 Open API, 개인정보 4대 수칙) 반영 및 1부 전체(1.1~1.5절) 완벽 개편.
+
 - **주요 수정 반영 사항:**
+
   1. **1.3절:** 인베스팅닷컴 엑셀 수식 오기 피로 ➔ 퀀트 삼중고(손의 피로, 귀찮음, 마음의 고통) ➔ 2025년 11월 육아휴직 밤샘 제미나이/GAS 시작 ➔ Antigravity Vibe Coding으로 2026년 3월 봇 구축 ➔ GitHub Actions 무인 서버 전환 청사진 (`e23dcee`).
+
   2. **1.4절:** 교직 발령 후 재테크 독서 서사 ➔ 수업 준비/실행 자동화 필연성 ➔ 리로스쿨/EVPN 오기 삭제 ➔ 저자 직접 구축 소크라틱 AI 튜터 웹앱 2종 (3학년 자율교육과정 탐구 기록 & 2학년 2학기 문법 수업 맞춤형 챗봇) 수록 (`cccee04`).
+
   3. **1.5절:** 복직 후 3대 수업 자동화(NFC/QR 스마트 출석부 & 교과진도, 음성 기반 학생평가 & 진도기록) ➔ Agentic AI 시대 교사의 아이디어/사고 확장 철학 ➔ 교사·공무원 7대 무상 Open API 자원 수록 ➔ 학생·교사 개인정보 보호 4대 수칙 수록 (`5ad076d`).
 
+
+
 ## 23. GCP 퀀트 봇 ➔ GitHub Actions 100% 무료 자동화 및 CI/CD 전환 예정 (매일 아침 브리핑 필수 상기 규칙) (2026-07-27)
+
 - **개요:** 기존 GCP Cloud Functions/Cloud Run 기반 스케줄러 및 수동 배포 체계를 **GitHub Actions (100% 무료 Cron 스케줄러 & git push 자동 배포 파이프라인)** 체계로 이전할 예정임.
+
 - **아침 브리핑 규칙:** 매일 아침 일정/안내 브리핑을 드릴 때마다 **'GCP 퀀트 봇의 GitHub Actions 100% 무료 스케줄러 및 자동 배포 전환 작업'**을 필수 상기 항목으로 포함하여 함께 안내할 것.
 
+
+
 ## 24. 퀀트 봇 2종 GitHub Actions 100% 무료 무인 서버 이그레이션 및 실전 검증 완료 (2026-07-27)
+
 - **개요:** GCP Cloud Run/Cloud Scheduler ➔ **GitHub Actions (100% 무료 서버리스 무인 스케줄러)** 이전을 완벽히 마감하고 텔레그램 실전 가동 테스트 완료.
+
 - **저장소 및 계좌 정보 체계**:
+
   1. **K-듀얼 모멘텀 봇**:
+
      - **GitHub 저장소:** `https://github.com/hyh54311-dev/jinhae-k-momentum-bot`
+
      - **스케줄:** 매달 17일~31일 한국시간 12:30 KST (`cron: '30 3 17-31 * *'`) (장 마감 3시간 전 여유 실행)
+
      - **연동 계좌:** 연금저축펀드계좌 (`CANO: 63183004`, `prdt_cd: 22`) & 개인주식계좌 (`CANO: 63183004`, `prdt_cd: 01`)
+
      - **안전자산 교체 코드:** `329750` (`TIGER 미국달러단기채권액티브`)
+
      - **GitHub Secrets (6개):** `KIS_MOMENTUM_APP_KEY`, `KIS_MOMENTUM_APP_SECRET`, `KIS_PENSION_CANO` (`63183004`), `KIS_STOCK_CANO` (`63183004`), `TELEGRAM_TOKEN` (`8407908239:AAHO81Ld-mmtJ-V5opl5vXI3bXgICiDrNgc`), `TELEGRAM_CHAT_ID` (`8518409134`)
+
   2. **올웨더 자산배분 봇**:
+
      - **GitHub 저장소:** `https://github.com/hyh54311-dev/jinhae-all-weather-bot`
+
      - **스케줄:** 매달 25일~31일 한국시간 23:00 KST (`cron: '0 14 25-31 * *'`)
+
      - **연동 계좌:** 올웨더 전용 해외주식 서브계좌 (`CANO: 72394127`, `prdt_cd: 01`)
+
      - **포트폴리오 비중:** VOO 30%, TLT 40%, IEF 15%, GLD 7.5%, PDBC 7.5%
+
      - **GitHub Secrets (5개):** `KIS_APP_KEY`, `KIS_APP_SECRET`, `KIS_ALL_WEATHER_CANO` (`72394127`), `TELEGRAM_TOKEN` (`8407908239:AAHO81Ld-mmtJ-V5opl5vXI3bXgICiDrNgc`), `TELEGRAM_CHAT_ID` (`8518409134`)
+
 - **GCP 인프라 조치 상태**:
+
   - GCP Cloud Scheduler (`k-momentum-rebalance-schedule`, `all-weather-daily-job`) **Paused (일시 중지 완료)**. 중복 매매 위험 0%.
 
+
+
 ## 25. 경남대 마이크로디그리 6~7일차 연수 자료 수집 & 교과서 화면공유 ClassCast 분석 & 소시오그램 관계망 시각화 웹앱 구축 (2026-08-05)
+
 - **개요:** 경남대 마이크로디그리 연수 6일차(김재현 강사) 패들렛(`joo.is/경남대803`)과 7일차(이상우 강사) 퀴즈앤(`quizn.show/pbd/info/board/1127454`) 전체 자료를 구글 드라이브(`2026. 지역 대학 연계 마이크로디그리형 연수 계획`) 폴더에 100% 저장 및 정리하고, 교과서 화면 공유 프로그램 `ClassCast.exe` 역분석 및 학급 소시오그램 관계망 시각화 웹앱(`jinhae_sociogram_app`) 단독 구축 완료.
+
 - **주요 저장 및 분석 결과**:
+
   1. **구글 드라이브 6일차/7일차 폴더 동기화**:
+
      - 6일차 폴더 (`1gnU5vQwpTOtYgGPoKFcqAg6vhZY9tZp1`): 1부 생기부 연수, 2부 학급경영 A to Z, 3부 NotebookLM & Google AI Studio 바이브코딩 교안 PDF 및 정리본 10개 완필.
+
      - 7일차 폴더 (`1jt_mdwsSLs25272FzZUnTone_YBsbmF8`): 구글 워크스페이스 & Apps Script 교사 성적 대시보드 4회 시험 7개 과목 추이 그래프 바이브 코딩 프롬프트, 프레젠테이션 2종, ZoomIt 도구 수록.
+
   2. **ClassCast.exe 교과서 화면 공유 역분석**:
+
      - Electron + PDF.js(Scale 2.0 고화질 렌더링) + 트리플 레이어 Canvas (`pdfCanvas`, `annotCanvas` 판서 분리, `previewCanvas` 돋보기) + WebSocket 룸(Room) 기반 1초 동기화 레퍼런스 소스 코드(`scratch/classcast_extracted_source/classcast_instructor_script_5.js`) 도출.
+
   3. **우리 반 소시오그램 관계망 시각화 웹앱 (`jinhae_sociogram_app`) 독립 구축**:
+
      - 위치: `jinhae_sociogram_app` (`index.html`, `style.css`, `app.js`)
+
      - 기능: SheetJS 엑셀 파싱, Vis.js Physics Engine 관계망 렌더링, 1초 `[🎲 샘플 데이터 체험하기]`, 1초 익명화 토글, 5대 성격유형 컬러코딩 & 소외그룹 탐지, 양방향 지목 카드 팝업, 엑셀 샘플 다운로드 및 PNG 이미지 저장 지원.
 
+
+
 ## 26. 경남대 마이크로디그리 연수 6대 바이브 코딩 예제 마스터 청사진 & 커스텀 개발 가이드 보존 (2026-08-05)
+
 - **개요:** 마이크로디그리 연수(6일차 김재현, 7일차 이상우 강사)에서 전수된 6가지 핵심 바이브코딩(Vibe Coding) 예제 프로젝트의 기술 구조, 소스 위치, 프롬프트 및 커스텀 구축 가이드를 완벽 정리 및 영구 보존함.
+
 - **6대 바이브 코딩 마스터 청사진**:
+
   1. **ClassCast (교과서 화면 공유 & 판서 웹앱)**: Electron + PDF.js + 트리플 Canvas + WebSocket 동기화 (`scratch/classcast_extracted_source/classcast_instructor_script_5.js`).
+
   2. **우리 반 소시오그램 시각화 (Sociogram Network)**: SheetJS + Vis.js Physics Engine + 5대 성격유형 컬러코딩 & 소외그룹 탐지 (`jinhae_sociogram_app/index.html`).
+
   3. **교사용 360° 학생 성적 대시보드 (Grade Dashboard)**: 28명 4회 시험 7개 과목 꺾은선 추이 그래프 + 석차 시각화 바이브코딩 프롬프트 (7일차 마크다운 정리본 수록).
+
   4. **세이프버디 (SafeBuddy)**: GAS 백엔드 + HTML5 모바일 알림 학생 안전 & 카카오톡 케어 웹앱 (`세이프버디_GAS_웹앱_소스코드.txt`).
+
   5. **Google AI Studio & NotebookLM 바이브코딩 튜토리얼**: AI Studio `[Get Code]` 1초 Apps Script 변환 및 라이브 배포 교안 (`00_3부_노트북LM과바이브코딩_정리.md`).
+
   6. **AI 프렌즈 학급 경영 아이디어 발산 보드**: 학생 페르소나 프로필 및 문제 상황 해결 마인드맵 웹앱 (`AI프렌즈_아이디어발산보드.html`).
 
+
+
 ## 27. 범용 소크라틱 AI 챗봇 엔진 v3.2 (State-Hardened + Care-Aware) 표준 규칙 (2026-08-15)
+
 - **개요:** 소크라틱 AI 챗봇이 탑재된 교육용 웹앱 개발 요청 시, `.agents/rules/socratic-ai-engine.md` 및 `.agents/skills/build_socratic_webapp.md`를 우선 참조하여 10대 핵심 아키텍처 규칙과 `references/backend_v32.js` 표준 백엔드를 100% 적용함.
+
 - **10대 핵심 표준 아키텍처**:
+
   1. **위기 신호 3등급 분리 라우팅 (Care-Aware)**: 자살/자해 등 위기 신호는 비속어 필터에서 완전 분리. 잠금 없이 돌봄 응답 + 상담 창구 안내 + 교사 긴급 알림 + `유의신호_검토로그` 적재.
+
   2. **Stage 단조 증가 클램프**: `Math.min(4, Math.max(1, Math.max(prevStage, reportedStage)))`로 역행 원천 차단. 예외/차단 분기에서도 이전 Stage 완벽 유지.
+
   3. **RAG 수치 토큰 동적 추출**: 시트에서 수치·단위를 정규식으로 자동 추출(`extractFactTokens`). 하드코딩 제거로 과목 전환 100% 호환.
+
   4. **citedStats 서버 누적 & 1회 재생성**: 모델 자기보고를 텍스트 스캔으로 교차 검증. 재인용 감지 시 강화 지시로 1회만 재생성.
+
   5. **구조화된 JSON 스키마**: `responseSchema`로 `{ stage, citedStats, isHintMode, feedback }` 출력 강제.
+
   6. **장기 대화 컨텍스트 압축**: 12턴 초과 시 3항목(도달 결론, 다룬 논점, 미답변 지점) 요약 브리핑 생성 및 최근 6턴 원문 유지.
+
   7. **비속어 연속 카운터 & 영속 잠금 플래그**: 학생 발화(role: user)만 검사. 연속 2회 시 잠금 + 교사 1회성 알림 + 스프레드시트 잠금 해제 UI 제공.
+
   8. **대시보드 보안 인증 & 토큰 분리**: `Session.getActiveUser().getEmail()` 화이트리스트 검사 + 별도 배포 또는 접근 토큰(`?view=teacher&key=`) 병행.
+
   9. **드라이브 공유 범위 제한**: `DOMAIN_WITH_LINK`로 학교 도메인 내 제한 (개인 계정은 `PRIVATE` 폴백).
+
   10. **회귀 테스트 하니스 (`references/eval_harness.js`)**: 9대 assertion(`no_repeat_stat`, `no_stage_regression`, `must_hint`, `must_care` 등)으로 자동 검증.
+
 - **규칙 및 참조 파일 위치**:
+
   * 규칙: `.agents/rules/socratic-ai-engine.md`
+
   * 스킬: `.agents/skills/build_socratic_webapp.md` & `.agents/skills/socratic-ai-engine/SKILL.md`
+
   * 참조 구현체: `references/backend_v32.js` & `references/eval_harness.js` & `references/migration_v31_to_v32.md`
+
   * 글로벌 스킬: `C:/Users/요한T/.gemini/config/skills/socratic-ai-engine/SKILL.md`
 
+
+
 ## 28. [해커톤 대상 목표] 소크라티스 X (Socratis X) 마스터 청사진 및 보완 마일스톤 관리 (2026-08-15)
+
 - **개요:** 대한민국 교사 에듀테크 해커톤 & Google Gemini API Competition 대상(Grand Prize) 수상을 목표로 하는 소크라티스 X 프로젝트 청사진을 저장 및 관리함.
+
 - **청사진 위치**: [`socratic_ai_hackathon_blueprint.md`](file:///G:/%EB%8B%A4%EB%A5%B8%20%EC%BB%B4%ED%93%A8%ED%84%B0/%EB%82%B4%20%EC%BB%B4%ED%93%A8%ED%84%B0/%EC%A7%84%ED%95%B4%EA%B3%A0%EB%93%B1%ED%95%99%EA%B5%90/2026%ED%95%99%EB%85%84%EB%8F%84/antigravity_folder/socratic_ai_hackathon_blueprint.md).
+
 - **향후 4대 보완 마일스톤**:
+
   1. **Phase 1 (UX/UI)**: 카카오톡 스타일 2지선다 카톡 버블 카드 UI 반영.
+
   2. **Phase 2 (대시보드)**: 교사용 '학생 사고 발달 지수(Scaffolding Index)' Chart.js 관제 시각화.
+
   3. **Phase 3 (보이스 AI)**: Web Speech API & Gemini Audio 기반 음성 소크라틱 튜터 모드 확장.
+
   4. **Phase 4 (해커톤 패키징)**: Public Repo, GIF 데모, 아키텍처 다이어그램 및 해커톤 출품서 완성.
 
 
+
+
+
 ## 29. 진해고등학교 3학년 자율교육과정 세특 기재 및 정리 구글 시트 주소 (2026-08-06)
+
 - **개요:** 진해고등학교 3학년 전체 학생의 세부능력 및 특기사항(세특)을 기재할 최종 입력 시트 및 자율교육과정 세특 내용 정리 원본 시트 정보입니다.
+
 - **주요 시트 정보**:
+
   1. **진해고 3학년 전체 학생 개인별 세특 입력 시트**:
+
      - **URL**: [`https://docs.google.com/spreadsheets/d/14oBXe4HmjyUQqlzIxiB32Xi4jakCg-UBR5D3jAJXjmM/edit?gid=249965728#gid=249965728`](https://docs.google.com/spreadsheets/d/14oBXe4HmjyUQqlzIxiB32Xi4jakCg-UBR5D3jAJXjmM/edit?gid=249965728#gid=249965728)
+
      - **목적**: 3학년 전체 학생의 개인별 세부능력 및 특기사항을 기재하는 공식 입력 시트. 향후 자율교육과정과 관련하여 정리한 내용을 이 시트에 기재/작성함.
+
   2. **자율교육과정 세특 정리 원본 시트**:
+
      - **URL**: [`https://docs.google.com/spreadsheets/d/1ihk43OB4WwaBzWH67lsXHufQwiMq6AQJ93Ekzk3wByk/edit?gid=583407139#gid=583407139`](https://docs.google.com/spreadsheets/d/1ihk43OB4WwaBzWH67lsXHufQwiMq6AQJ93Ekzk3wByk/edit?gid=583407139#gid=583407139)
+
      - **목적**: 선생님께서 자율교육과정 세특 내용을 미리 작성 및 정돈해 두신 원본 시트.
 
+
+
 ## 30. 국가교육위원회·교육부 중장기 대입제도 개편안 (수능/내신 절대평가 & 서·논술형 도입 및 AI 채점 체계) 요약 (2026-08-07)
+
 - **개요:** 국가교육위원회(국교위) 및 교육부 '2026년 하반기 업무계획' 보고 내용. 현행 획일적 객관식·상대평가 위주의 수능 및 내신 체제를 대대적으로 개편하는 중장기 대입제도 개편 방안에 착수함.
+
 - **핵심 개편 방향**:
+
   1. **수능 및 고교 내신 전 과목 절대평가 전환 검토:** 줄세우기 과열 경쟁을 완화하고, 고교학점제 등 2022 개정 교육과정과의 정합성 확보.
+
   2. **서·논술형 문항 본격 도입:** 단순 오지선다 정답 고르기에서 벗어나 비판적 사고력과 창의적 문제 해결 능력을 평가하는 서·논술형 문제 도입 (시험시간 연장에 따른 수능 2일간 실시 방안 포함 검토).
+
   3. **대입전형 일정 조정:** 고교 3학년 2학기 수업 파행을 막고 교육과정을 정상화하기 위한 대입 일정 통합/조정 검토.
+
 - **AI 기반 채점·모니터링 인프라 구축 (2029년까지)**:
+
   1. **AI 평가지원시스템 구축:** 전국 17개 시도교육청에 도입. 서·논술형 답안 110만 건 학습 데이터 수집 후 AI 가채점 및 맞춤형 피드백 제공.
+
   2. **AI 내신평가 모니터링 체계 가동:** 학교별 성취평가제(절대평가) 분석 소요 기간을 기존 3~4개월에서 시험 직후 즉시 분석 및 맞춤형 컨설팅으로 대폭 단축.
+
 - **추진 일정 및 구글(Google Account) 일정/태스크 알림 연동 내역**:
+
   1. **2026년 10월 25일 오전 9:00:** 대입제도 개편 주요 추진과제 시안 공개 및 온·오프라인 공론화/공청회 착수 발표 확인 알림 ([등록 링크](https://www.google.com/calendar/event?eid=NDNzbzBhMTVwZXE0NnBnaW1wdmNhdTUzZHMgaHloNTQzMTFAbQ)).
+
   2. **2027년 3월 1일 오전 9:00:** 대국민 숙의 과정을 거친 중장기 대입제도 개편 최종 확정안 발표 확인 알림 ([등록 링크](https://www.google.com/calendar/event?eid=Y24zc2E1azh2ZW82Nmdvc2Ftdm84NnYwYmMgaHloNTQzMTFAbQ)).
+
   3. **적용 대상:** 2026년 기준 초등학교 6학년이 대학에 입학하는 2033학년도 대입(2030년 고교 진학)부터 적용 유력 논의 중.
+
   4. **비고:** 별도의 웹 브라우저 인증 승인 절차 없이, 기존 인증된 구글 계정(`hyh54311@gmail.com`) 연동을 통해 구글 캘린더 및 구글 태스크(Google Tasks) 패널에 등록 완료함 (오전 9시 팝업/이메일 자동 알림 발송).
 
+
+
 ## 27. Gemini 및 Upstage AI API 키 통합 관리 규칙
+
 - **Gemini API Key #1 (기존 기본 키):** `AQ.Ab8RN6***************************************`
+
 - **Gemini API Key #2 (교육용/수업설계 추천 키):** `AQ.Ab8RN6***************************************`
+
 - **Upstage Solar API Key:** `up_9O**************************`
+
 - **설명:** 사용자(황요한 저자)가 API 키 문의 시 즉각 응답할 수 있도록 영구 메모리에 기록함.
 
+
+
 ## 28. 교사 주도형 소크라틱 수업 설계 웹앱 v2.2 라이브 배포 URL
+
 - **배포 주소**: `https://script.google.com/macros/s/AKfycbw2NfbOPJ8dBfjDAwdzhfMP1WyvP1Jh4nN7IKDU3VRrkNGNEAyS-dCKT59ZgO74I7sRJw/exec`
+
 - **설명:** 구글 앱스 스크립트(GAS)를 통해 성공적으로 라이브 배포된 웹앱의 공식 실행 URL입니다.
 
+
+
 ## 31. 다문화·이중언어교육 핵심 패러다임(상호문화주의 & 트랜스랜구이징) 및 현장 국어 수업 적용 지침 (2026-08-10)
+
 - **개요:** 용광로(동화주의) 및 샐러드볼(소극적 공존) 이론의 한계를 극복한 최근 다문화/이중언어교육의 핵심 패러다임과 교과 수업 적용 지침을 상기·보존함.
+
 - **핵심 이론 체계**:
+
   1. **상호문화주의 (Interculturalism):** 단순한 문화 나열/병존(샐러드볼)을 넘어, 공통의 시민적 규범을 바탕으로 주체 간 능동적 소통과 역동적 통합 지향.
+
   2. **트랜스랜구이징 (Translanguaging):** 모국어(L1)를 억제 대상(용광로)이나 보존 대상(샐러드볼)에 멈추지 않고, 인지적·정서적 발판이자 고차원 사고를 돕는 언어적 자산(Linguistic Repertoire)으로 유연하게 활용.
+
 - **교실 현장(국어과) 실행 전략**:
+
   1. **교사의 역할:** 모국어 전문가/정답 감수자가 아닌 '메타언어적 질문자' 및 퍼실리테이터 (학생의 모국어 지식을 자원으로 끌어냄).
+
   2. **교사의 피드백/평가:** 정답 판별이 아닌 국어과 학습 목표(비교, 비판, 표현, 논리성) 도달 과정 및 사고의 궤적 점검. 에듀테크/번역기/동료 교차 교정 활용.
+
   3. **한국어 미숙/초기 입국자 지원:** KSL 학급/보충 수업 병행, 실시간 AI 번역/시각자료 중심 텍스트 최소화, 트랜스랜구이징 모국어 과제 허용, 짝(Buddy) 제도 및 대체 평가 적용.
+
   4. **수준차 교실 개별화 (Tiered Instruction):** 동일 주제에 대한 과제 목표/난이도 3~4단계 층위화, 비언어적 모둠 역할 분담, 에듀테크 코스웨어 기반 비동기식 개인별 맞춤 학습.
 
+
+
 ## 32. 바이브코딩 기반 학교 수업용 웹앱 학운위/개인정보 규제 준수 & 구글 생태계(GAS+시트) 개발 배포 표준 규칙 (2026-08-10)
+
 - **개요:** 바이브코딩(자연어 코딩)으로 제작한 교육용 웹앱을 학생과 수업에서 활용할 때 발생하는 행정적·법적 규제(학운위 심의, 개인정보 수집 및 국외 이전)를 완벽히 준수하고 우회하기 위한 개발 및 배포 표준 지침.
+
 - **법적·행정적 분석 핵심 요약**:
+
   1. **저작도구 vs 결과물(앱) 분리:** Canva, VSCode, Lovable 등 저작도구 플랫폼 심의와, 이를 통해 교사가 제작해 학생에게 배포하는 2차 저작물(웹앱)의 심의는 별개임. 학생 데이터 수집/로그인이 포함되면 별도 심의 대상.
+
   2. **학습지원소프트웨어 지정 범위:** Lovable, VSCode, Vercel, AWS, GitHub 등 범용 개발 도구는 교사의 개인 업무용으로는 학운위 심의 대상이 아니지만, 학생 배포용 앱으로 전환되는 순간 에듀테크 규제망 적용.
+
   3. **국외 이전 및 학부모 동의 리스크:** Vercel, Supabase, Firebase, AWS 등 해외 서버 기반 제3자 서비스에 학생 데이터(이름, 학번, 과제, 세특 반응 등)가 저장되면 '개인정보 수집 동의' 및 '국외 이전 고지/동의' 필수.
+
 - **학운위 심의 면제 & 100% 합법 수업 활용 구글 생태계 완전 독립 아키텍처 (GAS + 구글 시트/드라이브)**:
+
   * **법적 지위:** 학교에 도입된 Google Workspace for Education(Google 계정)은 사전 인가망임. 따라서 외부 제3자 서버(AWS, Vercel, Firebase 등)를 100% 차단하고 **구글 앱스 스크립트(GAS, script.google.com)** 기반 웹앱으로 제작하여 구글 시트/드라이브에 저장할 경우 **'구글 설문지(Google Forms)'를 커스텀하여 활용하는 것과 법적·행정적으로 완벽히 동일한 지위**를 가짐.
+
   * **필수 개발 및 배포 규칙**:
+
     1. **배포 권한 설정:** Web App 배포 시 `Execute as: Me (교사 계정)`, `Who has access: Anyone within [학교 도메인]` 설정 (학교 구글 계정 사용자만 접근).
+
     2. **학생 신원 자동 식별:** 웹앱 화면에 이름/학번 입력폼을 만들지 않고, GAS 백엔드에서 `Session.getActiveUser().getEmail()`을 사용하여 접속 학생의 이메일을 구글 시트에 자동 수집/기록.
+
     3. **독립 실행형 코드 구조:** HTML/JS/CSS 전체를 GAS 프로젝트 내부에 포함하여 외부 CDN 및 외부 JS 연동 차단.
 
+
+
 ## 33. 2학년 문학 세특 재작성 및 공통 문구 기재 엄격 규칙 (2026-08-10)
+
 - **개요:** 2학년 문학 세특 전면 재작성 시 적용할 3대 영역별 작성 규칙 및 분량 규정.
+
 - **상세 작성 지침**:
+
   1. **수행평가와 탐구보고서 모두 제출한 학생 (유형 A):**
+
      - 문학 수행평가 내용 50% 반영.
+
      - 문학 탐구보고서 내용 50% 반영.
+
      - **영역 분리 서술 필수:** 두 영역의 내용을 뒤섞지 말고, 수행평가 영역과 탐구보고서 영역을 명확히 구분하여 서술할 것.
+
      - **분량 엄수:** NEIS 바이트 기준 **1,400바이트 ~ 1,500바이트**로 작성.
+
      - **국어 교과부장 공통 문구 삽입:** 1반 정은준, 2반 박준제, 3반 박지호 등 1학기 국어 교과부장 10명 대상 학생은 다음 공통 문구를 반드시 포함할 것 (`국어 교과부장으로서 수업이 원활하게 진행되도록 돕고, 급우들의 참여를 유도하며 협력적인 학습 분위기를 이끎.`). 해당 문구 바이트(약 143B)를 감안하여 전체가 1,500B를 초과하지 않도록 안배.
+
   2. **수행평가와 탐구보고서 중 하나만 제출한 학생 (유형 B):**
+
      - 제출한 해당 영역의 내용을 100% 반영.
+
      - **분량 엄수:** NEIS 바이트 기준 **1,100바이트 ~ 1,200바이트**로 작성.
+
   3. **하나도 제출하지 않은 학생 (유형 C):**
+
      - 지정된 500바이트 이내 공통 문구 적용 (`문학 수업에 성실히 참여하여...`).
+
+
 
 ## 34. 8월 12일(수) 일과 운영 안내 (2026-08-11)
+
 - **개요:** 2026년 8월 12일 수요일의 교내 일과 운영 스케줄표입니다.
+
 - **상세 일정**:
+
   * **1교시:** 창체(교내청소) - 담임교사
+
   * **2~5교시:** 정상수업 - 교과교사
+
   * **6교시:** 1교시 수업을 운영 - 교과교사
+
   * **7교시:** 창체(학급자치) - 담임교사
 
+
+
 ## 35. 소크라틱 수업 설계 웹앱 v2.4 아키텍처 및 7대 개발 규칙 (2026-08-17)
+
 - **개요:** 외부 코드 리뷰 2차 지적사항을 반영한 소크라틱 수업 설계 웹앱의 핵심 아키텍처 및 영구 개발 수칙.
+
 - **7대 핵심 개발 규칙**:
+
   1. **LLM 모델명 하드코딩 금지:** `AiRouter.gs`의 `routeAiRequest()`를 반드시 경유하여 런타임에 ListModels API로 활성 모델을 동적 탐지 및 6시간 캐시 활용.
+
   2. **학습 데이터 API 스펙 과신 금지:** Gemini 3.x에서 `temperature`는 deprecated이므로 2.x 계열에만 조건부 전달. Gemini 3.x 사고 토큰을 위해 `maxOutputTokens: 4096` 설정. Upstage 정식 모델명은 `solar-mini`, `solar-pro2`, `solar-pro3` 사용.
+
   3. **단계별 API 응답 파싱:** `promptFeedback` 및 `finishReason`을 사전 검증하여 안전 필터 차단 시 TypeError 방지.
+
   4. **XSS 및 마크다운 안전 처리:** `escapeHtml()`과 `formatAiText()`를 경유하여 HTML 주입 방어 및 별표 노출 방지.
+
   5. **Placeholder 실데이터 오염 방지:** contenteditable 내부에 텍스트 대신 `data-placeholder` 속성과 CSS `:empty:before` 가상 요소 사용.
+
   6. **지원 형식 엄격 제한:** 교과서 파일 업로드 시 `.txt`, `.md` 등 실제 처리 가능한 확장자만 허용.
+
   7. **교육과정 성취기준 날조 절대 금지 (최우선):** DB 미등록 과목에 대해 가짜 코드를 생성하거나 출처를 NCIC로 위장하지 말 것. 미등록 시 `STANDARD_UNREGISTERED_CODE`(`'(미등록)'`)를 반환하고, 마스터 캐시 시트에 쓰지 않으며, AI 프롬프트에 성취기준 날조 금지 가드레일을 유지할 것.
 
+
+
 ## 36. 2026학년도 창체 동아리 '대신해 AI' 축제 부스(AI 안면분석·동물상·인쇄) 운영 계획 및 하드웨어/수업 로드맵 (2026-08-19)
+
 - **개요:** 2026학년도 교내 축제(교내 행사)에서 창체 동아리 '대신해 AI'가 운영할 AI 체험 부스 마스터 플랜.
+
 - **핵심 파일 위치:** `2026_창체동아리_대신해AI_축제부스_운영계획.md`
+
 - **핵심 운영 및 보안 원칙:**
+
   1. **개인정보 완전 보호:** 이름/신원 수집 0%, 촬영 사진 서버 미저장(메모리 분석 후 즉시 휘발), 부스 전면 안심 안내문 부착.
+
   2. **1장 캡처(3초 타이머):** 대기시간/네트워크 지연 방지 및 재미 요소 극대화.
+
   3. **UX 흐름:** [홈 화면 2분기 (동물상 / 기분인식)] ➔ [3초 카운트다운 촬영] ➔ [AI 분석 (Gemini Vision)] ➔ [결과 카드 출력] ➔ [학교 프린터 즉석 인쇄(굿즈화)].
+
   4. **[동적 실시간 잔여 현금 캡]** 매 주문 성공 시 `current_avail_cash -= amount` 실시간 차감 ➔ 1차 매수 후 남아있는 현금 범위 내로 2차 매수 수량 동적 자동 조율.
+
   5. **[텔레그램 4KB 트렁케이트]** `len(full_msg) > 4000` 트렁케이트 ➔ 긴 잔고 디버깅 로그 수신 시 텔레그램 HTTP 400 API 실패 예방.
 
+
+
 ## 22. 황요한 저자 실화 기반 퀀트 자산배분 도서 원고 집필 및 에듀테크 연계 체계 수립 (2026-07-25)
+
 - **개요:** 현직 경남 고등학교 교사 황요한 저자의 실전 경험과 에듀테크 웹앱 연계 서사를 담은 정식 종이책(ISBN 등록) 원고 (`retirement_savings_dual_momentum_guide.md`) 완성.
+
 - **핵심 서사 및 기술 구성:**
+
   1. **실제 손실 실화:** 2026년 4월 21일 바이오주 51주(8,098만 원) 매수(생물보안법, 4/5/6공장, 제미나이 딥리서치 수행) ➔ 삼성전자 급등장 속 6월 8일 전량 매도(-1,734만 원 손실, -21.4%) ➔ 상대적 박탈감 및 수업/22개월 아기 육아의 고통 ➔ 과거 인베스팅닷컴 엑셀 수동 퀀트 한계 극복 ➔ 2025년 말 육아휴직 중 Google Antigravity 접함 ➔ 2026년 6월 파이썬 봇 완성(감정/노동 0).
+
   2. **실제 교직 에듀테크 웹앱 결실 (1.4~1.5절):**
+
      - 진해고 입학 상담 AI 챗봇 v2.0 (`jinhae-bot2.vercel.app`)
+
      - 교수-평가-기록(교수평기) 및 세특 자동화 웹앱 (`script.google.com`)
+
      - 리로스쿨 (`jinhaeh.riroschool.kr`) & 경남 EVPN (`evpn.gne.go.kr`) 학사 서포터
+
      - 나이스(NEIS) Open API, 커리어넷 API 연동 및 교사 사고 확장 프레임워크.
+
   3. **초보 교사 눈높이 퀀트 심화 (3.1~3.2절):** 성적 루브릭 평가 비유, 5대 퀀트 전략(밸류, 퀄리티, 모멘텀, 마법공식/소형주, 동적자산배분 VAA/DAA), 4대 지표(CAGR, MDD, 샤프지수, 리밸런싱).
+
   4. **텔레그램 실시간 알림 엔진 & GCP 무료 배포 스케줄러:** 매달 17~25일 15시 15분 KST 자동 트리거 및 7월 27일(월) 가동 준비 마감.
 
+
+
 ## 23. 원고 Section 1.3, 1.4, 1.5 서사 완벽 개편 및 깃허브 실시간 푸시 동기화 마감 (2026-07-28)
+
 - **개요:** 저자 실화(육아휴직, 주식/부동산/경매 독서, 소크라틱 AI 튜터 개발, NFC/음성 에듀테크, 7대 Open API, 개인정보 4대 수칙) 반영 및 1부 전체(1.1~1.5절) 완벽 개편.
+
 - **주요 수정 반영 사항:**
+
   1. **1.3절:** 인베스팅닷컴 엑셀 수식 오기 피로 ➔ 퀀트 삼중고(손의 피로, 귀찮음, 마음의 고통) ➔ 2025년 11월 육아휴직 밤샘 제미나이/GAS 시작 ➔ Antigravity Vibe Coding으로 2026년 3월 봇 구축 ➔ GitHub Actions 무인 서버 전환 청사진 (`e23dcee`).
+
   2. **1.4절:** 교직 발령 후 재테크 독서 서사 ➔ 수업 준비/실행 자동화 필연성 ➔ 리로스쿨/EVPN 오기 삭제 ➔ 저자 직접 구축 소크라틱 AI 튜터 웹앱 2종 (3학년 자율교육과정 탐구 기록 & 2학년 2학기 문법 수업 맞춤형 챗봇) 수록 (`cccee04`).
+
   3. **1.5절:** 복직 후 3대 수업 자동화(NFC/QR 스마트 출석부 & 교과진도, 음성 기반 학생평가 & 진도기록) ➔ Agentic AI 시대 교사의 아이디어/사고 확장 철학 ➔ 교사·공무원 7대 무상 Open API 자원 수록 ➔ 학생·교사 개인정보 보호 4대 수칙 수록 (`5ad076d`).
 
+
+
 ## 23. GCP 퀀트 봇 ➔ GitHub Actions 100% 무료 자동화 및 CI/CD 전환 예정 (매일 아침 브리핑 필수 상기 규칙) (2026-07-27)
+
 - **개요:** 기존 GCP Cloud Functions/Cloud Run 기반 스케줄러 및 수동 배포 체계를 **GitHub Actions (100% 무료 Cron 스케줄러 & git push 자동 배포 파이프라인)** 체계로 이전할 예정임.
+
 - **아침 브리핑 규칙:** 매일 아침 일정/안내 브리핑을 드릴 때마다 **'GCP 퀀트 봇의 GitHub Actions 100% 무료 스케줄러 및 자동 배포 전환 작업'**을 필수 상기 항목으로 포함하여 함께 안내할 것.
 
+
+
 ## 24. 퀀트 봇 2종 GitHub Actions 100% 무료 무인 서버 이그레이션 및 실전 검증 완료 (2026-07-27)
+
 - **개요:** GCP Cloud Run/Cloud Scheduler ➔ **GitHub Actions (100% 무료 서버리스 무인 스케줄러)** 이전을 완벽히 마감하고 텔레그램 실전 가동 테스트 완료.
+
 - **저장소 및 계좌 정보 체계**:
+
   1. **K-듀얼 모멘텀 봇**:
+
      - **GitHub 저장소:** `https://github.com/hyh54311-dev/jinhae-k-momentum-bot`
+
      - **스케줄:** 매달 17일~31일 한국시간 12:30 KST (`cron: '30 3 17-31 * *'`) (장 마감 3시간 전 여유 실행)
+
      - **연동 계좌:** 연금저축펀드계좌 (`CANO: 63183004`, `prdt_cd: 22`) & 개인주식계좌 (`CANO: 63183004`, `prdt_cd: 01`)
+
      - **안전자산 교체 코드:** `329750` (`TIGER 미국달러단기채권액티브`)
+
      - **GitHub Secrets (6개):** `KIS_MOMENTUM_APP_KEY`, `KIS_MOMENTUM_APP_SECRET`, `KIS_PENSION_CANO` (`63183004`), `KIS_STOCK_CANO` (`63183004`), `TELEGRAM_TOKEN` (`8407908239:AAHO81Ld-mmtJ-V5opl5vXI3bXgICiDrNgc`), `TELEGRAM_CHAT_ID` (`8518409134`)
+
   2. **올웨더 자산배분 봇**:
+
      - **GitHub 저장소:** `https://github.com/hyh54311-dev/jinhae-all-weather-bot`
+
      - **스케줄:** 매달 25일~31일 한국시간 23:00 KST (`cron: '0 14 25-31 * *'`)
+
      - **연동 계좌:** 올웨더 전용 해외주식 서브계좌 (`CANO: 72394127`, `prdt_cd: 01`)
+
      - **포트폴리오 비중:** VOO 30%, TLT 40%, IEF 15%, GLD 7.5%, PDBC 7.5%
+
      - **GitHub Secrets (5개):** `KIS_APP_KEY`, `KIS_APP_SECRET`, `KIS_ALL_WEATHER_CANO` (`72394127`), `TELEGRAM_TOKEN` (`8407908239:AAHO81Ld-mmtJ-V5opl5vXI3bXgICiDrNgc`), `TELEGRAM_CHAT_ID` (`8518409134`)
+
 - **GCP 인프라 조치 상태**:
+
   - GCP Cloud Scheduler (`k-momentum-rebalance-schedule`, `all-weather-daily-job`) **Paused (일시 중지 완료)**. 중복 매매 위험 0%.
 
+
+
 ## 25. 경남대 마이크로디그리 6~7일차 연수 자료 수집 & 교과서 화면공유 ClassCast 분석 & 소시오그램 관계망 시각화 웹앱 구축 (2026-08-05)
+
 - **개요:** 경남대 마이크로디그리 연수 6일차(김재현 강사) 패들렛(`joo.is/경남대803`)과 7일차(이상우 강사) 퀴즈앤(`quizn.show/pbd/info/board/1127454`) 전체 자료를 구글 드라이브(`2026. 지역 대학 연계 마이크로디그리형 연수 계획`) 폴더에 100% 저장 및 정리하고, 교과서 화면 공유 프로그램 `ClassCast.exe` 역분석 및 학급 소시오그램 관계망 시각화 웹앱(`jinhae_sociogram_app`) 단독 구축 완료.
+
 - **주요 저장 및 분석 결과**:
+
   1. **구글 드라이브 6일차/7일차 폴더 동기화**:
+
      - 6일차 폴더 (`1gnU5vQwpTOtYgGPoKFcqAg6vhZY9tZp1`): 1부 생기부 연수, 2부 학급경영 A to Z, 3부 NotebookLM & Google AI Studio 바이브코딩 교안 PDF 및 정리본 10개 완필.
+
      - 7일차 폴더 (`1jt_mdwsSLs25272FzZUnTone_YBsbmF8`): 구글 워크스페이스 & Apps Script 교사 성적 대시보드 4회 시험 7개 과목 추이 그래프 바이브 코딩 프롬프트, 프레젠테이션 2종, ZoomIt 도구 수록.
+
   2. **ClassCast.exe 교과서 화면 공유 역분석**:
+
      - Electron + PDF.js(Scale 2.0 고화질 렌더링) + 트리플 레이어 Canvas (`pdfCanvas`, `annotCanvas` 판서 분리, `previewCanvas` 돋보기) + WebSocket 룸(Room) 기반 1초 동기화 레퍼런스 소스 코드(`scratch/classcast_extracted_source/classcast_instructor_script_5.js`) 도출.
+
   3. **우리 반 소시오그램 관계망 시각화 웹앱 (`jinhae_sociogram_app`) 독립 구축**:
+
      - 위치: `jinhae_sociogram_app` (`index.html`, `style.css`, `app.js`)
+
      - 기능: SheetJS 엑셀 파싱, Vis.js Physics Engine 관계망 렌더링, 1초 `[🎲 샘플 데이터 체험하기]`, 1초 익명화 토글, 5대 성격유형 컬러코딩 & 소외그룹 탐지, 양방향 지목 카드 팝업, 엑셀 샘플 다운로드 및 PNG 이미지 저장 지원.
 
+
+
 ## 26. 경남대 마이크로디그리 연수 6대 바이브 코딩 예제 마스터 청사진 & 커스텀 개발 가이드 보존 (2026-08-05)
+
 - **개요:** 마이크로디그리 연수(6일차 김재현, 7일차 이상우 강사)에서 전수된 6가지 핵심 바이브코딩(Vibe Coding) 예제 프로젝트의 기술 구조, 소스 위치, 프롬프트 및 커스텀 구축 가이드를 완벽 정리 및 영구 보존함.
+
 - **6대 바이브 코딩 마스터 청사진**:
+
   1. **ClassCast (교과서 화면 공유 & 판서 웹앱)**: Electron + PDF.js + 트리플 Canvas + WebSocket 동기화 (`scratch/classcast_extracted_source/classcast_instructor_script_5.js`).
+
   2. **우리 반 소시오그램 시각화 (Sociogram Network)**: SheetJS + Vis.js Physics Engine + 5대 성격유형 컬러코딩 & 소외그룹 탐지 (`jinhae_sociogram_app/index.html`).
+
   3. **교사용 360° 학생 성적 대시보드 (Grade Dashboard)**: 28명 4회 시험 7개 과목 꺾은선 추이 그래프 + 석차 시각화 바이브코딩 프롬프트 (7일차 마크다운 정리본 수록).
+
   4. **세이프버디 (SafeBuddy)**: GAS 백엔드 + HTML5 모바일 알림 학생 안전 & 카카오톡 케어 웹앱 (`세이프버디_GAS_웹앱_소스코드.txt`).
+
   5. **Google AI Studio & NotebookLM 바이브코딩 튜토리얼**: AI Studio `[Get Code]` 1초 Apps Script 변환 및 라이브 배포 교안 (`00_3부_노트북LM과바이브코딩_정리.md`).
+
   6. **AI 프렌즈 학급 경영 아이디어 발산 보드**: 학생 페르소나 프로필 및 문제 상황 해결 마인드맵 웹앱 (`AI프렌즈_아이디어발산보드.html`).
 
+
+
 ## 27. 범용 소크라틱 AI 챗봇 엔진 v3.2 (State-Hardened + Care-Aware) 표준 규칙 (2026-08-15)
+
 - **개요:** 소크라틱 AI 챗봇이 탑재된 교육용 웹앱 개발 요청 시, `.agents/rules/socratic-ai-engine.md` 및 `.agents/skills/build_socratic_webapp.md`를 우선 참조하여 10대 핵심 아키텍처 규칙과 `references/backend_v32.js` 표준 백엔드를 100% 적용함.
+
 - **10대 핵심 표준 아키텍처**:
+
   1. **위기 신호 3등급 분리 라우팅 (Care-Aware)**: 자살/자해 등 위기 신호는 비속어 필터에서 완전 분리. 잠금 없이 돌봄 응답 + 상담 창구 안내 + 교사 긴급 알림 + `유의신호_검토로그` 적재.
+
   2. **Stage 단조 증가 클램프**: `Math.min(4, Math.max(1, Math.max(prevStage, reportedStage)))`로 역행 원천 차단. 예외/차단 분기에서도 이전 Stage 완벽 유지.
+
   3. **RAG 수치 토큰 동적 추출**: 시트에서 수치·단위를 정규식으로 자동 추출(`extractFactTokens`). 하드코딩 제거로 과목 전환 100% 호환.
+
   4. **citedStats 서버 누적 & 1회 재생성**: 모델 자기보고를 텍스트 스캔으로 교차 검증. 재인용 감지 시 강화 지시로 1회만 재생성.
+
   5. **구조화된 JSON 스키마**: `responseSchema`로 `{ stage, citedStats, isHintMode, feedback }` 출력 강제.
+
   6. **장기 대화 컨텍스트 압축**: 12턴 초과 시 3항목(도달 결론, 다룬 논점, 미답변 지점) 요약 브리핑 생성 및 최근 6턴 원문 유지.
+
   7. **비속어 연속 카운터 & 영속 잠금 플래그**: 학생 발화(role: user)만 검사. 연속 2회 시 잠금 + 교사 1회성 알림 + 스프레드시트 잠금 해제 UI 제공.
+
   8. **대시보드 보안 인증 & 토큰 분리**: `Session.getActiveUser().getEmail()` 화이트리스트 검사 + 별도 배포 또는 접근 토큰(`?view=teacher&key=`) 병행.
+
   9. **드라이브 공유 범위 제한**: `DOMAIN_WITH_LINK`로 학교 도메인 내 제한 (개인 계정은 `PRIVATE` 폴백).
+
   10. **회귀 테스트 하니스 (`references/eval_harness.js`)**: 9대 assertion(`no_repeat_stat`, `no_stage_regression`, `must_hint`, `must_care` 등)으로 자동 검증.
+
 - **규칙 및 참조 파일 위치**:
+
   * 규칙: `.agents/rules/socratic-ai-engine.md`
+
   * 스킬: `.agents/skills/build_socratic_webapp.md` & `.agents/skills/socratic-ai-engine/SKILL.md`
+
   * 참조 구현체: `references/backend_v32.js` & `references/eval_harness.js` & `references/migration_v31_to_v32.md`
+
   * 글로벌 스킬: `C:/Users/요한T/.gemini/config/skills/socratic-ai-engine/SKILL.md`
 
+
+
 ## 28. [해커톤 대상 목표] 소크라티스 X (Socratis X) 마스터 청사진 및 보완 마일스톤 관리 (2026-08-15)
+
 - **개요:** 대한민국 교사 에듀테크 해커톤 & Google Gemini API Competition 대상(Grand Prize) 수상을 목표로 하는 소크라티스 X 프로젝트 청사진을 저장 및 관리함.
+
 - **청사진 위치**: [`socratic_ai_hackathon_blueprint.md`](file:///G:/%EB%8B%A4%EB%A5%B8%20%EC%BB%B4%ED%93%A8%ED%84%B0/%EB%82%B4%20%EC%BB%B4%ED%93%A8%ED%84%B0/%EC%A7%84%ED%95%B4%EA%B3%A0%EB%93%B1%ED%95%99%EA%B5%90/2026%ED%95%99%EB%85%84%EB%8F%84/antigravity_folder/socratic_ai_hackathon_blueprint.md).
+
 - **향후 4대 보완 마일스톤**:
+
   1. **Phase 1 (UX/UI)**: 카카오톡 스타일 2지선다 카톡 버블 카드 UI 반영.
+
   2. **Phase 2 (대시보드)**: 교사용 '학생 사고 발달 지수(Scaffolding Index)' Chart.js 관제 시각화.
+
   3. **Phase 3 (보이스 AI)**: Web Speech API & Gemini Audio 기반 음성 소크라틱 튜터 모드 확장.
+
   4. **Phase 4 (해커톤 패키징)**: Public Repo, GIF 데모, 아키텍처 다이어그램 및 해커톤 출품서 완성.
 
 
+
+
+
 ## 29. 진해고등학교 3학년 자율교육과정 세특 기재 및 정리 구글 시트 주소 (2026-08-06)
+
 - **개요:** 진해고등학교 3학년 전체 학생의 세부능력 및 특기사항(세특)을 기재할 최종 입력 시트 및 자율교육과정 세특 내용 정리 원본 시트 정보입니다.
+
 - **주요 시트 정보**:
+
   1. **진해고 3학년 전체 학생 개인별 세특 입력 시트**:
+
      - **URL**: [`https://docs.google.com/spreadsheets/d/14oBXe4HmjyUQqlzIxiB32Xi4jakCg-UBR5D3jAJXjmM/edit?gid=249965728#gid=249965728`](https://docs.google.com/spreadsheets/d/14oBXe4HmjyUQqlzIxiB32Xi4jakCg-UBR5D3jAJXjmM/edit?gid=249965728#gid=249965728)
+
      - **목적**: 3학년 전체 학생의 개인별 세부능력 및 특기사항을 기재하는 공식 입력 시트. 향후 자율교육과정과 관련하여 정리한 내용을 이 시트에 기재/작성함.
+
   2. **자율교육과정 세특 정리 원본 시트**:
+
      - **URL**: [`https://docs.google.com/spreadsheets/d/1ihk43OB4WwaBzWH67lsXHufQwiMq6AQJ93Ekzk3wByk/edit?gid=583407139#gid=583407139`](https://docs.google.com/spreadsheets/d/1ihk43OB4WwaBzWH67lsXHufQwiMq6AQJ93Ekzk3wByk/edit?gid=583407139#gid=583407139)
+
      - **목적**: 선생님께서 자율교육과정 세특 내용을 미리 작성 및 정돈해 두신 원본 시트.
 
+
+
 ## 30. 국가교육위원회·교육부 중장기 대입제도 개편안 (수능/내신 절대평가 & 서·논술형 도입 및 AI 채점 체계) 요약 (2026-08-07)
+
 - **개요:** 국가교육위원회(국교위) 및 교육부 '2026년 하반기 업무계획' 보고 내용. 현행 획일적 객관식·상대평가 위주의 수능 및 내신 체제를 대대적으로 개편하는 중장기 대입제도 개편 방안에 착수함.
+
 - **핵심 개편 방향**:
+
   1. **수능 및 고교 내신 전 과목 절대평가 전환 검토:** 줄세우기 과열 경쟁을 완화하고, 고교학점제 등 2022 개정 교육과정과의 정합성 확보.
+
   2. **서·논술형 문항 본격 도입:** 단순 오지선다 정답 고르기에서 벗어나 비판적 사고력과 창의적 문제 해결 능력을 평가하는 서·논술형 문제 도입 (시험시간 연장에 따른 수능 2일간 실시 방안 포함 검토).
+
   3. **대입전형 일정 조정:** 고교 3학년 2학기 수업 파행을 막고 교육과정을 정상화하기 위한 대입 일정 통합/조정 검토.
+
 - **AI 기반 채점·모니터링 인프라 구축 (2029년까지)**:
+
   1. **AI 평가지원시스템 구축:** 전국 17개 시도교육청에 도입. 서·논술형 답안 110만 건 학습 데이터 수집 후 AI 가채점 및 맞춤형 피드백 제공.
+
   2. **AI 내신평가 모니터링 체계 가동:** 학교별 성취평가제(절대평가) 분석 소요 기간을 기존 3~4개월에서 시험 직후 즉시 분석 및 맞춤형 컨설팅으로 대폭 단축.
+
 - **추진 일정 및 구글(Google Account) 일정/태스크 알림 연동 내역**:
+
   1. **2026년 10월 25일 오전 9:00:** 대입제도 개편 주요 추진과제 시안 공개 및 온·오프라인 공론화/공청회 착수 발표 확인 알림 ([등록 링크](https://www.google.com/calendar/event?eid=NDNzbzBhMTVwZXE0NnBnaW1wdmNhdTUzZHMgaHloNTQzMTFAbQ)).
+
   2. **2027년 3월 1일 오전 9:00:** 대국민 숙의 과정을 거친 중장기 대입제도 개편 최종 확정안 발표 확인 알림 ([등록 링크](https://www.google.com/calendar/event?eid=Y24zc2E1azh2ZW82Nmdvc2Ftdm84NnYwYmMgaHloNTQzMTFAbQ)).
+
   3. **적용 대상:** 2026년 기준 초등학교 6학년이 대학에 입학하는 2033학년도 대입(2030년 고교 진학)부터 적용 유력 논의 중.
+
   4. **비고:** 별도의 웹 브라우저 인증 승인 절차 없이, 기존 인증된 구글 계정(`hyh54311@gmail.com`) 연동을 통해 구글 캘린더 및 구글 태스크(Google Tasks) 패널에 등록 완료함 (오전 9시 팝업/이메일 자동 알림 발송).
 
+
+
 ## 27. Gemini 및 Upstage AI API 키 통합 관리 규칙
+
 - **Gemini API Key #1 (기존 기본 키):** `AQ.Ab8RN6***************************************`
+
 - **Gemini API Key #2 (교육용/수업설계 추천 키):** `AQ.Ab8RN6***************************************`
+
 - **Upstage Solar API Key:** `up_9O**************************`
+
 - **설명:** 사용자(황요한 저자)가 API 키 문의 시 즉각 응답할 수 있도록 영구 메모리에 기록함.
 
+
+
 ## 28. 교사 주도형 소크라틱 수업 설계 웹앱 v2.2 라이브 배포 URL
+
 - **배포 주소**: `https://script.google.com/macros/s/AKfycbw2NfbOPJ8dBfjDAwdzhfMP1WyvP1Jh4nN7IKDU3VRrkNGNEAyS-dCKT59ZgO74I7sRJw/exec`
+
 - **설명:** 구글 앱스 스크립트(GAS)를 통해 성공적으로 라이브 배포된 웹앱의 공식 실행 URL입니다.
 
+
+
 ## 31. 다문화·이중언어교육 핵심 패러다임(상호문화주의 & 트랜스랜구이징) 및 현장 국어 수업 적용 지침 (2026-08-10)
+
 - **개요:** 용광로(동화주의) 및 샐러드볼(소극적 공존) 이론의 한계를 극복한 최근 다문화/이중언어교육의 핵심 패러다임과 교과 수업 적용 지침을 상기·보존함.
+
 - **핵심 이론 체계**:
+
   1. **상호문화주의 (Interculturalism):** 단순한 문화 나열/병존(샐러드볼)을 넘어, 공통의 시민적 규범을 바탕으로 주체 간 능동적 소통과 역동적 통합 지향.
+
   2. **트랜스랜구이징 (Translanguaging):** 모국어(L1)를 억제 대상(용광로)이나 보존 대상(샐러드볼)에 멈추지 않고, 인지적·정서적 발판이자 고차원 사고를 돕는 언어적 자산(Linguistic Repertoire)으로 유연하게 활용.
+
 - **교실 현장(국어과) 실행 전략**:
+
   1. **교사의 역할:** 모국어 전문가/정답 감수자가 아닌 '메타언어적 질문자' 및 퍼실리테이터 (학생의 모국어 지식을 자원으로 끌어냄).
+
   2. **교사의 피드백/평가:** 정답 판별이 아닌 국어과 학습 목표(비교, 비판, 표현, 논리성) 도달 과정 및 사고의 궤적 점검. 에듀테크/번역기/동료 교차 교정 활용.
+
   3. **한국어 미숙/초기 입국자 지원:** KSL 학급/보충 수업 병행, 실시간 AI 번역/시각자료 중심 텍스트 최소화, 트랜스랜구이징 모국어 과제 허용, 짝(Buddy) 제도 및 대체 평가 적용.
+
   4. **수준차 교실 개별화 (Tiered Instruction):** 동일 주제에 대한 과제 목표/난이도 3~4단계 층위화, 비언어적 모둠 역할 분담, 에듀테크 코스웨어 기반 비동기식 개인별 맞춤 학습.
 
+
+
 ## 32. 바이브코딩 기반 학교 수업용 웹앱 학운위/개인정보 규제 준수 & 구글 생태계(GAS+시트) 개발 배포 표준 규칙 (2026-08-10)
+
 - **개요:** 바이브코딩(자연어 코딩)으로 제작한 교육용 웹앱을 학생과 수업에서 활용할 때 발생하는 행정적·법적 규제(학운위 심의, 개인정보 수집 및 국외 이전)를 완벽히 준수하고 우회하기 위한 개발 및 배포 표준 지침.
+
 - **법적·행정적 분석 핵심 요약**:
+
   1. **저작도구 vs 결과물(앱) 분리:** Canva, VSCode, Lovable 등 저작도구 플랫폼 심의와, 이를 통해 교사가 제작해 학생에게 배포하는 2차 저작물(웹앱)의 심의는 별개임. 학생 데이터 수집/로그인이 포함되면 별도 심의 대상.
+
   2. **학습지원소프트웨어 지정 범위:** Lovable, VSCode, Vercel, AWS, GitHub 등 범용 개발 도구는 교사의 개인 업무용으로는 학운위 심의 대상이 아니지만, 학생 배포용 앱으로 전환되는 순간 에듀테크 규제망 적용.
+
   3. **국외 이전 및 학부모 동의 리스크:** Vercel, Supabase, Firebase, AWS 등 해외 서버 기반 제3자 서비스에 학생 데이터(이름, 학번, 과제, 세특 반응 등)가 저장되면 '개인정보 수집 동의' 및 '국외 이전 고지/동의' 필수.
+
 - **학운위 심의 면제 & 100% 합법 수업 활용 구글 생태계 완전 독립 아키텍처 (GAS + 구글 시트/드라이브)**:
+
   * **법적 지위:** 학교에 도입된 Google Workspace for Education(Google 계정)은 사전 인가망임. 따라서 외부 제3자 서버(AWS, Vercel, Firebase 등)를 100% 차단하고 **구글 앱스 스크립트(GAS, script.google.com)** 기반 웹앱으로 제작하여 구글 시트/드라이브에 저장할 경우 **'구글 설문지(Google Forms)'를 커스텀하여 활용하는 것과 법적·행정적으로 완벽히 동일한 지위**를 가짐.
+
   * **필수 개발 및 배포 규칙**:
+
     1. **배포 권한 설정:** Web App 배포 시 `Execute as: Me (교사 계정)`, `Who has access: Anyone within [학교 도메인]` 설정 (학교 구글 계정 사용자만 접근).
+
     2. **학생 신원 자동 식별:** 웹앱 화면에 이름/학번 입력폼을 만들지 않고, GAS 백엔드에서 `Session.getActiveUser().getEmail()`을 사용하여 접속 학생의 이메일을 구글 시트에 자동 수집/기록.
+
     3. **독립 실행형 코드 구조:** HTML/JS/CSS 전체를 GAS 프로젝트 내부에 포함하여 외부 CDN 및 외부 JS 연동 차단.
 
+
+
 ## 33. 2학년 문학 세특 재작성 및 공통 문구 기재 엄격 규칙 (2026-08-10)
+
 - **개요:** 2학년 문학 세특 전면 재작성 시 적용할 3대 영역별 작성 규칙 및 분량 규정.
+
 - **상세 작성 지침**:
+
   1. **수행평가와 탐구보고서 모두 제출한 학생 (유형 A):**
+
      - 문학 수행평가 내용 50% 반영.
+
      - 문학 탐구보고서 내용 50% 반영.
+
      - **영역 분리 서술 필수:** 두 영역의 내용을 뒤섞지 말고, 수행평가 영역과 탐구보고서 영역을 명확히 구분하여 서술할 것.
+
      - **분량 엄수:** NEIS 바이트 기준 **1,400바이트 ~ 1,500바이트**로 작성.
+
      - **국어 교과부장 공통 문구 삽입:** 1반 정은준, 2반 박준제, 3반 박지호 등 1학기 국어 교과부장 10명 대상 학생은 다음 공통 문구를 반드시 포함할 것 (`국어 교과부장으로서 수업이 원활하게 진행되도록 돕고, 급우들의 참여를 유도하며 협력적인 학습 분위기를 이끎.`). 해당 문구 바이트(약 143B)를 감안하여 전체가 1,500B를 초과하지 않도록 안배.
+
   2. **수행평가와 탐구보고서 중 하나만 제출한 학생 (유형 B):**
+
      - 제출한 해당 영역의 내용을 100% 반영.
+
      - **분량 엄수:** NEIS 바이트 기준 **1,100바이트 ~ 1,200바이트**로 작성.
+
   3. **하나도 제출하지 않은 학생 (유형 C):**
+
      - 지정된 500바이트 이내 공통 문구 적용 (`문학 수업에 성실히 참여하여...`).
 
+
+
 ## 34. 8월 24일(월) 학생회 주관 멘토링 행사 (홈베이스) (2026-08-21)
+
 - **일시:** 2026년 8월 24일(월) 6~7교시
+
 - **내용:** 학생회 주관 멘토링 행사 진행
+
 - **장소:** 교내 홈베이스 (부서별 행사 및 교과 수업 사전 조율 완료)
+
+
 
 ## 35. 소크라틱 수업 설계 웹앱 v2.4 아키텍처 및 7대 개발 규칙 (2026-08-17)
+
 - **개요:** 외부 코드 리뷰 2차 지적사항을 반영한 소크라틱 수업 설계 웹앱의 핵심 아키텍처 및 영구 개발 수칙.
+
 - **7대 핵심 개발 규칙**:
+
   1. **LLM 모델명 하드코딩 금지:** `AiRouter.gs`의 `routeAiRequest()`를 반드시 경유하여 런타임에 ListModels API로 활성 모델을 동적 탐지 및 6시간 캐시 활용.
+
   2. **학습 데이터 API 스펙 과신 금지:** Gemini 3.x에서 `temperature`는 deprecated이므로 2.x 계열에만 조건부 전달. Gemini 3.x 사고 토큰을 위해 `maxOutputTokens: 4096` 설정. Upstage 정식 모델명은 `solar-mini`, `solar-pro2`, `solar-pro3` 사용.
+
   3. **단계별 API 응답 파싱:** `promptFeedback` 및 `finishReason`을 사전 검증하여 안전 필터 차단 시 TypeError 방지.
+
   4. **XSS 및 마크다운 안전 처리:** `escapeHtml()`과 `formatAiText()`를 경유하여 HTML 주입 방어 및 별표 노출 방지.
+
   5. **Placeholder 실데이터 오염 방지:** contenteditable 내부에 텍스트 대신 `data-placeholder` 속성과 CSS `:empty:before` 가상 요소 사용.
+
   6. **지원 형식 엄격 제한:** 교과서 파일 업로드 시 `.txt`, `.md` 등 실제 처리 가능한 확장자만 허용.
+
   7. **교육과정 성취기준 날조 절대 금지 (최우선):** DB 미등록 과목에 대해 가짜 코드를 생성하거나 출처를 NCIC로 위장하지 말 것. 미등록 시 `STANDARD_UNREGISTERED_CODE`(`'(미등록)'`)를 반환하고, 마스터 캐시 시트에 쓰지 않으며, AI 프롬프트에 성취기준 날조 금지 가드레일을 유지할 것.
 
+
+
 ## 36. 2026학년도 창체 동아리 '대신해 AI' 축제 부스(AI 안면분석·동물상·인쇄) 운영 계획 및 하드웨어/수업 로드맵 (2026-08-19)
+
 - **개요:** 2026학년도 교내 축제(교내 행사)에서 창체 동아리 '대신해 AI'가 운영할 AI 체험 부스 마스터 플랜.
+
 - **핵심 파일 위치:** `2026_창체동아리_대신해AI_축제부스_운영계획.md`
+
 - **핵심 운영 및 보안 원칙:**
+
   1. **개인정보 완전 보호:** 이름/신원 수집 0%, 촬영 사진 서버 미저장(메모리 분석 후 즉시 휘발), 부스 전면 안심 안내문 부착.
+
   2. **1장 캡처(3초 타이머):** 대기시간/네트워크 지연 방지 및 재미 요소 극대화.
+
   3. **UX 흐름:** [홈 화면 2분기 (동물상 / 기분인식)] ➔ [3초 카운트다운 촬영] ➔ [AI 분석 (Gemini Vision)] ➔ [결과 카드 출력] ➔ [학교 프린터 즉석 인쇄(굿즈화)].
+
 - **하드웨어 및 예산 구성 (20만 원 한도 / 실지출 198,000원, 잔여 2,000원):**
+
   1. **구매 품목 (3종):** 카멜 CPM1530IT 터치 포터블 모니터(159,000원, 무료배송), MT-VIKI HDMI 1:2 분배기(19,000원, 배송비 3천원 포함), ipTIME N704E Plus 유무선 공유기(20,000원).
+
   2. **학교 시설/보유분 활용 (예산 0원):** 흰색 칠판(배경천 대체), 벽걸이 TV (공중 설치 완료, 바닥 스탠드 불필요), 유휴 PC(폐PC 서버), 웹캠 & 삼각대, 노트북, 일반 학교 프린터, 케이블류.
+
   3. **배선 연결:** 노트북 HDMI ➔ 1:2 분배기 ➔ [벽걸이 TV (관람용)] + [터치모니터 (참가자용)], 터치 입력은 USB 직결, 폐PC는 공유기에 유선 직결.
 
+
+
 ## 37. 8월 24일(월) 학생회 주관 멘토링 행사 (홈베이스) (2026-08-21)
+
 - **일시:** 2026년 8월 24일(월) 6~7교시
+
 - **내용:** 학생회 주관 멘토링 행사 진행
+
 - **장소:** 교내 홈베이스 (부서별 행사 및 교과 수업 사전 조율 완료)
 
+
+
 ## 38. 2027학년도 전국연합학력평가 및 대학수학능력시험 시행 일정 (2026-08-24)
+
 - **근거:** 서울특별시교육청 중등교육과-28326(2026. 8. 21.) 사전 안내
+
 - **전체 시행 일정 요약 (구글 캘린더 등록 완료)**:
+
   1. **2027. 03. 24.(수):** 3월 전국연합학력평가 (1·2·3학년 / 서울시교육청 주관)
+
   2. **2027. 05. 11.(화):** 5월 전국연합학력평가 (3학년 / 경기도교육청 주관)
+
   3. **2027. 06. 02.(수):** 6월 모의평가(3학년 평가원) / 학력평가(1·2학년 부산시교육청) (예정안)
+
   4. **2027. 07. 08.(목):** 7월 전국연합학력평가 (3학년 / 인천시교육청 주관)
+
   5. **2027. 08. 25.(수):** 8월 모의평가(3학년 평가원) / 학력평가(1·2학년 인천시교육청) (예정안)
+
   6. **2027. 10. 19.(화):** 10월 전국연합학력평가 (3학년 서울시교육청 / 1·2학년 경기도교육청)
+
   7. **2027. 11. 18.(목):** 2028학년도 대학수학능력시험 (수능 본시험 / 한국교육과정평가원)
 
+
+
 ## 39. 주간 육아시간 전수 교차검증 및 금요일 08:30 텔레그램 자동 발송 규칙 (2026-08-24)
+
 - **개요:** 교사의 주간 육아시간(1일 최대 2시간) 산정 시, 정규 시간표뿐만 아니라 일과에 영향을 미치는 모든 변동 요소를 100% 교차 검증하여 신청 가이드를 제공함.
+
 - **5대 교차 검증 요소:**
+
   1. **정규 시간표:** 2학기 확정시간표 (2학년 화법과 언어, 3학년 심화국어)
+
   2. **수업 교체 및 대강:** 교사 간 수업 맞교환 (예: 김수민 교사와의 2-8반 교환) 및 결보강/대강 내역
+
   3. **3학년 당김수업:** 수능 이전 오후 7·8교시에 진행되는 「3학년 수업 시수 확보 계획」(총 19회)
+
   4. **동아리 및 방과후:** 「AI 동행 프로젝트(책임안전AI)」 6~8교시(14:35~17:35) 컴퓨터실 분과교육 등
+
   5. **학사 일정:** 전국연합학력평가, 고사(지필평가), 현장체험학습 등 교내 행사
+
 - **자동화 스케줄러 등록:**
+
   - **작업명:** `Jinhae_Friday_ParentingLeave_Notifier` (Windows Task Scheduler 등록 완료)
+
   - **발송 시점:** **매주 금요일 오전 8시 30분(08:30 KST)**
+
   - **발송 내용:** 다음 주(월~금)의 요일별 수업 종료 시점, 당김/동아리 여부, 추천 육아시간 활용 방식 및 조기 퇴근 시간 안내
+
   - **운영 방식:** Antigravity 채팅창 UI에 백그라운드 태스크 배너가 뜨지 않도록 **Windows OS 독립 백그라운드 스케줄러**로 완전 무인 실행됨.
 
+
+
 ## 38. 2026학년도 2학기 확정시간표 (2026-08-21 기준) 표준 데이터소스 적용 규칙
+
 - **개요:** 2026년 8월 21일 자로 새롭게 확정된 2학기 시간표 파일들을 모든 시간표 분석 및 교체/대강 작업의 표준 데이터소스로 사용함.
+
 - **공식 파일 위치:**
+
   * 전체 시간표 (엑셀): `D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\수업\시간표\2학기\확정시간표\2026. 2학기 전체시간표(8.21).xlsx`
+
   * 주간 시간표 (엑셀): `D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\수업\시간표\2학기\확정시간표\2026. 2학기 주간시간표(8.21).xlsx`
+
   * 교사/학급 시간표 (한글): `2026. 2학기 교사시간표(8.21).hwp`, `2026. 2학기 학급시간표(8,21).hwp`
+
   * **수요일:** 1교시(308 심국), 2교시(207 화법), 4교시(208 화법), 5교시(303 심국)
+
   * **목요일:** 2교시(305 심국), 4교시(304 A_교육), 5교시(301 심국)
+
   * **금요일:** 2교시(307 심국), 5교시(304 심국)
 
+
+
 ## 39. 진해고등학교 컴퓨터실 자물쇠 및 학생 PC 로그인 비밀번호 규칙 (2026-08-24)
+
 - **컴퓨터실 자물쇠 비밀번호:** `8133` (출입문 자물쇠 개방용)
+
 - **학생 PC 로그인 비밀번호:** `정보쌤1!` (윈도우 부팅 로그인용)
+
 - **설명:** 진해고등학교 컴퓨터실 출입문 자물쇠 비밀번호(`8133`)와 학생용 PC의 윈도우 로그인 비밀번호(`정보쌤1!`) 정보입니다. 향후 컴퓨터실 실습, 방과후 수업, 창체 동아리 실습 진행 및 교내 시설 이용 안내 시 최우선 상기 및 활용하십시오.
 
+
+
 ## 40. 2027학년도 신입생 입학 전화 상담 학부모 및 학생 관리 대장 (2026-08-24)
+
 - **개요:** 교무실로 인입된 2027학년도 예비 신입생 학부모 전화 상담 핵심 내역을 기록·보존하여, 후속 상담 및 입학 지원 시 맞춤형 정보를 제공함.
+
 - **상담 기록 명부:**
+
   1. **010-4878-7882 (부친)**
+
      * **출신/내신:** 웅천중 성적 2%대 (극상위권)
+
      * **고민 사항:** 거창대성고와 진해고등학교 사이에서 최종 진학처 비교 고민 중.
+
      * **희망 진로:** 의예과(의대) 진학 희망 (특히 '지역의사제도' 및 '지역인재전형' 적극 활용 목표).
+
      * **핵심 선호:** 면학 분위기가 잡힌 기숙사 완비 학교 강력 선호.
+
      * **상담 대응 전략:** 2%대 내신으로 기숙사(동백관 1실 3인, 전용 면학실) 우선 선발 확실, 2026학년도 의예과 3명/서울대 1명 등 지역인재 의대 진학 강점 및 진해인재스쿨 1:1 심화 관리 적극 안내.
+
   2. **010-2108-4365 (모친)**
+
      * **출신/내신:** 반송중 성적 40%대
+
      * **고민 사항:** 진해고 기숙사 입소를 강력 희망하나, 관외 기숙사 우선 선발 쿼터(내신 30% 이내) 대비 성적이 다소 애매하여 합격 및 입소 여부 고민.
+
      * **후속 조치:** 가정 내에서 학생과 추가로 상의한 뒤 다시 학교로 연락 주기로 함.
+
   3. **010-2576-9377 (모친)**
+
      * **출신/거주지:** 반송중학교 (창원시 성산구 반송동 거주 추정, 진해 관외)
+
      * **고민 사항:** 학생이 기숙사가 있는 일반고 진학을 적극 희망 중이나, 1학기에 기숙사에 입소하더라도 2학기에 내신 성적이 떨어지면 퇴소되어 반송동에서 원거리 통학을 해야 하는지 여부 및 기숙사 유지/재선발 기준 문의.
+
      * **상담 대응 전략:** 기숙사 학기별 운영 및 관외 원거리 학생 안배 규정, 10.22(목) 18:30 설명회 및 기숙사 시설 견학 안내.
+
   4. **010-3622-1564**
+
      * **상담 내용:** 입학 관련 일반 상담 접수.
+
   5. **010-2981-8077**
+
      * **출신/내신:** 출신 중학교 미공개, 의대 진학 희망 최상위권 추정.
+
      * **고민 사항:** 의대 진학률/실적, 기숙사 선발 규정 및 환경, **[핵심] 기숙사에 들어가지 않아도 기숙사생 대상 개설 수업이나 프로그램에 참여할 수 있는지 여부**.
+
      * **상담 대응 전략:** **기숙사 정독실(면학실)과 개인 침실을 제외한 기숙사생 대상 대부분의 심화 학습/특색 프로그램에 통학생도 100% 동일하게 참여 가능**함을 명쾌하게 안내, 2026학년도 의예과 3명 등 실적 및 10.22(목) 18:30 입학설명회 참석 안내.
 
+
+
 ## 41. K-에듀파인 장학생 선발 심의위원회 개최 공문 표준 기안 형식 (2026-08-26)
+
 - **개요:** 장학생 선발 심의위원회 개최 시 작성하는 K-에듀파인 내부결재 표준 기안 형식 및 줄바꿈/참석대상 표기 규칙.
+
 - **표준 기안문 템플릿:**
+
   ```text
+
   1. 관련: [접수등록번호(일자, "접수공문제목")]
+
   2. [학년도] [장학재단/장학회명] 장학생 선발 심의위원회를 아래와 같이 개최하고자 합니다.
+
    가. 일시: YYYY년 M월 D일(요일) HH시 mm분
+
    나. 안건: [장학재단명] 장학생 추천에 대한 추인
+
    다. 장소: 2층 교무실
+
    라. 참석 대상: 위원장, 교무부장, [해당 학년부장], 간사.  끝.
+
   ```
+
 - **핵심 작성 규칙:**
+
   1. **관련 공문 표기:** 학교 접수번호, 일자, 큰따옴표 공문제목을 정확히 기재 (예: `진해고-9576(2026. 8. 6., "2026년 장학생(학업성적우수자)추천의뢰")`).
+
   2. **참석 대상자 범위:** 전 학년 대상이 아닌 경우, **해당 장학금 수혜 대상 학년부장만 선별하여 기재** (예: 2·3학년 대상 장학금이면 1학년부장 제외 후 `위원장, 교무부장, 2학년부장, 3학년부장, 간사.  끝.`).
+
   3. **서식 및 여백:** 1항과 2항은 연속 번호로 배치하고, 하위 목록(가~라) 앞 1칸 들여쓰기 및 `끝.` 앞 2칸 공백 유지.
+
 ## 42. 2027학년도 신입생 교육과정 편성 및 선택과목 수요조사·폐강 분석 지침 (2026-08-26)
+
 - **개요:** 2027학년도 신입생 교육과정 편성 시 교과협의회 논의 사항 및 1·2학년 선택과목 1·2차 수요조사 결과에 따른 개설/폐강 특이점.
+
 - **학생 과목 선택 지도 시 3대 핵심 원칙:**
+
   1. **실제 개설 전제 편성:** 교육과정 편성표에 편성하는 과목은 실제 개설을 전제로 함 (사장 과목 방지).
+
   2. **소수 인원 내신 유불리 우려 완화:** 과목 세분화 시 동일 교과군 내 수강 인원 축소로 인한 학생들의 성적 유불리 불안 고려.
+
   3. **예측 가능성 확보 및 이탈 방지:** 1차 조사 후 과목 폐강/재조정 시 다른 교과군으로 연쇄 이탈하는 현상을 최소화하여 학생 진로 예측 가능 환경 보장.
+
 - **선택과목 1·2차 조사 및 개설/폐강 통계:**
+
   * **2학년 2학기 (2-2):**
+
     - `문학과 영상`: 1차 34명 ➔ 2차 45명 (개설 확정)
+
     - `언어생활 탐구`: 1차 17명 ➔ **폐강**
+
     - `세계 문화와 영어`: 1차 44명 ➔ 2차 45명 (개설 확정)
+
     - `실생활 영어 회화`: 1차 16명 ➔ **폐강**
+
   * **3학년 1학기 (3-1):**
+
     - `독서 토론과 글쓰기`: 1차 28명 ➔ **폐강**
+
     - `매체 의사소통`: 1차 53명 ➔ 2차 84명 (개설 확정, 대폭 증가)
+
     - `미디어 영어`: 1차 20명 ➔ 2차 36명 (개설 확정)
+
     - `심화 영어`: 1차 13명 ➔ **폐강**
+
 - **현재까지 취합된 공식 편성 삭제 과목 (2과목):**
+
   * `과학과제 연구` (3-1 / 과학)
+
   * `수학과 문화` (3-1 / 수학)
+
 ## 43. 2026학년도 2학기 학부모 초청 수업나눔의 날 (2026-10-29 목 1~3교시) (2026-08-26)
+
 - **일시:** 2026년 10월 29일(목) 1~3교시 (08:50 ~ 11:40)
+
 - **개요:** 2학기 학부모 초청 수업나눔의 날 (전 교사 예외 없이 1시간 수업공개 의무).
+
 - **공개 과목 및 학반 입력 시트:** [`https://docs.google.com/spreadsheets/d/1PWBulEtgCtPk6IbStcCHamlattr6560g_XR8LsbBNIg/edit?usp=sharing`](https://docs.google.com/spreadsheets/d/1PWBulEtgCtPk6IbStcCHamlattr6560g_XR8LsbBNIg/edit?usp=sharing)
+
 - **황요한 교사 목요일 1~3교시 시간표:**
+
   * 1교시: 공강
+
   * **2교시:** **3학년 5반 (심화국어)** ➔ 수업공개 대상 유력
+
   * 3교시: 공강
+
 - **구글 캘린더 등록 완료:** [이벤트 링크](https://www.google.com/calendar/event?eid=MWF0MXJnaWc2b3VrY2Rkb2pqMWc5Zm02MGMgaHloNTQzMTFAbQ)
+
 ## 44. 해준이 등·하원 및 2학기 육아시간 구글 스프레드시트 관리 규칙 (2026-08-26)
+
 - **스프레드시트 URL:** [`https://docs.google.com/spreadsheets/d/1XxcqgI7i5EKPzN9sxxqSfL2RKSz25YZAxv2sSDmB9Gk/edit?usp=sharing`](https://docs.google.com/spreadsheets/d/1XxcqgI7i5EKPzN9sxxqSfL2RKSz25YZAxv2sSDmB9Gk/edit?usp=sharing)
+
 - **명칭 약어 정의:**
+
   * **"박":** 박지혜 (선생님 아내)
+
   * **"황":** 황요한 (선생님 본인)
+
 - **박지혜 선생님 2026학년도 2학기 주간 시간표 (총 17시간):**
+
   * **월요일 (3시간):** 2교시(2-4 미적분I), 5교시(2-3 미적분I), 6교시(2-8 E경제수학)
+
   * **화요일 (3시간):** 2교시(2-7 미적분I), 4교시(3-9 B미적분), 6교시(2-8 E경제수학)
+
   * **수요일 (4시간):** 1교시(2-6 미적분I), 2교시(2-1 미적분I), 4교시(3-9 B미적분), 6교시(창체)
+
   * **목요일 (4시간):** 2교시(2-9 미적분I), 3교시(2-2 미적분I), 5교시(3-8 미적분), 6교시(2-5 미적분I)
+
   * **금요일 (3시간):** 1교시(2-8 E경제수학), 4교시(3-9 B미적분), 6교시(3-8 미적분)
+
 - **시트 구조 (9월 시트 기준):**
+
   * Col A: 날짜 | Col B: 요일 | Col C: 육아시간 활용/특이사항
+
   * Col D: 등원 가능 여부 [박] (O/X) | Col E: 등원 가능 여부 [황] (O/X)
+
   * Col F: 하원 담당자 | Col G: 하원 가능 여부 [박] (O/X) | Col H: 하원 가능 여부 [황] (O/X)
+
 - **작업 원칙:**
+
   * 사용자가 명시적으로 "0일부터 0일까지 입력해"라고 요청하기 전까지는 **임의로 시트에 쓰기/수정 작업을 절대 하지 않음**.
+
   * 등원 및 하원 담당 배정 지침이 주어지면 지정된 날짜 구간에 맞춰 정확히 기록함.
+
 ## 45. (재)진해고등학교동창회장학재단 / 총동창회 공식 연락처 및 담당자 명단 (2026-08-26)
+
 - **재단 사무국 핵심 연락처:**
+
   * **사무간사:** **정경미** (`010-2875-1025`)
+
   * **사무국장:** **김형태** (`010-4559-0706`)
+
   * **상임이사:** 최상찬
+
   * **이사장:** 김종년
+
   * **재단 사무실 일반전화:** `055-546-9821`
+
   * **재단 팩스번호 (FAX):** `055-542-9822`
+
   * **재단 소재지:** 경남 창원시 진해구 충장로 82번길 12-1, 3층 (우 51679)
+
 - **업무 처리 프로세스:** 장학생 추천 공문/서류 팩스 발송 ➔ 김형태 사무국장 또는 정경미 사무간사 유선 수신 확인.
+
 ## 46. 2027학년도 고입전형 지원 온라인시스템 업무담당자 연수 출장 (2026-09-22 화) (2026-08-27)
+
 - **일시:** 2026년 9월 22일(화) 14:00 ~ 16:30 (등록 13:30 ~ 14:00 / 출장 이동 고려 13:00 출발)
+
 - **장소:** 마산대학교 창의관 송원홀 (경남 창원시 마산회원구 내서읍 함마대로 2640)
+
 - **참석 대상:** 진해고등학교 입학업무담당자 황요한 (학교당 1인 필수 참석)
+
 - **행정 기한:** 참석자 명단 교육행정데이터통합관리시스템 **제출 완료 (2026-08-27 조기 제출)**.
+
 - **당일(화요일) 시간표 및 대강/수업교체 대상:**
+
   * 2교시 (09:50~10:40): 2학년 9반 (화법과 언어) - 정상 수업
+
   * 3교시 (10:50~11:40): 2학년 9반 (화법과 언어) - 정상 수업
+
   * **★ 5교시 (13:40~14:30): 3학년 9반 (심화국어)** ➔ **출장으로 대강/수업교체 필수**
+
   * **★ 6교시 (14:40~15:30): 3학년 2반 (심화국어)** ➔ **출장으로 대강/수업교체 필수**
+
 - **구글 캘린더 등록 완료:** [이벤트 링크](https://www.google.com/calendar/event?eid=dHFjc2YyZ3UxdmU4OXE1YmNmZ3J2bWJuYzggaHloNTQzMTFAbQ)
+
 ## 47. 9월 전국연합학력평가 및 9월 수능 모의평가 시행 지침 (2026-09-02 수) (2026-08-27)
+
 - **일시:** 2026년 9월 2일(수) 08:40 ~ 17:10 (학교번호: `24118` 칠판 기재)
+
 - **대상:** 1, 2학년(전국연합학력평가) / 3학년(9월 모의평가)
+
 - **추가 시험실 4개소 현황:**
+
   1. **1층 홈베이스:** 졸업생(N수생) 응시
+
   2. **1층 지구과학실:** 졸업생(N수생) 응시
+
   3. **2층 도서실 옆 교실:** 도움반(특수학급) 학생 응시
+
   4. **4층 창의융합실:** 도움반(특수학급) 학생 응시
+
 - **1, 2학년 4교시 탐구영역 감독 분담 및 인수인계 수칙 (노란색 하이라이트 변경안):**
+
   * `14:45 ~ 15:20`: **부담임** 입실 ➔ 한국사 본시험 감독 및 한국사 답안지 회수
+
   * ★ `15:20 ~ 15:35` (15분간): **부담임**이 **사회탐구 문답지 배부 진행**
+
   * `15:35 ~ 16:15`: **담임** 입실 ➔ 사회탐구 본시험 감독
+
   * `16:15 ~ 16:30`: 사회탐구 답안지 회수 및 과학탐구 문답지 배부 (담임)
+
   * `16:30 ~ 17:10`: 과학탐구 본시험 감독 (담임)
+
   * `17:10 ~ 17:20`: 청소 및 채점 (담임)
+
 - **황요한 선생님(2-5 부담임) 9/2(수) 감독 교시:**
+
   * 1교시(국어): 1교시 교사(08:40~09:20) / 2교시 교사(09:20~10:00)
+
   * 2교시(수학): 4교시 교사(11:20~12:10)
+
   * 3교시(영어): 5교시 교사(13:10~14:00)
+
   * 4교시(탐구): **2-5반 부담임 감독(14:45~15:35: 한국사 감독 + 사회탐구 문답지 배부)**
+
 ## 48. 2학기말 시수 조정에 따른 9/2(수) 7교시 나이스 시간표 이동 안내 (김수진 선생님) (2026-08-27)
+
 - **내용:** 개학일 1교시 수업 이동(6교시)에 따른 2027. 2. 3.(수) 1교시 수업의 나이스 시수 당김 누락분 보정을 위해, 해당 수업을 **2026년 9월 2일(수) 모의평가일 7교시**로 시간표상 이동 배치함.
+
 - **실제 수업 여부:** 9월 2일(수)은 전교생 모의평가/전국연합 시험일이므로 **실제 수업은 없음(0시간)**.
+
 - **유의 사항:** 9월 2일(수) 오후 조퇴, 외출, 출장 등 복무 신청 시 나이스 7교시 수업 결손 여부만 유의(조퇴/출장 계획이 없을 경우 별도 조치 불필요).
 
+
+
 ## 49. 시간표 수정/교체/대강 확정 시 구글 캘린더 자동 등록 및 아침 브리핑 연동 영구 규칙 (2026-08-28)
+
 - **규칙:** 사용자가 시간표 수정, 수업 교환, 대강, 보강, 당김수업 조율 등을 요청하여 작업이 완료/확정되면, **모든 시간표 변경 내역을 즉시 구글 캘린더(Google Calendar API / `token_calendar.json`)에 등록**해야 함.
+
 - **연동 목적:** 사용자가 매일 아침 제미나이(Gemini)로부터 "오늘의 일정" 아침 브리핑을 받을 때, 구글 캘린더에 등록된 수정 시간표(수업 교환/대강/보강 내역)를 자동으로 읽어 정확히 안내받을 수 있도록 함.
+
 - **구글 캘린더 이벤트 등록 표준 양식:**
+
   * **이벤트 제목 (Summary):** `[수업교환] 2교시 208반 화법 (김수민T 미적분 교환)` 또는 `[대강] 2교시 305반 심화국어 (김승우T 대강)` 또는 `[당김수업] 8교시 306반 심화국어`
+
   * **이벤트 시간 (Start/End):** 학교 정규 교시 시간 (예: 1교시 08:50~09:40, 2교시 09:50~10:40, 3교시 10:50~11:40, 4교시 11:50~12:40, 5교시 13:40~14:30, 6교시 14:40~15:30, 7교시 15:40~16:30, 8교시 16:40~17:30).
+
   * **알림 설정:** 기본 팝업 알림 활성화.
 
+
+
 ## 50. Playwright 기반 항공권 최저가 실시간 모니터링 & 텔레그램 알림 봇 아키텍처 및 다구간 확장 가이드 (2026-08-31)
+
 - **개요:** 구글 플라이트 실시간 화면을 크롤링하여 목표 기준가보다 저렴한 직항 특가를 실시간 포착하고, 일요일 정기 브리핑을 텔레그램으로 자동 발송하는 무인 모니터링 봇(`flight_tracker_bot.py` v3.3).
+
 - **저장소 위치:**
+
   * 메인 스크립트: `flight_tracker_bot.py`
+
   * 깃허브 액션: `.github/workflows/flight_price_tracker.yml`
+
   * 상태 파일: `state.json`
+
   * 실물 덤프 픽스처: `fixtures/real_google_flights_dump.json`
+
 - **핵심 아키텍처 및 7대 수칙:**
+
   1. **[최우선 원칙 - Fail-Closed]:** "틀린 알림을 보내는 것이 알림을 안 보내는 것보다 훨씬 나쁘다." 출발시각, 직항 여부, 가격 단서 중 하나라도 모호하거나 확신이 없으면 즉시 후보에서 제외.
+
   2. **[Protobuf TFS 동적 인코더]:** `generate_google_flights_tfs(origin, dest, depart_date, return_date, passengers, currency)`를 통해 구글 플라이트 바이너리 wire format을 실시간 생성하여 URL 동적 직렬화.
+
   3. **[카드 단위 격리 파싱]:** `page.query_selector_all("ul[role='list'] > li, li.pIav2d")`로 카드별 `inner_text()`를 격리 추출. `"경유 없음"`, `"0회 경유"`를 사전 마스킹한 뒤 직항 여부 엄격 판정.
+
   4. **[다중 가격 & 쌍 식별 파서]:** 카드 내 $P_{max} \approx P_{min} \times \text{PASSENGERS}$ 관계 성립 시 1인당/총액 쌍으로 자동 식별(중복 $\div 3$ 차단). 수수료 라벨 붙은 가격 제외. 비즈니스석 등 관계식 없는 다중 가격은 안전 탈락.
+
   5. **[Fail-Closed 황금시간대 검증]:** 출발 시각 미식별 시 탈락. "2:30 소요" 등 소요시간 배제, 매치된 출발 시각 토큰 자체의 AM/PM만 국소 바인딩.
+
   6. **[상태 관리 & 래칫 TTL]:** `state.json`에 관측 이력, 연속 실패수, 마지막 알림가(`last_alert_price_pp`), 알림 시각(`last_alert_ts`) 저장. 7일 경과 시 래칫 만료 및 기준가 반등 시 리셋. 2회 연속 실패 시 24시간 1회 장애 알림.
+
   7. **[CI/CD Git Rebase 순서]:** 워크플로에서 `git add state.json` ➔ `git diff --staged` ➔ `git commit` ➔ `git pull --rebase` ➔ `git push` 순서를 엄수하여 인덱스 충돌 원천 차단.
+
 - **신규 노선 확장 가이드 (오키나와, 후쿠오카, 다낭 등):**
+
   * 스크립트 상단의 **여정 상수(6개 변수)**만 변경하면 즉시 동일한 100% 무인 특가 감시망 가동 가능:
+
     ```python
+
     ORIGIN = "PUS"                      # 출발 공항 (예: 부산 김해)
+
     DESTINATION = "OKA"                 # 도착 공항 (예: 일본 오키나와 나하)
+
     DEPART_DATE = "2027-01-14"          # 출발일 (YYYY-MM-DD)
+
     RETURN_DATE = "2027-01-17"          # 귀국일 (YYYY-MM-DD)
+
     PASSENGERS = 3                      # 탑승 인원수
+
     BENCHMARK_PRICE_PER_PERSON = 350000 # 기준 예매가 (이보다 쌀 때만 알림)
+
     FREE_CANCEL_DEADLINE = datetime.date(2026, 12, 1) # 무료 취소 마감일
+
     ```
+
   * 오키나와 노선은 진에어, 제주항공, 대한항공, 티웨이항공 등 국적 LCC/FSC 직항편이 주로 취항하며, 위 봇 구조 그대로 1인당 특가를 완벽히 추적할 수 있음.
 
+
+
 ## 51. 2026학년도 1학기 애향삼품 장학생 추천 및 서류 수합 일정 (2026-08-31)
+
 - **개요:** 2026학년도 1학기 애향삼품 장학생(총 6명, 학년별 2명, 1인당 80만원, 총 480만원) 선발 및 서류 수합 공식 일정.
+
 - **주요 일정 및 마감:**
+
   * **서류 제출 마감:** **2026년 9월 3일(목) 12:30까지**
+
   * **수합 방법:** 교무기획부 장학 담당(황요한 교사)이 각 학년 교무실을 직접 순회하여 수합.
+
   * **제출 서류 3종:**
+
     1. 장학생 추천서 1부 (담임교사 작성 - 바탕화면 `애향삼품_장학생_추천서_양식.hwp`)
+
     2. 장학생 감사편지 1부 (선발 학생 자필 작성 - 바탕화면 `애향삼품_장학생_감사편지_양식.hwpx`)
+
     3. 장학생선발소심의위원회 협의록 1부 (학년부별 작성 - 바탕화면 `애향삼품_장학생선발소심의위원회_협의록_양식.hwp`)
+
 - **선발 및 추천 기준 요약:**
+
   * **추천 자격:** 1학기 내신 성적 3등급 이내의 성적 우수자 또는 체능·예술 분야 우수자 (학교생활 성실·모범 학생)
+
   * **선발 제한:** 교내봉사 이상의 징계 처분을 받은 학생, 휴학 중인 학생, 당해 연도(2026) 타 교내·외 장학금 기수혜자(중복 추천 제한 원칙)
+
   * **학년부 협의:** 학년부 내 다수 추천 시 학년부 협의회 거쳐 내신 성적 우수자 우선하여 학년당 최종 2명 선발.
 
+
+
 ## 52. 진해고등학교 2026학년도 학년별 사용 교과서 공식 목록 (2026-09-01)
+
 - **공식 출처 파일:** `진해고등학교\2026학년도\수업\2026학년도 3학년 수업&수행&평가\2학기\[붙임3] 2026학년도 학년별 사용 교과서 목록 - 복사본.xlsx`
+
 - **주요 교과별 공식 출판사 및 저자 정보:**
+
   1. **3학년 심화 국어:** **상문연구사** (저자: **석은동 외 4명**, 구분: 인정교과서, 웹사이트: `http://www.sangmunsa.co.kr/`)
+
   2. **3학년 화법과 작문:** **㈜천재교육** (저자: **박영목**, 구분: 검정)
+
   3. **3학년 교육학:** **천재교육** (저자: **강현석**, 구분: 인정)
+
   4. **3학년 철학 / 논술 / 심리학:** 천재교과서(홍윤기) / ㈜천재교육(박정하 외 7명) / 씨마스(김지경)
+
   5. **2학년 문학 / 화법과 언어:** ㈜비상교육(강호영) / ㈜비상교육(이관규)
+
   6. **1학년 공통국어1, 2:** 비상교육(박영민) [2022 개정 교육과정]
 
+
+
 ## 53. 교무기획부 경비 및 커피/다과/회식비 정산 구글 스프레드시트 (2026-09-01)
+
 - **문서명:** `2026학년도 1학기 교무기획부 경비 정산부`
+
 - **구글 스프레드시트 ID:** `1yHEJsvgtQ6crum5H3PuKZzoQzEOxUhs5tT1_WUJzGr8`
+
 - **스프레드시트 링크:** `https://docs.google.com/spreadsheets/d/1yHEJsvgtQ6crum5H3PuKZzoQzEOxUhs5tT1_WUJzGr8/edit?usp=sharing`
+
 - **대상 부서원 (6명):** 최준호 부장님, 박지환 선생님, 박승현 선생님, 이병의 선생님, 김현숙 주무관님, 황요한 선생님
+
 - **주요 용도 및 관리 내역:**
+
   * 교무실 커피 원두 공동 구매, 카페 음료 및 다과, 부서 회식비 지출 내역 기록
+
   * 날짜별/품목별 참석 인원 체크박스 연동을 통한 실시간 1인당 1/N 자동 정산 및 개인별 누적 정산액/입금 관리.
 
+
+
 ## 54. 진해고등학교 2026학년도 9월 공식 월중행사계획 (2026-09-01)
+
 - **개요:** 진해고등학교 2026년도 9월 월중 학사일정 및 부서별 주요 행사 공식 계획.
+
 - **일자별 주요 학사일정 요약:**
+
   * **9. 2.(수):** `[교육평가부]` 1, 2학년 전국연합학력평가 / 3학년 9월 수능모의평가
+
   * **9. 3.(목):** *(장학 담당)* 2026-1학기 애향삼품 장학생 서류 수합 마감 (12:30 순회)
+
   * **9. 4.(금):** `[교육평가부]` 국가수준 학업성취도평가(표집학급) 실시 (1~4교시)
+
   * **9. 7.(월) ~ 9.17.(목):** `[교육과정부]` 과목 선택 상담 주간 운영
+
   * **9. 9.(수):** `[진로복지부]` 1, 2학년 대학학과체험 (6-7교시)
+
   * **9.10.(목):** `[진로복지부]` 일배움과정 체험활동 (도움 1&2반, 부산 기장)
+
   * **9.11.(금):** `[미래교육부]` 정보공시 3차 제출일 / `[교육연구부]` 전학공 연수 (7교시)
+
   * **9.14.(월) ~ 9.17.(목):** `[교육과정부]` 3차 선택과목 조사
+
   * **9.15.(화):** `[교육평가부]` **2학기 1차 지필평가 평가원안 제출 마감** ⚠️
+
   * **9.16.(수):** 
+
     - `[미래교육부]` 사이버 보안 진단의 날 (내PC지키미 실행일)
+
     - `[진로복지부]` 학교장과 학부모가 함께하는 소통 공감 마당 (10:00~12:00, 홈베이스)
+
     - `[교육연구부]` 창체 동아리 활동 (6-7교시)
+
   * **9.18.(금):** `[교육평가부]` 평가 연수
+
   * **9.24.(목) ~ 9.27.(일):** **추석 연휴** (24일 목, 25일 추석, 26일 토, 27일 일)
+
   * **9.29.(화) ~ 9.30.(수):** `[교육평가부]` **2학기 1차 정기시험 (중간고사)** 실시
 
+
+
 ## 55. 2026학년도 9월 2일(수) 1·2학년 학력평가 및 3학년 수능 모의평가 시행 지침 (2026-09-01)
+
 - **개요:** 2026년 9월 2일(수) 시행 전국연합학력평가(1·2학년) 및 9월 수능모의평가(3학년, 졸업생) 운영 지침.
+
 - **학교번호:** **`24118`** (칠판 필수 기재)
+
 - **시험 중 방송:** **절대 금지**
+
 - **영어 영역(3교시) 음원 안내:**
+
   * 5교시 담당 감독교사는 **13:05까지 시험지 배부 완료**
+
   * **영어듣기 평가 음원은 13:07부터 재생** (시험 시작 13:10)
+
 - **특별 시험실 및 응시 현황:**
+
   * **졸업생 응시실:** **본관 1층 홈베이스 (총 36명)**
+
   * **도움반 응시실 1:** **4층 창의융합실 (3학년 1명 - 홍나견 학생, 시험시간 1.5배 연장)**
+
   * **도움반 응시실 2:** **2층 도서실 옆 교실 (3학년 2명)**
+
 - **학년별 시험 및 감독 체계:**
+
   * **3학년:** 국어(08:40~10:00) ➔ 수학(10:30~12:10) ➔ 점심(12:10~13:05) ➔ 영어(13:10~14:20) ➔ 한국사(14:50~15:20, 부담임 회수) ➔ 탐구 1·2(15:35~16:37, 담임 감독) ➔ 채점(16:37~17:00)
+
   * **1·2학년:** 국어 ➔ 수학 ➔ 영어 ➔ 한국사(14:50~15:20, 부담임 회수) ➔ 사회탐구(15:35~16:15, 40분, 담임) ➔ 과학탐구(16:30~17:10, 40분, 담임) ➔ 채점(17:10~17:20)
+
 - **파일 보관 위치:**
+
   * `진해고등학교6학년도\교육평가부6. 9월 모의평가 및 학력평가학년 9월 모의평가, 1,2학년 9월 전국연합학력평가 시간표(9월 2일(수)).hwp`
 
+
+
 ## 56. 2027학년도 경남과학고 입학전형 면접문항 검토교사 모집 공문 및 일정 (2026-09-01)
+
 - **공문명:** `(진해고등학교-10604) [모집] 2027학년도 경남과학고등학교 입학전형 면접문항 검토교사 모집 안내`
+
 - **모집 분야:** 수학 3명, 과학 3명 (총 6명)
+
 - **자격 요건:** 중등교원자격증(수학/과학) 소지자 중 **최근 5년간 중학교 2년 이상 근무 경력자**
+
 - **소집 기간:** 2026. 11. 21.(토) 08:30 ~ 11. 23.(월) 17:30 (합숙)
+
 - **마감 일정:**
+
   * **교내 서류 마감:** **2026년 9월 7일(월) 16:30**
+
   * **경남과고 공문 마감:** **2026년 9월 9일(수) 16:30** (비공개 6호 전자공문)
 
+
+
 ## 57. 2026 AIEDAP 경남권역 AI융합수업 사례 공유 워크숍 안내 및 상기 규칙 (2026-09-01)
+
 - **행사명:** 2026 AIEDAP 경남권역 AI융합수업 사례 공유 워크숍
+
 - **일시:** 2026. 9. 11.(금) 15:30 ~ 17:30
+
 - **장소:** 부산 벡스코(BEXCO) 제1전시장 214+215호, 217호
+
 - **사전 신청 기한:** **2026년 9월 8일(화) 15:00까지**
+
 - **주요 내용:** AIEDAP 마스터교원 AI 융합수업 실천 사례 21개 발표 및 토의
+
 - **사전 신청 혜택:** 직무연수 2시간 인정, 부산대 AI융합연구원장 명의 참가 공문 발송, 기념품 증정
+
 - **상기 지침:** **2026년 9월 2일(수) 아침 브리핑 시 필수 상기 항목으로 포함하여 사용자에게 안내할 것.**
 
+
+
 ## 58. 2026년 9월 18일(금) 아내 신촌 세브란스병원 검진 동행 및 대강 요청 상기 규칙 (2026-09-01)
+
 - **개요:** 2026년 9월 18일(금) 아내 신촌 세브란스병원 검진 결과 확인 동행 예정.
+
 - **필수 조치 사항:**
+
   1. 9월 18일(금) 본인 수업에 대해 동료 교사에게 **대강(보강 또는 수업 교체)** 사전 부탁 및 협조 구하기.
+
   2. 나이스(NEIS) 근무상황(연가/특별휴가 등) 사전 상신.
+
 - **아침 브리핑 상기 지침:** **2026년 9월 2일(수) 아침 브리핑 시 최우선 필수 상기 항목으로 반드시 포함하여 사용자에게 안내할 것.**
 
+
+
 ## 59. 2026학년도 국가수준 학업성취도평가 실시 지침 (2026-09-02)
+
 - **일시:** 2026년 9월 4일(금) 08:40 ~ 12:15 (1~4교시, 일과시간 동일)
+
 - **평가 대상 학급 및 장소:**
+
   - 2학년 9반: 지구과학실
+
   - 2학년 10반: 1층 홈베이스
+
 - **주요 교내 운영 지침:**
+
   1. **2학년 2교시 선택과목 이동수업 미실시:** 이동하지 않고 원반에서 자습 지도 (특수학급 학생도 원반 입실).
+
   2. **방송 통제:** 금요일 1교시~4교시 전체 교내 방송 자제.
+
   3. **공간 통제:** 9월 3일(목) 오전 노트북 설치 예정, 목요일~금요일 오전까지 지구과학실 및 홈베이스 출입 자제.
+
   4. **감독 교사:** 2학년 9반, 10반 금요일 1~4교시 교과담당교사가 감독 진행.
+
   5. **황요한 교사 해당 사항 분석:** 금요일 시간표상 2교시(3-7반 심화국어), 5교시(3-4반 심화국어)이므로 학업성취도 감독 대상이 아니며, 정상적으로 3학년 심화국어 수업 진행함.
 
+
+
 ## 60. 2026년 9월 3일(목) 2교시 3-5반 수업 조진희 선생님 입실 (2026-09-02)
+
 - **일시:** 2026년 9월 3일(목) 2교시 (09:40 ~ 10:30)
+
 - **대상 학급:** 3학년 5반
+
 - **내용:** 조진희 선생님이 다음 주 수시 원서 접수 방법 시뮬레이션을 위해 해당 시간을 빌려 입실함.
+
 - **황요한 교사 조치:** 3학년 5반 심화국어 수업에 들어가지 않으며, 연구/행정 업무 시간으로 활용. 내일(9/3) 아침 브리핑 시 상기할 것.
 
+
+
 ## 61. 2026학년도 2학기 평가계획서 수정 및 재제출 상기 규칙 (2026-09-02)
+
 - **개요:** 2026학년도 2학기 교과 평가계획서(3학년 심화 국어 등) 수정 및 재제출 업무.
+
 - **주요 내용:** 2학기 평가계획서 수정본을 보완하여 교육평가부(또는 주무 부서)에 재제출해야 함.
+
 - **아침 브리핑 상기 지침:** **2026년 9월 3일(목) 아침 일정 브리핑 시 필수 상기 항목으로 반드시 포함하여 사용자에게 안내할 것.**
 
+
+
 ## 62. 쿨메신저 첨부파일 자동 저장 설정 및 아침 브리핑 상기 규칙 (2026-09-02)
+
 - **개요:** 쿨메신저 환경설정에서 '파일 수신 시 묻지 않고 자동으로 저장' 옵션 체크 안내.
+
 - **설정 목적:** 선생님이 메신저를 직접 열람하지 않아도 수신 파일이 `쿨메신져 다운로드 파일` 폴더에 즉시 저장되도록 하여, 퇴근 후 원격(스마트폰/노트북)에서도 AI가 첨부파일 내용을 즉시 열람·분석할 수 있도록 환경 구축.
+
 - **아침 브리핑 상기 지침:** **2026년 9월 3일(목) 아침 출근 일정 브리핑 시 필수 상기 항목으로 포함하여 사용자에게 안내할 것.**
 
-## 63. 2학년 화법과 언어 시간표 맞교환 (이병의 ↔ 황요한) 및 주간 확정 시간표 갱신 (2026-09-03)
-- **개요:** 2026년 9월 3일(목)부터 2학년 화법과 언어 수업 학급을 이병의 선생님과 상호 맞교환하여 진행함.
-- **담당 학급 변경:**
-  * **황요한 교사:** 기존 2학년 6~10반(206~210) ➔ **2학년 1~5반(201~205) 화법과 언어** (총 5시간)
-  * **이병의 교사:** 기존 2학년 1~5반(201~205) ➔ **2학년 6~10반(206~210) 화법과 언어** (총 5시간)
-- **황요한 교사 주간 수업 시간표 (총 16시간 - 3학년 11시간 + 2학년 5시간):**
-  * **월요일 (3시간):** 2교시(310 심국), **4교시(205 화법)**, 5교시(306 심국) [1, 3, 6교시 공강]
-  * **화요일 (3시간):** 3교시(302 심국), 5교시(309 심국), **7교시(204 화법)** [1, 2, 4, 6교시 공강]
-  * **수요일 (2시간):** 1교시(308 심국), 5교시(303 심국) [2, 3, 4교시 공강]
-  * **목요일 (5시간):** **1교시(202 화법)**, 2교시(305 심국), 4교시(304 A_교육), 5교시(301 심국), **6교시(203 화법)** [3, 7교시 공강]
-  * **금요일 (3시간):** **1교시(201 화법)**, 2교시(307 심국), 5교시(304 심국) [3, 4, 6교시 공강]
-- **3학년 기존 수업 충돌 여부:** 3학년 심화국어 10개 반 및 A_교육 1개 반과의 충돌 0건 (100% 공강 슬롯에 안착).
+
+
+## 63. 2학년 화법과 언어 10월 수업 운영 및 주간 시간표 확정 (2026-10-15)
+
+- **개요:** 10월에는 **2학년 6~10반(206~210) 화법과 언어 수업을 황요한 교사가 담당**하고, 2학년 1~5반(201~205)은 이병의 선생님이 담당하여 진행함.
+
+- **담당 학급 및 주간 시간표 (황요한 교사 총 16시간 - 3학년 11시간 + 2학년 5시간):**
+
+  * **월요일 (3시간):** 2교시(310 심국), **4교시(210 화법)**, 5교시(306 심국) [1, 3, 6, 7교시 공강]
+
+  * **화요일 (4시간):** **2교시(209 화법)**, 3교시(302 심국), 5교시(309 심국), **6교시(206 화법)** [1, 4, 7교시 공강]
+
+  * **수요일 (4시간):** 1교시(308 심국), **2교시(207 화법)**, **4교시(208 화법)**, 5교시(303 심국) [3, 6, 7교시 공강]
+
+  * **목요일 (3시간):** 2교시(305 심국), 4교시(304 A_교육), 5교시(301 심국) [1, 3, 6, 7교시 공강]
+
+  * **금요일 (2시간):** **1교시 공강!**, 2교시(307 심국), 5교시(304 심국) [1, 3, 4, 6, 7교시 공강]
+
+- **금요일 주요 특징:** 금요일 1교시가 공강이므로 아침 출근 및 등원 여유가 확보되며, 5교시(304 심국)는 출장으로 인해 임언숙 부장님께서 대강을 맡아 진행함. 실질적으로 금요일에 들어가는 수업은 **2교시(307 심국) 1개**임.
+
+
 
 ## 64. 해준이 등·하원 시트 매주 금요일 09:30 자동 작성 및 안전 검증 영구 규칙 (2026-09-03)
+
 - **개요:** 매주 금요일 오전 09:30, 차주(다음 주 월~금) 해준이 등·하원 및 육아시간 관리 구글 시트를 이전 정보와 시간표를 종합 분석하여 자동 작성함.
+
 - **수정 허용 영역 엄격 격리:**
+
   * **절대 수정 금지 (Read-Only):** 사모님(박지혜 선생님) 영역인 **Col D (등원 가능 여부 [박])** 및 **Col G (하원 가능 여부 [박])**은 어떠한 경우에도 덮어쓰거나 수정하지 않음.
+
   * **수정 허용 영역:** 황요한 선생님 영역인 **Col E (등원 가능 여부 [황])**, **Col H (하원 가능 여부 [황])**, **Col C (등원 담당)**, **Col F (하원 담당)**만 입력.
+
 - **기재 원칙:**
+
   * **'O' 표시:** 정규 시간표(1교시 공강, 오후 공강), 당김수업 없음, 교내외 행사 없음 등 **확실하게 등·하원이 가능한 경우에만** 기재.
+
   * **'X' 표시:** 1교시 수업 있음, 6~8교시 수업 있음, 3학년 당김수업, AI 동행 프로젝트(월 14:35~17:35), 출장, 시험 감독 등으로 **완전히 불가능한 경우에만** 기재.
+
   * **빈칸 유지 및 사전 동의:** 애매하거나 일정(출장/회의/협의회 등)이 불확실한 경우에는 임의로 O/X를 적지 않고 빈칸으로 두며, 시트 작성 전 사용자에게 먼저 상황을 설명하고 동의를 구한 뒤 입력함.
+
 - **종합 분석 데이터소스 4대 축:**
+
   1. 2학기 주간 확정시간표 (Rule 63: 2-1~5 화법 반영본)
+
   2. 3학년 시수 확보 계획 (당김수업 일정표)
+
   3. AI 동행 프로젝트(월 14:35~17:35), 출장/연수 공문, 시험 감독 등 학교 고유 일정
+
   4. 구글 캘린더 등록 일정
 
 
+
+
+
 ## 64. Windows 11 클립보드 단축키 (Ctrl + Alt + V) 백그라운드 리스너 상시 운영 (2026-09-03)
+
 - **환경 및 증상:** Windows 11 24H2, 로지텍 K580 키보드 사용 시 물리 `Win + V` 입력이 교내 키보드 보안(TouchEn NxKey) 및 K580 OS 매핑에 의해 시작 메뉴로 오작동하는 현상.
+
 - **해결책:** 전역 단축키 `Ctrl + Alt + V` (보조: `Ctrl + \`)로 Windows 11 클립보드 기록 창(`ms-inputapp:clipboard`)을 0.1초 만에 호출하는 Win32 RegisterHotKey 백그라운드 리스너(`scripts/clipboard_hotkey_listener.py`)를 구축.
+
 - **자동 시작 영구 등록:** 윈도우 시작프로그램(`%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\Clipboard_Hotkey.vbs`)에 등록하여 재부팅 시에도 CPU 0% 무음 상시 대기.
 
+
+
 ## 65. 2027학년도 진해고등학교 신입생 입학설명회 54슬라이드 마스터 합본 구축 완료 (2026-09-03)
+
 - **개요:** 제미나이 노트북(NotebookLM) × 바나나nl STYLE #317 [컨설팅] 스타일로 생성된 11개 묶음 PPTX 파일을 분석하여 식순 및 기획안 순서에 맞춰 완벽한 54슬라이드 16:9 와이드스크린 마스터 발표자료로 통합 구축 완료함.
+
 - **11개 묶음 매핑 및 슬라이드 구성 (총 54장):**
+
   1. `The_Architecture_of_Potential.pptx` (S01~S05, 5장): 행사 오프닝, 학교 비전, 설명회 식순, 학교장 인사말, 학생회장 학교소개
+
   2. `Jinhae_High_School_Strategic_Briefing.pptx` (S06~S10, 5장): 진해고 5대 강점, 남학생 다수 인원 경쟁력, 5등급제 내신표, 2학년 과목개설 실측표
+
   3. `New_Admissions_Strategy.pptx` (S11~S15, 5장): 2028 대입 개편 3대 축, 수시/정시 구조 분석
+
   4. `Jinhae_High_Two-Track_Strategy.pptx` (S16~S20, 5장): 수시·정시 동시 대비 투트랙(Two-Track) 로드맵
+
   5. `Jinhae_High_School_Admission_Success (1).pptx` (S21~S25, 5장): 2026학년도 대입 진학 실적 전수 공개 (서울대 1, 의약학 5, 부산대 23, 경북대 15, 지역국립대 114명, 사관학교 8개년 44명)
+
   6. `Jinhea_High_Personalized_Admission_Success.pptx` (S26~S30, 5장): 중위권 내신역전 성공 사례 (세종대 3.12, 경북대 2.85)
+
   7. `Jinhae_High_Innovation.pptx` (S31~S35, 5장): 자율형 공립고 2.0 및 기숙사 24시간 생활 일과표
+
   8. `Jinhae_High_School_Growth_Blueprint.pptx` (S36~S40, 5장): 45개 창체 동아리 및 학교장 삼품제
+
   9. `Woongbi-gwan_Success_Architecture.pptx` (S41~S45, 5장): 기숙사(웅비관) 시설 및 선발 요강 (관내 5%/관외 30%)
+
   10. `2027_Jinhae_High_School_Curriculum_Blueprint.pptx` (S46~S50, 5장): 2027학년도 신입생 교육과정 편성표 및 학생 선택권
+
   11. `2027_Jinhae_High_School_Strategic_Blueprint.pptx` (S51~S54, 4장): 신입생 모집 전형 일정, 입학상담 AI 챗봇(jinhae-bot2) 안내, Q&A, 클로징
+
 - **최종 저장 위치:**
+
   * 바탕화면: `D:\OneDrive - 경상남도교육청\바탕 화면\2027학년도_진해고등학교_신입생_입학설명회(최종합본).pptx` (27.44 MB)
+
   * 입학설명회 업무폴더: `D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\업무(장학금 및 입학홍보)\3. 홍보\입학설명회\2027학년도_진해고등학교_신입생_입학설명회(최종합본).pptx`
 
+
+
 ## 66. 2026년 9월 4일(금) 3교시 1학년 8반 대강(대체수업) 배정 및 금요일 시간표 갱신 (2026-09-03)
+
 - **일시:** 2026년 9월 4일(금) 3교시 (10:40 ~ 11:30)
+
 - **대상 학급:** 1학년 8반 (108)
+
 - **내용:** 동료 교사 결보강 요청에 따른 3교시 1학년 8반 대강(대체수업) 입실.
+
 - **수업 충돌 분석:**
+
   * 기존 금요일 시간표상 3교시는 **공강** 슬롯이었으므로 기존 수업과의 **충돌 0건 (100% 정상 입실 가능)**.
+
   * 9월 4일(금) 황요한 교사 확정 시간표 (총 4시간):
+
     - **1교시 (08:40~09:30):** 2학년 1반 화법과 언어 (201)
+
     - **2교시 (09:40~10:30):** 3학년 7반 심화국어 (307)
+
     - **3교시 (10:40~11:30):** **1학년 8반 대강(대체수업)** (108) ★신규
+
     - **4교시 (11:40~12:30):** 공강 (점심시간 연계)
+
     - **5교시 (13:20~14:10):** 3학년 4반 심화국어 (304)
+
     - **6, 7교시:** 공강 / 행정 연구 업무
+
   * ※ 1교시부터 3교시까지 연속 수업(2학년 ➔ 3학년 ➔ 1학년 교실 순차 이동)이 진행되므로 수업 준비 및 동선 안배 유의.
+
 - **아침 브리핑 상기 지침:** **2026년 9월 4일(금) 내일 아침 출근 일정 브리핑 시 3교시 1학년 8반 대강 수업을 최우선 상기 항목으로 포함하여 안내할 것.**
 
+
+
 ## 67. 2026년 9월 4일(금) 동창회 장학금 수여식 날짜 확정 교장선생님 컨펌 및 아침 브리핑 상기 지침 (2026-09-03)
+
 - **일시:** 2026년 9월 4일(금) 아침 출근 직후 (08:20 ~ 08:40)
+
 - **대상:** 교장선생님
+
 - **안건:** 총동창회 장학금 수여식 날짜를 언제로 픽스(Fix)할지 최종 일정 컨펌 및 결재 보고.
+
 - **수여식 업무 참고 사항:**
+
   * 장학금 지급 방식: '글로컬 학우상 시상 및 장학금 지급' 관련 공문/기안 작성 시 장학금을 **'상품권'**으로 지급한다는 내용을 반드시 포함 (Rule 7 필수 준수).
+
   * 1학기 애향삼품 장학생 서류(추천서, 감사편지, 소심의위 협의록) 수합 완료분 연계.
+
 - **아침 브리핑 필수 상기 지침:**
+
   * 2026년 9월 4일(금) 아침 출근 브리핑 시 다음 2대 핵심 항목을 최우선 안내할 것:
+
     1. **교장선생님 컨펌:** 동창회 장학금 수여식 날짜 확정(Fix) 보고.
+
     2. **3교시 대강 수업:** 10:40~11:30 1학년 8반(108호) 대강 입실.
 
+
+
 ## 66. 육아시간 기안 시 나이스(NEIS) 공식 시간표와 실제 수업 시간표의 이중 검증(Dual Verification) 영구 규칙 (2026-09-04)
+
 - **개요:** 이병의 선생님과의 2학년 화법과 언어 시간표 변경은 나이스 공식 시간표 반영이 아닌 교사 간 상호 맞교환이므로, 나이스 결재선 상의 적법성(결재 반려 방지)과 실제 물리적 교실 입실 가능성을 동시에 충족해야 함.
+
 - **판정 원칙:** 육아시간 신청 가능 교시 = **[나이스 공식 등록 시간표상 공강]** AND **[실제 담당 수업상 공강]**.
+
 - **핵심 유의 교시 가이드라인:**
+
   1. **화요일 오전 (08:30~09:30):** 실제로는 2교시에 이병의T가 209반에 들어가시지만, 나이스 시스템에는 황요한T의 2교시 수업으로 잡혀 있음. 따라서 나이스 결재선에서 수업 결손 경고 및 반려를 원천 방지하기 위해 **반드시 1교시 공강 시간대인 `08:30 ~ 09:30` (1시간)으로만 기안**해야 함.
+
   2. **금요일 오전:** 나이스 공식 시간표는 1교시 공강이나, 실제로는 2-1반 화법 수업에 들어가야 하므로 오전 육아시간 신청 절대 불가.
+
   3. **목요일 오전:** 나이스 공식 시간표는 1교시 공강이나, 실제로는 2-2반 화법 수업에 들어가야 하므로 오전 육아시간 신청 절대 불가.
+
   4. **금요일 오후 (14:30~16:30):** 나이스 공식 시간표(5교시 후 공강)와 실제 수업 시간표(14:30 전체 종료)가 완벽히 일치하므로 2시간 조기퇴근 육아시간 기안 최적.
+
   5. **수요일 오후 (14:30~16:30):** 나이스 공식 시간표상 14:30 이후 정규 수업이 없어 결재 통과는 문제없으나, 8교시 당김수업(3-4 심국)의 실제 입실 여부를 사전에 해결/조율한 상태에서만 기안해야 함.
 
+
+
 ## 67. 수업 맞교환 및 대강 후보 검증 하네스(Harness) & 하위 에이전트 다각도 검증 영구 규칙 (2026-09-04)
+
 - **개요:** 시간표 맞교환 또는 대강 후보를 도출하거나 시간표를 조정할 때, 반드시 정밀 검증 하네스(Verification Harness)를 구성하고 하위 에이전트(Subagent)를 가동하여 사용자가 미처 생각하지 못한 부분(Edge Cases)까지 사전에 다각도로 분석·검증하여 최종 반영함.
+
 - **하네스 5대 필수 검증 축 (Assertion Checks):**
+
   1. **[이동수업 불변 검증]:** 색칠된 셀(선택과목 이동수업 군)은 1:1 맞교환 대상에서 원천 배제.
+
   2. **[교사 피로도 및 연강 한계]:** 대강/교환 대상 교사의 당일 총 수업 시수(5시간 초과 여부) 및 3~4연강 발생 여부 점검.
+
   3. **[시기별 특수 상황 검증]:** 수시 원서 접수 기간(3학년 담임 업무 폭증), 수행평가 기간, 학교 행사 등 시기별 교사 업무 부하 고려.
+
   4. **[나이스 전산 정합성]:** 나이스 등록 시간표 기준 대강신청서/수업결체 신청 시 시스템 반려 또는 결손 오류 발생 여부 교차 검증.
+
   5. **[대강 vs 맞교환 다각도 트레이드오프]:** 1:1 맞교환 시 향후 황요한 선생님의 보충 시수 부하 vs 대강 시 상대 교사의 부담 및 동교과/친소관계 다각도 비교.
 
+
+
 ## 68. 2026학년도 외부 공모/추천 장학금 개인 신청자 선발 결과 확인 이력 (2026-09-04)
+
 - **개요:** 외부 재단에서 학생 개인 계좌로 직접 입금되는 장학 사업 3건에 대해 담임교사 확인을 거쳐 실제 선정 및 수혜 여부를 파악함.
+
 - **확인 결과 및 명부 반영 기준:**
+
   1. **2학년 6반 김주영 (서한성 선생님 반):** 한국아이티융합협회 다문화 장학회 장학생 (4월 추천 건) ➔ **최종 미선정 (장학금 미수혜 확인)** ➔ 2026학년도 장학생 명부 등재 대상 제외 완료.
+
   2. **2학년 7반 박주빈 (정순영 선생님 반):** 2026년 상반기(1학기) 대한적십자사 헌혈기부권 나눔장학금 100만 원 ➔ **최종 미선정 (장학금 미수혜 확인)** ➔ 2026학년도 장학생 명부 등재 대상 제외 완료.
+
   3. **1학년 1반 김선유 (김정화 선생님 반):** 2026년 하반기(2학기) 대한적십자사 헌혈기부권 나눔장학금 100만 원 (8월 19일 추천 접수) ➔ **현재 대한적십자사 심사 진행 및 발표 대기 중**.
+
 - **폴더별 증빙 보관:** 각 장학금 사업별 해당 폴더(2026년 다문화장학회 장학금 지원 사업 안내, 2026년 상반기 헌혈기부권 나눔장학사업 장학생 선발\1학기)에 선정_결과_확인_메모.txt로 관리 기록 저장 완료.
 
 
+
+
+
 ## 69. 애향삼품 장학금 기탁자 및 감사편지 우편물 발송처 지침 (2026-09-04)
+
 - **개요**: 애향삼품 장학금 수혜 학생들의 감사편지 및 추천서 등 우편물 발송 시 필요한 공식 수취인 정보 및 주소 규칙.
+
 - **기탁자 정보 (참고)**:
+
   * 성명: 이흥순 할머니
+
   * 원주소: 창원시 진해구 여좌동 90-22
+
   * 연락처: 010-8538-3080
+
 - **실제 우편물 발송 수취처 (필수 적용)**:
+
   * 수취인: 조카며느리 **이경자 님**
+
   * 우편물 발송 주소: **창원시 진해구 천자로 386 마린푸르지오 아파트 111동 1901호**
+
   * 우편번호: **51628**
+
   * 연락처: **010-8538-3080**
+
 - **행정 발송 원칙**:
+
   * 장학생들이 자필로 작성한 선발 감사편지 및 추천서 등 일체의 대외 발송 우편물은 여좌동 본가가 아닌 **조카며느리 이경자 님 댁(마린푸르지오)**으로 발송하여야 수령 및 전달이 정상적으로 이루어짐.
 
 
+
+
+
 ## 70. 2026년 9월 7일(월) 아침 브리핑 필수 상기 지침 (애향삼품 장학금 협의록 결재 확인 및 발전기금 지급 기안) (2026-09-04)
+
 - **개요**: 2026년 9월 4일(금) 상신한 애향삼품 장학생 선발 심의위원회 협의록 기안이 결재 진행 중이므로, 다음 주 월요일(9월 7일) 아침 일정 브리핑 시 다음 3대 후속 행정 절차를 필수 상기 항목으로 포함하여 안내할 것.
+
 - **월요일 필수 브리핑 체크리스트**:
+
   1. **애향삼품 장학생 선발 심의위원회 협의록 결재 확인**:
+
      * 학교장 결재 완료 여부 확인 및 K-에듀파인 시행 공문 번호(진해고등학교-XXXXX) 확인.
+
   2. **2026학년도 1학기 애향삼품 장학금 지급 기안 상신 (발전기금 지출품의 연계)**:
+
      * 1단계에서 확인한 공문 번호를 본문 1번 관련에 기입.
+
      * K-에듀파인 [발전기금회계] -> [지출품의]에서 '2026학년도 1학기 애향삼품 장학금 지급(3,200,000원)' 품의 연계.
+
      * 대상: 4명 (김지호, 정서윤, 정하윤, 윤영 / 1인당 80만 원, 총 320만 원).
+
      * 결재선 협조자: **행정실 발전기금 담당 주무관, 행정실장** 필수 지정.
+
      * 기안문 HWP/PDF: 바탕 화면 및 애향삼품 폴더에 이미 완비되어 있음.
+
   3. **장학생 감사편지 및 추천서 우편 발송 준비**:
+
      * 수취인: 조카며느리 **이경자 님** 귀하 (창원시 진해구 천자로 386 마린푸르지오 111-1901, 우편번호 51628, ☎ 010-8538-3080).
+
      * 봉투 출력 라벨: 바탕 화면 애향삼품 장학금 감사편지 우편발송 라벨.hwp 활용.
+
   4. **진해고 동창회 장학금 수여식 일정 교장선생님 컨펌**:
+
      * 교장선생님께 9월 21일(월) 6교시 홈베이스 수여식 확정 구두 보고.
+
   5. **행정실장님 교직원 밴드 축제 공연 제안 (일렉 기타 & 통기타 합주)**:
+
      * 행정실장님(일렉 기타 연주)께 이번 교내 축제 때 황요한 선생님(통기타)과 함께 밴드 공연을 함께하자는 제안 드리기.
+
      * 애향삼품 장학금 발전기금 지출품의 협조 결재 또는 월요일 차담 시 자연스럽게 제안 및 곡/편성 의논.
 
 
+
+
+
 ## 71. 교내 축제 교직원 밴드 공연 기획 (행정실장님 일렉 기타 & 황요한 선생님 통기타 합주) (2026-09-04)
+
 - **개요:** 교내 축제 무대에서 행정실장님과 함께하는 교직원 밴드 공연을 추진하기 위한 기획 메모 및 알림 지침.
+
 - **악기 편성 및 참여자:**
+
   * **행정실장님:** 일렉 기타 (Electric Guitar)
+
   * **황요한 선생님:** 통기타 (Acoustic Guitar)
+
   * (추후 드럼, 베이스, 건반, 보컬 등 추가 멤버 섭외 확장 가능)
+
 - **추진 방향 및 알림 지침:**
+
   * 2026년 9월 7일(월) 출근 아침 브리핑 시 필수 상기 항목으로 포함하여 리마인드.
+
   * 행정실 발전기금 지출품의 협조 결재 논의 또는 차담 시 편안하고 유쾌한 분위기에서 축제 무대 합주 제안을 드릴 수 있도록 조력.
 
 
 
+
+
+
+
 ## 72. 진해고 총동창회 장학증서 수여식 날짜 확정(9월 21일 월요일 6교시) 및 수여 대상(최신 2학기 장학생 6명) 한정 지침 (2026-09-05)
+
 - **개요**: 진해고등학교 총동창회장님과의 일정 조율 결과, **2026년 9월 21일(월)**에 참석이 가능하시다는 회신을 확인함. 이번 수여식은 1학기 선발자가 아닌 **가장 최근(8월 26일 심의·추천)에 올린 2학기 총동창회 장학생 6명만을 단독 대상**으로 진행함.
+
 - **수여 대상 장학생 (최신 2학기 선발 6명 전원)**:
+
   * **2학년 (3명)**: 이성민(2-5), 서용준(2-3), 김동희(2-4)
+
   * **3학년 (3명)**: 박형주(3-1), 김도윤(3-8), 고규원(3-9)
+
   * *(장학 금액: 1인당 50만 원, 총 3,000,000원)*
+
 - **수여식 확정 추진 안**:
+
   * **일시**: **2026년 9월 21일(월) 6교시** (장학담당 황요한 교사 월요일 6교시 공강 시간대로 완벽 일치)
+
   * **장소**: **본관 1층 홈베이스** (사전 쿨메신저 점검 완료, 사용 가능)
+
   * **참석 대상**: 총동창회장님, 교장, 교감, 교무기획부장, 장학담당 교사(황요한), 2학기 수혜 장학생 6명
+
 - **2026년 9월 7일(월) 아침 교장선생님 보고 지침**:
+
   * **보고 요지**: "교장선생님, 출장 잘 다녀오셨습니까. 총동창회 장학증서 수여식 관련하여 총동창회장님과 일정을 조율한 결과, 9월 21일(월)에 참석이 가능하시다고 연락을 받았습니다. 이에 따라 **가장 최근에 추천 올린 2학기 장학생 6명**을 대상으로 **9월 21일(월) 6교시 본관 1층 홈베이스**에서 수여식을 진행하고자 하는데, 교장선생님 일정과 학교 일정상 이렇게 추진해도 괜찮으실지 여쭙고자 합니다."
+
   * **컨펌 후 후속 조치**: 교장선생님 최종 재가 후 총동창회 사무간사님께 확정 일자 통보, 수혜 학생 6명 및 해당 학급 담임교사에게 수여식 참석 안내, 수여식 세부 식순 및 시나리오 준비.
 
 
+
+
+
 ## 73. 2026학년도 2학기 1차 지필평가 출제 유의사항, 과목코드 및 시험원안 표준 지침 (2026-09-07)
+
 - **개요:** 2026학년도 2학기 1차 지필평가(중간고사) 시험원안 출제, 이원목적분류표(문항정보표), 서·논술형 답안지 및 채점기준표 작성, 나이스 추정분할점수 산출에 관한 진해고등학교 공식 지침 총괄 요약입니다.
+
 - **원본 폴더:** `D:\OneDrive - 경상남도교육청\바탕 화면\1-3. 2학기 1차 시험 원안 양식`
+
 - **핵심 2학기 과목코드 (국어과 중심)**:
+
   * **1학년:** `공통국어2` ➔ **01** (공통수학2: 02, 공통영어2: 03, 한국사2: 04, 통합사회2: 05, 통합과학2: 06)
+
   * **2학년:** **`화법과 언어` ➔ 01** (문학과 영상: 02, 미적분Ⅰ: 03, 기하: 04, 경제 수학: 05, 영어Ⅱ: 06)
+
   * **3학년:** **`심화 국어` ➔ 01** (심화 수학Ⅰ: 02, 심화 수학Ⅱ: 03, 인공지능 수학: 04, 심화 영어 독해Ⅰ: 05)
+
 - **시험원안 작성 5대 필수 서식 규칙**:
+
   1. **과목명 정식 표기:** 교육과정에 명시된 과목명 그대로 기재 (예: '화법과 언어' O, '화언' X).
+
   2. **100점 만점 및 역배점 금지:** 총점은 반드시 100점 만점이어야 하며, 문항 수준(난이도)이 높은 문항에 높은 배점을 부여하고 난이도 낮은 문항에 높은 점수를 주는 **역배점 절대 금지**.
+
   3. **문항별 배점 표기:** 문제지 문항 끝에 한 칸 띄우고 `... 한 것은? [3.2점]` 형식으로 명시. 배점만 다음 줄로 넘어갈 경우 행 오른쪽 끝에 배치.
+
   4. **쪽수 및 머리말 표기:** `진해고등학교 2학기 1차 시험 2학년 화법과 언어 총 O쪽 중 O쪽` 형식 준수.
+
   5. **전체 문항수 및 배점 구분:** 표두에 `선택형 ( )문항 (00점), 서·논술형 ( )문항 (00점), 총점 100점` 명확히 구분 기재.
+
 - **출제 및 보안 7대 엄격 수칙 (감사 지적 및 재시험 방지)**:
+
   1. **기출문제 및 시판 참고서 전재 금지:** 인근 학원 DB화 및 저작권·공정성 문제로 기출문제 및 시판 문제집 문제 그대로 전재 또는 단순 변형 출제 절대 금지.
+
   2. **수업 미지도 내용 출제 금지:** 수업 중 가르치지 않은 내용 출제 금지. 학급별 진도 격차 없도록 사전 조율.
+
   3. ★ **평가 전 문항 외부 AI 입력 금지:** 평가 전 평가 문항 관련 정보를 SNS에 게시하거나 **ChatGPT 등 생성형 AI에 입력·점검하는 행위 일체 금지 (보안 유출 위험)**.
+
   4. **종교·정치적 중립성:** 특정 종교나 정치적 편향성을 띤 문항 출제 엄금.
+
   5. **동일 교과 교차 검토:** 동일 학년/교과 교사가 1인인 경우, 타 학년 동일 교과 교사와 교차 검토 의무화.
+
   6. **오류 문항 임의 처리 금지:** 출제 오류 발생 시 교사 임의로 삭제/무효 처리 불가하며, 학업성적관리위원회 심의 및 공식 이의신청 절차를 거쳐야 함.
+
 - **발문 및 문법 표기 정밀 원칙**:
+
   * **부정형 발문:** 밑줄 표기 필수 ➔ `... 하지 <u>않은</u> 것은?`, `... 적절하지 <u>않은</u> 것은?`
+
   * **품사별 올바른 용언 표기:**
+
     - 형용사 '알맞다' ➔ `알맞지 <u>않은</u> 것은?` ('알맞지 않는' X)
+
     - 동사 '맞다' ➔ `맞지 <u>않는</u> 것은?` ('맞지 않은' X)
+
   * **합답형 문두:** 선지 구성 항목 수가 다를 때 ➔ `<보기>에서 옳은 것만을 <u>있는 대로</u> 고른 것은?`
+
   * **기호 사용 표준:**
+
     - 학생 선택 요구 항목: `ㄱ, ㄴ, ㄷ, ㄹ`
+
     - 단순 내용 제시/불릿: `◎`, `•`
+
     - 밑줄 구절/단어 지칭: `㉠, ㉡, ㉢`
+
     - 그림 특정 부위: `A, B, C`
+
     - 표 내부 항목: `(가), (나), (다)`
+
   * **세트 문항:** `[1~2] 다음 글을 읽고 물음에 답하시오.` (대괄호 + 두루높임체 + 굵은 글꼴).
+
 - **서·논술형 답안지 및 채점기준표 양식 규격**:
+
   * **답안지 3종 양식:** 인쇄 및 제본 방식에 따라 `단면`, `양면(상철)`, `양면(좌철)` 중 선택 사용.
+
   * **채점기준표 필수 항목:** 문항별 정답, 배점, 유사 정답 인정 범위, 부분점수 부여 기준(단계별 득점 요건 및 구체적 감점 기준) 필수 명시.
+
 - **나이스(NEIS) 추정분할점수 산출 공식 절차**:
+
   * **경로:** `교과담임 ➔ 정기시험 ➔ 문항정보표관리 ➔ 조회 ➔ 내용영역, 성취기준, 난이도, 배점, 정답 입력 ➔ 저장 ➔ 마감(신중) ➔ 정기시험분할점수산정 ➔ 라운드별 점수 조정 ➔ 최종 입력마감`.
 
 
+
+
+
 ## 74. 황요한 교사 1학기 2차고사(기말고사) 문학 출제 및 거둠자료 분석 표준 (2026-09-07)
+
 - **개요:** 2026학년도 1학기 2차 지필평가(기말고사) 2학년 문학 과목에서 황요한 교사가 직접 출제 및 제출했던 나이스 문항정보표, 서·논술형 채점기준표, 지필평가 원안, 학생 답안지 4종 거둠자료 정밀 분석 기록입니다.
+
 - **보관 폴더:** `D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\수업\2026학년도 거둠작업\2학년 1학기고사\기말고사\2학년(황요한)`
+
 - **출제 기본 체계**:
+
   * **과목명 및 코드:** `문학(01)_일반` (코드: **01**)
+
   * **공동 출제 교사:** 강지영, 강필성, 이병의, **황요한** (4인 공동 출제)
+
   * **전체 배점 구조:** 총점 100점 만점 / 총 24문항 (선택형 18문항 55점 + 서답형 6문항 45점)
+
   * **서답형 공통 감점 조건 (표준 원칙):**
+
     1. 완결된 문장 형식(~다.)을 갖추지 않은 경우: **1점 감점**
+
     2. 핵심어가 맞춤법에 어긋난 경우: **1점 감점**
+
 - **황요한 교사 전담 출제 문항 및 심층 분석**:
+
   1. **선택형 13번 (3.8점 / 난이도: 어려움 / 정답: ④):**
+
      - 지문: 이범선, 「오발탄」
+
      - 발문: 철호가 치과에서 사랑니/충치를 한목에 다 뽑아달라고 고집하는 행위의 상징적 의미 파악.
+
      - 정답 취지: 가혹한 전후 현실에 굴복하는 무기력함과 자기 파괴적인 심리 표출 분석.
+
   2. **선택형 14번 (2.7점 / 난이도: 쉬움 / 정답: ②):**
+
      - 지문: 이범선, 「오발탄」
+
      - 발문: 학생들의 조별 발표 요약 내용 중 적절하지 않은 것 (배경, 오발탄의 의미, 비판적 리얼리즘, 상이군인의 현실, 결말의 의미).
+
      - 오답 선지: 오발탄의 의미가 '병원'의 모습을 뜻한다는 설명은 부적절.
+
   3. **서술형 5번 (총 8점 / 난이도: 보통 / 5-1 4점 + 5-2 4점):**
+
      - 발문: 등장인물이 처한 상황을 고려하여 "가자"가 가지는 상징적 의미를 각각 30자 이내(띄어쓰기 제외)로 서술.
+
      - **5-1 어머니의 "가자" (4점):** 고향(전쟁 전의 평화로운 삶/과거)으로 돌아가고 싶다는 절규이자 비극적 현실을 부정하려는 심리 상태 표출.
+
      - **5-2 철호/영호의 "가자" (4점):** 삶의 방향성을 잃어버린 절망과 좌절, 고통스러운 현실에서 벗어나고 싶다는 절박한 심리 상태의 표출.
+
      - **세부 채점/감점 기준:**
+
        * 의미가 통하는 경우 정답 인정.
+
        * 글자 수 30자 초과 시(한글 기준, 띄어쓰기 제외): **각 1점 감점**.
+
        * 종결어미 '~다.' 누락 시: **1점 감점**.
+
   4. **선택형 15번 (2.3점 / 난이도: 쉬움 / 정답: ④):**
+
      - 지문: 최두석 「대설주의보」 & 황지우 「새들도 세상을 뜨는구나」
+
      - 발문: 권력의 공간화 양상 비교 (공간의 성격, 억압의 주체, 시대적 알레고리 비교표 분석).
+
 - **출제 시사점 및 2학기 화법과 언어 적용 지침**:
+
   * 지문과 문항을 유기적으로 결합하여 세트화([13~14, 서술형 5])하는 수능형 문항 배치 선호.
+
   * 서술형 채점 기준 시 '핵심 키워드', '글자 수 제한', '문장 완결성(~다.)', '유사 정답 인정 범위'를 명문화하여 채점 분쟁 사전 차단.
+
   * 역배점 금지 원칙 철저 준수 (13번 난이도 '어려움'에 3.8점 고배점, 14·15번 '쉬움'에 2.7점, 2.3점 저배점 안배).
 
+
+
 ## 75. 2026학년도 2학기 9월 9일(수) 오후 특별 일과 운영 및 황요한 교사 수업·마감 일정 (2026-09-07)
+
 - **개요:** 2026년 9월 9일(수) 1·2학년 대학 학과 체험 행사 및 3학년 진로탐구활동 실시에 따라 오후 일과 시간이 변동 운영됨.
+
 - **9/9(수) 특별 일과 운영 시간표:**
+
   * **6교시:** 14:35 ~ 15:25 (※ 6교시와 7교시 사이 쉬는 시간 없이 연강 운영)
+
   * **7교시:** 15:25 ~ 16:15
+
   * **청소시간:** 16:15 ~ 16:30 (15분간)
+
   * **8교시:** 16:40 ~ 17:30 (50분간)
+
 - **황요한 교사 핵심 일정 및 유의사항:**
+
   1. **6~7교시 (14:35~16:15):** 1·2학년 대학 학과 체험(1학년 계명대, 2학년 동아대) 시 황요한 교사는 배정된 강좌 없음(공강/연구실 교무 행정 및 시험 출제 집중). 3학년은 쉬는 시간 없이 6·7교시 연강으로 진로탐구활동 진행됨.
+
   2. **8교시 당김수업 (16:40~17:30):** 3학년 4반 심화국어 (수능 후 11/27 금요일 5교시분 당김). 기존 15:30이 아닌 **16:40**에 시작하므로 시간 착오 없도록 유의.
+
   3. **공문 발송 마감 (16:30까지):** 경남과고 면접문항 검토교사 추천 공문 발송 마감이 16:30이므로, 8교시 수업(16:40 시작) 들어가기 전인 청소시간(16:15~16:30) 이전에 최종 결재 및 발송을 마쳐야 함.
+
   4. **2학년 문법 중간고사 출제 마감:** 9월 9일(수)까지 본인 출제 문항 완성 및 동료 교사 출제본 취합 후 B4 마스터 시험지 편집 총괄 진행.
 
+
+
 ## 76. 2026학년도 2학기 진해고 교원 인사 변동 및 챗봇 기숙사 운영 규정 갱신 (2026-09-07)
+
 - **교원 인사 현황 (2026-09-01 자):**
+
   * **교장:** 오길환 교장 선생님
+
   * **교감:** **손세민** 교감 선생님 (※ 2026년 9월 1일 자로 손세민 교감 선생님 부임/변경 완료)
+
   * **챗봇 지식 베이스 탑재 원칙:** 교장 및 교감 선생님 성함은 챗봇 지식 베이스(`knowledge.txt`)에 일체 등재하지 않으며, 관련 문의 시 교무실(055-546-2260)로 안내하는 보안 원칙 유지.
+
 - **기숙사(송학관/동백관) 학기별 선발 및 유지 규정:**
+
   * **1학년 1학기 (신입생):** **중학교 내신 성적(석차백분율)** 100% 기준 선발 (진해 관내 5% 이내, 관외 30% 이내 우선 선발 쿼터).
+
   * **1학년 2학기 이후 (재학생):** **직전(전) 학기 고교 내신 성적 + 전국연합학력평가(모의고사) 성적**을 합산하여 정기 선발.
+
 - **기숙사 시설 리모델링 계획 방침:**
+
   * 현재 기숙사 리모델링 계획은 수립되어 있지 않음.
+
   * 향후 대대적인 시설 리모델링이나 환경 개선 사업 추진 시 **학교 누리집(홈페이지) 공지사항에 게시**하고, **학생 및 학부모님께 가정통신문 등을 통해 별도로 상세 안내**함.
 
 
+
+
+
 ## 76. 황요한 교사 나이스(NEIS) 개인번호 영구 등록 (2026-09-07)
+
 - **교원 성명:** 황요한 (진해고등학교 교사)
+
 - **나이스(NEIS) 개인번호:** S101087780
+
 - **설명:** 황요한 선생님의 나이스(NEIS) 교원 개인번호 정보입니다. 지필평가 문항정보표 등록, 분할점수 산출, 학교생활기록부 세특 및 출결 마감, 연수 및 교원인사 행정 서식 처리 등 나이스 전산 및 교무 행정 업무 처리 시 즉각 조회하여 활용할 수 있도록 영구 메모리에 기록함.
 
+
+
 ## 77. 2026년 9월 8일(화) 아침 브리핑 필수 상기 지침 (애향삼품 행정실 정미정 계장님 집행 & 감사편지 우편 발송) (2026-09-07)
+
 - **개요:** 2026년 9월 8일(화) 출근 직후 황요한 선생님께 브리핑드릴 때 반드시 포함해야 할 애향삼품 2대 마감 업무.
+
 - **아침 필수 브리핑 항목:**
+
   1. **행정실 정미정 계장님께 애향삼품 장학금 지급 집행 요청:**
+
      * 기안문 「2026학년도 1학기 애향삼품 장학금 지급」 결재 완료 확인.
+
      * 행정실 정미정 계장님(발전기금/지출 담당)께 발전기금 통장에서 장학생 4명 계좌로 입금 집행 요청:
+
        - 2-4 김지호 (800,000원)
+
        - 2-6 정서윤 (800,000원)
+
        - 3-6 정하윤 (800,000원)
+
        - 3-8 윤영 (800,000원) / 총 3,200,000원
+
   2. **기탁자 댁 감사편지 및 추천서 우편(등기) 발송:**
+
      * 동봉 서류: 장학생 4명의 자필 감사편지 4부 + 담임교사 추천서 4부 (총 8쪽 원본/출력본).
+
      * 봉투 라벨: 바탕화면 애향삼품 장학금 감사편지 우편발송 라벨.hwp 출력 후 대봉투 부착.
+
      * 수취인: 조카며느리 **이경자 님 귀하** (창원시 진해구 천자로 386 마린푸르지오 111동 1901호, 우편번호 51628, ☎ 010-8538-3080).
+
      * 팁: 행정실 정미정 계장님께 장학금 입금 요청 시 행정실 우편 발송함에 함께 전달하면 원스톱 처리 가능.
+
   3. **업무용 컴퓨터에서 주간 대입 알리미 v4.1 클로드 최종 재검증 및 가동 완료:**
+
      * **사유:** 9월 7일 밤 원격 접속 환경의 가상 데스크톱 마우스 락 제약으로 미뤄둔 클로드 최종 검토 작업을 학교 업무용 PC에서 원클릭 완료.
+
      * **실행 절차:** 학교 업무용 PC에서 클로드 대화창을 열고 다음 한 줄 입력:
+
         `admission_v40_review/입시봇_v41_최종검증_의뢰서.md 파일을 읽고 최종 재검증해줘`
+
      * **후속 조치:** 클로드의 최종 승인 확인 후, 실전 발송 테스트(python admission_news.py run_now) 또는 매주 수요일 11:00 정기 스케줄 무인 자동화 상태 확인.
 
+
+
 ## 78. 주간 대입 입시 알리미 v4.1 멀티에이전트 오케스트레이션 개편 및 클로드 3중 정밀 감사 완결 (2026-09-08)
+
 - **개요:** 주간 대입 입시 정보 큐레이션 및 팩트 알리미(`admission_news.py`)를 5단계 멀티에이전트 시스템(리서처 -> 병렬 감사관 2A/2B -> 내용 검토관 -> 레이아웃 에디터 -> 구글 드라이브 퍼블리셔 -> 텔레그램 카드 전송관)으로 전면 개편하고, 클로드 독립 3중 감사를 통해 P0 2건, P1 7건, P2 8건, F 3건, G 1건을 100% 완벽 해결함.
+
 - **핵심 기술 조치 및 보안 확립**:
+
   1. **보안 및 인증 (P0-1, P0-2, G-1):** 소스 내 텔레그램 토큰 평문 하드코딩 완전 삭제(`.env` 일원화), `verify=False` 및 `CERT_NONE` 영구 퇴출. Python 3.10+ 공식 표준 `truststore`(`truststore.inject_into_ssl()`)를 적용하여 Windows OS 공식 인증서 저장소(스쿨넷 루트 CA 포함)와 직결, 무결한 TLS 검증 달성.
+
 ## 69. 애향삼품 장학금 기탁자 및 감사편지 우편물 발송처 지침 (2026-09-04)
+
 - **개요**: 애향삼품 장학금 수혜 학생들의 감사편지 및 추천서 등 우편물 발송 시 필요한 공식 수취인 정보 및 주소 규칙.
+
 - **기탁자 정보 (참고)**:
+
   * 성명: 이흥순 할머니
+
   * 원주소: 창원시 진해구 여좌동 90-22
+
   * 연락처: 010-8538-3080
+
 - **실제 우편물 발송 수취처 (필수 적용)**:
+
   * 수취인: 조카며느리 **이경자 님**
+
   * 우편물 발송 주소: **창원시 진해구 천자로 386 마린푸르지오 아파트 111동 1901호**
+
   * 우편번호: **51628**
+
   * 연락처: **010-8538-3080**
+
 - **행정 발송 원칙**:
+
   * 장학생들이 자필로 작성한 선발 감사편지 및 추천서 등 일체의 대외 발송 우편물은 여좌동 본가가 아닌 **조카며느리 이경자 님 댁(마린푸르지오)**으로 발송하여야 수령 및 전달이 정상적으로 이루어짐.
 
 
+
+
+
 ## 70. 2026년 9월 7일(월) 아침 브리핑 필수 상기 지침 (애향삼품 장학금 협의록 결재 확인 및 발전기금 지급 기안) (2026-09-04)
+
 - **개요**: 2026년 9월 4일(금) 상신한 애향삼품 장학생 선발 심의위원회 협의록 기안이 결재 진행 중이므로, 다음 주 월요일(9월 7일) 아침 일정 브리핑 시 다음 3대 후속 행정 절차를 필수 상기 항목으로 포함하여 안내할 것.
+
 - **월요일 필수 브리핑 체크리스트**:
+
   1. **애향삼품 장학생 선발 심의위원회 협의록 결재 확인**:
+
      * 학교장 결재 완료 여부 확인 및 K-에듀파인 시행 공문 번호(진해고등학교-XXXXX) 확인.
+
   2. **2026학년도 1학기 애향삼품 장학금 지급 기안 상신 (발전기금 지출품의 연계)**:
+
      * 1단계에서 확인한 공문 번호를 본문 1번 관련에 기입.
+
      * K-에듀파인 [발전기금회계] -> [지출품의]에서 '2026학년도 1학기 애향삼품 장학금 지급(3,200,000원)' 품의 연계.
+
      * 대상: 4명 (김지호, 정서윤, 정하윤, 윤영 / 1인당 80만 원, 총 320만 원).
+
      * 결재선 협조자: **행정실 발전기금 담당 주무관, 행정실장** 필수 지정.
+
      * 기안문 HWP/PDF: 바탕 화면 및 애향삼품 폴더에 이미 완비되어 있음.
+
   3. **장학생 감사편지 및 추천서 우편 발송 준비**:
+
      * 수취인: 조카며느리 **이경자 님** 귀하 (창원시 진해구 천자로 386 마린푸르지오 111-1901, 우편번호 51628, ☎ 010-8538-3080).
+
      * 봉투 출력 라벨: 바탕 화면 애향삼품 장학금 감사편지 우편발송 라벨.hwp 활용.
+
   4. **진해고 동창회 장학금 수여식 일정 교장선생님 컨펌**:
+
      * 교장선생님께 9월 21일(월) 6교시 홈베이스 수여식 확정 구두 보고.
+
   5. **행정실장님 교직원 밴드 축제 공연 제안 (일렉 기타 & 통기타 합주)**:
+
      * 행정실장님(일렉 기타 연주)께 이번 교내 축제 때 황요한 선생님(통기타)과 함께 밴드 공연을 함께하자는 제안 드리기.
+
      * 애향삼품 장학금 발전기금 지출품의 협조 결재 또는 월요일 차담 시 자연스럽게 제안 및 곡/편성 의논.
 
 
+
+
+
 ## 71. 교내 축제 교직원 밴드 공연 기획 (행정실장님 일렉 기타 & 황요한 선생님 통기타 합주) (2026-09-04)
+
 - **개요:** 교내 축제 무대에서 행정실장님과 함께하는 교직원 밴드 공연을 추진하기 위한 기획 메모 및 알림 지침.
+
 - **악기 편성 및 참여자:**
+
   * **행정실장님:** 일렉 기타 (Electric Guitar)
+
   * **황요한 선생님:** 통기타 (Acoustic Guitar)
+
   * (추후 드럼, 베이스, 건반, 보컬 등 추가 멤버 섭외 확장 가능)
+
 - **추진 방향 및 알림 지침:**
+
   * 2026년 9월 7일(월) 출근 아침 브리핑 시 필수 상기 항목으로 포함하여 리마인드.
+
   * 행정실 발전기금 지출품의 협조 결재 논의 또는 차담 시 편안하고 유쾌한 분위기에서 축제 무대 합주 제안을 드릴 수 있도록 조력.
 
 
 
+
+
+
+
 ## 72. 진해고 총동창회 장학증서 수여식 날짜 확정(9월 21일 월요일 6교시) 및 수여 대상(최신 2학기 장학생 6명) 한정 지침 (2026-09-05)
+
 - **개요**: 진해고등학교 총동창회장님과의 일정 조율 결과, **2026년 9월 21일(월)**에 참석이 가능하시다는 회신을 확인함. 이번 수여식은 1학기 선발자가 아닌 **가장 최근(8월 26일 심의·추천)에 올린 2학기 총동창회 장학생 6명만을 단독 대상**으로 진행함.
+
 - **수여 대상 장학생 (최신 2학기 선발 6명 전원)**:
+
   * **2학년 (3명)**: 이성민(2-5), 서용준(2-3), 김동희(2-4)
+
   * **3학년 (3명)**: 박형주(3-1), 김도윤(3-8), 고규원(3-9)
+
   * *(장학 금액: 1인당 50만 원, 총 3,000,000원)*
+
 - **수여식 확정 추진 안**:
+
   * **일시**: **2026년 9월 21일(월) 6교시** (장학담당 황요한 교사 월요일 6교시 공강 시간대로 완벽 일치)
+
   * **장소**: **본관 1층 홈베이스** (사전 쿨메신저 점검 완료, 사용 가능)
+
   * **참석 대상**: 총동창회장님, 교장, 교감, 교무기획부장, 장학담당 교사(황요한), 2학기 수혜 장학생 6명
+
 - **2026년 9월 7일(월) 아침 교장선생님 보고 지침**:
+
   * **보고 요지**: "교장선생님, 출장 잘 다녀오셨습니까. 총동창회 장학증서 수여식 관련하여 총동창회장님과 일정을 조율한 결과, 9월 21일(월)에 참석이 가능하시다고 연락을 받았습니다. 이에 따라 **가장 최근에 추천 올린 2학기 장학생 6명**을 대상으로 **9월 21일(월) 6교시 본관 1층 홈베이스**에서 수여식을 진행하고자 하는데, 교장선생님 일정과 학교 일정상 이렇게 추진해도 괜찮으실지 여쭙고자 합니다."
+
   * **컨펌 후 후속 조치**: 교장선생님 최종 재가 후 총동창회 사무간사님께 확정 일자 통보, 수혜 학생 6명 및 해당 학급 담임교사에게 수여식 참석 안내, 수여식 세부 식순 및 시나리오 준비.
 
 
+
+
+
 ## 73. 2026학년도 2학기 1차 지필평가 출제 유의사항, 과목코드 및 시험원안 표준 지침 (2026-09-07)
+
 - **개요:** 2026학년도 2학기 1차 지필평가(중간고사) 시험원안 출제, 이원목적분류표(문항정보표), 서·논술형 답안지 및 채점기준표 작성, 나이스 추정분할점수 산출에 관한 진해고등학교 공식 지침 총괄 요약입니다.
+
 - **원본 폴더:** `D:\OneDrive - 경상남도교육청\바탕 화면\1-3. 2학기 1차 시험 원안 양식`
+
 - **핵심 2학기 과목코드 (국어과 중심)**:
+
   * **1학년:** `공통국어2` ➔ **01** (공통수학2: 02, 공통영어2: 03, 한국사2: 04, 통합사회2: 05, 통합과학2: 06)
+
   * **2학년:** **`화법과 언어` ➔ 01** (문학과 영상: 02, 미적분Ⅰ: 03, 기하: 04, 경제 수학: 05, 영어Ⅱ: 06)
+
   * **3학년:** **`심화 국어` ➔ 01** (심화 수학Ⅰ: 02, 심화 수학Ⅱ: 03, 인공지능 수학: 04, 심화 영어 독해Ⅰ: 05)
+
 - **시험원안 작성 5대 필수 서식 규칙**:
+
   1. **과목명 정식 표기:** 교육과정에 명시된 과목명 그대로 기재 (예: '화법과 언어' O, '화언' X).
+
   2. **100점 만점 및 역배점 금지:** 총점은 반드시 100점 만점이어야 하며, 문항 수준(난이도)이 높은 문항에 높은 배점을 부여하고 난이도 낮은 문항에 높은 점수를 주는 **역배점 절대 금지**.
+
   3. **문항별 배점 표기:** 문제지 문항 끝에 한 칸 띄우고 `... 한 것은? [3.2점]` 형식으로 명시. 배점만 다음 줄로 넘어갈 경우 행 오른쪽 끝에 배치.
+
   4. **쪽수 및 머리말 표기:** `진해고등학교 2학기 1차 시험 2학년 화법과 언어 총 O쪽 중 O쪽` 형식 준수.
+
   5. **전체 문항수 및 배점 구분:** 표두에 `선택형 ( )문항 (00점), 서·논술형 ( )문항 (00점), 총점 100점` 명확히 구분 기재.
+
 - **출제 및 보안 7대 엄격 수칙 (감사 지적 및 재시험 방지)**:
+
   1. **기출문제 및 시판 참고서 전재 금지:** 인근 학원 DB화 및 저작권·공정성 문제로 기출문제 및 시판 문제집 문제 그대로 전재 또는 단순 변형 출제 절대 금지.
+
   2. **수업 미지도 내용 출제 금지:** 수업 중 가르치지 않은 내용 출제 금지. 학급별 진도 격차 없도록 사전 조율.
+
   3. ★ **평가 전 문항 외부 AI 입력 금지:** 평가 전 평가 문항 관련 정보를 SNS에 게시하거나 **ChatGPT 등 생성형 AI에 입력·점검하는 행위 일체 금지 (보안 유출 위험)**.
+
   4. **종교·정치적 중립성:** 특정 종교나 정치적 편향성을 띤 문항 출제 엄금.
+
   5. **동일 교과 교차 검토:** 동일 학년/교과 교사가 1인인 경우, 타 학년 동일 교과 교사와 교차 검토 의무화.
+
   6. **오류 문항 임의 처리 금지:** 출제 오류 발생 시 교사 임의로 삭제/무효 처리 불가하며, 학업성적관리위원회 심의 및 공식 이의신청 절차를 거쳐야 함.
+
 - **발문 및 문법 표기 정밀 원칙**:
+
   * **부정형 발문:** 밑줄 표기 필수 ➔ `... 하지 <u>않은</u> 것은?`, `... 적절하지 <u>않은</u> 것은?`
+
   * **품사별 올바른 용언 표기:**
+
     - 형용사 '알맞다' ➔ `알맞지 <u>않은</u> 것은?` ('알맞지 않는' X)
+
     - 동사 '맞다' ➔ `맞지 <u>않는</u> 것은?` ('맞지 않은' X)
+
   * **합답형 문두:** 선지 구성 항목 수가 다를 때 ➔ `<보기>에서 옳은 것만을 <u>있는 대로</u> 고른 것은?`
+
   * **기호 사용 표준:**
+
     - 학생 선택 요구 항목: `ㄱ, ㄴ, ㄷ, ㄹ`
+
     - 단순 내용 제시/불릿: `◎`, `•`
+
     - 밑줄 구절/단어 지칭: `㉠, ㉡, ㉢`
+
     - 그림 특정 부위: `A, B, C`
+
     - 표 내부 항목: `(가), (나), (다)`
+
   * **세트 문항:** `[1~2] 다음 글을 읽고 물음에 답하시오.` (대괄호 + 두루높임체 + 굵은 글꼴).
+
 - **서·논술형 답안지 및 채점기준표 양식 규격**:
+
   * **답안지 3종 양식:** 인쇄 및 제본 방식에 따라 `단면`, `양면(상철)`, `양면(좌철)` 중 선택 사용.
+
   * **채점기준표 필수 항목:** 문항별 정답, 배점, 유사 정답 인정 범위, 부분점수 부여 기준(단계별 득점 요건 및 구체적 감점 기준) 필수 명시.
+
 - **나이스(NEIS) 추정분할점수 산출 공식 절차**:
+
   * **경로:** `교과담임 ➔ 정기시험 ➔ 문항정보표관리 ➔ 조회 ➔ 내용영역, 성취기준, 난이도, 배점, 정답 입력 ➔ 저장 ➔ 마감(신중) ➔ 정기시험분할점수산정 ➔ 라운드별 점수 조정 ➔ 최종 입력마감`.
 
 
+
+
+
 ## 74. 황요한 교사 1학기 2차고사(기말고사) 문학 출제 및 거둠자료 분석 표준 (2026-09-07)
+
 - **개요:** 2026학년도 1학기 2차 지필평가(기말고사) 2학년 문학 과목에서 황요한 교사가 직접 출제 및 제출했던 나이스 문항정보표, 서·논술형 채점기준표, 지필평가 원안, 학생 답안지 4종 거둠자료 정밀 분석 기록입니다.
+
 - **보관 폴더:** `D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\수업\2026학년도 거둠작업\2학년 1학기고사\기말고사\2학년(황요한)`
+
 - **출제 기본 체계**:
+
   * **과목명 및 코드:** `문학(01)_일반` (코드: **01**)
+
   * **공동 출제 교사:** 강지영, 강필성, 이병의, **황요한** (4인 공동 출제)
+
   * **전체 배점 구조:** 총점 100점 만점 / 총 24문항 (선택형 18문항 55점 + 서답형 6문항 45점)
+
   * **서답형 공통 감점 조건 (표준 원칙):**
+
     1. 완결된 문장 형식(~다.)을 갖추지 않은 경우: **1점 감점**
+
     2. 핵심어가 맞춤법에 어긋난 경우: **1점 감점**
+
 - **황요한 교사 전담 출제 문항 및 심층 분석**:
+
   1. **선택형 13번 (3.8점 / 난이도: 어려움 / 정답: ④):**
+
      - 지문: 이범선, 「오발탄」
+
      - 발문: 철호가 치과에서 사랑니/충치를 한목에 다 뽑아달라고 고집하는 행위의 상징적 의미 파악.
+
      - 정답 취지: 가혹한 전후 현실에 굴복하는 무기력함과 자기 파괴적인 심리 표출 분석.
+
   2. **선택형 14번 (2.7점 / 난이도: 쉬움 / 정답: ②):**
+
      - 지문: 이범선, 「오발탄」
+
      - 발문: 학생들의 조별 발표 요약 내용 중 적절하지 않은 것 (배경, 오발탄의 의미, 비판적 리얼리즘, 상이군인의 현실, 결말의 의미).
+
      - 오답 선지: 오발탄의 의미가 '병원'의 모습을 뜻한다는 설명은 부적절.
+
   3. **서술형 5번 (총 8점 / 난이도: 보통 / 5-1 4점 + 5-2 4점):**
+
      - 발문: 등장인물이 처한 상황을 고려하여 "가자"가 가지는 상징적 의미를 각각 30자 이내(띄어쓰기 제외)로 서술.
+
      - **5-1 어머니의 "가자" (4점):** 고향(전쟁 전의 평화로운 삶/과거)으로 돌아가고 싶다는 절규이자 비극적 현실을 부정하려는 심리 상태 표출.
+
      - **5-2 철호/영호의 "가자" (4점):** 삶의 방향성을 잃어버린 절망과 좌절, 고통스러운 현실에서 벗어나고 싶다는 절박한 심리 상태의 표출.
+
      - **세부 채점/감점 기준:**
+
        * 의미가 통하는 경우 정답 인정.
+
        * 글자 수 30자 초과 시(한글 기준, 띄어쓰기 제외): **각 1점 감점**.
+
        * 종결어미 '~다.' 누락 시: **1점 감점**.
+
   4. **선택형 15번 (2.3점 / 난이도: 쉬움 / 정답: ④):**
+
      - 지문: 최두석 「대설주의보」 & 황지우 「새들도 세상을 뜨는구나」
+
      - 발문: 권력의 공간화 양상 비교 (공간의 성격, 억압의 주체, 시대적 알레고리 비교표 분석).
+
 - **출제 시사점 및 2학기 화법과 언어 적용 지침**:
+
   * 지문과 문항을 유기적으로 결합하여 세트화([13~14, 서술형 5])하는 수능형 문항 배치 선호.
+
   * 서술형 채점 기준 시 '핵심 키워드', '글자 수 제한', '문장 완결성(~다.)', '유사 정답 인정 범위'를 명문화하여 채점 분쟁 사전 차단.
+
   * 역배점 금지 원칙 철저 준수 (13번 난이도 '어려움'에 3.8점 고배점, 14·15번 '쉬움'에 2.7점, 2.3점 저배점 안배).
 
+
+
 ## 75. 2026학년도 2학기 9월 9일(수) 오후 특별 일과 운영 및 황요한 교사 수업·마감 일정 (2026-09-07)
+
 - **개요:** 2026년 9월 9일(수) 1·2학년 대학 학과 체험 행사 및 3학년 진로탐구활동 실시에 따라 오후 일과 시간이 변동 운영됨.
+
 - **9/9(수) 특별 일과 운영 시간표:**
+
   * **6교시:** 14:35 ~ 15:25 (※ 6교시와 7교시 사이 쉬는 시간 없이 연강 운영)
+
   * **7교시:** 15:25 ~ 16:15
+
   * **청소시간:** 16:15 ~ 16:30 (15분간)
+
   * **8교시:** 16:40 ~ 17:30 (50분간)
+
 - **황요한 교사 핵심 일정 및 유의사항:**
+
   1. **6~7교시 (14:35~16:15):** 1·2학년 대학 학과 체험(1학년 계명대, 2학년 동아대) 시 황요한 교사는 배정된 강좌 없음(공강/연구실 교무 행정 및 시험 출제 집중). 3학년은 쉬는 시간 없이 6·7교시 연강으로 진로탐구활동 진행됨.
+
   2. **8교시 당김수업 (16:40~17:30):** 3학년 4반 심화국어 (수능 후 11/27 금요일 5교시분 당김). 기존 15:30이 아닌 **16:40**에 시작하므로 시간 착오 없도록 유의.
+
   3. **공문 발송 마감 (16:30까지):** 경남과고 면접문항 검토교사 추천 공문 발송 마감이 16:30이므로, 8교시 수업(16:40 시작) 들어가기 전인 청소시간(16:15~16:30) 이전에 최종 결재 및 발송을 마쳐야 함.
+
   4. **2학년 문법 중간고사 출제 마감:** 9월 9일(수)까지 본인 출제 문항 완성 및 동료 교사 출제본 취합 후 B4 마스터 시험지 편집 총괄 진행.
 
+
+
 ## 76. 2026학년도 2학기 진해고 교원 인사 변동 및 챗봇 기숙사 운영 규정 갱신 (2026-09-07)
+
 - **교원 인사 현황 (2026-09-01 자):**
+
   * **교장:** 오길환 교장 선생님
+
   * **교감:** **손세민** 교감 선생님 (※ 2026년 9월 1일 자로 손세민 교감 선생님 부임/변경 완료)
+
   * **챗봇 지식 베이스 탑재 원칙:** 교장 및 교감 선생님 성함은 챗봇 지식 베이스(`knowledge.txt`)에 일체 등재하지 않으며, 관련 문의 시 교무실(055-546-2260)로 안내하는 보안 원칙 유지.
+
 - **기숙사(송학관/동백관) 학기별 선발 및 유지 규정:**
+
   * **1학년 1학기 (신입생):** **중학교 내신 성적(석차백분율)** 100% 기준 선발 (진해 관내 5% 이내, 관외 30% 이내 우선 선발 쿼터).
+
   * **1학년 2학기 이후 (재학생):** **직전(전) 학기 고교 내신 성적 + 전국연합학력평가(모의고사) 성적**을 합산하여 정기 선발.
+
 - **기숙사 시설 리모델링 계획 방침:**
+
   * 현재 기숙사 리모델링 계획은 수립되어 있지 않음.
+
   * 향후 대대적인 시설 리모델링이나 환경 개선 사업 추진 시 **학교 누리집(홈페이지) 공지사항에 게시**하고, **학생 및 학부모님께 가정통신문 등을 통해 별도로 상세 안내**함.
 
 
+
+
+
 ## 76. 황요한 교사 나이스(NEIS) 개인번호 영구 등록 (2026-09-07)
+
 - **교원 성명:** 황요한 (진해고등학교 교사)
+
 - **나이스(NEIS) 개인번호:** S101087780
+
 - **설명:** 황요한 선생님의 나이스(NEIS) 교원 개인번호 정보입니다. 지필평가 문항정보표 등록, 분할점수 산출, 학교생활기록부 세특 및 출결 마감, 연수 및 교원인사 행정 서식 처리 등 나이스 전산 및 교무 행정 업무 처리 시 즉각 조회하여 활용할 수 있도록 영구 메모리에 기록함.
 
+
+
 ## 77. 2026년 9월 8일(화) 아침 브리핑 필수 상기 지침 (애향삼품 행정실 정미정 계장님 집행 & 감사편지 우편 발송) (2026-09-07)
+
 - **개요:** 2026년 9월 8일(화) 출근 직후 황요한 선생님께 브리핑드릴 때 반드시 포함해야 할 애향삼품 2대 마감 업무.
+
 - **아침 필수 브리핑 항목:**
+
   1. **행정실 정미정 계장님께 애향삼품 장학금 지급 집행 요청:**
+
      * 기안문 「2026학년도 1학기 애향삼품 장학금 지급」 결재 완료 확인.
+
      * 행정실 정미정 계장님(발전기금/지출 담당)께 발전기금 통장에서 장학생 4명 계좌로 입금 집행 요청:
+
        - 2-4 김지호 (800,000원)
+
        - 2-6 정서윤 (800,000원)
+
        - 3-6 정하윤 (800,000원)
+
        - 3-8 윤영 (800,000원) / 총 3,200,000원
+
   2. **기탁자 댁 감사편지 및 추천서 우편(등기) 발송:**
+
      * 동봉 서류: 장학생 4명의 자필 감사편지 4부 + 담임교사 추천서 4부 (총 8쪽 원본/출력본).
+
      * 봉투 라벨: 바탕화면 애향삼품 장학금 감사편지 우편발송 라벨.hwp 출력 후 대봉투 부착.
+
      * 수취인: 조카며느리 **이경자 님 귀하** (창원시 진해구 천자로 386 마린푸르지오 111동 1901호, 우편번호 51628, ☎ 010-8538-3080).
+
      * 팁: 행정실 정미정 계장님께 장학금 입금 요청 시 행정실 우편 발송함에 함께 전달하면 원스톱 처리 가능.
+
   3. **업무용 컴퓨터에서 주간 대입 알리미 v4.1 클로드 최종 재검증 및 가동 완료:**
+
      * **사유:** 9월 7일 밤 원격 접속 환경의 가상 데스크톱 마우스 락 제약으로 미뤄낸 클로드 최종 검토 작업을 학교 업무용 PC에서 원클릭 완료.
+
      * **실행 절차:** 학교 업무용 PC에서 클로드 대화창을 열고 다음 한 줄 입력:
+
         `admission_v40_review/입시봇_v41_최종검증_의뢰서.md 파일을 읽고 최종 재검증해줘`
+
      * **후속 조치:** 클로드의 최종 승인 확인 후, 실전 발송 테스트(python admission_news.py run_now) 또는 매주 수요일 11:00 정기 스케줄 무인 자동화 상태 확인.
 
+
+
 ## 78. 주간 대입 입시 알리미 v4.1 멀티에이전트 오케스트레이션 개편 및 클로드 3중 정밀 감사 완결 (2026-09-08)
+
 - **개요:** 주간 대입 입시 정보 큐레이션 및 팩트 알리미(`admission_news.py`)를 5단계 멀티에이전트 시스템(리서처 -> 병렬 감사관 2A/2B -> 내용 검토관 -> 레이아웃 에디터 -> 구글 드라이브 퍼블리셔 -> 텔레그램 카드 전송관)으로 전면 개편하고, 클로드 독립 3중 감사를 통해 P0 2건, P1 7건, P2 8건, F 3건, G 1건을 100% 완벽 해결함.
+
 - **핵심 기술 조치 및 보안 확립**:
+
   1. **보안 및 인증 (P0-1, P0-2, G-1):** 소스 내 텔레그램 토큰 평문 하드코딩 완전 삭제(`.env` 일원화), `verify=False` 및 `CERT_NONE` 영구 퇴출. Python 3.10+ 공식 표준 `truststore`(`truststore.inject_into_ssl()`)를 적용하여 Windows OS 공식 인증서 저장소(스쿨넷 루트 CA 포함)와 직결, 무결한 TLS 검증 달성.
+
   2. **팩트 감사관 신뢰성 (P1-3, P1-4, P1-5):** 응답 파싱 실패 시 `audit_failed: True` 격리 및 경고 로그 출력, 복수 JSON 블록 중 마지막 블록 채택, 감사 이슈 발생 시 구글 문서 상단 및 텔레그램 카드에 경고 박스 자동 주입.
+
   3. **병렬 Fan-Out 및 문서 격리 (P1-6, P1-8, F-1):** `ThreadPoolExecutor` 기반 Step 2A/2B 동시 병렬 실행, 드라이런(`--dry-run`) 시 비공개 유지, 구버전 공개 문서의 `anyone` 권한 완전 회수.
+
   4. **텔레그램 전송 안정성 (P1-7, F-2, F-3):** 3,800자 단위 줄 기반 분할(Line-based chunking)로 구글 문서 URL 절단 0건 달성, 마크다운 별표 탈락 방지용 대괄호(`【 】`) 헤더 도입.
+
 - **검증 및 실전 가동 결과**:
+
   * **25개 종합 테스트 하네스 (`test_admission_harness.py`):** 25/25 PASS (100% 통과).
+
   * **실전 라이브 발송:** 실제 8자리 봇 ID(`8821847852`) 및 Chat ID(`8518409134`)로 HTTP 200 OK 전송 성공 확인.
+
   * **스케줄링:** 매주 수요일 오전 11:00 무인 자동 가동 완비.
 
+
+
 ## 79. 2027학년도 진해고 신입생 입학설명회 사전신청 및 심층 입결 안내 지침 (2026-09-08)
+
 - **입학설명회 사전 신청 운영 방침:**
+
   * **안내 및 발송 시기:** **9월 말 ~ 10월 초**에 각 중학교로 사전 신청 안내 공문 및 신청 링크를 발송하여 확인하실 수 있도록 안내 예정.
+
   * **당일 참석 원칙:** 사전 신청을 하지 않았다고 해서 참석하지 못하는 것이 절대 아니며, 진해고에 관심 있는 중3 학생과 학부모라면 **누구나 사전 신청 여부와 상관없이 당일(10월 22일 목요일 18:30) 100% 자유롭게 참석 가능한 열린 행사**임을 명시.
+
 - **심층 입시 결과 및 등급별 지원 경향성 안내 지침:**
+
   * 우리 학교 학생들의 내신 등급별 대학 지원 경향성, 수시 전형별 상세 합격선, 학과별 진학 데이터 및 실제 합격 사례는 **10월 22일(목) 18:30 신입생 입학설명회 현장에서 전문적이고 심층적으로 다루어질 예정**임을 안내하여 설명회 참석을 자연스럽게 유도.
 
 
+
+
+
 ## 80. 2026년 복권기금 꿈사다리 SOS 장학금 교내 추천 접수 마감 및 후속 처리 지침 (2026-09-08)
+
 - **교내 추천 접수 마감 일시:** **2026년 9월 10일(목) 13:35까지**
+
 - **관련 공문 및 보관 위치:** 한국장학재단 접수 공문 (진해고등학교-11062)
+
   * 보관 경로: D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\업무(장학금 및 입학홍보)\2. 장학금\[한국장학재단] 2026년 복권기금 꿈사다리 SOS 장학금 선발 안내\
+
 - **교내 수합 방식:** 각 학급 담임교사로부터 쿨메신저 쪽지로 [ 학년-반 / 번호 / 학생 성명 / 위기 사유(간략히 1~2줄) ] 수합.
+
 - **장학담당자(황요한) 후속 처리 절차:**
+
   1. **학자금지원시스템 일괄 추천 등록:** 수합된 학생 명단을 바탕으로 한국장학재단 학자금지원시스템(`eduman.kosaf.go.kr`)에 추천 대상자 등록 (긴급구난 세부사유 선택 및 학교장 확인).
+
      * ※ 재단 공식 학교추천 마감: 2026. 9. 16.(수) 18:00
+
   2. **추천 학생 개별 안내:** 시스템 등록 완료 후 해당 학생에게 한국장학재단 누리집에서 직접 신청서(서식14) 업로드 및 보호자 온라인 전자서명 동의 완료하도록 안내 (재단 학생신청 마감: 2026. 9. 23.(수) 18:00).
+
      * ※ 학생 신청서 작성 시 학교명, 학생 성명 기재 금지(블라인드 평가 규칙 엄수).
+
   3. **취약계층 대리 신청 대응:** 조손가정, 방임, 부모 연락 두절 등으로 학생/보호자의 전자서명이 불가할 경우 '학교 대리 신청(붙임4 부록)' 트랙으로 교사가 직접 시스템에 서류 업로드 진행.
+
 - **장학금 주요 조건:**
+
   * 지원 금액: 10개월간 매월 30만 원 (총 300만 원, 전 학년 공통, 선발 후 9~10월분 소급 지급, 카드포인트)
+
   * 자격 요건: 소득(수급자·차상위 무관) 및 성적·출결·봉사 무관, 긴급구난 위기 학생, 별도 증빙서류 불요(학교추천으로 갈음), 교원 멘토링 활동 없음, 추천 인원 무제한.
 
 
+
+
+
 ## 81. 2027 오키나와 항공권 감시 봇 v2.4 구축 및 클로드 6차 최종 승인 배포 이력 (2026-09-08)
+
 - **개요:** 2027년 1월 부산(김해 PUS) ↔ 일본 오키나와(나하 OKA) 3인 가족(성인 2명 + 만 28개월 소아 1명) 왕복 직항 항공권 최저가/특가 모니터링 봇 및 GitHub Actions 무인 서버 워크플로우 구축 완료.
+
 - **클로드(Claude) 1~6차 적대적 검토 및 최종 승인 완수:**
+
   * **Protobuf Wire Format TFS 인코더 & 다바이트 태그 varint 디코더 완비:** 	rip_type=1(ROUND_TRIP), cabin=1(ECONOMY), passenger_types=[1, 1, 2](성인2+소아1) 바이트 정합성 독립 재현 검증 통과.
+
   * **Dual-Query Ratio Solver (성인 1인 대조 척도):** 라벨 없는 실제 구글 플라이트 카드에서 성인 1인 최저가(521,000원) 대조를 통해 3인 총액 1,498,500원(비율 2.88배) 100% 자동 확정.
+
   * **단일 장애점(SPOF) 방어:** okinawa_state.json 내 7일 캐시 폴백 및 조회 실패 시 텔레그램 긴급 점검 통지 연동.
+
   * **출발 시간대 엄격 필터링:** 07:00 ~ 16:30 주간 직항만 수집하고, 시각 미식별 카드 Fail-Closed 배제 및 편도가 혼재 시 왕복 max 채택.
+
   * **순수 함수 리팩토링:** pick_reference_from_cards() 순수 함수 추출 및 단위 테스트 6대 스위트 100% 통과.
+
   * **페이지 로드 최적화:** 1순위 여정의 1인 대조가를 2순위 여정과 공유(shared_ref_1p)하여 로드 횟수 4회 ➔ 3회로 25% 절감.
+
 - **저장소 및 운영 지침:**
+
   * **저장소:** https://github.com/hyh54311-dev/jinhae-admission-system.git
+
   * **핵심 파일:** okinawa_flight_tracker_bot.py, .github/workflows/okinawa_flight_price_tracker.yml, okinawa_state.json, 
+
 equirements.txt
+
   * **100% 무인 자동 감시 활성화 완료:** 워크플로우의 cron 스케줄이 활성화되어 **매일 2회(한국시간 09:00 / 17:00 KST)** 완전 무인 자동 스캔이 실행되며, 필요한 경우 언제든 GitHub Actions 콘솔에서 workflow_dispatch 수동 실행도 병행 가능.
 
 
+
+
+
 ## 82. 2026년 9월 10일(목) 2학년 화법과 언어 2학기 1차 지필평가 문항 검토 협의회 (2026-09-09)
+
 - **일시:** **2026년 9월 10일(목) 13:10 ~ 13:35** (점심시간)
+
 - **장소:** **2학년실** (본관 3층 2학년 교무실)
+
 - **대상 과목:** 2학년 화법과 언어 (2학기 1차 지필평가 출제 문항 상호 검토)
+
 - **주요 내용:** 출제 문항 오류 검토, 정답 시비 소지 차단, 난이도 및 배점 교차 점검.
+
 - **오후 연계 일정:**
+
   * **13:35:** 복권기금 SOS 장학금 교내 추천 접수 마감 (Rule 80, 쿨메신저 쪽지 수합 후 시스템 일괄 등록).
+
   * **13:35 (5교시):** 3학년 1반 심화국어 수업 이동.
 
 
+
+
+
 ## 83. 2027학년도 진해고등학교 교육과정 편성표(2027 신입생, 현 1학년, 현 2학년) 확정 데이터 및 즉각 호출 규정 (2026-09-10)
+
 - **개요:** 2026년 9월 확정된 진해고등학교의 2022 개정 교육과정 기반 3개년 교육과정 편성표 확정본에 관한 규정입니다.
+
 - **문서 보관 위치:**
+
   * **교무기획부:** `D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\교무기획부\교육과정\2027학년도 학교교육과정 편성표(안)_진해고등학교.xlsx` 및 `2027학년도_진해고등학교_교육과정_편성표_마스터_가이드.md`
+
   * **입학홍보:** `D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\업무(장학금 및 입학홍보)\3. 홍보\입학설명회\2027학년도 학교교육과정 편성표(안)_진해고등학교.xlsx` 및 `2027학년도_진해고등학교_교육과정_편성표_마스터_가이드.md`
+
 - **2022 개정 교육과정 총괄 이수 학점 (192학점 체계):**
+
   * **총 이수 학점:** 192학점 = 교과 174학점(학교지정 122 + 학생선택 52) + 창의적 체험활동 18학점.
+
   * **학기당 이수 학점:** 매 학기 **교과 29학점 + 창체 3학점 = 32학점** 균등 편성 (32학점 x 6학기 = 192학점).
+
 - **학년별 학교 지정 공통과목 (전 학년 공통):**
+
   * **1학년 (매 학기 29학점 100% 학교 지정):**
+
     - 1학기: 공통국어1(4), 공통수학1(4), 공통영어1(4), 한국사1(3), 통합사회1(3), 통합과학1(3), 과학탐구실험1(1, A~C), 체육1(2, A~C), 음악(2, 미술과 교차), 한문(3, 정보와 교차)
+
     - 2학기: 공통국어2(4), 공통수학2(4), 공통영어2(4), 한국사2(3), 통합사회2(3), 통합과학2(3), 과학탐구실험2(1, A~C), 체육2(2, A~C), 미술(2, 음악과 교차), 정보(3, 한문과 교차)
+
   * **2학년 (매 학기 학교 지정 17학점 + 학생 선택 12학점 = 29학점):**
+
     - 1학기 학교 지정: 문학(4), 대수(4), 영어Ⅰ(4), 스포츠 생활1(2), 음악 연주와 창작↔미술 창작(3)
+
     - 2학기 학교 지정: 화법과 언어(4), 미적분Ⅰ(4), 영어Ⅱ(4), 스포츠 생활2(2), 미술 창작↔음악 연주와 창작(3)
+
   * **3학년 (매 학기 학교 지정 15학점 + 학생 선택 14학점 = 29학점):**
+
     - 1학기 학교 지정: 독서와 작문(4), 확률과 통계(4), 영어 독해와 작문(4), 스포츠 문화(1), 인간과 심리(2, 교양 P/F)
+
     - 2학기 학교 지정: 주제 탐구 독서(4), 실용 통계(4), 심화 영어 독해와 작문(4), 스포츠 과학(1), 논술(2, 교양)
+
 - **코호트(대상 학년)별 학생 선택 과목군 및 핵심 차이점:**
+
   1. **2027학년도 신입생 (현 중3 / 2027학년도 1학년):**
+
      * 2-1: **선택군A** (사회/과학 일반 8과목 중 택3, 각 3학점 = 9) + **선택군B** (제2외국어/정보 4과목 중 택1: 일본어, 중국어, **언어생활과 한자**, **데이터 과학** ★신설 = 3) ➔ 12학점.
+
      * 2-2: **선택군C** (국수영외 진로 5과목 중 택1: 문학과 영상, 기하, 경제 수학, 세계 문화와 영어, **일본어 회화** = 3) + **선택군D** (사회/과학 진로 8과목 중 택3, 각 3학점 = 9) ➔ 12학점.
+
      * 3-1: **선택군E** (**기초·탐구 19과목 통합군 중 택4**, 각 3학점 = 12학점 ★자율성 극대화: 국어 독서 토론과 글쓰기, 수학 미적분Ⅱ, 영어 미디어 영어, 영어 **심화 영어**, 사회 6과목, 과학 9과목) + **선택군G** (교양 3과목 중 택1: 교육의 이해, 인간과 철학, 인간과 경제활동 = 2) ➔ 14학점.
+
      * 3-2: **선택군F** (융합탐구 5과목 중 택3, 각 4학점 = 12학점: 여행지리, 국제 관계의 이해, 윤리문제 탐구, 과학의 역사와 문화, 융합과학 탐구) + **선택군G** (교양 택1 연계 = 2) ➔ 14학점.
+
   2. **2026학년도 입학생 (현 1학년 / 2027학년도 2학년):**
+
      * 2-1: 선택군B가 **2과목**(일본어, 중국어) 중 택1.
+
      * 2-2: 선택군C에서 **일본어 회화** 개설 (심화 일본어 아님).
+
      * 3-1: **선택군E (국수영 4과목 중 택1: 독서 토론과 글쓰기, 미적분Ⅱ, 수학과 문화, 미디어 영어 = 3)** + **선택군F (탐구 15과목 중 택3 = 9)** 분리 편성.
+
      * 3-2: 선택군G (융합탐구 5과목 중 택3 = 12) + 선택군H (교양 = 2).
+
   3. **2025학년도 입학생 (현 2학년 / 2027학년도 3학년):**
+
      * 2-2: 선택군C에서 일본어 회화 대신 **심화 일본어** 개설.
+
      * 3-1: 선택군E에서 독서 토론과 글쓰기 대신 **매체 의사소통** 개설 (매체 의사소통, 미적분Ⅱ, 수학과 문화, 미디어 영어 중 택1).
+
      * 3-1: 선택군F 탐구 선택군에 **'과학과제 연구'가 포함되어 총 16과목** 중 택3.
+
      * 3-2: 선택군G (융합탐구 5과목 중 택3 = 12) + 선택군H (교양 = 2).
+
 - **성적 산출 및 내신 평가 방식 (2028 대입 개편 연동):**
+
   * **성취도 5단계 + 석차 5등급 병기:** 공통국어/수학/영어/한국사/통사/통과 및 일반선택, 진로선택 전반.
+
   * **성취도 5단계 절대평가 (석차 미산출):** 여행지리, 역사로 탐구하는 현대 세계, 사회문제 탐구, 윤리문제 탐구, 과학의 역사와 문화, 융합과학 탐구 등 융합선택.
+
   * **성취도 3단계 (A/B/C):** 과학탐구실험1·2, 체육1·2, 스포츠 생활1·2, 스포츠 문화/과학, 음악/미술 창작.
+
   * **P/F (이수/미이수):** 인간과 심리, 논술, 교육의 이해, 인간과 철학, 인간과 경제활동.
+
 - **즉각 호출(불러오기) 가이드:**
+
   * 진해고 교육과정, 특정 학년/학기 개설 과목, 학점 배분, 선택군 구성, 코호트 간 차이 질문 시 위 데이터베이스를 기반으로 즉시 단 하나의 오차도 없이 직관적 표와 함께 정확히 회신할 것.
 
 
+
+
+
 ## 84. 로타리클럽 장학금(300만 원) 기부 통화 재시도 필수 상기 (2026-09-11 금요일 아침 브리핑 필수 항목)
+
 - **개요:** 2026년 9월 10일(목) 오후 로타리클럽 관계자(`010-8511-5415`)로부터 약 300만 원 규모의 장학금 기부 의사 연락이 왔으나, 통화 중으로 연결되지 않아 **2026년 9월 11일(금) 아침**에 재통화하기로 함.
+
 - **연락처:** **`010-8511-5415`** (로타리클럽 담당자)
+
 - **통화 시 필수 확인 5대 체크리스트:**
+
   1. **소속 단체 및 담당자 명확화:** 정확한 클럽 명칭(진해로타리, 진해중앙로타리 등), 직함, 성함.
+
   2. **수혜 인원 및 금액 배분:** 300만 원에 대한 배분안 (예: 100만 원 × 3명, 50만 원 × 6명 등).
+
   3. **선발 자격 요건:** 특정 학년 지정 여부, 저소득·취약계층 우선, 모범 학생 추천 등.
+
   4. **지급 및 영수증 방식:** 학교발전기금 기탁(기부금 영수증 발행) vs 학생 통장 직접 입금 vs 수여식 직접 전달.
+
   5. **추천 마감 시한:** 학교 측에서 명단/추천서를 보내야 하는 최종 기한.
+
 - **필수 브리핑 규칙:** 2026년 9월 11일(금) 아침 선생님과의 첫 대화나 브리핑 시, 본 로타리클럽 통화 재시도 안내 및 번호(`010-8511-5415`)와 체크리스트를 최우선 안건으로 반드시 상기시켜 드릴 것.
 
 
+
+
+
 ## 85. 2026년 9월 11일(금) 2학년 화법과 언어 1차 지필평가 시험범위 당일(조기) 공지 (2026-09-11)
+
 - **개요:** 기존 9월 16일(수) 공지 예정이었으나, 학생들의 충분한 시험 대비를 위해 **2026년 9월 11일(금) 오늘 수업 중 조기 공지**하는 것으로 일정 변경.
+
 - **조치 사항:** 9월 16일 자 예약 알림 타이머(`task-9395`) 및 구글 캘린더 일정(`snm4np122ckn2i1bijadef016c`) 전면 취소/삭제 완료.
+
 - **대상 및 내용:** 2학년 화법과 언어 수강 학급(9/10 문항검토 완료본 기준 교과서 단원, 학습지/프린트 범위, 선택형/서답형 배점 비율 등 공지).
 
 
+
+
+
 ## 86. 로타리클럽 장학금(300만 원) 1~2개월 후 진행 및 특정 학생(2학년 방지원) 선발 배제 규정 (2026-09-11)
+
 - **개요:** 2026년 9월 11일(금) 로타리클럽(`010-8511-5415`)과 통화 완료 결과 및 향후 선발 시 필수 배제 규칙입니다.
+
 - **진행 일정:** 로타리클럽 측도 중앙 본부(지구본부)에서 장학금을 배정받아 학교에 전달해야 하는 행정 절차가 있어, **1~2달 뒤(2026년 10월 하순 ~ 11월 초)** 학교로 다시 연락을 주기로 합의함.
+
 - **핵심 선발 제한 규정 (Strict Exclusion Rule):**
+
   * **로타리클럽 관계자는 장학금 수여 대상자가 될 수 없음** (클럽 자체의 이해충돌 방지 규정).
+
   * 이에 따라 **2학년 방지원 학생은 본 로타리클럽 장학금 선발 대상자에서 반드시 영구 제외**해야 함.
+
   * 향후 10~11월 추천 공지, 담임 추천 취합, 장학생선발심의위원회 협의록 작성 시 방지원 학생이 포함되지 않도록 사전 필터링 철저히 수행할 것.
 
 
+
+
+
 ## 87. 2026학년도 애향 삼품 장학생(4명) 감사편지 우편 발송 지침 (2026-09-11)
+
 - **개요:** 2026년 9월 11일(금) 애향 삼품 장학생 감사편지 및 추천서 우편 발송 업무 일정 반영.
+
 - **수혜 학생 (4명):** 2학년 김지호(2-4), 정서윤(2-6) / 3학년 정하윤(3-6), 윤영(3-8).
+
 - **실제 우편물 수취인 및 발송 주소 (필수 준수 사항):**
+
   * **수취인:** **이경자 님** (기탁자 이흥순 할머니의 조카며느리)
+
   * **주소:** **경상남도 창원시 진해구 천자로 386 마린푸르지오 아파트 111동 1901호**
+
   * **우편번호:** **51628**
+
   * **연락처:** **010-8538-3080**
+
   * *(주의: 여좌동 기탁자 원주소가 아닌 마린푸르지오 이경자 님께 발송해야 정상 수령 및 전달 가능)*
+
 - **관련 파일 위치:**
+
   * 우편 라벨: `.... 장학금\애향삼품 장학금\애향삼품 장학금 감사편지 우편발송 라벨.hwp`
+
   * 추천서 및 감사편지: `.... 장학금\애향삼품 장학금6학년도 애향 삼품 장학생 추천서 및 감사편지.pdf`
 
 
+
+
+
 ## 88. 2학기 이병의 선생님과의 2학년 화법과 언어 맞교환(1~5반 vs 6~10반) 및 복무/육아시간 판정 절대 규칙 (2026-09-03 시행)
+
 - **개요:** 2026년 9월 3일부터 황요한 선생님과 이병의 선생님은 2학년 '화법과 언어' 수업을 전격 맞교환하여 수업을 진행하고 있음.
+
 - **수업 담당 학급 맞교환 현황:**
+
   * **황요한 선생님 실제 담당 (2학년 1~5반, 총 5시간):**
+
     - 월요일 4교시: 2학년 5반 (205 화법)
+
     - 화요일 7교시: 2학년 4반 (204 화법)
+
     - 목요일 1교시: **2학년 2반 (202 화법)**
+
     - 목요일 6교시: **2학년 3반 (203 화법)**
+
     - 금요일 1교시: **2학년 1반 (201 화법)**
+
   * **이병의 선생님 실제 담당 (2학년 6~10반, 총 5시간):**
+
     - 월요일 4교시: 2학년 10반 (210 화법)
+
     - 화요일 2교시: 2학년 9반 (209 화법)
+
     - 화요일 6교시: 2학년 6반 (206 화법)
+
     - 수요일 2교시: 2학년 7반 (207 화법)
+
     - 수요일 4교시: 2학년 8반 (208 화법)
+
 - **복무(육아시간/출장/대강) 및 시간표 검증 3대 절대 원칙:**
+
   1. **사적 맞교환 특성 반영 (나이스 공식 vs 실제 입실의 이원화):** 나이스 전산상 공식 시간표와 상관없이, 황요한 선생님은 이병의 선생님의 기존 시간표(2학년 1~5반)에 실제로 입실하셔야 하므로 수업 결손이 발생하지 않도록 실제 수업을 최우선 기준으로 판정해야 함.
+
   2. **목·금 1교시 및 목 6교시 수업 확인:** 
+
      - **목요일 1교시(2-2 화법, 08:50~09:40)** 및 **금요일 1교시(2-1 화법, 08:50~09:40)**는 실제 입실 수업이므로 **아침 육아시간(08:30~10:30) 사용 절대 불가**.
+
      - **목요일 6교시(2-3 화법, 14:45~15:35)** 역시 실제 입실 수업이므로 **목요일 오후 육아시간(14:30~16:30) 조기 퇴근 절대 불가**.
+
   3. **다음 주(9/14~9/18) 최종 육아시간 사용 가능일:**
+
      - **월요일(9/14) 오후(14:30~16:30)**: 가능 (5교시 306 심국 종료 후 6·7·8교시 실제 공강)
+
      - **화요일(9/15)**: 불가 (7교시 204 화법 실제수업 + 8교시 3-9 당김수업)
+
      - **수요일(9/16) 오후(14:30~16:30)**: 가능 (5교시 303 심국 종료 후 8교시 당김수업 없음)
+
      - **목요일(9/17)**: 불가 (1교시 202 화법, 6교시 203 화법 실제수업)
+
      - **금요일(9/18) 오후(14:30~16:30)**: 가능 (1교시 201 화법 실제수업 후, 5교시 304 심국 종료 후 6교시 공강)
 
 
+
+
+
 ## 89. 2026. 9. 16.(수) 창의적 체험활동 동아리활동(6~7교시) 지도 및 수요일 육아시간 불가 규칙 (2026-09-11)
+
 - **개요:** 2026년 9월 16일(수) 6~7교시는 2026학년도 2학기 창의적 체험활동(창체) **동아리활동(12~13차시)** 시간임.
+
 - **황요한 교사 담당 동아리:**
+
   * **동아리명:** **'대신해 AI'** (지도교사: 황요한, 대상: 1·2학년, 대표학생: 10622 이승범)
+
   * **일시:** 2026. 9. 16.(수) 6~7교시 (14:35 ~ 16:30)
+
   * **활동 내용:** 12~13차시 '생기부 특화 프로젝트 (AI 활용 보고서 작성 지도)'
+
 - **육아시간 및 복무 영향:**
+
   * 수요일 오후(14:30~16:30)는 6~7교시 동아리활동 지도가 필수 편성되어 있으므로 **오후 육아시간(조기퇴근) 사용이 전면 불가**함.
+
   * 수요일 오전은 1교시(3-8 심국) 수업이 있어 아침 육아시간 역시 불가.
+
   * 따라서 **9월 16일(수)은 전일 육아시간 사용 불가**함.
 
 
+
+
+
 ## 90. 2026학년도 진해고등학교 제규정 개정 (사무위임전결규정 - 교외체험학습 전결권 교감 지정) (2026-09-11)
+
 - **공문 정보:** 시행 진해고등학교-11294 (2026. 9. 11.) / 기안 교사 박지환, **교무기획부장 최준호**, **교감 손세민 (전결 처리)** (교장 오길환 결재란은 교감 전결로 최종 처리 완료).
+
 - **개정 목적 및 시행일:** 「행정업무의 운영 및 혁신에 관한 규정」 제10조 제2항에 따라 교외체험학습 전결권자를 명확히 규정하여 신속한 행정 처리 도모. **2026년 9월 11일부터 즉시 시행**.
+
 - **핵심 개정 내용 (진해고 사무위임전결규정 - 교무실 위임전결사항):**
+
   * 단위업무 **6. 교외체험학습** 신설
+
   * 세부업무 및 전결권자:
+
     - **가. 교외체험학습 신청서:** 담당 ➔ 부장교사 ➔ **교감 전결 (○)**
+
     - **나. 교외체험학습 결과 보고서:** 담당 ➔ 부장교사 ➔ **교감 전결 (○)**
+
 - **보관 위치:** D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\교무기획부\제규정\2026학년도 진해고등학교 제규정 개정(사무위임전결규정 개정)
 
 
+
+
+
 ## 91. 2027학년도 대입 전형 분석 및 입학설명회 전략 핵심 데이터 (클로드 교차 검증 반영) (2026-09-12)
+
 - **개요:** 구글 드라이브(`2027_대입_교과전형_분석자료/모집요강`, Drive ID: `1pwA9ObzqvDoqhWEfpPQrzKZDC_msHn3B`) 내 45개 대학 요강 원문을 클로드와 교차 분석하여 입학설명회 및 진학지도 핵심 팩트를 정립함.
+
 - **1. 2027학년도 9등급제 확정:**
+
   * 2027 대입(현 고2)은 1~9등급 체제 확정(5등급제는 2028학년도 고1 입학부터 적용). 중3(2030 대입) 설명회 시 "현재 고2 실증 데이터 기준"임을 명확히 구분하여 안내.
+
   * 2027 대교협 집계: 수시 277,583명(80.3%), 학생부교과 156,631명(45.3%), 지역인재 27,730명(+952명).
+
 - **2. 부울경 의약계열 수능최저 원문 팩트:**
+
   * **경상국립대 의예과:** 일반교과 3합 4 vs **지역인재 3합 6** (지역인재가 2등급 완화되어 3개 2등급이면 충족, 경남 학생 절대적 호재).
+
   * **울산대 의예과:** 지역교과 3합 4(과탐 2과목 평균 소수점 첫째자리 **올림**) / 지역의사제 3합 5(과탐 **버림**). 일반교과 선발 0명.
+
   * **고신대 의예과:** 일반고/지역인재 모두 3합 4(확통 시 합 3으로 1등급 강화). 지역의사선발 3합 5(확통 합 4, **사탐 허용**).
+
   * **인제대 의예과:** 일반/지역인재Ⅰ·Ⅱ/지역의사 모두 **4개 영역 각 2등급 이내 (개별조건형)** (지역인재 완화 없음, 1개라도 3등급이면 탈락). 약학과 4합 9.
+
 - **3. 사립대 vs 국립대 최저 분기 및 진해고 중위권 '스위트 스팟':**
+
   * **사립대(경남대, 동의대 등):** 간호/물치/사범 등 특수학과 제외한 일반 공학·인문계열 **수능최저 전면 없음** (동의대 요강: "수능 미응시자도 지원 가능").
+
   * **국립대:** 최저가 대부분 있으나 기준이 매우 낮음 (부경대 자연계 **수학포함 2합 9**, 한국해양대 해양과기융합대 **1개 영역 5등급 이내**, 경상국립대 IT/공대/경영 **2합 10**).
+
   * **진해고 유리성 프레이밍:** 타 일반고 중위권은 수능을 포기하여 2합 8~10도 미충족 탈락하지만, 진해고는 면학·기숙사 분위기로 3~4등급 2개를 안정 확보하므로 **내신 3~4등급도 국립대에 안착하는 완벽한 합격 필터**로 작용함.
+
 - **4. 정식 전형 명칭 복원:**
+
   * 부경대: **'학생부교과(지역혁신인재전형)'** (글로컬 명칭 아님)
+
   * 한국해양대: **학생부교과(교과성적우수자전형)**, **(지역인재전형)**
+
   * 동의대: **학생부교과(일반고교과전형)**, **(지역인재교과전형)**
+
 - **5. 성취도별 분포비율 실제 반영 대학 확인:**
+
   * **서강대:** 교과 10%를 '환산성취비율' 산식(`취득성취비율/2 + 하단성취비율합계`)으로 100% 정량 반영.
+
   * **고려대:** 석차등급, 성취도, 성취도별 분포비율을 합산한 **변환석차등급** 적용.
+
   * **성균관대:** 정성평가 20% 내에서 성취도별 분포비율 종합 평가.
+
 - **6. 서울 주요대 교과전형 정성평가(서류) 확대:**
+
   * 8개교 중 6개교가 서류/정성평가 10~30% 반영 (경희대 30%, 서울시립대 20%, 성균관대 20%, 고려대 10%, 한양대 10%). 순수 교과 100%는 연세대, 서강대 2곳뿐 ➔ 진해고 생기부 세특/탐구보고서의 역전 기회.
+
 - **7. 자료 보완 과제 (안티그래비티 실행 예정):**
+
   * **부산대:** 수시요강 재수집(기존 파일이 정시요강이거나 표 깨짐).
+
   * **동아대 & 국립창원대:** 이미지 PDF 텍스트 레이어 부재 ➔ 텍스트 추출 및 OCR 정리본 탑재.
 
+
+
 ## 92. 매일 아침 브리핑 필수 상기 규칙: 신입생 입학설명회 PPT 제작본 반영 (2026-09-13)
+
 - **개요:** 매일 아침 일정 및 학사 브리핑을 드릴 때마다 **'신입생 입학설명회 PPT 제작본 반영 건'**을 필수 상기 항목으로 포함하여 안내할 것.
+
 - **핵심 점검 내용:**
+
   1. **슬라이드 배치:** `2027입학설명회_문구완성.pptx`의 Part 4 [우리 학교 중위권 학생 진학 사례] 내 기존 Slide 27(단순 수능최저 정의)을 대체하거나 `[S29-B]`(창원대 3.8등급 사례 직후)에 신규 배치.
+
   2. **핵심 실증 데이터 (1장 완성형):** 
+
      - **부경대:** 2.8~3.5등급 합격률 **63.2%** (최저미충족 단 9.6%)
+
      - **창원대:** 3.5~4.2등급 및 4등급대 다수 합격 (지역인재 100% 활용)
+
      - **경상국립대:** 4.2~5.0등급 합격률 **54.5%** (합격자 78.2% 충원합격 대역전)
+
   3. **디자인 통일성:** `00_공통_바나나nl_컨설팅_스타일_프롬프트.txt` 규격(화이트 #FFFFFF, 딥네이비 #1B3A6B, 세일블루 #3B82C4, 맥킨지/BCG 3단 카드, 우측 하단 20% 발표자 여백 유지) 엄수.
 
 
 
+
+
+
+
 ## 93. 진해고등학교 「질문하는 학교」 선도학교 운영 및 교사동아리 질문수업 연구 (2026-09-13)
+
 - **사업 개요:** 진해고등학교는 학생 주도적 탐구 역량과 비판적 사고력을 함양하기 위한 **'질문하는 학교' 선도학교**로 지정·운영 중이며, 수업 현장 적용을 위한 교사 동아리(전문적 학습공동체)를 활발히 운영하고 있음.
+
 - **교내 연수 이력:** **2026년 9월 11일(금)** 교사 동아리 주관으로 **강필성 선생님**의 **'질문 수업' 교내 교사 연수**를 성공적으로 실시함.
+
 - **질문수업 정착 및 교과별 실현 방안(Feasibility) 4대 핵심 연구 축:**
+
   1. **질문 생성 프레임워크(루틴) 구축:** 학생들이 수동적 수용자가 아닌 질문 생성자가 되도록 돕는 QFT(Question Formulation Technique), 온라인 질문 보드(패들렛 등), 소크라틱 AI 질문 튜터 등 체계적 도구 도입.
+
   2. **수업 부담 최소화 및 진도 조화:** 교과 진도 압박을 덜고 부담 없이 정착시킬 수 있는 '5분 질문 열기/닫기' 미니 루틴 및 핵심 개념 중심 질문 수업 설계.
+
   3. **국어과(심화국어·화법과작문) 접목:** 텍스트 비판적 독해, 논증적 글쓰기, 토론 수업에서 학생 질문 기반 탐구보고서 및 학생부 세특 기록 연계.
+
   4. **교사동아리 적용 사례 공유:** 차기 동아리 모임을 통한 교과별 적용 가능성 검토 결과 공유 및 수업 모델 확산.
 
 
+
+
+
 ## 94. 2027학년도 신입생 입학홍보 기숙사 영상 제작(AI 모션 및 필모라 편집) 착수 일정 (2026-09-15 화요일 착수)
+
 - **작업 개시일:** **2026년 9월 15일(화)**부터 본격 작업 개시 (일정 관리 및 아침 브리핑 상기 항목 포함).
+
 - **소프트웨어 및 에셋 방침:**
+
   * **편집 툴:** **필모라(Filmora) 유료 라이선스** 사용 (워터마크 없음).
+
   * **비용 원칙:** 유료 에셋/효과 스토어 결제 일체 배제 (**추가 비용 0원**). 필모라 내장 속도 곡선(Speed Ramping), 광학 흐름(Optical Flow), 2단 고딕 자막, 기본 디졸브(0.5초), 오디오 덕킹(-50%) 기능만 활용.
+
 - **AI 영상 생성(Image-to-Video) 5대 필수 고려사항 (사전 검증 완료):**
+
   1. **사전 크롭(Pre-Cropping):** 원본 항공사진(3501×1880)을 AI 업로드 전 필히 `16:9 (1920×1080)`로 사전 크롭하여 업로드할 것 (AI 자체 리사이징에 따른 교사 건물 왜곡 원천 차단).
+
   2. **모션 강도(Motion Intensity):** 3~4 이내로 절제 (과도한 수치 시 창문·외벽 직선이 물결처럼 뒤틀리는 젤로 현상 발생).
+
   3. **인물/얼굴 AI화 지양:** 학생/인물 사진은 AI 모션화 시 얼굴·손가락이 기괴하게 일그러지므로 배제하고, AI는 **교정 전경(항공뷰)·독서실 새벽 불빛 타임랩스·야경 전경** 3대 풍경에만 한정 적용.
+
   4. **네거티브 프롬프트 엄수:** `distortion, blur, warped architecture, ugly, extra limbs, shaking` 필수 삽입.
+
   5. **필모라 감속 연계:** AI가 생성한 5초 클립을 필모라 속도 곡선(0.6~0.7x)으로 부드럽게 늘려 8초 분량의 웅장한 시네마틱으로 완성.
 
 
+
+
+
 ## 95. 「AI 활용 공무원 재해예방 콘텐츠 공모전」 영상 제작 및 필모라 편집 추진 계획 (2026-09-15 화요일 오후)
+
 - **공모전 개요:** 공무원연금공단 재해보상1실 주관, 공모기간 '26.9.14.(월)~10.16.(금) 18:00, 누리집(https://contest.ieumgil.com).
+
 - **시상 규모:** 대상 100만 원, 최우수 50만 원, 우수 3편 각 20만 원, 참가상(본선 진출작 중 미수상작) 20편 각 5만 원 상당 상품권 (전문가 70% + 전국 공무원 선호도 투표 30%).
+
 - **필수 제한 및 규격:**
+
   * **영상 분량 제한:** 공문상 재생 시간(초/분) 제한 없음. 단, 선호도 투표 및 시청 완주율 고려 시 **45초~1분 30초 내외 숏폼** 강력 권장.
+
   * **블라인드 심사:** 영상 내 성명, 소속 학교/기관명, 지역명 등 개인 식별 정보 일체 포함 금지.
+
   * **온라인 접수 시스템 제한:** 파일 업로드 용량 **최대 100MB 이하** (비트레이트 8~10Mbps 조절, 70~80MB 렌더링 권장). 작품 설명 300자 이내, AI 도구 활용 내용 300자 이내 기재.
+
   * **출품 수량:** 1인(팀)당 최대 2개 작품.
+
 - **추진 로드맵 및 필모라 구독 마일스톤:**
+
   1. **이번 주 주말 (9월 19~20일):** 기획, 시나리오 콘티 작성, 핵심 예방 메시지(300자) 확정, 프롬프트 설계.
+
   2. **에셋 생성 (9월 21일 ~ 10월 1일):** AI 이미지(Midjourney/DALL-E) 및 영상(Runway Gen-3/Kling/Luma) 생성, AI 음성(Typecast/Vrew) 추출, 상업적 무료 BGM/효과음 아카이빙.
+
   3. **필모라 구독 및 본 편집 (10월 2일 ~ 10월 12일):** **2026년 10월 2일 필모라(Filmora) 유료 구독 시작** ➔ 워터마크 없는 컷 편집, 스피드 램핑, 2단 강조 자막, 사운드 믹싱, 100MB 이하 고화질 FHD 렌더링.
+
   4. **최종 접수 (10월 13일 ~ 10월 14일):** 블라인드 검수 후 마감(10/16 18:00) 2일 전 contest.ieumgil.com 여유 접수 완료.
+
 - **관련 파일 보관 경로:** D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\업무 이외\2026_AI활용_공무원_재해예방_콘텐츠_공모전\
 
 
+
+
+
 ## 96. 2026년 9월 16일(수) 아침 브리핑 필수 상기 지침: 경남교육청 복지관 10월 9일 취소표 모니터링 봇 클로드 디버깅 및 실전 가동 (2026-09-15)
+
 - **개요:** 경남교육청 교직원종합복지관 10월 9일 취소표 실시간 모니터링 봇(Chrome 원격 디버깅 9222 포트 연동, Zero-Reload, 세션 풀림 실시간 감지 및 Auto-Resume) 관련하여 클로드(Claude) 재검토 및 디버깅 의뢰서(claude_review_gne_monitor.md)를 작성 완료함.
+
 - **구글 캘린더 등록 완료:** 2026년 9월 16일(수) 13:30 ~ 14:30 (이벤트 ID: o514fp63mases1nk1lm9f9kk94)
+
 - **수요일 아침 브리핑 필수 상기 지침:**
+
   * 2026년 9월 16일(수) 아침 출근 직후 선생님께 학사 및 일정 브리핑을 드릴 때, **'경남교육청 복지관 10월 9일 취소표 모니터링 봇 클로드 디버깅 피드백 반영 및 실전 가동'**을 핵심 상기 업무로 반드시 포함하여 안내할 것.
+
   * **주요 후속 작업 체크리스트:**
+
     1. 클로드(Claude)에게 전달한 claude_review_gne_monitor.md의 피드백(DOM 셀렉터 10월 9일 정밀화, 비동기 fetch/인터셉트, 텔레그램 알림 결합 등) 검토 및 코드 반영.
+
     2. 크롬 디버깅 모드(--remote-debugging-port=9222) 실행 후 경남교육청 복지관 1회 로그인 세션 확보.
+
     3. gne_monitor_v2.py 실전 가동을 통한 무깜빡임 실시간 감시 및 캡처/알림 정상 작동 최종 검증.
 
+
+
 ## 26. 2026년 9월 21일(월) 총동창회장학재단 장학증서 전달식 운영 및 아침 브리핑 규칙
+
 - **행사 일시:** 2026년 9월 21일(월) 6교시 (14:30~)
+
 - **장소:** 본관 1층 홈베이스 (※ 7교시부터는 3학년 음악수행평가 예정이므로 6교시 내 신속 정리 및 인계)
+
 - **주관:** (재)진해고등학교동창회장학재단
+
 - **참석 대상:** 김종년 이사장님, 교장선생님, 교무부장님, 장학담당(황요한 선생님), 수혜 학생 6명 (2학년 3명, 3학년 3명)
+
 - **장학금 내역:** 1인당 50만 원 (총 300만 원, 개인 계좌 송금 완료/예정)
+
 - **아침 브리핑 필수 안내 항목 (9월 21일 월요일 아침 브리핑 시 필수 포함):**
+
   1. **홈베이스 전자칠판 PPT 화면 세팅:** 장학증서 전달식.pptx (행사명: (재)진해고등학교동창회장학재단 장학증서 전달식)
+
   2. **장학증서 및 상패/케이스 준비:** 수혜 학생 6명 장학증서 인쇄 및 수여 케이스 정렬
+
   3. **장학생 6명 사전 소집 및 복장 지도:** 6교시 시작 5분 전 홈베이스 집결 안내 (담임선생님 협조 쪽지 발송)
+
   4. **좌석 배치 및 음향/카메라 점검:** 귀빈석(이사장님, 교장선생님), 장학생석, 사진 촬영 준비
+
   5. **식순 및 시나리오 준비:** 개식사 -> 국민의례 -> 장학증서 수여 -> 이사장님 격려사 -> 교장선생님 인사말 -> 기념 촬영 -> 폐식사
+
   6. **[필수 상기] 정보부장님과 '교내 폐쇄망 학술 탐구 아카이브(JHR-Archive)' 구축 상의:**
+
      - 협의 내용: 역대 글로컬 학술제 자료 통합 및 신규 보고서 아카이빙을 위한 **'교내 공용 NAS(시놀로지 등) 내 전용 폴더/계정 할당 가능 여부'** 또는 **'전산실 유휴 PC 1대의 상시 가동 및 교내 고정 사설IP 할당 가능 여부'** 사전 문의.
 
+
+
 ## 97. 2026년 9월 17일 K-듀얼 모멘텀 리밸런싱 사후 분석 및 2대 핵심 로직 개선 과제 (향후 작업 예정)
+
 - **개요:** 2026년 9월 17일(목) K-듀얼모멘텀 정기 리밸런싱 실행 결과(KODEX 200 4주 매도, TIGER 달러단기채 43주 매수) 체결을 완료하였으나, 2가지 구조적 문제점(스케줄러 지연 및 매도 대금 미반영)이 발견되어 향후 로직 개선 작업을 진행하기로 함.
+
 - **2대 핵심 개선 과제 및 해결 방안:**
+
   1. **깃허브 무료 Cron 대기열 지연 (Queue Delay) 극복 오케스트레이션**:
+
      - **현상:** 12:30 KST 예약된 깃허브 cron이 트래픽 병목으로 미실행되어 15:10에 수동 API dispatch로 긴급 실행함. (과거 8월 말에도 6~12시간 지연 발생 확인)
+
      - **해결 방안:** 시간만 바꾸는 땜질 처방을 배제하고, **GCP Cloud Scheduler(오차 0초의 외부 정밀 타이머)**가 매월 17일 11:00 및 14:00(2차 페일세이프)에 깃허브 `workflow_dispatch` API를 직접 호출하도록 분산 오케스트레이션 구축 + 당일 중복 매매 방지(멱등성) 로직 추가.
+
   2. **매도 직후 매수가능조회(TTTC8908R) 전산 시차 버그로 인한 현금 20% 잔여 현상 해결**:
+
      - **현상:** KODEX 200 4주 매도(42만 원) 후 잔고 재조회 시, `prvs_rcdl_excc_amt`(당일정산금액)는 101만 원으로 정상 가산되었으나, `TTTC8908R`이 매도 전 금액(58만 원)을 지연 반환하여 가용 현금이 58만 원으로 덮어써짐. 그 결과 매수 수량이 63.7%로 축소 조율되어 43주만 매수되고 매도 대금 42만 원(D+2 예수금 45만 원, 약 20%)이 현금으로 붕 떠서 남음.
+
      - **해결 방안:** `kis_bot_multi.py`의 `rebalance_account()`에서 주식 매도 직후(`sold_any == True`) 잔고 조회 시, `TTTC8908R` 전산 지연을 감안하여 매도 대금이 합산된 `prvs_rcdl_excc_amt`를 우선 채택하거나 두 금액 중 큰 금액을 신뢰하도록 교차 검증 로직 교정 (잔여 예수금을 1~2% 이내로 최소화).
 
 
+
+
+
 ## 98. 2학년 화법과 언어 류호진(20410) '압록강' 음운 변동 탐구 세특 데이터베이스 (2026-09-17)
+
 - **학생 인적사항:** 2학년 4반 10번 류호진 (작성 메모 일시: 240910)
+
 - **증빙 원천 자료:** C:\scan\20260917154750.pdf (수기 작성 탐구 메모지 스캔본)
+
 - **활동 개요 및 문제의식:**
+
   * 수업 시간에 배부된 '국어 문법 음운 변동 핵심 탐구 학습지'의 비음화 단원에서 '압록강'의 발음 과정이 2단계 상호 비음화([압록강] ➔ [압녹강] ➔ [암녹강])로만 축약 기술된 것을 발견함.
+
   * 표준 발음법 제23항(평폐쇄음 받침 'ㄱ' 뒤 예사소리 'ㄱ'의 필수적 된소리되기) 규정을 스스로 상기하여 3음절 '강'이 [강]으로 유지되는 것에 의문을 품고 국립국어원 표준국어대사전을 대조하여 단수 공식 표준 발음이 [암녹깡]임을 규명함.
+
 - **학생의 3단계 정밀 음운 변동 분석:**
+
   1. 1단계 ('ㄹ' 비음화): [압녹강] (표준 발음법 제19항 붙임)
+
   2. 2단계 ('ㅂ' 비음화): [암녹강] (표준 발음법 제18항)
+
   3. 3단계 ('ㄱ' 된소리되기): [암녹깡] (표준 발음법 제23항)
+
   * 종합: 교체 3회 연쇄 적용, 음운 개수 변화 없음(0)
+
 - **교사 질의 및 수업 기여:** 수기 메모를 지참하여 교사에게 직접 찾아와 정밀 질문함으로써 교사의 학습지 설명 보완을 이끌어내고 학급의 문법 탐구 수준을 높임.
+
 - **세특 파일 저장 경로:**
+
   * d:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\수업\2026학년도 세특\2학년 화법과 언어\2학년_4반_10번_류호진_세특_탐구기록.md
+
   * d:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\수업\2026학년도 2학년 수업&수행&평가\2학기\2026년 2학기 화법과 언어 수업(문법-음운)\문법 탐구학습\류호진_20410_압록강_세특자료.md
 
+
+
 ## 99. Windows 작업 스케줄러 및 자동화 스크립트 작성 시 VBScript(`wscript.exe`) 절대 사용 금지 및 무소음 실행 표준 규칙 (2026-09-17)
+
 - **금지 배경 및 원인:**
+
   * 과거 CMD 검은색 콘솔 창 숨김 목적으로 `wscript.exe` + `.vbs` 래퍼(`WshShell.Run "...", 0`)를 사용하였으나, 따옴표나 파라미터 이스케이프 오류 시 표준 에러/로그를 남기지 않고 **화면에 보이지 않는 백그라운드 모달 GUI 오류 팝업창을 띄운 채 무한 프리징(대기)**에 빠져 스케줄러 전체가 멈추는 치명적 장애가 발생함 (2026-09-17 저녁 뉴스 미발송 원인 규명 완료).
+
 - **영구 금지 및 표준 아키텍처 규칙:**
+
   1. **VBScript(`.vbs`, `wscript.exe`, `cscript.exe`) 일체 사용 절대 금지**: 향후 신규 자동화 작업이나 기존 작업 리팩토링 시 VBScript 래퍼는 일체 작성하거나 호출하지 말 것.
+
   2. **무소음 백그라운드 실행 표준 (`pythonw.exe`)**:
+
      * 파이썬 스크립트의 무소음(검은 창 없는) 백그라운드 자동화가 필요할 때는 파이썬 자체 내장 GUI 실행기인 **`pythonw.exe`**를 스케줄러 액션에 직접 1:1로 등록하여 사용할 것.
+
      * 불필요한 3중 래퍼(`WScript` ➔ `.vbs` ➔ `.bat` ➔ `python`)를 전면 배제하고, 단일 네이티브 직접 구동 파이프라인으로 구성할 것.
+
   3. **작업 스케줄러 4대 필수 안정성 XML 파라미터 상시 준수**:
+
      * `StartWhenAvailable = true`: PC 절전 모드 또는 전원 종료로 정시 트리거를 놓친 경우, PC를 켜는 즉시 누락된 작업을 자동 복구 실행(Catch-up)할 것.
+
      * `WakeToRun = true`: 지원 기기에서 정시 트리거를 위해 절전 모드를 자동 해제할 것.
+
      * `DisallowStartIfOnBatteries = false`: 배터리 전원 상태에서도 작업이 차단되지 않도록 보장할 것.
+
      * `ExecutionTimeLimit = PT15M`: 무한 프리징을 방지하기 위해 최대 15분 후 프로세스를 강제 회수하는 안전 타임아웃을 반드시 부여할 것.
 
+
+
 ## 100. 진해고등학교 100% 교내 폐쇄망 학술 탐구 아카이브(JHR-Archive) 구축 및 운영 청사진 (2026-09-18)
+
 - **추진 배경 및 목적:**
+
   * 매년 반복되는 교내 '글로컬 학술제' 및 자율적 교육과정 탐구 활동의 단발성·진부한 주제 반복을 극복하고, 선배들의 연구 레퍼런스를 후배가 계승·심화(Citation)하여 학생부 종합전형 경쟁력을 압도적으로 끌어올림.
+
   * 학생 개인정보 및 저작물의 교외 유출을 원천 방지하기 위해 **100% 교내 인트라넷(스쿨넷 LAN) 폐쇄망 독립 시스템**으로 설계.
+
 - **3대 철통 보안 및 아키텍처 원칙:**
+
   1. **교외 클라우드 반출 0% (Zero External Outbound):** 학생 원본 보고서(HWP/PDF) 및 텍스트 데이터는 외부 상용 서버(AWS, Vercel, Supabase 등)에 일체 전송하지 않으며, 학교 내부 하드웨어에만 물리적으로 저장.
+
   2. **교내 인트라넷 전용 서비스:** 교내 교실/도서관/컴퓨터실 유선망(또는 교과용 Wi-Fi)의 내부 사설 IP(`10.x.x.x`)로만 접속 허용. 외부 인터넷에서는 접속 원천 차단.
+
   3. **오프라인 텍스트 검색 엔진:** 인터넷 연결 없이도 학교 서버 PC 내에서 100% 오프라인으로 구동되는 파이썬 내장 전문 검색 엔진(SQLite FTS5 등) 적용.
+
 - **하드웨어 인프라 및 정보부 협의 사항 (2026-09-21 월요일 상의):**
+
   1. **방안 A (교내 공용 NAS 활용):** 교내 시놀로지(Synology) 등 기존 공용 NAS에 전용 아카이브 저장 폴더 및 웹 서비스(또는 도커/파이썬) 공간 할당 가능 여부.
+
   2. **방안 B (전산실 유휴 PC 1대 활용):** 전산실/정보실의 유휴 데스크톱 1대를 24시간 가동 서버로 지정하고, 교내 고정 사설 IP 1개 부여 가능 여부.
+
 - **데이터 통합 및 연간 지속 운영 체계:**
+
   * **과거 누적 데이터 정제:** 역대 글로컬 학술제 제출 자료(HWP/PDF)를 일괄 수합하여 Antigravity 파이썬 파서로 제목·분야·요약·키워드를 자동 추출 및 정형 DB화 (Day 1부터 100~200편 누적 상태 출발).
+
   * **신규 데이터 무인 갱신:** 관리자 웹 화면에서 새 학년도 HWP 파일 드래그 앤 드롭 시 자동 색인/등록 완료.
+
   * **제도화 및 학생 연계:** 글로컬 학술제 운영 계획 공문에 '아카이브 의무 등재' 조항 명시 및 IT/학술 동아리 학생 운영단과 연계하여 영구적 학교 자산으로 승계.
 
 
+
+
+
 ## 101. K-듀얼모멘텀 리밸런싱 봇 Claude Opus 5 프로덕션 확정본 배포 및 5대 핵심 아키텍처 완결 (2026-09-18)
+
 - **개요:** 2026년 9월 17일 리밸런싱에서 발생한 현금 20.18% 방치 및 증거금 엔진 시차 문제를 해결하기 위해, Claude Opus 5 시니어 금융 아키텍트의 정밀 코드 감수와 안티그래비티 3대 하위 에이전트(API, Cloud, Quant) 오케스트레이션 검증을 거쳐 프로덕션 확정본(`kis_bot_multi.py`, rev. 2026-09-18)을 깃허브 원격 저장소(`hyh54311-dev/jinhae-k-momentum-bot`)에 성공적으로 배포 완료함.
+
 - **5대 핵심 아키텍처 혁신 (Institutional Architecture):**
+
   1. **원장(Ledger)과 주문한도(Orderable Cap)의 완전 분리 (3-Tuple 구조)**:
+
      - 총자산 및 목표 비중 산출은 오직 원장 D+2 정산금(`prvs_rcdl_excc_amt`)만 신뢰.
+
      - 매수 상한은 `TTTC8908R` 증거금 엔진의 단일 권위값(`nrcvb_buy_amt` 우선)을 엄격 채택하며, 인위적 `max()` 합성을 금지하여 `IGW00014`(주문한도 초과) 원천 차단.
+
   2. **2단계 적응형 폴링 및 동적 원장 목표 갱신 (Adaptive Margin Sync)**:
+
      - **Phase A (체결 확인):** 주문번호(`odno`) 기반 `TTTC0081R` 조회로 `rmn_qty == 0` 확인 (최대 20초).
+
      - **Phase B (증거금 동기화):** 매 회차 원장(`prvs_rcdl_excc_amt`)을 재조회하여 목표를 동적 갱신(0.5s×4 ➔ 1.0s×5 ➔ 2.0s×N, 최대 30초). 일반위탁계좌 15.4% 원천징수나 부분체결 발생 시에도 목표가 자동 보정되어 영구 타임아웃 방지.
+
   3. **주문 거부(IGW00014) 자가치유 스텝다운 (Self-Healing Stepdown)**:
+
      - KIS 증거금 엔진 지연으로 주문 거부 발생 시 에러로 중단하지 않고, 수량을 5%씩 축소하며 최대 3회 자동 재주문(`submit_buy_with_stepdown`).
+
   4. **잔여현금 그리디 소진 패스 (Greedy Cash Sweep)**:
+
      - 정수 절사(Floor)로 인해 발생하는 잔여 현금을 비중 미달 자산부터 1주씩 추가 배정하여, 리밸런싱 후 현금 방치를 기존 20.18%(45만 원)에서 0.2%대(수천 원)로 압축.
+
   5. **상한가 왜곡 차단 및 호가 정규화**:
+
      - 매도 주문은 최유리지정가(`ord_dvsn="03"`) 적용 ➔ +30% 상한가 증거금 잠김 및 15:20 단일가 거부 방지.
+
      - 매수 주문은 현재가 + 2틱(10원) 지정가(`ord_dvsn="00"`) 및 KRX ETF 5원 호가단위 정규화(`round_tick`)로 즉시 체결 보장.
+
 - **인프라 및 장애 대응 체계:**
+
   - **다중 계좌 완전 격리:** `main()` 계좌 순회 시 `try-except`로 단일 계좌 실패가 타 계좌 실행을 가로막지 않도록 보장 (`raise` 배제).
+
   - **2중 데드맨 스위치:** 파이썬 내부 `atexit` 등록 + GitHub Actions `rebalance.yml` 워크플로우에 `if: failure()` 텔레그램 긴급 알림 스텝 탑재.
+
   - **4중 시세 폴백 계층:** KIS 현재가 ➔ 계좌 잔고단가 ➔ KIS 월봉 최근종가 ➔ Yahoo Finance API 4중 폴백으로 시세 단절 완전 방어.
 
+
+
 ## 102. 소크라틱 AI × 손글씨 베이스라인 연동 파이프라인 v1.1 구축 및 7대 결함 방어 완결 (2026-09-18)
+
 - **개요:** 클로드의 `소크라틱_손글씨_베이스라인_연동_명세서_v1.0 (1).md`를 정밀 심층 감사하여 발견된 7대 치명적 결함을 원천 해결하고, 진해고등학교 수업 환경에 최적화된 로컬 배치 파이프라인(`handwriting_pipeline/`)과 Google Apps Script 연동 모듈(`Code_Socratic_Handwriting_v41.gs`)을 완성함.
+
 - **7대 결함 방어 아키텍처 및 구현 결과:**
+
   1. **개인정보 비식별화 (일반 명사 보존):** `[김이박최정...]` 개방형 정규식을 영구 금지하고, 로컬 학급 명렬표 기반 완전 일치 치환 + 화이트리스트(`김소월`, `정약용`, `윤동주` 등) 보호를 적용하여 '이것', '정의', '윤리', '최선' 등 일반 명사 파괴를 원천 차단 (`masking.py`).
+
   2. **소크라틱 v4.0 RPC 일체화:** 존재하지 않는 `doPost(e)` 대신 기존 검증된 클라이언트 RPC(`processStudentChatTurn`)와 직접 결합하여 서버 부하 및 보안 취약점 배제 (`Code_Socratic_Handwriting_v41.gs`).
+
   3. **세션코드 규격 고정:** 쉬는 시간 교시 변경 누락(SPOF)을 방지하기 위해 `{MMDD}-{BAN}-{NUM}`(예: `0912-7-15`) 불변 식별 체계 표준화.
+
   4. **CacheService 100KB 오버플로 방지:** 30명 전체 시트를 한 번에 캐싱하지 않고 학생별 키(`BL_{세션코드}`)로 1KB 미만 개별 분할 캐싱.
+
   5. **NEIS 4세대 행정 안전 마진:** 1,500 Byte 0-margin 위험을 차단하고, 국어 교과부장 공통문구(152B)를 사전 차감한 **1,320 Byte / 일반 학생 1,470 Byte** 상한 및 윈도우 CRLF(`\r\n`) 2B 정규화 적용 (`make_prompt_pack.py`).
+
   6. **대화로그 스키마 런타임 자동 감지:** 기존 v4.0 프로덕션 스키마(`학생 발화`, `AI 피드백`)와 클로드 스키마를 런타임에 자동 판별하여 무결점 정규화 매핑 (`pull_logs.py`).
+
   7. **LLM 진단 및 에어갭 엄격 준수:** `session_code: Optional[str]` 허용으로 JSON 파싱 에러를 방지하고, 발문씨앗(`probe_seed`)이 발문관에 직접 노출되지 않도록 인지 진단관(Step 1)과 발문관(Step 2)의 10대 에어갭 규칙 완벽 보존.
+
 - **파일 위치 및 테스트 현황:**
+
   * 파이프라인: `handwriting_pipeline/` (`split_pdf.py`, `analyze.py`, `masking.py`, `push_sheets.py`, `pull_logs.py`, `make_prompt_pack.py`, `run_all.py`, `config.yaml`, `requirements.txt`)
+
   * GAS 모듈: `자율교육과정_쉬었음_청년_웹앱/Code_Socratic_Handwriting_v41.gs`
+
   * 회귀 테스트: `handwriting_pipeline/tests/test_pipeline.py` (10개 테스트 전원 100% 통과 완료)
 
+
+
 ## 103. K-듀얼모멘텀 봇 rev.2 Claude Opus 5 스케줄/신호/페일세이프 완제 배포 (2026-09-18)
+
 - **개요:** GitHub Actions 무료 Cron 5시간 지연(17:26 가동) 실측 및 9/21(월) 잔여현금 20.18% 보정 대비, Claude Opus 5의 9대 패치를 반영한 rev.2 프로덕션 확정본을 깃허브 원격 저장소(`hyh54311-dev/jinhae-k-momentum-bot`, commit: `95e7be7`)에 최종 배포 및 실전 DRY-RUN 검증 완료.
+
 - **핵심 수정 및 방어 내역:**
+
   1. **스케줄러 개편 (`rebalance.yml`):**
+
      - GitHub Actions 무료 schedule 백업을 `10:07 KST`(`7 1 17-31 * *`) 및 `13:07 KST`(`7 4 17-31 * *`)로 분산. 정각(:00) 대기열 회피 및 최대 5시간 지연 시에도 15:15 장 마감 전에 진입 보장.
+
      - `workflow_dispatch`에 `dry_run` 파라미터(1=on, 0=off) 탑재.
+
   2. **모멘텀 기준월 고정 (월중 휩쏘 Whipsaw 방지):**
+
      - 진행 중인 당월 월봉(`prices[-1]`) 변동에 따른 신호 뒤집힘을 차단하고, 전월 말 확정 종가(`prices[-2]` vs `prices[-14]`) 기준으로 12개월 수익률 및 AMS를 산출하여 한 달 내내 동일 목표 비중 유지.
+
   3. **묵은 미체결 주문 취소 (`cancel_order` 및 P3):**
+
      - 20분 이상 지난 묵은 미체결(`rmn_qty > 0`) 발생 시 스킵하지 않고 `cancel_order`로 취소 후 재집행하여 2차 페일세이프 가동 보장. (20분 이내 신규 주문만 중복 방지 스킵)
+
   4. **당월 멱등성 가드:**
+
      - 당일 조회가 아닌 당월 체결(`start_dt=month_start`)을 교차 검증하여, 월 1회 리밸런싱 완료 후 월말 시세 변동에 따른 과매매 원천 차단. (단, 현금 비중 > 1.5% 시 잔여분 보정 자동 실행)
+
   5. **DRY_RUN 독립 진입 게이트:**
+
      - 거래 허용 시간창(09:10~15:15) 및 휴장일 게이트 이전에 `DRY_RUN`을 판정하여, 주말·야간에도 주문 없이 목표 비중만 텔레그램으로 즉시 확인 가능.
+
   6. **세부 최적화:**
+
      - 15:15 데드라인 종속 잔여 폴링 시간 자동 캡핑, 텔레그램 3,500자 분할 전송, 미사용 변수 정리.
 
-## 104. K-듀얼모멘텀 봇 rev.3 Claude Opus 5 전체 소스 감사 무인 운용 최종 확정본 배포 (2026-09-18)
-- **개요:** Claude Opus 5의 `kis_bot_multi_rev2_full.py`(1,099줄) 전체 소스 정밀 감사 회신서(`K-듀얼모멘텀_rev2_전체소스감사_최종회신서_2026-09-18.md`)에서 지적된 🔴 Critical 4건과 🟠 High 4건(총 8건)을 100% 해소하여 rev.3 프로덕션 최종본(`d46c470`)을 원격 저장소(`hyh54311-dev/jinhae-k-momentum-bot`)에 배포 및 실전 검증 완료.
-- **8대 패치 및 방어 아키텍처:**
-  1. **🔴 TLS 인증서 검증 복원 및 경고 은폐 제거:** `urllib3.disable_warnings`를 삭제하고, `VERIFY_SSL = os.getenv("KIS_VERIFY_SSL", "1") != "0"`을 도입하여 기본값 `True`로 안전한 TLS 검증을 상시 강제. (로컬 교육청 프록시 탈출구는 로컬 .env 전용으로 격리)
-  2. **🔴 `--force` 거래시간창 우회 원천 차단:** 09:10~15:15 거래시간창 게이트를 최상위 레벨의 독립 게이트로 승격 분리. 야간 21:10 실행 시 `--force` 여부와 무관하게 즉시 차단 실측 완료.
-  3. **🔴 월봉 소스 per-ticker 혼용 방지 (`load_all_monthly`):** 4대 자산의 월봉 데이터를 소스 단위(KIS 전원 성공 or Yahoo 전원 폴백)로 일괄 확보하도록 통일하여 상대모멘텀 척도 왜곡 원천 차단. KIS 수정주가 파라미터 `"FID_ORG_ADJ_PRC": "0"` 교정 및 데드 파라미터 `count=16` 제거.
+
 
 ## 104. K-듀얼모멘텀 봇 rev.3 Claude Opus 5 전체 소스 감사 무인 운용 최종 확정본 배포 (2026-09-18)
+
 - **개요:** Claude Opus 5의 `kis_bot_multi_rev2_full.py`(1,099줄) 전체 소스 정밀 감사 회신서(`K-듀얼모멘텀_rev2_전체소스감사_최종회신서_2026-09-18.md`)에서 지적된 🔴 Critical 4건과 🟠 High 4건(총 8건)을 100% 해소하여 rev.3 프로덕션 최종본(`d46c470`)을 원격 저장소(`hyh54311-dev/jinhae-k-momentum-bot`)에 배포 및 실전 검증 완료.
+
 - **8대 패치 및 방어 아키텍처:**
+
   1. **🔴 TLS 인증서 검증 복원 및 경고 은폐 제거:** `urllib3.disable_warnings`를 삭제하고, `VERIFY_SSL = os.getenv("KIS_VERIFY_SSL", "1") != "0"`을 도입하여 기본값 `True`로 안전한 TLS 검증을 상시 강제. (로컬 교육청 프록시 탈출구는 로컬 .env 전용으로 격리)
+
   2. **🔴 `--force` 거래시간창 우회 원천 차단:** 09:10~15:15 거래시간창 게이트를 최상위 레벨의 독립 게이트로 승격 분리. 야간 21:10 실행 시 `--force` 여부와 무관하게 즉시 차단 실측 완료.
+
   3. **🔴 월봉 소스 per-ticker 혼용 방지 (`load_all_monthly`):** 4대 자산의 월봉 데이터를 소스 단위(KIS 전원 성공 or Yahoo 전원 폴백)로 일괄 확보하도록 통일하여 상대모멘텀 척도 왜곡 원천 차단. KIS 수정주가 파라미터 `"FID_ORG_ADJ_PRC": "0"` 교정 및 데드 파라미터 `count=16` 제거.
+
+
+
+## 104. K-듀얼모멘텀 봇 rev.3 Claude Opus 5 전체 소스 감사 무인 운용 최종 확정본 배포 (2026-09-18)
+
+- **개요:** Claude Opus 5의 `kis_bot_multi_rev2_full.py`(1,099줄) 전체 소스 정밀 감사 회신서(`K-듀얼모멘텀_rev2_전체소스감사_최종회신서_2026-09-18.md`)에서 지적된 🔴 Critical 4건과 🟠 High 4건(총 8건)을 100% 해소하여 rev.3 프로덕션 최종본(`d46c470`)을 원격 저장소(`hyh54311-dev/jinhae-k-momentum-bot`)에 배포 및 실전 검증 완료.
+
+- **8대 패치 및 방어 아키텍처:**
+
+  1. **🔴 TLS 인증서 검증 복원 및 경고 은폐 제거:** `urllib3.disable_warnings`를 삭제하고, `VERIFY_SSL = os.getenv("KIS_VERIFY_SSL", "1") != "0"`을 도입하여 기본값 `True`로 안전한 TLS 검증을 상시 강제. (로컬 교육청 프록시 탈출구는 로컬 .env 전용으로 격리)
+
+  2. **🔴 `--force` 거래시간창 우회 원천 차단:** 09:10~15:15 거래시간창 게이트를 최상위 레벨의 독립 게이트로 승격 분리. 야간 21:10 실행 시 `--force` 여부와 무관하게 즉시 차단 실측 완료.
+
+  3. **🔴 월봉 소스 per-ticker 혼용 방지 (`load_all_monthly`):** 4대 자산의 월봉 데이터를 소스 단위(KIS 전원 성공 or Yahoo 전원 폴백)로 일괄 확보하도록 통일하여 상대모멘텀 척도 왜곡 원천 차단. KIS 수정주가 파라미터 `"FID_ORG_ADJ_PRC": "0"` 교정 및 데드 파라미터 `count=16` 제거.
+
   4. **🔴 requirements.txt 의존성 정합:** `requests==2.31.0`, `python-dotenv==1.0.1`, `urllib3==2.2.1` 확정 수록.
+
   5. **🟠 MAX_ORDER_AMOUNT 데드코드 해소:** 매수(`submit_buy_with_stepdown`) 및 매도(`rebalance_account`) 직전 단일 주문 상한 초과 차단 가드 주입.
+
   6. **🟠 Drift 허용치 1주 단가 동적 적응 (`effective_drift_tolerance`):** `max(3%p, (max_px / total_asset) * 1.5)`를 적용하여 106,365원 고가 ETF(자산의 4.78%) 환경에서 허용치를 7.17%p로 확장, 잔여현금 부족 시 1주 샀다 팔았다 하는 whipsaw 및 일별 무한 재기동 방지.
+
   7. **🟠 동적 매수 호가 통일 (`buy_limit_price`):** `round_tick(px + max(2틱, px * 0.1%), "up")`으로 저가 ETF는 2틱, 고가 ETF(069500)는 0.1%(약 106원, ~22틱) 상향하여 급등락장에서도 즉각 체결 보장. 1차 매수 계획과 그리디 패스 통일.
+
   8. **🟠 cancel_order 재시도 제거 & 스케줄 간격 확보:** `cancel_order`를 단발 `requests.post`로 복원하여 이중 취소 위험 제거. `STALE_ORDER_MINUTES=30` 상향. GitHub 백업 cron을 `10:07`, `11:47 KST`로 조정하여 Cloud Scheduler(13:30)와 103분 여유 확보. `permissions: { contents: read }` 추가.
+
 - **실측 및 배포 상태:**
+
   - `python -m py_compile kis_bot_multi.py`: 에러 0건 정상.
+
   - `DRY_RUN=1` 시뮬레이션: KODEX 200 33.3%, TIGER 미국달러단기채권 66.7% 산출 일치.
+
   - 원격 커밋: `d46c470` 배포 완료.
+
   - 구글 드라이브 클로드 폴더(`G:\내 드라이브\클로드\`)에 `kis_bot_multi_rev3_full.py`(1,154줄), `rebalance_rev3.yml`, `K-듀얼모멘텀_rev3_전체패치완료_및_무인운용_최종승인의뢰서_2026-09-18.md` 완비.
 
+
+
 ## 105. K-듀얼모멘텀 봇 rev.3 KIS 정식 월봉 실측 검증 완료 및 Claude Opus 5 무조건 최종 승인 (2026-09-19)
+
 - **개요:** Claude Opus 5의 단 1건 잔여 조건(실전 러너 환경에서 KIS 월봉 시세 수집 검증)을 충족하기 위해 GitHub Actions에서 수동 `dry_run=1` 워크플로우(Run #20, commit `880a2de`)를 가동하여, KIS API 정식 데이터 경로 및 목표 비중 산출을 완벽하게 검증 통과하고 Claude Opus 5로부터 **9/21(월) 실전 가동 무조건 최종 승인(Unconditional Sign-off)**을 획득함.
+
 - **실측 콘솔 및 텔레그램 검증 결과 (Run #20, 24초 완료):**
+
   * `>> 월봉 소스: KIS (4자산 동일 척도 확보)` 출력 완료 (KIS 정식 경로 100% 정상 작동)
+
   * KIS 12개월 상대모멘텀 실측치: KODEX 200 `+151.60%` (1위), TIGER 미국S&P500 `+17.64%`, ACE KRX금현물 `+27.59%`, ACE 미국30년국채액티브 `-2.47%`
+
   * AMS 스코어: 1/3점
+
   * 최종 목표 비중: KODEX 200 33.3% @ 109,285원 / TIGER 미국달러단기채권액티브 66.7% @ 13,080원 (9/17 산출 목표와 100% 일치)
+
 - **핵심 기술적 발견 — 소스 통일 패치(`load_all_monthly`) 가치 실측 입증:**
+
   * 분배금이 큰 미국30년국채 ETF(476760)에서 Yahoo(`-6.03%`) vs KIS(`-2.47%`) 간 **3.56%p의 거대한 수정주가 왜곡 편차**가 실측됨. 반면 분배금이 없는 KRX금현물은 `+27.59%` vs `+27.59%`로 정확히 **0.00%p 차이**를 보임.
+
   * 종목별로 소스를 혼용할 경우 상대순위가 뒤바뀌는 실제 금융 재앙을 `load_all_monthly`(소스 단위 all-or-nothing) 패치가 선제적으로 방어하고 있었음이 실측으로 완전 입증됨.
+
   * KIS 실측치(+151.60%)가 외부 정밀 데이터(+152.01%)에 훨씬 근접하여 KIS 1순위 소스 채택의 정당성이 확립됨.
+
 - **추가 권고사항 4건 완결 반영 (`880a2de`):**
+
   1. **현금 부족 시 무한 루프 완화 (§3-2):** `executed_this_month` 상태에서 `cash_ratio <= CASH_TOLERANCE(1.5%)`이면 추가 매수 재원이 없으므로 잔여 드리프트가 있어도 완료 스킵.
+
   2. **주문번호 정규화 (§4-1):** `ODNO` 비교 시 앞자리 0 제거(`.lstrip('0')`) 및 공백 제거로 API 간 패딩 불일치에 따른 20초 헛대기 방지.
+
   3. **docstring 동기화 (§4-2):** 묵은 주문 30분, 동적 드리프트 허용치 반영.
+
   4. **토큰 부재 진단 경고 (§2-4):** KIS 월봉 시세 조회 시 토큰 부재로 인한 조용한 스킵 차단 로그 추가.
+
 - **9/21(월) 09:10 실전 리밸런싱 운용 수칙:**
+
   * 실행 파라미터: `dry_run=0`, `force=false` (정규 개장일이므로 force 금지)
+
   * 핵심 검증 대상: 9/17 매도 D+2 결제 예수금(449,094원)과 9/21 069500 5주 신규 매도 D+0 가수금(약 546,000원, `ruse_psbl_amt` 재사용가능금액)을 합성 인식하여 `[TTTC8908R] 순수현금 + 재사용` 로그로 329750 매수 재원에 100% 반영되는지 확인.
+
 - **10월 완전 무인화 로드맵:**
+
   * Google Cloud Scheduler 3 Job 체계 구축 (11:00 KST 정규, 13:30 KST 페일세이프, 15:20 KST 데드맨 스위치).
+
   * GitHub PAT 1년 만기 대응 또는 GitHub App 설치 토큰 무인화 인프라 연동.
 
+
+
 ## 106. 3발 분산 크론(09:47, 11:17, 12:47 KST) 도입 및 도서 원고 대중화 개편 완결 (2026-09-19)
+
 - **개요:** 무료 GitHub Actions schedule 대기열 지연(최대 5시간)과 일반 독자의 GCP 신용카드 등록 진입장벽을 동시에 해결하기 위해, Claude Opus 5의 "문제를 더 쉬운 문제로 바꾸다 & 크론은 알람 시계가 아니라 번호표다" 철학을 전면 수용하여 3발 분산 크론을 배포하고 도서 원고를 완벽하게 개편함.
+
 - **아키텍처 및 워크플로우 반영 (`rebalance.yml`, commit: `6aa25f9`):**
+
   * 매월 17~31일 하루 3번 번호표를 뽑는 3발 분산 크론 구성:
+
     1. `47 0 17-31 * *` (09:47 KST, 장 초반 급변동 파도 지난 시점, 5시간 지연되어도 14:47 도착하여 장 마감 전 체결)
+
     2. `17 2 17-31 * *` (11:17 KST, 점심 전 2차 파도 회피)
+
     3. `47 3 17-31 * *` (12:47 KST, 3차 최종 안전망)
+
   * 봇 내장 '델타 수렴 멱등성 가드(현금 비중 ≤ 1.5% 스킵)'와 결합: 1발이 체결되면 2·3발은 0.1초 만에 자동 스킵되어 중복 매매 0%.
+
   * 매월 최대 45번의 추첨 기회가 주어져 15일 내내 지연될 통계적 확률은 0%.
+
 - **도서 원고(`retirement_savings_dual_momentum_guide.md`) 개편 완결:**
+
   * **4부 여는 글 1:** 9월 17~18일 실측 5시간 지연 충격 ➔ 거래시간 게이트 활약 ➔ "전월말 확정 종가 고정(P5)"으로 날짜 무관 동일 결과 실현 ➔ 3발 분산 크론으로 신용카드 0원 무인화 달성 스토리 수록.
+
   * **4.2절:** 무료 클라우드의 우선순위 비밀(workflow_dispatch VIP vs schedule 최하위 번호표) 및 3발 분산 크론의 멱등성 시너지 해설. [스페셜 꿀팁]으로 지메일 기반 Google Apps Script(GAS) 대기열 승급권 소개.
+
   * **4.3절 STEP 3 및 트러블슈팅 #10:** 최신 3발 분산 크론 수식 및 5시간 지연 극복 사례 동기화 완료.
 
+
+
 ## 107. 당일 3회 확인 알림 및 익일 무소음 스킵(Silent Skip) 스마트 알림 아키텍처 수립 및 배포 (2026-09-19)
+
 - **개요:** 3발 분산 크론 운용 시 독자/사용자의 사용자 경험(UX)과 일상의 평온을 극대화하기 위해 '당일 3회 확인 알림 + 익일 무소음 스킵' 스마트 알림 정책을 `kis_bot_multi.py`에 구현하고 원격 저장소(`hyh54311-dev/jinhae-k-momentum-bot`)에 배포 완료 (commit `fad3afd`).
+
 - **3대 알림 정책 메커니즘:**
+
   1. **[집행 당일 확인 알림]**: 리밸런싱 집행 당일(예: 17일)에는 3회 기동 시 3번의 텔레그램 메시지가 모두 정상 발송됨. 1발: 실제 리밸런싱 체결 리포트 발송, 2·3발: '당일 리밸런싱 집행 완료 (현금 ≤ 1.5%) — 당일 확인 스킵' 발송. 사용자가 당일 리밸런싱의 완벽한 종료와 체결 상태를 안심하고 직접 확인할 수 있음.
+
   2. **[익일 이후 무소음 스킵 (Silent Skip)]**: 이전 거래일에 당월 리밸런싱이 1회라도 성공 완료된 경우, 익일부터 월말(18일~31일)까지는 텔레그램 메시지를 일절 발송하지 않음(0건). 세션 시작 알림조차 발송하지 않고 콘솔에만 조용히 로그를 남기고 0.1초 만에 정상 종료. 주말(토/일)에도 휴장일 알림 없이 완벽한 침묵(Silent Weekend) 유지.
+
   3. **[실패 시 자동 치유 및 복구]**: 만약 17일에 증시 휴장, API 일시 장애 등으로 실패한 경우, 성공할 때까지 다음 날(18일, 19일...) 정상적으로 깨어나 매매를 집행하고 텔레그램 메시지를 발송함. 1회라도 성공 달성 즉시, 그 다음 날부터는 다시 완벽한 무소음 스킵 모드로 자동 전환됨.
+
 - **수정 및 배포 파일:**
+
   * `scratch/jinhae-k-momentum-bot/kis_bot_multi.py` (commit `fad3afd`)
+
   * `kis_bot_multi.py` (루트 워크스페이스)
+
   * `github_actions_k_momentum_bot/kis_bot_multi.py`
+
   * `G:\내 드라이브\클로드\kis_bot_multi_rev3_full.py`
+
   * `retirement_savings_dual_momentum_guide.md` (Section 4.2 및 Section 4.3 Q&A에 독자 눈높이 서사 반영 완료)
+
   * `G:\내 드라이브\클로드\연금저축_K-듀얼모멘텀_가이드_원고_최신본_2026-09-19.md` 동기화 완료.
 
+
+
 ## 108. Claude Opus 5 🔴 2건 + 🟠 3건 감사 지적 완벽 해소 및 rev.4 배포 (2026-09-19)
+
 - **개요:** Claude Opus 5의 정밀 감사 회신서(`K-듀얼모멘텀_rev4_스마트알림_전수감사회신서_2026-09-19.md`)에서 지적된 🔴 Critical 2건(10.76% 현금 방치 회귀 결함, 침묵 감지 장치 부재) 및 🟠 3건(완료 기준 통일, `--force` 주말 실주문 차단, 텔레그램 채널 독립 경보) 총 5건 전체를 단 하나도 빠짐없이 100% 교정 완료 후 원격 저장소(`a4564b0`)에 배포 완료.
+
 - **5대 핵심 조치 내역:**
+
   1. **[🔴 Critical 1: `is_month_completed` 단일 현금 소진 기준 복원]**: `or (max_drift <= eff_drift)` 조건을 완전 폐기하고 `is_month_completed(cash_ratio): return cash_ratio <= CASH_TOLERANCE (1.5%)` 단독 기준으로 100% 복원. 1주 단가(106,365원) 상승 시 최대 10.76%의 현금이 완료로 오판되어 방치되던 결함을 원천 차단.
+
   2. **[🔴 Critical 2: 침묵 감지 장치 2종(월말 결산 생존 점검 + 60일 비활성화 차단 로그 커밋) 완비]**:
+
      - **월말 점검 cron (`0 5 28-31 * *`, KST 14:00)**: 28~31일 실행되어 당월 마지막 평일 14:00 KST에 전 계좌 완료/미완료 상태를 점검하여 **정확히 1회의 결산 생존 보고서**를 발송.
+
      - **실행 로그 커밋 (`rebalance.yml`)**: `permissions: contents: write` 및 `chore(log)` 커밋 스텝을 추가하여 60일 비활성화 타이머를 매월 영구 초기화하고 로그를 보존.
+
   3. **[🟠 완료 판정 기준 3개소 100% 단일화]**: `check_already_rebalanced_today`, 휴장일 게이트 `already_done`, 월말 점검 `is_check_only` 모두 `is_month_completed()` 단일 함수를 공유하도록 일원화.
+
   4. **[🟠 `--force` 주말 실전 주문 차단]**: 주말(토/일)에 `--force`가 실전 계좌에서 입력되더라도 `DRY_RUN = True`로 안전 강제 전환하여 KRX 폐장 시간대 실전 주문 에러 원천 차단.
+
   5. **[🟠 텔레그램 채널 독립 경보 (`raise_on_error`)]**: `send_telegram`에 `raise_on_error` 매개변수를 추가하여, 월말 점검 발송 실패 시 워크플로우를 강제 FAIL 처리함으로써 **GitHub 소유자 이메일 알림**이라는 텔레그램 독립 비상 통로를 확보.
+
 - **수정 및 배포 파일:**
+
   * `scratch/jinhae-k-momentum-bot/kis_bot_multi.py`, `.github/workflows/rebalance.yml` (commit `a4564b0`)
+
   * `G:\내 드라이브\클로드\K-듀얼모멘텀_rev4_클로드_감사조치결과서_2026-09-19.md` 완비.
+
   * `retirement_savings_dual_momentum_guide.md` 및 구글 드라이브 원고 최신본 동기화 완료.
 
+
+
 ## 109. 하이에듀(HiEdu) 교직원 단체문자 계정 체계 및 기관내사용자 가입/로그인 지침 (2026-09-21)
+
 - **개요:** 진해고등학교 대량 문자 발송 서비스인 하이에듀(HiEdu)의 교직원 전체(77개) 계정 체계, 황요한 교사 계정 정보, 기관내사용자 회원가입 절차 및 비밀번호 관리 수칙을 영구 보존함.
+
 - **황요한 교사 전용 계정 정보**:
+
   * **소속 부서:** 교무기획부
+
   * **담당 업무:** 입학·홍보
+
   * **아이디(ID):** `jingo405`
+
   * **초기 비밀번호:** `진해고2260!!!` (교무실 대표 전화번호 `055-546-2260` 기반)
+
 - **진해고등학교 하이에듀 부서별/학년별 계정 ID 체계**:
+
   * **교무기획부 (5명):** `jingo401`(부장 최준호), `jingo402`(기획1 박지환), `jingo403`(기획2 박승현), `jingo404`(학적·학생부 이병의), `jingo405`(입학·홍보 황요한)
+
   * **인성안전부 (7명):** `jingo501`(부장 최영훈), `jingo502`(기획·안전 배수현), `jingo503`(생활지도 이로겸), `jingo504`(상벌·출결 김지혁), `jingo505`(보건 강선희), `jingo506`(상담 최미정)
+
   * **교육연구부 (4명):** `jingo601`(부장 권현정), `jingo602`(기획 김다혜), `jingo603`(동아리·축제 배미영), `jingo604`(사서 권계형)
+
   * **교육과정부 (3명):** `jingo701`(부장 안미란), `jingo702`(기획 이지희), `jingo703`(일과 김명규)
+
   * **교육평가부 (4명):** `jingo801`(부장 정지연), `jingo802`(기획·방과후 권혜원), `jingo803`(평가1 이유정), `jingo804`(평가2 이정희)
+
   * **기숙사운영부 (6명):** `jingo901`(부장 조성규), `jingo902`(기획1 김정아), `jingo903`(기획2 이은샘), `jingo904`(사감 한정규), `jingo905`(영양1 임미영), `jingo906`(영양2 박세진)
+
   * **진로복지부 (5명):** `jingo2001`(부장 허정화), `jingo2002`(기획 이숙경), `jingo2003`(특수1 임선곤), `jingo2004`(특수2 김다해), `jingo2005`(특수3 차해경)
+
   * **미래교육부 (3명):** `jingo3001`(부장 김주연), `jingo3002`(기획 정현재), `jingo3003`(방송·과학 백정용)
+
   * **1학년 담임 (10명):** `jingo101`~`jingo110` (1-1 김정화, 1-2 김태영, 1-3 박진효, 1-4 박수현, 1-5 김승우, 1-6 박민혜, 1-7 박희영, 1-8 최선주, 1-9 성유송, 1-10 진주희)
+
   * **2학년 담임 (10명):** `jingo201`~`jingo210` (2-1 김대홍, 2-2 김지영, 2-3 김수민, 2-4 정은영, 2-5 강필성, 2-6 서한성, 2-7 정순영, 2-8 여지언, 2-9 서용환, 2-10 강지영)
+
   * **3학년 담임 (10명):** `jingo301`~`jingo310` (3-1 서철민, 3-2 임언숙, 3-3 정경훈, 3-4 차지현, 3-5 조진희, 3-6 이재호, 3-7 이해빈, 3-8 이지형, 3-9 박혜진, 3-10 김상우)
+
   * **행정실 (7명):** `jingo4001`~`jingo4007`, `jingo00`
+
 - **기관내사용자 회원가입 및 이용 5대 핵심 수칙**:
+
   1. **학내망 필수 환경:** EPKI(교육전자서명인증서) 보안 모듈 설치 및 본인인증은 **반드시 교내 학내망 환경**에서만 실행 가능.
+
   2. **인증 절차:** 이용약관 동의 ➔ 가입정보 작성 ➔ 본인인증 (휴대폰 인증 + EPKI 인증 병행).
+
   3. **발신번호 등록:** 통신서비스가입증명원, 재직증명서, 위임장 필요 (기관관리자가 사전 등록한 경우 서류 생략 가능).
+
   4. **기관관리자 승인:** 최초 가입 후 승인 대기 상태이며, 기관관리자(교무기획부)의 최종 승인 후 정식 발송 권한 활성화.
+
   5. **첫 로그인 비번 변경 필수:** 초기 공통 비밀번호(`진해고2260!!!`)로 최초 로그인 시, 보안을 위해 즉시 비밀번호를 새롭게 변경해야 함.
+
 - **공식 파일 보관 위치:**
+
   * 교무기획부: `진해고등학교\2026학년도\교무기획부\명단, 배치도\하이에듀(HiEdu)\`
+
   * 입학·홍보: `진해고등학교\2026학년도\업무(장학금 및 입학홍보)\3. 홍보\하이에듀(HiEdu)\`
 
 
 
 
 
+
+
+
+
+
+
 ## 99. 2학년 화법과 언어 이예성(20224), 노시헌(21012), 정원호(21024) 문법 탐구 세특 원천 데이터베이스 (2026-09-23)
+
 - **개요:** 학생들이 학습지 자율 학습 중 발견한 의문점 및 학습지 오기를 국립국어원 표준국어대사전과 대조하여 교사에게 제출한 수기 포스트잇 메모 스캔본 기반 원천 데이터(클로드 세특 작성용).
+
 - **대상 학생 및 탐구 팩트:**
+
   1. **이예성 (2학년 2반 24번):**
+
      - 탐구 대상: '몫 없고', '값 없고', '넋 없고'
+
      - 분석 팩트: 표준 발음법 제10항 및 제15항에 근거하여, 체언 말음의 자음군 단순화(1회)와 후행 용언 어근 말음의 자음군 단순화(1회)가 연쇄 적용되어 **'자음군 단순화가 2회(음운 수 -2)'** 일어남을 명확히 규명함.
+
   2. **노시헌 (2학년 10반 12번), 정원호 (2학년 10반 24번 - 국어 교과부장):**
+
      - 탐구 계기: 타 학급과 학습지 내용의 차이 및 학습지 인쇄 오류를 발견하고 인터넷 사전 교차 검증 수행.
+
      - 5대 오류 교정 팩트:
+
        ① '미닫이': 합성어 형성 시 어간 말음 'ㄹ' 탈락(밀- + 닫-) 형태론적 과정 누락 규명.
+
        ② '디딤돌': 사잇소리에 의한 된소리되기 [디딤똘] 규명.
+
        ③ '줄넘기': 순행 유음화([줄럼-]) 및 된소리되기 복합 변동 분석.
+
        ④ '넓둥글다': 학습지 오기([넙둥글다])를 발견하고 제23항에 따른 올바른 표준 발음 [넙뚱글다]로 교정.
+
        ⑤ '넋 없다': 학습지의 탈락 1회 표기 오류를 지적하고 앞뒤 형태소에서 '자음군 단순화 2회(탈락 2회)'가 일어남을 규명.
+
 - **세특 파일 저장 경로:**
+
   * d:\\OneDrive - 경상남도교육청\\바탕 화면\\진해고등학교\\2026학년도\\수업\\2026학년도 세특\\2학년 화법과 언어\\2학년_2반_24번_이예성_세특_기초자료(클로드작성용).md
+
   * d:\\OneDrive - 경상남도교육청\\바탕 화면\\진해고등학교\\2026학년도\\수업\\2026학년도 세특\\2학년 화법과 언어\\2학년_10반_12번_노시헌_24번_정원호_세특_기초자료(클로드작성용).md
 
+
+
 ## 100. 9월 28일(월) 아침 브리핑 필수 상기 지침: 입학설명회 주요 인물 3인 일러스트 제작 착수
+
 - **일시:** 2026년 9월 28일(월) 아침 출근 브리핑
+
 - **대상 인물 3종:**
+
   1. **교장선생님 일러스트** (S04 학교장 인사말 슬라이드 배치용)
+
   2. **학생회장 일러스트** (S05 학생회장 학교 소개 슬라이드 배치용)
+
   3. **황요한 선생님(본인) 일러스트** (S01 오프닝, S07 강점 안내, S38 진학 컨설팅 또는 S53 Q&A 배치용)
+
 - **제작 가이드라인:**
+
   * 바나나nl STYLE #317 컨설팅 덱 정합성 유지 (1024×1024 고해상도 투명 PNG)
+
   * '고진해' 캐릭터와의 화풍 및 색감(네이비/화이트 톤) 통일성 확보
+
 - **규칙:** **2026년 9월 28일(월) 아침 일정 브리핑 시, 교장선생님·학생회장·황요한 선생님 일러스트 제작 착수 일정을 최우선 필수 상기 항목으로 포함하여 보고할 것.**
 
+
+
 ## 101. 9월 28일(월) 아침 브리핑 필수 상기 지침: 이번 주 육아시간 신청 및 시험 1교시 감독 확인
+
 - **일시:** 2026년 9월 28일(월) 아침 출근 브리핑
+
 - **핵심 상기 및 확인 사항:**
+
   1. **이번 주(9.28~10.2) 육아시간 신청:** 월요일 아침 나이스(NEIS)에서 이번 주 육아시간 신청 진행 필요.
+
   2. **2학기 1차 지필평가(중간고사) 기간:** 9월 29일(화) ~ 10월 2일(금) (총 4일간, 매일 1~3교시).
+
   3. **화·목·금 1교시(08:50~09:40) 시험 감독 배정 여부 사전 확인 필수:**
+
      - 1교시 감독이 배정된 날: 오전 출근 시간대 육아시간(08:30~10:30 등) 신청 불가 ➔ **오후 퇴근 시간대 육아시간(14:30~16:30 등)**으로 조정 신청 필요.
+
      - 1교시 감독이 없는 날: 통상적인 오전 출근 시간대 육아시간 신청 가능.
+
   4. **규칙:** **2026년 9월 28일(월) 아침 일정 브리핑 시, 교장·학생회장·황요한 일러스트 제작 착수(Rule 100)와 함께 '이번 주 육아시간 신청 및 화/목/금 1교시 시험 감독 배정 확인'을 최우선 필수 상기 항목으로 포함하여 안내할 것.**
 
+
+
 ## 102. K-듀얼 모멘텀 봇 rev4.2 Claude Opus 5.5 전수 감사 6건 조치 및 원격 배포 완료 (2026-09-28)
+
 - **개요:** Claude Opus 5.5의 전수 감사 회신 지적 6건(미체결 시 매일 알림 100% 보장, 신호 산출 실패 시 안전 집행 보류, 소액 계좌 가드 강화, 사전 멱등성 Read-Only 분리, 월말 점검 캘린더 2027년 2월 공백 해소)을 완벽히 조치하고 단위/결합 테스트 100% 통과 후 GitHub Actions 원격 메인 저장소에 푸시 배포함.
+
 - **주요 해결 및 반영 팩트:**
+
   1. **[🔴 미체결 시 매일 알림 100% 보장]**: 18~31일 기간 중 미완료 계좌(`needs_work`)가 남아있는 상태에서 당일 모든 크론이 정규장 마감(15:15 KST) 후 지연 도착할 경우, 무소음 종료되지 않고 지연 경보 텔레그램을 100% 발송하도록 수정 (Test 4 통과). 반면 이미 당일 완료된 계좌는 완전 무소음 종료 (Test 5 통과).
+
   2. **[🟠 신호 산출 실패 시 안전 집행 보류]**: 모멘텀 계산 예외 발생 시 `target_weights = {TICKER_SAFE: 1.0}`으로 강제 매핑하지 않고 `signal_failed = True`로 격리. 미완료 계좌 잔존 시 매매를 전면 중단하고 경보 발송하여 주식 전량 투매 사고 원천 차단.
+
   3. **[🟠 소액 계좌 판정 가드 강화]**: `min_share_price and total < min_share_price and not holdings` 조건으로 강화하여, 잔고 API 일시 0원 오류 시에도 정상 계좌를 소액 계좌로 오판하여 월말까지 방치되는 결함 방어.
+
   4. **[🟠 사전 멱등성 검사 Read-Only 분리]**: 메인 루프 전 사전 상태 검사 시 `read_only=True`로 호출하여 15:15 거래창 밖에서의 불필요한 주문 취소 API 호출 방지. 묵은 주문 취소는 게이트 통과 후 실제 주문 직전에 집행.
+
   5. **[🟡 2027년 2월 월말 점검 크론 공백 해소]**: `rebalance.yml` 크론 범위를 `0 5 25-31 * *`로 확장하여 2월 말일이 주말이어도 25~27일 평일에 월말 결산 생존 보고서 1회 발송 보장.
+
 - **저장소 푸시 및 파일 동기화:**
+
   * GitHub Actions 메인 저장소 (`hyh54311-dev/jinhae-k-momentum-bot`): 커밋 `4d259c0` 푸시 완료.
+
   * 구글 드라이브 클로드 폴더 (`G:\내 드라이브\클로드\`): `kis_bot_multi_rev4_full.py`, `rebalance_rev4.yml`, `K-듀얼모멘텀_rev4.2_클로드감사_6건전수반영완료보고서_2026-09-28.md` 100% 동기화.
 
+
+
 ## 103. K-듀얼 모멘텀 봇 rev4.3.1 Claude 조건부 승인 3대 요건 완결 및 무인 운용 최종 배포 (2026-09-28)
+
 - **개요:** Claude Opus 5.5의 모의 실행 감사로 발견된 "묵은 미체결 주문 교착(read_only=True 분리의 부작용으로 skip=True 반환되어 취소 코드 미도달 및 needs_work 누락)" 결함을 2곳 패치(L700 `skip=False` 반환, L1320 재판정 반환값 반영)로 완벽히 해결함.
+
 - **3대 최종 승인 조건 달성 팩트:**
+
   1. **[§2-3 패치 2곳 완료]**: `kis_bot_multi.py` L700 `return False, "묵은 미체결... 집행 단계에서 취소 후 재집행"` 및 L1320 `skip2, reason2, _ = check_already_rebalanced_today(..., read_only=False)` 반영 완료.
+
   2. **[T-C, T-D 회귀 테스트 100% 통과]**: `test_main_flow.py`에 T-C(장중 11:17 묵은 주문 cancel_order 1회 호출 후 rebalance_account 정상 집행) 및 T-D(장후 16:40 cancel_order 0회 및 텔레그램 미완료 경보 1통 발송) 신설하여 15개 전체 시나리오 All Green 통과.
+
   3. **[배포 후 `dry_run=1` 실전 기동 검증 완료]**: 실제 Yahoo Finance/OpenAPI 시세 분석 및 4대 자산 모멘텀 스코어링 정상 종료(Exit code 0).
+
 - **원격 저장소 및 구글 드라이브 동기화:**
+
   * GitHub Actions 메인 저장소 (`hyh54311-dev/jinhae-k-momentum-bot`): 커밋 `96ffe12` 푸시 완료.
+
   * 구글 드라이브: `kis_bot_multi_rev4_full.py`, `rebalance_rev4.yml`, `K-듀얼모멘텀_rev4.3.1_최종승인확인서_2026-09-28.md` 동기화 완료.
 
+
+
 ## 104. K-듀얼 모멘텀 봇 rev4.3.1 Claude Opus 5.5 무인 운용 공식 최종 승인(Production Sign-off) 획득 (2026-09-28)
+
 - **개요:** Claude Opus 5.5가 구글 드라이브 소스 코드 전문(`kis_bot_multi_rev4_full.py`, `rebalance_rev4.yml`, `test_main_flow.py`)을 한 줄씩 diff 검증하고 독자적인 7대 모의 실행(S1~S7)을 마친 뒤, **'실전 무인 운용 최종 승인 (Production Sign-off)'**을 공식 발급함.
+
 - **Claude 독자 7대 모의 실행 전수 통과 입증:**
+
   * S1 (묵은 미체결 + 11:17 장중): 취소 1회 + 집행 1회 정상 집행 ✅
+
   * S2 (묵은 미체결 + 16:40 지연): 취소 0회 + 지연 경보 1통 발송 ✅
+
   * S3 (미완료 + 16:40): 지연 경보 1통 발송 ✅
+
   * S4 (당일 완료 + 16:40): 텔레그램 0통 완전 무소음 ✅
+
   * S5 (이전 거래일 완료): 텔레그램 0통 완전 무소음 ✅
+
   * S6 (묵은 미체결 + 현금 소진 상태): 잔여 주문만 취소(1회)하고 추가 매매(0회) 미집행 ➔ 2차 재판정 가드 완벽 작동 확인 ✅
+
   * S7 (20분 전 신규 미체결 + 11:17): 중복 주문 방지 스킵(0회) ✅
+
 - **실전 운용 수칙 3대 확정 사항:**
+
   1. 🚨/⏰ 경보 수신 시에만 확인 (그 외에는 봇 자율 운용).
+
   2. 25~31일 월말 점검 보고가 한 번도 오지 않으면 GitHub Actions 상태 점검.
+
   3. KIS OpenAPI 이용기간 만료 전 연장.
+
 - **승인서 저장 위치:** `G:\내 드라이브\클로드\K-듀얼모멘텀_rev4.3.1_최종승인서_2026-09-28.md`
 
+
+
 ## 105. K-듀얼 모멘텀 도서 원고 4부 및 실전 트러블슈팅 16선 전면 개편 반영 완료 (2026-09-28)
+
 - **개요:** 도서 원고(`retirement_savings_dual_momentum_guide.md`) 4부 전체에 걸쳐 어제와 오늘 완성된 Claude Opus 5.5 최종 승인판 `rev4.3.1` 소스 코드, 워크플로우, 실전 트러블슈팅 3종 신설, 3대 운용 수칙을 100% 반영 완료함.
+
 - **주요 개편 반영 사항:**
+
   1. **[STEP 2]**: 4.3절 파이썬 소스 코드 전체를 Claude Opus 5.5 공식 승인판 `kis_bot_multi.py` (v4.3.1, 1,351행 완제본)으로 전면 교체.
+
   2. **[STEP 3]**: 4.3절 GitHub Actions 워크플로우를 4발 분산 크론(25~31일 월말 평일 다중 점검 포함 `rebalance.yml`)으로 최신화.
+
   3. **[4.4절 Top 16 트러블슈팅 확장]**: 기존 13선에서 9월 실전 리밸런싱 극복 팩트 3종 신설:
+
      - 14. 당일 매도대금 D+0 즉시 재사용(적응형 증거금 폴링)과 정수 절사 잔여현금(20%) 방치 극복 (그리디 소진)
+
      - 15. 단일 현금비중 기준 리밸런싱 완료 판정 및 전 계좌 완료 시 무소음 침묵 (Zero-Noise Silent Skip)
+
      - 16. 소액 계좌(7,267원)의 1주 매수 불가 무한 재시도 탈출 및 묵은 미체결 주문 교착 해소 (Claude Opus 5.5 전수 감사)
+
   4. **[4.6절 월별 운영 체크리스트]**: 17일 정기 집행 ➔ 18~24일 완전 무소음(정상) ➔ 25~31일 평일 14:00 데드맨 스위치 보고 타임라인 및 클로드 공인 3대 운용 수칙(봇 전용 계좌, 1~16일 수동매매 금지, 관리자 모니터링) 반영.
+
 - **원격 저장소 및 구글 드라이브 동기화:**
+
   * 로컬 및 GitHub 메인 리포지토리: 커밋 `8426ded` 푸시 완료.
+
   * 구글 드라이브: `G:\내 드라이브\클로드\연금저축_K-듀얼모멘텀_가이드_원고_최신본_2026-09-28.md` 동기화 완료.
 
 
+
+
+
 ## 106. 2026학년도 교무업무분장 및 담임·부담임 배정 최신 개편 (2026. 9. 28.자 기준)
+
 - **공문 정보:** 진해고등학교-12009 (2026. 9. 28., 기안: 교사 박지환, 검토: 교무기획부장 최준호, 결재: 교감 손세민)
+
 - **보관 위치:**
+
   * 기본 최신 경로: 진해고등학교\2026학년도\교무기획부\명단, 배치도\
+
   * 9.28 스냅샷: 진해고등학교\2026학년도\교무기획부\명단, 배치도\9.28\
+
 - **핵심 변동 사항 (2026. 9. 1.자 대비):**
+
   1. **교육과정운영부 일과계 담당 교사 변경:**
+
      - 기존 (9.1): **김수진 교사** (수학)
+
      - 변경 (9.28): **김명규 교사** (수학)
+
      - 담당 업무: 일과 운영(시간표 작성 및 관리), 교과 및 창체 시수 확보, 수업통계, 수업 교환, 결보강 운영 관리 및 대강비 처리, 학생과목선택권확대강사 관리 및 인건비 지급, 나이스 학기별 과목 개설, 나이스 학사일정 관리, 고사 감독시간표 작성.
+
   2. **학급 담임/부담임 배정 변경:**
+
      - **3학년 3반 부담임:** 기존 **김수진 교사** ➔ **김명규 교사**로 변경 (3-3 담임: 정경훈 교사).
+
 - **황요한 교사(사용자) 배정 현황 (불변 확인):**
+
   * 소속 부서: 교무기획부 (입학·홍보 담당)
+
   * 담당 업무: 고입전형, 신입생 입학 업무, 입학설명회, 신입생 유치 및 홍보, 신입생 O·T, 신입생 반편성, 학교 홍보 사진, 학교현황 관리, 교내·외장학금, 동창회 업무 협조
+
   * 학급 배정: 2학년 5반 부담임 (2학년 5반 담임: 강필성 교사)
+
 - **주요 보직 및 학년부장 현황 (2026. 9. 28.자 기준):**
+
   * 교무기획부장: **최준호 교사** (수학)
+
   * 1학년부장: **김태영 교사** (1학년 2반 담임 / 국어)
+
   * 2학년부장: **서용환 교사** (2학년 9반 담임 / 체육)
+
   * 3학년부장: **임언숙 교사** (3학년 2반 담임 / 국어)
 
+
+
 ## 102. 입학설명회 주요 인물 일러스트 및 방송부 릴스 미팅 일정 (2026-09-28)
+
 - **개요:** 시험 기간 및 학생 일정/의상 여건을 고려하여 인물 일러스트 제작 및 방송부 미팅 일정을 현실적으로 분할 조정함.
+
 - **인물 및 행사별 확정 일정:**
+
   1. **교장선생님 일러스트 (S04):** **2026년 9월 29일(화) 내일 출근 시** 촬영 및 제작 착수 (내일 아침 브리핑 필수 상기).
+
   2. **황요한 선생님(본인) 일러스트 (S01, S07, S38, S53):** **제작 제외(전면 제외 확정)**. 인물 일러스트 대신 맥킨지/BCG 전략 컨설팅 스타일의 단정한 인포그래픽, 진해고 엠블럼, 챕터 타이포그래피 레이아웃으로 대체 구성.
+
   3. **전교학생회장 일러스트 (S05):** **2026년 10월 5일(월) 다음 주 월요일** 정식 촬영 및 제작 착수 (지필평가 종료 후 교복 풀세트 착용).
+
   4. **방송부 학생 릴스 기획 미팅:** **2026년 10월 5일(월) 다음 주 월요일** 미팅 진행 (A4 인쇄용 가이드북 7장 배부, 5대 숏폼 콘티 설명, 학생 부담 덜어주기 및 에피소드별 역할 분담).
+
 - **규칙:** **2026년 9월 29일(화) 내일 아침 브리핑 시 '교장선생님 사진 촬영'을, 10월 5일(월) 아침 브리핑 시 '전교학생회장 교복 촬영 & 방송부 학생 릴스 기획 미팅'을 필수 상기 항목으로 포함하여 안내할 것. 황요한 선생님 본인 일러스트는 전면 제외되었으므로 브리핑 및 슬라이드 제작 시 일체 언급하지 말 것.**
 
+
+
 ## 103. 2학기 3학년 당김수업 정경훈 교사 맞교환 반영 (2026-09-28)
+
 - **개요:** 정경훈 선생님과의 개인 사정 상호 협의에 따라 3학년 당김수업 4개 슬롯을 1:1 맞교환 반영 완료함.
+
 - **맞교환 세부 내역:**
+
   1. **10월 15일(목) 8교시 3학년 3반:** 황요한T ➔ **정경훈T** (정경훈T 인계 완료)
+
   2. **11월 5일(목) 8교시 3학년 3반:** 황요한T ➔ **정경훈T** (정경훈T 인계 완료)
+
   3. **10월 19일(월) 8교시 3학년 7반:** 정경훈T ➔ **황요한T** (황요한T 수임, 7교시 3-1반에 이어 7·8연강)
+
   4. **11월 10일(화) 8교시 3학년 5반:** 정경훈T ➔ **황요한T** (황요한T 수임, 삼정자중 출장 복귀 후 8교시)
+
 - **반영 완료 시스템:**
+
   - 엑셀 원본 파일(2026학년도 2학기 3학년 시수 확보 계획.xlsx) 백업 후 셀 값(Row 65, 69, 93, 99) 완벽 수정 완료.
+
   - 구글 캘린더 기존 10/15, 11/5 당김수업 삭제 및 신규 10/19, 11/10 당김수업 일정 등록 완료.
 
+
+
 ## 107. 2026학년도 2학기 (재)진해고등학교동창회장학재단 장학금 영수확인서 발송 및 정산 종결 (2026-09-28)
+
 - **개요:** 2026년 9월 21일 장학증서 전달식(참석: 김종년 이사장, 문종열 이사, 이승우 이사) 및 9월 22일 장학금 실지급(학생 개인 계좌 각 50만 원, 총 300만 원)에 따른 후속 정산 행정 100% 완결.
+
 - **수혜 장학생 (총 6명, 각 50만 원, 합계 300만 원):**
+
   * 이성민, 서용준, 김동희, 박형주, 김도윤, 고규원
+
 - **정산 조치 완료 내역:**
+
   1. 학생 6명 전원 자필 서명/날인 및 연락처 기재 완료된 장학금영수확인서(26년9월21일).hwp 취합.
+
   2. (재)진해고등학교동창회장학재단 사무국(경남 창원시 진해구 충장로82번길 12-1 3층, 우편번호 51679, 전화 055-546-9821)으로 원본 발송 완료 (2026-09-28).
+
   3. 전달식 현장 사진(16장) 구글 드라이브 공유 링크 전달 및 보관 완료.
+
 - **행정 상태:** 2학기 동창회장학재단 장학 사업 전 과정(선발·심의 ➔ 전달식 ➔ 송금 ➔ 영수증 징구 및 사무국 송부) 공식 종결.
 
+
+
 ## 108. 25분 출퇴근 맞춤형 영어 라디오 오디오북 5부작 전편 완주 및 5대 제작 표준 수립 (2026-09-29)
+
 - **개요:** 구글 드라이브(클로드 폴더) 기반 5부작 출퇴근 영어 라디오 오디오북(총 1시간 45분 50초, 254개 섀도잉 무음 검증) 완편 제작 및 클로드 최종 승인 완료.
+
 - **5부작 최종 마스터 구성:**
+
   1. **Day 1:** 반가운 재회 & 근황 확인 / be동사의 동등 부호(=) (19:51, 최종대본 v4)
+
   2. **Day 2:** 약속 제안 & 정중한 거절 / 현재진행형 라이브 비디오 카메라 (20:59, 대본 v3)
+
   3. **Day 3:** 카페 주문 & 일상 습관 / 단순현재 시계태엽 vs 현재진행 (21:39, 대본 v2)
+
   4. **Day 4:** 주말 활동 & 돌발 상황 / 단순과거 앨범 속 사진 (21:22, 대본 v2)
+
   5. **Day 5:** 부재중 전화 & 업무 인터럽트 / 과거진행형 배경음악 & 공손한 거리감 (21:59, 대본 v2)
+
 - **향후 시리즈 제작 시 엄수할 5대 철칙:**
+
   1. **[제작 순서 게이트]** 대본 작성 ➔ 클로드 내용 검토 ➔ safe_replace 수정 ➔ 음성 제작 ➔ 클로드 음성 측정 순서를 반드시 준수 (음성 조기 제작 금지).
+
   2. **[안전 문자열 치환]** 모든 대본 수정은 safe_replace(text, old, new, expected_count) 함수를 사용하여 치환 건수를 사전에 엄격 검증.
+
   3. **[사전 정적 검사기]** 음성 합성 착수 전 alidate_script.py(화자 누락, 진아 줄 영어 알파벳, 원어민 줄 한글, 조사 단독 시작, 느리게/정상 100% 일치, [무음 N초] 태그) 100% 통과 필수.
+
   4. **[FFmpeg 순수 무음 및 1:1 대조표]** 무음은 FFmpeg nullsrc로 생성하고, 합성 후 fmpeg silencedetect(-45dB)로 3초 이상 섀도잉 무음을 전수 계측하여 1:1 대조표 보고.
+
   5. **[틀린 문장 퀴즈 원칙]** 원어민이 실생활에서 공손함이나 강조로 실제 쓰는 표현(예: I'm liking, I was wanting)은 오답으로 다루지 않고, 명백하고 예외 없는 문법 오류만 퀴즈로 출제.
 
+
+
 ## 109. 출퇴근 영어 라디오 5부작 텔레그램 매일 아침 07:30 자동 배송 파이프라인 가동 (2026-09-29)
+
 - **개요:** 5부작 출퇴근 영어 라디오 완편 MP3 및 주말 복습 카드를 매일 아침 07시 30분 사용자의 텔레그램으로 자동 전송하는 2중 무인 파이프라인 구축 완료.
+
 - **배송 일정 및 커리큘럼 매핑:**
+
   * **2026-09-30 (수) 07:30:** Day 1 MP3 오디오(9.08MB) + 스터디 카드 (반가운 재회 & be동사 등호 원리)
+
   * **2026-10-01 (목) 07:30:** Day 2 MP3 오디오(9.61MB) + 스터디 카드 (약속 제안/거절 & 현재진행 카메라)
+
   * **2026-10-02 (금) 07:30:** Day 3 MP3 오디오(9.91MB) + 스터디 카드 (카페 주문 & 단순현재 시계태엽)
+
   * **2026-10-03 (토) 07:30:** ☕ 주말 복습 1탄 (Day 1~3 핵심 표현 9개 총정리 & 3초 즉각 스피킹 퀴즈)
+
   * **2026-10-04 (일) 07:30:** 📖 주말 복습 2탄 (기초 영문법 3대 시제 비교 특강 & 주간 루브릭)
+
   * **2026-10-05 (월) 07:30:** Day 4 MP3 오디오(9.78MB) + 스터디 카드 (주말 활동/돌발상황 & 단순과거 사진)
+
   * **2026-10-06 (화) 07:30:** Day 5 MP3 오디오(10.07MB) + 스터디 카드 (부재중 전화 & 과거진행 배경음악 / 완주 피날레)
+
 - **기술 인프라 및 안전장치:**
+
   * **핵심 배송 스크립트:** daily_commute_english_bot.py
+
   * **2중 자동화 스케줄러:** 안티그래비티 상주 데몬 Cron(30 7 * * *, task-795) + 윈도우 작업 스케줄러(Antigravity_Commute_English_Radio, 매일 07:30 AM 트리거, -StartWhenAvailable 옵션으로 절전 복귀 시 즉시 실행).
+
   * **중복 전송 원천 차단:** english_bot_sent_history.json 파일로 일자별 배송 완료 이력을 기록하여 하루 2회 이상 중복 발송 방지.
+
   * **오디오 마스터링:** 5개 파일 전원 EBU R128 -16 LUFS (Peak -1.0dB) 음량 정규화 및 카오디오용 ID3v2 팟캐스트 메타데이터 태깅 완비.
 
+
+
 ## 110. 윈도우 작업 스케줄러 한글 경로 인코딩 오류(Result: 2) 해결 및 순수 ASCII 런처 표준화 (2026-09-30)
+
 - **증상:** 2026년 9월 30일(수) 아침 07:30 출퇴근 영어 Day 1 텔레그램 미발송. Task Scheduler `LastTaskResult: 2`(ERROR_FILE_NOT_FOUND).
+
 - **원인 분석:**
+
   * `Register-ScheduledTask` 등록 시 인자(Arguments)에 한글 경로(`d:\OneDrive - 경상남도교육청\바탕 화면\...`)가 포함되어, 윈도우 스케줄러 XML 저장 과정에서 한글 바이트가 깨져(`寃쎌긽?⑤룄...`) 파이썬이 실행 파일을 찾지 못함.
+
   * 작업의 `WorkingDirectory`가 비어 있어 실행 기본 디렉터리가 `System32`로 지정되는 문제 병발.
+
 - **해결 방안 및 최종 반영:**
+
   1. **[ASCII 전용 실행 환경 구축]** `C:\Users\admin\commute_english_bot\`에 런처 배치(`run_bot.bat`)와 무창 VBS(`run_silent.vbs`)를 순수 영문 경로로 배치.
+
   2. **[무창 스케줄러 재등록]** 작업 스케줄러 Action을 `wscript.exe "C:\Users\admin\commute_english_bot\run_silent.vbs"`로 변경하여 한글 인자 완전 배제 및 화면 팝업 0% 무인 실행 구현.
+
   3. **[실전 테스트]** 스케줄러 수동 트리거 후 `LastTaskResult: 0`(성공) 및 10월 1일(목) 07:30 정상 예약 확인 완료.
 
+
+
 ## 111. 윈도우 재부팅 시 안티그래비티 자동 실행 및 한글 경로 인코딩 원천 차단 아키텍처 (2026-10-02)
+
 - **개요:** 컴퓨터 재시작/부팅 시 안티그래비티(Antigravity) 자동 실행 여부 전수 점검 및 한글 작업 폴더명(`OneDrive - 경상남도교육청\바탕 화면\...`)으로 인한 실행 실패 가능성 0% 차단.
+
 - **점검 및 검증 결과:**
+
   1. **시작프로그램 바로가기 검증:**
+
      * 경로: `C:\Users\admin\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\Antigravity.lnk`
+
      * 대상(Target): `C:\Users\admin\AppData\Local\Programs\Antigravity\Antigravity.exe` (246MB, 정상 존재)
+
      * 작업 디렉터리: `C:\Users\admin\AppData\Local\Programs\Antigravity`
+
      * **100% 순수 ASCII:** 바로가기 파일 내 실행 경로와 작업 디렉터리가 모두 영문으로만 이루어져 있어 윈도우 부팅 시 한글 인코딩 깨짐 위험 0%.
+
   2. **작업 관리자 시작프로그램 활성화 확인:**
+
      * 레지스트리 `HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\StartupFolder` 내 `Antigravity.lnk` 상태: `Enabled` (State: 2) 확인.
+
   3. **작업 공간 세션 복원 인코딩 검증:**
+
      * `%APPDATA%\Antigravity\User\globalStorage\storage.json` 내 이전 작업 폴더가 RFC 3986 표준 URL 인코딩(`file:///d%3A/OneDrive%20-%20%EA%B2%BD...`)으로 안전하게 보존되어 OS 코드페이지에 무관하게 즉시 복원됨.
+
   4. **순수 ASCII NTFS 디렉터리 정션(Junction) 구축:**
+
      * 한글 경로로 인한 보조 스크립트/외부 런처 오류를 원천 차단하기 위해 순수 영문 정션 2개 구축:
+
        - `D:\antigravity_folder` -> `D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder`
+
        - `C:\Users\admin\antigravity_folder` -> `D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\antigravity_folder`
+
   5. **시작프로그램 VBS 보조 스크립트 ASCII 최적화:**
+
      * `Clipboard_Hotkey.vbs`, `Run_Admission_News.vbs` 내 경로를 순수 영문 정션(`D:\antigravity_folder\...`)으로 전면 교체하여 한글 바이트 의존성 완전 제거.
+
   6. **하네스 테스트 검증:** `test_antigravity_startup_harness.py` 6개 항목 전수 통과 (100% Certified).
 
 
+
+
+
 ## 112. 진해고 청소년 SW·AI동행프로젝트 운영 청사진 (희망자 공모 선발 & 무박 2일 주말 몰입형 해커톤 캠프) (2026-10-02)
+
 - **배경:** 2026학년도 기존 창체 동아리 학생 대상 운영 시 발생한 참여도 저하, 무기력함, CBT 결석 관리 피로도, 교사 1인 하드캐리 문제를 극복하기 위해 2027학년도부터 운영 방식을 전면 개편함.
+
 - **핵심 운영 원칙:**
+
   1. **창체 동아리와 완전 분리:** 정규 창체 동아리는 편안한 교양/독서 활동으로 운영하고, 동행프로젝트는 전교생(1~2학년) 대상 희망자 12~15명 공모 선발.
+
   2. **선발 필터링:** 구글 폼 지원서에 'AI로 해결하고 싶은 문제 2줄 서술' 및 '주말 캠프 2일 전 일정(CBT 포함) 필수 참석 서약'을 넣어 성실한 학생만 선발.
+
   3. **무박 2일 주말 캠프(해커톤):** 3~4달간 끌지 않고 토요일(09:00~21:00, 사전CBT+모듈1+2) 및 일요일(09:00~17:00, 모듈3+4+사후CBT) 단 2일 만에 16차시 완결.
+
   4. **복무 및 안전:** 야간 합숙(숙박)은 인솔교사 24시간 안전 책임, 학운위 심의, 소방 지침 등 리스크가 극심하므로 절대 지양하고 '밤 9시 귀가 후 집에서 자고 오기'로 통학형 운영. 주말 운영으로 평일 근무시간 강사료 수령 복무 시비 100% 원천 차단.
+
   5. **서류 및 상세 청사진 위치:** d:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\업무 이외\동행프로젝트\2027_동행프로젝트_무박2일_운영청사진.md
+
+
+
+## 113. 진해고등학교 정규 일과표 표준 시간 및 청소시간·7·8교시 기준 규칙 (2026-10-07)
+
+- **개요:** 진해고등학교의 공식 정규 일과 운영 시간표 및 교시별 시종 시각 기준입니다.
+
+- **정규 일과표 상세:**
+
+  * **아침 조회/준비:** ~ 08:40
+
+  * **1교시:** 08:40 ~ 09:30 (휴식 10분)
+
+  * **2교시:** 09:40 ~ 10:30 (휴식 10분)
+
+  * **3교시:** 10:40 ~ 11:30 (휴식 10분)
+
+  * **4교시:** 11:40 ~ 12:30
+
+  * **점심시간:** **12:30 ~ 13:35** (총 65분간, 13:40이 아닌 13:35 종료)
+
+  * **5교시:** **13:35 ~ 14:25** (휴식 10분, 14:25 종료로 14:30 육아시간 조기퇴근과 완벽 연계)
+
+  * **6교시:** 14:35 ~ 15:25
+
+  * **청소시간:** **15:25 ~ 15:40** (6교시 종료 후 15분간 교내 환경정리/청소)
+
+  * **7교시:** **15:40 ~ 16:30** (50분 수업, 청소시간 15분 반영으로 15:40 시작)
+
+  * **8교시 (당김/방과후):** **16:40 ~ 17:30** (7교시 종료 후 10분 휴식 후 진행)
+
+- **복무/일정 반영 원칙:** 향후 모든 일과표 브리핑, 육아시간 판정, 수업 당김 및 복무 지원 시 반드시 위 시종 시각을 기준으로 정확하게 산정하여 안내함.
+
+
+
+## 114. 고등학교 교사(황요한) 일정 관리 및 시간표 일일 브리핑 절대 규칙 (2026-10-11)
+
+- **개요:** 매일 아침 07:30 텔레그램 일정 브리핑(Windows 스케줄러: Daily_Morning_Briefing_0730) 및 대화창 질의 시 적용되는 황요한 교사 전용 정규 시간표 베이스라인, 당김수업 검증, 출력 서식 표준 지침입니다. (중복 방지를 위해 Antigravity 사이드카는 비활성화하고 Windows 스케줄러 1개로 단일화함)
+
+- **1. 교사 기본 정보 및 정규 시간표 베이스라인:**
+
+  * **교사명:** 황요한 (국어과)
+
+  * **담당 과목 및 학급:**
+
+    - 3학년 심화국어 (1~10반 전체)
+
+    - 3학년 교육학 (A타임 3-4)
+
+    - 2학년 화법과 언어 (1~5반) ※ 2026-11-04(수)부터 황요한 교사 1~5반, 이병의 교사 6~10반 수업 진행
+
+  * **핵심 준수:** **2026년 11월 4일(수)부터 2학년 화법과 언어 수업은 황요한 교사가 1~5반, 이병의 교사가 6~10반을 담당함.**
+
+  * **요일별 정규 시간표 슬롯 (2026-11-04 전환 기준 정본):**
+
+    - **월:** 2교시(3-10), 4교시(2-5), 5교시(3-6) / 공강 1, 3, 6 (7교시 자치/청소/종례)
+
+    - **화:** 3교시(3-2), 5교시(3-9), 7교시(2-4) / 공강 1, 2, 4, 6
+
+    - **수:** 1교시(3-8), 5교시(3-3) / 공강 2, 3, 4 (6~7교시 창체)
+
+    - **목:** 1교시(2-2), 2교시(3-5), 4교시(3-4 A_교육), 5교시(3-1), 6교시(2-3) / 공강 3, 7
+
+    - **금:** 1교시(2-1), 2교시(3-7), 5교시(3-4) / 공강 3, 4, 6 (7교시 행사/동아리)
+
+- **2. 3학년 당김수업(시수 확보 계획) 전수 고려:**
+
+  * 수능 전 7~8교시에 진행되는 「2026학년도 2학기 3학년 시수 확보 계획」(엑셀 및 구글 캘린더 등록분)을 100% 교차 검증하여 해당 일자의 시간표 슬롯에 필히 병합·출력함.
+
+- **3. 시간표 작성 0순위 절대 규칙 (Checklist 루틴):**
+
+  * **[0단계: 기본 슬롯 강제 전개]** 캘린더나 외부 일정을 확인하기 전, 무조건 해당 요일의 정규 수업 슬롯 전체를 먼저 기본값으로 펼친다.
+
+  * **[1단계: 캘린더/엑셀 오버레이]** 구글 캘린더 및 당김수업 계획에서 '대강', '수업 교환', '당김수업', '수업 비움', '창체/행사 대체' 등 명시적 변동 사항이 있는 교시만 기본 슬롯 위에 덮어쓴다. (캘린더에 별도 변경이 없는 정규 수업은 절대 임의 누락 금지)
+
+  * **[2단계: 정규 시수 전수 검증]** 최종 출력 전 해당 요일의 정규 수업 시수가 빠짐없이 포함되었는지 대조 확인한다.
+
+- **4. 출력 서식 및 모바일 최적화 규칙:**
+
+  * **표(Markdown Table) 일절 사용 금지** (스마트폰 모바일 화면 깨짐 원천 방지)
+
+  * **불필요한 서두/맺음말(인사말, 응원문구, 메타 텍스트) 완전 배제** ➔ 즉시 본론 진입
+
+- **5. 태블릿 필기용 A4 1페이지 PDF 파일 자동 발송 체계 (2026-11-10 개편):**
+
+  * **목적:** 선생님께서 태블릿(iPad, Galaxy Tab 등)에서 파일을 열어 Apple Pencil/S-Pen으로 메모 및 필기를 자유롭게 수행할 수 있도록 지원.
+
+  * **동작 파이프라인:** 평일 아침 07:30 브리핑 시 A4 1페이지 완결본 PDF를 자동 내보내기하여:
+    1. 로컬 `briefings/{YYYY-MM-DD}(요일)_진해고_일일수업_학사브리핑.pdf`에 보관 (OneDrive 실시간 자동 동기화).
+    2. 텔레그램 `sendDocument` API를 통해 실제 `.pdf` 첨부파일을 대화방으로 직접 전송 (태블릿에서 1탭으로 즉시 열기 및 필기 가능).
+    3. 텍스트 브리핑 내에 구글 드라이브 PDF 직접 다운로드 링크(`export?format=pdf`) 병행 제공.
+
+  * **안티그래비티 내부 실행(방안 A) 및 2시간 주기 자동 기동 워치독 체계 (2026-11-10 확정):**
+    - **브리핑 작동 위치:** 외부 Windows 스케줄러(`Daily_Morning_Briefing_0730`)는 비활성화(`Disabled`)하고, **Antigravity 내부 데몬 스케줄러(`schedule` 07:30 크론 + `daily-morning-briefing` 사이드카)**에서 전담 실행함.
+    - **제미나이 일정 확인:** 매일 아침 07:30 안티그래비티 내부의 제미나이가 당일 학사·수업·출장·대강 일정을 확인·점검하여 `🤖 [제미나이 일정 확인 및 착안점]` 코멘트와 함께 브리핑 및 A4 1페이지 태블릿 필기용 PDF(메모란 3줄 포함)를 텔레그램으로 발송함 (외부 유료 Gemini API 키 과금 0원).
+    - **Antigravity 2시간 주기 자동 켜짐 워치독 (`Antigravity_KeepAlive_2H`):**
+      * 안티그래비티가 꺼져 있을 때 자동으로 다시 켜지도록 Windows 작업 스케줄러에 2시간 간격(홀수 시각: 01:00, 03:00, 05:00, **07:00**, 09:00...) 반복 작업 등록 완료.
+      * **한글 경로 오류 원천 차단:** 실행 파일(`C:\Users\admin\AppData\Local\Programs\Python\Python312\pythonw.exe`), 워치독 스크립트(`C:\Users\admin\.gemini\antigravity\watchdog\ensure_antigravity.py`), 작업 폴더(`D:\antigravity_folder`) 모두 **100% 순수 영문(ASCII) 무공백 경로**로 구성하여 인코딩/한글 주소로 인한 멈춤 현상을 완벽히 방지함.
+
+  * **불릿 포인트(*)와 인라인 볼드(**)**를 활용하여 극단적 간결성과 가독성 확보
+
+  * **섹션 구성:**
+
+    - 날짜 헤더: `**M월 D일(요일) 오늘 일정**`
+
+    - `**📖 수업 시간표**`: 교시별 시작/종료 시간, 학급, 과목, 변경 특이사항, 공강 교시 명시
+
+    - `**📌 주요 업무 및 학사 일정**`: 시간대별 주요 공문/마감/보고 업무 및 종일 학사 일정
+
+    - `**💡 내일 동아리 수업 사전 고민/준비 안내 (D-1)**`: 다음 날 창체 동아리('대신해 AI') 일정이 있을 경우, 전날 아침 브리핑에 차시 주제(예: 프로젝트 심화, 웹앱 제작, 축제 부스 연계 등)와 교사가 미리 고민/결정할 사항(실습 아이템, 노트북 지참 공지 등)을 필수 항목으로 안내함. (예: 10월 14일 수요일 동아리 ➔ 10월 13일 화요일 아침 브리핑에 사전 안내 필수)
+
+
+
+## 115. 구글 문서 A4 1페이지 절대 수렴 오케스트레이션 원칙 (2026-10-11)
+
+- **개요:** 매일 아침(평일) 생성되는 1일 인쇄용 구글 문서는 아무리 당일 학사/업무 일정이나 수업 내용이 많더라도, **반드시 A4 정확히 1장에 전부 다 들어갈 수 있도록 문서 여백, 글자 크기, 표 서식, 줄간격을 단계별(Pass 0~3)로 자동 오케스트레이션 조정하여 작성**함.
+
+- **오케스트레이션 4단계 수렴 아키텍처:**
+
+  1. **[사전 적응형 HTML 생성]**: 일정 건수(3건 이하, 6건 이하, 7건 이상)에 따라 초기 폰트 크기, 표 패딩, 여백을 선제 분기 생성하여 1페이지 근접 상태로 시작.
+
+  2. **[Pass 0: 표준 A4 규격화]**: Google Docs API로 용지 크기 A4(595.28×841.89 pt), 여백(상하 20pt, 좌우 26pt), 단락 하단 간격 1.5pt, 표 셀 패딩 2.5pt 적용 ➔ PDF 내보내기 1장 측정.
+
+  3. **[Pass 1: 여백/단락 간격 1차 압축]**: 2장 초과 시 상하 여백 14pt, 좌우 20pt, 단락 간격 0.8pt, 표 셀 패딩 1.5pt 압축 ➔ 재측정.
+
+  4. **[Pass 2: 폰트 전수 스케일 다운(-1.2pt)]**: 2장 초과 시 상하 여백 10pt, 좌우 16pt, 문서 내 모든 본문/표 폰트 크기 1.2pt 축소(최소 7.5pt), 표 셀 패딩 1.0pt ➔ 재측정.
+
+  5. **[Pass 3: 비상 초압축]**: 2장 초과 시 상하 여백 6pt, 행간 90%, 본문 7.0~7.5pt 일괄 고정, 표 셀 패딩 0.5pt ➔ 어떤 분량도 무조건 1장 절대 보장.
+
+- **연동 파일:** `scripts/daily_morning_briefing.py` (`orchestrate_single_page_gdoc`, `publish_daily_gdoc`, `build_printable_html`)
+
+## 116. 관외 출장(창원·마산·진해 제외 타 지역) 다녀온 익일 여비정산서 제출 필수 알림 규칙 (2026-10-14)
+
+- **개요:** 경상남도 창원시(창원·마산·진해) 관내 출장은 나이스(NEIS) 복무 승인 시 기본 여비가 자동 지급되므로 별도의 서면 여비정산서를 행정실에 제출하지 않음. 그러나 **창원·마산·진해를 제외한 관외 지역(예: 김해, 진주, 사천, 밀양, 양산, 함안, 부산 등 타 시·군·도)으로 출장/연수를 다녀온 경우**, 반드시 증빙(통행료 영수증 등)을 첨부한 **'여비정산서(서면 정산)'를 행정실에 제출**해야 함.
+
+- **표준 운영 지침:**
+
+  1. **[관내/관외 명확 구분]**:
+
+     * **관내 출장 (창원, 마산, 진해 전역)**: 마산대학교, 창원컨벤션센터(CECO), 그랜드 머큐어 앰버서더 창원, 경남교육청, 창원대, 문성대 등 창원 관내 이동은 별도 여비정산서 제출 불요 ➔ 익일 여비 정산 알림 등록 금지.
+
+     * **관외 출장 (창원·마산·진해 제외 타 시·군 지역)**: 김해, 진주, 부산 등 타 시·군 이동 시에만 여비정산서 제출 대상 적용.
+
+  2. **[관외 출장 익일 자동 알림]**: 관외 출장 일정이 종료된 다음날(주말인 경우 다음 첫 영업일 출근일) 오전 09:00에 `💰 [행정실] <출장지/출장명> 관외출장 여비정산서 제출` 일정을 등록하고 아침 브리핑에 필수 안내함.
+
+  3. **[필수 제출 서류]**: 여비정산신청서, 고속도로 통행료(하이패스) 영수증, 대중교통 영수증, 출장 증빙(참석 확인서/이수증 등).
+
+
+
+## 117. 2027학년도 찾아가는 입학설명회 일정 관리 및 냉천중 잠정 확정 (2026-10-14)
+
+- **개요:** 2027학년도 신입생 유치를 위한 관내 중학교 '찾아가는 입학설명회' 일정 관리 지침 및 진해냉천중학교-진해여자고등학교 공동 연합 설명회 1차 확정 사항.
+
+- **주요 운영 원칙 및 냉천중 세부 사항:**
+
+  1. **[진해냉천중학교 잠정 확정]**:
+
+     * **일시:** **2026년 11월 24일(화) 7교시 (15:00 ~ 15:45, 45분간)** (※ 냉천중 요청으로 7교시 변경 확정)
+
+     * **교사 시간표 혜택:** 화요일 7교시는 황요한 교사 정규 공강 슬롯이므로 **수업 교환/결손 없음** (6교시 2-6 종료 직후 출발)
+
+     * **협력 학교:** **진해여자고등학교(진해여고)** 공동 연합 진행 (남녀공학 특성 반영, 담당: 김미진T 010-9674-0077)
+
+     * **진행 옵션:** [옵션 A] 시청각실/강당 합동 진행(진해고 19분 + 여고 19분 + 질의응답 5분) / [옵션 B] 남·녀 분반 공간 분리 진행
+
+  2. **[동행 도우미 선발 원칙]**:
+
+     * 해당 중학교 출신 1, 2학년 재학생 홍보위원(진해고 입학홍보단 우선 배정)을 선발하여 동행.
+
+     * 냉천중 후보: 입학홍보단 박재윤(2-3), 정의찬(2-10), 국어부장 신근찬(2-5), 박지호(2-3), 1학년 홍보단 김도현(1-1), 백유일(1-2), 허준성(1-8, 기숙사) 등.
+
+  3. **[필수 행정 절차]**:
+
+     * D-7: 냉천중 출신 참가 학생 학부모 참가동의서 취합.
+
+     * D-5: K-에듀파인 내부결재 `2027학년도 찾아가는 입학설명회 참가 학생 출석 인정 건의(냉천중학교)` 기안 및 결재 완료.
+
+     * D-1: 나이스(NEIS) 출장 신청(관내 출장 - 여비 부지급) 및 홍보 팸플릿/기념품 패킹.
+
+  4. **[연동 관리 파일]**:
+
+     * 총괄 로드맵: `3. 홍보/입학설명회/2027_공문_및_추진계획/00_2027학년도_신입생_입학설명회_공문_및_행정추진_총괄로드맵.md`
+
+     * 세부 배정안: `3. 홍보/입학설명회/찾아가는 입학설명회/2027학년도_찾아가는_입학설명회_추진일정_및_배정현황.md`
+
+     * 추적 엑셀: `3. 홍보/입학설명회/찾아가는 입학설명회/2027학년도 찾아가는 입학 설명회 홍보 일정 및 참여 학생 명단.xlsx`
+
+
+
+## 118. 진해여자고등학교(진해여고) 입학홍보 담당 교사 연락처 정보 (2026-10-14)
+
+- **성명:** 김미진 선생님
+
+- **소속 및 직책:** 2026학년도 진해여자고등학교 입학 홍보 담당 교사
+
+- **휴대전화 연락처:** `010-9674-0077`
+
+- **주요 업무 및 협력 사항:** 
+
+  * 관내 남녀공학 중학교(진해냉천중, 석동중, 안남중, 양곡중 등) 대상 '찾아가는 입학설명회' 공동 연합 설명회 일정 조율 및 발표 순서/공간 협의.
+
+  * 2026년 11월 24일(화) 7교시(15:00) 냉천중학교 연합 설명회 공동 진행 파트너.
+
+
+
+## 119. 진해고등학교 기숙사 홍보 영상 제작 학생 정보 및 구글 드라이브 공유 폴더 (2026-10-14)
+
+- **학생 성명 및 이메일:** 한지석 (`hanjiseok0225@gmail.com`)
+
+- **담당 업무:** 2026학년도 진해고등학교 기숙사 홍보 영상 제작 및 영상 편집
+
+- **공유 구글 드라이브 폴더:** `https://drive.google.com/drive/folders/1OdKajDP4EaPfPHjaNWd3qDw4ZSE9x3da`
+
+- **부여 권한:** 한지석 계정 편집자(Editor/writer) 권한 부여 완료 및 링크 공유 활성화
+
+- **전달 및 탑재 소스 자료 (2026-10-14):**
+
+  * `Gold_on_the_Horizon.mp3` (배경음악 BGM - 4.11 MB)
+
+  * `Chasing_the_Bell.mp3` (배경음악 BGM - 4.09 MB)
+
+  * `gemini_generated_video_e67154bd.mp4` (영상 소스 - 10.42 MB)
+
+  * `20261014_072200_b307e8290934bbd37f9456880fa91c68.mp4` (추가 영상 소스 - 6.34 MB)
+
+  * `gemini_generated_video_69cb9bd0.mp4` (추가 영상 소스 - 3.01 MB)
+
+
+
+## 120. 2026년 10월 15일(목) 아침 일정 브리핑 필수 상기 지침: 10/16(금) 직무연수 출장 기안 상신 및 3-4반 대강 확정
+
+- **일시:** 2026년 10월 15일(목) 아침 일정 브리핑 시
+
+- **필수 상기 및 브리핑 항목:**
+
+  1. **[복무 기안 상신] 10/16(금) AI디지털 맞춤형 학생평가 역량강화 연수 관내출장 상신:**
+
+     * **일시:** 2026. 10. 16.(금) 13:30 ~ 17:30 (연수 시간 14:00 ~ 17:00, 특수분야 직무연수 3차시 NEIS 자동 등재)
+
+     * **장소:** 창원컨벤션센터(CECO) 본관 6층 601호 (경남 창원시 성산구 원이대로 362 / 연번 80 황요한)
+
+     * **복무 구분:** **관내출장** (창원시 성산구 CECO 소재 ➔ **여비정산서 제출 불필요**, 관내여비 정액 지급 대상)
+
+     * **관련 공문:** `진해고등학교-12488` (경상남도교육청 중등교육과-24192, 2026. 10. 8.)
+
+  2. **[수업 대강 확인] 10/16(금) 5교시 3학년 4반 심화국어:**
+
+     * **주의 (쿨메신저 임의 발송 절대 금지):** 임언숙 선생님(금5 공강) 대강 부탁 건은 쿨메신저를 임의로 발송하지 않으며, 선생님께서 교무실에서 직접 대면 상의하시거나 원하실 때 직접 판단하여 처리하심.
+
+     * **학생 사전 공지:** 목요일 4교시(3-4반 A_교육학 수업) 입실 시 학생들에게 금요일 5교시 국어 자습 과제 미리 안내.
+
+
+
+## 121. 2026년 10월 28일(수) 2학년 5반 창체·담임시간(6~7교시) 대리 지도 및 일정 관리 (강필성 선생님 출장 품앗이) (2026-10-15)
+
+- **개요:** 강필성 선생님(2학년 5반 담임)의 10월 28일(수) 오후 출장에 따라, 2학년 5반의 6교시(담임시간) 및 7교시(창체) 임장 지도를 황요한 선생님이 대리 수행하기로 확정함.
+
+- **당일(10/28 수요일) 오후 일정 상세 매핑:**
+
+  * **6교시 (14:35 ~ 15:25):** 2학년 5반 담임시간 임장 지도 (2-5반 교실 입실, 교실 내 개인 노트북 업무 수행)
+
+  * **7교시 (15:35 ~ 16:25):** 2학년 5반 창체활동 임장 지도
+
+  * **8교시 (16:30 ~ 17:20):** **[당김수업] 3학년 9반 심화국어** 진행 (기존 수능 후 12/22 화요일 5교시분 당김)
+
+- **상호 품앗이 관련 확인 사항:**
+
+  * 강필성 선생님의 "10월 21일(수) 창체 6, 7교시를 대신 보겠다"는 제안에 대해, 황요한 선생님이 "10월 21일도 신경 안 써도 괜찮다(반에서 업무하는 방법 개발 완료)"고 회신 완료함.
+
+  * 구글 캘린더 등록 완료: `👥 [창체/담임 대리] 2학년 5반 6~7교시 임장 지도 (강필성T 출장)` (2026-10-28 14:35~16:25)
+
+
+
+## 122. 일일 수업 및 학사 브리핑 수업 시수 계산 산술 모순 해소 및 동적 집계 영구 규칙 (2026-10-15)
+
+- **개요:** 매일 아침 08:30 전송되는 일일 수업 및 학사 브리핑(텔레그램 및 A4 인쇄용 구글 문서)에서 "오늘의 수업 시수: 총 3시수 (정규 3 + 당김 1)"과 같이 산술적 불일치($3 \neq 3+1$) 및 사실과 다른 당김 표기가 출력되던 오류를 완벽히 규명하고 영구 수정함.
+
+- **오류 근본 원인 (Root Cause):**
+
+  1. **하드코딩 및 삼항연산자 왜곡:** `scripts/daily_morning_briefing.py` L725의 HTML 템플릿에 `(정규 {total_classes - 1 if total_classes > 3 else total_classes} + 당김 1)`로 무조건 `+ 당김 1`이 하드코딩되어 있었음.
+
+  2. **산술 모순 및 당김 왜곡 발생:**
+
+     - 총 3시수인 날(오늘 10/15 목): `총 3시수 (정규 3 + 당김 1)`로 계산 모순($3 = 3+1$) 발생. (실제로는 정경훈T와 맞교환되어 오늘 당김은 0시간)
+
+     - 총 4시수인 날(화/수요일): 정규 4시간이고 당김이 0시간인데도 `총 4시수 (정규 3 + 당김 1)`로 둔갑 왜곡됨.
+
+- **영구 수정 및 반영 사항:**
+
+  1. **동적 분리 집계:** `regular_classes`(`type`이 `regular`/`substitute`)와 `danggim_classes`(`type`이 `danggim`)를 슬롯 단위로 정확하게 개별 분리 카운트하도록 수정.
+
+  2. **표준 표기 서식:**
+
+     - 당김수업이 없는 날: `총 {total}시수 (정규 {regular} / 당김 없음)`
+
+     - 당김수업이 있는 날: `총 {total}시수 (정규 {regular} + 당김 {danggim})`
+
+  3. **반영 파일:** `scripts/daily_morning_briefing.py` (구글 문서 A4 배지 바 및 텔레그램 메시지 동시 적용 완료)
+
+
+## 123. 전자책 & 오디오북 마스터 제작 엔진 스킬(audiobook-and-ebook-producer) 등록 및 표준 파이프라인 (2026-10-16)
+- **개요:** 《질문하는 공부》(이성일 저) 및 《하얀 늑대들》(윤현승 저, 전 12권 완결, 230만 자) 제작 과정에서 축적된 사용자 피드백과 엔지니어링 노하우를 바탕으로, 향후 모든 전자책/오디오북 제작 작업을 100% 동일한 고품질로 일괄 수행하기 위한 전용 스킬을 정식 등록함.
+- **스킬 위치:** `.agents/skills/audiobook-and-ebook-producer/` (`SKILL.md` 및 `references/pipeline_engine.py`)
+- **표준 5단계 파이프라인**:
+  1. **[Stage 1] 텍스트 구조 분석 및 헤딩/특수문자 정규화:** 마크다운 `#` 기호의 TTS 왜곡 발음('샾'/'해시') 원천 제거 및 헤딩 직후 제목 중복 낭독 필터링.
+  2. **[Stage 2] 문맥 기반 오탈자·형태소 정밀 교정 (Zero-Error First Gate):** '끓은 장미' $\rightarrow$ '붉은 장미' 분별 치환(차 끓이다 보존), 키보드 슬립('겟' $\rightarrow$ '겠'), OCR 빈발 음절 왜곡 복원, 인물명/고유명사 표준화 등 600+ 교정 엔진 가동 ➔ 잔여 오류 0건 검증 전까지 오디오 합성 절대 보류.
+  3. **[Stage 3] 4대 마스터 전자책 아티팩트 일괄 재구축:** 무의존성 반응형 모바일 웹 뷰어 HTML, 표준 ePub, 마스터 Markdown, UTF-8 텍스트본 생성.
+  4. **[Stage 4] 프리미엄 오디오북 3단계 레이어 합성:** Edge-TTS (`ko-KR-SunHiNeural`/`InJoonNeural`), 3,000자 스마트 문장 청킹, FFmpeg 무손실 무인 Concat, ID3v2 앨범 커버 및 태그 임베딩 (챕터별 트랙 + 권별 통합본 + 전권 단일 통합본).
+  5. **[Stage 5] 배포 및 다채널 알림:** 로컬 바탕화면 및 구글 드라이브 동기화, 교육청 SSL 프록시 우회 텔레그램 완료 알림 발송.
+
+
+## 115. 공모전 출품 완료 이력 관리, 결과발표일 캘린더 자동 등록 및 중복 추천 절대 금지 규칙 (2026-10-16 / 10-20 개정)
+- **원칙:** 
+  1. 사용자가 이미 출품 및 접수를 완료한 공모전은 어떠한 경우에도 다시 추천하거나 언급하지 않음.
+  2. **[결과발표일 캘린더 자동 등록 및 브리핑 연동]**: 공모전 출품 및 접수 완료 시, **공식 결과발표일을 Google Calendar(선생님 일정)에 자동으로 등록**하여 당일 아침 브리핑 시 알림을 제공함.
+- **출품 완료된 공모전 목록 (재추천 절대 금지 및 캘린더 등록 완료):**
+  1. **경상남도교육청 정책기획관 「경남교육 비전(브랜드 슬로건) 공모」**
+     - 제출일시: 2026. 10. 08.(목) 14:40 완료 (진해고등학교-12333)
+     - 출품작: *"단단한 배움을 세우고, 미래의 길을 여는 경남교육"*
+     - **결과발표일**: 2026. 11. 06.(금) (캘린더 등록 완료)
+  2. **국립과천과학관 AI 숏폼 영상 공모전**
+     - 제출일시: 2026. 10. 12.(월) 구글폼 접수 완료 (출품작: `2_황요한_체내마이크로나노로봇혈관탐험`, 전시연계 부문)
+     - **결과발표일**: 2026. 10. 31.(토) 미게시(주말/휴일)에 따라 **2026. 11. 06.(금)** 경남교육 비전 발표일과 연계하여 재확인하도록 캘린더 일정 갱신 완료 (Google Calendar 반영 완료)
+  3. **건강보험심사평가원 「우리 동네 병원과 가까워지는 한마디!」 슬로건 공모전**
+     - 제출일시: 2026. 10. 14.(수) 네이버폼 접수 완료
+     - 출품작: *"먼 곳의 대형병원보다, 가까운 이웃사촌 우리 동네 병원"*
+     - **결과발표일**: 1차 2026. 11. 16.(월) / 최종 2026. 11. 25.(수) (캘린더 등록 완료)
+  4. **제63회 무역의 날 슬로건 공모전**
+     - 제출일시: 2026. 10. 14.(수) 네이버폼 접수 완료 (3개 세트)
+     - **결과발표일**: 2026. 12. 04.(목) (캘린더 등록 완료)
+  5. **(주)맑은물에 NEW 두유 네이밍 대국민 공모전**
+     - 제출일시: 2026. 10. 15.(목) 구글폼 3회 접수 완료 (온두유, 하루맑콩, 순수콩결)
+     - **결과발표일**: 2026. 10. 27.(화) (캘린더 등록 완료)
+  6. **제4회 『춘천 한 문장, 봄내글판』 전국 공모전**
+     - 제출일시: 2026. 10. 17.(토) 구글폼 접수 완료 (2개 세트: 의암호 상중도 36자 / 소양강 봄빛정원 40자)
+     - **결과발표일**: 2026. 11. 03.(화) (캘린더 등록 완료)
+  7. **제21회 건설사업관리(CM) 표어 공모전**
+     - 제출일시: 2026. 10. 18.(일) 한국CM협회 공식 웹사이트 접수 완료 (1인 3작품 + 발전 조언 일괄 제출)
+     - 출품작:
+       1) *"안전은 기본, 품질의 완성은 CM"* (18자)
+       2) *"스마트를 더하고, 신뢰를 높이는 CM"* (20자)
+       3) *"처음부터 끝까지, 안심을 짓는 CM"* (19자)
+       - 발전 조언: AI·스마트 안전기술 융합 부실시공 차단 및 K-건설 신뢰 구축 제언
+     - **결과발표일**: 2026. 11. 30.(월) (캘린더 등록 완료)
+  8. **2026년 한전KDN 슬로건 공모전**
+     - 제출일시: 2026. 10. 20.(화) 10:55 공식 이메일(kdn.slogan26@gmail.com) 접수 완료
+     - 접수 증빙: 자필 서명 참가신청서 및 개인정보동의서 PDF 첨부 발송 (Message-ID: 1a15705bf2ea4695)
+     - 출품작: *"깨끗한 에너지, 따뜻한 AI, 안전한 내일"* (정확히 21자)
+     - 의미 설명: 친환경(깨끗한 에너지) + 인간 중심 기술(따뜻한 AI) + 국민 안심 국가 기간망(안전한 내일)의 3박자 리듬 압축 (237자)
+     - **결과발표일**: 2026. 11. 25.(수) (캘린더 등록 완료)
+  9. **노사발전재단 일하는 사람 노동권 보호 민관협력 네트워크 이름짓기 공모전**
+     - 일시: 2026. 10. 23.(금) 14:47 공식 네이버폼 접수 완료
+     - 출품작: **일터이음** (순우리말 상생 연결망)
+     - 의미 및 설명: 일터에서의 '신체적·심리적 안전'과 정당한 대가를 받으며 '지속적으로 일할 권리'를 민관이 든든하게 이어준다는 상생 네이밍
+     - 주관식 의견: 안전권 + 노동의 지속성 + 취약 노동자 사각지대 원스톱 무료 법률/심리 지원 제언
+     - **결과발표일**: **2026. 11. 18.(수)** (구글 캘린더 등록 완료: 7vt4omlgg1qkgfbrk8bcotjl3g)
+
+## 124. K-듀얼모멘텀 봇 rev4.4 패치(P-1~P-8 + 36대 특수 시나리오 6대 보완) 2026년 10월 23일(금) 실행 일정 및 명세 (2026-10-18)
+- **일정 및 운영 원칙:**
+  * **2026년 10월 19일(월) 09:47 KST:** 10월 정기 실전 리밸런싱은 패치 전 현행 코드(`rev4.3.1`, 커밋 `7a793d3`) 그대로 무수정 실행하며 결과만 모니터링함. (10/18 일요일 허위 CRITICAL 경보 발생 시 무시)
+  * **2026년 10월 23일(금) 10:30 KST (구글 캘린더 등록 완료: `ab6t23qq70l17frv1ttnth5jrg`):** 10월 리밸런싱 및 10/22 입학설명회 종료 직후, 아르곤·클로드 교차검증(`P-1`~`P-8 방안 A`) 및 **Gemini Flash 4대 하위 에이전트 × 아르곤 36대 특수 시나리오(`S01`~`S36`) 시뮬레이션에서 추가 발굴된 6대 핵심 보완**을 일괄 반영하고 테스트 통과 및 평일 `dry_run=1` 확인 후 배포함.
+- **최종 통합 패치 항목 요약 (`rev4.4`):**
+  1. **`P-1` (#1 + S01/S02/S03/S07/S09):** 주말 및 매년 12월 31일(평일 연말 폐장일) 무소음 종료·`--check-only` 비말일 종료를 `get_access_token()` 앞으로 이동 + 토큰 발급 3회 재시도 + 주말 `DRY_RUN` `token=None` 폴백 및 `get_current_price` `if not token:` 가드 + `mark_clean_exit()` 및 `_DEADMAN_ARMED` 정의 + `get_last_business_day_of_month` 12/31 영구 조건화.
+  2. **`P-2` (#2 + S10/S12/S26):** `get_daily_orders()` 조회 실패 시 `RuntimeError` 발생 ➔ `check_already_rebalanced_today()`에서 안전 스킵(`True, ..., False`), `wait_for_fills()`에서는 `try/except` 폴링 지속 + KIS/Yahoo 월봉 `to_float > 0` 양수 필터링 및 Yahoo `try/except` 널체크.
+  3. **`P-3` (#3 최우선 + S17/S19):** 기본 수량과 그리디 잔여현금 배분을 통합한 `compute_target_quantities(total_asset, target_weights, prices)`를 도입하여 `check_already_rebalanced_today()`와 `rebalance_account()`가 100% 동일한 목표 수량을 참조하도록 일원화 (클로드 초안의 `0.995` 이중 차감 74주➔73주 축소 버그 및 익월 그리디 매수분 매도 후 재매수 왕복매매 원천 차단).
+  4. **`P-4` (#4 + S16):** `min_buyable_cash(prices, target_weights)`로 확장하여 비목표 저가 종목(9,500원)이 아닌 **목표 비중(`w > 0`) 종목 중 최저 매수 가능 현금**을 기준으로 소액 계좌 및 잔여 현금 완료 여부를 판정.
+  5. **`P-5` (#5 + S22/S23/S24/S27/S28/S30/S31):** (a) 묵은 미체결 취소 실패(`rt_cd != "0"`) 시 안전 스킵, (b) 매도 `wait_for_fills` 타임아웃(`not filled`) 시 미체결 매도 잔량 즉시 `cancel_order()` 취소, (c) 초기 잔고 지정가(`00`) 기준 조회 및 비매도 계좌도 `orderable_cash < int(ledger_cash * 0.995)` 시 `wait_for_margin_sync(min_ledger)` 호출, (d) `psbl is None`(통신 에러) 시 `int(ledger_cash * BUY_BUFFER)` 폴백 및 `output2[0]` dict 검증, (e) 일반계좌 내 `TICKER_NAMES` 외 전략 외 개인 보유 주식(삼성전자 등) 분리·강제 매도 차단 보호.
+  6. **`P-6` (#6 + S32/S35):** 그리디 잔여현금 배분 시 실제 추가 주수를 `added` 카운터로 분리 집계하고, 매수 주문 후 `wait_for_fills(..., buy_odnos, timeout=20)` 대기 후 최종 예수금 집계.
+  7. **`P-7` (#7 + S34):** `submit_order()`, `wait_for_fills()`, `mode_str`에서 `KIS_DRY_RUN or DRY_RUN` 통일 및 `--check-only` 루프 내 계좌별 `try/except` 격리.
+  8. **`P-8` (#8 방안 A + S04/S05/S06):** 월말 결산 생존 점검 보고를 **매월 마지막 영업일 단 1회만 발송**하되, 말일 1~3차 일반 파동에서는 **전 계좌 완료 확인 시에만** 즉시 1회 발송 후 `logs/YYYY-MM.log`에 `check_report=sent`를 기록(미완료 계좌 존재 시 다음 파동 재시도를 위해 보류 후 4차 `--check-only` 파동에서 보고)하고 `errors="ignore"`로 파싱하여 당월 0통 누락 및 2통 중복 발송을 완벽히 차단함.
+
+
+
+
+## 125. 황요한 교사 매달 17일 월급날 부부 생활비 가계부 정산 및 텔레그램 알림 규칙 (2026-10-18)
+- **개요:** 매달 17일 급여 수령 후 부부 생활비 가계부 시트(`2026. 생활비`)를 당일 즉시 신속하게 정산하는 표준 운영 규칙.
+- **정산 일시 및 이월 알고리즘:**
+  1. **기본 정산일:** 매월 17일 (월급날 즉시 정산).
+  2. **휴일/주말 이월 규칙:** 매월 17일이 주말(토/일요일)이거나 법정 공휴일인 경우, 돌아오는 **가장 빠른 월요일**을 정산 기준일로 설정하여 알림 및 정산 집행.
+- **텔레그램 알림 발송기:** `scratch/send_monthly_budget_reminder.py`
+- **부부 생활비 시트 링크:** `https://docs.google.com/spreadsheets/d/1EReikad-ObOGz1eQBRrkcWhAq-ViHL38BmL6uCI7mqc/edit`
+- **정산 항목 표준 구조:**
+  * 수입: 황요한 급여 (17일 창원교육청 입금 실수령액)
+  * 정기 공제: 용돈(15만), 임용계(1만), 여행계(10만), 진해고 급식비, 연금저축(50만)
+  * 변동 공제: 카카오뱅크 사전 송금분(선입금), 개인 카드 결제 생활비 대납분
+
+
+## 126. 진해고 국어과 지필·수행평가(서·논술형) 출제 및 채점기준표 표준 원칙 (2026. 10. 16. 연수 반영)
+- **개요:** 2026년 10월 16일 「2026. 학생평가 역량강화 연수(고_국어)」(경남교육청 문정인 수석교사 주관)에서 체득한 DOK 지식의 깊이, Bloom 신교육목표분류체계(BRT), 및 분석적 평가 요소 세분화 이론을 진해고등학교 국어과 지필 및 수행평가 출제 시 기본 원칙으로 영구 적용함.
+- **5대 출제 및 채점기준표 구성 원칙:**
+  1. **[DOK 3 수준 보장 (지식의 깊이)]:**
+     - 단순 암기나 지문 속 단어 찾기(DOK 1)를 배제하고, 지필 서·논술형 문항은 반드시 **DOK 3(전략적 사고: 다면적 추론, 논증 타당성 평가, 대안 제시, 필수 쟁점 반박)** 수준으로 설계함.
+     - 수행평가는 복수의 텍스트와 실생활 맥락을 융합하는 **DOK 4(확장적 사고)** 프로젝트로 기획함.
+  2. **[BRT 반응 지시어 정밀 정렬]:**
+     - 모호한 "설명하시오", "서술하시오", "쓰시오"를 금지하고, 인지 과정에 대응하는 구체적 수행 동사를 발문에 명시함:
+       * 이해/적용: 요약하시오, 비교하시오, 적용하여 설명하시오
+       * 분석: 구분하시오, 논증 요소를 분해하시오, 원인을 분석하시오
+       * 평가: 충분성·신뢰성·타당성을 점검·비판하시오, 한계를 논박하시오
+       * 창출: 대안을 제안하시오, 자신의 관점으로 재구성하여 논술하시오
+  3. **[평가 요소(루브릭 준거) 세분화 원칙]:**
+     - 채점의 내적 일관성 확보, 재채점 방지, 동교과 교사 간 신뢰도 제고, 학생 민원(이의 제기) 사전 차단을 위해 채점기준표를 뭉뚱그리지 않고 **2~3개의 독립적 평가 요소**로 분할 배점함:
+       * [요소 1 / DOK 2] 사실·개념 지식의 정확한 추출 및 이해 (2~3점)
+       * [요소 2 / DOK 3] 근거의 타당성 평가, 비판, 추론 (4~5점)
+       * [요소 3 / DOK 3~4] 대안 제시, 논증 완결성 및 문장/문단 형식 (2~3점)
+  4. **[발문 `<조건>`의 구체화]:**
+     - 포함해야 할 핵심 개념어 명시, 활용해야 할 제시문/자료 기호 지정(자료 분석 없이 배경지식만으로 쓰는 것 차단), 문장 수 또는 문단 구성 형식 조건을 명료하게 제시함.
+  5. **[수업-평가-세특 연계성 및 기재 금지 규칙 준수]:**
+     - 수업 중 형성평가(활동지, 질문 비계)에서 다룬 사고 과정을 평가로 연결하며, 평가 결과는 진해고 학생부 세특 기재 금지 원칙(지역명 '우리 지역' 대체, 대회/사기업명 배제 등)에 맞추어 성장 기록으로 환류함.
+
+## 127. K-듀얼모멘텀 rev4.4 실전 패치·도서 원고 개편 및 아르곤(Argon) 쿼터 소진에 따른 제미나이 3.8 플래시 인수인계·사후 검증 지침 (2026-10-20)
+- **개요 및 모델 전환 배경:**
+  * **일시:** 2026년 10월 20일(화)
+  * **배경:** 10월 19일(월) 정기 리밸런싱 집행(`069500` 15주, `329750` 53주 체결) 후 발생한 허위 `⚠️ 현금 방치 경보 (810,686원)` 트러블슈팅 및 10/23 예정이었던 `rev4.4` 패치를 조기 완벽 적용하고 도서 원고(`retirement_savings_dual_momentum_guide.md`)에 전면 반영하는 과업을 수행함.
+  * **모델 전환 사유:** 작업 도중 총괄 에이전트인 **Google Antigravity 아르곤(Gemini 4 Argon)**의 사용량 한도(Quota / Rate Limit)가 일시 소진됨.
+  * **플래시 완결 조치:** 사용자의 지시에 따라 **제미나이 3.8 플래시(Gemini 3.8 Flash)** 모델로 전환하여 하위 에이전트 검증, 파이썬 AST 컴파일 검증, 봇 코드 실전 배포 푸시(`c7484b1`), 도서 원고 4대 영역 개편 및 검증, 구글 드라이브 동기화, 사용자 텔레그램 최종 보고까지 단 한 치의 오차 없이 100% 완결함.
+
+- **실전 봇 배포 내역 (`scratch/jinhae-k-momentum-bot` & 루트):**
+  1. **반영 파일:** `kis_bot_multi.py` (`rev4.4`, 1,694행, SHA256: `9f329303fff4b3ed0b78e0904abcad76038b14ab20719ffd76e85cd8cebc37b5`), `.github/workflows/rebalance.yml` (108행).
+  2. **Git 커밋 & 푸시:** 커밋 해시 **`c7484b1`** (`[PATCH] K-Dual Momentum Bot rev4.4: Complete integration of P-1~P-8 & S01~S36`).
+  3. **핵심 패치 8대 항목 (`P-1`~`P-8`):**
+     - `P-1`: 주말·12월 31일(KRX 연말 휴장일) 토큰 발급 전 즉시 조기 종료 + 토큰 발급 3회 재시도 + 주말 DRY_RUN `token=None` 폴백.
+     - `P-2`: `get_daily_orders` 통신 에러 시 `RuntimeError` 전파 ➔ 당일 체결 오판 방지 및 안전 스킵.
+     - `P-3`: 목표 수량 일원화 함수 `compute_target_quantities` 도입 ➔ 멱등성 검사와 매수 실행이 동일 수량 참조하여 불필요한 왕복매매 및 이중 차감 방지.
+     - `P-4`: `min_buyable_cash(prices, target_weights)` ➔ 비목표 저가 종목이 아닌 실제 목표 비중 종목 기준으로 최소 매수 가능 금액 판정.
+     - `P-5`: (a) 묵은 미체결 취소 실패 시 안전 스킵, (b) 매도 타임아웃 미체결분 즉시 자동 취소, (c) 원장 증거금 실시간 폴링 동기화 `wait_for_margin_sync`, (d) 잔고조회 `TTTC8908R` 실패 시에만 안전 폴백, (e) 전략 외 보유 개별주(삼성전자 등) 매도 대상 완전 분리 보호.
+     - `P-6`: 매수 주문 직후 `wait_for_fills(..., buy_odnos, timeout=20.0)` 20초 체결 대기 후 최종 원장 조회 ➔ **10/19 810,686원 허위 경보 원천 차단**.
+     - `P-7`: `mode_str` 일관성 및 `--check-only` 다중 계좌 `try/except` 격리.
+     - `P-8 방안 A`: 매월 마지막 영업일 1회만 결산 생존 보고 발송 + `logs/YYYY-MM.log`에 `check_report=sent` 마커 기록하여 중복 발송 차단.
+
+- **도서 원고 개편 내역 (`retirement_savings_dual_momentum_guide.md`, 3,697행):**
+  1. **목차(TOC) 및 본문 헤딩 1:1 정렬:** `4.4 Top 18 트러블슈팅 디버깅집`, STEP 0~5 등 모든 헤딩 완전 일치.
+  2. **4.1절 (실행 흐름 및 안전장치):** Mermaid `flowchart TD` 다이어그램 최신화, 10대 핵심 안전장치, 최유리지정가 `'03'` 매도 및 증거금 폴링 원리 서술.
+  3. **4.2절 (GitHub Actions 무인 배포 원리):** 4파동 스케줄(오전 3발 분산 크론 + 4차 말일 점검 `P-8 방안 A`), 델타 수렴 멱등성 가드 설명.
+  4. **4.3절 (전체 소스 코드 수록):** `STEP 2`의 `kis_bot_multi.py`와 `STEP 3`의 `rebalance.yml`을 실전 배포 코드와 바이트 단위(SHA256)로 100% 동기화.
+  5. **4.4절 (Top 18 트러블슈팅 디버깅집):** 16개 항목에서 **Top 18**로 확장.
+     - `#17`: 10/19 매수 직후 미체결 원장 조회로 인한 허위 `⚠️ 현금 방치 경보 810,686원` 해결 (`wait_for_fills` 20초 대기 도입).
+     - `#18`: 주말 토큰 서버 점검 조기 차단(`P-1`), 전략 외 개별주 보호(`S24`), 월말 생존 점검 방안 A(`P-8`).
+  6. **4.5~4.6절 (운영 가이드 & 체크리스트):** 프롬프트 레시피 정비, 월별 타임라인 및 3대 절대 운용 수칙 명시.
+  7. **외부 동기화:** `G:\내 드라이브\클로드\retirement_savings_dual_momentum_guide.md`에 실시간 복사 완료.
+
+- **제미나이 3.8 플래시 8대 검증 하네스 전수 합격 결과 (ALL PASS):**
+  * `verify_patched_domain1.py`: S01~S09 (스케줄·휴장일·토큰·로그마커) ➔ **100% PASS**
+  * `verify_patched_domain2.py`: S10~S18 (시세·모멘텀·호가·최소매수현금·수량배분) ➔ **100% PASS**
+  * `verify_patched_domain3.py`: S19~S27 (멱등성·미체결취소·전략외종목·월중입금) ➔ **100% PASS**
+  * `verify_patched_domain4.py`: S28~S36 (매도매수집행·증거금동기화·다중계좌격리·리포트) ➔ **100% PASS**
+  * `verify_book_part1.py`: 목차(TOC) 및 1~3부, 부록 정합성 ➔ **100% PASS**
+  * `verify_book_part2.py`: 4.1절 Mermaid 다이어그램 및 4.2절 4파동 스케줄 정합성 ➔ **100% PASS**
+  * `verify_book_part3.py`: 4.3절 수록 코드 byte-for-byte SHA256 일치 및 AST 컴파일 ➔ **100% PASS**
+  * `verify_book_part4.py`: 4.4절 Top 18 색인표 및 4.5~4.6절 운영 체크리스트 정합성 ➔ **100% PASS**
+
+- **[중요] 아르곤(Gemini 4 Argon) 쿼터 회복 시 사후 검증 및 디버깅 체크리스트:**
+  * 아르곤 모델이 활성화되면 다음 절차를 즉시 수행하여 상태를 재확인할 것:
+    1. **Git 상태 확인:**
+       `git -C scratch/jinhae-k-momentum-bot log -1 --oneline` ➔ `c7484b1` 일치 확인
+    2. **봇 36대 특수 시나리오 회귀 테스트 실행 (4개 도메인):**
+       `python scratch/verify_patched_domain1.py`
+       `python scratch/verify_patched_domain2.py`
+       `python scratch/verify_patched_domain3.py`
+       `python scratch/verify_patched_domain4.py`
+       (모두 Return Code 0 및 "ALL PASS" 확인)
+    3. **도서 원고 4대 영역 구조 및 코드 정합성 테스트 실행:**
+       `$env:PYTHONIOENCODING="utf-8"; python scratch/verify_book_part1.py`
+       `$env:PYTHONIOENCODING="utf-8"; python scratch/verify_book_part2.py`
+       `$env:PYTHONIOENCODING="utf-8"; python scratch/verify_book_part3.py`
+       `$env:PYTHONIOENCODING="utf-8"; python scratch/verify_book_part4.py`
+       (모두 Return Code 0 및 "ALL PASS" 확인)
+    4. **구글 드라이브 동기화 파일 검증:**
+       `G:\내 드라이브\클로드\retirement_savings_dual_momentum_guide.md` 파일 크기 및 최신 수정 시간 확인.
+    5. **캘린더 일정 관련 참고:**
+       10월 23일(금) 10:30 구글 캘린더 일정(`ab6t23qq70l17frv1ttnth5jrg`)은 금일(10/20) 패치가 이미 완벽하게 선배포·검증되었으므로, 해당 시점에는 신규 패치 작성 대신 실전 운영 로그 모니터링 상태로 승격하여 운용할 것.
+
+---
+
+## 128. 황요한 교사 나이스(NEIS) 공식 인사기록카드 팩트 베이스 및 공적조서·인사서류 작성 영구 원칙 (2026-10-22)
+- **개요:** 교원인사기록카드(`교원인사기록카드(황요한).pdf`, 기준일: 2026.10.22)의 공식 나이스(NEIS) 전산 기록을 기반으로 황요한 교사의 인적사항, 학력, 자격, 경력, 포상, 병역 정보를 일원화하여 향후 모든 표창장, 공적조서, 이력서, 인사 공문 작성 시 사실과 100% 일치하도록 보장하는 영구 원칙임.
+- **보안 및 저장 위치:**
+  * 안전 저장 경로: `D:\OneDrive - 경상남도교육청\바탕 화면\진해고등학교\2026학년도\개인적인 일\인사기록\교원인사기록카드(황요한).pdf`
+  * 보안 원칙: 외부 유출 절대 금지, 주민등록번호 뒷자리 및 민감 정보는 공문 제출용 공식 서식 외에 일반 텍스트 로그나 외부에 평문 노출 금지.
+- **핵심 인적 사항 및 공적 작성 기준:**
+  1. **성명 및 한자 표기:** 황요한 / 漢字: **黃要韓** (※ 끝 글자는 '나라 한(韓)'자임. '깃 한(翰)'으로 잘못 표기되지 않도록 절대 주의!) / Eng: Hwang, Yohan.
+  2. **생년월일 및 연령:** 1986. 08. 21. (음력 1986. 08. 21., 2026년 기준 만 40세).
+  3. **공식 도로명 주소:** 경상남도 창원시 성산구 외동반림로 156(용호동,용지 더샵 레이크파크) 105동 204호 (우편번호 51438).
+  4. **소속 및 직급:** 경상남도교육청 진해고등학교 / 직위: 교사(중등) / 직급: 중고등학교교사 / 26호봉 (2026.09.01 기준) / 교원구분: 교사(고등학교) / 표시과목: 국어, 역사.
+  5. **병역:** 육군 병장 만기제대 (2006. 07. 25. ~ 2008. 07. 14., 1년 11개월 20일 복무).
+  6. **학력 및 교원자격:**
+     - 2005. 03. ~ 2011. 02. 경남대학교 사범대학 국어교육과 졸업.
+     - 2011. 02. 18. 중등학교 정교사(2급) 국어 (경남대학교, 제17255호) & 역사 (제17698호).
+     - 2016. 08. 30. 중등학교 정교사(1급) 국어 (경상남도교육청, 아 제24955호).
+  7. **학교별 공식 근무 경력 (최초 일반공채 임용일: 2013. 03. 01.):**
+     - [임용 전] 2012. 09. 01. ~ 2013. 02. 28. 고성동중학교 기간제교사 (6개월).
+     - [1차교] 2013. 03. 01. ~ 2015. 02. 28. **통영 충무여자중학교** 교사 (2년, 담임 2년).
+     - [2차교] 2015. 03. 01. ~ 2018. 02. 28. **창원남산고등학교** 교사 (3년, 담임 3년).
+     - [3차교] 2018. 03. 01. ~ 2024. 02. 29. **창원명지여자고등학교** 교사 (6년).
+       * 담임교사: 2018, 2019, 2020, 2021년 (4년).
+       * 보직교사(부장교사): 2020, 2021년 (2년).
+       * 정책 파견: 2022. 03. 01. ~ 2024. 02. 29. **경상남도교육청 학교정책국 진로교육과 파견** (2년).
+     - [4차교] 2024. 03. 01. ~ 현재(2026. 11. 20.) **진해고등학교** 교사.
+       * 육아휴직(첫째): 2024. 08. 23. ~ 2025. 08. 11. (복직 2025. 08. 12.).
+     - [재직기간 산정]: 2013. 03. 01. ~ 2026. 11. 20. 기준 총 재직기간 13년 8개월, 육아휴직 제외 시 실 재직기간 12년 8개월(12.08).
+  8. **포상 및 연구 실적:**
+     - 2014. 12. 23. **경상남도교육감표창** (흡연예방금연교육 유공, 제3184호).
+     - 2014. 05. 23. **제36회 중등교원학습지도연구대회(국어과)** 시도대회 3등급 (제3112호, 경상남도교육청).
+     - 징계 및 형벌: **해당 없음 (무)**. 결격 사유 0건 (2년 이내 교육부장관표창/정부포상 수훈 이력 없음).
+
+
+
+
+---
+
+## 129. 안티그래비티-클로드코드-이음오피스 3각 무결점 한글 문서 자동화 및 반복 교차 검증(Generator-Critic Loop) 규칙 (2026-10-25)
+- **개요:** 안티그래비티(기획/초안), 클로드 코드(정밀 감수/비평), 이음오피스(HWP/HWPX 서식 보존 주입/출력)를 유기적으로 연결하여, 사람의 수동 복사-붙여넣기 없이 오류가 없을 때까지 백그라운드에서 반복 교차 검증하는 시스템 최고 헌장 규칙임.
+- **3대 에이전트 역할 분담:**
+  1. **안티그래비티 (Gemini, 기획 및 오케스트레이터):** 사용자 요구사항 분석, 학사 일정 및 NEIS 규정 반영, 1차 초안 작성, 반복 검증 루프 지휘, 최종 파일 동기화.
+  2. **클로드 코드 CLI (Anthropic Opus/Sonnet, 정밀 비평가):** 터미널 headless 호출(`claude -p "..."`)을 통해 오탈자, 비문, 규정 누락, 논리적 결함 지적 및 대안 제시.
+  3. **이음오피스 (IeumOffice & rhwp 엔진, 무손실 서식 주입기):** 기존 한글(`.hwp`/`.hwpx`) 양식의 표/누름틀 구조 판독(`ieumoffice hwp read`), 서식 왜곡 없는 텍스트 주입, .bak 자동 백업 및 무손실 파일 저장.
+- **반복 교차 검증(Generator-Critic Loop) 운영 원칙:**
+  1. **자율 핑퐁 검증:** 단발성 1회 검토에 그치지 않고, 두 AI가 합의된 무결점 수준에 도달할 때까지 백그라운드에서 수정-검토를 반복함.
+  2. **토큰 절약 및 무한 루프 방지 3대 안전장치:**
+     - **[최대 3회 캡]** 왕복 핑퐁 횟수는 최대 3회(Max Iterations: 3)로 제한하여 토큰 낭비 방지.
+     - **[3대 PASS 판정 기준]** 클로드에게 명확한 합격 기준(① 맞춤법/비문 0건, ② 교육과정 및 학교 규정 준수, ③ 본문-표 수치 정합성)을 부여하고, 기준 충족 시 즉시 `[PASS / ALL CLEAR]`를 출력하여 루프 종료.
+     - **[Diff 중심 압축 소통]** 2회차 이후부터는 전체 문서 대신 지적받은 단락 및 수정된 문맥(Diff) 위주로 전달하여 클로드 프로 사용량 한도를 극적으로 보존.
+  3. **바탕화면 최우선 자동 저장 및 구글 드라이브 실시간 동기화:**
+     - 사용자가 즉시 찾아서 열어볼 수 있도록 최종 산출물(한글 HWP, 워드 DOCX, 엑셀 XLSX 등)은 **항상 선생님의 바탕화면(d:\OneDrive - 경상남도교육청\바탕 화면)에 최우선 자동 복사/저장**하며, PC에 마운트된 G:\내 드라이브에도 동시 백업하여 스마트폰 및 타 기기와의 실시간 클라우드 동기화를 보장함.
+
+---
+
+## 130. 2026년 10월 26일(월) 아침 브리핑 필수 상기 지침: 클로드 코드 1회 로그인 승인 및 3각 파이프라인 가동 (2026-10-25)
+- **개요:** 2026년 10월 26일(월) 아침 브리핑 시 최우선 필수 상기 항목으로 보고해야 하는 파이프라인 개통 안내 지침임.
+- **필수 브리핑 내용:**
+  1. **클로드 코드(Claude Code) 1회 브라우저 로그인 승인 안내:**  
+     - 파워셸/터미널에서 `claude` 실행 후 브라우저에서 Claude Pro 계정 1회 로그인 승인(Authorize) 버튼 클릭 완료 요청.
+  2. **개통 완료될 3각 자동화 파이프라인 안내:**  
+     - "안티그래비티(초안) ➔ 클로드 오푸스(반복 교차 검증) ➔ 이음오피스(한글 HWP 서식 보존 출력)" 무결점 자동화 체계가 실전 가동 준비 완료됨을 보고.
+- **구글 캘린더 등록 확인:**
+  - 2026년 10월 26일(월) 08:30~09:00 일정으로 구글 캘린더 등록 완료(`7a8g0ra3c9ofcq2iojl8rdfsj4`).
+
+
+## 126. 황요한 교사 Google Gemini 1년 구독 만료(2027년 3월) 및 최적 AI 구독 서비스 비교·추천 지침 (2026-10-25)
+- **개요:** 저자가 2026년 3월 중순 결제한 Google Gemini Advanced(구글 원 1년 구독)의 이용 만료 시점(2027년 3월 중순)에 맞추어 가장 유리한 AI 구독 플랫폼으로의 전환을 지원하는 장기 운영 지침.
+- **현행 유지 원칙:** 2027년 3월 만료일까지는 이미 일시불 결제되어 추가 비용이 0원이므로 중도 해지나 이중 결제를 하지 않고 기존 계정을 100% 활용함.
+- **2027년 3월 초 필수 실행 체크리스트:**
+  1. **구글 원 자동 결제(갱신) 해제:** 만료 1~2주 전 구글 플레이/원 계정에서 자동 갱신을 안전하게 OFF 처리.
+  2. **당시 최신 AI 구독 할인 플랫폼 전수 비교:** LGU+ 유독(Google AI Pro 월 19,800원 등), SKT T우주, 챗GPT/클로드 최신 프로모션, 패밀리 공유 등을 전수 비교 분석하여 최저가 추천.
+  3. **알뜰폰 회선 유지 + 구독 플랫폼 결합:** 통신사는 가성비 알뜰폰을 유지하면서 외부 구독 플랫폼(유독 등)만 연계하여 가계 통신·AI 지출을 최소화함.
+
+
+---
+
+## 131. 공모전 AI 영상 제작 시 클링 AI(Kling AI) 기반 콘티·프롬프트 설계 표준화 규칙 (2026-10-26)
+- **개요:** 공모전(국세청 근로·자녀장려금 숏폼, 지자체·공공기관 영상 공모전 등)에 출품할 모든 영상의 씬별 콘티, 스토리보드, 영문 프롬프트를 기획할 때, **클링 AI (Kling AI)의 엔진 특성과 고유 파라미터를 100% 기준으로 삼아 설계**하는 시스템 최고 헌장 규칙임.
+- **클링 AI 기반 4대 표준 설계 아키텍처:**
+  1. **[Image-to-Video (I2V) 우선 앵커링 원칙]**:
+     - 텍스트만으로 맨땅 생성(T2V) 시 발생하는 인물·사물 형태 왜곡(배 모양 불일치, 얼굴 바뀜 등)을 방지하기 위해, 기준 키비주얼(시작 프레임 Start Frame 또는 시작-끝 프레임 First/Last Frame)을 먼저 확정한 뒤 클링 I2V로 동작을 부여하는 프롬프트 구조로 설계함.
+  2. **[시간축 인과 동작 기술법 (Temporal Motion Prompting)]**:
+     - 클링의 강점인 시간축 인지 능력을 극대화하기 위해, 한 문장에 여러 개념을 섞지 않고 [초기 상태/자세] ➔ [구체적 행동/동선 전환] ➔ [최종 감정/표정 변화] 형태로 5~10초 타임라인에 맞춘 시간순 서술을 적용함.
+  3. **[클링 전용 카메라 무빙 파라미터 정량 병기 (Camera Control)]**:
+     - 프롬프트 본문 외에 클링 인터페이스에서 직접 입력하는 카메라 제어 수치(Zoom In/Out, Pan Left/Right, Tilt Up/Down, Motion Amplitude 1~10)를 컷별로 명확히 지정하여 화면의 불필요한 흔들림을 차단함.
+  4. **[클링 표준 규격 및 네거티브 프롬프트 일괄 탑재]**:
+     - **규격:** 세로형 9:16 (FHD 1080×1920), 기본 5초 또는 10초 Professional Mode 기준.
+     - **표준 네거티브:** deformed limbs, extra fingers, distorted face, blurry, text, watermark, jitter, stutter, morphing artifacts, bad anatomy, low quality.
+
+
+---
+
+## 132. 2027학년도 찾아가는 입학설명회 4대 핵심교(진해중·냉천중·석동중·진해남중) 및 삼정자중 확정 일정 (2026-10-26)
+- **개요:** 2027학년도 신입생 유치를 위한 관내 주요 중학교 및 관외(삼정자중) '찾아가는 입학설명회' 확정 일정 및 운영 형태 총괄 관리 지침.
+- **방문 중학교별 세부 확정 일정 총괄표:**
+  1. **[11월 10일(화) 5~6교시] 창원 삼정자중학교 (관외 소그룹 맞춤형)**:
+     - **일시:** 2026. 11. 10.(화) 5교시(13:25~14:10) & 6교시(14:20~15:05)
+     - **장소:** 본관 2층 3학년 1반 교실 (신청 학생 38명 참석, 교내 주차 불가 ➔ 솟대공원 공영주차장 이용)
+     - **진행:** 황요한 교사 단독 방문 진행 (Track B 관외/기숙사 청운학사 24시 & 대입 개편 5등급제 내신 강점 중심 PPT)
+  2. **[11월 13일(금) 5교시] 진해중학교 (시청각실 집합형)**:
+     - **일시:** 2026. 11. 13.(금) 5교시 (13:30 ~ 14:15, 45분간)
+     - **장소:** 시청각실 (3학년 남학생 전체 또는 희망 학생 집합)
+     - **진행:** 진해고 단독 집중 설명회 (황요한 교사 + 진해중 출신 도우미 2학년 김도윤, 1학년 정의환 동행)
+     - **수업 조율:** 본교 금요일 5교시(3-4 심화국어) 1시간 조율 (금요일 6·7교시는 정규 공강)
+  3. **[11월 24일(화) 7교시] 진해냉천중학교 (시청각실/강당 연합형)**:
+     - **일시:** 2026. 11. 24.(화) 7교시 (15:00 ~ 15:45, 45분간)
+     - **장소:** 시청각실 또는 강당
+     - **진행:** 진해여자고등학교 공동 연합 설명회 (진해여고 담당: 김미진T ☎ 010-9674-0077)
+     - **도우미:** 냉천중 출신 도우미 동행 (1학년 허준성, 2학년 박재윤, 2학년 정의찬)
+     - **수업 조율:** 화요일 7교시는 정규 공강 슬롯으로 수업 결손 0시간
+  4. **[11월 25일(수) 5교시] 석동중학교 (각 교실 2인 1조 밀착형)**:
+     - **일시:** 2026. 11. 25.(수) 5교시 (13:20 ~ 14:05, 45분간)
+     - **장소:** 3학년 각 학급 교실
+     - **진행:** 학생 홍보단 2인 1조 각 교실 투입 (황요한 교사 인솔 총괄)
+     - **특색 연계:** 석동중 3학년 5교시 각 학급 교실에 홍보단 2인 1조가 직접 방문하여 밀착형 진행
+     - **도우미 배정 (석동중 출신):** 1조(2학년 정원호 + 1학년 백유일), 2조(1학년 김우진 + 1학년 양예준)
+     - **수업 조율:** 본교 수요일 5교시(3-3 심화국어) 1시간 조율 (수요일 6·7교시는 본교 창체 동아리)
+  5. **[11월 26일(목) 5교시] 진해남중학교 (각 교실 2인 1조 밀착형)**:
+     - **일시:** 2026. 11. 26.(목) 5교시 (13:20 ~ 14:05, 45분간)
+     - **장소:** 3학년 각 학급 교실
+     - **진행:** 학생 홍보단 2인 1조 각 교실 투입 (황요한 교사 인솔 총괄)
+     - **도우미 배정 (남중 출신):** 1조(2학년 이승기 + 1학년 이승훈), 2조(2학년 김대현 + 1학년 김도현, 지원: 1학년 권순영)
+     - **수업 조율:** 본교 목요일 5교시(3-1 심화국어) 1시간 조율 (목요일 6·7교시는 정규 공강)
+  6. **[11월 27일(금) 점심시간] 동진중학교 (다용도실 집합형)**:
+     - **일시:** 2026. 11. 27.(금) 점심시간 (12:50 ~ 13:30, 40분간 / 동진중 점심 12:20~13:30)
+     - **장소:** 동진중학교 다용도실 (3학년 남학생 한 실 집합)
+     - **진행:** 진해고 단독 집중 설명회 (황요한 교사 진행)
+     - **도우미 배정:** 동진중 출신 1학년 10827 최시현 (입학홍보단)
+     - **수업 조율:** 본교 점심시간(12:30~13:35) 활용 이동 및 5교시(3-4 심화국어) 1시간 조율 (금요일 6·7교시는 정규 공강)
+     - **구글 캘린더 ID:** `qlsdd1i5etsb9us39derrk4glg`
+- **구글 캘린더 등록 ID (실시간 연동 완료):**
+  * 삼정자중: `3mj9hmpb8qjntdfec9ce8d9gtc` (11. 10. 화 13:00~16:30)
+  * 진해중: `obt87c956qe50e9ccd5qi2sjss` (11. 13. 금 13:10~14:35)
+  * 진해냉천중: `nhtgrbeqgqvnkirevg39tbjjqs` (11. 24. 화 14:45~16:15)
+  * 석동중: `5edbb75fq5042o4p7cqa9fuk0k` (11. 25. 수 13:00~14:30)
+  * 진해남중: `ori0e4oequ0h7091r7bra0bb5k` (11. 26. 목 13:00~14:30)
+  * 동진중: `qlsdd1i5etsb9us39derrk4glg` (11. 27. 금 12:35~13:45)
+- **연동 관리 파일:**
+  * 총괄 일정 엑셀: `3. 홍보/입학설명회/찾아가는 입학설명회/2027학년도 찾아가는 입학 설명회 홍보 일정 및 참여 학생 명단.xlsx`
+  * 세부 배정 마스터: `3. 홍보/입학설명회/찾아가는 입학설명회/2027학년도_찾아가는_입학설명회_추진일정_및_배정현황.md`
+  * 조율 마스터시트: `3. 홍보/입학설명회/찾아가는 입학설명회/2027학년도_진해관내_중학교_찾아가는_입학설명회_일정조율_마스터시트.md`
+
+
+---
+
+## 133. [절대 금지 원칙] 타 학교 학사일정·공문 정보 임의 추정(환각) 금지 및 1차 출처 검증 의무화 (2026-10-26)
+- **배경:** 석동중학교 학사일정 중 11월 4일(2학년)과 11월 11일(1학년) 체험 일정을 바탕으로 '11월 25일이 3학년 전환기진로체험의 날'일 것이라고 AI가 임의 추정하여 마스터시트에 기재함으로써, 담당 교사가 상대 학교 3학년 부장교사와의 통화에서 잘못된 정보를 언급하여 큰 곤혹을 치르는 치명적인 사고가 발생함.
+- **영구 불변 3대 검증 수칙:**
+  1. **임의 추정 및 기재 절대 금지:** 타 학교의 학사일정, 행사명, 시험 일정, 시정표 등을 절대로 '그럴 것이다'라고 유추하거나 기재하지 않음. 확인되지 않은 사항은 무조건 '미정(확인 필요)'으로만 표기함.
+  2. **공식 1차 출처(나이스 Open API / 공식 수신 공문) 교차 검증 의무:** 타 학교 관련 정보를 문서에 수록할 때는 반드시 교육부 나이스(NEIS) Open API 또는 학교 공식 수신 공문/가정통신문 원본을 통해서만 확인된 사실(Fact)만을 기재함.
+  3. **제안과 사실의 엄격한 분리:** 안티그래비티가 추천하는 일정이나 아이디어는 '제안(아이디어)' 항목에만 분리 표기하고, 상대 학교의 실제 '학사일정'란에는 단 한 줄의 추측성 단어도 기재하지 않음.
+
+
+---
+
+## 25. 클로드(Claude) 협업 시 Claude Code CLI 자동 연동 규칙 (2026-10-26)
+
+- **규칙**: 사용자가 '클로드와 작업하라', '클로드 오푸스로 검토하라'고 지시하면, 사용자에게 수동 복사-붙여넣기를 요청하지 말고 **로컬에 설치 및 인증된 Claude Code CLI (`claude -p "..."`)를 통해 자동으로 직접 실행 및 상호작용**하여 결과를 도출해야 함.
+- **설명**: 로컬 환경(`C:\Users\admin\AppData\Roaming\npm\claude.cmd`)에 Claude Code CLI가 Claude Opus 5.5 모델로 로그인 및 연동되어 있으므로, 텍스트 교열·검토·비판적 피드백 등의 작업을 비대화형(`-p` / `--print`) 명령으로 자동 오케스트레이션하여 완전 무인으로 완수함.
+
+
+---
+
+## 134. [절대 금지 원칙] 유료 API 키를 통한 아르곤(Gemini-4-Argon) 및 고비용 모델 임의 스크립트 호출 영구 금지 (2026-10-26)
+
+- **배경:** 파이썬 스크립트(`google.generativeai` 또는 `google.genai`)에서 `.env`의 API 키를 사용하여 `models/gemini-4-argon` 등 고비용 유료 모델을 백그라운드로 임의 호출할 경우, 사용자의 개인 결제 계정에서 막대한 유료 API 요금이 차감되는 심각한 문제가 발생함.
+- **영구 불변 3대 원칙:**
+  1. **스크립트 내 유료 Gemini API 키 호출 전면 금지:** 에이전트는 어떠한 경우에도 파이썬 스크립트나 터미널 명령을 통해 API 키로 `models/gemini-4-argon` 등 유료 Gemini 모델을 직접 호출해서는 안 됨.
+  2. **구글 안티그래비티 플랫폼 내 무상 모델 활용 원칙:** 아르곤(Argon)이나 최상위 모델을 통한 감수·추론 작업은 사용자가 구글 안티그래비티(Antigravity) 플랫폼 내에서 직접 모델을 지정하고 지시할 때, 안티그래비티 대화 세션 자체의 역량으로서만 수행함.
+  3. **비용 발생 작업 전 사전 승인 필수:** 외부 유료 API 토큰이 소모되는 작업은 반드시 실행 전 사용자에게 예상 비용과 방식을 명시하고 명시적 허가를 받아야 함.
+
+
+---
+
+## 135. 진해고 입학홍보단 단장 및 직책 명칭 검증 규칙 (2026-10-27)
+- **핵심 정보:** 2학년 2반 박준제 학생(창원안남중 졸업, 신축 기숙사 '동백관' 402호 입사생)은 전교학생회장이 아니라 **2026학년도 진해고 입학홍보단 단장**임.
+- **적용 규칙:** 향후 입학설명회 마스터북, 중학교 방문 시나리오, 통화 스크립트, 대외 홍보 공문 및 모든 관련 문서 작성 시 박준제 학생의 직책을 절대로 '전교학생회장'으로 기재하지 않고, 반드시 **'2026학년도 진해고 입학홍보단 단장'**으로 정확히 표기할 것.
+
+
+---
+
+## 136. 한글(HWP/HWPX) 문서 작성 및 수정 시 이음오피스(IeumOffice) 기반 서식 무결점 절대 원칙 (2026-10-27)
+- **개요:** 앞으로 한글(.hwp, .hwpx) 문서를 수정하거나 신규 생성할 때, 줄바꿈 누락이나 표 서식 왜곡을 원천 방지하고 완성도 높은 학교 공문서 표준을 보장하기 위해 이음오피스(IeumOffice) 엔진과 검증 파이프라인을 의무 활용하는 절대 규칙임.
+- **서식 무결성 및 줄바꿈 보장 4대 수칙:**
+  1. **[정식 문단 나눔(BreakPara) 필수]**: 한글 바이너리 특성상 단순 \n 개행은 한 줄로 뭉개지는 오류가 발생하므로, 모든 제목, 본문 줄바꿈, 표 진입 전에는 정식 문단 엔터(BreakPara)를 반드시 호출하여 완벽한 줄바꿈과 여백을 보장할 것.
+  2. **[기존 서식 보존 주입 (Template In-Place)]**: 기존 학교 양식이 있는 문서는 원본 서식(글꼴, 표 너비, 테두리, 누름틀, 여백)을 100% 보존한 상태에서 내용만 주입하며, 덮어쓰기 시 자동 .bak 백업 생성을 원칙으로 함.
+  3. **[공문서 표준 위계 및 스타일링]**:
+     - 문서 제목: 15~16pt, **진하게(Bold)**, **가운데 정렬**
+     - 대주제/소제목: 11~12pt, **진하게(Bold)**, 단락 분리
+     - 세부 항목: 가., 나., 다. / 1), 2) 개조식 위계 및 들여쓰기
+     - 표(Table): 1행 헤더(가운데 정렬, 굵게, 음영), 내용 셀 성격별 맞춤 정렬(순번/일시/장소는 가운데, 본문 서술은 양쪽 정렬)
+  4. **[이음오피스 자체 사전 검증(Preflight Audit)]**:
+     - 생성 및 수정 완료 즉시 ieumoffice hwp read 명령을 백그라운드로 실행하여, 문단 나눔 분리 여부, 표 데이터 누락, 글자 깨짐이 없는지 자체 검수(Audit)를 통과한 후 사용자에게 최종 보고할 것.
+- **바탕화면 및 구글 드라이브 최우선 저장 원칙:**
+  - 완성된 모든 한글 문서는 사용자가 즉시 찾아 열어볼 수 있도록 **선생님 바탕화면(d:\OneDrive - 경상남도교육청\바탕 화면)에 최우선 자동 저장**하고, G:\내 드라이브에도 동시 백업하여 스마트폰/클라우드 실시간 동기화를 보장함.
+
+
+---
+
+## 137. 2학년 5반 창체 및 동아리 지도 상호 품앗이 확정 내역 (강필성 선생님 & 황요한 선생님) (2026-10-29)
+
+- **배경:** 2026년 10월 29일(목) 13:17~13:31 쿨메신저 쪽지 협의를 통해 2학년 5반 담임(강필성 선생님)과 부담임(황요한 선생님) 간의 11월~12월 수요일 창체 지도 상호 품앗이 일정이 최종 합의 및 확정됨.
+- **확정된 3대 핵심 일정 및 역할 분담:**
+  1. **11월 11일(수) [창의주제활동 6~7교시]**:
+     - 강필성 선생님이 2학년 5반 6~7교시를 전담 지도하기로 확정 ("아닙니다 형님ㅋㅋ 11월 11일에는 제가 보겠습니다! 형님 그때 바쁜철이니까요~").
+     - 황요한 선생님은 2-5반 임장 지도 부담이 완전히 면제되며, 수능 직전 고입 입학홍보 및 수업 연구 시간으로 온전히 활용함.
+  2. **11월 25일(수) [동아리활동 6~7교시 & 석동중 입학설명회]**:
+     - 해당 일 6~7교시는 학급 창체가 아닌 **전교 창체 동아리활동**('대신해 AI' 18-19차시)임 (강필성 선생님 확인 완료).
+     - 황요한 선생님은 5교시(13:20~14:05) 석동중학교 찾아가는 입학설명회 출장 복귀 후 6~7교시 '대신해 AI' 동아리 지도를 정상 진행함.
+  3. **12월 2일(수) [창의주제활동 6~7교시]**:
+     - 강필성 선생님의 공식 출장으로 인해, 황요한 선생님(부담임)이 2학년 5반 6~7교시 창의주제활동을 대리 임장 지도하기로 확정함 ("12월 2일도 걱정하지 말고 잘 다녀와~~ ㅎㅎㅎ").
+- **구글 캘린더 동기화 완료:**
+  - `2026-11-11`: `창의주제활동(6-7교시)`, `👥 [창체 면제] 2학년 5반 6~7교시 강필성 선생님 전담 지도` 등록 완료.
+  - `2026-11-25`: `🤖 [동아리활동] 6~7교시 '대신해 AI' 동아리 지도 (18-19차시)` 세부 일정 등록 완료.
+  - `2026-12-02`: `👥 [창체 대리] 2학년 5반 6~7교시 임장 지도 (강필성T 출장)` 등록 완료.
+
+
+## 138. 대입 연계 학교생활기록부(세특) 5대 기재 원칙 및 금지 사례 (2026-10-30)
+
+- **배경:** 2026년 10월 29일 교원 연수 ("대입을 읽고 학교생활기록부를 쓰다!", 강사: 동래여고 이주현 교사 / 대교협 대입상담교사) 핵심 기재 지침 반영.
+- **5대 필수 기재 원칙 (향후 전 교과 세특 생성 및 검토 시 100% 필수 적용):**
+  1. **역량 중심 서술 (진로는 '소재', 기록은 '교과 역량'):**
+     - 모든 과목을 억지로 지원 전공과 연결하거나 진로 관심사만 일변도로 나열하는 기재 방식 전면 금지 (사정관 평가 감점 요인).
+     - 진로는 탐구의 '계기나 소재'로만 활용하고, 본문은 해당 교과목 성취기준에 맞춘 학업역량, 지적 호기심, 학습 태도, 개념 적용력을 중심에 둘 것.
+  2. **교실 수업 중심과 활동의 연계·확장성:**
+     - 모든 기록의 출발점은 반드시 교실 수업이어야 함.
+     - 수업 중 생긴 질문/호기심 -> 관련 독서 -> 타 교과 융합 -> 심화 탐구로 이어지는 수평적·수직적 맥락과 지속성을 드러낼 것.
+  3. **'동기 - 과정 - 변화' 중심의 구체적 개별화:**
+     - 단순 진도 나열(교사 중심) 및 과제 제출 사실 나열(학생 중심) 지양.
+     - 학생의 참여 동기, 구체적인 역할과 문제 해결 노력, 이를 통한 성장과 태도·사고의 변화가 관찰자 시각에서 드러나도록 서술.
+  4. **전공 관련 권장 과목 선택 및 성실한 이수 태도 반영:**
+     - 2028 대입 개편에 맞추어 모집단위별 권장 과목 이수 현황과 성실한 성취 과정을 기록에 충실히 반영.
+  5. **교사 직접 관찰 및 정당한 근거 자료 기반:**
+     - 수업 산출물, 수행평가 결과물, 탐구활동지, 자기/동료평가서 등 정당한 근거 자료에 기반하여 작성.
+- **2대 절대 금기 사례:**
+  - ❌ **단순 진로 관심사 나열형:** 장래희망(간호사, 교사 등)만 가득하고 교과 성취 수준이나 학업 역량 근거가 부족한 경우.
+  - ❌ **단순 독서 감상문 / 활동 사실 나열형:** "책을 읽고 느낌", "발표함"처럼 단순 활동 사실과 소감만 나열되어 지적 탐구 과정이 보이지 않는 경우.
+- **기존 헌장 연계 준수:** 규칙 10(지역명 '우리 지역', 기업명 일반화, '대회' 단어 절대 금지) 및 규칙 11(도서명 표기 등) 엄수.
+- **관련 파일 보관 위치:** `진해고등학교\2026학년도\수업\2026학년도 세특\`
+
+
+---
+
+## 138. 11월 당김수업(11/5, 11/10) 정경훈 교사 맞교환 취소 및 기존 시간표 원복 (2026-10-30)
+
+- **배경:** 2026년 10월 30일(금) 정경훈 선생님의 추가 확인("변경하지 않아도 괜찮다")에 따라, 지난 9월 28일 협의되었던 당김수업 맞교환 내역(Rule 103) 중 11월 예정분 2개 슬롯을 당초 기본 시간표대로 완전 원복함. (※ 10월 기집행분인 10/15 및 10/19는 정상 종결 유지)
+- **원복 세부 내역:**
+  1. **11월 5일(목) 8교시 3학년 3반:** 정경훈T ➔ **황요한T (심화국어 당김수업 정상 진행)**
+  2. **11월 10일(화) 8교시 3학년 5반:** 황요한T ➔ **정경훈T (황요한T 8교시 부담 해소, 삼정자중학교 출장에 전념)**
+- **시스템 반영 및 검증 완료:**
+  1. **공식 시수 엑셀 반영:** `2026학년도 2학기 3학년 시수 확보 계획.xlsx` (Row 93 Col 6: '황요한', Row 99 Col 8: '정경훈') 수정 및 원복 전 백업본 생성 완료.
+  2. **구글 캘린더 동기화:**
+     - `2026-11-05`: `[당김수업] 8교시: 3학년 3반 심화국어` (15:30~16:30) 일정 신규 등록 완료.
+     - `2026-11-10`: `[당김수업] 8교시: 3학년 5반 사회문화 (정경훈T 맞교환)` 일정 삭제 완료 (삼정자중 출장 일정만 단독 유지).
+  3. **아침 브리핑 스크립트(`daily_morning_briefing.py`) 검증:** 11/5 당김수업(3-3 심국) 1개 정상 카운트, 11/10 당김수업 0개(출장 전념) 정상 파싱 완료.
+
+
+
+---
+
+
+
+## 139. AI 호출 파이프라인 엄격 분리 원칙: 클로드 코드(Claude Code CLI) vs 베이즈 게이트웨이(Baze Gateway API) (2026-11-01)
+
+- **원칙 및 배경:**
+  1. 사용자가 **"클로드 코드(Claude Code)"**에서 실행/호출하라고 명시한 경우, 이는 로컬 터미널/환경에 설치된 공식 **`claude` CLI(`@anthropic-ai/claude-code`) 도구 환경**을 직접 실행하여 에이전틱 작업, 코드 분석, 파일 편집을 수행하라는 의미임.
+  2. 반면 **"베이즈(Baze) / 베이즈 게이트웨이"**는 `https://api.baze.co` 기반의 직접 HTTP 모델 추론 API 파이프라인임.
+  3. **절대 금지 행위:** 사용자가 "클로드 코드"를 지칭했을 때, 편의상 또는 임의로 베이즈 게이트웨이(`api.baze.co`)로 파이썬 스크립트 HTTP 호출을 대체하여 처리하는 행위를 전면 금지함. 두 파이프라인은 아키텍처와 도구 환경이 완전히 별개임.
+- **실행 및 행동 지침:**
+  1. **"클로드 코드(Claude Code)" 호출 요청 시:**
+     - 반드시 시스템에 설치된 `claude` CLI(`C:\Users\admin\AppData\Roaming\npm\claude.cmd`)를 직접 실행(`claude -p "..."` 또는 `claude --model claude-sonnet-5-5 --dangerously-skip-permissions -p "..."`)하여 클로드 코드 고유의 에이전틱 도구(Read, Edit, Write, Bash 등)와 환경에서 수행함.
+  2. **"베이즈(Baze)" 호출 요청 시:**
+     - `BAZE_API_KEY` 기반의 `https://api.baze.co/v1/gateway/...` 엔드포인트를 사용하는 파이썬 HTTP 스크립트 파이프라인을 사용함.
+  3. 향후 어떠한 경우에도 두 파이프라인의 성격과 지시어를 혼동하지 않고 100% 명확히 구분하여 행동할 것.
+
+
+---
+
+
+
+## 140. 황요한 선생님 공식 이메일(`hyh54311@gmail.com`) 영구 각인 및 외부 거래처 이메일 엄격 분리 원칙 (2026-11-01)
+
+- **원칙 및 배경:**
+  1. 황요한 선생님(사용자)의 공식 개인/업무 이메일 주소는 **`hyh54311@gmail.com`**임.
+  2. 학생 공지, 과제/산출물 제출처, 구글 드라이브/문서 소유자 및 공유, 안내문 기재 시 모든 수신처 및 담당 교사 이메일은 예외 없이 반드시 **`hyh54311@gmail.com`**을 사용해야 함.
+  3. **절대 혼동 금지:** `haeyaung@naver.com`은 현수막 및 옥타부스 판넬 제작 전담 외부 거래처인 **해양종합광고기획(대표 백상용)**의 이메일이며, 선생님 개인/학교 업무 이메일이 절대 아님. 학생 과제 수합이나 교내 공지에 외부 거래처 이메일을 기재하는 행위를 전면 엄금함.
+- **실행 및 행동 지침:**
+  1. 학생 및 학부모 대상 공지, 가정통신문, 카드뉴스 안내, 과제 제출처 링크 등 모든 교내 산출물에는 반드시 **`hyh54311@gmail.com`**으로 단일화하여 기재함.
+  2. 외부 거래처(`haeyaung@naver.com`)는 오직 현수막 발주, 부스 판넬 제작 견적 등 인쇄·광고물 발주 공문 및 시안 발송 시에만 한정하여 사용함.
+
+
+---
+
+## 141. 2026년 11월 10일(화) 2교시 3학년 2반 박지환 교사 대강(인공지능수학) 수임 및 2·3교시 3-2반 연강 확정 (2026-11-02)
+
+- **배경:** 2026년 11월 2일(월) 박지환 선생님의 쿨메신저 부탁("11월 10일 (화) 2교시 3-2 수업입니다. 대강 해주셔서 감사합니다.")에 따라, 11월 10일(화) 2교시 3학년 2반 B타임 인공지능수학 대강을 공식 수임함.
+- **11월 10일(화) 당일 일과 및 수업 동선 매핑:**
+  1. **1교시 (08:40 ~ 09:30):** 공강 (아침 08:30~09:30 1시간 육아시간 활용 가능)
+  2. **2교시 (09:40 ~ 10:30):** **[대강] 3학년 2반 B_인공지능수학 (박지환 선생님 대강)** (302호 입실)
+  3. **3교시 (10:40 ~ 11:30):** **[정규] 3학년 2반 심화국어 (황요한 선생님 본인 수업)** (302호 유지)
+     - ➔ **3학년 2반 교실(302호)에서 이동 없이 2·3교시 2시간 연속 진행(블록 연강)되어 수업 및 학생 지도 동선이 매우 효율적임.**
+  4. **4교시 (11:40 ~ 12:30):** 공강 및 점심시간(12:30 ~ 13:35)
+  5. **오후 (13:00 ~ 16:30):** **🚗 [출장] 삼정자중학교 맞춤형 고교 설명회 (최준호 부장님 2인 동행)**
+  6. **8교시 (16:40 ~ 17:30):** 정경훈 선생님과의 맞교환 취소·원복(Rule 138)으로 **8교시 수업 없음 (출장 복귀 후 수업 부담 0)**
+- **시스템 반영 및 자동화 완료:**
+  1. **구글 캘린더 동기화:** `📋 [대강] 2교시: 3학년 2반 인공지능수학 (박지환T 대강)` (09:40~10:30, ID: `omgsul7prps3c7j9jjelpao904`) 등록 완료.
+  2. **아침 브리핑 스크립트(`scripts/daily_morning_briefing.py`) 고도화:** 대강 이벤트 감지 시 대상 학급(`3-2`), 과목(`인공지능수학`), `대강` 배지 및 노란색 테마(#fefce8)가 100% 자동 렌더링되도록 엔진 업그레이드 완료.
+
+
+---
+
+## 142. 2학년 화법과 언어(2-7반, 2-8반) 결손 보강 일정 확정 및 2회 사전 알림 체계 수립 (2026-11-02, 11-08 시간표 충돌 조정)
+
+- **배경:** 지난 10월 28일(수) 결손된 2학년 2개 학급(수 2교시 2-7반, 수 4교시 2-8반 화법과 언어)에 대해 학생 및 학급 담임 부담이 없는 공강 시간대를 활용하여 1학급씩 순차적으로 진행하기로 합의함.
+- **최종 보강 실행 계획 (11/08 시간표 충돌 해소 반영):**
+  1. **1차 보강:** **2026년 11월 9일(월) 6교시 (14:35 ~ 15:25)** ➔ **2학년 7반 (화법과 언어)**
+     - 당일 7교시(15:40~16:30)에 3학년 1반 심화국어 당김수업이 배정되어 있으므로, 황요한 교사 공강이자 1·2학년 부담임 지도 시간인 **6교시(14:35~15:25)**로 1시간 앞당겨 2-7반(207호) 입실 진행 (정순영 담임선생님 11/4 쿨메신저 사전 협의 완료).
+  2. **2차 보강:** **2026년 11월 16일(월) 7교시 (15:40 ~ 16:30)** ➔ **2학년 8반 (화법과 언어)**
+     - 수능(11/19) 주간 월요일로 당김수업 없이 단독 입실 진행.
+- **수요일 사전 알림(Reminder) 스케줄 및 구글 캘린더 동기화:**
+  * 사용자 요청("이번 주 수요일에 한번, 다음 주 수요일에 한 번 알려 줘")에 따라 매주 수요일 아침 브리핑 및 캘린더 알림 엔진에 즉시 연동 완료함.
+  1. **11월 4일(수요일):** `🔔 [보강 안내 알림] 다음 주 월(11/9) 2-7반 화법 보강 진행 안내` ➔ 11/4 쿨메신저로 2-7반 담임 정순영 선생님과 협의 완료 ("반장에게 이야기하고 수업하시면 될듯요").
+  2. **11월 9일(월요일):** `🏫 [1차 보강] 6교시: 2학년 7반 화법과 언어 (207호)` (ID: `tebs2dsijne0l273n7rdk8g550`, 14:35~15:25) & `📖 [당김수업] 7교시: 3학년 1반 심화국어 (301호)` (ID: `76jqp4ssdfoai30mqs51od7lso`, 15:40~16:30)
+  3. **11월 11일(다음 주 수요일):** `🔔 [보강 안내 알림] 다음 주 월(11/16) 7교시 2-8반 화법 보강 진행 안내` (ID: `tdv4kdfcr9fstbrbbbk58tpu34`)
+     - 2-8반 담임 및 학생들에게 11/16(월) 7교시 보강 일정을 사전 공지하도록 브리핑에서 상기 안내.
+  4. **11월 16일(월요일):** `🏫 [보강] 7교시: 2학년 8반 화법과 언어 (잠정)` (ID: `9d776hsenm6q3ovfjqm67i55po`)
+
+
+## 31. 2026 고교학점제 박람회(11/7 토) 진해고 학생 도우미 4인 최종 확정 명단 및 역할 분담 (2026-11-04)
+
+- **개요:** 2026년 11월 7일(토) 고교학점제 박람회 진해고 체육관 부스 및 동백관(생활관) 현장 운영 학생 도우미 4인의 최종 인적사항 및 배치 분장 정보입니다.
+- **최종 명단 및 업무 분장:**
+  1. **김우진 (1학년 6반 5번 / 10605 / 기숙사생):** 생활관(기숙사 3층) 상주 안내 및 기숙사 생활 멘토 (실제 거주 경험 바탕 생생한 학부모 응대)
+  2. **양예준 (1학년 10반 14번 반장 / 11014 / 통학생):** 체육관 부스 총괄, 의대생 멘토링 및 교사 입학상담 대기표 배부, 부스 내 질서 및 동선 관리
+  3. **백유일 (1학년 2반 14번 / 10214 / 통학생):** 생활관(기숙사 1층) 상주 안내, 학부모 맞이 및 동선 가이드 (3층 멘토 인계)
+  4. **정의환 (1학년 2반 23번 / 10223 / 통학생):** 체육관 부스 입구 안내, 방문객 인사, 입학 리플릿 및 기념품(담요/파일/다과) 배부, 서브모니터/QR 지원
+- **관련 문서 위치:**
+  * 로컬: 2026_고교학점제_박람회_진해고_학생도우미_최종배정표.md (.txt)
+  * 박람회 업무 폴더: 업무(장학금 및 입학홍보)/3. 홍보/2026년 지역 중학생과 함께하는 고교학점제 박람회 운영 선정교 알림/2026_고교학점제_박람회_진해고_학생도우미_최종배정표.md (.txt)
+
+
+## 141. 공모전 및 대외 프로젝트 산출물 Google Drive 실시간 업로드 & 개인정보(PII) 보호 규칙 (2026-11-08 개정)
+
+- **규칙:** 국세청 숏폼 영상 공모전, 조달청 AI 콘텐츠 공모전 등 공모전 및 대외 프로젝트의 일반 작업 산출물(이미지, 프롬프트 모음집, 마스터가이드, 보고서, 증빙 압축파일, 웹 갤러리 HTML 등)을 생성하거나 수정할 때는 사용자가 Claude 등 타 AI 도구와 교차 검토할 수 있도록 **Google Drive (G:\내 드라이브\2026_공모전_도전_아카이브\...)**에 실시간 동기화 업로드함.
+- **[필수 개인정보 보호 예외 (PII Guardrail)]:** 단, 성명, 주민등록번호, 생년월일, 전화번호, 이메일 등 개인식별정보(PII)가 기재된 공식 참가신청서, 서약서, 개인정보 수집·이용 동의서 등은 개인정보 유출 방지를 위해 사용자의 명시적인 사전 확인 및 승인 없이 구글 드라이브(클라우드)에 자동 업로드하지 않으며 로컬에만 안전하게 보관함.
+
+
+## 143. 11월 10일(화) 5교시 3학년 9반 심화국어 박혜진 교사 대강 확정 및 계획서 생성 (2026-11-09)
+- **[2교시 대강 취소 반영 (2026-11-09)]:** 11월 10일(화) 2교시 박지환 선생님 대강(3-2 B_인공지능수학) 입실은 취소됨(구글 캘린더 이벤트 omgsul7prps3c7j9jjelpao904 영구 삭제 완료). ➔ 11/10(화) 1~2교시 연속 공강으로 전환되어 아침 08:30~10:30 육아시간(최대 2시간) 활용 가능.
+
+
+- **배경:** 2026년 11월 10일(화) 오후 삼정자중학교 맞춤형 고교 설명회 관내출장(13:00~16:30, 최준호 부장 동행)으로 인한 5교시 수업 결손 대강 처리.
+- **최종 확정 내역:**
+  * **일시:** 2026년 11월 10일(화) 5교시 (13:35 ~ 14:25)
+  * **학급 및 과목:** 3학년 9반 심화국어 (교실: 309호)
+  * **대강 교사:** **박혜진 선생님 (영어과 / 3학년 9반 담임)**
+  * **선정 사유:** 3-9반 담임 교사로서 수능 D-9 파이널 자습 임장 지도 최적, 화요일 기존 수업 3시간에 징검다리 분산(1, 3, 5, 7교시)으로 연강 부담 0개.
+- **산출물 보관 위치:**
+  * 바탕화면: D:\OneDrive - 경상남도교육청\바탕 화면6학년도 수업 교환 및 대강 계획서(2026.11.10.).hwp (.pdf)
+  * 교내 공식 보관함: 진해고등학교6학년도\업무 이외\수업 교환, 대강 계획서6학년도 수업 교환 및 대강 계획서(2026.11.10.).hwp (.pdf)
+
+
+## 144. 출장 및 수업 결보강(대강/수업 교환) 안내 시 '원래 정규 시간표' 필수 병기 규칙 (2026-11-11)
+- **핵심 불변 규칙:** 관내·관외 출장, 연가, 병가, 연수 등으로 인한 수업 결손 및 수업 교환·대강 계획서 작성/안내 시, 동료 교사(이병의 선생님 등)와 상호 협의하여 임의로 교체·운영 중인 변동 시간표가 아니라, **반드시 학교 공식 NEIS 및 확정 시간표 시스템에 등록된 '원래 정규 시간표(교체 전 원본 시간표)'를 기준으로 결강을 산정하고, 안내 시에도 해당 요일의 '원래 정규 시간표' 전체를 필수적으로 함께 명시**해야 함.
+- **배경 및 행정 사유:** 학교 공식 공문 및 나이스(NEIS) 출장/대강 결재는 사적 수업 교체가 아닌 학교 공식 시간표를 기준으로 결재 및 결강 처리가 이루어져야 행정 감사 및 나이스 복무 연동 시 오류와 혼선이 발생하지 않음.
+- **황요한 교사 2학기 공식 원래 정규 시간표 (주당 16시수 기준):**
+  * **월요일 (3시간):** 2교시(3-10 심국), 4교시(2-10 화법), 5교시(3-6 심국)
+  * **화요일 (4시간):** 2교시(2-9 화법), 3교시(3-2 심국), 5교시(3-9 심국), 6교시(2-6 화법)
+  * **수요일 (4시간):** 1교시(3-8 심국), 2교시(2-7 화법), 4교시(2-8 화법), 5교시(3-3 심국)
+  * **목요일 (3시간):** 2교시(3-5 심국), 4교시(3-4 교육학), 5교시(3-1 심국)
+  * **금요일 (2시간):** 2교시(3-7 심국), 5교시(3-4 심국)
