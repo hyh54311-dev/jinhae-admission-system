@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "last_updated": "2026-11-14T00:34:43.704895+09:00",
+  "last_updated": "2026-11-14T12:29:55.639779+09:00",
   "consecutive_failures": 0,
   "last_outage_alert_ts": null,
   "last_alert_price_pp": 473700,
@@ -396,6 +396,13 @@
       "price_pp": 494900,
       "airline": "제주항공 (Jeju Air)",
       "raw_price": 1484700,
+      "price_reason": "페이지 총 요금 명시 (3인 총액 ÷ 3)"
+    },
+    {
+      "ts": "2026-11-14T12:29:55.639779+09:00",
+      "price_pp": 494100,
+      "airline": "제주항공 (Jeju Air)",
+      "raw_price": 1482300,
       "price_reason": "페이지 총 요금 명시 (3인 총액 ÷ 3)"
     }
   ],
