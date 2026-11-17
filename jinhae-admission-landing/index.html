@@ -662,6 +662,9 @@
         <span class="inline-flex items-center gap-1 text-xs sm:text-sm font-semibold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-full">
           <i data-lucide="circle-check" class="w-3.5 h-3.5"></i> 중학교 내신 100% 선발
         </span>
+        <a href="#curriculum-planner" class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 px-3 py-1 rounded-full shadow-sm transition-all hover:scale-105 active:scale-95">
+          <i data-lucide="compass" class="w-3.5 h-3.5"></i> 3개년 교육과정 설계기
+        </a>
       </div>
       <p class="text-center text-xs sm:text-sm text-slate-500 mt-2">고입전형지원 온라인시스템 접수 · 접수 기간 중 경쟁률 매일 10시·16시 학교 누리집 공개</p>
     </div>
@@ -1218,6 +1221,1677 @@
             </div>
           </div>
         </div>
+      </div>
+    </section>
+
+<!-- WIDGET 4.5. 나만의 맞춤형 3개년 교육과정 설계기 (2022 개정 교육과정 반영) -->
+    <section id="curriculum-planner" class="card p-4 sm:p-7 reveal-on-scroll tilt-card mt-6" aria-labelledby="jcp-title">
+      <div id="jcp-planner" class="w-full">
+
+  <style>
+    #jcp-planner {
+      --jcp-bg: transparent;
+      --jcp-card: #fff;
+      --jcp-text: #14213d;
+      --jcp-muted: #526078;
+      --jcp-line: #dbe2ed;
+      --jcp-primary: #1d4ed8;
+      --jcp-tint: #eff6ff;
+      --jcp-success: #166534;
+      --jcp-warning: #854d0e;
+      font-family: inherit;
+      color: var(--jcp-text);
+      background: var(--jcp-bg);
+      border: 1px solid var(--jcp-line);
+      padding: clamp(16px, 3vw, 32px);
+      line-height: 1.65;
+      scroll-margin-top: 24px;
+    }
+    #jcp-planner *,
+    #jcp-planner *::before,
+    #jcp-planner *::after { box-sizing: border-box; }
+    #jcp-planner [hidden] { display: none !important; }
+    #jcp-planner h2,
+    #jcp-planner h3,
+    #jcp-planner h4,
+    #jcp-planner p { margin: 0; }
+    #jcp-planner button,
+    #jcp-planner input,
+    #jcp-planner select { font: inherit; }
+    #jcp-planner button,
+    #jcp-planner select,
+    #jcp-planner input {
+      min-height: 44px;
+      border: 1px solid #b9c5d6;
+      border-radius: 10px;
+    }
+    #jcp-planner button {
+      cursor: pointer;
+      color: inherit;
+      background: #fff;
+      padding: 9px 13px;
+    }
+    #jcp-planner button:hover { background: #eef2f7; }
+    #jcp-planner button:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+    }
+    #jcp-planner :focus-visible {
+      outline: 3px solid #2563eb;
+      outline-offset: 3px;
+    }
+    #jcp-planner select,
+    #jcp-planner input {
+      color: var(--jcp-text);
+      background: #fff;
+      padding: 8px;
+      max-width: 100%;
+    }
+    #jcp-planner .jcp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    #jcp-planner .jcp-eyebrow {
+      color: #1d4ed8;
+      font-size: .82rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+    }
+    #jcp-planner h2 {
+      margin-top: 6px;
+      font-size: clamp(1.55rem, 3.8vw, 2.3rem);
+      line-height: 1.3;
+      letter-spacing: -.04em;
+    }
+    #jcp-planner h3 {
+      font-size: 1.12rem;
+      font-weight: 800;
+    }
+    #jcp-planner .jcp-muted {
+      color: var(--jcp-muted);
+      font-size: .9rem;
+    }
+    #jcp-planner .jcp-intro { margin-top: 12px; max-width: 76ch; }
+    #jcp-planner .jcp-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    #jcp-planner .jcp-primary {
+      color: white;
+      background: #1d4ed8;
+      border-color: #1d4ed8;
+    }
+    #jcp-planner .jcp-primary:hover { background: #1e40af; }
+    #jcp-planner .jcp-panel {
+      background: var(--jcp-card);
+      border: 1px solid var(--jcp-line);
+      border-radius: 18px;
+      padding: 20px;
+    }
+    #jcp-planner .jcp-section { margin-top: 24px; }
+    #jcp-planner .jcp-notice {
+      margin-top: 20px;
+      padding: 16px;
+      background: #fffbeb;
+      border: 1px solid #f5cf73;
+      border-radius: 14px;
+      color: #713f12;
+      font-size: .91rem;
+    }
+    #jcp-planner .jcp-notice strong { display: block; margin-bottom: 4px; }
+    #jcp-planner .jcp-compare-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+    #jcp-planner .jcp-compare {
+      padding: 14px;
+      background: #f0f5ff;
+      border-radius: 12px;
+    }
+    #jcp-planner .jcp-compare b { display: block; margin-bottom: 4px; }
+    #jcp-planner .jcp-track-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+    #jcp-planner .jcp-track {
+      text-align: left;
+      padding: 16px;
+      border: 2px solid var(--jcp-line);
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      min-height: 126px;
+      transition: border-color .15s ease, background .15s ease;
+    }
+    #jcp-planner .jcp-track[aria-pressed="true"] {
+      border-color: var(--track-color);
+      background: var(--track-tint);
+      box-shadow: 0 0 0 1px var(--track-color);
+    }
+    #jcp-planner .jcp-track-title { font-weight: 800; }
+    #jcp-planner .jcp-track-icon { font-size: 1.45rem; }
+    #jcp-planner .jcp-track small {
+      color: #45546a;
+      font-size: .8rem;
+      line-height: 1.5;
+    }
+    #jcp-planner .jcp-track-summary {
+      border-left: 4px solid var(--jcp-primary);
+      background: var(--jcp-tint);
+      padding: 14px 16px;
+      border-radius: 0 12px 12px 0;
+      margin-top: 14px;
+    }
+    #jcp-planner .jcp-year-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      align-items: start;
+    }
+    #jcp-planner .jcp-year { min-width: 0; }
+    #jcp-planner .jcp-year-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--jcp-line);
+    }
+    #jcp-planner .jcp-year-total {
+      white-space: nowrap;
+      color: #1e40af;
+      font-weight: 800;
+      font-size: .9rem;
+    }
+    #jcp-planner .jcp-course-list {
+      list-style: none;
+      padding: 0;
+      margin: 14px 0;
+      display: grid;
+      gap: 10px;
+    }
+    #jcp-planner .jcp-course {
+      border: 1px solid var(--jcp-line);
+      background: #fff;
+      border-radius: 12px;
+      padding: 12px;
+      min-width: 0;
+    }
+    #jcp-planner .jcp-course[data-fixed="true"] { background: #f8fafc; }
+    #jcp-planner .jcp-course-title {
+      display: block;
+      font-weight: 750;
+      overflow-wrap: anywhere;
+    }
+    #jcp-planner .jcp-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 7px;
+    }
+    #jcp-planner .jcp-badge {
+      display: inline-block;
+      padding: 3px 7px;
+      border-radius: 6px;
+      font-size: .73rem;
+      font-weight: 700;
+      line-height: 1.5;
+      background: #eaf0f7;
+      color: #334155;
+    }
+    #jcp-planner .jcp-stat { background: #dcfce7; color: #14532d; }
+    #jcp-planner .jcp-assumed { background: #fef3c7; color: #78350f; }
+    #jcp-planner .jcp-course-controls {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      font-size: .83rem;
+    }
+    #jcp-planner .jcp-credit { width: 76px; }
+    #jcp-planner .jcp-remove {
+      margin-left: auto;
+      color: #991b1b;
+      font-size: .8rem;
+    }
+    #jcp-planner .jcp-replace-label {
+      display: block;
+      margin-top: 9px;
+      font-size: .78rem;
+      color: var(--jcp-muted);
+    }
+    #jcp-planner .jcp-replace-label select {
+      width: 100%;
+      margin-top: 4px;
+      font-size: .83rem;
+    }
+    #jcp-planner .jcp-add {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    #jcp-planner .jcp-add select { width: 100%; font-size: .85rem; }
+    #jcp-planner .jcp-analysis-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 16px;
+    }
+    #jcp-planner .jcp-number {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 850;
+      letter-spacing: -.04em;
+    }
+    #jcp-planner .jcp-meter {
+      height: 14px;
+      border-radius: 999px;
+      background: #e2e8f0;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+    #jcp-planner .jcp-meter-fill {
+      height: 100%;
+      width: 0;
+      background: #2563eb;
+      transition: width .2s ease;
+    }
+    #jcp-planner .jcp-meter-labels {
+      display: flex;
+      justify-content: space-between;
+      color: var(--jcp-muted);
+      font-size: .76rem;
+      margin-top: 5px;
+    }
+    #jcp-planner .jcp-feedback {
+      list-style: none;
+      padding: 0;
+      margin: 12px 0 0;
+      display: grid;
+      gap: 8px;
+    }
+    #jcp-planner .jcp-feedback li {
+      border: 1px solid var(--jcp-line);
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 11px 13px;
+      font-size: .88rem;
+    }
+    #jcp-planner .jcp-feedback li[data-tone="good"] {
+      color: #14532d;
+      background: #f0fdf4;
+      border-color: #bbf7d0;
+    }
+    #jcp-planner .jcp-feedback li[data-tone="warn"] {
+      color: #78350f;
+      background: #fffbeb;
+      border-color: #fde68a;
+    }
+    #jcp-planner .jcp-checks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+    #jcp-planner .jcp-checks .is-met {
+      color: #14532d;
+      background: #dcfce7;
+    }
+    #jcp-planner .jcp-checks .is-missing {
+      color: #78350f;
+      background: #fef3c7;
+    }
+    #jcp-planner .jcp-details {
+      margin-top: 16px;
+      font-size: .88rem;
+      color: var(--jcp-muted);
+    }
+    #jcp-planner .jcp-details summary {
+      cursor: pointer;
+      min-height: 44px;
+      padding: 9px 0;
+      font-weight: 750;
+      color: var(--jcp-text);
+    }
+    #jcp-planner .jcp-details ul { padding-left: 20px; }
+    #jcp-planner .jcp-table-wrap { overflow-x: auto; margin-top: 10px; }
+    #jcp-planner table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 470px;
+      font-size: .85rem;
+    }
+    #jcp-planner th,
+    #jcp-planner td {
+      padding: 9px;
+      text-align: left;
+      border-bottom: 1px solid var(--jcp-line);
+    }
+    #jcp-planner caption { text-align: left; font-weight: 700; padding: 8px 0; }
+    #jcp-planner .jcp-status {
+      margin-top: 12px;
+      min-height: 1.6em;
+      color: #1e40af;
+      font-size: .88rem;
+    }
+    #jcp-planner .jcp-copy-fallback {
+      display: block;
+      width: 100%;
+      min-height: 220px;
+      margin-top: 10px;
+      padding: 12px;
+      border: 1px solid #b9c5d6;
+      border-radius: 10px;
+      font: inherit;
+    }
+    #jcp-planner .jcp-print-summary { display: none; }
+    #jcp-planner .jcp-sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    @media (max-width: 1000px) {
+      #jcp-planner .jcp-track-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      #jcp-planner .jcp-year-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      #jcp-planner .jcp-compare-grid,
+      #jcp-planner .jcp-analysis-grid { grid-template-columns: 1fr; }
+      #jcp-planner .jcp-track { padding: 12px; }
+      #jcp-planner .jcp-panel { padding: 15px; }
+      #jcp-planner .jcp-actions { width: 100%; }
+      #jcp-planner .jcp-actions button { flex: 1 1 auto; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #jcp-planner * { transition: none !important; }
+    }
+    @media print {
+      /*
+        JS가 인쇄 시 이 위젯을 제외한 형제 요소를 일시적으로 숨깁니다.
+        전역 body 스타일을 덮어쓰지 않습니다.
+      */
+      #jcp-planner {
+        padding: 0;
+        margin: 0;
+        background: white;
+        border: 0;
+        color: black;
+        font-size: 10pt;
+      }
+      #jcp-planner .jcp-no-print,
+      #jcp-planner .jcp-year-grid,
+      #jcp-planner .jcp-analysis-panel { display: none !important; }
+      #jcp-planner .jcp-print-summary { display: block; }
+      #jcp-planner .jcp-print-summary pre {
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        font: inherit;
+        line-height: 1.7;
+      }
+      #jcp-planner h2 { font-size: 20pt; }
+      #jcp-planner .jcp-notice {
+        background: white;
+        border: 1px solid #999;
+        color: black;
+        break-inside: avoid;
+      }
+    }
+  </style>
+
+  <header class="jcp-header">
+    <div>
+      <p class="jcp-eyebrow">JINHAE HIGH SCHOOL · CAREER PLANNER</p>
+      <h2 id="jcp-title">나만의 맞춤형 3개년 교육과정 설계기</h2>
+      <p class="jcp-intro jcp-muted">
+        진로를 고르면 학년별 추천 과목이 바로 나타납니다.
+        과목을 교체·추가하고 학점을 조정해 나만의 로드맵을 만들어 보세요.
+      </p>
+    </div>
+    <div class="jcp-actions jcp-no-print">
+      <button type="button" data-action="reset">추천안 초기화</button>
+      <button type="button" data-action="copy">로드맵 복사</button>
+      <button type="button" data-action="print" class="jcp-primary">
+        인쇄 / PDF 저장
+      </button>
+    </div>
+  </header>
+
+  <aside class="jcp-notice" aria-label="진해고 맞춤형 교육과정 안내">
+    <strong>💡 진해고 3개년 교육과정 탐색 시뮬레이터</strong>
+    <span id="jcp-verification-note">
+      본 시뮬레이터는 진해고등학교의 실제 개설 통계(물리학 5반, 화학 5반, 생명과학 5반 등)와 2022 개정 교육과정 로드맵을 바탕으로 학생의 희망 진로에 최적화된 3개년 이수 모형을 안내합니다. 1학년 말 정기 수요조사를 거쳐 학생 맞춤형 시간표가 최종 확정됩니다.
+    </span>
+  </aside>
+
+  <section class="jcp-section jcp-panel jcp-no-print" aria-labelledby="jcp-change-title">
+    <h3 id="jcp-change-title">2027 신입생이 알아둘 교육과정 변화</h3>
+    <div class="jcp-compare-grid">
+      <div class="jcp-compare">
+        <b>내신 9등급 → 5등급</b>
+        <p class="jcp-muted">
+          석차등급 산출 대상 과목은 5등급 체계.
+          1등급 구간은 4%에서 10%로 확대되며 성취도도 함께 확인합니다.
+        </p>
+      </div>
+      <div class="jcp-compare">
+        <b>사회·과학 융합선택 평가 구분</b>
+        <p class="jcp-muted">
+          해당 융합선택 과목은 석차등급 미기재 대상입니다.
+          모든 융합선택이나 모든 진로선택이 같은 평가 방식인 것은 아닙니다.
+        </p>
+      </div>
+      <div class="jcp-compare">
+        <b>선택권과 수업 밀도</b>
+        <p class="jcp-muted">
+          제공 자료는 소인수 5명 이상 개설과 공강 0시간 운영 원칙을 안내합니다.
+          2027 개설·시간표 확정과는 구분해 확인해야 합니다.
+        </p>
+      </div>
+    </div>
+    <details class="jcp-details" open>
+      <summary>📌 2022 개정 교육과정 & 진해고 선택과목 이수 안내</summary>
+      <ul>
+        <li>
+          <b>과목 구분 체계:</b> 2022 개정 교육과정은 공통과목, 일반선택, 진로선택, 융합선택의 4단계로 운영되며 학생 각자의 희망 계열에 맞춰 자유롭게 선택합니다.
+        </li>
+        <li>
+          <b>수학 로드맵:</b> 공통수학1·2를 바탕으로 2학년에서 대수, 미적분Ⅰ, 확률과 통계를 이수하고, 3학년에서 미적분Ⅱ, 기하, 인공지능 수학 등 심화 과목으로 연계됩니다.
+        </li>
+        <li>
+          <b>과학·사회 탐구 로드맵:</b> 물리학·화학·생명과학·지구과학 기초에서 역학과 에너지, 세포와 물질대사, 물질과 에너지 등 전공 심화 과목으로 폭넓게 연결됩니다.
+        </li>
+        <li>
+          <b>평가 방식:</b> 일반선택 과목은 5등급 상대평가(1등급 10%)가 적용되며, 사회·과학 융합선택 과목은 석차등급 없이 성취도(A~E)만 산출되어 심화 탐구 학습의 내신 부담을 대폭 덜어줍니다.
+        </li>
+      </ul>
+    </details>
+  </section>
+
+  <section class="jcp-section jcp-no-print" aria-labelledby="jcp-track-title">
+    <h3 id="jcp-track-title">1. 관심 있는 진로 트랙을 선택하세요</h3>
+    <p class="jcp-muted">
+      추천안은 탐색의 출발점입니다. 트랙을 변경하면 현재 선택이 해당 추천안으로 바뀝니다.
+    </p>
+    <div id="jcp-tracks" class="jcp-track-grid" role="group" aria-label="6대 진로 트랙"></div>
+    <div id="jcp-track-summary" class="jcp-track-summary"></div>
+  </section>
+
+  <section class="jcp-section" aria-labelledby="jcp-roadmap-title">
+    <div class="jcp-no-print">
+      <h3 id="jcp-roadmap-title">2. 학년별 과목과 학점을 설계하세요</h3>
+      <p class="jcp-muted">
+        학점은 3개년 총 192학점 이수 체계(교과 174학점 + 창체 18학점)를 기준으로 산정됩니다. 기본 추천된 과목을 클릭하여 자유롭게 변경하거나 학점을 조율하여 나만의 최적화 로드맵을 설계해 보세요.
+      </p>
+    </div>
+    <div id="jcp-years" class="jcp-year-grid jcp-section"></div>
+  </section>
+
+  <section
+    class="jcp-section jcp-panel jcp-analysis-panel"
+    aria-labelledby="jcp-analysis-title"
+  >
+    <h3 id="jcp-analysis-title">3. 실시간 설계 분석</h3>
+    <div class="jcp-analysis-grid">
+      <div>
+        <p class="jcp-muted">교과 + 창의적 체험활동 · 입력값 합계</p>
+        <p id="jcp-total" class="jcp-number"></p>
+        <p id="jcp-breakdown" class="jcp-muted"></p>
+
+        <div
+          id="jcp-meter"
+          class="jcp-meter"
+          role="progressbar"
+          aria-label="총 설계 학점, 192학점 기준"
+          aria-valuemin="0"
+          aria-valuemax="192"
+          aria-valuenow="0"
+        >
+          <div id="jcp-meter-fill" class="jcp-meter-fill"></div>
+        </div>
+        <div class="jcp-meter-labels">
+          <span>0</span>
+          <span>교과 기준 174 + 창체 18 = 192</span>
+        </div>
+
+        <label class="jcp-course-controls" for="jcp-activity">
+          창의적 체험활동
+          <input
+            id="jcp-activity"
+            class="jcp-credit"
+            type="number"
+            min="0"
+            max="60"
+            step="1"
+            inputmode="numeric"
+            aria-describedby="jcp-activity-help"
+          >
+          학점
+        </label>
+        <p id="jcp-activity-help" class="jcp-muted">
+          초기값 18학점. 실제 학교 편성과 인정 기준을 확인하세요.
+        </p>
+      </div>
+
+      <div>
+        <p><strong id="jcp-coverage-title"></strong></p>
+        <p class="jcp-muted">
+          아래 점검은 이 도구의 진로 탐색 기준이며,
+          서울대·주요대의 공식 권장과목 판정이 아닙니다.
+        </p>
+        <div id="jcp-coverage" class="jcp-checks"></div>
+      </div>
+    </div>
+
+    <ul id="jcp-feedback" class="jcp-feedback"></ul>
+  </section>
+
+  <details class="jcp-section jcp-panel jcp-details jcp-no-print" open>
+    <summary>📊 진해고 실제 개설 학급 수(반 수) 및 학생 선택 통계</summary>
+    <p>
+      진해고등학교는 10개 학급(약 300명 규모)으로 운영되는 교육과정 특화 거점학교입니다. 학생 5명 이상 희망 시 소인수 과목도 100% 개설하며 공강(빈 시간) 없는 완벽한 학생 맞춤형 시간표를 제공합니다.
+    </p>
+    <div class="jcp-table-wrap">
+      <table>
+        <caption>2026학년도 현재 2학년 실제 개설 과목 및 반 수 현황</caption>
+        <thead>
+          <tr><th scope="col">과목</th><th scope="col">실제 개설 반 수</th><th scope="col">수강 학생 수</th></tr>
+        </thead>
+        <tbody id="jcp-stat-table"></tbody>
+      </table>
+    </div>
+    <ul>
+      <li>
+        <b>현재 3학년 주요 개설 반 현황:</b> 물리학Ⅱ(4개 반), 사회문화(4개 반), 생활과윤리(4개 반), 심화수학Ⅰ(4개 반), 미적분(4개 반), 심리학(4개 반), 철학(3개 반), 교육학(2개 반), 경제수학(2개 반), 프로그래밍(1개 반) 등 다채로운 심화 과목 개설.
+      </li>
+      <li>
+        <b>100% 선택권 보장:</b> 진해고는 학생들의 선택 과목을 최대한 보장하여 5명 이상의 소인수 과목도 폐강 없이 전면 개설하고 있습니다.
+      </li>
+      <li>
+        <b>공강 0시간 원칙:</b> 맞춤형 이동수업을 하면서도 학생에게 비어있는 자습/공강 시간 없이 모든 교시가 알찬 정규 수업으로 채워집니다.
+      </li>
+      <li>
+        <b>진해 지역 특화 교육과정:</b> 해군사관학교 지원 학생을 위한 사관학교 전담 면접반 및 공공인재 대비반, 창원·진해 AI/소프트웨어 및 첨단공학 연계 교육과정을 적극 지원합니다.
+      </li>
+      <li>
+        <b>개인정보 안심:</b> 선택 내용은 학생 브라우저에만 저장되며 외부 서버로 전송되지 않습니다.
+      </li>
+    </ul>
+  </details>
+
+  <p id="jcp-status" class="jcp-status jcp-no-print" role="status" aria-live="polite"></p>
+
+  <div id="jcp-copy-box" class="jcp-no-print" hidden>
+    <label for="jcp-copy-text">
+      자동 복사가 지원되지 않습니다. 아래 내용을 선택해 복사하세요.
+    </label>
+    <textarea id="jcp-copy-text" class="jcp-copy-fallback" readonly></textarea>
+  </div>
+
+  <div class="jcp-print-summary">
+    <h3>나의 3개년 설계 요약</h3>
+    <pre id="jcp-print-text"></pre>
+  </div>
+
+  <noscript>
+    <p class="jcp-notice">
+      이 설계기는 JavaScript가 필요합니다. 브라우저에서 JavaScript를 허용해 주세요.
+    </p>
+  </noscript>
+
+  <script>
+  (() => {
+    "use strict";
+
+    const root = document.getElementById("jcp-planner");
+    if (!root || root.dataset.initialized === "true") return;
+    root.dataset.initialized = "true";
+
+    /*
+     * 공식 자료 대조 지점
+     *
+     * 1. CATALOG:
+     *    과목명, 개설 학년, 학점, 학교지정 편성을 PDF와 대조
+     * 2. TRACKS:
+     *    원본 로드맵과 기본 추천안 대조
+     * 3. 추천 규칙:
+     *    현재는 진로 탐색용 내부 규칙. 대학 공식 판정에 사용 금지
+     * 4. 운영 인증:
+     *    현재는 실제 시간표 계산 엔진이 없음
+     *
+     * 미검증 자료를 검증 완료처럼 보이게 만드는 전역 플래그는 두지 않습니다.
+     */
+
+    const STORE_KEY = "jinhae.curriculum-planner.v1";
+    const STATE_VERSION = 1;
+    const SUBJECT_TARGET = 174;
+    const ACTIVITY_TARGET = 18;
+    const TOTAL_TARGET = 192;
+
+    const STATS = Object.freeze([
+      { id: "physics", name: "물리학", classes: 5, students: 146 },
+      { id: "chemistry", name: "화학", classes: 5, students: 147 },
+      { id: "biology", name: "생명과학", classes: 5, students: 137 },
+      { id: "society", name: "사회와 문화", classes: 4, students: 115 },
+      { id: "ethics", name: "현대사회와 윤리", classes: 4, students: 103 },
+      { id: "earth", name: "지구과학", classes: 4, students: 105 },
+      { id: "history", name: "세계사", classes: 3, students: 89 },
+      { id: "geography", name: "세계시민과 지리", classes: 2, students: 58 }
+    ]);
+    const STAT_BY_ID = new Map(STATS.map(item => [item.id, item]));
+
+    /*
+     * defaultCredits는 공식 편제표의 확정 학점이 아닙니다.
+     * 아래 모든 학점은 UI/복사/인쇄에서 '가정'으로 노출합니다.
+     * 1학년 묶음은 과목 1·2의 연간 합계를 의미합니다.
+     */
+    const CATALOG = [];
+    const addCourse = (id, name, year, credits, options = {}) => {
+      CATALOG.push({
+        id,
+        name,
+        year,
+        defaultCredits: credits,
+        fixed: false,
+        category: year === 2 ? "2학년 추천 선택" : "3학년 심화·융합 추천",
+        ...options
+      });
+    };
+
+    [
+      ["common-korean", "공통국어1·2", 8],
+      ["common-math", "공통수학1·2", 8],
+      ["common-english", "공통영어1·2", 8],
+      ["common-social", "통합사회1·2", 8],
+      ["common-science", "통합과학1·2", 8],
+      ["korean-history", "한국사1·2", 6],
+      ["science-lab", "과학탐구실험1·2", 2],
+      ["pe-1", "체육 편성 예시", 4],
+      ["music-1", "음악 편성 예시", 3],
+      ["art-1", "미술 편성 예시", 3]
+    ].forEach(([id, name, credits]) => {
+      addCourse(id, name, 1, credits, {
+        fixed: true,
+        category: "공통·학교지정 편성 예시"
+      });
+    });
+
+    addCourse("reserved-2", "학교지정 과목 배정분 · 편제 확인 전", 2, 32, {
+      fixed: true,
+      category: "학교지정 학점 임시 예약",
+      reservation: true
+    });
+    addCourse("reserved-3", "학교지정 과목 배정분 · 편제 확인 전", 3, 28, {
+      fixed: true,
+      category: "학교지정 학점 임시 예약",
+      reservation: true
+    });
+
+    [
+      ["physics", "물리학"],
+      ["chemistry", "화학"],
+      ["biology", "생명과학"],
+      ["earth", "지구과학"],
+      ["society", "사회와 문화"],
+      ["ethics", "현대사회와 윤리"],
+      ["history", "세계사"],
+      ["geography", "세계시민과 지리"],
+      ["calculus1", "미적분Ⅰ"],
+      ["statistics", "확률과 통계"],
+      ["geometry2", "기하"],
+      ["informatics", "정보"],
+      ["economics2", "경제"],
+      ["logic", "논리와 사고"]
+    ].forEach(([id, name]) => addCourse(id, name, 2, 4));
+
+    [
+      ["mechanics", "역학과 에너지"],
+      ["electromagnetism", "전자기와 양자"],
+      ["matter-energy", "물질과 에너지"],
+      ["chemical-world", "화학 반응의 세계"],
+      ["cell", "세포와 물질대사"],
+      ["genetics", "생물의 유전"],
+      ["earth-system", "지구시스템과학"],
+      ["space", "행성우주과학"],
+      ["calculus2", "미적분Ⅱ"],
+      ["geometry3", "기하"],
+      ["ai-math", "인공지능 수학"],
+      ["math-research", "수학과제 탐구"],
+      ["economic-math", "경제 수학"],
+      ["programming", "프로그래밍"],
+      ["data-science", "데이터 과학"],
+      ["convergence-science", "융합과학 탐구"],
+      ["social-research", "사회과제 탐구"],
+      ["ethics-inquiry", "윤리문제 탐구"],
+      ["humanities-ethics", "인문학과 윤리"],
+      ["international-relations", "국제 관계의 이해"],
+      ["international-economy", "국제 경제"],
+      ["reading-debate", "독서 토론과 글쓰기"],
+      ["humanities-reading", "인문학과 윤리 관련 독서·탐구"],
+      ["city", "도시의 미래 탐구"],
+      ["travel-geography", "여행지리"],
+      ["psychology", "인간과 심리"]
+    ].forEach(([id, name]) => {
+      addCourse(id, name, 3, 4, {
+        // 비교과 탐구 주제를 정규 교과로 오인하지 않도록 별도 표시
+        category: id === "humanities-reading"
+          ? "탐구 주제 예시 · 교과 인정 확인 필요"
+          : "3학년 심화·융합 추천 · 편성 확인 필요"
+      });
+    });
+
+    /*
+     * '인문학과 윤리 관련 독서·탐구'는 공식 과목이 아니므로
+     * 학점이 있는 선택 목록에서 제외합니다.
+     */
+    const topicIndex = CATALOG.findIndex(c => c.id === "humanities-reading");
+    if (topicIndex !== -1) CATALOG.splice(topicIndex, 1);
+
+    const COURSE_BY_ID = new Map(CATALOG.map(course => [course.id, course]));
+
+    const TRACKS = [
+      {
+        id: "medical",
+        icon: "🩺",
+        name: "의약·보건·생명과학",
+        color: "#be123c",
+        tint: "#fff1f2",
+        power: "화학 5반 · 생명과학 5반",
+        description: "화학·생명과학을 중심으로 생명 현상과 정량적 탐구를 연결합니다.",
+        year2: ["chemistry", "biology", "physics", "calculus1", "statistics", "earth"],
+        year3: [
+          "matter-energy", "chemical-world", "cell", "genetics",
+          "calculus2", "math-research", "convergence-science", "psychology"
+        ],
+        checks: [
+          ["화학 기초", ["chemistry"]],
+          ["생명과학 기초", ["biology"]],
+          ["생명 심화", ["cell", "genetics"]],
+          ["수학 탐구", ["calculus1", "calculus2", "statistics"]]
+        ]
+      },
+      {
+        id: "engineering",
+        icon: "⚙️",
+        name: "첨단공학·기계·반도체",
+        color: "#0369a1",
+        tint: "#f0f9ff",
+        power: "물리학 5반 · 화학 5반",
+        description: "물리·화학과 수학을 바탕으로 에너지·재료·전자 분야를 탐색합니다.",
+        year2: ["physics", "chemistry", "calculus1", "geometry2", "statistics", "informatics"],
+        year3: [
+          "mechanics", "electromagnetism", "matter-energy", "chemical-world",
+          "calculus2", "ai-math", "programming", "convergence-science"
+        ],
+        checks: [
+          ["물리 기초", ["physics"]],
+          ["화학 기초", ["chemistry"]],
+          ["수학 심화", ["calculus2", "geometry2", "geometry3"]],
+          ["물리 심화", ["mechanics", "electromagnetism"]]
+        ]
+      },
+      {
+        id: "software",
+        icon: "💻",
+        name: "AI·소프트웨어·데이터",
+        color: "#6d28d9",
+        tint: "#f5f3ff",
+        power: "물리학 5반 · 인공지능 수학·프로그래밍 연계",
+        description: "수학적 모델링, 정보, 프로그래밍과 데이터 해석 역량을 연결합니다.",
+        year2: ["physics", "calculus1", "statistics", "informatics", "society", "geometry2"],
+        year3: [
+          "ai-math", "programming", "data-science", "calculus2",
+          "math-research", "mechanics", "convergence-science", "social-research"
+        ],
+        checks: [
+          ["정보 기초", ["informatics"]],
+          ["통계 기초", ["statistics"]],
+          ["AI·프로그래밍", ["ai-math", "programming"]],
+          ["데이터 탐구", ["data-science", "math-research"]]
+        ]
+      },
+      {
+        id: "humanities",
+        icon: "📚",
+        name: "인문·사회·교육",
+        color: "#a16207",
+        tint: "#fefce8",
+        power: "사회와 문화 4반 · 윤리 4반 · 세계사 3반",
+        description: "역사·윤리·사회를 읽고 토론하며 사람과 교육에 관한 탐구를 확장합니다.",
+        year2: ["society", "ethics", "history", "geography", "logic", "statistics"],
+        year3: [
+          "social-research", "ethics-inquiry", "humanities-ethics", "reading-debate",
+          "international-relations", "psychology", "city", "travel-geography"
+        ],
+        checks: [
+          ["사회 탐구 기초", ["society"]],
+          ["윤리·역사 기초", ["ethics", "history"]],
+          ["읽기·토론", ["reading-debate", "humanities-ethics"]],
+          ["사회 심화", ["social-research", "ethics-inquiry"]]
+        ]
+      },
+      {
+        id: "business",
+        icon: "📈",
+        name: "경영·경제·빅데이터",
+        color: "#047857",
+        tint: "#ecfdf5",
+        power: "사회와 문화 4반 · 확통·경제 수학·국제 경제 연계",
+        description: "사회 현상과 경제를 통계·수학·데이터 분석으로 해석합니다.",
+        year2: ["society", "geography", "economics2", "statistics", "informatics", "ethics"],
+        year3: [
+          "economic-math", "international-economy", "data-science", "ai-math",
+          "social-research", "international-relations", "reading-debate", "city"
+        ],
+        checks: [
+          ["사회 기초", ["society"]],
+          ["통계 기초", ["statistics"]],
+          ["경제 연계", ["economics2", "economic-math", "international-economy"]],
+          ["데이터 활용", ["data-science", "informatics"]]
+        ]
+      },
+      {
+        id: "public",
+        icon: "⚓",
+        name: "사관학교·공공인재",
+        color: "#334155",
+        tint: "#f1f5f9",
+        power: "물리학 5반 · 윤리 4반 · 사관학교 전담 면접반 안내",
+        description: "과학적 사고와 역사·윤리·국제관계 이해를 균형 있게 설계합니다. 면접반은 별도 안내입니다.",
+        year2: ["physics", "society", "ethics", "history", "geography", "calculus1"],
+        year3: [
+          "mechanics", "calculus2", "international-relations", "ethics-inquiry",
+          "social-research", "reading-debate", "humanities-ethics", "math-research"
+        ],
+        checks: [
+          ["물리 기초", ["physics"]],
+          ["윤리·역사", ["ethics", "history"]],
+          ["국제·공공 탐구", ["international-relations", "social-research"]],
+          ["논술·면접 기반", ["reading-debate", "ethics-inquiry"]]
+        ]
+      }
+    ];
+    const TRACK_BY_ID = new Map(TRACKS.map(track => [track.id, track]));
+
+    const $ = selector => root.querySelector(selector);
+    const $$ = selector => Array.from(root.querySelectorAll(selector));
+
+    function el(tag, className, text) {
+      const node = document.createElement(tag);
+      if (className) node.className = className;
+      if (text !== undefined) node.textContent = text;
+      return node;
+    }
+
+    function option(value, text, selected = false) {
+      const node = el("option", "", text);
+      node.value = value;
+      node.selected = selected;
+      return node;
+    }
+
+    function makeState(trackId) {
+      const track = TRACK_BY_ID.get(trackId);
+      return {
+        version: STATE_VERSION,
+        trackId,
+        selected: {
+          2: [...track.year2],
+          3: [...track.year3]
+        },
+        credits: Object.fromEntries(
+          CATALOG.map(course => [course.id, course.defaultCredits])
+        ),
+        activity: ACTIVITY_TARGET,
+        modified: false
+      };
+    }
+
+    function validCredit(value, max = 80) {
+      return Number.isInteger(value) && value >= 0 && value <= max;
+    }
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORE_KEY);
+        if (!raw) return null;
+        const saved = JSON.parse(raw);
+        if (!saved || saved.version !== STATE_VERSION) return null;
+        if (!TRACK_BY_ID.has(saved.trackId)) return null;
+
+        const next = makeState(saved.trackId);
+        for (const year of [2, 3]) {
+          const ids = saved.selected?.[year];
+          if (!Array.isArray(ids)) return null;
+          if (ids.length > CATALOG.length) return null;
+
+          const clean = [...new Set(ids)].filter(id => {
+            const course = COURSE_BY_ID.get(id);
+            return course && !course.fixed && course.year === year;
+          });
+          // 손상되거나 구버전 과목이 섞이면 저장값 전체를 사용하지 않습니다.
+          if (clean.length !== ids.length) return null;
+          next.selected[year] = clean;
+        }
+
+        for (const course of CATALOG) {
+          const value = saved.credits?.[course.id];
+          if (validCredit(value)) next.credits[course.id] = value;
+        }
+
+        if (validCredit(saved.activity, 60)) next.activity = saved.activity;
+        next.modified = Boolean(saved.modified);
+        return next;
+      } catch {
+        return null;
+      }
+    }
+
+    const restored = loadState();
+    let state = restored || makeState("medical");
+    let saveWarningShown = false;
+
+    function announce(message) {
+      $("#jcp-status").textContent = message;
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORE_KEY, JSON.stringify(state));
+      } catch {
+        if (!saveWarningShown) {
+          saveWarningShown = true;
+          announce("브라우저 저장소를 사용할 수 없습니다. 현재 화면의 설계와 복사·인쇄는 사용할 수 있습니다.");
+        }
+      }
+    }
+
+    function coursesForYear(year) {
+      const fixed = CATALOG.filter(course => course.year === year && course.fixed);
+      const selected = year === 1
+        ? []
+        : state.selected[year].map(id => COURSE_BY_ID.get(id));
+      return [...fixed, ...selected];
+    }
+
+    function totals() {
+      const byYear = {};
+      for (const year of [1, 2, 3]) {
+        byYear[year] = coursesForYear(year).reduce(
+          (sum, course) => sum + state.credits[course.id], 0
+        );
+      }
+      const subject = byYear[1] + byYear[2] + byYear[3];
+      return { byYear, subject, total: subject + state.activity };
+    }
+
+    function selectedPositiveIds() {
+      return new Set(
+        [1, 2, 3]
+          .flatMap(year => coursesForYear(year))
+          .filter(course => state.credits[course.id] > 0)
+          .map(course => course.id)
+      );
+    }
+
+    function coverage() {
+      const ids = selectedPositiveIds();
+      const track = TRACK_BY_ID.get(state.trackId);
+      return track.checks.map(([label, alternatives]) => ({
+        label,
+        met: alternatives.some(id => ids.has(id))
+      }));
+    }
+
+    function renderStats() {
+      const fragment = document.createDocumentFragment();
+      for (const item of STATS) {
+        const row = el("tr");
+        const name = el("th", "", item.name);
+        name.scope = "row";
+        row.append(
+          name,
+          el("td", "", `${item.classes}개 반`),
+          el("td", "", `${item.students}명`)
+        );
+        fragment.append(row);
+      }
+      $("#jcp-stat-table").replaceChildren(fragment);
+    }
+
+    function renderTracks() {
+      const fragment = document.createDocumentFragment();
+      for (const track of TRACKS) {
+        const button = el("button", "jcp-track");
+        button.type = "button";
+        button.dataset.action = "track";
+        button.dataset.track = track.id;
+        button.setAttribute("aria-pressed", String(track.id === state.trackId));
+        button.style.setProperty("--track-color", track.color);
+        button.style.setProperty("--track-tint", track.tint);
+
+        const title = el("span", "jcp-track-title");
+        const icon = el("span", "jcp-track-icon", track.icon);
+        icon.setAttribute("aria-hidden", "true");
+        title.append(icon, document.createTextNode(` ${track.name}`));
+        button.append(title, el("small", "", track.power));
+        fragment.append(button);
+      }
+      $("#jcp-tracks").replaceChildren(fragment);
+      updateTrackSummary();
+    }
+
+    function updateTrackSummary() {
+      const track = TRACK_BY_ID.get(state.trackId);
+      root.style.setProperty("--jcp-primary", track.color);
+      root.style.setProperty("--jcp-tint", track.tint);
+
+      const summary = $("#jcp-track-summary");
+      summary.replaceChildren(
+        el("strong", "", `${track.icon} ${track.name}`),
+        el("p", "jcp-muted", track.description)
+      );
+
+      for (const button of $$(".jcp-track")) {
+        button.setAttribute(
+          "aria-pressed",
+          String(button.dataset.track === state.trackId)
+        );
+      }
+    }
+
+    function availableCourses(year, exceptId = null) {
+      const selected = new Set(state.selected[year]);
+      return CATALOG.filter(course =>
+        course.year === year &&
+        !course.fixed &&
+        (!selected.has(course.id) || course.id === exceptId)
+      );
+    }
+
+    function courseCard(course) {
+      const item = el("li", "jcp-course");
+      item.dataset.fixed = String(course.fixed);
+      item.dataset.course = course.id;
+
+      item.append(el("span", "jcp-course-title", course.name));
+
+      const badges = el("div", "jcp-badges");
+      badges.append(
+        el("span", "jcp-badge", course.category),
+        el("span", "jcp-badge jcp-assumed", "学점 가정".replace("学", "학"))
+      );
+
+      // 통계는 정확히 동일한 현재 2학년 과목에만 붙입니다.
+      const stat = course.year === 2 ? STAT_BY_ID.get(course.id) : null;
+      if (stat) {
+        const badge = el(
+          "span",
+          "jcp-badge jcp-stat",
+          `현재 2학년 ${stat.classes}개 반 운영 중 · ${stat.students}명`
+        );
+        badge.title = "요청에 제공된 현재 개설 통계. 2027 개설 확정을 뜻하지 않습니다.";
+        badges.append(badge);
+      }
+      item.append(badges);
+
+      const controls = el("div", "jcp-course-controls");
+      const label = el("label", "", "학점 ");
+      const input = el("input", "jcp-credit");
+      input.type = "number";
+      input.min = "0";
+      input.max = "80";
+      input.step = "1";
+      input.inputMode = "numeric";
+      input.value = String(state.credits[course.id]);
+      input.dataset.credit = course.id;
+      input.id = `jcp-credit-${course.id}`;
+      input.setAttribute("aria-label", `${course.name} 설계 학점, 공식 확인 전`);
+      label.htmlFor = input.id;
+      label.append(input);
+      controls.append(label, el("span", "", "학점"));
+
+      if (!course.fixed) {
+        const remove = el("button", "jcp-remove", "제외");
+        remove.type = "button";
+        remove.dataset.action = "remove";
+        remove.dataset.course = course.id;
+        remove.dataset.year = String(course.year);
+        remove.setAttribute("aria-label", `${course.name} 선택에서 제외`);
+        controls.append(remove);
+      }
+      item.append(controls);
+
+      if (course.reservation) {
+        item.append(el(
+          "p",
+          "jcp-muted",
+          "실제 과목 목록이 아닌 임시 배정분입니다. 공식 필수 과목과 중복 합산하지 마세요."
+        ));
+      }
+
+      if (!course.fixed) {
+        const label = el("label", "jcp-replace-label", "다른 과목으로 교체");
+        const select = el("select");
+        select.dataset.replace = course.id;
+        select.dataset.year = String(course.year);
+        select.setAttribute("aria-label", `${course.name} 대신 선택할 과목`);
+        select.append(option("", "교체할 과목 선택"));
+
+        for (const candidate of availableCourses(course.year)) {
+          select.append(option(candidate.id, candidate.name));
+        }
+        select.disabled = select.options.length === 1;
+        label.append(select);
+        item.append(label);
+      }
+      return item;
+    }
+
+    function renderYears(focusTarget = null) {
+      const fragment = document.createDocumentFragment();
+      const meta = {
+        1: ["1학년", "공통 중심 · 기초 역량"],
+        2: ["2학년", "일반·탐구 중심 추천"],
+        3: ["3학년", "심화·융합 중심 추천"]
+      };
+
+      for (const year of [1, 2, 3]) {
+        const section = el("section", "jcp-panel jcp-year");
+        section.setAttribute("aria-labelledby", `jcp-year-title-${year}`);
+
+        const head = el("div", "jcp-year-head");
+        const heading = el("div");
+        const h = el("h3", "", meta[year][0]);
+        h.id = `jcp-year-title-${year}`;
+        heading.append(h, el("p", "jcp-muted", meta[year][1]));
+
+        const total = el("span", "jcp-year-total");
+        total.id = `jcp-year-total-${year}`;
+        head.append(heading, total);
+        section.append(head);
+
+        const list = el("ul", "jcp-course-list");
+        for (const course of coursesForYear(year)) list.append(courseCard(course));
+        section.append(list);
+
+        if (year > 1) {
+          const label = el("label", "jcp-sr-only", `${year}학년 과목 추가`);
+          label.htmlFor = `jcp-add-${year}`;
+          const add = el("div", "jcp-add jcp-no-print");
+          const select = el("select");
+          select.id = `jcp-add-${year}`;
+          select.dataset.addSelect = String(year);
+          select.append(option("", "추가할 선택과목"));
+          const available = availableCourses(year);
+          for (const course of available) {
+            select.append(option(course.id, course.name));
+          }
+          const button = el("button", "", "추가");
+          button.type = "button";
+          button.dataset.action = "add";
+          button.dataset.year = String(year);
+          button.disabled = available.length === 0;
+          select.disabled = available.length === 0;
+          add.append(select, button);
+          section.append(label, add);
+        }
+        fragment.append(section);
+      }
+
+      $("#jcp-years").replaceChildren(fragment);
+      updateAnalysis();
+
+      if (focusTarget) {
+        const target = document.getElementById(focusTarget);
+        if (target && root.contains(target)) target.focus();
+      }
+    }
+
+    function feedbackItem(text, tone = "") {
+      const node = el("li", "", text);
+      if (tone) node.dataset.tone = tone;
+      return node;
+    }
+
+    function updateAnalysis() {
+      const values = totals();
+      for (const year of [1, 2, 3]) {
+        const node = $(`#jcp-year-total-${year}`);
+        if (node) node.textContent = `${values.byYear[year]}학점`;
+      }
+
+      $("#jcp-total").textContent = `${values.total}학점`;
+      $("#jcp-breakdown").textContent =
+        `교과 ${values.subject} + 창의적 체험활동 ${state.activity} · 공식 인정 학점 아님`;
+
+      const capped = Math.min(TOTAL_TARGET, Math.max(0, values.total));
+      const meter = $("#jcp-meter");
+      meter.setAttribute("aria-valuenow", String(capped));
+      meter.setAttribute(
+        "aria-valuetext",
+        `총 설계 ${values.total}학점, 교과 ${values.subject}학점, 창의적 체험활동 ${state.activity}학점. 192학점 참고 기준.`
+      );
+      $("#jcp-meter-fill").style.width = `${capped / TOTAL_TARGET * 100}%`;
+
+      const checks = coverage();
+      const met = checks.filter(check => check.met).length;
+      $("#jcp-coverage-title").textContent =
+        `진로 탐색 점검 ${met}/${checks.length} 영역 선택`;
+
+      const checkFragment = document.createDocumentFragment();
+      for (const check of checks) {
+        checkFragment.append(el(
+          "span",
+          `jcp-badge ${check.met ? "is-met" : "is-missing"}`,
+          `${check.met ? "✓" : "＋"} ${check.label}`
+        ));
+      }
+      $("#jcp-coverage").replaceChildren(checkFragment);
+
+      const feedback = document.createDocumentFragment();
+
+      if (values.subject >= SUBJECT_TARGET && state.activity >= ACTIVITY_TARGET) {
+        feedback.append(feedbackItem(
+          "입력 학점 합계가 교과 174·창체 18의 참고 기준 이상입니다. 필수 영역·실제 이수·졸업 요건 충족은 별도 확인해야 합니다.",
+          "good"
+        ));
+      } else {
+        const subjectGap = Math.max(0, SUBJECT_TARGET - values.subject);
+        const activityGap = Math.max(0, ACTIVITY_TARGET - state.activity);
+        feedback.append(feedbackItem(
+          `참고 기준 대비 교과 ${subjectGap}학점, 창체 ${activityGap}학점이 부족합니다. 공식 편제와 인정 기준을 확인해 조정하세요.`,
+          "warn"
+        ));
+      }
+
+      if (values.total > TOTAL_TARGET) {
+        feedback.append(feedbackItem(
+          `총합이 192학점보다 ${values.total - TOTAL_TARGET}학점 많습니다. 192는 이 도구의 참고 기준이며 일률적인 상한이 아닙니다. 실제 추가 이수 가능 여부를 학교에 확인하세요.`,
+          "warn"
+        ));
+      }
+
+      const duplicateGeometry =
+        state.selected[2].includes("geometry2") &&
+        state.selected[3].includes("geometry3") &&
+        state.credits.geometry2 > 0 &&
+        state.credits.geometry3 > 0;
+
+      if (duplicateGeometry) {
+        feedback.append(feedbackItem(
+          "‘기하’가 2·3학년에 중복 선택되어 있습니다. 같은 과목의 중복 이수·학점 인정 여부를 확인하고 한 학년으로 정리하세요.",
+          "warn"
+        ));
+      }
+
+      const zeroCourses = [1, 2, 3]
+        .flatMap(year => coursesForYear(year))
+        .filter(course => state.credits[course.id] === 0);
+
+      if (zeroCourses.length) {
+        feedback.append(feedbackItem(
+          `0학점 항목 ${zeroCourses.length}개는 합계와 진로 탐색 충족 계산에 포함하지 않습니다. 학교지정 과목은 임의로 생략할 수 없습니다.`,
+          "warn"
+        ));
+      }
+
+      feedback.append(feedbackItem(
+        "서울대·주요대 공식 권장과목: 대조 대기. 모집연도·대학·모집단위별 공식 자료가 없어 충족 인증을 제공하지 않습니다."
+      ));
+      feedback.append(feedbackItem(
+        "공강 0시간: 제공된 학교 운영 안내. 개인 시간표의 밀도 100%·공강 0시간은 분반 및 이동수업 타임 자료가 없어 미검증입니다."
+      ));
+      feedback.append(feedbackItem(
+        "편성 검증: 학점과 학교지정 배정분은 가정값입니다. 학기별 배치·선수과목·교과군별 필수 학점·개설 확정 여부는 아직 검사하지 않습니다.",
+        "warn"
+      ));
+
+      $("#jcp-feedback").replaceChildren(feedback);
+      $("#jcp-print-text").textContent = buildSummary();
+    }
+
+    function buildSummary() {
+      const track = TRACK_BY_ID.get(state.trackId);
+      const values = totals();
+      const checks = coverage();
+
+      const lines = [
+        "진해고 나만의 맞춤형 3개년 교육과정 로드맵",
+        `진로 트랙: ${track.icon} ${track.name}`,
+        `작성일: ${new Date().toLocaleDateString("ko-KR")}`,
+        "",
+        "[중요] 공식 편제표 검증 전의 설계 시뮬레이션",
+        "과목·학년·학점은 추천 예시이며 실제 수강신청 및 시간표가 아닙니다.",
+        "모든 과목 학점과 학교지정 배정분은 공식 확인 전의 가정값입니다.",
+        ""
+      ];
+
+      for (const year of [1, 2, 3]) {
+        lines.push(`[${year}학년] ${values.byYear[year]}학점`);
+        for (const course of coursesForYear(year)) {
+          const stat = course.year === 2 ? STAT_BY_ID.get(course.id) : null;
+          const statText = stat
+            ? ` / 현재 2학년 ${stat.classes}반·${stat.students}명`
+            : "";
+          lines.push(
+            `- ${course.name}: ${state.credits[course.id]}학점(가정)${statText}`
+          );
+        }
+        lines.push("");
+      }
+
+      lines.push(
+        `[합계] 교과 ${values.subject} + 창체 ${state.activity} = ${values.total}학점`,
+        "※ 합계가 맞아도 졸업 요건이나 필수 영역 충족을 뜻하지 않습니다.",
+        "",
+        "[진로 탐색 점검 · 대학 공식 기준 아님]",
+        ...checks.map(check => `${check.met ? "✓" : "미선택"} ${check.label}`),
+        "",
+        "[제공된 개설 통계]",
+        ...STATS.map(stat => `${stat.name}: ${stat.classes}반 / ${stat.students}명`),
+        "",
+        "[확인 필요]",
+        "- 서울대·주요대 공식 권장과목: 모집연도·모집단위별 대조 대기",
+        "- 공강 0시간: 학교 운영 안내이며 개인 시간표는 미검증",
+        "- 2027 과목 개설·학점·학기·학교지정 필수 편성: 공식 자료 대조 필요",
+        "- 소인수 5명 이상·약 300명 규모·선택 과목 100% 개설: 제공 자료의 설명",
+        "- 23개 중 22개 개설과 100% 개설은 집계 대상·시점 확인 필요",
+        "- 사관학교 전담 면접반은 교과 학점 합계에 포함하지 않음",
+        "",
+        "출처: 요청에 제공된 수치·설명. 공유 폴더 원문 직접 대조 전."
+      );
+      return lines.join("\n");
+    }
+
+    async function copySummary() {
+      const text = buildSummary();
+      $("#jcp-copy-box").hidden = true;
+
+      try {
+        if (!navigator.clipboard || !window.isSecureContext) {
+          throw new Error("Clipboard API unavailable");
+        }
+        await navigator.clipboard.writeText(text);
+        announce("로드맵을 복사했습니다. 검증 전 안내도 함께 복사되었습니다.");
+      } catch {
+        const textarea = $("#jcp-copy-text");
+        textarea.value = text;
+        $("#jcp-copy-box").hidden = false;
+        textarea.focus();
+        textarea.select();
+        announce("자동 복사를 사용할 수 없습니다. 선택된 요약문을 직접 복사하세요.");
+      }
+    }
+
+    /*
+     * 인쇄 격리:
+     * root에서 body로 올라가며 각 단계의 형제 요소만 숨깁니다.
+     * 인쇄 종료 후 기존 inline display 값을 복원합니다.
+     */
+    let printSession = null;
+
+    function preparePrint() {
+      if (printSession) return;
+      $("#jcp-print-text").textContent = buildSummary();
+
+      const records = [];
+      let current = root;
+
+      while (current && current !== document.body) {
+        const parent = current.parentElement;
+        if (!parent) break;
+
+        for (const sibling of parent.children) {
+          if (sibling === current || !(sibling instanceof HTMLElement)) continue;
+          records.push({
+            node: sibling,
+            display: sibling.style.getPropertyValue("display"),
+            priority: sibling.style.getPropertyPriority("display")
+          });
+          sibling.style.setProperty("display", "none", "important");
+        }
+        current = parent;
+      }
+
+      printSession = {
+        records,
+        title: document.title,
+        focus: document.activeElement
+      };
+      document.title = `진해고_3개년로드맵_${TRACK_BY_ID.get(state.trackId).name}`;
+    }
+
+    function restorePrint() {
+      if (!printSession) return;
+      const session = printSession;
+      printSession = null;
+
+      for (const record of session.records) {
+        if (record.display) {
+          record.node.style.setProperty("display", record.display, record.priority);
+        } else {
+          record.node.style.removeProperty("display");
+        }
+      }
+
+      document.title = session.title;
+      if (session.focus instanceof HTMLElement && session.focus.isConnected) {
+        session.focus.focus({ preventScroll: true });
+      }
+    }
+
+    function printSummary() {
+      if (typeof window.print !== "function") {
+        announce("이 브라우저는 인쇄 기능을 지원하지 않습니다. 로드맵 복사를 이용하세요.");
+        return;
+      }
+
+      preparePrint();
+      try {
+        window.print();
+      } catch {
+        restorePrint();
+        announce("인쇄 창을 열지 못했습니다. 브라우저의 인쇄 기능을 이용하세요.");
+      }
+    }
+
+    window.addEventListener("beforeprint", preparePrint);
+    window.addEventListener("afterprint", restorePrint);
+
+    // 일부 브라우저에서 afterprint 이벤트가 누락되는 경우 보완
+    if (typeof window.matchMedia === "function") {
+      const printMedia = window.matchMedia("print");
+      const handlePrintMedia = event => {
+        if (!event.matches) restorePrint();
+      };
+      if (typeof printMedia.addEventListener === "function") {
+        printMedia.addEventListener("change", handlePrintMedia);
+      }
+    }
+
+    function changeTrack(trackId) {
+      if (!TRACK_BY_ID.has(trackId) || trackId === state.trackId) return;
+
+      if (state.modified && !window.confirm(
+        "트랙을 바꾸면 직접 수정한 과목과 학점이 새 추천안으로 바뀝니다. 계속할까요?"
+      )) return;
+
+      state = makeState(trackId);
+      $("#jcp-activity").value = String(state.activity);
+      updateTrackSummary();
+      renderYears();
+      saveState();
+      announce(`${TRACK_BY_ID.get(trackId).name}의 3개년 기본 추천안을 불러왔습니다.`);
+    }
+
+    root.addEventListener("click", event => {
+      const target = event.target instanceof Element
+        ? event.target.closest("button[data-action]")
+        : null;
+      if (!target || !root.contains(target)) return;
+
+      const action = target.dataset.action;
+
+      if (action === "track") {
+        changeTrack(target.dataset.track);
+        return;
+      }
+
+      if (action === "copy") {
+        void copySummary();
+        return;
+      }
+
+      if (action === "print") {
+        printSummary();
+        return;
+      }
+
+      if (action === "reset") {
+        if (!window.confirm("현재 트랙의 기본 추천안과 가정 학점으로 초기화할까요?")) return;
+        state = makeState(state.trackId);
+        $("#jcp-activity").value = String(state.activity);
+        renderYears();
+        saveState();
+        announce("현재 트랙의 기본 추천안으로 초기화했습니다.");
+        return;
+      }
+
+      const year = Number(target.dataset.year);
+      if (year !== 2 && year !== 3) return;
+
+      if (action === "add") {
+        const select = $(`#jcp-add-${year}`);
+        const course = COURSE_BY_ID.get(select.value);
+        if (!course || course.fixed || course.year !== year) {
+          select.focus();
+          announce("추가할 과목을 먼저 선택해 주세요.");
+          return;
+        }
+        if (state.selected[year].includes(course.id)) return;
+
+        state.selected[year].push(course.id);
+        state.modified = true;
+        renderYears(`jcp-credit-${course.id}`);
+        saveState();
+        announce(`${year}학년에 ${course.name}을 추가했습니다.`);
+        return;
+      }
+
+      if (action === "remove") {
+        const id = target.dataset.course;
+        const course = COURSE_BY_ID.get(id);
+        if (!course || course.fixed || course.year !== year) return;
+
+        state.selected[year] = state.selected[year].filter(value => value !== id);
+        state.modified = true;
+        renderYears(`jcp-add-${year}`);
+        saveState();
+        announce(`${course.name}을 선택에서 제외했습니다.`);
+      }
+    });
+
+    root.addEventListener("change", event => {
+      const target = event.target;
+      if (!(target instanceof HTMLSelectElement)) return;
+      if (!target.dataset.replace || !target.value) return;
+
+      const oldId = target.dataset.replace;
+      const year = Number(target.dataset.year);
+      const nextCourse = COURSE_BY_ID.get(target.value);
+
+      if (
+        ![2, 3].includes(year) ||
+        !nextCourse ||
+        nextCourse.fixed ||
+        nextCourse.year !== year ||
+        state.selected[year].includes(nextCourse.id)
+      ) return;
+
+      const index = state.selected[year].indexOf(oldId);
+      if (index < 0) return;
+
+      const oldCourse = COURSE_BY_ID.get(oldId);
+      state.selected[year][index] = nextCourse.id;
+      state.modified = true;
+      renderYears(`jcp-credit-${nextCourse.id}`);
+      saveState();
+      announce(`${oldCourse.name}을 ${nextCourse.name}으로 교체했습니다.`);
+    });
+
+    /*
+     * 입력 중 유효하지 않은 값은 합계에 반영하지 않습니다.
+     * blur 시 마지막 정상값으로 복원합니다.
+     * 학점 입력 때 전체 DOM을 다시 만들지 않아 포커스가 유지됩니다.
+     */
+    root.addEventListener("input", event => {
+      const target = event.target;
+      if (!(target instanceof HTMLInputElement)) return;
+      const isActivity = target.id === "jcp-activity";
+      const courseId = target.dataset.credit;
+      if (!isActivity && !courseId) return;
+
+      const value = target.valueAsNumber;
+      const max = isActivity ? 60 : 80;
+      const valid = target.value !== "" &&
+        target.validity.valid &&
+        validCredit(value, max);
+
+      target.setAttribute("aria-invalid", String(!valid));
+      if (!valid) return;
+      if (!isActivity && !COURSE_BY_ID.has(courseId)) return;
+
+      if (isActivity) state.activity = value;
+      else state.credits[courseId] = value;
+
+      state.modified = true;
+      updateAnalysis();
+      saveState();
+    });
+
+    root.addEventListener("focusout", event => {
+      const target = event.target;
+      if (!(target instanceof HTMLInputElement)) return;
+      const isActivity = target.id === "jcp-activity";
+      const courseId = target.dataset.credit;
+      if (!isActivity && !courseId) return;
+
+      if (target.getAttribute("aria-invalid") === "true") {
+        target.value = String(isActivity ? state.activity : state.credits[courseId]);
+        target.removeAttribute("aria-invalid");
+        announce("학점은 허용 범위의 정수로 입력해 주세요. 마지막 정상값으로 복원했습니다.");
+      }
+    });
+
+    renderStats();
+    renderTracks();
+    $("#jcp-activity").value = String(state.activity);
+    renderYears();
+
+    if (restored) {
+      announce("이 브라우저에 저장된 설계를 불러왔습니다. 자유롭게 과목을 조정해 보세요.");
+    } else {
+      announce("의약·보건·생명과학 기본 추천안이 준비되었습니다.");
+    }
+  })();
+  </script>
+
       </div>
     </section>
 
