@@ -1,18 +1,11 @@
 {
   "version": 1,
-  "last_updated": "2026-11-19T13:30:02.572727+09:00",
+  "last_updated": "2026-11-20T01:45:42.678254+09:00",
   "consecutive_failures": 0,
   "last_outage_alert_ts": null,
   "last_alert_price_pp": 470300,
   "last_alert_ts": "2026-11-19T13:29:56.385534+09:00",
   "history": [
-    {
-      "ts": "2026-10-20T21:51:26.063230+09:00",
-      "price_pp": 531789,
-      "airline": "에어부산 (Air Busan)",
-      "raw_price": 1595367,
-      "price_reason": "페이지 총 요금 명시 (3인 총액 ÷ 3)"
-    },
     {
       "ts": "2026-10-21T10:55:07.020177+09:00",
       "price_pp": 531921,
@@ -410,6 +403,13 @@
       "price_pp": 470300,
       "airline": "제주항공 (Jeju Air)",
       "raw_price": 1410900,
+      "price_reason": "페이지 총 요금 명시 (3인 총액 ÷ 3)"
+    },
+    {
+      "ts": "2026-11-20T01:45:42.678254+09:00",
+      "price_pp": 469100,
+      "airline": "제주항공 (Jeju Air)",
+      "raw_price": 1407300,
       "price_reason": "페이지 총 요금 명시 (3인 총액 ÷ 3)"
     }
   ],
